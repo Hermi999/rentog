@@ -34,8 +34,8 @@ Note: If you encounter problems with the installation, you can try asking for he
   * [These commands](https://gist.github.com/804314) can help you in creating a user and databases.
 * Edit details according to your database to `config/database.yml` (if you are not going to develop Sharetribe, it's enough to fill in the production database)
   * Probably you only need to change the passwords to the same that you used when creating the databases.
-* Install Sphinx. Version 2.1.4 has been used successfully, but probably also bit newer and older versions will work. See [Sphinx installation instructions](http://pat.github.com/ts/en/installing_sphinx.html) (no need to start it yet. You can try running `searchd` command, but it should fail at this point complaining about missing config)
-* Install [Imagemagick](http://www.imagemagick.org)
+* Install Sphinx. Version 2.1.4 has been used successfully, but probably also bit newer and older versions will work. See [Sphinx installation instructions](http://pat.github.com/ts/en/installing_sphinx.html) `$ sudo apt-get install sphinxsearch` (no need to start it yet. You can try running `searchd` command, but it should fail at this point complaining about missing config)
+* Install [Imagemagick](http://www.imagemagick.org) `$ sudo apt-get install imagemagick imagemagick-doc`
 * run `bundle install` in the project root directory (sharetribe) to install required gems
 * (In the following commands, leave out the `RAILS_ENV=production` part if you want to get Sharetribe running in development mode.) Load the database structure to your database: `rake RAILS_ENV=production db:schema:load`
 * run sphinx index `rake RAILS_ENV=production ts:index`
