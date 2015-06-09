@@ -17,7 +17,7 @@
 
       - if display_knowledge_base_articles
         %p
-          = link_to t(".read_more_about_order_types"), "#{knowledge_base_url}"
+          = link_to t(".read_more_about_order_types"), "#{knowledge_base_url}/articles/614718-how-order-types-work"
 
   .row
     .col-5
@@ -38,7 +38,7 @@
         - elsif shape[:category_ids].size == category_count
           = t("admin.listing_shapes.index.all_categories")
         - else
-          = "#{shape[:category_ids].size}/#{category_count}"
+          = t("admin.listing_shapes.index.category_count", :category_count => "#{shape[:category_ids].size}/#{category_count}")
       .col-2
         = link_to edit_admin_listing_shape_path(shape[:name]) do
           = icon_tag("edit", ["icon-fix"])

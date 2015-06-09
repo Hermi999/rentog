@@ -134,6 +134,8 @@ da-DK:
         categories_link_text: "tilføj kategorier og underkategorier"
         custom_fields_link_text: "konfigurer form felterne"
         filters_link_text: "hvilken slags filtre"
+        order_types: ~
+        order_types_link_text: ~
         payments: "Hvis du ønsker brugerne skal være i stand til at betale for deres køb på din markedsplads, så du får en bid fra hver transaktion, skal du %{payments_link}."
         payments_link_text: "indstil betalingsmetode"
         info_texts: "Glem ikke at tilrette info sider og andre tekster hvor du kan fortælle brugerne om din markedsplads. Gode steder at tjekke er din %{about_page_link}, dine %{terms_of_use_link} (du bør tilføje dine egne brugsvilkår her, enten ved at modificere den eksisterende skabelon, eller ved at oprette et helt nyt dokument), din %{privacy_policy_link}, og %{welcome_email_link} som sendes til alle nye brugere. Der er også en %{instruction_texts_link} du kan tilrette."
@@ -352,6 +354,7 @@ da-DK:
         select_template: "Vælg skabelon..."
         all_categories: "Alle kategorier"
         no_categories: "Ingen kategorier"
+        category_count: ~
         header:
           listing_shape_name: "Ordre type navn"
           listing_shape_categories: "Ordre type kategori"
@@ -414,6 +417,19 @@ da-DK:
         week: "Pr. uge"
         month: "Pr. måned"
       can_not_find: "Kan ikke finde ordre type med id: %{id}"
+      add_custom_unit: ~
+      delete_custom_unit: ~
+      custom_unit_form:
+        title: ~
+        label_heading: ~
+        selector_label_heading: ~
+        label_placeholder: ~
+        selector_placeholder: ~
+        per: ~
+        unit_type:
+          heading: ~
+          quantity_label: ~
+          time_label: ~
     paypal_accounts:
       marketplace_paypal_integration: Betalingsindstillinger
       preferences_updated: "Betalings indstillinger blev opdateret"
@@ -899,7 +915,7 @@ da-DK:
     transaction_preauthorized:
       subject: "%{requester} har anmodet og betalt for %{listing_title}"
       transaction_requested_by_user: "%{requester} har anmodet og betalt for \"%{listing_title}\""
-      you_have_days_to_accept: "Du skal godkende eller afvise anmodningen inde %{payment_expires_in_days} dage. Hvis du ikke gør dette inden for tidsfristen, vil anmodningen automatisk blive afvist og du vil ikke modtage dine penge."
+      you_have_time_to_accept: ~
       click_here_to_reply: "Klik her for at sende dit svar"
     transaction_preauthorized_reminder:
       subject: "Husk at godkende ansøgningen fra %{requester} omhandlende annoncen %{listing_title}"
@@ -1300,6 +1316,7 @@ da-DK:
       you_must_log_in_to_invite_new_users: "Du skal logge ind for at invitere nye brugere til %{service_name}"
       you_must_log_in_to_send_a_comment: "Du skal logge ind for at sende en ny kommentar"
       you_must_log_in_to_send_a_message: "Du skal logge ind til %{service_name} for at sende en meddelelse til en anden bruger."
+      you_must_log_in_to_do_a_transaction: ~
       you_must_log_in_to_view_this_content: "Du skal logge ind for at se dette indhold"
       you_must_log_in_to_view_this_page: "Du skal logge ind for at se denne side"
       you_must_log_in_to_view_your_inbox: "Du skal logge ind på %{service_name} for at få vist din indbakke."
@@ -1620,7 +1637,6 @@ da-DK:
       continue: Fortsæt
       payment_receiver: "Betalingsmodtager:"
       sum: "Betalings sum:"
-      commission_will_be_added: "En service fee på 10% vil blive tilføjet."
     form:
       total: Total
       service_charge: "Service fee"

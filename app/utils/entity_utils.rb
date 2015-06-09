@@ -118,6 +118,7 @@ module EntityUtils
     to_bool: -> (_, v) { !!v },
     to_symbol: -> (_, v) { v.to_sym unless v.nil? },
     to_string: -> (_, v) { v.to_s unless v.nil? },
+    to_integer: -> (_, v) { v.to_i unless v.nil? },
     str_to_time: -> (format, v) {
       if v.nil?
         nil
@@ -189,6 +190,7 @@ module EntityUtils
   def parse_specs(specs)
     specs.reduce({}) do |fs, full_field_spec|
       f_name, *spec = *full_field_spec
+      raise ArgumentError.new("Field key must be a Symbol, was: '#{f_name}' (#{f_name.class.name})") unless f_name.is_a? Symbol
       fs[f_name] = parse_spec(spec)
       fs
     end

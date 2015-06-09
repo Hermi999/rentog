@@ -134,6 +134,8 @@ fr:
         categories_link_text: "ajouter des catégories et sous-catégories"
         custom_fields_link_text: "configurer les champs d'annonces"
         filters_link_text: "quels types de filtres"
+        order_types: "Vous pouvez également configurer comment le processus de transaction fonctionne dans votre place de marché. Est-ce que vos utilisateurs vont vendre, louer ou donner gratuitement ? Proposeront-ils des location à l'heure, à la journée ou à la semaine ? Tout cela peut être configuré depuis le %{order_types_link}."
+        order_types_link_text: "panneau des types de transaction"
         payments: "Si vous souhaitez que les utilisateurs puissent régler leurs achats au sein de la place de marché, pour que vous puissiez prélever des frais de service sur chaque transaction, vous devriez %{payments_link}."
         payments_link_text: "configurer une méthode de paiement"
         info_texts: "N'oubliez pas d'éditer les pages d'informations et divers textes où vous pouvez en dire plus à vos utilisateurs sur votre place de marché. Cela se passe sur votre %{about_page_link}, vos %{terms_of_use_link} (vous devriez y ajouter vos propres conditions d'utilisations soit en modifiant le modèle actuel soit en créant un nouveau texte), votre %{privacy_policy_link} et votre %{welcome_email_link} qui est envoyé à chaque nouvel utilisateur. Il y a également %{instruction_texts_link} que vous pouvez éditer."
@@ -162,7 +164,7 @@ fr:
         fr-CA: "Français (Canada)"
         es: "Espagnol (Chili)"
         es-ES: Espagnol
-        pt-BR: Portuguais
+        pt-BR: "Portuguais (Brésil)"
         nb: "Norvégien Bokmål"
         sv: Suédois
         da-DK: Danois
@@ -352,12 +354,13 @@ fr:
         select_template: "Sélectionner un modèle..."
         all_categories: "Toutes les catégories"
         no_categories: "Aucune catégorie"
+        category_count: "%{category_count} catégories"
         header:
           listing_shape_name: "Nom du type de transaction"
-          listing_shape_categories: "Catégories du type de transaction"
+          listing_shape_categories: "Catégories où cela est proposé"
         order:
           saving_order: "Sauvegarder l'ordre"
-          save_order_successful: "Ordre sauvegardé avec succès"
+          save_order_successful: "Ordre des types de transaction sauvegardé avec succès"
           save_order_error: "Il y a eu un problème lors de la sauvegarde de l'ordre. Veuillez actualiser la page et essayer de nouveau."
       templates:
         selling_products: "Vendre des produits"
@@ -365,7 +368,7 @@ fr:
         offering_services: "Proposer des services"
         giving_things_away: "Donner des choses"
         requesting: Demander
-        announcement: Information
+        announcement: "Partager des informations"
         custom: Personnalisé
       new:
         create_listing_shape: "Créer un type de transaction"
@@ -401,9 +404,9 @@ fr:
       successfully_closed: "Les annonces ont été closes avec succès"
       successfully_deleted: "Type de transaction '%{order_type}' supprimé avec succès"
       pricing_and_checkout_title: "Prix et transaction"
-      online_payments_label: "Utiliser le système de paiement en ligne"
+      online_payments_label: "Autoriser les vendeurs à utiliser le système de paiement en ligne"
       shipping_label: "Autoriser les vendeurs à définir des frais de livraison"
-      price_label: "Afficher le champ de prix"
+      price_label: "Autoriser les vendeurs à définir un prix dans leurs annonces"
       units_title: "Unités de prix"
       units_desc: "Si vous choisissez des unités de prix, le prix de l'annonce sera affiché avec le format \"prix par unité de prix\". Par exemple : \"39€ par heure\"."
       units:
@@ -414,22 +417,35 @@ fr:
         week: "Par semaine"
         month: "Par mois"
       can_not_find: "Impossible de trouver le type de transaction avec l'id suivant : %{id}"
+      add_custom_unit: "+ Ajouter une unité de prix personnalisée..."
+      delete_custom_unit: supprimer
+      custom_unit_form:
+        title: "Nouvelle unité de prix"
+        label_heading: Libellé
+        selector_label_heading: "Libellé du sélecteur"
+        label_placeholder: "Ex. : \"kg\", \"30 minutes\", \"personne\", \"leçon\""
+        selector_placeholder: "Ex. : \"Nombre de personnes\", \"Total en kg\""
+        per: Par
+        unit_type:
+          heading: "Type d'unité"
+          quantity_label: "Quantité (par élément, par kg, par personne, par visite de 2 heures...)"
+          time_label: "Temps (par 30 minutes, par 2 semaines, par année...)"
     paypal_accounts:
       marketplace_paypal_integration: "Paramètres de paiement"
       preferences_updated: "Préférences de paiement mises à jour"
-      integration_info_text: "Le système de paiement de Sharetribe est propulsé par PayPal. Si vous souhaitez permettre à vos utilisateurs de réaliser des paiements au sein de votre place de marché, vous devez connecter votre compte PayPal et choisir un montant minimum pour les transactions ainsi que les frais de service que vous souhaitez prélever sur chaque transaction."
+      integration_info_text: "Le système de paiement de Sharetribe est propulsé par PayPal. Si vous souhaitez permettre à vos utilisateurs de réaliser des paiements au sein de votre place de marché, vous devez connecter votre compte PayPal et choisir un montant minimal pour les transactions ainsi que les frais de service que vous souhaitez prélever sur chaque transaction."
       read_more_about_paypal: "En savoir plus sur le système de paiement avec Sharetribe."
       paypal_account_email: "1. Connecter votre compte PayPal"
       paypal_account_email_completed: "Terminé !"
       set_minimum_price_and_fee: "2. Définir un montant minimum et les frais de service"
       set_minimum_price_and_fee_completed: "Terminé !"
-      minimum_listing_price_label: "Montant minimum : "
+      minimum_listing_price_label: "Montant minimal de transaction : "
       transaction_fee_label: "Frais de service : "
       minimum_transaction_fee_label: "Frais minimaux de transaction : "
       save_settings: "Sauvegarder les paramètres"
       note_about_transaction_fee: "Note : les frais de service incluent les frais PayPal qui dépendent de la monnaie et du volume des ventes du vendeur. Pour cette raison, les frais de service sont d'au minimum %{min_paypal_commission}. Lorsque les frais de service sont facturés au vendeur, PayPal prélève d'abord ses frais puis le restant est viré sur votre propre compte PayPal."
-      minimum_listing_price_below_tx_fee: "doit être au moins égal aux frais minimaux de transaction %{minimum_transaction_fee}."
-      minimum_listing_price_below_min: "doit être supérieur aux frais de service minimaux %{minimum_commission}."
+      minimum_listing_price_below_tx_fee: "Le montant minimal de transaction doit être au moins égal aux frais minimaux de transaction %{minimum_transaction_fee}."
+      minimum_listing_price_below_min: "Le montant minimal de transaction doit être supérieur aux frais de service minimaux %{minimum_commission}."
     transaction_types:
       sell: Vente
       rent: Location
@@ -903,7 +919,7 @@ fr:
     transaction_preauthorized:
       subject: "%{requester} a demandé et autorisé le paiement pour %{listing_title}"
       transaction_requested_by_user: "%{requester} a demandé et autorisé le paiement pour \"%{listing_title}\""
-      you_have_days_to_accept: "Vous devez accepter ou refuser la demande sous %{payment_expires_in_days} jours. Si vous acceptez durant ce délai, le paiement sera réalisé. Si vous n'acceptez pas, la demande sera automatiquement refusée et vous ne recevrez pas le paiement."
+      you_have_time_to_accept: "Vous devez accepter ou refuser la demande sous %{payment_expires_in}. Si vous acceptez durant ce délai, le paiement sera réalisé. Si vous n'acceptez pas, la demande sera automatiquement refusée et vous ne recevrez pas le paiement."
       click_here_to_reply: "Cliquez ici pour répondre à la demande"
     transaction_preauthorized_reminder:
       subject: "N'oubliez pas d'accepter la demande de %{requester} à propos de l'annonce %{listing_title}"
@@ -1304,6 +1320,7 @@ fr:
       you_must_log_in_to_invite_new_users: "Vous devez vous connecter pour pouvoir inviter de nouveaux utilisateurs sur %{service_name}"
       you_must_log_in_to_send_a_comment: "Vous devez vous connecter pour envoyer un nouveau commentaire"
       you_must_log_in_to_send_a_message: "Vous devez vous connecter à %{service_name} pour envoyer un message à un autre utilisateur."
+      you_must_log_in_to_do_a_transaction: "Vous devez vous connecter à %{service_name} pour réaliser une transaction."
       you_must_log_in_to_view_this_content: "Vous devez vous connecter pour voir ce contenu"
       you_must_log_in_to_view_this_page: "Connectez vous pour voir cette page"
       you_must_log_in_to_view_your_inbox: "Vous devez vous connecter à %{service_name} pour consulter votre boîte de réception."
@@ -1624,7 +1641,6 @@ fr:
       continue: Continuer
       payment_receiver: "Destinataire du paiement : "
       sum: "Montant total : "
-      commission_will_be_added: "Des frais de service de 10% seront ajoutés."
     form:
       total: Total
       service_charge: "Frais de service"
@@ -2025,6 +2041,19 @@ fr:
     days_since:
       one: hier
       other: "%{count} jours"
+    time_to:
+      seconds:
+        one: "%{count} seconde"
+        other: "%{count} secondes"
+      minutes:
+        one: "%{count} minute"
+        other: "%{count} minutes"
+      hours:
+        one: "%{count} heure"
+        other: "%{count} heures"
+      days:
+        one: "%{count} jour"
+        other: "%{count} jours"
   transactions:
     initiate:
       booked_days: "Jours réservés : "

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150520131057) do
+ActiveRecord::Schema.define(:version => 20150609084012) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -236,14 +236,14 @@ ActiveRecord::Schema.define(:version => 20150520131057) do
     t.datetime "updated_at",                                                     :null => false
     t.text     "blank_slate"
     t.text     "welcome_email_content"
-    t.text     "how_to_use_page_content"
-    t.text     "about_page_content"
+    t.text     "how_to_use_page_content",                    :limit => 16777215
+    t.text     "about_page_content",                         :limit => 16777215
     t.text     "terms_page_content",                         :limit => 16777215
-    t.text     "privacy_page_content"
+    t.text     "privacy_page_content",                       :limit => 16777215
     t.string   "storefront_label"
     t.text     "signup_info_content"
-    t.text     "private_community_homepage_content"
-    t.text     "verification_to_post_listings_info_content"
+    t.text     "private_community_homepage_content",         :limit => 16777215
+    t.text     "verification_to_post_listings_info_content", :limit => 16777215
     t.string   "search_placeholder"
     t.string   "transaction_agreement_label"
     t.text     "transaction_agreement_content",              :limit => 16777215
@@ -505,7 +505,9 @@ ActiveRecord::Schema.define(:version => 20150520131057) do
   create_table "listing_units", :force => true do |t|
     t.string   "unit_type",         :limit => 32, :null => false
     t.string   "quantity_selector", :limit => 32, :null => false
-    t.string   "translation_key",   :limit => 64
+    t.string   "kind",              :limit => 32, :null => false
+    t.string   "name_tr_key",       :limit => 64
+    t.string   "selector_tr_key",   :limit => 64
     t.integer  "listing_shape_id"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
@@ -550,6 +552,7 @@ ActiveRecord::Schema.define(:version => 20150520131057) do
     t.string   "unit_type",                       :limit => 32
     t.string   "quantity_selector",               :limit => 32
     t.string   "unit_tr_key",                     :limit => 64
+    t.string   "unit_selector_tr_key",            :limit => 64
     t.boolean  "deleted",                                       :default => false
     t.boolean  "require_shipping_address",                      :default => false
     t.boolean  "pickup_enabled",                                :default => false
@@ -951,6 +954,7 @@ ActiveRecord::Schema.define(:version => 20150520131057) do
     t.integer  "unit_price_cents"
     t.string   "unit_price_currency",               :limit => 8
     t.string   "unit_tr_key",                       :limit => 64
+    t.string   "unit_selector_tr_key",              :limit => 64
     t.string   "payment_process",                   :limit => 31, :default => "none"
     t.string   "delivery_method",                   :limit => 31, :default => "none"
     t.integer  "shipping_price_cents"

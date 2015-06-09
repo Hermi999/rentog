@@ -134,6 +134,8 @@ de:
         categories_link_text: ~
         custom_fields_link_text: ~
         filters_link_text: "welche Art von Filter"
+        order_types: ~
+        order_types_link_text: ~
         payments: ~
         payments_link_text: ~
         info_texts: ~
@@ -352,6 +354,7 @@ de:
         select_template: "Template wählen ..."
         all_categories: "Alle Kategorien"
         no_categories: "Keine Kategorien"
+        category_count: ~
         header:
           listing_shape_name: ~
           listing_shape_categories: ~
@@ -410,6 +413,19 @@ de:
         week: ~
         month: ~
       can_not_find: ~
+      add_custom_unit: ~
+      delete_custom_unit: ~
+      custom_unit_form:
+        title: ~
+        label_heading: ~
+        selector_label_heading: ~
+        label_placeholder: ~
+        selector_placeholder: ~
+        per: ~
+        unit_type:
+          heading: ~
+          quantity_label: ~
+          time_label: ~
     paypal_accounts:
       marketplace_paypal_integration: Zahlungseinstellungen
       preferences_updated: "Zahlungseinstellungen aktualisiert"
@@ -820,7 +836,7 @@ de:
       remember_to_confirm: "Wenn der Auftrag erfüllt ist, denke daran, ihn als erledigt zu markieren. Wenn der Auftrag noch nicht erfüllt ist, hast Du %{days_to_automatic_confirmation} Tage, um ihn abzubrechen. Sonst wird er automatisch als abgeschlossen markiert werden."
     invitation_to_kassi:
       hi: Hallo!
-      you_have_been_invited_to_kassi: "%{inviter} hat dich dazu eingeladen den %{community} Webdienst zu benutzen."
+      you_have_been_invited_to_kassi: "%{inviter} hat dich dazu eingeladen %{community} zu benutzen."
       here_is_a_message_from: "Hier ist eine persönliche Nachricht von %{inviter}:"
       join_now: "Jetzt Mitglied werden"
       invitation_code: "Einladungscode %{code}"
@@ -895,7 +911,7 @@ de:
     transaction_preauthorized:
       subject: "%{requester} hat %{listing_title} angefragt und bezahlt"
       transaction_requested_by_user: "%{requester} hat \"%{listing_title}\" angefragt und bezahlt"
-      you_have_days_to_accept: ~
+      you_have_time_to_accept: ~
       click_here_to_reply: "Klicke hier um auf das Angebot zu antworten"
     transaction_preauthorized_reminder:
       subject: "Bitte denke daran, die Anfrage von %{requester} zum Angebot %{listing_title} zu akzeptieren."
@@ -1296,6 +1312,7 @@ de:
       you_must_log_in_to_invite_new_users: "Du musst dich einloggen, um neue Benutzer zu %{service_name} einzuladen"
       you_must_log_in_to_send_a_comment: "Du musst dich einloggen, um einen neuen Kommentar abzugeben"
       you_must_log_in_to_send_a_message: "Du musst dich bei %{service_name} einloggen, um eine Nachricht an einen anderen Benutzer zu senden."
+      you_must_log_in_to_do_a_transaction: ~
       you_must_log_in_to_view_this_content: "Du musst dich einloggen, um diesen Inhalt sehen zu können"
       you_must_log_in_to_view_this_page: "Du musst dich einloggen, um diese Seite sehen zu können"
       you_must_log_in_to_view_your_inbox: "Du musst dich bei %{service_name} einloggen, um deinen Posteingang sehen zu können."
@@ -1412,7 +1429,7 @@ de:
         shipping: Versand
         shipping_price: Versandkostenpauschale
         shipping_price_additional: "Weitere Artikel"
-        pickup: Abholung
+        pickup: Abholung/Übergabe
       origin:
         location: Standort
         origin: Herkunft
@@ -1561,8 +1578,8 @@ de:
       shipping: "Versand (+%{price})"
       shipping_no_price: Versand
       shipping_price_additional: "Versand (%{price}, weitere Artikel: + %{shipping_price_additional})"
-      pickup: Abholung
-      pickup_no_price: Abholung
+      pickup: Abholung/Übergabe
+      pickup_no_price: Abholung/Übergabe
     unit_types:
       piece: Stück
       hour: Stunde
@@ -1616,7 +1633,6 @@ de:
       continue: Weiter
       payment_receiver: Zahlungsempfänger
       sum: Summe
-      commission_will_be_added: "Eine Servicegebühr von 10% wird hinzugefügt."
     form:
       total: Gesamtbetrag
       service_charge: Servicegebühr
@@ -1653,9 +1669,9 @@ de:
       upgrade_paypal_account: "Upgrade deinen PayPal Konto hier."
       connect_paypal_account: "Verbinde deinen PayPal Account"
       paypal_account_billing_agreement: "Erteile dem Webservice %{service_name} die Erlaubnis eine Transaktionsgebühr zu berechnen."
-      paypal_account_billing_agreement_info_both: ~
-      paypal_account_billing_agreement_info_fixed: ~
-      paypal_account_billing_agreement_info_relative: ~
+      paypal_account_billing_agreement_info_both: "Nachdem Sie etwas auf %{service_name} verkauft haben, wird eine Servicegebühr (%{commission_from_seller} des Gesamtpreises, ohne Versandkosten, Mindestgebühr %{minimum_commission}) von Ihrem PayPal-Konto abgebucht. Um Zahlungen in %{service_name} zu akzeptieren, musst Du die Erlaubnis gewähren, diese Gebühr zu erheben. Die Gebühr umfasst nicht die %{paypal_info_link}."
+      paypal_account_billing_agreement_info_fixed: "Nachdem Sie etwas auf %{service_name} verkauft haben, wird eine Servicegebühr von %{minimum_commission} des Gesamtpreises von Ihrem PayPal-Konto abgebucht. Um Zahlungen in %{service_name} zu akzeptieren, musst Du die Erlaubnis gewähren, diese Gebühr zu erheben. Die Gebühr umfasst nicht die %{paypal_info_link}."
+      paypal_account_billing_agreement_info_relative: "Nachdem Sie etwas auf %{service_name} verkauft haben, wird eine Servicegebühr (%{commission_from_seller} des Gesamtpreises, ohne Versandkosten) von Ihrem PayPal-Konto abgebucht. Um Zahlungen in %{service_name} zu akzeptieren, musst Du die Erlaubnis gewähren, diese Gebühr zu erheben. Die Gebühr umfasst nicht die %{paypal_info_link}"
       paypal_info_link_text: "PayPal's payment processing fee"
       billing_agreement_description: "Gewähre %{service_name} die Erlaubnis, eine Transaktionsgebühr zu berechnen."
       billing_agreement: "Erteile die Erlaubnis"
@@ -1792,7 +1808,7 @@ de:
       search_verb: Suche
   sessions:
     new:
-      create_new_account: "Ein neues Konto in %{service_name} erstellen"
+      create_new_account: "Ein neues Konto bei %{service_name} erstellen"
       i_forgot_my_password: "Benutzernamen oder Passwort vergessen?"
       login: Einloggen
       login_to_kassi: "Bei %{service_name} anmelden"

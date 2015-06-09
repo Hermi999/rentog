@@ -134,6 +134,8 @@ nl:
         categories_link_text: "voeg categorieën en subcategorieën toe"
         custom_fields_link_text: "configureer velden formulier"
         filters_link_text: "welke soort filters"
+        order_types: ~
+        order_types_link_text: ~
         payments: "Als je wil dat mensen via je marktplaats kunnen betalen voor hun aankopen zodat je een commissie kan heffen op elke transactie, dan moet je %{payments_link}."
         payments_link_text: "configureer een betalingsmethode"
         info_texts: "Vergeet niet om de informatiepagina's en andere teksten aan te passen waar je je gebruikers over je marktplaats kan vertellen. Goede plaatsen om te bekijken zijn jouw %{about_page_link}, je %{terms_of_use_link} (je moet hier je eigen voorwaarden bepalen door de bestaande template aan te passen of door een volledig nieuw document te maken), je %{privacy_policy_link} en de %{welcome_email_link} die naar elke nieuwe gebruiker gestuurd wordt. Er zijn ook enkele %{instruction_texts_link} die aangepast kunnen worden."
@@ -352,6 +354,7 @@ nl:
         select_template: ~
         all_categories: ~
         no_categories: ~
+        category_count: ~
         header:
           listing_shape_name: ~
           listing_shape_categories: ~
@@ -402,6 +405,19 @@ nl:
         week: ~
         month: ~
       can_not_find: ~
+      add_custom_unit: ~
+      delete_custom_unit: ~
+      custom_unit_form:
+        title: ~
+        label_heading: ~
+        selector_label_heading: ~
+        label_placeholder: ~
+        selector_placeholder: ~
+        per: ~
+        unit_type:
+          heading: ~
+          quantity_label: ~
+          time_label: ~
     paypal_accounts:
       marketplace_paypal_integration: "Voorkeuren betalingen"
       preferences_updated: "Voorkeuren betalingen bijgewerkt"
@@ -887,7 +903,7 @@ nl:
     transaction_preauthorized:
       subject: "%{requester} heeft gevraagd en betaald voor %{listing_title}"
       transaction_requested_by_user: "%{requester} heeft gevraagd en betaald voor \"%{listing_title}\""
-      you_have_days_to_accept: "Je moet het verzoek aanvaarden of afwijzen binnen %{payment_expires_in_days} dagen. Als je binnen die tijdspanne niet aanvaardt zal het verzoek automatisch afgewezen worden en krijg je geen betaling."
+      you_have_time_to_accept: ~
       click_here_to_reply: "Klik hier om te antwoorden op he verzoek"
     transaction_preauthorized_reminder:
       subject: "Vergeet niet om het verzoek van %{requester} betreffende item %{listing_title} te aanvaarden"
@@ -1288,6 +1304,7 @@ nl:
       you_must_log_in_to_invite_new_users: "Je moet ingelogd zijn om nieuwe gebruikers uit te nodigen naar %{service_name}"
       you_must_log_in_to_send_a_comment: "Je moet inloggen om een nieuwe reactie te versturen"
       you_must_log_in_to_send_a_message: "Je moet ingelogd zijn bij %{service_name} om een bericht te kunnen sturen naar een andere gebruiker."
+      you_must_log_in_to_do_a_transaction: ~
       you_must_log_in_to_view_this_content: "Je moet inloggen om deze inhoud te zien"
       you_must_log_in_to_view_this_page: "Je moet inloggen om deze pagina te kunnen bekijken"
       you_must_log_in_to_view_your_inbox: "Je moet ingelogd zijn bij %{service_name} om je inbox te kunnen zien."
@@ -1356,7 +1373,7 @@ nl:
       departure_time_radio_buttons:
         repeated: "Herhaald (voeg aantal keren en dagen toe in veld 'gedetailleerd omschrijving')"
       description:
-        detailed_description: "Meer details"
+        detailed_description: Omschrijving
       destination:
         destination: Bestemming
       form_content:
@@ -1429,7 +1446,7 @@ nl:
         comma_separate: "(gescheiden door een komma)"
         tags: Tags
       title:
-        listing_title: Omschrijving
+        listing_title: Titel
       valid_until:
         valid_until: "Geldig tot"
       valid_until_radio_buttons:
@@ -1561,7 +1578,7 @@ nl:
       day: dag
       night: ~
       week: ~
-      month: ~
+      month: maand
     verification_required:
       verification_required: "Verificatie vereist"
   listing_conversations:
@@ -1608,7 +1625,6 @@ nl:
       continue: Doorgaan
       payment_receiver: "Ontvanger betaling:"
       sum: "Som betaling:"
-      commission_will_be_added: "Een service kost van 10% zal toegevoegd worden."
     form:
       total: Totaal
       service_charge: "Service toeslag"

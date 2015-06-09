@@ -2,7 +2,7 @@ module HashUtils
   module_function
 
   def compact(h)
-    h.delete_if { |k, v| v.nil? }
+    h.reject { |k, v| v.nil? }
   end
 
   def camelize_keys(h, deep=true)
@@ -63,6 +63,14 @@ module HashUtils
     end
   end
 
+  # Return true if given subset of fields in both hashes are equal
+  #
+  # Usage:
+  #  suq_eq({a: 1, b: 2, c: 3}, {a: 1, b: 2, c: 4}, :a, :b) => true
+  def sub_eq(a, b, *keys)
+    a.slice(*keys) == b.slice(*keys)
+  end
+
   #
   # deep_contains({a: 1}, {a: 1, b: 2}) => true
   # deep_contains({a: 2}, {a: 1, b: 2}) => false
@@ -108,5 +116,29 @@ module HashUtils
       }
       acc
     }.map { |(k, v)| [k, v.to_a] }.to_h
+  end
+
+  # { a: b: 1 } -> { :"a.b" => 1 }
+  def flatten(h)
+    # use helper lambda
+    acc = ->(prefix, hash) {
+      hash.inject({}) { |memo, (k, v)|
+        key_s = k.to_s
+
+        if !k.is_a?(Symbol) || key_s.include?(".")
+          raise ArgumentError.new("Key must be a Symbol and must not contain dot (.). Was: '#{k.to_s}', (#{k.class.name})")
+        end
+
+        prefixed_key = prefix.nil? ? k : [prefix.to_s, key_s].join(".")
+
+        if v.is_a? Hash
+          memo.merge(acc.call(prefixed_key, v))
+        else
+          memo.merge(prefixed_key.to_sym => v)
+        end
+      }
+    }
+
+    acc.call(nil, h)
   end
 end

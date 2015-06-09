@@ -119,6 +119,8 @@ ro:
         categories_link_text: ~
         custom_fields_link_text: ~
         filters_link_text: ~
+        order_types: ~
+        order_types_link_text: ~
         payments: ~
         payments_link_text: ~
         info_texts: ~
@@ -337,6 +339,7 @@ ro:
         select_template: ~
         all_categories: ~
         no_categories: ~
+        category_count: ~
         header:
           listing_shape_name: ~
           listing_shape_categories: ~
@@ -387,6 +390,19 @@ ro:
         week: ~
         month: ~
       can_not_find: ~
+      add_custom_unit: ~
+      delete_custom_unit: ~
+      custom_unit_form:
+        title: ~
+        label_heading: ~
+        selector_label_heading: ~
+        label_placeholder: ~
+        selector_placeholder: ~
+        per: ~
+        unit_type:
+          heading: ~
+          quantity_label: ~
+          time_label: ~
     paypal_accounts:
       marketplace_paypal_integration: ~
       preferences_updated: ~
@@ -872,7 +888,7 @@ ro:
     transaction_preauthorized:
       subject: ~
       transaction_requested_by_user: ~
-      you_have_days_to_accept: ~
+      you_have_time_to_accept: ~
       click_here_to_reply: ~
     transaction_preauthorized_reminder:
       subject: ~
@@ -1273,6 +1289,7 @@ ro:
       you_must_log_in_to_invite_new_users: ~
       you_must_log_in_to_send_a_comment: ~
       you_must_log_in_to_send_a_message: ~
+      you_must_log_in_to_do_a_transaction: ~
       you_must_log_in_to_view_this_content: ~
       you_must_log_in_to_view_this_page: ~
       you_must_log_in_to_view_your_inbox: ~
@@ -1593,7 +1610,6 @@ ro:
       continue: ~
       payment_receiver: ~
       sum: ~
-      commission_will_be_added: ~
     form:
       total: ~
       service_charge: ~

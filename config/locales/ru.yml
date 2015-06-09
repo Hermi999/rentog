@@ -144,6 +144,8 @@ ru:
         categories_link_text: "добавьте категории и субкатегории"
         custom_fields_link_text: "Настроить поля формы"
         filters_link_text: "какой тип фильтров"
+        order_types: ~
+        order_types_link_text: ~
         payments: "Если вы хотите чтобы люди могли оплачивать покупки в вашем маркетплейс, что позволит вам получать комиссию с каждой транзакции, вам необходимо %{payments_link}."
         payments_link_text: "настройте метод оплаты"
         info_texts: "Не забудьте настроить информационную страницу и другие тексты где вы можете рассказать вашим пользователям о вашем маркетплейс.  Это %{about_page_link}, %{terms_of_use_link} (вы должны добавить ваши собственные условия использования сервиса здесь, либо модифицировать текущий шаблон либо создать новый документ), %{privacy_policy_link}, и %{welcome_email_link} - отправляется каждому новому пользователю. Также здесь %{instruction_texts_link} информация которую можно настроить."
@@ -362,6 +364,7 @@ ru:
         select_template: ~
         all_categories: ~
         no_categories: ~
+        category_count: ~
         header:
           listing_shape_name: ~
           listing_shape_categories: ~
@@ -412,6 +415,19 @@ ru:
         week: ~
         month: ~
       can_not_find: ~
+      add_custom_unit: ~
+      delete_custom_unit: ~
+      custom_unit_form:
+        title: ~
+        label_heading: ~
+        selector_label_heading: ~
+        label_placeholder: ~
+        selector_placeholder: ~
+        per: ~
+        unit_type:
+          heading: ~
+          quantity_label: ~
+          time_label: ~
     paypal_accounts:
       marketplace_paypal_integration: "Настройки платежей"
       preferences_updated: "Настройки платежей обновлены."
@@ -897,7 +913,7 @@ ru:
     transaction_preauthorized:
       subject: "%{requester} запросил и оплатил за %{listing_title}"
       transaction_requested_by_user: "%{requester} запросил и оплатил за \"%{listing_title}\""
-      you_have_days_to_accept: "Вам нужно принять или отклонить запрос в течении %{payment_expires_in_days} дней. Если вы не примите в течение этого времени, запрос будет автоматически отклонен и вам не будет произведена оплата."
+      you_have_time_to_accept: ~
       click_here_to_reply: "Нажмите здесь чтобы ответить на запрос"
     transaction_preauthorized_reminder:
       subject: "Не забудьте принять запрос от %{requester} о предложении %{listing_title}"
@@ -1298,6 +1314,7 @@ ru:
       you_must_log_in_to_invite_new_users: "Для того, чтобы пригласить новых пользователей, вы должны войти в %{service_name}"
       you_must_log_in_to_send_a_comment: "Вы должны войти, чтобы оставить новый комментарий"
       you_must_log_in_to_send_a_message: "Для того, чтобы отправить сообщение пользователю, вы должны авторизоваться в %{service_name}"
+      you_must_log_in_to_do_a_transaction: ~
       you_must_log_in_to_view_this_content: "Для просмотра содержимого требуется авторизация"
       you_must_log_in_to_view_this_page: "Вам необходимо войти в систему для просмотра этой страницы"
       you_must_log_in_to_view_your_inbox: "Для того, чтобы просмотреть входящие сообщения, вы должны зайти в %{service_name}."
@@ -1618,7 +1635,6 @@ ru:
       continue: Продолжить
       payment_receiver: "Получатель платежа:"
       sum: "Сумма оплаты:"
-      commission_will_be_added: "Будет добавлена комиссия сервиса 10%."
     form:
       total: Итого
       service_charge: "Комиссия сервиса"

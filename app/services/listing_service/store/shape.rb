@@ -12,7 +12,6 @@ module ListingService::Store::Shape
     [:transaction_process_id, :fixnum, :mandatory],
     [:shipping_enabled, :bool, :mandatory],
     [:units, :array, default: []], # Mandatory only if price_enabled
-    [:price_quantity_placeholder, one_of: [nil, :mass, :time, :long_time]], # TODO TEMP
     [:sort_priority, :fixnum],
     [:basename, :string, :mandatory]
   )
@@ -43,13 +42,18 @@ module ListingService::Store::Shape
   )
 
   BuiltInUnit = EntityUtils.define_builder(
-    [:type, :to_symbol, one_of: [:piece, :hour, :day, :night, :week, :month]],
+    [:type, :to_symbol, one_of: [:hour, :day, :night, :week, :month]],
+    [:kind, :to_symbol, const_value: :time],
+    [:name_tr_key],
+    [:selector_tr_key],
     [:quantity_selector, :to_symbol, one_of: ["".to_sym, :none, :number, :day]] # in the future include :hour, :week:, :night ,:month etc.
   )
 
   CustomUnit = EntityUtils.define_builder(
     [:type, :to_symbol, one_of: [:custom]],
-    [:translation_key, :string, :mandatory],
+    [:kind, :to_symbol, one_of: [:time, :quantity]],
+    [:name_tr_key, :string, :mandatory],
+    [:selector_tr_key, :string, :mandatory],
     [:quantity_selector, :to_symbol, one_of: ["".to_sym, :none, :number, :day]] # in the future include :hour, :week:, :night ,:month etc.
   )
 
@@ -90,7 +94,7 @@ module ListingService::Store::Shape
     ActiveRecord::Base.transaction do
 
       # Save to ListingShape model
-      shape_model = ListingShape.create!(shape_with_sort.except(:units))
+      shape_model = ListingShape.create!(shape_with_sort.except(:units).merge(price_quantity_placeholder: nil))
 
       # Save units
       units.each { |unit|
@@ -123,7 +127,7 @@ module ListingService::Store::Shape
       end
 
       # Save to ListingShape model
-      shape_model.update_attributes!(HashUtils.compact(update_shape).except(:units))
+      shape_model.update_attributes!(HashUtils.compact(update_shape).except(:units).merge(price_quantity_placeholder: nil))
     end
 
     from_model(shape_model, true)

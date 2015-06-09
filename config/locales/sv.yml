@@ -134,6 +134,8 @@ sv:
         categories_link_text: "lägg till kategorier och underkategorier"
         custom_fields_link_text: "konfigurera formulärfälten"
         filters_link_text: "vilken typ av filter"
+        order_types: ~
+        order_types_link_text: ~
         payments: "Om du vill att folk ska kunna betala för sina inköp via din marknadsplats, så att du kan ta ut en avgift för varje inköp, så ska du %{payments_link}."
         payments_link_text: "konfigurera betalningsmetod"
         info_texts: "Glöm inte att skräddarsy informationssidorna och annan text där du kan tala om för dina användare om din marknadsplats. Bra ställen att kolla in är din %{about_page_link}, din %{terms_of_use_link} (du borde lägga till dina egna användarvillkor här, antingen genom att ändra mallen eller skapa ett helt nytt dokument), dina %{privacy_policy_link}, och %{welcome_email_link} som skickas till alla nya användare. Det är också några %{instruction_texts_link} som du kan ändra."
@@ -352,6 +354,7 @@ sv:
         select_template: "Välj mall..."
         all_categories: "Alla kategorier"
         no_categories: "Inga kategorier"
+        category_count: ~
         header:
           listing_shape_name: "Ordertyp namn"
           listing_shape_categories: "Ordertyp kategorier"
@@ -414,6 +417,19 @@ sv:
         week: "Per vecka"
         month: "Per månad"
       can_not_find: "Det går inte att hitta ordertyp med id: %{id}"
+      add_custom_unit: ~
+      delete_custom_unit: ~
+      custom_unit_form:
+        title: ~
+        label_heading: ~
+        selector_label_heading: ~
+        label_placeholder: ~
+        selector_placeholder: ~
+        per: ~
+        unit_type:
+          heading: ~
+          quantity_label: ~
+          time_label: ~
     paypal_accounts:
       marketplace_paypal_integration: Betalningsegenskaper
       preferences_updated: "Betalningsinställningarna uppdaterade"
@@ -903,7 +919,7 @@ sv:
     transaction_preauthorized:
       subject: "%{requester} har efterfrågat och betalat för %{listing_title}"
       transaction_requested_by_user: "%{requester} har efterfrågat och betalat för \"%{listing_title}\""
-      you_have_days_to_accept: "Du måste acceptera eller avböja förfrågan inom %{payment_expires_in_days} dagar. Om du inte accepterar detta inom tidsramen så kommer automatiskt förfrågan att avböjas och du kommer inte att få någon betalning."
+      you_have_time_to_accept: ~
       click_here_to_reply: "Klicka här för att svara på förfrågan"
     transaction_preauthorized_reminder:
       subject: "Kom ihåg att acceptera förfrågan från %{requester} angående annonsen %{listing_title}"
@@ -1306,6 +1322,7 @@ sv:
       you_must_log_in_to_invite_new_users: "Du måste logga in för att bjuda in nya medlemmar till %{service_name}!"
       you_must_log_in_to_send_a_comment: "Du måste logga in för att skicka en ny kommentar"
       you_must_log_in_to_send_a_message: "Du måste logga in på %{service_name} för att skicka ett meddelande till en annan användare."
+      you_must_log_in_to_do_a_transaction: ~
       you_must_log_in_to_view_this_content: "Du måste logga in för att se detta innehåll"
       you_must_log_in_to_view_this_page: "Du måste logga in för att visa denna sida"
       you_must_log_in_to_view_your_inbox: "Du måste logga in på %{service_name} för att visa din inkorg."
@@ -1626,7 +1643,6 @@ sv:
       continue: Fortsätt
       payment_receiver: "Betalningsmottagare:"
       sum: "Betalningssumma:"
-      commission_will_be_added: "En serviceavgift på 10% tillkommer."
     form:
       total: Totalt
       service_charge: Serviceavgift
@@ -2027,6 +2043,19 @@ sv:
     days_since:
       one: "%{count} dag"
       other: "%{count} dagarna"
+    time_to:
+      seconds:
+        one: "%{count} sekund"
+        other: "%{count} sekunder"
+      minutes:
+        one: "%{count} minut"
+        other: "%{count} minuter"
+      hours:
+        one: "%{count} timme"
+        other: "%{count} timmar"
+      days:
+        one: "%{count} dag"
+        other: "%{count} dagar"
   transactions:
     initiate:
       booked_days: "Bokade dagar:"

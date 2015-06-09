@@ -134,6 +134,8 @@ fr-CA:
         categories_link_text: "ajouter des catégories et sous-catégories"
         custom_fields_link_text: "configurer les champs d'annonces"
         filters_link_text: "quels types de filtres"
+        order_types: ~
+        order_types_link_text: ~
         payments: "Si vous souhaitez que les utilisateurs puissent régler leur achats au sein de la place de marché, pour que vous puissiez prélever une commission sur chaque transaction, vous devriez %{payments_link}."
         payments_link_text: "configurer une méthode de paiement"
         info_texts: "N'oubliez pas d'éditer les pages d'informations et divers textes où vous pouvez en dire plus à vos utilisateurs sur votre place de marché. Cela se passe sur votre %{about_page_link}, vos %{terms_of_use_link} (vous devriez y ajouter vos propres conditions d'utilisations soit en modifiant le modèle actuel soit en créant un nouveau texte), votre %{privacy_policy_link} et votre %{welcome_email_link} qui est envoyé à chaque nouvel utilisateur. Il y a également %{instruction_texts_link} que vous pouvez éditer."
@@ -352,6 +354,7 @@ fr-CA:
         select_template: ~
         all_categories: ~
         no_categories: ~
+        category_count: ~
         header:
           listing_shape_name: ~
           listing_shape_categories: ~
@@ -402,6 +405,19 @@ fr-CA:
         week: ~
         month: ~
       can_not_find: ~
+      add_custom_unit: ~
+      delete_custom_unit: ~
+      custom_unit_form:
+        title: ~
+        label_heading: ~
+        selector_label_heading: ~
+        label_placeholder: ~
+        selector_placeholder: ~
+        per: ~
+        unit_type:
+          heading: ~
+          quantity_label: ~
+          time_label: ~
     paypal_accounts:
       marketplace_paypal_integration: "Paramètres de paiement"
       preferences_updated: "Préférences de paiement mises à jour"
@@ -891,7 +907,7 @@ fr-CA:
     transaction_preauthorized:
       subject: "%{requester} a demandé et payé pour %{listing_title}"
       transaction_requested_by_user: "%{requester} a demandé et payé pour \"%{listing_title}\""
-      you_have_days_to_accept: "Vous devez accepter ou refuser la demande sous %{payment_expires_in_days} jours. Si vous n'acceptez pas durant ce délai, la demande sera automatiquement refusée et vous ne recevrez pas le paiement."
+      you_have_time_to_accept: ~
       click_here_to_reply: "Cliquez ici pour répondre à la demande"
     transaction_preauthorized_reminder:
       subject: "N'oubliez pas d'accepter la demande de %{requester} à propos de l'annonce %{listing_title}"
@@ -1292,6 +1308,7 @@ fr-CA:
       you_must_log_in_to_invite_new_users: "Vous devez vous connecter pour pouvoir inviter de nouveaux utilisateurs sur %{service_name}"
       you_must_log_in_to_send_a_comment: "Vous devez vous connecter pour envoyer un nouveau commentaire"
       you_must_log_in_to_send_a_message: "Vous devez vous connecter à %{service_name} pour envoyer un message à un autre utilisateur."
+      you_must_log_in_to_do_a_transaction: ~
       you_must_log_in_to_view_this_content: "Vous devez vous connecter pour voir ce contenu"
       you_must_log_in_to_view_this_page: "Connectez vous pour voir cette page"
       you_must_log_in_to_view_your_inbox: "Vous devez vous connecter à %{service_name} pour consulter votre boîte de réception."
@@ -1612,7 +1629,6 @@ fr-CA:
       continue: Continuer
       payment_receiver: "Destinataire du paiement : "
       sum: "Montant total : "
-      commission_will_be_added: "Une commission de 10% sera ajoutée."
     form:
       total: Total
       service_charge: Commission

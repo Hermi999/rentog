@@ -134,6 +134,8 @@ pt-BR:
         categories_link_text: "adicionar categorias e subcategorias"
         custom_fields_link_text: "configurar os campos do formulário"
         filters_link_text: "que tipo de filtros"
+        order_types: ~
+        order_types_link_text: ~
         payments: "Se você quer que as pessoas sejam capazes de pagar suas compras através do seu mercado virtual, de modo que você possa cobrar uma taxa por cada transação, você deve %{payments_link}."
         payments_link_text: "configurar um método de pagamento"
         info_texts: "Não se esqueça de personalizar as páginas de informações e outros textos em que você possa informar a seus usuários sobre o seu mercado virtual. Bons lugares para verificar são a sua página %{about_page_link}, seus %{terms_of_use_link} (você deve adicionar seus próprios termos de uso aqui, seja modificando o modelo atual ou criando completamente um novo documento), sua %{privacy_policy_link}, e o  %{welcome_email_link} que é enviado para cada novo usuário. Há também alguns outros %{instruction_texts_link} que você pode configurar."
@@ -352,6 +354,7 @@ pt-BR:
         select_template: "Selecionar modelo..."
         all_categories: "Todas as categorias"
         no_categories: "Sem categorias"
+        category_count: ~
         header:
           listing_shape_name: "Pedidos por nomes"
           listing_shape_categories: "Pedidos por categorias"
@@ -408,6 +411,19 @@ pt-BR:
         week: "Por semana"
         month: "Por mês"
       can_not_find: ~
+      add_custom_unit: ~
+      delete_custom_unit: ~
+      custom_unit_form:
+        title: ~
+        label_heading: ~
+        selector_label_heading: ~
+        label_placeholder: ~
+        selector_placeholder: ~
+        per: ~
+        unit_type:
+          heading: ~
+          quantity_label: ~
+          time_label: ~
     paypal_accounts:
       marketplace_paypal_integration: "Preferências de pagamento"
       preferences_updated: "Preferências de pagamento atualizadas."
@@ -893,7 +909,7 @@ pt-BR:
     transaction_preauthorized:
       subject: "%{requester} solicitou e pagou por %{listing_title}"
       transaction_requested_by_user: "%{requester} solicitou e pagou por \"%{listing_title}\""
-      you_have_days_to_accept: "Você precisa aceitar ou rejeitar o pedido no prazo de %{payment_expires_in_days} dias. Se você não aceitar dentro deste prazo, o pedido será rejeitado automaticamente e você não será pago."
+      you_have_time_to_accept: ~
       click_here_to_reply: "Clique aqui para responder ao pedido"
     transaction_preauthorized_reminder:
       subject: "Não esqueça de aceitar o pedido de %{requester} sobre o anúncio %{listing_title}"
@@ -1294,6 +1310,7 @@ pt-BR:
       you_must_log_in_to_invite_new_users: "Você deve se conectar para convidar novos usuários a %{service_name}"
       you_must_log_in_to_send_a_comment: "Você deve conectar para enviar um novo comentário"
       you_must_log_in_to_send_a_message: "Você deve fazer se conectar em %{service_name} para enviar uma mensagem para outro usuário."
+      you_must_log_in_to_do_a_transaction: ~
       you_must_log_in_to_view_this_content: "Você deve se conectar para visualizar este conteúdo"
       you_must_log_in_to_view_this_page: "Você deve se conectar para ver esta página"
       you_must_log_in_to_view_your_inbox: "Você deve se conectar em %{service_name} para ver sua caixa de entrada."
@@ -1616,7 +1633,6 @@ pt-BR:
       continue: Continua
       payment_receiver: "Destinatário do pagamento :"
       sum: "Soma do pagamento:"
-      commission_will_be_added: "Serão adicionados 10% de despesas de serviço."
     form:
       total: Total
       service_charge: "taxa de serviço"

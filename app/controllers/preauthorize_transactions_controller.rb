@@ -1,7 +1,7 @@
 class PreauthorizeTransactionsController < ApplicationController
 
   before_filter do |controller|
-   controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_send_a_message")
+   controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_do_a_transaction")
   end
 
   before_filter :fetch_listing_from_params
@@ -46,7 +46,7 @@ class PreauthorizeTransactionsController < ApplicationController
       return redirect_to error_not_found_path
     end
 
-    quantity = valid_quantity(params[:quantity])
+    quantity = TransactionViewUtils.parse_quantity(params[:quantity])
 
     vprms = view_params(listing_id: params[:listing_id],
                         quantity: quantity,
@@ -57,6 +57,7 @@ class PreauthorizeTransactionsController < ApplicationController
       quantity: quantity,
       listing_price: vprms[:listing][:price],
       localized_unit_type: translate_unit_from_listing(vprms[:listing]),
+      localized_selector_label: translate_selector_label_from_listing(vprms[:listing]),
       subtotal: (quantity > 1 || vprms[:listing][:shipping_price].present?) ? vprms[:subtotal] : nil,
       shipping_price: delivery_method == :shipping ? vprms[:shipping_price] : nil,
       total: vprms[:total_price]
@@ -95,7 +96,7 @@ class PreauthorizeTransactionsController < ApplicationController
       return render_error_response(request.xhr?, "Delivery method is invalid.", action: :initiate)
     end
 
-    quantity = valid_quantity(preauthorize_form.quantity)
+    quantity = TransactionViewUtils.parse_quantity(preauthorize_form.quantity)
     shipping_price = shipping_price_total(@listing.shipping_price, @listing.shipping_price_additional, quantity)
 
     transaction_response = create_preauth_transaction(
@@ -168,6 +169,7 @@ class PreauthorizeTransactionsController < ApplicationController
       duration: booking_data[:duration],
       listing_price: vprms[:listing][:price],
       localized_unit_type: translate_unit_from_listing(vprms[:listing]),
+      localized_selector_label: translate_selector_label_from_listing(vprms[:listing]),
       subtotal: vprms[:subtotal],
       shipping_price: delivery_method == :shipping ? vprms[:shipping_price] : nil,
       total: vprms[:total_price]
@@ -204,7 +206,7 @@ class PreauthorizeTransactionsController < ApplicationController
     if @current_community.transaction_agreement_in_use? && conversation_params[:contract_agreed] != "1"
       return render_error_response(request.xhr?,
         t("error_messages.transaction_agreement.required_error"),
-        { action: :book, start_on: stringify_booking_date(start_on), end_on: stringify_booking_date(end_on) })
+        { action: :book, start_on: TransactionViewUtils.stringify_booking_data(start_on), end_on: TransactionViewUtils.stringify_booking_data(end_on) })
     end
 
     delivery_method = valid_delivery_method(delivery_method_str: preauthorize_form.delivery_method,
@@ -217,7 +219,7 @@ class PreauthorizeTransactionsController < ApplicationController
     unless preauthorize_form.valid?
       return render_error_response(request.xhr?,
         preauthorize_form.errors.full_messages.join(", "),
-       { action: :book, start_on: stringify_booking_date(start_on), end_on: stringify_booking_date(end_on) })
+       { action: :book, start_on: TransactionViewUtils.stringify_booking_data(start_on), end_on: TransactionViewUtils.stringify_booking_data(end_on) })
     end
 
     transaction_response = create_preauth_transaction(
@@ -244,7 +246,7 @@ class PreauthorizeTransactionsController < ApplicationController
           "An error occured while trying to create a new transaction: #{transaction_response[:error_msg]}"
         end
 
-      return render_error_response(request.xhr?, error, { action: :book, start_on: stringify_booking_date(start_on), end_on: stringify_booking_date(end_on) })
+      return render_error_response(request.xhr?, error, { action: :book, start_on: TransactionViewUtils.stringify_booking_data(start_on), end_on: TransactionViewUtils.stringify_booking_data(end_on) })
     end
 
     transaction_id = transaction_response[:data][:transaction][:id]
@@ -266,7 +268,7 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   def preauthorize
-    quantity = valid_quantity(params[:quantity])
+    quantity = TransactionViewUtils.parse_quantity(params[:quantity])
     vprms = view_params(listing_id: params[:listing_id], quantity: quantity)
     braintree_settings = BraintreePaymentQuery.braintree_settings(@current_community.id)
 
@@ -275,6 +277,7 @@ class PreauthorizeTransactionsController < ApplicationController
       quantity: quantity,
       listing_price: vprms[:listing][:price],
       localized_unit_type: translate_unit_from_listing(vprms[:listing]),
+      localized_selector_label: translate_selector_label_from_listing(vprms[:listing]),
       subtotal: (quantity > 1) ? vprms[:subtotal] : nil,
       total: vprms[:total_price]
     })
@@ -307,7 +310,7 @@ class PreauthorizeTransactionsController < ApplicationController
 
     if preauthorize_form.valid?
       braintree_form = BraintreeForm.new(params[:braintree_payment])
-      quantity = valid_quantity(preauthorize_form.quantity)
+      quantity = TransactionViewUtils.parse_quantity(preauthorize_form.quantity)
 
       transaction_response = TransactionService::Transaction.create({
           transaction: {
@@ -348,6 +351,14 @@ class PreauthorizeTransactionsController < ApplicationController
       l[:unit_type].present?
     }.map { |l|
       ListingViewUtils.translate_unit(l[:unit_type], l[:unit_tr_key])
+    }.or_else(nil)
+  end
+
+  def translate_selector_label_from_listing(listing)
+    Maybe(listing).select { |l|
+      l[:unit_type].present?
+    }.map { |l|
+      ListingViewUtils.translate_quantity(l[:unit_type], l[:unit_selector_tr_key])
     }.or_else(nil)
   end
 
@@ -423,22 +434,10 @@ class PreauthorizeTransactionsController < ApplicationController
     end
   end
 
-  def duration(start_on, end_on)
-    (end_on - start_on).to_i + 1
-  end
-
-  def parse_booking_date(str)
-    Date.parse(str) unless str.blank?
-  end
-
-  def stringify_booking_date(date)
-    date.iso8601
-  end
-
   def verified_booking_data(start_on, end_on)
     booking_form = BookingForm.new({
-      start_on: parse_booking_date(start_on),
-      end_on: parse_booking_date(end_on)
+      start_on: TransactionViewUtils.parse_booking_date(start_on),
+      end_on: TransactionViewUtils.parse_booking_date(end_on)
     })
 
     if !booking_form.valid?
@@ -461,14 +460,6 @@ class PreauthorizeTransactionsController < ApplicationController
     else
       :errored
     end
-  end
-
-  def valid_quantity(quantity)
-    Maybe(quantity)
-      .map {|q|
-        StringUtils.is_numeric?(q) && q.to_i > 0 ? q.to_i : 1
-      }
-      .or_else(1)
   end
 
   def braintree_gateway_locals(community_id)
@@ -509,6 +500,7 @@ class PreauthorizeTransactionsController < ApplicationController
           unit_type: opts[:listing].unit_type,
           unit_price: opts[:listing].price,
           unit_tr_key: opts[:listing].unit_tr_key,
+          unit_selector_tr_key: opts[:listing].unit_selector_tr_key,
           content: opts[:content],
           payment_gateway: opts[:payment_type],
           payment_process: :preauthorize,
@@ -537,7 +529,7 @@ class PreauthorizeTransactionsController < ApplicationController
   def shipping_price_total(shipping_price, shipping_price_additional, quantity)
     Maybe(shipping_price)
       .map { |price|
-        if shipping_price_additional.present? && quantity.present? && quantity > 1 && feature_enabled?(:shipping_per)
+        if shipping_price_additional.present? && quantity.present? && quantity > 1
           price + (shipping_price_additional * (quantity - 1))
         else
           price

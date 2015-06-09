@@ -1,8 +1,6 @@
 class Admin::ListingShapesController < ApplicationController
   before_filter :ensure_is_admin
 
-  ensure_feature_enabled :shape_ui
-
   before_filter :ensure_no_braintree_or_checkout
   before_filter :set_url_name
 
@@ -61,7 +59,7 @@ class Admin::ListingShapesController < ApplicationController
       flash[:notice] = t("admin.listing_shapes.new.create_success", shape: pick_translation(shape[:name]))
       redirect_to action: :index
     else
-      flash[:error] = t("admin.listing_shapes.new.create_failure", error_msg: create_result.error_msg)
+      flash.now[:error] = t("admin.listing_shapes.new.create_failure", error_msg: create_result.error_msg)
       render_new_form(shape, process_summary, available_locales())
     end
 
@@ -82,8 +80,8 @@ class Admin::ListingShapesController < ApplicationController
       flash[:notice] = t("admin.listing_shapes.edit.update_success", shape: pick_translation(shape[:name]))
       return redirect_to admin_listing_shapes_path
     else
-      flash[:error] = t("admin.listing_shapes.edit.update_failure", error_msg: update_result.error_msg)
-      render_edit_form(params[:url_name], shape, process_summary, available_locales())
+      flash.now[:error] = t("admin.listing_shapes.edit.update_failure", error_msg: update_result.error_msg)
+      return render_edit_form(params[:url_name], shape, process_summary, available_locales())
     end
   end
 
@@ -236,7 +234,7 @@ class Admin::ListingShapesController < ApplicationController
     locale = locale.to_s
 
     pick_categories(categories, ids)
-      .map { |c| c[:translations].find { |t| t[:locale] == locale } }
+      .map { |c| Maybe(c[:translations].find { |t| t[:locale] == locale }).or_else(c[:translations].first) }
       .map { |t| t[:name] }
   end
 
@@ -289,7 +287,7 @@ class Admin::ListingShapesController < ApplicationController
       errors << "Online payments can not be enabled without price"
     end
 
-    if form[:units].present? && !form[:price_enabled]
+    if (form[:units].present? || form[:custom_units].present?) && !form[:price_enabled]
       errors << "Price units can not be used without price field"
     end
 
@@ -308,7 +306,7 @@ class Admin::ListingShapesController < ApplicationController
 
   def ensure_no_braintree_or_checkout
     gw = PaymentGateway.where(community_id: @current_community.id).first
-    if gw
+    if !@current_user.is_admin && gw
       flash[:error] = "Not available for your payment gateway: #{gw.type}"
       redirect_to edit_details_admin_community_path(@current_community.id)
     end
@@ -323,8 +321,13 @@ class Admin::ListingShapesController < ApplicationController
 
     def params_to_shape(params)
       form_params = HashUtils.symbolize_keys(params)
+
+      units = parse_predefined_units(form_params[:units])
+        .concat(parse_existing_custom_units(Maybe(form_params)[:custom_units][:existing].or_else([])))
+        .concat(parse_new_custom_units(Maybe(form_params)[:custom_units][:new].or_else([])))
+
       parsed_params = form_params.merge(
-        units: parse_units(form_params[:units]),
+        units: units,
         author_is_seller: form_params[:author_is_seller] == "false" ? false : true # default true
       )
 
@@ -335,25 +338,45 @@ class Admin::ListingShapesController < ApplicationController
       shape = Shape.call(shape)
 
       shape.merge(
-        units: expand_units(shape[:units]),
+        predefined_units: expand_predefined_units(shape[:units]),
+        custom_units: encode_custom_units(shape[:units].select { |unit| unit[:type] == :custom })
       )
     end
 
     # private
 
-    # Take units from shape and add predefined units
-    def expand_units(shape_units)
+    def expand_predefined_units(shape_units)
       shape_units_set = shape_units.map { |t| t[:type] }.to_set
 
       ListingShapeHelper.predefined_unit_types
         .map { |t| {type: t, enabled: shape_units_set.include?(t), label: I18n.t("admin.listing_shapes.units.#{t}")} }
-        .concat(shape_units
-                 .select { |unit| unit[:type] == :custom }
-                 .map { |unit| {type: unit[:type], enabled: true, label: translate(unit[:translation_key])} }) # TODO Change translate
     end
 
-    def parse_units(selected_units)
+    def encode_custom_units(custom_units)
+      custom_units.map { |u|
+        {
+          name: u[:name],
+          value: ListingShapeDataTypes::Unit.serialize(u)
+        }
+      }
+    end
+
+    def parse_predefined_units(selected_units)
       (selected_units || []).map { |type, _| {type: type.to_sym, enabled: true}}
+    end
+
+    def parse_existing_custom_units(existing_units)
+      existing_units.map { |_, unit|
+        ListingShapeDataTypes::Unit.deserialize(unit)
+          .merge({type: :custom, enabled: true})
+      }
+    end
+
+    def parse_new_custom_units(new_units)
+      new_units.map(&:second).map { |u|
+        u.merge(type: :custom, enabled: true)
+          .except(:name_tr_key, :selector_tr_key)
+      }
     end
   end
 
