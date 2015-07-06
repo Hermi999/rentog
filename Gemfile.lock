@@ -588,3 +588,6 @@ DEPENDENCIES
   will_paginate
   xpath
   zeus (= 0.15.1)
+
+BUNDLED WITH
+   1.10.2
