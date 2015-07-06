@@ -557,7 +557,7 @@ en:
       shipping_price_label: "Shipping:"
     confirm:
       confirm_description: "If your request has been fulfilled you should confirm it as done. Then you can give feedback to the other party."
-      cancel_description: "If your request was not fulfilled, you can mark it as 'not happened'. You can still give feedback to the other party and describe what happened."
+      cancel_description: "If your request was not fulfilled, you can mark it as 'disputed'. You can still give feedback to the other party and describe what happened."
       cancel_payed_description: "If your request was accepted but you're having second thoughts, you can still cancel the request before the payment."
       canceling_payed_transaction: "Cancel transaction"
       confirm: "Mark completed"
@@ -978,6 +978,7 @@ en:
     transaction_agreement:
       required_error: "You need to accept the agreement"
     paypal:
+      pending_review_error: "The payment was submitted but was flagged by PayPal as 'requiring a review'. When PayPal completes the review, the payment will be automatically authorized."
       generic_error: "An error occured during the payment process. Could not finalize your PayPal payment."
       cancel_error: "An error occured during cancellation. Could not finalize cancel."
       accept_authorization_error: "An error occured while trying to accept preauthorized Paypal payment. Please, try again."

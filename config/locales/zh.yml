@@ -20,7 +20,7 @@ zh:
           no_parent: 无上级分类
         category_transaction_types:
           transaction_types: 订单的类型
-          transaction_types_description: 订单类型决定了在该类别中的发布的信息的订购流程。比如，是否只能卖，或者出租以及允许免费赠送。
+          transaction_types_description: 交易类型决定了在该类别中的发布的信息的订购流程。比如，是否只能卖，或者出租以及允许免费赠送。
         buttons:
           save: 保存
           cancel: 取消
@@ -130,7 +130,7 @@ zh:
         custom_fields_link_text: 配置表单字段
         filters_link_text: 何种类型的过滤器
         order_types: "你可以在你的集市中定义订单的处理流程。你的用户可以出售，出租或者免费提供？用户可以按小时，天或者周出租？这些都可以在%{order_types_link}里面配置。"
-        order_types_link_text: 订单类型视图
+        order_types_link_text: 交易类型视图
         payments: "如果你希望人们通过你的集市支付他们购买的东西，从而为每笔交易收取费用，你应该%{payments_link}。"
         payments_link_text: 配置支付方式
         info_texts: "不要忘了通过定制信息页面和其他文本来告诉你的用户关于你的集市。有一些不错的地方可以参考：你的%{about_page_link}，你的%{terms_of_use_link}（你应该增加你自己的条款，或者编辑当前模板，或者创建一个全新文档），你的%{privacy_policy_link}，以及发送给每个新用户的%{welcome_email_link}。这儿还有一些你可以配置的%{instruction_texts_link}。"
@@ -184,8 +184,8 @@ zh:
         listing_preferences: 列出偏好
         transaction_preferences: 交易偏好
         show_listing_publishing_date: 在列表页面的显示信息的发布日期
-        show_category_in_listing_list: 在列表视图中显示信息分类
-        hide_expiration_date: 不要求发布的信息包含过期日期
+        show_category_in_listing_list: 在列表视图中显示信息类型
+        hide_expiration_date: 不要求发布的信息设置过期日期
         listing_comments_in_use: 允许用户对信息发表评论（所有其他用户可见）
         email_preferences: 邮件发送偏好设置
         automatic_newsletters: 自动发送每日/每周新闻邮件给所有用户（除非用户选择不接收）
@@ -198,15 +198,15 @@ zh:
         automatic_newsletter_frequency: "自动发送新闻邮件：%{frequency_dropdown}"
         newsletter_daily: 每日
         newsletter_weekly: 每周
-        delete_marketplace_title: ~
-        type_marketplace_domain: ~
-        type_marketplace_domain_placeholder: ~
-        once_you_delete: ~
-        are_you_sure: ~
-        i_understand_button: ~
-        last_community_updates: ~
-        you_will_be_redirected_to: ~
-        delete_this_marketplace: ~
+        delete_marketplace_title: 删除集市
+        type_marketplace_domain: "在下面的输入框中填入你的集市的域名(%{domain})"
+        type_marketplace_domain_placeholder: 在这里输入你的集市域名
+        once_you_delete: 请小心。一旦删除了集市，你将再也无法访问它。
+        are_you_sure: 你确定吗？
+        i_understand_button: 我明白点击这个按钮将删除我的集市
+        last_community_updates: 请注意在删除后，你和你的集市的用户可能仍然会收到最后的集市更新邮件。
+        you_will_be_redirected_to: "当你删除了你的集市，你会被重定向到%{destination}。你将再也无法访问你的集市。"
+        delete_this_marketplace: 删除这个集市。
       manage_members:
         manage_members: 管理用户
         email: 电子邮件
@@ -329,7 +329,7 @@ zh:
         text: 文本
         number: 数字
         dropdown: 下拉
-        checkbox_group: 检查框组
+        checkbox_group: 复选框
         date: 日期
     emails:
       new:
@@ -351,20 +351,20 @@ zh:
       support: 支持
     listing_shapes:
       index:
-        listing_shapes: 订单类型
-        description: 订单类型决定了网站上订单如何处理。通过订单类型可以决定用户可以出租或者出售，或者只是让用户发布一些公告然后通过免费的消息进行沟通。
-        read_more_about_order_types: 了解更多关于订单类型
-        add_new_shape: "添加新的订单类型： "
+        listing_shapes: 交易类型
+        description: 交易类型决定了网站上订单如何处理。通过交易类型可以决定用户可以出租或者出售，或者只是让用户发布一些公告然后通过免费的消息进行沟通。
+        read_more_about_order_types: 了解更多关于交易类型
+        add_new_shape: "添加新的交易类型： "
         select_template: 选择样板...
         all_categories: 全部分类
         no_categories: 无分类
         category_count: "%{category_count}分类"
         header:
-          listing_shape_name: 订单类型名称
-          listing_shape_categories: 使用该订单类型的分类
+          listing_shape_name: 交易类型名称
+          listing_shape_categories: 使用该交易类型的分类
         order:
-          saving_order: 保存订单类型
-          save_order_successful: 成功保存订单类型
+          saving_order: 保存交易类型
+          save_order_successful: 成功保存交易类型
           save_order_error: ""
       templates:
         selling_products: 出售产品
@@ -375,34 +375,34 @@ zh:
         announcement: 发布公告
         custom: 自定义
       new:
-        create_listing_shape: 创建订单类型
+        create_listing_shape: 创建交易类型
         create: 新建
         cancel: 取消
-        create_success: "新的订单类型‘%{shape}’已创建"
-        create_failure: "不能创建新的订单类型。错误信息：%{error_msg}"
+        create_success: "新的交易类型‘%{shape}’已创建"
+        create_failure: "不能创建新的交易类型。错误信息：%{error_msg}"
       edit:
-        edit_listing_shape: "修改订单类型‘%{shape}’"
+        edit_listing_shape: "修改交易类型‘%{shape}’"
         update: 保存
         cancel: 取消
-        update_success: "订单类型‘%{shape}’的修改已保存"
+        update_success: "交易类型‘%{shape}’的修改已保存"
         update_failure: "不能保存修改。错误：%{error_msg}"
-        delete: 删除订单类型
+        delete: 删除交易类型
         confirm_delete_order_type:
-          other: "有%{count}个发布的信息跟这个订单类型相关联。如果你删除这个订单类型，这些发布的信息会被关闭。你确定要删除这个订单类型吗？"
-        can_not_delete_last: 因为这是唯一的一个订单类型，所以你不能删除这个订单类型。
-        can_not_delete_only_one_in_categories: "你不能删除这个订单类型，因为该订单类型是下面这些分类正在使用的唯一的订单类型：%{categories}"
+          other: "有%{count}个发布的信息跟这个交易类型有关联。如果你删除这个交易类型，这些发布的信息会被关闭。你确定要删除这个交易类型吗？"
+        can_not_delete_last: 因为这是唯一的一个交易类型，所以你不能删除这个交易类型。
+        can_not_delete_only_one_in_categories: "你不能删除这个交易类型，因为该交易类型是下面这些分类正在使用的唯一的交易类型：%{categories}"
       listing_shape_name: 名称
       listing_shape_name_placeholder: 例如：出售
       action_button_label: 结账按钮标签
       action_button_placeholder: 例如：购买
       open_listings_warning:
-        other: "有%{count}个公开的已发布的信息与这个订单类型相关联。如果你修改下面的任何设置，那些已发布的信息会保留旧的设置。可以手工修改这些发布的信息到新的设置。如果你不希望这么保留旧的设置的发布的信息在网站上可见，你可以点击下面的按钮关闭它们。"
+        other: "有%{count}个公开的已发布的信息与这个交易类型有关联。如果你修改下面的任何设置，那些已发布的信息会保留旧的设置。可以手工修改这些发布的信息到新的设置。如果你不希望这么保留旧的设置的发布的信息在网站上可见，你可以点击下面的按钮关闭它们。"
       close_listings_action:
         other: "关闭%{count}个发布的信息"
       confirm_close_listings_action:
         other: "你确定要关闭%{count}个发布的信息吗？"
       successfully_closed: 成功关闭发布的信息
-      successfully_deleted: "成功删除订单类型%{order_type}"
+      successfully_deleted: "成功删除交易类型%{order_type}"
       pricing_and_checkout_title: 价格和结算
       online_payments_label: 允许卖家接受在线支付
       shipping_label: 允许卖家定义运费
@@ -416,7 +416,7 @@ zh:
         night: 每晚
         week: 每周
         month: 每月
-      can_not_find: "找不到id是%{id}订单类型"
+      can_not_find: "找不到id是%{id}交易类型"
       add_custom_unit: +添加一个自定义的价格单位
       delete_custom_unit: 删除
       custom_unit_form:
@@ -448,18 +448,18 @@ zh:
       minimum_listing_price_below_min: "最少的交易额必须高于最低佣金%{minimum_commission}。"
     transaction_types:
       sell: 出售
-      rent: 已出租
+      rent: 出租
       give: 赠送
       lend: 出借
       swap: 交换
-      service: 宝贝
+      service: 提供
       request: 请求
       inquiry: 公告
       share_for_free: 免费共享
       default_action_button_labels:
         sell: 购买
         rent: 租赁
-        request: 宝贝
+        request: 请求
         offer: 请求
         inquiry: 联系人
   common:
@@ -480,7 +480,7 @@ zh:
       lend: 出借
       receive: 免费
       rent: 出租
-      rent_out: 已出租
+      rent_out: 出租
       sell: 出售中
       offer_to_swap: 交换
       request_to_swap: 交换
@@ -546,7 +546,7 @@ zh:
       shipping_price_label: "运费:"
     confirm:
       confirm_description: 如果你的请求被完成，你应该确认完成。然后你可以给其他人反馈。
-      cancel_description: 如果你的请求没有完成，你可以标记它为“未发生”。你仍然可以评论给其他交易方描述发生的事情。
+      cancel_description: 如果你的请求没有完成，你可以标记它为“有争议的”。你仍然可以评论给其他交易方描述发生的事情。
       cancel_payed_description: 如果你的请求被接受但是你有其他的想法，你仍然可以在付款前取消请求。
       canceling_payed_transaction: 取消交易
       confirm: 标记为完成
@@ -575,7 +575,7 @@ zh:
       canceled_offer: 宝贝已取消。
       message_from: "来自%{person}的消息"
       about_listing: "关于%{listing_title}"
-      free_message: 免费消息
+      free_message: 站内短信
     message:
       accepted_request: 已接受请求
       accepted_offer: 已接受的宝贝
@@ -926,8 +926,8 @@ zh:
       click_here_to_reply: 点击这里回应请求
     welcome_email:
       welcome_email_subject: "欢迎来到%{service_name}"
-      welcome_to_marketplace: "欢迎使用%{service_name}！很高兴你的加入。"
-      love_marketplace_crew: "爱你的，<br /><i>%{service_name} 工作人员</i>"
+      welcome_to_marketplace: "欢迎来到%{service_name}！恭喜你注册成功。"
+      love_marketplace_crew: "爱你的，<br /><i>%{service_name}团队</i>"
       p_s_did_you_know: "附言 你想创建像%{service_name}一样的自己的集市网站吗？很简单，不需要任何编程经验。点击%{click_here_link}查看更多！"
       click_here_link_text: 点击这里
       welcome_email_footer_text: "你希望从%{service_name}接收哪种类型的邮件？%{settings_link}"
@@ -967,6 +967,7 @@ zh:
     transaction_agreement:
       required_error: 你需要接受协议
     paypal:
+      pending_review_error: 支付已经提交，但是被Paypal标记为‘需要检查’。当Paypal完成检查后，该支付将会被自动授权。
       generic_error: 付款过程中出现错误。无法完成你的PayPal付款。
       cancel_error: 取消时发生错误。不能完成取消操作。
       accept_authorization_error: 尝试接受预授权的PayPal付款时出错。请重试。
@@ -1045,7 +1046,7 @@ zh:
     search_kassi: "搜索%{service_name}"
     create_new_marketplace: 创建一个新的集市
     contact_us: 联系我们
-    profile: 个人设置
+    profile: 个人主页
     invite: 邀请新成员
     login: 登录
     signup: 注册
@@ -1060,7 +1061,7 @@ zh:
       add_first: 增加一个！
       but_that_is_visible_only_to_registered_members: 但只有注册用户可以查看。
       but_those_are_visible_only_to_registered_members: 但只有注册用户可以查看。
-      create_new_account_for_yourself: 创建新账户
+      create_new_account_for_yourself: 注册新用户
       examples_of_what_you_could_offer_to_others: 你能提供什么给其他人
       examples_of_what_you_could_request_to_others: 你需要什么
       favor_offer_list: 电脑帮手，衣物缝补，烘焙，自行车修理
@@ -1150,7 +1151,7 @@ zh:
       map_button: 地图
       grid_button: 网格
       list_button: 列表
-      all_listing_types: 所有的展示方式
+      all_listing_types: 所有的类型 
       all_categories: 全部分类
   infos:
     about:
@@ -1171,7 +1172,7 @@ zh:
       join_this_community: 加入集市
       read_more: 读取更多
       feedback: 给我们提供反馈？
-      default_feedback: "你碰到任何关于%{service_name}的问题了吗？有什么提高服务质量的建议吗？注意到一些可疑的内容？或者你有些什么想与我们讨论吗？告诉我们！"
+      default_feedback: "你有任何关于%{service_name}的问题吗？有什么提高服务质量的建议吗？发现了一些可疑的内容？或者你有些想法与我们讨论？在这里告诉我们！"
       feedback_forum: 反馈论坛
       feedback_handle: 反馈
       give_feedback: 联系我们
@@ -1202,21 +1203,21 @@ zh:
       terms: 使用条款
     logged_in:
       admin: 后台管理
-      go_to_your_profile_page: 个人设置
+      go_to_your_profile_page: 个人主页
       hi: 你好
       login: 登录
       logout: 退出
       notifications: 通知
       requests: 好友请求
       settings: 设置
-      sign_up: 创建账户
+      sign_up: 创建新用户
     logged_in_messages_icon:
       messages: 私信
     logged_in_notifications_icon:
       notifications: 通知
     mobile_logged_in:
       admin: 后台管理
-      go_to_your_profile_page: 个人设置
+      go_to_your_profile_page: 个人主页
       hi: 你好
       login: 登录
       logout: 退出
@@ -1375,8 +1376,8 @@ zh:
     error:
       something_went_wrong: "出错了，错误代码：%{error_code}"
     follow_links:
-      follow: 接收关于新评论的邮件
-      unfollow: 不再接收关于新评论的邮件
+      follow: 接收关于新评论的电子邮件
+      unfollow: 不再接收关于新评论的电子邮件
     form:
       custom_field_partials:
         dropdown:
@@ -1440,7 +1441,7 @@ zh:
         location: 地点
         origin: 来源
       send_button:
-        save_listing: 保存发布的信息
+        save_listing: 发布
       share_type:
         select: 选择
         borrow: 借入
@@ -1450,7 +1451,7 @@ zh:
         offer_type: 宝贝的类型
         receive: 免费获取
         rent: 出租
-        rent_out: 已出租
+        rent_out: 出租
         request_type: 请求类型
         sell: 出售
         share_for_free: 免费共享
@@ -1516,7 +1517,7 @@ zh:
       accept_for_frees: 免费接受
       trades: 交换
     listing_actions:
-      booking_from: 来自
+      booking_from: 从
       booking_to: 到
       how_paypal_works: PayPal如何工作
     new:
@@ -1527,7 +1528,7 @@ zh:
       selected_transaction_type: "信息类型：%{transaction_type}"
       select_category: 选择分类
       select_subcategory: 选择子分类
-      select_transaction_type: 选择信息类型
+      select_transaction_type: 请选择类型
       you_need_to_fill_payout_details_before_accepting: "在发布列表前你需要填写支出详情。点击%{payment_settings_link}来填写详情。"
       contact_admin_link_text: 联系管理员
       community_not_configured_for_payments: "%{service_name}没有配置支付方式，所以你不能发布新的信息。详情请联系%{contact_admin_link}。"
@@ -1716,7 +1717,7 @@ zh:
     new:
       captcha_incorrect: 验证码错误。请输入下图中显示的单词
       captcha_was_wrong: 验证码错误
-      create_new_account: 创建账户
+      create_new_account: 创建新用户
       email: 电子邮件地址
       email_is_in_use: 此邮箱已使用。
       email_is_in_use_or_not_allowed: 此Email不允许使用或已被注册。如果你无法注册，请联系我们。
@@ -1733,7 +1734,7 @@ zh:
       organization_name: 组织名称
       password_again: 确认密码
       show_my_name_to_others: "对其他%{service_name}用户显示真实姓名"
-      sign_up: "在%{service_name}新建账户"
+      sign_up: "在%{service_name}注册"
       terms: 使用条款
       username_is_in_use: 此用户名已被使用。
       username_is_invalid: 用户名格式不正确。请使用字母，数字以及下划线。
@@ -1741,7 +1742,7 @@ zh:
       visible_to_everybody: 所有人可见
       create_account_with_facebook: 用Facebook帐号注册
       OR: 或
-      signup_with_email: 用邮件注册
+      signup_with_email: 使用你自己的邮箱注册
     not_member:
       explanation_text: "你正在浏览%{community} 社区。你试图查看另一个社区的用户资料。所以你不可以在%{community}社区查看这个用户的资料。"
       read_more_about_kassi_communities: 阅读更多关于这个网站
@@ -1761,7 +1762,7 @@ zh:
     show:
       contact: "联系%{person}"
       about_me: 关于我：
-      add_description: 分享一些关于你自己的东西
+      add_description: 更新个人资料
       add_location: 添加地点
       add_phone_number: 添加手机号码
       address: 地点：
@@ -1813,7 +1814,7 @@ zh:
       search_verb: 搜索
   sessions:
     new:
-      create_new_account: 创建新账户
+      create_new_account: 注册新用户
       i_forgot_my_password: 忘记用户名或密码
       login: 登录
       login_to_kassi: "登录%{service_name}"
@@ -1911,10 +1912,10 @@ zh:
       phone_number: 电话号码
       profile_picture: 个人头像
       postal_code: 邮政编码
-      profile_page: 在你的个人信息页面
+      profile_page: 点击查看你的个人信息页面
       profilemap: 地图视图
       street_address: 地点
-      these_fields_are_shown_in_your: "此信息对所有%{service_name}用户可见"
+      these_fields_are_shown_in_your: "该信息对所有%{service_name}用户可见"
       visible_to_everybody: 对所有人可见
       visible_to_registered_users: （对已登录用户可见）
       default_in_listing: （只有在发布新信息时作为默认值使用）
@@ -2054,7 +2055,7 @@ zh:
       subtotal: "小结:"
       shipping-price: "运费:"
     price_per_quantity: "每%{unit_type}:"
-    price: "价格:"
+    price: "总共:"
     quantity: "数量:%{quantity}"
     unit_price: "单位价格: %{unit_price}"
     total: "总共:"
@@ -2068,8 +2069,8 @@ zh:
         other: 用戶
       listing_conversation:
         other: 交易
-    previous_label: "&#8592;上一个"
-    next_label: "下一个 &#8594;"
+    previous_label: "&#8592;上一页"
+    next_label: "下一页 &#8594;"
     page_gap: "&hellip;"
     page_entries_info:
       single_page:

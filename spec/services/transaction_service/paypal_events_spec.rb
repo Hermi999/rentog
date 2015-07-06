@@ -112,15 +112,13 @@ describe TransactionService::PaypalEvents do
 
 
   context "#request_cancelled" do
-    it "removes transaction associated with the cancelled token" do
+    it "marks the transaction associated with the cancelled token as deleted" do
       TransactionService::PaypalEvents.request_cancelled(:success, @token_no_msg)
       TransactionService::PaypalEvents.request_cancelled(:success, @token_with_msg)
 
-      # Both transactions are deleted
-      expect(TransactionModel.count).to eq(0)
-      # and so are the conversations
-      expect(Conversation.where(id: @conversation_no_msg).first).to be_nil
-      expect(Conversation.where(id: @conversation_with_msg).first).to be_nil
+      # Both transactions are there but marked as deleted
+      expect(TransactionModel.count).to eq(2)
+      expect(TransactionModel.all.map(&:deleted)).to eq([true, true])
     end
 
     it "calling with token that doesn't match a transaction is a no-op" do
@@ -128,6 +126,30 @@ describe TransactionService::PaypalEvents do
       TransactionService::PaypalEvents.request_cancelled(:success, already_removed)
 
       expect(Transaction.count).to eq(2)
+    end
+  end
+
+  context "#payment_updated - initiated => payment-review" do
+    before(:each) do
+      @payment_review_payment = PaymentStore.create(@cid, @transaction_with_msg.id, {
+          payer_id: "sduyfsudf",
+          receiver_id: "98ysdf98ysdf",
+          merchant_id: "asdfasdf",
+          pending_reason: "payment-review",
+          order_id: SecureRandom.uuid,
+          order_date: Time.now,
+          order_total: Money.new(22000, "EUR"),
+          authorization_id: SecureRandom.uuid,
+          authorization_date: Time.now,
+          authorization_total: Money.new(22000, "EUR"),
+        })
+    end
+
+    it "keeps transaction in initiated state" do
+      TransactionService::PaypalEvents.payment_updated(:success, @payment_review_payment)
+
+      tx = MarketplaceService::Transaction::Query.transaction(@transaction_with_msg.id)
+      expect(tx[:status]).to eq("initiated")
     end
   end
 
@@ -198,11 +220,9 @@ describe TransactionService::PaypalEvents do
       TransactionService::PaypalEvents.payment_updated(:success, @voided_payment_no_msg)
       TransactionService::PaypalEvents.payment_updated(:success, @voided_payment_with_msg)
 
-      # Both transactions are deleted
-      expect(TransactionModel.count).to eq(0)
-      # and so are the conversations
-      expect(Conversation.where(id: @conversation_no_msg).first).to be_nil
-      expect(Conversation.where(id: @conversation_with_msg).first).to be_nil
+      # Both transactions are there but marked as deleted
+      expect(TransactionModel.count).to eq(2)
+      expect(TransactionModel.all.map(&:deleted)).to eq([true, true])
     end
 
     it "is safe to call for non-existent transaction" do

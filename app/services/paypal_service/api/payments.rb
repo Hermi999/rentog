@@ -149,7 +149,10 @@ module PaypalService::API
     end
 
     def ensure_payment_authorized(community_id, payment_entity)
-      if payment_entity[:pending_reason] != :authorization
+      if payment_entity[:pending_reason] == :"payment-review"
+        Result::Error.new("Cannot complete authorization because the payment is pending for manual review by PayPal.",
+                          { error_code: :"payment-review", payment: payment_entity })
+      elsif payment_entity[:pending_reason] != :authorization
         authorize_payment(community_id, payment_entity)
       else
         Result::Success.new(payment_entity)
@@ -208,9 +211,9 @@ module PaypalService::API
 
     ## GET /payments/:community_id/:transaction_id
     def get_payment(community_id, transaction_id)
-      @lookup.with_payment(community_id, transaction_id) do |payment, m_acc|
-        Result::Success.new(DataTypes.create_payment(payment))
-      end
+      Maybe(PaymentStore.get(community_id, transaction_id))
+        .map { |payment| Result::Success.new(DataTypes.create_payment(payment)) }
+        .or_else { Result::Error.new("No matching payment for community_id: #{community_id} and transaction_id: #{transaction_id}.")}
     end
 
     ## POST /payments/:community_id/:transaction_id/void
