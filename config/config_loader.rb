@@ -20,8 +20,16 @@ module ConfigLoader
 
     # Order: default, user, env
     config_order = [default_configs, user_configs, environment_configs]
-
     configs = config_order.inject { |a, b| a.merge(b) }
+
+    # In opposite to the yaml-files, we get by reading the Env-Vars,
+    # always Strings instead of booleans if there are 'true' or 'false' values
+    # But to make sure, we perform the test with all of the vars
+    configs.each do |key, val|
+      configs[p key] = true if val == "true"
+      configs[p key] = false if val == "false"
+    end
+
     OpenStruct.new(configs.symbolize_keys)
   end
 

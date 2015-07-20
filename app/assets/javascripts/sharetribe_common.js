@@ -46,7 +46,7 @@ function prepare_ajax_form(form_id, locale, rules) {
 
 function disable_submit_button(form_id, locale) {
   $(form_id).find("button").attr('disabled', 'disabled');
-  jQuery.getJSON('/assets/locales/' + locale + '.json', function(json) {
+  jQuery.getJSON('https://s3.eu-central-1.amazonaws.com/rentog/assets/locales/' + locale + '.json', function(json) {
     $(form_id).find("button").text(json.please_wait);
   });
 }
@@ -63,7 +63,7 @@ function translate_validation_messages(locale) {
     }
   }
 
-  jQuery.getJSON('/assets/locales/' + locale + '.json', function(json) {
+  jQuery.getJSON('https://s3.eu-central-1.amazonaws.com/rentog/assets/locales/' + locale + '.json', function(json) {
     jQuery.extend(jQuery.validator.messages, {
         required: json.validation_messages.required,
         remote: json.validation_messages.remote,

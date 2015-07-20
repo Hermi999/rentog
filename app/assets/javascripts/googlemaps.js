@@ -441,7 +441,7 @@ function addCommunityMarkers() {
               showingMarker = "";
             } else {
               showingMarker = marker.getTitle();
-              infowindow.setContent("<div id='map_bubble'><div style='text-align: center; width: 360px; height: 70px; padding-top: 25px;'><img src='https://s3.amazonaws.com/sharetribe/assets/ajax-loader-grey.gif'></div></div>");
+              infowindow.setContent("<div id='map_bubble'><div style='text-align: center; width: 360px; height: 70px; padding-top: 25px;'><img src='https://s3.eu-central-1.amazonaws.com/rentog/assets/ajax-loader-grey.gif'></div></div>");
               infowindow.open(map,marker);
               $.get('/en/tribes/'+entry["id"], function(data) {
                 $('#map_bubble').html(data);
@@ -565,7 +565,7 @@ function addListingMarkers(listings, community_location_lat, community_location_
             showingMarker = "";
           } else {
             showingMarker = marker.getTitle();
-            infowindow.setContent("<div id='map_bubble'><img class='bubble-loader-gif' src='https://s3.amazonaws.com/sharetribe/assets/ajax-loader-grey.gif'></div>");
+            infowindow.setContent("<div id='map_bubble'><img class='bubble-loader-gif' src='https://s3.eu-central-1.amazonaws.com/rentog/assets/ajax-loader-grey.gif'></div>");
             infowindow.setMaxHeight(150);
             infowindow.setMinHeight(150);
             infowindow.open(map,marker);

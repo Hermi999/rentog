@@ -2,7 +2,23 @@
 db/*.sqlite3
 db/sphinx
 config/*.sphinx.conf
+<<<<<<< HEAD
+<<<<<<< HEAD
 config/database.yml
+<<<<<<< HEAD
+=======
+#config/database.yml
+<<<<<<< HEAD
+>>>>>>> a8d95dd... Created Beanstalk ENV-Var rake script
+config/config.yml
+=======
+>>>>>>> 14f75d0... added comments
+=======
+config/database.yml
+>>>>>>> 561e2f4... z
+config/session_secret
+=======
+>>>>>>> 322dcfa... a
 config/config.yml
 config/session_secret
 config/gmaps_api_key.yml
@@ -30,7 +46,12 @@ public/system/wide_logos/
 /Gemfile
 /Gemfile.lock
 cg.sh
-public/assets/
+public/assets/*
+# Do not ignore manifest.yml file, because otherwise
+# Rails.application.config.assets.digests will bei nil which leeds to
+# (Sprockets::Helpers::RailsHelper::AssetPaths::AssetNotPrecompiledError)
+# during Server startup.
+!public/assets/manifest.yml
 app/assets/webfonts/
 app/assets/stylesheets/customizations-*
 app/assets/stylesheets/custom-style-*
@@ -47,3 +68,11 @@ coverage/
 .vagrant
 rentog.sh
 rentog2.sh
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# Configs
+createBeanstalkEnv.sh

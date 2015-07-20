@@ -1,8 +1,8 @@
 source 'http://rubygems.org'
 
-ruby '2.1.2'
+ruby '2.1.5'
 
-gem 'rails', '3.2.21'
+gem 'rails', '3.2.22'
 
 # To use debugger
 #gem 'ruby-debug'
@@ -24,6 +24,7 @@ gem 'jquery-rails', '2.1.4'
 
 # gem 'heroku' install the Heroku toolbelt (https://toolbelt.heroku.com/) instead (as gem had some problems)
 #gem 'thin'
+
 gem 'unicorn', "~>4.6.3"
 gem "rack-timeout"
 
@@ -33,7 +34,7 @@ gem 'sass', "  ~> 3.2.9"
 gem 'rest-client', '>= 1.6.0'
 gem 'paperclip'
 gem 'delayed_paperclip'
-gem 'aws-sdk'
+gem 'aws-sdk', '< 2'
 gem "will_paginate"
 gem 'dalli'
 gem "memcachier"
@@ -42,10 +43,7 @@ gem 'thinking-sphinx', '~> 3.1.1'
 gem 'flying-sphinx', "~>1.2.0"
 # Use patched v2.0.2
 # Fixes issues: Create a new delayed delta job if there is an existing delta job which has failed
-gem 'ts-delayed-delta', "~>2.0.2",
-  :git    => 'git://github.com/pat/ts-delayed-delta.git',
-  :branch => 'master',
-  :ref    => '839284f2f28b3f4caf3a3bf5ccde9a6d222c7f4d'
+gem 'ts-delayed-delta', '~> 2.0.2'
 gem 'possibly', '~> 0.2.0'
 gem 'recaptcha'
 gem 'delayed_job', "~>3.0.5"
@@ -74,10 +72,8 @@ gem 'statesman', '~> 0.5.0'
 gem "premailer"
 gem 'stringex', '~> 2.5.2'
 gem 'validates_timeliness', '~> 3.0'
-gem 'paypal-sdk-permissions',
-  :git    => 'git://github.com/paypal/permissions-sdk-ruby.git',
-  :branch => 'master',
-  :ref    => 'c0240bee9f94fe6338d67b4f754e1a11ce81619a'
+#gem 'paypal-sdk-permissions', '1.96.3'
+gem 'paypal-sdk-permissions', '1.96.4'
 gem 'paypal-sdk-merchant', '~> 1.116.0'
 gem 'airbrake', '~>4.1.0'
 gem 'cache_digests'
@@ -86,6 +82,8 @@ gem 'lograge'
 
 group :staging, :production do
   gem 'newrelic_rpm', '~> 3.9.1.236'
+  # Daemons gem installed because otherwise delayed worker won't work on beanstalk
+  gem 'daemons', '~> 1.2.3'
 end
 
 group :development, :test do

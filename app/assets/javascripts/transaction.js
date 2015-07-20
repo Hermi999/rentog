@@ -28,7 +28,7 @@ window.ST.transaction = window.ST.transaction || {};
 
   function setupSpinner($form) {
     var spinner = new Image();
-    spinner.src = "https://s3.amazonaws.com/sharetribe/assets/ajax-loader-grey.gif";
+    spinner.src = "https://s3.eu-central-1.amazonaws.com/rentog/assets/ajax-loader-grey.gif";
     spinner.className = "paypal-button-loading-img";
     var $spinner = $(spinner);
     $form.find(".paypal-button-wrapper").append(spinner);

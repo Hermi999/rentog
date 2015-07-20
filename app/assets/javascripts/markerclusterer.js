@@ -1035,7 +1035,7 @@ ClusterIcon.prototype.triggerClusterClick = function() {
     if (!this.showingInfo_) {
       this.cluster_.markerClusterer_.showingMarker_=markers[0].getTitle();
       this.showingInfo_ = true;
-      var loaderHtml = "<div id='map_bubble'><img class='bubble-loader-gif' src='https://s3.amazonaws.com/sharetribe/assets/ajax-loader-grey.gif'></div>";
+      var loaderHtml = "<div id='map_bubble'><img class='bubble-loader-gif' src='https://s3.eu-central-1.amazonaws.com/rentog/assets/ajax-loader-grey.gif'></div>";
       this.cluster_.markerClusterer_.infowindow_.setContent(loaderHtml);
       var ids = [];
       for (var i = 0, marker; marker = markers[i]; i++) {

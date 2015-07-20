@@ -77,11 +77,12 @@ Kassi::Application.configure do
   # Don't fallback to assets pipeline
   config.assets.compile = false
 
-  # Generate digests for assets URLs
+  # Generate digests for assets URLs -> Enable Fingerprinting with MD5 in
+  # the asset pipeline
   config.assets.digest = true
 
   # settings for asset-sync gem
-  config.action_controller.asset_host = "#{APP_CONFIG.FOG_DIRECTORY}.s3.amazonaws.com" if APP_CONFIG.FOG_DIRECTORY
+  config.action_controller.asset_host = "//#{APP_CONFIG.FOG_DIRECTORY}.s3.amazonaws.com" if APP_CONFIG.FOG_DIRECTORY
   config.assets.prefix = "/assets"
 
   # Disable delivery errors, bad email addresses will be ignored
@@ -108,7 +109,7 @@ Kassi::Application.configure do
       :domain               => APP_CONFIG.smtp_email_domain,
       :user_name            => APP_CONFIG.smtp_email_user_name,
       :password             => APP_CONFIG.smtp_email_password,
-      :authentication       => 'plain',
+      :authentication       => :login,
       :enable_starttls_auto => true
     }
   end

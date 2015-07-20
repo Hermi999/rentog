@@ -134,6 +134,7 @@ module Kassi
         :url => ":s3_domain_url",
         :storage => :s3,
         :s3_protocol => 'https',
+        #:s3_signature_version => :v4,
         :s3_credentials => {
               :bucket            => APP_CONFIG.s3_bucket_name,
               :access_key_id     => APP_CONFIG.aws_access_key_id,

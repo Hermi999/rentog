@@ -151,7 +151,7 @@ describe ListingsController do
       get :index, :format => :atom
       response.status.should == 200
       doc = Nokogiri::XML::Document.parse(response.body)
-      doc.at('feed/logo').text.should == "https://s3.amazonaws.com/sharetribe/assets/dashboard/sharetribe_logo.png"
+      doc.at('feed/logo').text.should == "https://s3.eu-central-1.amazonaws.com/rentog/assets/dashboard/sharetribe_logo.png"
 
       doc.at("feed/title").text.should =~ /Listings in Sharetribe /
       doc.search("feed/entry").count.should == 2

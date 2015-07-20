@@ -5,7 +5,7 @@ window.ST = window.ST || {};
   module.initializePayPalAccountForm = function(formId) {
     var form = $('#'+formId);
     var spinner = new Image();
-    spinner.src = "https://s3.amazonaws.com/sharetribe/assets/ajax-loader-grey.gif";
+    spinner.src = "https://s3.eu-central-1.amazonaws.com/rentog/assets/ajax-loader-grey.gif";
     spinner.className = "send-button-loading-img";
 
     form.validate({
