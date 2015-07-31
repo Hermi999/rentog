@@ -125,7 +125,7 @@ zh:
         look_and_feel: "在你将你的站点公开发布前，你也许想再配置一些东西。比如，你可能想去%{logo_link}修改封面照片和颜色以配合你的品牌的外观和感受。"
         logo_link_text: 添加你的标志
         custom_domain: "你也许还想增加一个定制的网页地址（比如www.yourmarketplace.com）。设置它需要我们做一些手动工作，同时我们也需要为域名购买SSL证书以保证你的站点安全。由于这些原因，定制域名在免费试用期不可用，所以如果需要该域名，你要订阅我们的Pro计划或更高级别的计划。如果你想要定制域名，请%{contact_support_link}。"
-        categories_and_custom_fields: "接下来需要决定用户可以发布什么样的内容到你的站点。你可以%{categories_link}，通过%{custom_fields_link}定制实际列表表单包含的内容，并在用户浏览列表时决定%{filters_link}。"
+        categories_and_custom_fields: "接下来需要决定用户可以发布什么样的内容到你的站点。你可以%{categories_link}，通过%{custom_fields_link}定制实际列表表单包含的内容，并在用户浏览信息时决定%{filters_link}。"
         categories_link_text: 新增分类和子分类
         custom_fields_link_text: 配置表单字段
         filters_link_text: 何种类型的过滤器
@@ -181,17 +181,17 @@ zh:
         users_can_invite_new_users: 所有用户都可以邀请新用户来到这个集市
         private: 这个集市是私有的（只有注册用户可以看到内容）
         require_verification_to_post_listings: 只有经管理员验证的用户可以发布新的信息
-        listing_preferences: 列出偏好
+        listing_preferences: 信息展示页面偏好设置
         transaction_preferences: 交易偏好
-        show_listing_publishing_date: 在列表页面的显示信息的发布日期
-        show_category_in_listing_list: 在列表视图中显示信息类型
+        show_listing_publishing_date: 在信息战士页面的显示信息的发布日期
+        show_category_in_listing_list: 在信息展示页面中显示信息类型
         hide_expiration_date: 不要求发布的信息设置过期日期
         listing_comments_in_use: 允许用户对信息发表评论（所有其他用户可见）
         email_preferences: 邮件发送偏好设置
         automatic_newsletters: 自动发送每日/每周新闻邮件给所有用户（除非用户选择不接收）
         email_admins_about_new_members: 当新用户注册时给管理员发送一封电子邮件
         google_analytics_key: "Google Analytics跟踪ID"
-        twitter_handle: "Twitter handle（使用在信息页面的tweet按钮）"
+        twitter_handle: Twitter用户名（使用在信息页面的tweet按钮）
         update_settings: 保存设置
         automatically_confirmed: "交易在付款%{days_dropdown}天后将被自动标记为已完成。如果使用第三方支付系统，现在钱将被打入第三方系统。"
         automatically_confirmed_no_escrow: "在付款后%{days_dropdown}天内交易将被自动标记为完成。"
@@ -222,12 +222,12 @@ zh:
         ban_me_error: 你不能禁止自己。
       social_media:
         social_media: 社交媒体
-        twitter_handle: "Twitter handle"
+        twitter_handle: Twitter用户名
         twitter_handle_info_text: 当人们使用信息页面上的tweet按钮时，你的集市Twitter帐号的用户名（如果你有的话）将被提及。
         twitter_handle_info_text_with_instructions: "当人们使用信息页面上的Tweet按钮时，你的集市Twitter帐号的用户名（如果你有的话）将被提及。%{instructions_link}"
         twitter_instructions_link_text: 了解更多
         twitter_handle_placeholder: 用户名
-        invalid_twitter_handle: "Twitter handle最多不能超过15个字母和数字（字母A-Z和数字0-9）。"
+        invalid_twitter_handle: Twitter用户名最多不能超过15个字母和数字（字母A-Z和数字0-9）。
         facebook_connect: Facebook
         facebook_connect_info_text: "为了启用Facebook登录，在<a href='https://developers.facebook.com/'>Facebook开发者Dashboard</a>中为你的集市创建一个应用。在这里添加应用生成的ID和密钥。"
         facebook_connect_info_text_with_instructions: "为了启用Facebook登录，在<a href='https://developers.facebook.com/'>Facebook开发者Dashboard</a>中为你的集市创建一个应用。在这里添加应用生成的ID和密钥。%{instructions_link}"
@@ -887,8 +887,8 @@ zh:
       you_can_give_feedback_to: "你还没有给%{name}反馈"
       view_feedback: 查看反馈
     new_update_to_listing:
-      listing_you_follow_has_been_updated: 以下列表已更新
-      has_updated_listing_you_follow_in_kassi: "%{author}更新了你在%{service_name}中关注的列表“%{listing}”。"
+      listing_you_follow_has_been_updated: 以下发布的信息已更新
+      has_updated_listing_you_follow_in_kassi: "%{author}更新了你在%{service_name}中关注的信息“%{listing}”。"
       view_changes: 查看变更
     community_updates:
       added_offer: "%{name_link}新增了一条信息："
@@ -953,7 +953,7 @@ zh:
       subject: "%{author_name}在%{service_name}发布了一则新的信息"
       has_posted_a_new_listing: "%{author_name}发布了一则新的信息："
       you_are_receiving_this_because: "你收到这个通知是由于你关注了%{author_name}。"
-      view_listing: 查看列表
+      view_listing: 查看发布的信息
   error_messages:
     listings:
       departure_time: 出发时间必需是现在起一年之内。
@@ -977,7 +977,7 @@ zh:
     error_404:
       if_you_believe: 如果你认为地址是正确并有效的。请完成下面的表格以便我们了解什么地址造成了错误。
       page_can_not_be_found: 页面没找到或不存在
-      page_you_requested_can_not_be_found: 你请求的页面不存在。你确定地址拼写正确？
+      page_you_requested_can_not_be_found: 你请求的页面不存在，你确定地址输入正确吗？
     error_404_title: 未找到页面
     error_410:
       page_removed: 页面已删除
@@ -1122,9 +1122,12 @@ zh:
       this_is_private_community: 查看内容前需要先登录。
     invitation_form:
       email: 电子邮件地址
+      email_with_limit: ~
       message: 一条私人消息
       send_invitation: 发送邀请
-      add_as_many_emails_as_you_want: 添加你要邀请的人的邮件地址到下面的输入框。如果你添加多个电子邮件地址，用逗号分隔。
+      add_email_addresses_description: 添加你要邀请的人的邮件地址到下面的输入框。如果你添加多个电子邮件地址，用逗号分隔。
+      add_lots_of_email_addresses: ~
+      this_article_link: ~
       invitation_emails_field_placeholder: "friend1@example.com, friend2@example.com, ..."
       invitation_message_field_placeholder: 我加入了这个很棒的集市。你也应该加入！
       errors_in_emails: 检查你新添的电邮地址是否有效。如果你添加了多个地址，确保用逗号分隔。
@@ -1151,7 +1154,7 @@ zh:
       map_button: 地图
       grid_button: 网格
       list_button: 列表
-      all_listing_types: 所有的类型 
+      all_listing_types: 全部类型 
       all_categories: 全部分类
   infos:
     about:
@@ -1199,7 +1202,7 @@ zh:
       how_to_use: 如何使用
       info_about_kassi: "关于%{service_name}"
       news: 新闻
-      register_details: 隐私信息
+      register_details: 隐私条款
       terms: 使用条款
     logged_in:
       admin: 后台管理
@@ -1240,7 +1243,7 @@ zh:
       additional_email_confirmed: 你输入的电子邮件已被确认。
       could_not_get_email_from_facebook: 不能从Facebook获取邮件地址，没有邮件地址则无法创建帐号。
       create_new_listing: 发布另一条消息
-      create_one_here: 在此创建
+      create_one_here: 创建新用户
       email_confirmation_sent_to_new_address: 电子邮件确认信已经送往你的新地址。
       email_not_found: "无法在%{service_name}中找到你所提供的邮箱地址。"
       error_with_session: 内容错误
@@ -1250,6 +1253,7 @@ zh:
       feedback_sent_to: "发送评价给%{target_person}"
       feedback_skipped: 跳过评价
       invitation_cannot_be_sent: 邀请未被发出
+      invitation_limit_reached: ~
       invitation_sent: 邀请成功发出
       inviting_new_users_is_not_allowed_in_this_community: 不允许邀请新用户。
       login_again: 请重新登录。
@@ -1271,8 +1275,8 @@ zh:
       offer_canceled: 宝贝已取消
       listing_updated_successfully: 信息更新成功
       only_kassi_administrators_can_access_this_area: "只有%{service_name}管理员有权限进入此区域"
-      only_listing_author_can_close_a_listing: 仅作者可以关闭列表
-      only_listing_author_can_edit_a_listing: 仅作者可以编辑列表
+      only_listing_author_can_close_a_listing: 仅作者可以关闭发布的信息
+      only_listing_author_can_edit_a_listing: 仅作者可以编辑发布的信息
       payment_successful: 付款成功
       payment_canceled: 付款已取消
       error_in_payment: 付款错误。如果你还没有完成付款，请重试。如果已完成，请联系我们。
@@ -1356,12 +1360,12 @@ zh:
     comment_form:
       ask_a_question: 评论该条信息或者询问更多细节。所有其他用户都能看到你的评论。
       log_in: 登录
-      send_comment: 发送评论
+      send_comment: 发表评论
       to_send_a_comment: 以发送新的评论
       write_comment: 发表新的评论：
       you_cannot_send_a_new_comment_because_listing_is_closed: 你不能发表新的评论，因为这条信息已经关闭。
       you_must: 你必须
-      subscribe_to_comments: 若有新评论或更新，通知我
+      subscribe_to_comments: 若有新评论或更新，发邮件通知我
     edit:
       edit_listing: 编辑发布的信息
     edit_links:
@@ -1528,8 +1532,8 @@ zh:
       selected_transaction_type: "信息类型：%{transaction_type}"
       select_category: 选择分类
       select_subcategory: 选择子分类
-      select_transaction_type: 请选择类型
-      you_need_to_fill_payout_details_before_accepting: "在发布列表前你需要填写支出详情。点击%{payment_settings_link}来填写详情。"
+      select_transaction_type: 请选择交易类型
+      you_need_to_fill_payout_details_before_accepting: "在发布信息前你需要填写支出详情。点击%{payment_settings_link}来填写详情。"
       contact_admin_link_text: 联系管理员
       community_not_configured_for_payments: "%{service_name}没有配置支付方式，所以你不能发布新的信息。详情请联系%{contact_admin_link}。"
       payment_settings_link: 付款设置
@@ -1577,7 +1581,7 @@ zh:
       times_viewed: 浏览的次数
       processing_uploaded_image: （正在处理上传图片……）
       price_excludes_vat: （除去VAT）
-      listing_created_at: 信息已创建
+      listing_created_at: 发布时间
       price:
         per_quantity_unit: "每%{quantity_unit}"
         per_day: 每天
@@ -1786,7 +1790,7 @@ zh:
       open_listing: 公开的信息
       open_listings: 公开的信息
       no_listings: 没有信息
-      no_open_listings: 非公开的信息
+      no_open_listings: 没有公开的信息
       no_reviews: 没有评论
       show_all_listings: 显示所有已发布的信息
       show_all_open_listings: 显示所有公开的信息
@@ -2022,7 +2026,7 @@ zh:
     formats:
       short: "%e %b %Y  %H:%M"
       shorter: "%e %b %H:%M"
-      short_date: "%e %b %Y"
+      short_date: "%Y年%b%e日"
       sms: "%e %b %H:%M"
   timestamps:
     day_ago: "%{count} 天前"

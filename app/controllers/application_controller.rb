@@ -16,7 +16,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout 'application'
 
-  before_filter :force_ssl,
+  before_filter :redirect_to_marketplace_ident,
+    :force_ssl,
     :check_auth_token,
     :fetch_logged_in_user,
     :fetch_community,
@@ -243,14 +244,31 @@ class ApplicationController < ActionController::Base
 
     host = request.host
     domain = @current_community.domain
+    redirect_to_domain = @current_community.redirect_to_domain
 
-    if needs_redirect?(host, domain)
-      redirect_to "#{request.protocol}#{domain}#{request.fullpath}", status: :moved_permanently
-    end
+    redirect_opts = request_hash.merge(community_domain: domain, redirect_to_domain: redirect_to_domain)
+
+    MarketplaceRedirectUtils.needs_redirect(redirect_opts) { |redirect_url, redirect_status|
+      redirect_to(redirect_url, status: redirect_status)
+    }
   end
 
-  def needs_redirect?(host, domain)
-    domain.present? && host != domain
+  def request_hash
+    @request_hash ||= {
+      host: request.host,
+      protocol: request.protocol,
+      fullpath: request.fullpath,
+      port_string: request.port_string
+    }
+  end
+
+  def redirect_to_marketplace_ident
+    host = request.host
+    app_domain = URLUtils.strip_port_from_host(APP_CONFIG.domain)
+    if host.end_with?(app_domain) && host.start_with?("www.")
+      ident_without_www = host.sub(/www\./, '').chomp(".#{app_domain}")
+      return redirect_to "#{request.protocol}#{ident_without_www}.#{APP_CONFIG.domain}", status: 301
+    end
   end
 
   # Fetch community
@@ -443,7 +461,7 @@ class ApplicationController < ActionController::Base
   def force_ssl
     # If defined in the config, always redirect to https (unless already using https or coming through Sharetribe proxy)
     if APP_CONFIG.always_use_ssl
-      redirect_to("https://#{request.host_with_port}#{request.fullpath}") unless request.ssl? || ( request.headers["HTTP_VIA"] && request.headers["HTTP_VIA"].include?("sharetribe_proxy")) || request.fullpath == "/robots.txt"
+      redirect_to("https://#{request.host_with_port}#{request.fullpath}", status: 301) unless request.ssl? || ( request.headers["HTTP_VIA"] && request.headers["HTTP_VIA"].include?("sharetribe_proxy")) || ApplicationController.should_not_redirect_path_to_https(request.fullpath)
     end
   end
 
@@ -489,5 +507,23 @@ class ApplicationController < ActionController::Base
   #
   def self.ensure_feature_enabled(feature_name, options = {})
     before_filter(options) { ensure_feature_enabled(feature_name) }
+  end
+
+  # Returns `true` if the path is such that the app should NOT
+  # redirect to HTTPS.
+  #
+  # Paths that should not be redirected are for example robots.txt and
+  # domain validation files.
+  #
+  def self.should_not_redirect_path_to_https(fullpath)
+    dv_regexp = /^\/[a-zA-Z0-9]+\.txt$/
+
+    (
+      # robots.txt should not be redirected
+      fullpath == "/robots.txt" ||
+
+      # matches to Domain Validation file regex, should not redirect
+      dv_regexp.match(fullpath).nil? == false
+    )
   end
 end
