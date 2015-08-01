@@ -9,10 +9,10 @@
 #  payment_process               :string(64)
 #  commission_from_seller        :integer
 #  minimum_price_cents           :integer
+#  minimum_transaction_fee_cents :integer
 #  confirmation_after_days       :integer          not null
 #  created_at                    :datetime         not null
 #  updated_at                    :datetime         not null
-#  minimum_transaction_fee_cents :integer
 #
 # Indexes
 #

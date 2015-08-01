@@ -1,13 +1,24 @@
-Kassi::Application.routes.draw do
+# Additional information regarding routing can be found here:
+# http://guides.rubyonrails.org/routing.html
 
+Kassi::Application.routes.draw do
+  # The priority is based upon order of creation:
+  # first created -> highest priority.
+
+
+  # Namespaces are for grouping controllers. This one will create the following
+  # routes:
+  # GET/POST/PUT/DELETE/PATCH  /mercury/images[/:id/edit]   mercury/images#[action]
   namespace :mercury do
     resources :images
   end
 
+  # mount within the rails routes does the equivalent of a unix mount.
+  # It actually tells the app that another application (usually a rack
+  # application) exists on that location.
+  # It is used mostly for Rails Engines.
+  # Find here more on engines: http://guides.rubyonrails.org/engines.html
   mount Mercury::Engine => '/'
-
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
 
   match "/robots.txt" => RobotsGenerator
 
@@ -17,7 +28,6 @@ Kassi::Application.routes.draw do
 
   match "/design" => "design#design"
 
-  # config/routes.rb
   if Rails.env.development?
     mount MailPreview => 'mail_view'
   end
