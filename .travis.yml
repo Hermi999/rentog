@@ -15,8 +15,8 @@ env:
   - SUITE="jshint"
   global:
     - BUNDLE_ARCHIVE="travis-bundle-cache"
-    - AWS_S3_REGION="us-east-1"
-    - AWS_S3_BUCKET="sharetribe-travis-cache"
+    - AWS_S3_REGION="eu-central-1"
+    - AWS_S3_BUCKET="rentog-travis-cache"
     - RAILS_ENV=test
     - secure: QJBiGsabtqY6qvGdrYoCJtSCOl53jt1dPTYG4Md++icBK4llEzRsXYoNKJdBG9Q6p3vmR/Yw76Ph2dX1lh5GeDE3aPJ1iWNSrUYDoURV/LeTNZR8bGEncJp961qYPWGoKv5t4NlgehJzwpTHIIC3ToRT5RlkZYaxTUNxvbAqj70=
 
@@ -28,9 +28,10 @@ env:
     - secure: VObS2Rnc3KgPz3uO50KiWcxXa+QXrbe0HPVVmzd5AUvJuRRvv0dPJZVrgzVLh8L1KfwFemcGz/Px9Ftt6kHqGeQktrb5QypGRgyuNJccFw0Qrqk2oTE0V8eOovixoufG9pRjPGOJMBenf6IKa3+5qBrCpCmdP2je6QHIkpbG4wk=
 notifications:
   recipients:
-  - main@sharetribe.flowdock.com
-  - main@kassi.flowdock.com
-  - suomi@kassi.flowdock.com
+  - development@rentog.com
+  #- main@sharetribe.flowdock.com
+  #- main@kassi.flowdock.com
+  #- suomi@kassi.flowdock.com
 # Ensure Bundler >= 1.1, don't install rdocs, and fetch a cached bundle from S3
 before_install:
 - ./travis/before_install.sh
