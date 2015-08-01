@@ -1,6 +1,8 @@
 # Rentog
-
+[![Build Status](https://travis-ci.org/Hermi999/rentog.svg?branch=master)](https://travis-ci.org/Hermi999/rentog)
 [![Dependency Status](https://gemnasium.com/Hermi999/rentog.svg)](https://gemnasium.com/Hermi999/rentog)
+[![Code Climate](https://codeclimate.com/github/Hermi999/rentog.png)](https://codeclimate.com/github/Hermi999/rentog)
+[![Coverage Status](https://coveralls.io/repos/Hermi999/rentog/badge.svg?branch=master&service=github)](https://coveralls.io/github/Hermi999/rentog?branch=master)
 
 # Sharetribe
 
