@@ -98,10 +98,12 @@ end
 Given /^there are following users:$/ do |person_table|
   @people = {}
   person_table.hashes.each do |hash|
+
     defaults = {
       password: "testi",
       given_name: "Test",
-      family_name: "Person"
+      family_name: "Person",
+      organization_name: "Bosch"
     }
 
     username = hash['person']

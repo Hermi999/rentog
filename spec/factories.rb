@@ -91,6 +91,7 @@ FactoryGirl.define do
     username
     password "testi"
     is_organization 1
+    organization_name "Bosch"
     has_many :emails do |person|
       FactoryGirl.build(:email, person: person)
     end

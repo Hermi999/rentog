@@ -52,7 +52,6 @@
 #
 
 require 'spec_helper'
-require 'pry'
 describe Person do
 
    before(:all) do

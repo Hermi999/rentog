@@ -6,10 +6,10 @@ Feature: User checks inbox
 
   Background:
     Given there are following users:
-      | person |
-      | kassi_testperson1 |
-      | kassi_testperson2 |
-      | kassi_testperson3 |
+      | person            | organization_name |
+      | kassi_testperson1 | TestOrga          |
+      | kassi_testperson2 | TestOrga          |
+      | kassi_testperson3 | TestOrga          |
 
   Scenario: Viewing messages
     And there is a listing with title "Massage" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
@@ -25,7 +25,8 @@ Feature: User checks inbox
     And I am logged in as "kassi_testperson1"
     When I follow inbox link
     And I follow "Test message"
-    Then I should see "Inbox | Conversation with Kassi T" within "h1"
+    #Then I should see "Inbox | Conversation with Kassi T" within "h1"
+    Then I should see "Inbox | Conversation with TestOrga" within "h1"
 
   Scenario: Viewing received messages when there are multiple messages from different senders
     And there is a listing with title "Massage" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
@@ -95,5 +96,5 @@ Feature: User checks inbox
   Scenario: Trying to view inbox without logging in
     And I am not logged in
     When I try to go to inbox of "kassi_testperson1"
-    Then I should see "You must sign in to Sharetribe to view your inbox." within ".flash-notifications"
-    And I should see "Sign in to Sharetribe" within "h1"
+    Then I should see "You must sign in to Rentog to view your inbox." within ".flash-notifications"
+    And I should see "Sign in to Rentog" within "h1"

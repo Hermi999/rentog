@@ -47,10 +47,13 @@ module PersonViewUtils
         deleted_user_text: I18n.translate("common.removed_user")
       )
     else
+      # wah82wi: Remove this code someday. Too many database queries!
+      orga_name = Person.find(person_entity[:id]).organization_name
+
       display_name(
         first_name: person_entity[:first_name],
         last_name: person_entity[:last_name],
-        organization_name: nil,
+        organization_name: orga_name,
         username: person_entity[:username],
         name_display_type: name_display_type,
         is_organization: true,

@@ -1,7 +1,7 @@
 Feature: User joins another marketplace
   In order to be able to post listings simultaneously to multiple communities
   As a user
-  I want to be able to join more than one Sharetribe marketplace with my user account
+  I want to be able to join more than one marketplace with my user account
 
   @move_to_subdomain2
   @javascript
@@ -13,12 +13,12 @@ Feature: User joins another marketplace
     And I move to community "test2"
     And I am on the home page
     And I log in as "kassi_testperson3"
-    Then I should see "Join Sharetribe"
-    When I press "Join Sharetribe"
+    Then I should see "Join Rentog"
+    When I press "Join Rentog"
     Then I should see "This field is required"
     When I check "community_membership_consent"
-    And I press "Join Sharetribe"
-    Then I should see "Welcome to Sharetribe!"
+    And I press "Join Rentog"
+    Then I should see "Welcome to Rentog!"
     And I should see "Post a new listing"
 
   @move_to_subdomain2
@@ -37,11 +37,11 @@ Feature: User joins another marketplace
     And I should see "Invitation code"
     When I check "community_membership_consent"
     And I fill in "Invitation code" with "random"
-    And I press "Join Sharetribe"
+    And I press "Join Rentog"
     Then I should see "The invitation code is not valid."
     When I fill in "Invitation code" with "GH1JX8"
-    And I press "Join Sharetribe"
-    Then I should see "Welcome to Sharetribe!"
+    And I press "Join Rentog"
+    Then I should see "Welcome to Rentog!"
     And I should see "Post a new listing"
     And Invitation with code "GH1JX8" should have 0 usages_left
 
@@ -49,29 +49,31 @@ Feature: User joins another marketplace
   @javascript
   Scenario: User joins another marketplace that accepts only certain email addresses
     Given there are following users:
-      | person            | email     | given_name | family_name |
-      | kassi_testperson3 | k3@lvh.me | Tester     | Person      |
+      | person            | email     | given_name | family_name | organization_name |
+      | kassi_testperson3 | k3@lvh.me | Tester     | Person      | TestOrga          |
+    #And community "test2" is not organizations-only
+    #And "kassi_testperson3" is not an organization
     And community "test2" does not require invite to join
     And I am logged in as "kassi_testperson3"
     And community "test2" requires users to have an email address of type "@example.com"
     When I move to community "test2"
     And I am on the home page
-    Then I should see "Join Sharetribe"
+    Then I should see "Join Rentog"
     And I should see "Email address"
     When I check "community_membership_consent"
-    And I press "Join Sharetribe"
+    And I press "Join Rentog"
     Then I should see "This field is required."
 
     # Try address that is already occupied by other user
     When I fill in "Email address" with "kassi_testperson1@example.com"
     And I check "community_membership_consent"
-    And I press "Join Sharetribe"
+    And I press "Join Rentog"
     Then I should see "This email is not allowed or it is already in use."
 
     #try address that doesn't match the requirement
     When I fill in "Email address" with "random@gmail.com"
     And I check "community_membership_consent"
-    And I press "Join Sharetribe"
+    And I press "Join Rentog"
     Then I should see "This email is not allowed or it is already in use."
     And "random@gmail.com" should have no emails
     And "random@example.com" should have no emails
@@ -79,7 +81,7 @@ Feature: User joins another marketplace
     # Try good address
     When I fill in "Email address" with "random@example.com"
     And I check "community_membership_consent"
-    And I press "Join Sharetribe"
+    And I press "Join Rentog"
     Then I should not see "This email is not allowed or it is already in use."
 
     Then I should see "Please confirm your email"
@@ -110,6 +112,6 @@ Feature: User joins another marketplace
     Then I should see "The email you entered is now confirmed"
     And user "kassi_testperson3" should have confirmed email "other.email@example.com"
     And I should not see "Email address"
-    Then I should see "Tester P"
+    Then I should see "TestOrga"
     And "other.email@example.com" should have 2 emails
-    And I should receive an email with subject "Welcome to Sharetribe"
+    And I should receive an email with subject "Welcome to Rentog"

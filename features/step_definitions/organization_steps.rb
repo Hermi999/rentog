@@ -4,6 +4,12 @@ Given /^community "(.*?)" allows only organizations$/ do |community|
   c.save!
 end
 
+Given /^community "(.*?)" is not organizations-only$/ do |community|
+  c = Community.where(ident: community).first
+  c.only_organizations = false
+  c.save!
+end
+
 Given /^I signup as an organization "(.*?)" with name "(.*?)"$/ do |org_username, org_display_name|
   steps %Q{
     Given I am on the signup page
