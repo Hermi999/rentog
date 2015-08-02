@@ -1,5 +1,4 @@
 require 'spec_helper'
-
 describe PersonMailer do
 
   # Include EmailSpec stuff (https://github.com/bmabey/email-spec)
@@ -23,17 +22,25 @@ describe PersonMailer do
     email = PersonMailer.new_message_notification(@message, @community).deliver
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal @test_person2.confirmed_notification_email_addresses, email.to
-    assert_equal "A new message in Sharetribe from #{@message.sender.name('first_name_with_initial')}", email.subject
+    if @community.only_organizations
+      assert_equal "A new message in Rentog from #{@message.sender.name('first_name_with_initial')}", email.subject
+    else
+      assert_equal "A new message in Rentog from #{@message.sender.name('first_name_with_initial')}", email.subject
+    end
   end
 
   it "should send email about a new comment to own listing" do
     @comment = FactoryGirl.create(:comment)
-    @comment.author.update_attributes({ "given_name" => "Teppo", "family_name" => "Testaaja" })
+    @comment.author.update_attributes({ "given_name" => "Teppo", "family_name" => "Testaaja", "organization_name" => "Bosch" })
     recipient = @comment.listing.author
     email = PersonMailer.new_comment_to_own_listing_notification(@comment, @community).deliver
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal recipient.confirmed_notification_email_addresses, email.to
-    assert_equal "Teppo T has commented on your listing in Sharetribe", email.subject
+    if @community.only_organizations
+      assert_equal "Bosch has commented on your listing in Rentog", email.subject
+    else
+      assert_equal "Teppo T has commented on your listing in Rentog", email.subject
+    end
   end
 
   it "should send email about listing with payment but without user's payment details" do
@@ -101,7 +108,7 @@ describe PersonMailer do
   end
 
   it "should send email about a new testimonial" do
-    @test_person.update_attributes({ "given_name" => "Teppo", "family_name" => "Testaaja" })
+    @test_person.update_attributes({ "given_name" => "Teppo", "family_name" => "Testaaja", "organization_name" => "Bosch" })
 
     transition = FactoryGirl.build(:transaction_transition, to_state: "confirmed")
     listing = FactoryGirl.build(:listing,
@@ -114,12 +121,16 @@ describe PersonMailer do
     email = PersonMailer.new_testimonial(testimonial, @community).deliver
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal @test_person2.confirmed_notification_email_addresses, email.to
-    assert_equal "Teppo T has given you feedback in Sharetribe", email.subject
+    if @community.only_organizations
+      assert_equal "Bosch has given you feedback in Rentog", email.subject
+    else
+      assert_equal "Teppo T has given you feedback in Rentog", email.subject
+    end
   end
 
   it "should remind about testimonial" do
     author = FactoryGirl.build(:person)
-    starter = FactoryGirl.build(:person, given_name: "Teppo", family_name: "Testaaja")
+    starter = FactoryGirl.build(:person, given_name: "Teppo", family_name: "Testaaja", "organization_name" => "Bosch")
     listing = FactoryGirl.build(:listing, author: author, listing_shape_id: 123)
     # Create is needed here, not exactly sure why
     conversation = FactoryGirl.create(:transaction, starter: starter, listing: listing)
@@ -127,11 +138,15 @@ describe PersonMailer do
     email = PersonMailer.testimonial_reminder(conversation, author, @community).deliver
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal author.confirmed_notification_email_addresses, email.to
-    assert_equal "Reminder: remember to give feedback to Teppo T", email.subject
+    if @community.only_organizations
+      assert_equal "Reminder: remember to give feedback to Bosch", email.subject
+    else
+      assert_equal "Reminder: remember to give feedback to Teppo T", email.subject
+    end
   end
 
   it "should remind to accept or reject" do
-    starter = FactoryGirl.build(:person, given_name: "Jack", family_name: "Dexter")
+    starter = FactoryGirl.build(:person, given_name: "Jack", family_name: "Dexter", organization_name: "Bosch")
     author = FactoryGirl.build(:person)
     listing = FactoryGirl.build(:listing, :author => author, listing_shape_id: 123)
     conversation = FactoryGirl.create(:transaction, starter: starter, listing: listing)
@@ -140,7 +155,11 @@ describe PersonMailer do
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal author.confirmed_notification_email_addresses, email.to
-    assert_equal "Remember to accept or reject a request from Jack D", email.subject
+    if @community.only_organizations
+      assert_equal "Remember to accept or reject a request from Bosch", email.subject
+    else
+      assert_equal "Remember to accept or reject a request from Jack D", email.subject
+    end
   end
 
   it "should send email to admins of new feedback" do
@@ -183,8 +202,8 @@ describe PersonMailer do
     it "should welcome a regular member" do
       @email = PersonMailer.welcome_email(@p1, @p1.communities.first)
       @email.should deliver_to("update_tester@example.com")
-      @email.should have_subject("Welcome to Sharetribe")
-      @email.should have_body_text "Welcome to Sharetribe! Glad to have you on board."
+      @email.should have_subject("Welcome to Rentog")
+      @email.should have_body_text "Welcome to Rentog! Glad to have you on board."
       @email.should_not have_body_text "You have now admin rights in this community."
     end
 

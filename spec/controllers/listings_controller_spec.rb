@@ -153,7 +153,7 @@ describe ListingsController do
       doc = Nokogiri::XML::Document.parse(response.body)
       doc.at('feed/logo').text.should == "https://s3.eu-central-1.amazonaws.com/rentog/assets/dashboard/sharetribe_logo.png"
 
-      doc.at("feed/title").text.should =~ /Listings in Sharetribe /
+      doc.at("feed/title").text.should =~ /Listings in Rentog /
       doc.search("feed/entry").count.should == 2
       doc.search("feed/entry/title")[0].text.should == "Sell: hammer"
       doc.search("feed/entry/title")[1].text.should == "Request: bike"
@@ -168,7 +168,7 @@ describe ListingsController do
       doc = Nokogiri::XML::Document.parse(response.body)
       doc.remove_namespaces!
 
-      doc.at("feed/title").text.should =~ /Ilmoitukset Sharetribe-palvelussa/
+      doc.at("feed/title").text.should =~ /Ilmoitukset Rentog-palvelussa/
       doc.at("feed/entry/title").text.should == "Myydään: hammer"
       doc.at("feed/entry/category").attribute("term").value.should == "#{@category_item.id}"
       doc.at("feed/entry/category").attribute("label").value.should == "Tavarat"

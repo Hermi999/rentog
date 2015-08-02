@@ -11,7 +11,7 @@ module PersonViewUtils
         organization_name: nil,
         username: nil,
         name_display_type: nil,
-        is_organization: false,
+        is_organization: true,
         is_deleted: true,
         deleted_user_text: I18n.translate("common.removed_user")
       )
@@ -42,7 +42,7 @@ module PersonViewUtils
         organization_name: nil,
         username: nil,
         name_display_type: name_display_type,
-        is_organization: false,
+        is_organization: true,
         is_deleted: true,
         deleted_user_text: I18n.translate("common.removed_user")
       )
@@ -53,7 +53,7 @@ module PersonViewUtils
         organization_name: nil,
         username: person_entity[:username],
         name_display_type: name_display_type,
-        is_organization: false,
+        is_organization: true,
         is_deleted: person_entity[:is_deleted],
         deleted_user_text: I18n.translate("common.removed_user")
       )
