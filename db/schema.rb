@@ -908,11 +908,9 @@ ActiveRecord::Schema.define(:version => 20150801150404) do
     t.boolean  "is_organization"
     t.string   "organization_name"
     t.boolean  "deleted",                                          :default => false
-    t.string   "company_name"
   end
 
   add_index "people", ["authentication_token"], :name => "index_people_on_authentication_token"
-  add_index "people", ["company_name"], :name => "index_people_on_company_name"
   add_index "people", ["email"], :name => "index_people_on_email", :unique => true
   add_index "people", ["facebook_id"], :name => "index_people_on_facebook_id", :unique => true
   add_index "people", ["id"], :name => "index_people_on_id"
