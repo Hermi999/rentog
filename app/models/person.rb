@@ -40,10 +40,12 @@
 #  is_organization                    :boolean
 #  organization_name                  :string(255)
 #  deleted                            :boolean          default(FALSE)
+#  company_name                       :string(255)
 #
 # Indexes
 #
 #  index_people_on_authentication_token  (authentication_token)
+#  index_people_on_company_name          (company_name)
 #  index_people_on_email                 (email) UNIQUE
 #  index_people_on_facebook_id           (facebook_id) UNIQUE
 #  index_people_on_id                    (id)

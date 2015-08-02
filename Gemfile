@@ -105,6 +105,11 @@ group :development do
   gem 'i18n-tasks', '~> 0.6.2'
   gem 'quiet_assets'
   gem 'better_errors'
+
+  # Rails ERD generates diagrams using Graphviz, a visualisation library.
+  # Here's how to instal it: sudo apt-get install graphviz
+  # Then run 'rake erd' (http://voormedia.github.io/rails-erd/customise.html)
+  gem "rails-erd"
 end
 
 group :test do

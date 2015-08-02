@@ -1,0 +1,19 @@
+attributes:
+  - content
+  - foreign_keys
+  - primary_keys
+  - inheritance
+disconnected: true
+filename: rentog-erd
+filetype: pdf
+indirect: true
+inheritance: true
+markup: true
+notation: simple
+orientation: horizontal
+polymorphism: true
+sort: true
+warn: true
+title: Rentog Erd Diagram
+exclude: null
+prepend_primary: false
