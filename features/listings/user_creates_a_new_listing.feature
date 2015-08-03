@@ -46,7 +46,7 @@ Feature: User creates a new listing
     Given I am not logged in
     And I am on the home page
     When I follow "new-listing-link"
-    And I should see "Sign in to Sharetribe" within "h1"
+    And I should see "Sign in to Rentog" within "h1"
 
   @javascript
   @skip_phantomjs
@@ -79,7 +79,7 @@ Feature: User creates a new listing
     Then I should not see "Hammer"
     And I log in as "kassi_testperson3"
     And I check "community_membership_consent"
-    And I press "Join Sharetribe"
+    And I press "Join Rentog"
     And the system processes jobs
     And I am on the homepage
     Then I should not see "Hammer"

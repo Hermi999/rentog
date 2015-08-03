@@ -67,11 +67,14 @@ Feature: User comments a listing
     And I should not see "Write a new comment:"
 
   @javascript
-  Scenario: Users get email from followed listing
+  Scenario: Users get email from followed listing (normal marketplace)
     Given there are following users:
-      | person            | email          | given_name         | family_name |
-      | kassi_testperson1 | t1@example.com | John               | MacTest     |
-      | kassi_testperson2 | t2@example.com | Anthony            | Debugger    |
+      | person            | email          | given_name | family_name |
+      | kassi_testperson1 | t1@example.com | John       | MacTest     |
+      | kassi_testperson2 | t2@example.com | Anthony    | Debugger    |
+    And community is not organizations-only
+    And "kassi_testperson1" is not an organization
+    And "kassi_testperson2" is not an organization
     And there is a listing with title "Walking dogs" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
     And listing comments are in use in community "test"
     And I am logged in as "kassi_testperson2"
@@ -80,24 +83,57 @@ Feature: User comments a listing
     When I fill in "comment_content" with "Test comment 1"
     And I press "Send comment"
     Then I should see "Test comment 1" within "#comments"
-    And "t1@example.com" should receive an email with subject "Anthony D has commented on your listing in Sharetribe"
+    And "t1@example.com" should receive an email with subject "Anthony D has commented on your listing in Rentog"
     And "t2@example.com" should have no emails
 
     When I log out
     And I log in as "kassi_testperson1"
     When "t1@example.com" opens the email
     And I follow "en/listings" in the email
-    Then I should see "Walking dogs"
+    Then I should see "Walking dogs" within "#listing-title"
     And I should see "Test comment 1" within "#comments"
     When I fill in "comment_content" with "Test comment 2"
     And I press "Send comment"
     Then I should see "Test comment 2" within "#comments"
-    And "t2@example.com" should receive an email with subject "John M has commented on a listing you follow in Sharetribe"
+    And "t2@example.com" should receive an email with subject "John M has commented on a listing you follow in Rentog"
 
     When "t2@example.com" opens the email
     And I follow "en/listings" in the email
-    Then I should see "Walking dogs"
+    Then I should see "Walking dogs" within "#listing-title"
     And I should see "Test comment 1" within "#comments"
     And I should see "Test comment 2" within "#comments"
 
+  @javascript
+  Scenario: Users get email from followed listing (orga-only marketplace)
+    Given there are following users:
+      | person            | email          | given_name | family_name | organization_name |
+      | kassi_testperson1 | t1@example.com | John       | MacTest     | Orga1 |
+      | kassi_testperson2 | t2@example.com | Anthony    | Debugger    | Orga2 |
+    And there is a listing with title "Walking dogs" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
+    And listing comments are in use in community "test"
+    And I am logged in as "kassi_testperson2"
+    When I follow "Walking dogs"
+    Then I should see "Notify me of new comments and updates"
+    When I fill in "comment_content" with "Test comment 1"
+    And I press "Send comment"
+    Then I should see "Test comment 1" within "#comments"
+    And "t1@example.com" should receive an email with subject "Orga2 has commented on your listing in Rentog"
+    And "t2@example.com" should have no emails
+
+    When I log out
+    And I log in as "kassi_testperson1"
+    When "t1@example.com" opens the email
+    And I follow "en/listings" in the email
+    Then I should see "Walking dogs" within "#listing-title"
+    And I should see "Test comment 1" within "#comments"
+    When I fill in "comment_content" with "Test comment 2"
+    And I press "Send comment"
+    Then I should see "Test comment 2" within "#comments"
+    And "t2@example.com" should receive an email with subject "Orga1 has commented on a listing you follow in Rentog"
+
+    When "t2@example.com" opens the email
+    And I follow "en/listings" in the email
+    Then I should see "Walking dogs" within "#listing-title"
+    And I should see "Test comment 1" within "#comments"
+    And I should see "Test comment 2" within "#comments"
 
