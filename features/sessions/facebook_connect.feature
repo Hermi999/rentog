@@ -1,14 +1,15 @@
 @only_without_asi
 Feature: Facebook connect
-  In order to connect to Sharetribe with existing Facebook account
+  In order to connect to Rentog with existing Facebook account
   As a user
   I want to do Facebook connect to link the accounts
 
   @javascript
-  Scenario: Facebook connect first time, with same email in Sharetribe DB
+  Scenario: Facebook connect first time, with same email in Rentog DB
     Given there are following users:
       | person     | given_name | email |
       | facebooker | Mircos     | markus@example.com |
+    And community and its users are not organizations-only
     Then user "facebooker" should have "image_file_size" with value "nil"
     Given I am on the home page
     When I follow log in link
@@ -18,18 +19,19 @@ Feature: Facebook connect
     And user "facebooker" should not have "image_file_size" with value "nil"
 
   @javascript
-  Scenario: Facebook connect with different email in Sharetribe DB
+  Scenario: Facebook connect with different email in Rentog DB
     Given there are following users:
       | person | given_name |
       | facebooker | Marcos |
+    And community and its users are not organizations-only
     Then user "facebooker" should have "image_file_size" with value "nil"
     Given I am on the home page
     When I follow log in link
     And I follow "fb-login"
-    Then I should see "Welcome to Sharetribe, Markus! There's one more step to join"
+    Then I should see "Welcome to Rentog, Markus! There's one more step to join"
     When I check "community_membership_consent"
-    And I press "Join Sharetribe"
-    Then I should see "Welcome to Sharetribe!"
+    And I press "Join Rentog"
+    Then I should see "Welcome to Rentog!"
     And I should see "Markus"
     And user "markusdotsharer123" should have "given_name" with value "Markus"
     And user "markusdotsharer123" should have "family_name" with value "Sugarberg"
@@ -38,14 +40,15 @@ Feature: Facebook connect
     And user "markusdotsharer123" should not have "image_file_size" with value "nil"
 
   @javascript
-  Scenario: Facebook connect first time, without existing account in Sharetribe
-    Given I am on the home page
+  Scenario: Facebook connect first time, without existing account in Rentog
+    Given community and its users are not organizations-only
+    And I am on the home page
     When I follow log in link
     And I follow "fb-login"
-    Then I should see "Welcome to Sharetribe, Markus! There's one more step to join"
+    Then I should see "Welcome to Rentog, Markus! There's one more step to join"
     When I check "community_membership_consent"
-    And I press "Join Sharetribe"
-    Then I should see "Welcome to Sharetribe!"
+    And I press "Join Rentog"
+    Then I should see "Welcome to Rentog!"
     And I should see "Markus"
     And user "markusdotsharer123" should have "given_name" with value "Markus"
     And user "markusdotsharer123" should have "family_name" with value "Sugarberg"
@@ -58,7 +61,8 @@ Feature: Facebook connect
     Given there are following users:
       | person | facebook_id | given_name |
       | marko | 597013691 | Marko |
-    Given I am on the home page
+    And community and its users are not organizations-only
+    And I am on the home page
     When I follow log in link
     And I follow "fb-login"
     Then I should see "Successfully authorized from Facebook account"
@@ -72,6 +76,7 @@ Feature: Facebook connect
     And there are following communities:
       | community     |
       | testcommunity |
+    And community "testcommunity" and its users are not organizations-only
 
     Given I move to community "testcommunity"
       And I am on the home page
@@ -83,23 +88,24 @@ Feature: Facebook connect
       And I should see "I accept the terms of use"
 
      When I check "community_membership_consent"
-      And I press "Join Sharetribe"
-     Then I should see "Welcome to Sharetribe!"
+      And I press "Join Rentog"
+     Then I should see "Welcome to Rentog!"
 
   @javascript
   Scenario: User gets invitation to an invitation-only community and creates an account with FB
     Given there are following users:
       | person |
       | kassi_testperson1 |
+    And community and its users are not organizations-only
     And community "test" requires invite to join
     And I am not logged in
     And there is an invitation for community "test" with code "GH1JX8"
     When I arrive to sign up page with the link in the invitation email with code "GH1JX8"
     And I follow "Sign up with Facebook"
-    Then I should see "Welcome to Sharetribe, Markus! There's one more step to join"
+    Then I should see "Welcome to Rentog, Markus! There's one more step to join"
     When I check "community_membership_consent"
-    And I press "Join Sharetribe"
-    Then I should see "Welcome to Sharetribe!"
+    And I press "Join Rentog"
+    Then I should see "Welcome to Rentog!"
     And I should see "Markus"
 
   @javascript

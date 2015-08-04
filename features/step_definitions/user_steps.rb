@@ -66,6 +66,13 @@ Given /^my given name is "([^"]*)"$/ do |name|
   @test_person.set_given_name(name)
 end
 
+Given /^my organization name is "([^"]*)"$/ do |orga_name|
+  # Using direct model (and ASI) access here
+  cookie = nil
+  @test_person = Person.find_by_username "kassi_testperson1"
+  @test_person.set_organization_name(orga_name)
+end
+
 Given /^my phone number in my profile is "([^"]*)"$/ do |phone_number|
   raise RuntimeException.new("@session neede to be set before the line 'my phone number...'") unless @session
   @test_person = Person.find(@session.person_id) if @test_person.nil?

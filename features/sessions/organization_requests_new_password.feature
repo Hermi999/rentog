@@ -1,13 +1,10 @@
-Feature: User requests new password
+Feature: Organization requests new password
   In order to retrieve a new password
-  As a user who has forgotten his password
+  As a organization which has forgotten its password
   I want to request a new password
 
-  Background:
-    Given community and its users are not organizations-only
-
   @javascript
-  Scenario: User requests new password successfully
+  Scenario: Organization requests new password successfully
     Given I am on the home page
     When I follow log in link
     And I follow "Forgot username or password"
@@ -17,7 +14,7 @@ Feature: User requests new password
     And "kassi_testperson2@example.com" should receive an email with subject "Reset password instructions"
 
   @javascript
-  Scenario: User requests new password with email that doesn't exist
+  Scenario: Organization requests new password with email that doesn't exist
     Given I am on the home page
     When I follow log in link
     And I follow "Forgot username or password"

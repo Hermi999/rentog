@@ -15,7 +15,10 @@
     = link_to(t("settings.profile.profile_page"), @person) + "."
 
   = form_for @person do |form|
-    - unless @person.is_organization
+    - if @person.is_organization
+      = form.label :organization_name, t("settings.profile.organization_name")
+      = form.text_field :organization_name, :class => "text_field", :maxlength => "30"
+    - else
       = form.label :given_name, t("settings.profile.given_name")
       = form.text_field :given_name, :class => "text_field", :maxlength => "30"
       .inline-label-container

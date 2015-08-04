@@ -2,18 +2,28 @@ Feature: User follows another user
 
   Background:
     Given there are following users:
-       | person            | given_name |
-       | kassi_testperson1 | Me         |
-       | kassi_testperson2 | Them       |
-    And I am logged in as "kassi_testperson1"            
+       | person            | given_name | organization_name |
+       | kassi_testperson1 | Me         | Bosch             |
+       | kassi_testperson2 | Them       | Siemens           |
+    And I am logged in as "kassi_testperson1"
 
   @javascript
-  Scenario: User follows another user
+  Scenario: User follows another user (normal community)
+    Given community is not organizations-only
+    And "kassi_testperson2" is not an organization
     When I go to the profile page of "kassi_testperson2"
     And I follow "Follow"
     Then I should see "Following" within ".profile-action-buttons-desktop"
     When I go to my profile page
     Then I should see "Them" within "#profile-followed-people-list"
+
+  @javascript
+  Scenario: User follows another user (orga-only community)
+    When I go to the profile page of "kassi_testperson2"
+    And I follow "Follow"
+    Then I should see "Following" within ".profile-action-buttons-desktop"
+    When I go to my profile page
+    Then I should see "Siemens" within "#profile-followed-people-list"
 
   @javascript
   Scenario: User unfollows another user
@@ -31,7 +41,7 @@ Feature: User follows another user
     And "kassi_testperson1" follows everyone
     When I go to the profile page of "kassi_testperson1"
     Then I should see "You follow 11 people"
-    
+
     When I follow "Show all followed people"
     Then I should not see "Show all followed people"
     Then I should see 11 user profile links

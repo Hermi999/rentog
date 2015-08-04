@@ -1921,6 +1921,7 @@ en:
       city: City
       family_name: "Last name"
       given_name: "First name"
+      organization_name: "Organization name"
       first_name_with_initial: "(only first letter shown to other users)"
       first_name_only: "(not shown to other users)"
       location_description: "You can give either your exact location or, for example, only your zip code. Please add at least your zip code. You can also select a location from the map below."

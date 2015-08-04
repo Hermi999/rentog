@@ -311,6 +311,10 @@ class Person < ActiveRecord::Base
     update_attributes({:given_name => name })
   end
 
+  def set_organization_name(name)
+    update_attributes({:organization_name => name })
+  end
+
   def street_address
     if location
       return location.address
