@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150802115034) do
+ActiveRecord::Schema.define(:version => 20150805130923) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -413,6 +413,16 @@ ActiveRecord::Schema.define(:version => 20150802115034) do
 
   add_index "emails", ["address"], :name => "index_emails_on_address", :unique => true
   add_index "emails", ["person_id"], :name => "index_emails_on_person_id"
+
+  create_table "employments", :force => true do |t|
+    t.string   "company_id"
+    t.string   "employee_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "employments", ["company_id"], :name => "index_employments_on_company_id"
+  add_index "employments", ["employee_id"], :name => "index_employments_on_employee_id"
 
   create_table "favors", :force => true do |t|
     t.string   "owner_id"
