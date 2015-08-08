@@ -216,6 +216,8 @@ en:
         manage_members: "Manage users"
         email: Email
         name: Name
+        organization: "Orga?"
+        organization_name: "Company name"
         join_date: Joined
         admin: Admin
         posting_allowed: "Posting allowed"
@@ -1745,8 +1747,12 @@ en:
       i_accept_the: "I accept the"
       invalid_invitation_code: "The invitation code is not valid."
       invitation_code: "Invitation code"
+      invalid_form_data: "The submited form is invalid. Please activate Javascript and only use our official (web) app to signup"
       not_required: ", not required"
       organization_name: "Organization name"
+      organization_is_in_use: "The organizations you entered is already in use. Please signup as employee."
+      organization_name_not_chosen: "You have to choose an organization you work for."
+      organization_doesnt_exists: "The organization you've given does not exist"
       password_again: "Confirm password"
       show_my_name_to_others: "Show my real name to other %{service_name} users"
       sign_up: "Create a new %{service_name} account"
@@ -1784,6 +1790,7 @@ en:
       as_expected: "As expected"
       edit_profile_info: "Edit profile"
       exceeded_expectations: "Exceeded expectations"
+      employer: "Current Employer"
       positive: positive
       hide_description: "Show less"
       less_than_expected: "Worse than expected"
@@ -1817,6 +1824,11 @@ en:
       following: Following
       follow: Follow
       unfollow: Unfollow
+    show_employees:
+      employees_singular: " %{count} employee"
+      employees_plural: " %{count} employees"
+      no_employees: " No employees"
+      show_all_employees: "Show all employees"
   search:
     show:
       all_results: "All results"

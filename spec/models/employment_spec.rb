@@ -19,11 +19,11 @@ require 'spec_helper'
 describe Employment do
   before(:all) do
     #These will be created only once for the whole example group
-    @dummy = FactoryGirl.build(:employee, :is_organization => false)
-    @test_employee = FactoryGirl.build(:employee, :is_organization => false, :username => 'XXXXXXX', :organization_name => '')
-    @test_employee2 = FactoryGirl.build(:employee, :is_organization => false, :username => 'YYYYYYY', :organization_name => '')
-    @test_organization = FactoryGirl.build(:organization, :username => 'aaaaaaaaaaa', :organization_name => 'AAA')
-    @test_organization2 = FactoryGirl.build(:organization, :username => 'bbbbbbbbbbb', :organization_name => 'BBB')
+    @dummy = FactoryGirl.build(:person, :is_organization => false)
+    @test_employee = FactoryGirl.build(:person, :is_organization => false, :username => 'XXXXXXX', :organization_name => '')
+    @test_employee2 = FactoryGirl.build(:person, :is_organization => false, :username => 'YYYYYYY', :organization_name => '')
+    @test_organization = FactoryGirl.build(:person, :username => 'aaaaaaaaaaa', :organization_name => 'AAA')
+    @test_organization2 = FactoryGirl.build(:person, :username => 'bbbbbbbbbbb', :organization_name => 'BBB')
   end
 
   it "should be valid" do

@@ -1,5 +1,28 @@
 @import "mixins/all";
 
+.signupType{
+  width:100%
+}
+#signup_employee{
+  background-color: grey;
+}
+#signup_company_enabled{
+  background-color: #A64C5D;
+}
+#signup_company_disabled{
+  background-color: grey;
+}
+#signup_employee_enabled{
+  background-color: #A64C5D;
+}
+#signup_employee_disabled{
+  background-color: grey;
+}
+.fb_signup{
+  display: none;
+}
+
+
 .signup-horizontal-line {
   margin: lines(1.25) 0;
   text-align: center;
@@ -17,7 +40,6 @@
     z-index: -1;
   }
 }
-
 .signup-horizontal-line-text {
   padding-left: lines(0.25);
   padding-right: lines(0.25);
@@ -27,3 +49,16 @@
   @include larger-type;
   color: $light-body;
 }
+
+
+#person_organization_name2{
+  display: none;
+  width:100%;
+  min-height: 42px;
+  padding-top: 7px;
+  padding-left: 7px;
+}
+#person_organization_name{
+  display: block;
+}
+

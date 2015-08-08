@@ -17,6 +17,4 @@ class EmploymentsController < ApplicationController
     else
     end
   end
-
-
 end

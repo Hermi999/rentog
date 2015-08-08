@@ -80,7 +80,7 @@ FactoryGirl.define do
     token_type "unsubscribe"
   end
 
-  factory :person, aliases: [:author, :receiver, :recipient, :payer, :sender, :follower, :organization, :employee] do
+  factory :person, aliases: [:author, :receiver, :recipient, :payer, :sender, :follower, :company, :employee] do
     id
     is_admin 0
     locale "en"
@@ -218,7 +218,6 @@ FactoryGirl.define do
   end
 
   factory :email do
-    id
     build_association(:person)
     address { generate(:email_address) }
     confirmed_at Time.now

@@ -17,6 +17,7 @@
     "rangelength": "Bitte einen Wert zwischen {0} und {1} Zeichen Länge eingeben.",
     "remote": "Bitte dieses Feld korrigieren.",
     "required": "Dieses Feld ist erforderlich.",
+    "required_organization": "Dieses Feld ist erforderlich.",
     "url": "Bitte eine gültige URL eingeben.",
     "address_validator": "Der Standort wurde nicht gefunden.",
     "money": "Du musst einen gültigen monetären Wert eintragen.",

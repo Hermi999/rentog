@@ -49,7 +49,7 @@
 
     - if @current_community.follow_in_use?
       = render :partial => "followed_people", :locals => { :person => @person, :limit => 6 }
-      
+
     - if @current_community.testimonials_in_use
       #people-testimonials.listing-main
         .row
@@ -63,6 +63,10 @@
             #profile-testimonials-list
               = render :partial => "testimonials", :locals => {:received_testimonials => @person.received_testimonials, :limit => 3}
 
+    - if @person.is_organization
+      - limit = 6
+      = render :partial => 'show_employees', :locals => { :company => @person, :limit => 6 }
+
   .col-4
     .row
       .people-image
@@ -71,6 +75,14 @@
     .row
       .profile-action-buttons-desktop
         = render :partial => "profile_action_buttons"
+
+    - if !@person.is_organization
+      .row
+        %h2
+          =t("people.show.employer")
+        = link_to medium_avatar_thumb(@organization), person_path(@organization)
+        %p
+          =link_to(@organization.organization_name, person_path(@organization))
 
 - content_for :extra_javascript do
   :javascript

@@ -11,8 +11,9 @@ Feature: User creates a new account
   Scenario: Creating a new organization account successfully
     Then I should not see "The access to Rentog is restricted."
     When I fill in "person[username]" with random username
-    And I fill in "Organization name" with "Siemens"
-    #And I fill in "Last name" with "Namez"
+    And I fill in "person[organization_name]" with "Hofer"
+    And I fill in "First name" with "Hermann"
+    And I fill in "Last name" with "Wagner"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
@@ -28,13 +29,14 @@ Feature: User creates a new account
     And I should not see my username
     And Most recently created user should be member of "test" community with its latest consent accepted
 
-  Scenario: Creating a new user account successfully
-    Given community is not organizations-only
-    And I am on the signup page
+  Scenario: Creating a new employee account successfully
+    Given I am on the signup page
     Then I should not see "The access to Rentog is restricted."
-    When I fill in "person[username]" with random username
+    When I click "#signup_employee"
+    And I fill in "person[username]" with random username
     And I fill in "First name" with "Siemens"
     And I fill in "Last name" with "Namez"
+    And I select "Bosch" from "person[organization_name2]"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
@@ -80,20 +82,21 @@ Feature: User creates a new account
     And I press "Create account"
     Then I should see "The email you gave is already in use."
 
-  Scenario: Trying to create an account without First name and last name
-    Given community is not organizations-only
-    And I am on the signup page
+  Scenario: Trying to create an organization without First name and last name
+    Given I am on the signup page
     When I fill in "person[username]" with random username
+    And I fill in "person[organization_name]" with "TestCompany"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create account"
     Then I should see "This field is required."
+    # Community where irst and Last name are not required
     When given name and last name are not required in community "test"
     And I am on the signup page
     When I fill in "person[username]" with random username
-    And I fill in "person[username]" with random username
+    And I fill in "person[organization_name]" with "TestCompany1"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
@@ -107,14 +110,31 @@ Feature: User creates a new account
     Then I should have 2 emails
     And I should see "The email you entered is now confirmed"
 
-  Scenario: Trying to create an account without Organization name
-    Given community is not organizations-only
+  Scenario: Trying to create an company account without Organization name
+    Given I am on the signup page
     When I fill in "person[username]" with random username
+    And I fill in "First name" with "Hermann"
+    And I fill in "Last name" with "Wagner"
+    And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create account"
     Then I should see "This field is required."
+
+  Scenario: Trying to create an employee account without choosing an organization
+    Given I am on the signup page
+    Then I should not see "The access to Rentog is restricted."
+    When I click "#signup_employee"
+    And I fill in "person[username]" with random username
+    And I fill in "First name" with "Siemens"
+    And I fill in "Last name" with "Namez"
+    And I fill in "person_password1" with "test"
+    And I fill in "Confirm password" with "test"
+    And I fill in "Email address" with random email
+    And I check "person_terms"
+    And I press "Create account"
+    Then I should see "You have to choose an organization"
 
   @subdomain2
   Scenario: Seeing info of community's email restriction

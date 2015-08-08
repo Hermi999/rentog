@@ -37,6 +37,7 @@
           %th= render partial: "layouts/sort_link", locals: { column: "join_date", direction: sort_link_direction("join_date"), title: t("admin.communities.manage_members.join_date") }
           - if @current_community.require_verification_to_post_listings
             %th{:style => "text-align: center"}= render partial: "layouts/sort_link", locals: { column: "posting_allowed", direction: sort_link_direction("posting_allowed"), title: t("admin.communities.manage_members.posting_allowed") }
+          %th= render partial: "layouts/sort_link", locals: { column: "orga", direction: sort_link_direction("orga"), title: t("admin.communities.manage_members.organization") }
           %th= t("admin.communities.manage_members.admin")
           %th= t("admin.communities.manage_members.ban_user")
       %tbody
@@ -44,12 +45,15 @@
           - member = membership.person
           %tr
             %td.admin-members-full-name
-              = link_to member.full_name, member
+              = link_to member.full_name(@current_community), member
             %td
               = mail_to member.confirmed_notification_email_addresses.first
             %td= l(membership.created_at, :format => :short_date)
             - if @current_community.require_verification_to_post_listings
               %td{:style => "text-align: center"}= check_box_tag "posting-allowed[#{member.id}]", member.id, membership.can_post_listings, :class => "admin-members-can-post-listings"
+            %td{:style => "text-align: center"}
+              - if member.is_organization
+                = icon_tag("cross")
             %td{:style => "text-align: center"}= check_box_tag "is_admin[#{member.id}]", member.id, member.is_admin_of?(@community), :class => "admin-members-is-admin", :disabled => member.eql?(@current_user)
             %td{:style => "text-align: center"}
               = link_to(icon_tag("cross"), ban_admin_community_community_membership_path(@current_community.id, membership.id), method: :put, :data => {:confirm => t("admin.communities.manage_members.ban_user_confirmation")}, :class => "admin-members-remove-user")

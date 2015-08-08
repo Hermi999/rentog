@@ -87,7 +87,8 @@ class Person < ActiveRecord::Base
   attr_accessor :guid, :password2, :form_login,
                 :form_given_name, :form_family_name, :form_password,
                 :form_password2, :form_email, :consent,
-                :input_again, :community_category, :send_notifications
+                :input_again, :community_category, :send_notifications,
+                :organization_name2, :signup_as
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
@@ -189,6 +190,7 @@ class Person < ActiveRecord::Base
 #  validates_uniqueness_of :username
   validates_length_of :phone_number, :maximum => 25, :allow_nil => true, :allow_blank => true
   validates_length_of :username, :within => 3..20
+  validates_length_of :organization_name, :within => 3..30, :allow_nil => true, :allow_blank => true
   validates_length_of :given_name, :within => 1..255, :allow_nil => true, :allow_blank => true
   validates_length_of :family_name, :within => 1..255, :allow_nil => true, :allow_blank => true
 
@@ -196,6 +198,7 @@ class Person < ActiveRecord::Base
                        :with => /\A[A-Z0-9_]*\z/i
 
   USERNAME_BLACKLIST = YAML.load_file("#{Rails.root}/config/username_blacklist.yml")
+  ORGANIZATION_NAME_BLACKLIST = YAML.load_file("#{Rails.root}/config/organizationname_blacklist.yml")
 
   validates :username, :exclusion => USERNAME_BLACKLIST
   validate :community_email_type_is_correct
@@ -269,7 +272,11 @@ class Person < ActiveRecord::Base
 
   def self.username_available?(username)
      !Person.find_by_username(username).present? && !username.in?(USERNAME_BLACKLIST)
-   end
+  end
+
+  def self.organization_name_available?(organization_name)
+     !Person.find_by_organization_name(organization_name).present? && !organization_name.in?(ORGANIZATION_NAME_BLACKLIST)
+  end
 
   # Deprecated: This is view logic (how to display name) and thus should not be in model layer
   # Consider using PersonViewUtils
@@ -301,8 +308,12 @@ class Person < ActiveRecord::Base
 
   # Deprecated: This is view logic (how to display name) and thus should not be in model layer
   # Consider using PersonViewUtils
-  def full_name
-    "#{given_name} #{family_name}"
+  def full_name(current_community = nil)
+    if is_organization
+      "#{organization_name}"
+    else
+      "#{given_name} #{family_name}"
+    end
   end
 
   # Deprecated: This is view logic (how to display name) and thus should not be in model layer

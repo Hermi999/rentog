@@ -41,7 +41,6 @@ describe PeopleController do
       get :check_email_availability,  {:person => {:email_attributes => {:address => "test2@example.com"} }, :format => :json}
       response.body.should == "false"
     end
-
   end
 
   describe "#check_email_availability_and_validity" do
@@ -56,6 +55,24 @@ describe PeopleController do
       Email.create(:person_id => person.id, :address => "test2@example.com")
       get :check_email_availability_and_validity,  {:person => {:email => "test2@example.com"}, :format => :json}
       response.body.should == "true"
+    end
+  end
+
+  describe "#check_organization_name_availability" do
+    before(:each) do
+      @request.host = "#{FactoryGirl.create(:community).ident}.lvh.me"
+    end
+
+    it "should return available if organization_name is not in use" do
+      get :check_organization_name_availability,  {:person => {:organization_name => "totally_random_organization_not_in_use"}, :format => :json}
+      response.body.should == "true"
+    end
+
+    it "should return unavailable if organization_name is in use" do
+      person = FactoryGirl.create(:person, organization_name: "R-Bosch")
+
+      get :check_organization_name_availability,  {:person => {organization_name: "r-bOSch"}, :format => :json}
+      response.body.should == "false"
     end
   end
 
@@ -81,7 +98,7 @@ describe PeopleController do
       #request.env['warden'].stub(:authenticate!).and_throw(:warden)
       controller.unstub :current_person
 
-      post :create, {:person => {:username => generate_random_username, :password => "test", :email => "one@examplecompany.co", :given_name => "The user who", :family_name => "tries to use taken email"}}
+      post :create, {:person => {:username => generate_random_username, :password => "test", :email => "one@examplecompany.co", :given_name => "The user who", :family_name => "tries to use taken email", organization_name: "Bosch", signup_as: "organization"}}
 
       Person.find_by_family_name("tries to use taken email").should be_nil
       Person.count.should == person_count
@@ -92,23 +109,59 @@ describe PeopleController do
 
   describe "#create" do
 
-    it "creates a person" do
+    it "creates an organization" do
       @request.host = "#{FactoryGirl.create(:community).ident}.lvh.me"
       person_count = Person.count
       username = generate_random_username
-      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => ""}, :community => "test"}
-      Person.find_by_username(username).should_not be_nil
+      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "organization", organization_name: "Simi"}, :community => "test"}
       Person.count.should == person_count + 1
+      organization = Person.find_by_username(username)
+      organization.should_not be_nil
+      organization.is_organization.should_not be_false
+      organization.organization_name.should_not be_nil
     end
 
-    it "doesn't create a person for community if email is not allowed" do
+    it "creates an employee" do
+      @request.host = "#{FactoryGirl.create(:community).ident}.lvh.me"
+      orga = FactoryGirl.create(:company, organization_name: "ABCD")
+      employee_count = orga.employees.size
+      person_count = Person.count
+      username = generate_random_username
 
+      # First try: Should not work, because company does not exist
+      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_name2: "SiemBosch"}, :community => "test"}
+      Person.find_by_username(username).should be_nil
+      flash[:error].to_s.should include("The organization you've given does not exist")
+
+      # Second try: Should work, because we use a already created company
+      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_name2: "ABCD"}, :community => "test"}
+      Person.find_by_username(username).should_not be_nil
+      Person.count.should == person_count + 1
+      employee = Person.find_by_username(username)
+      employee.should_not be_nil
+      employee.is_organization.should be_false
+      employee.organization_name.should be_nil
+      # organization should have a new employee & employee should have a company
+      orga.employees.size.should == employee_count + 1
+      employee.company.organization_name.should == "ABCD"
+    end
+
+    it "doesn't create a new user if submited data is invalid" do
+      @request.host = "#{FactoryGirl.create(:community).ident}.lvh.me"
+      person_count = Person.count
+      username = generate_random_username
+      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", :organization_name => "Siemens", :organization_name2 => "Bosch"}, :community => "test"}
+      Person.find_by_username(username).should be_nil
+      Person.count.should == person_count
+    end
+
+    it "doesn't create an organization for community if email is not allowed" do
       username = generate_random_username
       community = FactoryGirl.build(:community, :allowed_emails => "@examplecompany.co")
       community.save
       @request.host = "#{community.ident}.lvh.me"
 
-      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => ""}}
+      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", :organization_name => "test", :signup_as => "organization"}}
 
       Person.find_by_username(username).should be_nil
       flash[:error].to_s.should include("This email is not allowed")

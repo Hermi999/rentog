@@ -1,0 +1,21 @@
+- limit = 6
+- employees = company.employees
+- displayed_people = employees.take(limit)
+
+.row
+  %h2.people-header
+    - if employees.count > 0
+      - if employees.count == 1
+        = t(".employees_singular", :count => employees.count)
+      - else
+        = t(".employees_plural", :count => employees.count)
+    - else
+      = t(".no_employees")
+.people-fluid-thumbnail-grid-container
+  .people-fluid-thumbnail-grid#profile-employees-list
+    = render :partial => "people/followed_person", :collection => displayed_people, :as => :person
+
+- if employees.count > limit
+  .people-load-more-listings-container
+    #load-more-employees
+      = link_to t(".show_all_employees"), @employees_path, :remote => true
