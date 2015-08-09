@@ -8,7 +8,7 @@ Feature: User creates a new account
     Given I am not logged in
     And I am on the signup page
 
-  Scenario: Creating a new organization account successfully
+  Scenario: Creating a new company account successfully
     Then I should not see "The access to Rentog is restricted."
     When I fill in "person[username]" with random username
     And I fill in "person[organization_name]" with "Hofer"
@@ -52,37 +52,34 @@ Feature: User creates a new account
     And I should not see my username
     And Most recently created user should be member of "test" community with its latest consent accepted
 
-  Scenario: Trying to create account with unavailable username
+  Scenario: Trying to create company account with unavailable username
     When I fill in "person[username]" with "kassi_testperson2"
     And I fill in "Organization name" with "Siemens"
-    #And I fill in "Last name" with "Namez"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I press "Create account"
     Then I should see "This username is already in use."
 
-  Scenario: Trying to create account with invalid username
+  Scenario: Trying to create company account with invalid username
     When I fill in "person[username]" with "sirkka-liisa"
     And I fill in "Organization name" with "Siemens"
-    #And I fill in "Last name" with "Namez"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I press "Create account"
     Then I should see "Username is invalid."
 
-  Scenario: Trying to create account with unavailable email
+  Scenario: Trying to create company account with unavailable email
     When I fill in "person[username]" with random username
     And I fill in "Organization name" with "Siemens"
-    #And I fill in "Last name" with "Namez"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with "kassi_testperson2@example.com"
     And I press "Create account"
     Then I should see "The email you gave is already in use."
 
-  Scenario: Trying to create an organization without First name and last name
+  Scenario: Trying to create an company without First name and last name
     Given I am on the signup page
     When I fill in "person[username]" with random username
     And I fill in "person[organization_name]" with "TestCompany"
@@ -92,7 +89,7 @@ Feature: User creates a new account
     And I check "person_terms"
     And I press "Create account"
     Then I should see "This field is required."
-    # Community where irst and Last name are not required
+    # Community where First and Last name are not required
     When given name and last name are not required in community "test"
     And I am on the signup page
     When I fill in "person[username]" with random username

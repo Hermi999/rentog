@@ -8,17 +8,7 @@ Feature: User follows another user
     And I am logged in as "kassi_testperson1"
 
   @javascript
-  Scenario: User follows another user (normal community)
-    Given community is not organizations-only
-    And "kassi_testperson2" is not an organization
-    When I go to the profile page of "kassi_testperson2"
-    And I follow "Follow"
-    Then I should see "Following" within ".profile-action-buttons-desktop"
-    When I go to my profile page
-    Then I should see "Them" within "#profile-followed-people-list"
-
-  @javascript
-  Scenario: User follows another user (orga-only community)
+  Scenario: User follows another user
     When I go to the profile page of "kassi_testperson2"
     And I follow "Follow"
     Then I should see "Following" within ".profile-action-buttons-desktop"
@@ -37,7 +27,7 @@ Feature: User follows another user
 
   @javascript
   Scenario: User views additional followed people
-    Given there are 10 users with name prefix "User" "Number"
+    Given there are 10 companies with organization_name prefix "User"
     And "kassi_testperson1" follows everyone
     When I go to the profile page of "kassi_testperson1"
     Then I should see "You follow 11 people"

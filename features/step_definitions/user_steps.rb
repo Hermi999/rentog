@@ -36,9 +36,10 @@ Given /^I am logged in(?: as "([^"]*)")?$/ do |person|
   login_user_without_browser(person.username)
 end
 
-Given /^I am logged in as organization(?: "([^"]*)")?$/ do |org_username|
-  username = org_username || "company"
-  person = Person.find_by_username(username) || FactoryGirl.create(:person, :username => username, :is_organization => true)
+Given /^I am logged in as organization(?: "([^"]*)")?$/ do |org_name|
+  orgname = org_name || "company"
+
+  person = Person.find_by_organization_name(orgname) || FactoryGirl.create(:person, :organization_name => orgname, :is_organization => true)
   login_as(person, :scope => :person)
   visit root_path(:locale => :en)
   @logged_in_user = person
@@ -110,7 +111,8 @@ Given /^there are following users:$/ do |person_table|
       password: "testi",
       given_name: "Test",
       family_name: "Person",
-      organization_name: "Bosch"
+      organization_name: "Bosch",
+      is_organization: 1
     }
 
     username = hash['person']
@@ -150,8 +152,12 @@ Given /^there are following users:$/ do |person_table|
   end
 end
 
-Given(/^there are (\d+) users with name prefix "([^"]*)" "([^"]*)"$/) do |user_count, given_name, family_name_prefix|
-  FactoryGirl.create_list(:person, user_count.to_i, :given_name => given_name, :family_name => "#{family_name_prefix} #{user_count}", :communities => [@current_community])
+Given(/^there are (\d+) companies with organization_name prefix "([^"]*)"$/) do |user_count, orga_name|
+  FactoryGirl.create_list(:person, user_count.to_i, :organization_name => "#{orga_name} #{user_count}", :communities => [@current_community])
+end
+
+Given(/^there are (\d+) employees with name prefix "([^"]*)" "([^"]*)"$/) do |user_count, given_name, family_name_prefix|
+  FactoryGirl.create_list(:person, user_count.to_i, is_organization: 0, :given_name => given_name, :family_name => "#{family_name_prefix} #{user_count}", :communities => [@current_community])
 end
 
 # Filling in with random strings

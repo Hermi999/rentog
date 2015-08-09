@@ -82,6 +82,7 @@ Feature: Facebook connect
       And I am on the home page
 
      When I follow sign up link
+      And I follow "Signup as employee"
       And I follow "Sign up with Facebook"
      Then I should see "Successfully authorized from Facebook account"
       And I should see "Marko"
@@ -96,11 +97,11 @@ Feature: Facebook connect
     Given there are following users:
       | person |
       | kassi_testperson1 |
-    And community and its users are not organizations-only
     And community "test" requires invite to join
     And I am not logged in
     And there is an invitation for community "test" with code "GH1JX8"
     When I arrive to sign up page with the link in the invitation email with code "GH1JX8"
+    And I follow "Signup as employee"
     And I follow "Sign up with Facebook"
     Then I should see "Welcome to Rentog, Markus! There's one more step to join"
     When I check "community_membership_consent"
@@ -109,7 +110,7 @@ Feature: Facebook connect
     And I should see "Markus"
 
   @javascript
-  Scenario: The facebook login doesn't succeed
+  Scenario: The facebook login doesnt succeed
     Given I am on the home page
     And there will be and error in my Facebook login
     When I follow log in link
@@ -117,10 +118,11 @@ Feature: Facebook connect
     Then I should see "Could not authorize you from Facebook"
 
   @javascript
-  Scenario: The facebook login doesn't return any email address
+  Scenario: The facebook login doesnt return any email address
     Given I am on the home page
     And there will be no email returned in my Facebook login
     When I follow log in link
     And I follow "fb-login"
     Then I should see "Could not get email address from Facebook"
-    And I should see "Sign up with email"
+    And I should see "Signup as company"
+    And I should see "Signup as employee"

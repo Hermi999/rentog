@@ -33,7 +33,7 @@ Feature: Organization logging in and out
     Then I should not be logged in
 
   Scenario: Organization seeing its organization name on header after login
-    Given I am logged in as organization
+    Given I am logged in as organization "Bosch"
     And my organization name is "Bosch"
     When I am on the home page
     Then I should see "Bosch"
