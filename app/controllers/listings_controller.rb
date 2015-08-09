@@ -130,7 +130,14 @@ class ListingsController < ApplicationController
 
     payment_gateway = MarketplaceService::Community::Query.payment_type(@current_community.id)
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: @listing.transaction_process_id)
-    form_path = new_transaction_path(listing_id: @listing.id)
+
+    # Employees can just send a message to their Company in which they request for renting the listing.
+    if !@current_user.is_organization && !@current_community.employees_can_buy_listings && !@current_user.has_admin_rights_in?(@current_community)
+      form_path = new_person_person_message_path(@current_user.company)
+    else
+      form_path = new_transaction_path(listing_id: @listing.id)
+    end
+
 
     delivery_opts = delivery_config(@listing.require_shipping_address, @listing.pickup_enabled, @listing.shipping_price, @listing.shipping_price_additional, @listing.currency)
 

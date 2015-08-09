@@ -195,6 +195,7 @@ en:
         hide_expiration_date: "Do not require listings to have an expiration date"
         listing_comments_in_use: "Allow users to post comments to listings (viewable to all other users)"
         employees_can_create_listings: "Employees can create listings"
+        employees_can_buy_listings: "Employees can buy listings"
         email_preferences: "Email preferences"
         automatic_newsletters: "Send automatic daily / weekly newsletters to all users (unless they opt out)"
         email_admins_about_new_members: "Send admins an email whenever a new user signs up"
@@ -1601,6 +1602,7 @@ en:
       price:
         per_quantity_unit: "per %{quantity_unit}"
         per_day: "per day"
+      request_by_company: "Rent via your company"
       delivery: "Delivery method"
       shipping: "Shipping (+%{price})"
       shipping_no_price: Shipping
@@ -2085,6 +2087,7 @@ en:
         one: "%{count} day"
         other: "%{count} days"
   transactions:
+    employees_cannot_make_transactions: "Employees can't make transactions. Please make a request to your company for renting listings."
     initiate:
       booked_days: "Booked days:"
       price_per_day: "Price per day:"
@@ -2125,3 +2128,5 @@ en:
         other: "Displaying <b>all&nbsp;%{count}</b> %{model}"
       multi_page: "Displaying %{model} %{from} - %{to} of %{count} in total"
       multi_page_html: "Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total"
+  person_messages:
+    renting_request: "Hi Admin. I would like to rent this device (%{device_link}) from %{start_date} to %{end_date}. Please contact the owner!"

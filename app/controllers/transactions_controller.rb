@@ -8,6 +8,8 @@ class TransactionsController < ApplicationController
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_do_a_transaction")
   end
 
+  before_filter :is_authorized_for_transaction
+
   MessageForm = Form::Message
 
   TransactionForm = EntityUtils.define_builder(
@@ -17,6 +19,18 @@ class TransactionsController < ApplicationController
     [:start_on, transform_with: ->(v) { Maybe(v).map { |d| TransactionViewUtils.parse_booking_date(d) }.or_else(nil) } ],
     [:end_on, transform_with: ->(v) { Maybe(v).map { |d| TransactionViewUtils.parse_booking_date(d) }.or_else(nil) } ]
   )
+
+  def is_authorized_for_transaction
+    # employee can't make transactions
+    if !@current_user.is_organization
+      if !@current_community.employees_can_buy_listings
+        unless @current_user.has_admin_rights_in?(@current_community)
+          flash[:error] = t("transactions.employees_cannot_make_transactions")
+          redirect_to root_path and return
+        end
+      end
+    end
+  end
 
   def new
     Result.all(
