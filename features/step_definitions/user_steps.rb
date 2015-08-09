@@ -303,6 +303,12 @@ Given(/^"(.*?)" follows everyone$/) do |person|
   person.followed_people = Person.all - [ person ]
 end
 
+Given(/^"(.*?)" employs "(.*?)"$/) do |company, employee|
+  comp = Person.find_by_organization_name(company)
+  empl = Person.find_by_username(employee)
+  comp.employees << empl
+end
+
 Then(/^I should see (\d+) user profile links$/) do |count|
   expect(page).to have_selector("#profile-followed-people-list .people-fluid-thumbnail-grid-item", :count => count)
 end

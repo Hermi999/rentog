@@ -35,16 +35,16 @@ class Admin::CommunitiesController < ApplicationController
   def social_media
     @selected_left_navi_link = "social_media"
     @community = @current_community
-    render "social_media", :locals => { 
-      display_knowledge_base_articles: APP_CONFIG.display_knowledge_base_articles, 
+    render "social_media", :locals => {
+      display_knowledge_base_articles: APP_CONFIG.display_knowledge_base_articles,
       knowledge_base_url: APP_CONFIG.knowledge_base_url}
   end
 
   def analytics
     @selected_left_navi_link = "analytics"
     @community = @current_community
-    render "analytics", :locals => { 
-      display_knowledge_base_articles: APP_CONFIG.display_knowledge_base_articles, 
+    render "analytics", :locals => {
+      display_knowledge_base_articles: APP_CONFIG.display_knowledge_base_articles,
       knowledge_base_url: APP_CONFIG.knowledge_base_url}
   end
 
@@ -177,7 +177,7 @@ class Admin::CommunitiesController < ApplicationController
       :hide_expiration_date, :listing_comments_in_use,
       :automatic_confirmation_after_days, :automatic_newsletters,
       :default_min_days_between_community_updates,
-      :email_admins_about_new_members
+      :email_admins_about_new_members, :others_can_see_employees
     ]
     permitted_params << :testimonials_in_use if @current_community.payment_gateway
     params.require(:community).permit(*permitted_params)

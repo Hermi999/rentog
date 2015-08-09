@@ -101,6 +101,16 @@ Given /^the community has payments in use(?: via (\w+))?(?: with seller commissi
   use_payment_gateway(@current_community.ident, gateway_name, commission)
 end
 
+Given /^the community(?: "([^"]*)")? allows others to view the employees of a company$/ do |community|
+  community ||= @current_community.ident
+  Community.where(ident: community).first.update_attribute(:others_can_see_employees, true)
+end
+
+Given /^the community(?: "([^"]*)")? does not allow others to view the employees of a company$/ do |community|
+  community ||= @current_community.ident
+  Community.where(ident: community).first.update_attribute(:others_can_see_employees, false)
+end
+
 Given /^community "([^"]*)" has payments in use(?: via (\w+))?(?: with seller commission (\w+))?$/ do |community_ident, gateway_name, commission|
   use_payment_gateway(community_ident, gateway_name, commission)
 end

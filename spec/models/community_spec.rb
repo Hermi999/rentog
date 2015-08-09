@@ -97,6 +97,7 @@
 #  dv_test_file_name                          :string(64)
 #  dv_test_file                               :string(64)
 #  deleted                                    :boolean
+#  others_can_see_employees                   :boolean          default(FALSE)
 #
 # Indexes
 #

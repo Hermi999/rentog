@@ -186,6 +186,8 @@ en:
         users_can_invite_new_users: "All users can invite new users to this marketplace"
         private: "This marketplace is private (only registered users can see the content)"
         require_verification_to_post_listings: "Only users verified by admin can post new listings"
+        profile_preferences: "Profile preferences"
+        others_can_see_employees: "Show employees to others on profile page"
         listing_preferences: "Listing preferences"
         transaction_preferences: "Transaction preferences"
         show_listing_publishing_date: "Display publishing date of the listing on the listing page"

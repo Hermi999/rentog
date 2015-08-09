@@ -36,6 +36,12 @@
 
     .row
       .col-12
+        %h3= t(".profile_preferences")
+        .checkbox-container
+          = form.check_box :others_can_see_employees
+          = form.label :others_can_see_employees, t(".others_can_see_employees"), :class => "settings-checkbox-label"
+    .row
+      .col-12
         %h3= t(".listing_preferences")
         .checkbox-container
           = form.check_box :show_category_in_listing_list

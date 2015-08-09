@@ -63,7 +63,7 @@
             #profile-testimonials-list
               = render :partial => "testimonials", :locals => {:received_testimonials => @person.received_testimonials, :limit => 3}
 
-    - if @person.is_organization
+    - if ( @current_user && (@current_community.others_can_see_employees? || @current_user.is_admin_of?(@current_community) || current_user?(@person)) && @person.is_organization )
       - limit = 6
       = render :partial => 'show_employees', :locals => { :company => @person, :limit => 6 }
 
