@@ -13,6 +13,7 @@
       = t(".no_employees")
 .people-fluid-thumbnail-grid-container
   .people-fluid-thumbnail-grid#profile-employees-list
+    - # handle showing the employees with the followed_person partials and controller
     = render :partial => "people/followed_person", :collection => displayed_people, :as => :person
 
 - if employees.count > limit

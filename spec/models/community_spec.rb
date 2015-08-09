@@ -98,6 +98,7 @@
 #  dv_test_file                               :string(64)
 #  deleted                                    :boolean
 #  others_can_see_employees                   :boolean          default(FALSE)
+#  employees_can_create_listings              :boolean          default(FALSE)
 #
 # Indexes
 #

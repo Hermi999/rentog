@@ -55,6 +55,9 @@
         .checkbox-container
           = form.check_box :listing_comments_in_use
           = form.label :listing_comments_in_use, t(".listing_comments_in_use"), :class => "settings-checkbox-label"
+        .checkbox-container
+          = form.check_box :employees_can_create_listings
+          = form.label :employees_can_create_listings, t(".employees_can_create_listings"), :class => "settings-checkbox-label"
 
     - if @current_community.payments_in_use?
       .row

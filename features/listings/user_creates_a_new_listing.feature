@@ -1,6 +1,6 @@
 Feature: User creates a new listing
   In order to perform a certain task using an item, a skill, or a transport, or to help others
-  As a person who does not have the required item, skill, or transport, or has them and wants offer them to others
+  As a company who does not have the required item, skill, or transport, or has them and wants offer them to others
   I want to be able to offer and request an item, a favor, a transport or housing
 
   @javascript
@@ -66,7 +66,7 @@ Feature: User creates a new listing
 
   @move_to_subdomain2
   @javascript
-  Scenario: User creates a listing and it is not visible in communities user joins
+  Scenario: Company creates a listing and it is not visible in communities user joins
     Given there are following users:
       | person |
       | kassi_testperson3 |
@@ -114,13 +114,13 @@ Feature: User creates a new listing
     Then I should see "My offer" within "#listing-title"
 
   @javascript
-  Scenario: User creates a new listing with price
+  Scenario: Company creates a new listing with price
     Given I am logged in
     When I create a new listing "Sledgehammer" with price "20.5"
     Then I should see "Sledgehammer" within "#listing-title"
 
   @javascript
-  Scenario: User creates a new listing with custom dropdown fields
+  Scenario: Company creates a new listing with custom dropdown fields
     Given I am logged in
     And there is a custom dropdown field "House type" in community "test" in category "Spaces" with options:
       | en             | fi                   |
@@ -158,7 +158,7 @@ Feature: User creates a new listing
     Then I should see "House type: Big house"
 
   @javascript @sphinx @no-transaction
-  Scenario: User creates a new listing with custom text field
+  Scenario: Company creates a new listing with custom text field
     Given I am logged in
     And there is a custom text field "Details" in community "test" in category "Spaces"
     When I follow "new-listing-link"
@@ -174,7 +174,7 @@ Feature: User creates a new listing
     Then I should see "My house"
 
   @javascript @sphinx @no-transaction
-  Scenario: User creates a new listing with numeric field
+  Scenario: Company creates a new listing with numeric field
     Given I am logged in
     And there is a custom numeric field "Area" in that community in category "Spaces" with min value 100 and with max value 2000
     When I follow "new-listing-link"
@@ -189,7 +189,7 @@ Feature: User creates a new listing
     Then I should see "Area: 150"
 
 @javascript @sphinx @no-transaction
-Scenario: User creates a new listing with date field
+Scenario: Company creates a new listing with date field
   Given I am logged in
   And there is a custom date field "building_date_test" in that community in category "Spaces"
   When I follow "new-listing-link"
@@ -201,7 +201,7 @@ Scenario: User creates a new listing with date field
   Then I should see "building_date_test: 19 Apr 2014"
 
   @javascript @sphinx @no-transaction
-  Scenario: User creates a new listing with checkbox field
+  Scenario: Company creates a new listing with checkbox field
     Given I am logged in
     And there is a custom checkbox field "Amenities" in that community in category "Spaces" with options:
       | title             |
@@ -228,7 +228,7 @@ Scenario: User creates a new listing with date field
     Then I should see that the listing does not have "Air Conditioning"
 
   @javascript
-  Scenario: User creates a new listing in private community
+  Scenario: Company creates a new listing in private community
     Given I am logged in
     And community "test" is private
     And I am on the home page
@@ -246,3 +246,39 @@ Scenario: User creates a new listing with date field
     When I log out
     And I go to the home page
     Then I should not see "Sledgehammer"
+
+
+  @javascript
+  Scenario: Employee cannot create a listing
+    Given I am not logged in
+    And I am on the home page
+    And I follow "Post a new listing"
+    Then I am on the login page
+    When I fill in "main_person_login" with "employee_testperson1"
+    And I fill in "main_person_password" with "testi"
+    And I click "#main_log_in_button"
+    Then I should not see "Sign in failed."
+    Then I should see "not allowed to post"
+    Then I should not see "Post a new listing"
+
+    When I go to the new listing page
+    Then I should see "not allowed to post"
+    And I should be on the home page
+
+  @javascript
+  Scenario: Employee can create a listing
+    Given the community allows employees to create listings
+    And I am not logged in
+    And I am on the home page
+    And I follow "Post a new listing"
+    Then I am on the login page
+    When I fill in "main_person_login" with "employee_testperson1"
+    And I fill in "main_person_password" with "testi"
+    And I click "#main_log_in_button"
+    Then I should not see "Sign in failed."
+    Then I should not see "not allowed to post"
+    Then I should see "Post a new listing"
+
+    When I go to the new listing page
+    Then I should not see "not allowed to post"
+    And I should be on the new listing page

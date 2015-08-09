@@ -25,8 +25,8 @@ Feature: User joins another marketplace
   @javascript
   Scenario: User joins another marketplace that is invitation-only
     Given there are following users:
-      | person |
-      | kassi_testperson3 |
+      | person            | email    |
+      | kassi_testperson3 | abc@a.at |
     And I am on the home page
     And I move to community "test2"
     And community "test2" requires invite to join
@@ -40,9 +40,9 @@ Feature: User joins another marketplace
     And I press "Join Rentog"
     Then I should see "The invitation code is not valid."
     When I fill in "Invitation code" with "GH1JX8"
+    And I fill in "Email" with "aaa@example.com"
     And I press "Join Rentog"
-    Then I should see "Welcome to Rentog!"
-    And I should see "Post a new listing"
+    Then I should see "join Rentog"
     And Invitation with code "GH1JX8" should have 0 usages_left
 
   @move_to_subdomain2

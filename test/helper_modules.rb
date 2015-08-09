@@ -247,7 +247,7 @@ module TestHelpers
 
     FactoryGirl.create(:community_membership, :person => person2,
                       :community => community2,
-                      :admin => 0,
+                      :admin => 1,
                       :consent => "KASSI_FI1.0",
                       :last_page_load_date => DateTime.now,
                       :status => "accepted")

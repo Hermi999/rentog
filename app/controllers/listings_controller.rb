@@ -28,6 +28,7 @@ class ListingsController < ApplicationController
 
   before_filter :ensure_is_admin, :only => [ :move_to_top, :show_in_updates_email ]
 
+  # If admin authorization is required to post. Also employees aren't allowed to post a new listing.
   before_filter :is_authorized_to_post, :only => [ :new, :create ]
 
   def index
@@ -650,6 +651,17 @@ class ListingsController < ApplicationController
   end
 
   def is_authorized_to_post
+    # employee can't create listings
+    if !@current_user.is_organization
+      if !@current_community.employees_can_create_listings
+        unless @current_user.has_admin_rights_in?(@current_community)
+          flash[:error] = t("listings.error.employees_do_not_post")
+          redirect_to root_path and return
+        end
+      end
+    end
+
+    # admin-verification is needed
     if @current_community.require_verification_to_post_listings?
       unless @current_user.has_admin_rights_in?(@current_community) || @current_community_membership.can_post_listings?
         redirect_to verification_required_listings_path

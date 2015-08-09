@@ -1,3 +1,6 @@
+# This controller does not only handle displaying the followed people, but also
+# the employees of a company, because the code is identically.
+
 class FollowedPeopleController < ApplicationController
 
   def index

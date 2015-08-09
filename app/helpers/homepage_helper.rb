@@ -22,4 +22,8 @@ module HomepageHelper
       block.call
     end
   end
+
+  def post_listing_allowed
+    @current_user.nil? || @current_user.is_organization || @current_community.employees_can_create_listings
+  end
 end

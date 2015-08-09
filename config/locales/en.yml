@@ -194,6 +194,7 @@ en:
         show_category_in_listing_list: "Display listing type in list view"
         hide_expiration_date: "Do not require listings to have an expiration date"
         listing_comments_in_use: "Allow users to post comments to listings (viewable to all other users)"
+        employees_can_create_listings: "Employees can create listings"
         email_preferences: "Email preferences"
         automatic_newsletters: "Send automatic daily / weekly newsletters to all users (unless they opt out)"
         email_admins_about_new_members: "Send admins an email whenever a new user signs up"
@@ -1393,6 +1394,7 @@ en:
       show_in_updates_email_success: "This listing will be shown in the next automatic update email sent to the users"
     error:
       something_went_wrong: "Something went wrong, error code: %{error_code}"
+      employees_do_not_post: "Employees are not allowed to post listings on Rentog"
     follow_links:
       follow: "Get emails about new comments"
       unfollow: "Don't get emails about new comments"
