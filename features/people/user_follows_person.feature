@@ -30,15 +30,15 @@ Feature: User follows another user
     Given there are 10 companies with organization_name prefix "User"
     And "kassi_testperson1" follows everyone
     When I go to the profile page of "kassi_testperson1"
-    Then I should see "You follow 11 people"
+    Then I should see "You follow 12 people"
 
     When I follow "Show all followed people"
     Then I should not see "Show all followed people"
-    Then I should see 11 user profile links
+    Then I should see 12 user profile links
 
     When I follow the first "Following"
     And I refresh the page
-    Then I should see "You follow 10 people"
+    Then I should see "You follow 11 people"
 
   @javascript
   Scenario: Follower receives notification of new listing

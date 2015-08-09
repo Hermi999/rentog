@@ -36,7 +36,7 @@ Feature: User views profile page
     # And I should not see "sewing"
 
   @javascript
-  Scenario: User views somebody else's profile page
+  Scenario: User views somebody elses profile page
     Given there are following users:
       | person |
       | kassi_testperson1 |
