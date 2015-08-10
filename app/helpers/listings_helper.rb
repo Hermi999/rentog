@@ -125,7 +125,7 @@ module ListingsHelper
   end
 
   def action_button_label(listing)
-    if !@current_user.is_organization && !@current_community.employees_can_buy_listings && !@current_user.has_admin_rights_in?(@current_community)
+    if @current_user && !@current_user.is_organization && !@current_community.employees_can_buy_listings && !@current_user.has_admin_rights_in?(@current_community)
           t("listings.show.request_by_company")
     else
       t(listing.action_button_tr_key)

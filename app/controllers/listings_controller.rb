@@ -132,7 +132,7 @@ class ListingsController < ApplicationController
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: @listing.transaction_process_id)
 
     # Employees can just send a message to their Company in which they request for renting the listing.
-    if !@current_user.is_organization && !@current_community.employees_can_buy_listings && !@current_user.has_admin_rights_in?(@current_community)
+    if @current_user && !@current_user.is_organization && !@current_community.employees_can_buy_listings && !@current_user.has_admin_rights_in?(@current_community)
       form_path = new_person_person_message_path(@current_user.company)
     else
       form_path = new_transaction_path(listing_id: @listing.id)
@@ -659,7 +659,7 @@ class ListingsController < ApplicationController
 
   def is_authorized_to_post
     # employee can't create listings
-    if !@current_user.is_organization
+    if @current_user && !@current_user.is_organization
       if !@current_community.employees_can_create_listings
         unless @current_user.has_admin_rights_in?(@current_community)
           flash[:error] = t("listings.error.employees_do_not_post")
