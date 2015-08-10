@@ -276,6 +276,10 @@ module TestHelpers
     :address => "employee_testperson1@example.com",
     :send_notifications => true,
     :confirmed_at => "2012-05-04 18:17:04")
+
+    FactoryGirl.create(:employment,
+    :company => person1,
+    :employee => person3)
   end
   module_function :load_default_test_data_to_db_before_test
 

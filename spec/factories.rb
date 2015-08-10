@@ -203,6 +203,11 @@ FactoryGirl.define do
     status "accepted"
   end
 
+  factory :employment do
+    build_association(:company)
+    build_association(:employee)
+  end
+
   factory :invitation do
     community_id 1
   end

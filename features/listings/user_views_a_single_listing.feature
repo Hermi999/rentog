@@ -7,8 +7,9 @@ Feature: User views a single listing
   Background:
     Given there are following users:
       | person |
-      | kassi_testperson1 |
-      | kassi_testperson2 |
+      | kassi_testperson1    |
+      | kassi_testperson2    |
+      | employee_testperson1 |
     And the community has payments in use via BraintreePaymentGateway
     And there is a listing with title "Massage" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
 
@@ -28,22 +29,28 @@ Feature: User views a single listing
   @only_without_asi
   Scenario: Employee views a listing but cant rent it
     Given I am on the home page
-    When I am logged in as "kassi_testperson2"
-    And I follow "Massage"
-    Then I should see "Massage"
+    And there is a listing with title "Omicron" from "kassi_testperson2" with category "Services" and with listing shape "Renting"
+    When I am logged in as "employee_testperson1"
+    And I follow "Omicron"
+    Then I should see "Omicron"
     And I should see "Rent via your company"
-
-    When I fill in "From" with "01/01/2050"
-    And I fill in "From" with "05/01/2050"
-    And I follow "Rent via your company"
-    Then I should see "Send message to BBB"
-    And I should see "http://rentog.lvh.me:3000/1/listings"
-    And I should see "2050-01-01"
-    And I should see "2050-01-05"
+    And I press "Rent via your company"
+    # Bosch is company, Siemens renter
+    Then I should see "Send message to Bosch"
 
 
   @only_without_asi
   Scenario: Employee views a listing and can rent it
+    Given the community allows employees to buy listings
+    And there is a listing with title "Omicron" from "kassi_testperson2" with category "Services" and with listing shape "Renting"
+    When I am logged in as "employee_testperson1"
+    And I follow "Omicron"
+    Then I should see "Omicron"
+    And I should see "Rent"
+    And I press "Rent"
+    Then I should see "Rent this item"
+    # Bosch is company, Siemens renter
+    And I should see "Message to Siemens"
 
   @only_without_asi
   Scenario: Company views a listing with price
