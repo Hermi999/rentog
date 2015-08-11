@@ -44,7 +44,7 @@
               = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
 
     #profile-listings-list
-      - limit = 6
+      - limit = 8
       = render :partial => 'listings/profile_listings', :locals => {:person => @person, :limit => limit}
 
     - if @current_community.follow_in_use?
@@ -64,7 +64,7 @@
               = render :partial => "testimonials", :locals => {:received_testimonials => @person.received_testimonials, :limit => 3}
 
     - if ( @current_user && (@current_community.others_can_see_employees? || @current_user.is_admin_of?(@current_community) || current_user?(@person)) && @person.is_organization )
-      - limit = 6
+      - limit = 8
       = render :partial => 'show_employees', :locals => { :company => @person, :limit => 6 }
 
   .col-4

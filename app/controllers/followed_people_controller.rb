@@ -14,7 +14,7 @@ class FollowedPeopleController < ApplicationController
     end
 
     respond_to do |format|
-      format.js { render :partial => "people/followed_person", :collection => @followed_people, :as => :person }
+      format.js { render :partial => "people/followed_person", :collection => @followed_people, :as => :person, :locals => { :origin => "followed_people" } }
     end
   end
 

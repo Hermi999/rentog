@@ -50,7 +50,10 @@
               = mail_to member.confirmed_notification_email_addresses.first
             %td= l(membership.created_at, :format => :short_date)
             - if @current_community.require_verification_to_post_listings
-              %td{:style => "text-align: center"}= check_box_tag "posting-allowed[#{member.id}]", member.id, membership.can_post_listings, :class => "admin-members-can-post-listings"
+              - if member.is_organization
+                %td{:style => "text-align: center"}= check_box_tag "posting-allowed[#{member.id}]", member.id, membership.can_post_listings, :class => "admin-members-can-post-listings"
+              - else
+                %td{:style => "text-align: center"}= check_box_tag "posting-allowed[#{member.id}]", member.id, membership.can_post_listings, :class => "admin-members-can-post-listings employee-verified-user"
             %td{:style => "text-align: center"}
               - if member.is_organization
                 = icon_tag("cross")

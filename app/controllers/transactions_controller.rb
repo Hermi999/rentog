@@ -30,6 +30,16 @@ class TransactionsController < ApplicationController
         end
       end
     end
+
+    # Unverified Company can't make transactions
+    if @current_user.is_organization
+      if @current_community.require_verification_to_post_listings
+        unless @current_user.can_post_listings_at?(@current_community)
+          flash[:error] = t("transactions.company_not_verified")
+          redirect_to root_path and return
+        end
+      end
+    end
   end
 
   def new

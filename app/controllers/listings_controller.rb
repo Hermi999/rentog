@@ -138,6 +138,18 @@ class ListingsController < ApplicationController
       form_path = new_transaction_path(listing_id: @listing.id)
     end
 
+    # Unverified Companies cant make transactions
+    if @current_user &&
+       @current_user.is_organization &&
+       @current_community.require_verification_to_post_listings &&
+       !@current_user.can_post_listings_at?(@current_community)
+
+        show_rent_button = false
+        flash.now[:error] = t("transactions.company_not_verified")
+    else
+        show_rent_button = true
+    end
+
 
     delivery_opts = delivery_config(@listing.require_shipping_address, @listing.pickup_enabled, @listing.shipping_price, @listing.shipping_price_additional, @listing.currency)
 
@@ -147,7 +159,8 @@ class ListingsController < ApplicationController
              # TODO I guess we should not need to know the process in order to show the listing
              process: process,
              delivery_opts: delivery_opts,
-             listing_unit_type: @listing.unit_type
+             listing_unit_type: @listing.unit_type,
+             show_rent_button: show_rent_button
            }
   end
 
@@ -668,7 +681,7 @@ class ListingsController < ApplicationController
       end
     end
 
-    # admin-verification is needed
+    # admin-verification is needed for companies
     if @current_community.require_verification_to_post_listings?
       unless @current_user.has_admin_rights_in?(@current_community) || @current_community_membership.can_post_listings?
         redirect_to verification_required_listings_path

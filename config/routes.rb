@@ -505,6 +505,10 @@
 # http://guides.rubyonrails.org/routing.html
 
 Kassi::Application.routes.draw do
+  get "employees/create"
+
+  get "employees/destroy"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -874,6 +878,8 @@ Kassi::Application.routes.draw do
         end
         resources :followers
         resources :followed_people
+        resources :employees
+        resources :employments
       end # people
 
     end # devise scope person

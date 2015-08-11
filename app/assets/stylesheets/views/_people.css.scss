@@ -74,7 +74,7 @@ $profile-pic-gutter-mobile: lines(0.5);
 }
 
 .people-fluid-thumbnail-grid-container {
-  @include create-fluid-thumbnail-grid(people, 1, 1, 2, 3, 2, 2, 3, 3);
+  @include create-fluid-thumbnail-grid(people, 2, 2, 3, 3, 3, 3, 4, 4);
 }
 
 .people-listings {

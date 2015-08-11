@@ -7,6 +7,7 @@
 #  employee_id :string(255)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  active      :boolean          default(TRUE)
 #
 # Indexes
 #
@@ -63,16 +64,14 @@ describe Employment do
 
     it "should destroy an employment" do
       Employment.add_employee_to_company(@test_employee, @test_organization)
-      empl = Employment.first
-      lambda {
-        Employment.remove_employee_from_company(empl.id, @test_organization)
-      }.should change{Employment.count}.by(-1)
+      Employment.remove_employee_from_company(@test_employee, @test_organization)
 
-      # There shouldn't be any entries in the Employment table
-      #@test_employee.companies == []
-      @test_employee.company == nil
-      @test_organization.employees == []
-      Employment.all == []
+      empl = Employment.find_by_employee_id(@test_employee.id)
+      empl.active.should == false
+      @test_organization.employs?(@test_employee).should == false
+
+      #clean up
+      Employment.delete_all
     end
   end
 end

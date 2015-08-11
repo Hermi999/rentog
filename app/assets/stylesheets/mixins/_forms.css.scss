@@ -140,6 +140,14 @@
   &:active { color: $light-body; }
 }
 
+@mixin yellow-button {
+  @include button($yellow);
+  color: $light-body;
+
+  &:hover { color: $light-body; }
+  &:active { color: $light-body; }
+}
+
 // Button on top of cover photo
 @mixin cover-photo-button($color) {
   @include border-radius(em(5));

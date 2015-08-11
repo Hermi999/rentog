@@ -773,6 +773,13 @@ class Person < ActiveRecord::Base
     joins(:communities).where("communities.id" => community.id)
   end
 
+  def employs?(person)
+    employment = employments.where(employee_id: person.id).first
+    if employment
+      employment.active?
+    end
+  end
+
   private
 
   # This method constructs a key to be used in caching.

@@ -7,6 +7,7 @@
 #  employee_id :string(255)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  active      :boolean          default(TRUE)
 #
 # Indexes
 #
@@ -15,7 +16,7 @@
 #
 
 class Employment < ActiveRecord::Base
-  attr_accessible :company_id, :employee_id
+  attr_accessible :company_id, :employee_id, :active
 
   belongs_to :company, :class_name => "Person"
   belongs_to :employee, :class_name => "Person"
@@ -25,15 +26,30 @@ class Employment < ActiveRecord::Base
   # Return false if employee couldn't be added
   def self.add_employee_to_company(employee, company = nil)
     company ||= @current_user
-    company.employees << employee
-    company.save
+
+    # Check if relationship already exists. I fyes, then set active to true
+    if (employment = company.employments.where(employee_id: employee.id).first)
+      employment.active = true
+      employment.save
+    else
+      company.employees << employee
+      company.save
+    end
   end
 
-  # Remove employment from  a company
+  # Remove employment from  a company - only set 'active' to false
+  # Also set the employee to inactive, because there is no employee without
+  # a company
   # Return false or raised an exception if something went wrong
-  def self.remove_employee_from_company(employment_id, company = nil)
+  def self.remove_employee_from_company(employee, company)
     company ||= @current_user
-    @employment = company.employments.find(employment_id)
-    @employment.destroy
+    @employment = company.employments.where(employee_id: employee.id).first
+    #@employment.destroy
+    if @employment
+      @employment.active = false
+      @employment.save
+    else
+      false
+    end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150809213608) do
+ActiveRecord::Schema.define(:version => 20150811104640) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -420,8 +420,9 @@ ActiveRecord::Schema.define(:version => 20150809213608) do
   create_table "employments", :force => true do |t|
     t.string   "company_id"
     t.string   "employee_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.boolean  "active",      :default => true
   end
 
   add_index "employments", ["company_id"], :name => "index_employments_on_company_id"

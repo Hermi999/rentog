@@ -224,7 +224,7 @@ en:
         organization_name: "Company name"
         join_date: Joined
         admin: Admin
-        posting_allowed: "Posting allowed"
+        posting_allowed: "Verified user?"
         ban_user: "Ban user"
         saving_user_status: Saving...
         save_user_status_successful: Saved
@@ -1830,6 +1830,11 @@ en:
       following: Following
       follow: Follow
       unfollow: Unfollow
+    employ_button:
+      employee: Employee
+      employ: Accept
+      unemploy: Remove
+      warning: "Are you sure you want to remove %{employee}? If you do so, his account will be locked and he can't do anything except deleting his profile."
     show_employees:
       employees_singular: " %{count} employee"
       employees_plural: " %{count} employees"
@@ -2088,6 +2093,7 @@ en:
         other: "%{count} days"
   transactions:
     employees_cannot_make_transactions: "Employees can't make transactions. Please make a request to your company for renting listings."
+    company_not_verified: "Only companies verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
     initiate:
       booked_days: "Booked days:"
       price_per_day: "Price per day:"

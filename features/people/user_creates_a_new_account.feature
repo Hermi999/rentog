@@ -10,7 +10,7 @@ Feature: User creates a new account
 
   Scenario: Creating a new company account successfully
     Then I should not see "The access to Rentog is restricted."
-    When I fill in "person[username]" with random username
+    When I fill in "person[username]" with "test123456"
     And I fill in "person[organization_name]" with "Hofer"
     And I fill in "First name" with "Hermann"
     And I fill in "Last name" with "Wagner"
@@ -28,6 +28,46 @@ Feature: User creates a new account
     And I should see "The email you entered is now confirmed"
     And I should not see my username
     And Most recently created user should be member of "test" community with its latest consent accepted
+
+    # Unconfirmed user can create a listing or make transaction if community settings allow this
+    When I follow "Post a new listing"
+    Then I should see "Select category"
+    And I should not see "Rentog requires people to be verified manually by admin before they can post listings."
+
+    Given the community has payments in use via BraintreePaymentGateway
+    And there is a listing with title "Omicron" from "kassi_testperson2" with category "Services" and with listing shape "Renting"
+    When I am on the home page
+    And I follow "Omicron"
+    Then I should see "Rent"
+    And I should not see "Only companies verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
+
+    # Unconfirmed company can't create a listing or make transaction
+    Given only verified users can post listings in this community
+    When I follow "Post a new listing"
+    Then I should not see "Select category"
+    And I should see "Rentog requires people to be verified manually by admin before they can post listings."
+    And I should see "You have not yet been verified."
+
+    When I am on the home page
+    And I follow "Omicron"
+    And I should see "Only companies verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
+
+    # After log in as admin and verification of the company, the company can post listings
+    When I log out
+    Given I am logged in as "kassi_testperson1"
+    And "kassi_testperson1" has admin rights in community "test"
+    And I am on the manage members admin page
+    When I verify user "Hofer" as a seller
+    And I log out
+    Given I am logged in as "test123456"
+    When I follow "Post a new listing"
+    Then I should see "Select category"
+    And I should not see "Rentog requires people to be verified manually by admin before they can post listings."
+    When I am on the home page
+    And I follow "Omicron"
+    Then I should see "Rent"
+    And I should not see "Only companies verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
+
 
   Scenario: Creating a new employee account successfully
     Given I am on the signup page
@@ -51,6 +91,8 @@ Feature: User creates a new account
     And I should see "The email you entered is now confirmed"
     And I should not see my username
     And Most recently created user should be member of "test" community with its latest consent accepted
+
+    #Rentog requires people to be verified manually by admin before they can post listings. You have not yet been verified. Please contact the admin to be verified.
 
   Scenario: Trying to create company account with unavailable username
     When I fill in "person[username]" with "kassi_testperson2"

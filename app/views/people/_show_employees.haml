@@ -1,4 +1,4 @@
-- limit = 6
+- limit = 8
 - employees = company.employees
 - displayed_people = employees.take(limit)
 
@@ -14,7 +14,7 @@
 .people-fluid-thumbnail-grid-container
   .people-fluid-thumbnail-grid#profile-employees-list
     - # handle showing the employees with the followed_person partials and controller
-    = render :partial => "people/followed_person", :collection => displayed_people, :as => :person
+    = render :partial => "people/followed_person", :collection => displayed_people, :as => :person, :locals => { :origin => "show_employees" }
 
 - if employees.count > limit
   .people-load-more-listings-container
