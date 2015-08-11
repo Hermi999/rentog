@@ -80,7 +80,7 @@ FactoryGirl.define do
     token_type "unsubscribe"
   end
 
-  factory :person, aliases: [:author, :receiver, :recipient, :payer, :sender, :follower] do
+  factory :person, aliases: [:author, :receiver, :recipient, :payer, :sender, :follower, :company, :employee] do
     id
     is_admin 0
     locale "en"
@@ -90,8 +90,8 @@ FactoryGirl.define do
     phone_number "0000-123456"
     username
     password "testi"
-    is_organization false
-
+    is_organization 1
+    organization_name "Bosch"
     has_many :emails do |person|
       FactoryGirl.build(:email, person: person)
     end
@@ -191,7 +191,7 @@ FactoryGirl.define do
 
   factory :community_customization do
     build_association(:community)
-    name "Sharetribe"
+    name "Rentog"
     locale "en"
   end
 
@@ -201,6 +201,11 @@ FactoryGirl.define do
     admin false
     consent "test_consent0.1"
     status "accepted"
+  end
+
+  factory :employment do
+    build_association(:company)
+    build_association(:employee)
   end
 
   factory :invitation do

@@ -1,7 +1,33 @@
-Given /^community "(.*?)" allows only organizations$/ do |community|
-  c = Community.where(ident: community).first
+Given /^community(?: "(.*)")? allows only organizations$/ do |community|
+  if community.nil?
+    c = Community.first
+  else
+    c = Community.where(ident: community).first
+  end
   c.only_organizations = true
   c.save!
+end
+
+Given /^community(?: "(.*)")? is not organizations-only$/ do |community|
+  if community.nil?
+    c = Community.first
+  else
+    c = Community.where(ident: community).first
+  end
+  c.only_organizations = false
+  c.save!
+end
+
+Given /^community(?: "(.*)")? and its users are not organizations-only$/ do |community|
+  if community.nil?
+    c = Community.first
+  else
+    c = Community.where(ident: community).first
+  end
+  c.only_organizations = false
+  c.save!
+
+  Person.update_all :is_organization => false
 end
 
 Given /^I signup as an organization "(.*?)" with name "(.*?)"$/ do |org_username, org_display_name|

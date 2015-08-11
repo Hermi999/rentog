@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
     :warn_about_missing_payment_info,
     :set_homepage_path
   before_filter :cannot_access_without_joining, :except => [ :confirmation_pending, :check_email_availability]
-  before_filter :can_access_only_organizations_communities
+  #before_filter :can_access_only_organizations_communities
   before_filter :check_email_confirmation, :except => [ :confirmation_pending, :check_email_availability_and_validity]
 
   # This updates translation files from WTI on every page load. Only useful in translation test servers.

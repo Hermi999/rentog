@@ -18,6 +18,38 @@ function add_validator_methods() {
   // If some element is required, it should be validated even if it's hidden
   $.validator.setDefaults({ ignore: [] });
 
+  // enhace JQUERY-VALIDATE with a "NotEqual" validation
+  $.validator.
+    addMethod("notEqualTo",
+      function(v, e, p) {
+        return this.optional(e) || v != p;
+      }
+    );
+
+  $.validator.
+    addMethod("required_organization",
+      function(value, element, param) {
+        if (($('#person_signup_as').val() == "organization") && ($('#person_organization_name').val() == "")){
+          return false;
+        }
+        else{
+          return true;
+        }
+      }
+    );
+
+  $.validator.
+    addMethod("required_employee",
+      function(value, element, param) {
+        if (($('#person_signup_as').val() == "employee") && ($('#person_organization_name2').val() == "")){
+          return false;
+        }
+        else{
+          return true;
+        }
+      }
+    );
+
   $.validator.
     addMethod("accept",
       function(value, element, param) {
@@ -586,7 +618,35 @@ function style_grade_selectors() {
   });
 }
 
-function initialize_signup_form(locale, username_in_use_message, invalid_username_message, email_in_use_message, captcha_message, invalid_invitation_code_message, name_required, invitation_required) {
+function initialize_signup_form(locale, username_in_use_message, invalid_username_message, email_in_use_message, captcha_message, invalid_invitation_code_message, name_required, invitation_required, organization_name_in_use_message, organization_name_not_chosen) {
+  translate_validation_messages(locale);
+
+  $('#person_signup_as').val('organization');
+  $('#signup_employee').css({"background-color": "grey"});
+  $('#signup_company').css({"background-color": "#A64C5D"});
+  $('.fb_signup').hide();
+  $('#person_organization_name').show();
+  $('#person_organization_name2').hide();
+
+  $('#signup_company').click(function(link){
+    link.preventDefault();
+    $('#person_signup_as').val('organization');
+    $('#signup_employee').css({"background-color": "grey"});
+    $('#signup_company').css({"background-color": "#A64C5D"});
+    $('.fb_signup').hide();
+    $('#person_organization_name').show();
+    $('#person_organization_name2').hide();
+  });
+  $('#signup_employee').click(function(link){
+    link.preventDefault();
+    $('#person_signup_as').val('employee');
+    $('#signup_company').css({"background-color": "grey"});
+    $('#signup_employee').css({"background-color": "#A64C5D"});
+    $('.fb_signup').show();
+    $('#person_organization_name').hide();
+    $('#person_organization_name2').show();
+  });
+
   $('#help_invitation_code_link').click(function(link) {
     //link.preventDefault();
     $('#help_invitation_code').lightbox_me({centered: true, zIndex: 1000000 });
@@ -597,6 +657,8 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
   });
   var form_id = "#new_person";
   //name_required = (name_required == 1) ? true : false
+
+  // Live-validatino of the form
   $(form_id).validate({
     errorPlacement: function(error, element) {
       if (element.attr("name") == "person[terms]") {
@@ -611,10 +673,13 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
       "person[username]": {required: true, minlength: 3, maxlength: 20, valid_username: true, remote: "/people/check_username_availability"},
       "person[given_name]": {required: name_required, maxlength: 30},
       "person[family_name]": {required: name_required, maxlength: 30},
-      "person[email]": {required: true, email: true, remote: "/people/check_email_availability_and_validity"},
+      "person[email]": {required: true, minlength: 3, email: true, remote: "/people/check_email_availability_and_validity"},
+      "person[organization_name]": {required_organization: true, minlength: 3, maxlength: 30, remote: "/people/check_organization_name_availability"},
+      "person[organization_name2]": {required_employee: true},
       "person[terms]": "required",
       "person[password]": { required: true, minlength: 4 },
       "person[password2]": { required: true, minlength: 4, equalTo: "#person_password1" },
+      "person[id]": {required: true},
       "recaptcha_response_field": {required: true, captcha: true },
       "invitation_code": {required: invitation_required, remote: "/people/check_invitation_code"}
     },
@@ -622,6 +687,8 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
       "recaptcha_response_field": { captcha: captcha_message },
       "person[username]": { valid_username: invalid_username_message, remote: username_in_use_message },
       "person[email]": { remote: email_in_use_message },
+      "person[organization_name]": { remote: organization_name_in_use_message },
+      "person[organization_name2]": { required_employee: organization_name_not_chosen },
       "invitation_code": { remote: invalid_invitation_code_message }
     },
     onkeyup: false, //Only do validations when form focus changes to avoid exessive ASI calls
@@ -768,6 +835,12 @@ function initialize_profile_view(profile_id) {
   $('#load-more-followed-people').on(
       "ajax:complete", function(element, xhr) {
           $("#profile-followed-people-list").html(xhr.responseText);
+          $(this).hide();
+      });
+
+  $('#load-more-employees').on(
+      "ajax:complete", function(element, xhr) {
+          $("#profile-employees-list").html(xhr.responseText);
           $(this).hide();
       });
 

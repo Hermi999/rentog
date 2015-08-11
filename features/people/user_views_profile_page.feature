@@ -7,9 +7,13 @@ Feature: User views profile page
   @javascript
   Scenario: User views his own profile page
     Given there are following users:
-      | person |
-      | kassi_testperson1 |
-      | kassi_testperson2 |
+      | person               | is_organization | email  |
+      | kassi_testperson1    | 1               | a@a.at |
+      | kassi_testperson2    | 1               | b@b.at |
+      | employee_testperson1 | 0               | c@c.at |
+      | employee_testperson2 | 0               | d@d.at |
+
+    # Prepare listings
     And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" and with listing shape "Selling"
     And there is a listing with title "massage" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
     And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" and with listing shape "Selling services"
@@ -18,35 +22,70 @@ Feature: User views profile page
     And that listing is closed
     And there is a listing with title "sewing" from "kassi_testperson1" with category "Services" and with listing shape "Selling services"
     And that listing is closed
+
+    # Prepare followed
+    And "kassi_testperson1" follows "kassi_testperson2"
+    And "kassi_testperson1" follows "employee_testperson1"
+
+    # Prepare Employees
+    And "Bosch" employs "employee_testperson1"
+    And "Bosch" employs "employee_testperson2"
+
     And I am logged in as "kassi_testperson1"
     And I should not see "Feedback average:"
     When I open user menu
     When I follow "Profile"
+
+    # Listings
     Then I should see "car spare parts"
     And I should see "Helsinki - Turku"
     And I should not see "Housing"
     And I should see "massage"
     And I should not see "bike"
     And I should not see "sewing"
-    #And I follow "Show also closed"
-    # And I should see "bike"
-    # And I follow "Offers (3)"
-    # And I should see "sewing"
-    # And I follow "Show only open"
-    # And I should not see "sewing"
+    And I follow "Show also closed"
+    And I should see "bike"
+    #And I follow "Offers (3)"
+    #And I should see "sewing"
+    #And I follow "Show only open"
+    #And I should not see "sewing"
+
+    # Following others
+    And I should see "You follow 2 people"
+    And I should see "Siemens" within "#profile-followed-people-list"
+    And I should see "Kassi T" within "#profile-followed-people-list"
+
+    # Employees
+    And I should see "2 employees"
+    And I should see "Kassi T" within "#profile-employees-list"
+    And I should see "Test P" within "#profile-employees-list"
+
 
   @javascript
-  Scenario: User views somebody else's profile page
+  Scenario: User views somebody elses profile page
     Given there are following users:
-      | person |
-      | kassi_testperson1 |
-      | kassi_testperson2 |
+      | person               | is_organization | email  |
+      | kassi_testperson1    | 1               | a@a.at |
+      | kassi_testperson2    | 1               | b@b.at |
+      | employee_testperson1 | 0               | c@c.at |
+      | employee_testperson2 | 0               | d@d.at |
+
+    # Prepare Listings
     And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" and with listing shape "Selling"
     And there is a listing with title "massage" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
     And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" and with listing shape "Selling services"
     And there is a listing with title "Housing" from "kassi_testperson2" with category "Spaces" and with listing shape "Selling"
     And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" and with listing shape "Requesting"
     And that listing is closed
+
+    # Prepare followed
+    And "kassi_testperson1" follows "kassi_testperson2"
+    And "kassi_testperson1" follows "employee_testperson1"
+
+    # Prepare Employees
+    And "Bosch" employs "employee_testperson1"
+    And "Bosch" employs "employee_testperson2"
+
     And I am not logged in
     And I am on the home page
     When I follow "car spare parts"
@@ -56,6 +95,42 @@ Feature: User views profile page
     And I should not see "Housing"
     And I should not see "apartment"
     And I should see "massage"
+
+    # Following others
+    And I should see "2 followed people"
+    And I should see "Siemens" within "#profile-followed-people-list"
+    And I should see "Kassi T" within "#profile-followed-people-list"
+
+    # Employees
+    # Logged out user cant see employees
+    And I should not see "employees"
+
+    # Logged out user still cant see employees
+    Given the community "test" allows others to view the employees of a company
+    When I refresh the page
+    Then I should not see "employees"
+
+    # Logged in user can see employees
+    Given I am logged in as "kassi_testperson2"
+    And I am on the home page
+    When I follow "car spare parts"
+    And I follow "listing-author-link"
+    Then I should see "2 employees"
+    And I should see "Kassi T" within "#profile-employees-list"
+    And I should see "Test P" within "#profile-employees-list"
+
+    # Logged in user cant see employees
+    Given the community does not allow others to view the employees of a company
+    When I refresh the page
+    Then I should not see "employees"
+
+    # Logged in user with admin rights can see employees
+    Given "kassi_testperson2" has admin rights in community "test"
+    When I refresh the page
+    Then I should see "2 employees"
+    And I should see "Kassi T" within "#profile-employees-list"
+    And I should see "Test P" within "#profile-employees-list"
+
 
   @javascript
   Scenario: User views a profile page with listings with visibility settings

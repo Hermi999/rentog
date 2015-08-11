@@ -186,12 +186,16 @@ en:
         users_can_invite_new_users: "All users can invite new users to this marketplace"
         private: "This marketplace is private (only registered users can see the content)"
         require_verification_to_post_listings: "Only users verified by admin can post new listings"
+        profile_preferences: "Profile preferences"
+        others_can_see_employees: "Show employees to others on profile page"
         listing_preferences: "Listing preferences"
         transaction_preferences: "Transaction preferences"
         show_listing_publishing_date: "Display publishing date of the listing on the listing page"
         show_category_in_listing_list: "Display listing type in list view"
         hide_expiration_date: "Do not require listings to have an expiration date"
         listing_comments_in_use: "Allow users to post comments to listings (viewable to all other users)"
+        employees_can_create_listings: "Employees can create listings"
+        employees_can_buy_listings: "Employees can buy listings"
         email_preferences: "Email preferences"
         automatic_newsletters: "Send automatic daily / weekly newsletters to all users (unless they opt out)"
         email_admins_about_new_members: "Send admins an email whenever a new user signs up"
@@ -216,9 +220,11 @@ en:
         manage_members: "Manage users"
         email: Email
         name: Name
+        organization: "Orga?"
+        organization_name: "Company name"
         join_date: Joined
         admin: Admin
-        posting_allowed: "Posting allowed"
+        posting_allowed: "Verified user?"
         ban_user: "Ban user"
         saving_user_status: Saving...
         save_user_status_successful: Saved
@@ -1389,6 +1395,7 @@ en:
       show_in_updates_email_success: "This listing will be shown in the next automatic update email sent to the users"
     error:
       something_went_wrong: "Something went wrong, error code: %{error_code}"
+      employees_do_not_post: "Employees are not allowed to post listings on Rentog"
     follow_links:
       follow: "Get emails about new comments"
       unfollow: "Don't get emails about new comments"
@@ -1595,6 +1602,7 @@ en:
       price:
         per_quantity_unit: "per %{quantity_unit}"
         per_day: "per day"
+      request_by_company: "Rent via your company"
       delivery: "Delivery method"
       shipping: "Shipping (+%{price})"
       shipping_no_price: Shipping
@@ -1745,8 +1753,12 @@ en:
       i_accept_the: "I accept the"
       invalid_invitation_code: "The invitation code is not valid."
       invitation_code: "Invitation code"
+      invalid_form_data: "The submited form is invalid. Please activate Javascript and only use our official (web) app to signup"
       not_required: ", not required"
       organization_name: "Organization name"
+      organization_is_in_use: "The organizations you entered is already in use. Please signup as employee."
+      organization_name_not_chosen: "You have to choose an organization you work for."
+      organization_doesnt_exists: "The organization you've given does not exist"
       password_again: "Confirm password"
       show_my_name_to_others: "Show my real name to other %{service_name} users"
       sign_up: "Create a new %{service_name} account"
@@ -1784,6 +1796,7 @@ en:
       as_expected: "As expected"
       edit_profile_info: "Edit profile"
       exceeded_expectations: "Exceeded expectations"
+      employer: "Current Employer"
       positive: positive
       hide_description: "Show less"
       less_than_expected: "Worse than expected"
@@ -1817,6 +1830,16 @@ en:
       following: Following
       follow: Follow
       unfollow: Unfollow
+    employ_button:
+      employee: Employee
+      employ: Accept
+      unemploy: Remove
+      warning: "Are you sure you want to remove %{employee}? If you do so, his account will be locked and he can't do anything except deleting his profile."
+    show_employees:
+      employees_singular: " %{count} employee"
+      employees_plural: " %{count} employees"
+      no_employees: " No employees"
+      show_all_employees: "Show all employees"
   search:
     show:
       all_results: "All results"
@@ -1921,6 +1944,7 @@ en:
       city: City
       family_name: "Last name"
       given_name: "First name"
+      organization_name: "Organization name"
       first_name_with_initial: "(only first letter shown to other users)"
       first_name_only: "(not shown to other users)"
       location_description: "You can give either your exact location or, for example, only your zip code. Please add at least your zip code. You can also select a location from the map below."
@@ -2068,6 +2092,8 @@ en:
         one: "%{count} day"
         other: "%{count} days"
   transactions:
+    employees_cannot_make_transactions: "Employees can't make transactions. Please make a request to your company for renting listings."
+    company_not_verified: "Only companies verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
     initiate:
       booked_days: "Booked days:"
       price_per_day: "Price per day:"
@@ -2108,3 +2134,5 @@ en:
         other: "Displaying <b>all&nbsp;%{count}</b> %{model}"
       multi_page: "Displaying %{model} %{from} - %{to} of %{count} in total"
       multi_page_html: "Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total"
+  person_messages:
+    renting_request: "Hi Admin. I would like to rent this device (%{device_link}) from %{start_date} to %{end_date}. Please contact the owner!"

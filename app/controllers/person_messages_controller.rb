@@ -8,6 +8,16 @@ class PersonMessagesController < ApplicationController
 
   def new
     @conversation = Conversation.new
+
+    # A renting request from an employee
+    if params[:start_on]
+      start_date = params[:start_on]
+      end_date = params[:end_on]
+      device_link = listings_url(params[:listing_id])
+      @message_text = t("person_messages.renting_request", :device_link => device_link, :start_date => start_date, :end_date => end_date)
+    else
+      @message_text = ""
+    end
   end
 
   def create

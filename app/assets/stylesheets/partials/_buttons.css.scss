@@ -23,11 +23,60 @@
     background: $red;
     color: white;
   }
-
 }
+
+.follow-button-small {
+  @include grey-button;
+  width: 100%;
+  font-size: 0.7em;
+  padding-left: 8px;
+  padding-right: 8px;
+
+  &.unfollow:hover:not(.button-disable-hover) {
+    background: $red;
+    color: white;
+  }
+}
+
+.employ-button-small {
+  @include grey-button;
+  width: 100%;
+  font-size: 0.7em;
+  padding-left: 8px;
+  padding-right: 8px;
+
+  &.unemploy:hover:not(.button-disable-hover) {
+    background: $red;
+    color: white;
+  }
+}
+
+.employ-button-small-new {
+  @include yellow-button;
+  width: 100%;
+  font-size: 0.7em;
+  padding-left: 8px;
+  padding-right: 8px;
+
+  &.unemploy:hover:not(.button-disable-hover) {
+    background: $red;
+    color: white;
+  }
+}
+
 
 .disabled-button {
   &, &:hover {
     background-color: $border;
   }
+}
+
+.follow_button_container{
+  width:48%;
+  float: left;
+  margin-right:4%;
+}
+
+.employ_button_container{
+  width:48%;
 }

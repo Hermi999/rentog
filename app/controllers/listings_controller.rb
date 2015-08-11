@@ -28,6 +28,7 @@ class ListingsController < ApplicationController
 
   before_filter :ensure_is_admin, :only => [ :move_to_top, :show_in_updates_email ]
 
+  # If admin authorization is required to post. Also employees aren't allowed to post a new listing.
   before_filter :is_authorized_to_post, :only => [ :new, :create ]
 
   def index
@@ -129,7 +130,26 @@ class ListingsController < ApplicationController
 
     payment_gateway = MarketplaceService::Community::Query.payment_type(@current_community.id)
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: @listing.transaction_process_id)
-    form_path = new_transaction_path(listing_id: @listing.id)
+
+    # Employees can just send a message to their Company in which they request for renting the listing.
+    if @current_user && !@current_user.is_organization && !@current_community.employees_can_buy_listings && !@current_user.has_admin_rights_in?(@current_community)
+      form_path = new_person_person_message_path(@current_user.company)
+    else
+      form_path = new_transaction_path(listing_id: @listing.id)
+    end
+
+    # Unverified Companies cant make transactions
+    if @current_user &&
+       @current_user.is_organization &&
+       @current_community.require_verification_to_post_listings &&
+       !@current_user.can_post_listings_at?(@current_community)
+
+        show_rent_button = false
+        flash.now[:error] = t("transactions.company_not_verified")
+    else
+        show_rent_button = true
+    end
+
 
     delivery_opts = delivery_config(@listing.require_shipping_address, @listing.pickup_enabled, @listing.shipping_price, @listing.shipping_price_additional, @listing.currency)
 
@@ -139,7 +159,8 @@ class ListingsController < ApplicationController
              # TODO I guess we should not need to know the process in order to show the listing
              process: process,
              delivery_opts: delivery_opts,
-             listing_unit_type: @listing.unit_type
+             listing_unit_type: @listing.unit_type,
+             show_rent_button: show_rent_button
            }
   end
 
@@ -650,6 +671,17 @@ class ListingsController < ApplicationController
   end
 
   def is_authorized_to_post
+    # employee can't create listings
+    if @current_user && !@current_user.is_organization
+      if !@current_community.employees_can_create_listings
+        unless @current_user.has_admin_rights_in?(@current_community)
+          flash[:error] = t("listings.error.employees_do_not_post")
+          redirect_to root_path and return
+        end
+      end
+    end
+
+    # admin-verification is needed for companies
     if @current_community.require_verification_to_post_listings?
       unless @current_user.has_admin_rights_in?(@current_community) || @current_community_membership.can_post_listings?
         redirect_to verification_required_listings_path

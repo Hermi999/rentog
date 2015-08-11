@@ -52,12 +52,12 @@
 #
 
 require 'spec_helper'
-
 describe Person do
 
    before(:all) do
       #These will be created only once for the whole example group
       @test_person = FactoryGirl.build(:person)
+      @test_organization = FactoryGirl.build(:person)
     end
 
     it "should be valid" do
@@ -123,12 +123,17 @@ describe Person do
 
     describe "name getters" do
       before(:each) do
-        @test_person.update_attributes({'given_name' => "Ripa", 'family_name' => "Riuska"})
+        @test_person.update_attributes({'given_name' => "Ripa", 'family_name' => "Riuska", "is_organization" => false})
+        @test_organization.update_attributes({'given_name' => "Ripa", 'family_name' => "Riuska", "is_organization" => true, 'organization_name' => 'Bosch'})
+        @community = FactoryGirl.create(:community)
       end
 
       it "returns the name of the user" do
-        @test_person.name('first_name_with_initial').should_not be_blank
-        @test_person.name('first_name_with_initial').should == "Ripa R"
+        # Only perform this test if this isn't a organizations-only community
+          @test_person.name('first_name_with_initial').should_not be_blank
+          @test_person.name('first_name_with_initial').should == "Ripa R"
+          @test_organization.name('first_name_with_initial').should_not be_blank
+          @test_organization.name('first_name_with_initial').should == "Bosch"
       end
 
       it "returns the given or the last name of the user" do
@@ -140,6 +145,9 @@ describe Person do
         @test_person.name("first_name_with_initial").should == "Ripa R"
         @test_person.name("first_name_only").should == "Ripa"
         @test_person.name("full_name").should == "Ripa Riuska"
+        @test_organization.name("first_name_with_initial").should == "Bosch"
+        @test_organization.name("first_name_only").should == "Bosch"
+        @test_organization.name("full_name").should == "Bosch"
       end
 
 
@@ -160,11 +168,13 @@ describe Person do
 
         it "should return the given name if it exists" do
           @test_person.given_name_or_username.should == "Ripa"
+          @test_organization.given_name_or_username.should == "Bosch"
         end
 
         it "should return username if given name is blank" do
           @test_person.update_attributes({'given_name' => "", 'family_name' => ""})
           @test_person.given_name_or_username.should == @test_person.username
+          @test_organization.given_name_or_username.should == "Bosch"
         end
 
       end

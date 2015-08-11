@@ -77,19 +77,51 @@ class Person < ActiveRecord::Base
   end
 
   # Setup accessible attributes for your model (the rest are protected)
+  # Specifies a white list of model attributes that can be set via mass-assignment,
+  # such as new(attributes), update_attributes(attributes), or attributes=(attributes)
   attr_accessible :username, :password, :password2, :password_confirmation,
                   :remember_me, :consent, :login
 
+  # attr_accessor is use for variables that we don't want to store in the
+  # database and will only exist for the life of the object.
   attr_accessor :guid, :password2, :form_login,
                 :form_given_name, :form_family_name, :form_password,
                 :form_password2, :form_email, :consent,
-                :input_again, :community_category, :send_notifications
+                :input_again, :community_category, :send_notifications,
+                :organization_name2, :signup_as
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
 
+  # Attributes named in this macro are protected from mass-assignment, such as
+  # new(attributes), update_attributes(attributes), or attributes=(attributes).
+  # T assign to them you can use direct writer methods. This is meant to protect
+  # sensitive attributes from being overwritten by malicious users tampering with
+  # URLs or forms.
+  # wah82wi: That doesn't makes sense, since we already have with attr_accessible
+  # specified which attributes are whitlisted. The other are per default blacklisted
   attr_protected :is_admin
+
+  # ASSOCIATIONS
+  #
+  # Wir benötigen also für die 1:n Beziehung Company:Employee, eine has_many :through Beziehung für die Company & eine
+  # belongs_to Beziehung für den Employee. „through“ kennzeichnet dass wir das Verhältnis zwischen Company und Employee
+  # über ein eigenes weiteres Model umsetzen. Dieses Model heißt „Employment“ und ist im Prinzip nur eine Tabelle mit
+  # den Attributen company_id und employee_id welches beides Fremdschlüssel auf jeweils eine person_id sind.
+
+  # An employee (is a person and identified by foreign key 'employee_id') has
+  # one company through employers
+  #has_many :employers, :class_name => 'Employment', :foreign_key => 'employee_id'
+  #has_many :companies, :through => :employers #, :source => :company
+  has_one :employer, :class_name => 'Employment', :foreign_key => 'employee_id'
+  has_one :company, :through => :employer
+
+  # A company (is a person and identified by foreign key 'company_id') has
+  # many employees through employments
+  has_many :employments, :foreign_key => 'company_id'
+  has_many :employees, :through => :employments
+
 
   has_many :listings, :dependent => :destroy, :foreign_key => "author_id", :conditions => { :deleted => 0 }
   has_many :emails, :dependent => :destroy, :inverse_of => :person
@@ -158,6 +190,7 @@ class Person < ActiveRecord::Base
 #  validates_uniqueness_of :username
   validates_length_of :phone_number, :maximum => 25, :allow_nil => true, :allow_blank => true
   validates_length_of :username, :within => 3..20
+  validates_length_of :organization_name, :within => 3..30, :allow_nil => true, :allow_blank => true
   validates_length_of :given_name, :within => 1..255, :allow_nil => true, :allow_blank => true
   validates_length_of :family_name, :within => 1..255, :allow_nil => true, :allow_blank => true
 
@@ -165,6 +198,7 @@ class Person < ActiveRecord::Base
                        :with => /\A[A-Z0-9_]*\z/i
 
   USERNAME_BLACKLIST = YAML.load_file("#{Rails.root}/config/username_blacklist.yml")
+  ORGANIZATION_NAME_BLACKLIST = YAML.load_file("#{Rails.root}/config/organizationname_blacklist.yml")
 
   validates :username, :exclusion => USERNAME_BLACKLIST
   validate :community_email_type_is_correct
@@ -238,7 +272,11 @@ class Person < ActiveRecord::Base
 
   def self.username_available?(username)
      !Person.find_by_username(username).present? && !username.in?(USERNAME_BLACKLIST)
-   end
+  end
+
+  def self.organization_name_available?(organization_name)
+     !Person.find_by_organization_name(organization_name).present? && !organization_name.in?(ORGANIZATION_NAME_BLACKLIST)
+  end
 
   # Deprecated: This is view logic (how to display name) and thus should not be in model layer
   # Consider using PersonViewUtils
@@ -270,8 +308,12 @@ class Person < ActiveRecord::Base
 
   # Deprecated: This is view logic (how to display name) and thus should not be in model layer
   # Consider using PersonViewUtils
-  def full_name
-    "#{given_name} #{family_name}"
+  def full_name(current_community = nil)
+    if is_organization
+      "#{organization_name}"
+    else
+      "#{given_name} #{family_name}"
+    end
   end
 
   # Deprecated: This is view logic (how to display name) and thus should not be in model layer
@@ -308,6 +350,10 @@ class Person < ActiveRecord::Base
 
   def set_given_name(name)
     update_attributes({:given_name => name })
+  end
+
+  def set_organization_name(name)
+    update_attributes({:organization_name => name })
   end
 
   def street_address
@@ -725,6 +771,13 @@ class Person < ActiveRecord::Base
 
   def self.members_of(community)
     joins(:communities).where("communities.id" => community.id)
+  end
+
+  def employs?(person)
+    employment = employments.where(employee_id: person.id).first
+    if employment
+      employment.active?
+    end
   end
 
   private

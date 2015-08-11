@@ -8,6 +8,10 @@
   - if @current_user
     - if current_user?(person)
       = render :partial => "people/edit_profile_button"
+    - elsif origin == "show_employees"
+      .follow_button_container
+        = render :partial => "people/follow_button", :locals => { :person => person }
+      .employ_button_container
+        = render :partial => "people/employ_button", :locals => { :person => person }
     - else
       = render :partial => "people/follow_button", :locals => { :person => person }
-

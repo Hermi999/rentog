@@ -54,7 +54,7 @@ class Admin::CommunityMembershipsController < ApplicationController
   def sort_column
     case params[:sort]
     when "name"
-      "people.given_name"
+      "people.organization_name #{sort_direction}, people.given_name"
     when "email"
       "emails.address"
     when "join_date"

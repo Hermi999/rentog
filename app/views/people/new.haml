@@ -1,5 +1,5 @@
 - content_for :javascript do
-  initialize_signup_form("#{I18n.locale}","#{t("people.new.username_is_in_use")}","#{t("people.new.username_is_invalid")}","#{email_not_accepted_message}","#{t("people.new.captcha_was_wrong")}", "#{t("people.new.invalid_invitation_code")}", #{@current_community.real_name_required?}, #{@current_community.join_with_invite_only?} );
+  initialize_signup_form("#{I18n.locale}","#{t("people.new.username_is_in_use")}","#{t("people.new.username_is_invalid")}","#{email_not_accepted_message}","#{t("people.new.captcha_was_wrong")}", "#{t("people.new.invalid_invitation_code")}", #{@current_community.real_name_required?}, #{@current_community.join_with_invite_only?}, "#{t("people.new.organization_is_in_use")}", "#{t("people.new.organization_name_not_chosen")}" );
 
 - content_for :title_header do
   %h1= t('.sign_up')
@@ -15,14 +15,37 @@
             :community_name => @current_community.name(I18n.locale),
             :allowed_emails => @current_community.allowed_emails,
             :count => (@current_community.allowed_emails.split(",").count))
+  .row
+    - # Javascript is enabled -> switch between company & employee signup with JS
+    - unless params[:js_disabled]
+      - id_company = "signup_company"
+      - id_employee = "signup_employee"
+      - _class = "signupType"
+    - else
+      - # Javascript is disabled -> Swtich between company & employee signup with
+      - # different params in the links & reloading the page
+      - if params[:as] == "company"
+        - id_company = "signup_company_enabled"
+        - id_employee = "signup_employee_disabled"
+      - elsif params[:as] == "employee"
+        - id_company = "signup_company_disabled"
+        - id_employee = "signup_employee_enabled"
 
-  - unless !facebook_connect_in_use? || params[:no_fb]
-    = render :partial => "layouts/facebook_connect_button", :locals => { :button_text => t(".create_account_with_facebook") }
+    .col-6
+      %a.button{ :href => "?js_disabled=true&as=company", :title => "Signup as company", id: id_company, class: _class }
+        .content= "Signup as company"
+    .col-6
+      %a.button{ :href => "?js_disabled=true&as=employee", :title => "Signup as employee", id: id_employee, class: _class }
+        .content= "Signup as employee"
 
-    .signup-horizontal-line
-      .signup-horizontal-line-text=t(".OR")
+  .fb_signup
+    - unless !facebook_connect_in_use? || params[:no_fb]
+      = render :partial => "layouts/facebook_connect_button", :locals => { :button_text => t(".create_account_with_facebook") }
 
-    %h3=t(".signup_with_email")
+      .signup-horizontal-line
+        .signup-horizontal-line-text=t(".OR")
+
+      %h3=t(".signup_with_email")
 
   = form_for @person, :url => APP_CONFIG.login_domain.to_s + people_path do |form|
 
@@ -44,14 +67,15 @@
     = form.text_field :email, :class => :text_field, :maxlenght => "255"
 
     -# Name
-    - if @current_community.only_organizations
-      = form.label :organization_name, t('.organization_name')
-      = form.text_field :organization_name, :class => :text_field, :maxlength => "30"
-    - else
-      = form.label :given_name, t('.given_name')
-      = form.text_field :given_name, :class => :text_field, :maxlength => "30"
-      = form.label :family_name, t('.family_name')
-      = form.text_field :family_name, :class => :text_field, :maxlength => "30"
+    -# if @current_community.only_organizations
+    = form.label :organization_name, t('.organization_name')
+    = form.text_field :organization_name, :class => :text_field, :maxlength => "30"
+    = form.collection_select(:organization_name2, @all_organizations, :organization_name, :organization_name, {:prompt => true}, :class => "dropbox")
+    -# else
+    = form.label :given_name, t('.given_name')
+    = form.text_field :given_name, :class => :text_field, :maxlength => "30"
+    = form.label :family_name, t('.family_name')
+    = form.text_field :family_name, :class => :text_field, :maxlength => "30"
 
     -# Username
     = form.label :username, username_label
@@ -72,6 +96,9 @@
           = link_to t(".terms"), "#", :tabindex => "-1", :id => "terms_link", :class => "form"
 
     = form.hidden_field :consent, :value => @current_community.consent
+
+    -# Hidden Field to tell controller how the user wants to register
+    = form.hidden_field :signup_as, :value => "organization"
 
     = button_tag t('.create_new_account')
 

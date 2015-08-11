@@ -5,15 +5,38 @@ window.ST.onFollowButtonAjaxComplete = function(event, xhr) {
   // Work around "Unfollow" showing up too soon
   $(".button-hoverable", newButtonContainer).addClass("button-disable-hover");
   newButtonContainer.on(
-    "mouseleave", function() { 
-      $(".button-disable-hover", newButtonContainer).removeClass("button-disable-hover"); 
+    "mouseleave", function() {
+      $(".button-disable-hover", newButtonContainer).removeClass("button-disable-hover");
     }
   );
 
   target.parents(".follow-button-container:first").replaceWith(newButtonContainer);
   $(".follow-button", newButtonContainer).on("ajax:complete", window.ST.onFollowButtonAjaxComplete);
+  $(".follow-button-small", newButtonContainer).on("ajax:complete", window.ST.onFollowButtonAjaxComplete);
 };
+
+
+window.ST.onEmployeeButtonAjaxComplete = function(event, xhr) {
+  var target = $(event.target);
+  var newButtonContainer = $(xhr.responseText);
+
+  // Work around "Unfollow" showing up too soon
+  $(".button-hoverable", newButtonContainer).addClass("button-disable-hover");
+  newButtonContainer.on(
+    "mouseleave", function() {
+      $(".button-disable-hover", newButtonContainer).removeClass("button-disable-hover");
+    }
+  );
+
+  target.parents(".employ-button-container:first").replaceWith(newButtonContainer);
+  $(".employ-button-small", newButtonContainer).on("ajax:complete", window.ST.onEmployeeButtonAjaxComplete);
+  $(".employ-button-small-new", newButtonContainer).on("ajax:complete", window.ST.onEmployeeButtonAjaxComplete);
+};
+
 
 window.ST.initializeFollowButtons = function() {
   $(".follow-button").on("ajax:complete", window.ST.onFollowButtonAjaxComplete);
+  $(".follow-button-small").on("ajax:complete", window.ST.onFollowButtonAjaxComplete);
+  $(".employ-button-small").on("ajax:complete", window.ST.onEmployeeButtonAjaxComplete);
+  $(".employ-button-small-new").on("ajax:complete", window.ST.onEmployeeButtonAjaxComplete);
 };

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150801150404) do
+ActiveRecord::Schema.define(:version => 20150811104640) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -193,7 +193,7 @@ ActiveRecord::Schema.define(:version => 20150801150404) do
     t.string   "wide_logo_content_type"
     t.integer  "wide_logo_file_size"
     t.datetime "wide_logo_updated_at"
-    t.boolean  "only_organizations"
+    t.boolean  "only_organizations",                                       :default => true,                      :null => false
     t.boolean  "listing_comments_in_use",                                  :default => false
     t.boolean  "show_listing_publishing_date",                             :default => false
     t.boolean  "require_verification_to_post_listings",                    :default => false
@@ -217,6 +217,9 @@ ActiveRecord::Schema.define(:version => 20150801150404) do
     t.string   "dv_test_file_name",                          :limit => 64
     t.string   "dv_test_file",                               :limit => 64
     t.boolean  "deleted"
+    t.boolean  "others_can_see_employees",                                 :default => false
+    t.boolean  "employees_can_create_listings",                            :default => false
+    t.boolean  "employees_can_buy_listings",                               :default => false
   end
 
   add_index "communities", ["domain"], :name => "index_communities_on_domain"
@@ -413,6 +416,17 @@ ActiveRecord::Schema.define(:version => 20150801150404) do
 
   add_index "emails", ["address"], :name => "index_emails_on_address", :unique => true
   add_index "emails", ["person_id"], :name => "index_emails_on_person_id"
+
+  create_table "employments", :force => true do |t|
+    t.string   "company_id"
+    t.string   "employee_id"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.boolean  "active",      :default => true
+  end
+
+  add_index "employments", ["company_id"], :name => "index_employments_on_company_id"
+  add_index "employments", ["employee_id"], :name => "index_employments_on_employee_id"
 
   create_table "favors", :force => true do |t|
     t.string   "owner_id"

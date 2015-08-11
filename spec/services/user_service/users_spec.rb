@@ -48,7 +48,7 @@ describe UserService::API::Users do
       expect(email).to have_subject "Confirmation instructions"
       # simple check that link to right community exists
       expect(email.body).to match @community.full_domain
-      expect(email.body).to match "Sharetribe Team"
+      expect(email.body).to match "Rentog Team"
     end
 
     it "should send the confirmation email in right language" do

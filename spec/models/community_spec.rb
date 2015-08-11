@@ -73,7 +73,7 @@
 #  wide_logo_content_type                     :string(255)
 #  wide_logo_file_size                        :integer
 #  wide_logo_updated_at                       :datetime
-#  only_organizations                         :boolean
+#  only_organizations                         :boolean          default(TRUE), not null
 #  listing_comments_in_use                    :boolean          default(FALSE)
 #  show_listing_publishing_date               :boolean          default(FALSE)
 #  require_verification_to_post_listings      :boolean          default(FALSE)
@@ -97,6 +97,9 @@
 #  dv_test_file_name                          :string(64)
 #  dv_test_file                               :string(64)
 #  deleted                                    :boolean
+#  others_can_see_employees                   :boolean          default(FALSE)
+#  employees_can_create_listings              :boolean          default(FALSE)
+#  employees_can_buy_listings                 :boolean          default(FALSE)
 #
 # Indexes
 #

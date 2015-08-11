@@ -15,7 +15,14 @@ module MarketplaceService::API
       membership.invitation = Invitation.find(invitation_id) if invitation_id.present?
 
       # If the community doesn't have any members, make the first one an admin
+      # wah82wi: Also make the user "superadmin", because he needs to set the
+      # Braintree Payment API keys.
+      # Furthermore set the organization_name to a value, because otherwise
+      # in an organization-only marketplace the for the name of the first admin
+      # nothing is shown
       if community.members.count == 0
+        user.update_attribute :organization_name, "Administrator"
+        user.update_attribute :is_admin, true
         membership.admin = true
       end
       membership.save!

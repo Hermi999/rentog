@@ -5,13 +5,14 @@ Feature: User updates profile information
 
   Background:
     Given there are following users:
-      | person |
+      | person            |
       | kassi_testperson2 |
-    And I am logged in as "kassi_testperson2"
-    And I am on the profile settings page
 
   @javascript
   Scenario: Updating profile successfully
+    Given community and its users are not organizations-only
+    And I am logged in as "kassi_testperson2"
+    And I am on the profile settings page
     When I fill in "First name" with "Test"
     And I fill in "Last name" with "Dude"
     And I fill in "Location" with "Broadway"
@@ -25,9 +26,12 @@ Feature: User updates profile information
     And the "Location" field should contain "Broadway"
     And I should not see my username
 
+  # This test is for both: organizations-only and normal marketplaces
   @skip_phantomjs
   @javascript
   Scenario: Updating profile avatar
+    Given I am logged in as "kassi_testperson2"
+    And I am on the profile settings page
     When I attach a valid image file to "avatar_file"
     And I press "Save information"
     Then I should see "Information updated" within ".flash-notifications"

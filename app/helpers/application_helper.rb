@@ -629,15 +629,16 @@ module ApplicationHelper
     ]
 
     # Disabled for Braintree and Checkout
+    # wah: WHY???
     gw = PaymentGateway.where(community_id: @current_community.id).first
-    unless gw
+    #unless gw
       links << {
         :text => t("admin.listing_shapes.index.listing_shapes"),
         :icon_class => icon_class("order_types"),
         :path => admin_listing_shapes_path,
         :name => "listing_shapes"
       }
-    end
+    #end
 
     if PaypalHelper.paypal_active?(@current_community.id)
       links << {

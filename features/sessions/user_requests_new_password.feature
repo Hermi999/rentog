@@ -3,6 +3,9 @@ Feature: User requests new password
   As a user who has forgotten his password
   I want to request a new password
 
+  Background:
+    Given community and its users are not organizations-only
+
   @javascript
   Scenario: User requests new password successfully
     Given I am on the home page
@@ -20,7 +23,7 @@ Feature: User requests new password
     And I follow "Forgot username or password"
     And I fill in "Email" with "some random string"
     And I press "Request new password"
-    Then I should see "The email you gave was not found from Sharetribe database." within ".flash-notifications"
+    Then I should see "The email you gave was not found from Rentog database." within ".flash-notifications"
 
 
 

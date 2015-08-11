@@ -1,0 +1,74 @@
+Rails/Ruby Hilfe
+----------------
+Hilfe local installieren (ri docs)   rvm docs generate
+
+Rais Namensconventionen
+-----------------------
+'country'.classify    -> Country
+'country'.tableize    -> countries
+'country'.foreign_key -> country_id
+
+ActiveRecord
+------------
+Hilfe zum Rails Model Generator   rails generate model
+Neues Rails Modell erstellen      rails generate model NAME [field[:type][:index]] [field[:type][:index]] [options]
+Fremdschlüssel beim Generator angeben mit: {modelname}_id:integer  -> Rails erstellt automatisch einen Foreign-Key
+Datentypen: binary, boolean, date, datetime, float, integer, decimal{7,2}, primary_key, string, text, time, timestamp
+
+** Datenbank-Aktionen
+rake db:migrate
+rake db:schema:load
+rake db:reset
+rake db:test:load
+rake db:seed            Datenbank mit Daten aus der seeds.rb Datei befüllen
+rake db:setup           Datenbank neu aufsetzten und mit Daten aus der seeds.rb Datei befüllen
+rake export:{taskname}  Task aus der date lib/tasks/export.rake aufrufen um Daten aus der Datenbank zu exportieren
+
+create                (Klassenmethode) Erstellt ein neues Model-Objekt & speichert es in die Datenbank, wenn es valide ist
+new                   (Klassenmethode) Erstellt ein neues Model-Objekt
+build                 (Klassenmethode) das Gleich wie new
+save                  (Methode) Speichert ein vorhandenes Objekt in die Datenbank, wenn es valide ist
+new_record?           (Methode) Anzeigen ob ein neues Model-Objekt bereits in der Datenbank gespeichert ist
+changed?              (Methode) Anzeigen ob zwischen einem Model-Objekt aus der DB und dem tatsächlichen Objekt in der DB ein Unterschied besteht
+order, reverse_order  (Methode) Datensätze eines Arrays sortieren, zb Person.all.order
+valid?                (Methode) Prüfen ob ein Model-Objekt valide ist
+exists?               (Methode) Prüfen ob ein Datenbank-Objekt mit den angengebenen Attributen existiert
+limit                 (Methode) Abfrage auf eine bestimmte Anzahl an Objekten einschränken
+offset                (Methode) Startposition der Methode Limit definieren
+pluck                 (Methode) Nur ein bestimmtes Datenbank-Feld (Spalte) von der Datenbank holen, anstatt die ganze Zeile
+
+** Berechnungen: average, count, maximum, minimum, sum
+
+** Datenbank Abfragen
+  Generell: where ist find* vorzuziehen!
+first, last, all
+find           Datenbank-Objekt(e) anhand ihrer ID in der Datenbank suchen. Mehrere IDs können mit einem Array übergeben werden. Exception, wenn kein Eintrag gefunden wurde.
+find_by_*, find_last_by_*, find_first_by_*    Datenbank-Objekt(e) anhand eines bestimmten Attributes (*) in der Datenbank suchen. Nil, wenn kein Eintrag gefunden wurde.
+find_all_by_*                                 Datenbank-Objekt(e) anhand eines bestimmten Attributes (*) in der Datenbank suchen. Leeres Array, wenn kein Eintrag gefunden wurde.
+find_or_create_by_*       Sucht nach DB-Objekten anhand eines bestimmten Attributes (*) & wenn es nicht fündig wird, so erstellt & speichert es mit den angegebenen Daten ein neues Datenbank-Objekt, wenn dieses valide ist
+find_or_initialize_by_*   Gleich wir "find_or_create_by_*", jedoch ohne Speichern in der DB
+where                     Sucht nach DB-Objekten anhand bestimmter Attribute (auch Ranges oder Arrays möglich: 1..5 oder [3,5,7]). Ergebnis ist immer ein Array.
+joins                     Führt einen INNER JOIN in der DB durch, der dann mit where genauer festgelegt werden kann. zb: Author.joins(:book).where(:books => {:title => "test"})
+
+** SQL-Abfragen immer "sanitized" (gereinigt) durchführen um nicht Opfer einer SQL-Injection zu werden. Dh: Dynamische Suchanteile durch ? ersetzen und Suchanteile als Parameter übergeben:
+Album.where( 'release_year > ?', 1999 )
+Album.where( 'name like ?', %Californication% )
+
+** Lazy-Loading: Datenbank-Abfrage wird erst erstellt, wenn der weitere Programm-Ablauf nicht ohne das Ergebnis der Abfrage realisiert werden kann (Gegenteil: Eager Loading).
+Bis dahin wird die Abfrage nur als Active:Record::Relation gespeichert & nicht durchgeführt. Das ist seit Rails 3.0 Standard by where-Abfragen.
+
+** DB-Datensatz ändern
+Variante a:   1) Datensatz mit Query aus DB holen, 2) Objekt verändern mit direkten Zugriff auf Attributen, 3) Objekt wieder zurück in DB speichern mit "save"
+Variante b:   2) update_attribute, update_attributes:   Attribute eines geholten Model-Objekts aus der DB direkt bearbeiten und speichern
+
+** Assoziationen
+Werden in die Model-Datei eingefügt, sodass sie semantisch einen Sinn ergeben. Zb: Book -> has_many :authors    &   Auhtor -> belongs_to :book
+Danach erstellt Rails entsprechende Methoden und man kann bequem zugreifen:   book = Book.create(:title => 'abc')   author = book.authors.create(:first_name => 'Max', :last_name => 'Fisch')
+
+has_one                   1:1 - Verknüpfung
+has_many                  1:n - Verknüpfung
+has_many :through         n:m - Verknüpfung
+belongs_to                in Verbindung mit has_one und has_many beim anderen Modell
+has_one :through
+has_and_belongs_to_many   n:m - Verknüpfung
+

@@ -22,8 +22,17 @@ class PeopleController < Devise::RegistrationsController
 
   def show
     @person = Person.find(params[:person_id] || params[:id])
+
     raise PersonDeleted if @person.deleted?
     PersonViewUtils.ensure_person_belongs_to_community!(@person, @current_community)
+
+    # if person is an employee find out the organization he works for
+    @organization = @person.company
+    # if person is an company get all the employees
+    @employees = @person.employees
+    # WORKAROUND: create path for showing more than 6 employees
+    @employees_path = request.original_url + '/followed_people?type=employees'
+
 
     redirect_to root and return if @current_community.private? && !@current_user
     redirect_to url_for(params.merge(:locale => nil)) and return if params[:locale] # This is an important URL to keep pretty
@@ -34,6 +43,8 @@ class PeopleController < Devise::RegistrationsController
 
   def new
     @selected_tribe_navi_tab = "members"
+    @all_organizations = Person.where(:is_organization => true, :is_admin => false)
+
     redirect_to root if logged_in?
     session[:invitation_code] = params[:code] if params[:code]
 
@@ -51,14 +62,23 @@ class PeopleController < Devise::RegistrationsController
     @current_community ? domain = @current_community.full_url : domain = "#{request.protocol}#{request.host_with_port}"
     error_redirect_path = domain + sign_up_path
 
-    if params[:person][:input_again].present? # Honey pot for spammerbots
+    # Honey pot for spammerbots
+    if params[:person][:input_again].present?
       flash[:error] = t("layouts.notifications.registration_considered_spam")
       ApplicationHelper.send_error_notification("Registration Honey Pot is hit.", "Honey pot")
       redirect_to error_redirect_path and return
     end
 
-    if @current_community && @current_community.join_with_invite_only? || params[:invitation_code]
+    # How does the user wants to signup (if not specified or data is missing, then show an error
+    if(signup_as = params[:person][:signup_as]).nil? ||
+      params[:person][:signup_as] == "organization" && (params[:person][:organization_name]).nil? ||
+      params[:person][:signup_as] == "employee" && (params[:person][:organization_name2]).nil?
+        flash[:error] = t("people.new.invalid_form_data")
+        redirect_to error_redirect_path and return
+    end
 
+    # Check invitation code
+    if @current_community && @current_community.join_with_invite_only? || params[:invitation_code]
       unless Invitation.code_usable?(params[:invitation_code], @current_community)
         # abort user creation if invitation is not usable.
         # (This actually should not happen since the code is checked with javascript)
@@ -83,6 +103,23 @@ class PeopleController < Devise::RegistrationsController
     if @current_community && ! @current_community.email_allowed?(params[:person][:email])
       flash[:error] = t("people.new.email_not_allowed")
       redirect_to error_redirect_path and return
+    end
+
+    # If an organization should be created
+    if signup_as == "organization"
+      # Check that organization is not taken if a new organization is registered
+      unless Person.organization_name_available?(params[:person][:organization_name])
+        flash[:error] = t("people.new.organization_is_in_use")
+        redirect_to error_redirect_path and return
+      end
+
+    # If an employee should be created
+    elsif signup_as == "employee"
+      # Check that the given organization is available if a new employee should be registered
+      if Person.organization_name_available?(params[:person][:organization_name2])
+        flash[:error] = t("people.new.organization_doesnt_exists")
+        redirect_to error_redirect_path and return
+      end
     end
 
     @person, email = new_person(params, @current_community)
@@ -242,6 +279,12 @@ class PeopleController < Devise::RegistrationsController
     end
   end
 
+  def check_organization_name_availability
+    respond_to do |format|
+      format.json { render :json => Person.organization_name_available?(params[:person][:organization_name]) }
+    end
+  end
+
   #This checks also that email is allowed for this community
   def check_email_availability_and_validity
     # this can be asked from community_membership page or new user page
@@ -328,6 +371,15 @@ class PeopleController < Devise::RegistrationsController
     person.emails << email
 
     person.inherit_settings_from(current_community)
+
+    # Change the user type according to the params
+    if params[:person][:signup_as] == "organization"
+      person.is_organization = true
+    elsif params[:person][:signup_as] == "employee"
+      person.is_organization = false
+      # Also set up a relationship to the given company
+      person.company = Person.find_by_organization_name(params[:person][:organization_name2])
+    end
 
     if person.save!
       sign_in(resource_name, resource)
