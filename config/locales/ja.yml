@@ -580,6 +580,7 @@ ja:
       canceled_request: リクエストはキャンセルされました
       canceled_offer: キャンセルされたオファー
       paid: "%{sum}をお支払いしました"
+      payment_preauthorized: ~
     new:
       offer_message_form_title: "%{person}さんに%{listing}をオファーする"
       request_message_form_title: "%{person}さんから%{listing}をリクエストします"
@@ -961,6 +962,7 @@ ja:
     transaction_agreement:
       required_error: 同意する必要があります
     paypal:
+      buyer_cannot_pay_error: ~
       pending_review_error: ~
       generic_error: お支払い手続き中にエラーが発生しました。PayPalのお支払いが完了できませんでした。
       cancel_error: キャンセル手続き中にエラーが発生しました。キャンセルが完了できませんでした。
@@ -1116,7 +1118,6 @@ ja:
       this_is_private_community: コンテンツ閲覧には登録の必要があります。
     invitation_form:
       email: メールアドレス
-      email_with_limit: ~
       message: パーソナル･メッセージを書いて下さい
       send_invitation: 招待状を送る
       add_email_addresses_description: 下の欄に招待したい方のメールアドレスを追加してください。メールアドレスが複数ある場合は、コンマで区切ってください。

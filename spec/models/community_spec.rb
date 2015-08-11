@@ -6,7 +6,7 @@
 #  id                                         :integer          not null, primary key
 #  ident                                      :string(255)
 #  domain                                     :string(255)
-#  redirect_to_domain                         :boolean          default(FALSE), not null
+#  use_domain                                 :boolean          default(FALSE), not null
 #  created_at                                 :datetime
 #  updated_at                                 :datetime
 #  settings                                   :text
@@ -54,7 +54,6 @@
 #  available_currencies                       :text
 #  facebook_connect_enabled                   :boolean          default(TRUE)
 #  only_public_listings                       :boolean          default(TRUE)
-#  custom_email_from_address                  :string(255)
 #  vat                                        :integer
 #  commission_from_seller                     :integer
 #  minimum_price_cents                        :integer

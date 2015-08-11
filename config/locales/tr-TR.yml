@@ -582,6 +582,7 @@ tr-TR:
       canceled_request: "talebi iptal etti"
       canceled_offer: "teklifi iptal etti"
       paid: "%{sum} ödedi"
+      payment_preauthorized: ~
     new:
       offer_message_form_title: "%{listing} ürününü %{person} kullanıcısına öner"
       request_message_form_title: "%{listing} ürününü %{person} kullanıcısından talep et"
@@ -963,6 +964,7 @@ tr-TR:
     transaction_agreement:
       required_error: "Sözleşmeyi kabul etmelisiniz"
     paypal:
+      buyer_cannot_pay_error: ~
       pending_review_error: ~
       generic_error: "Ödeme sırasında bir hata meydana geldi. PayPal ödemesi tamamlanamadı."
       cancel_error: "İptal sırasında bir hata meydana geldi. İptal işlemi tamamlanamadı."
@@ -1118,7 +1120,6 @@ tr-TR:
       this_is_private_community: "Bu içeriği görüntüleyebilmek için kayıt olmanız gerekmektedir."
     invitation_form:
       email: "E-posta adres(ler)i"
-      email_with_limit: ~
       message: "Kişisel bir mesaj"
       send_invitation: "Davetiye yolla"
       add_email_addresses_description: "Aşağıdaki alana davet etmek istediğiniz kişilerin e-posta adreslerini girin. Birden fazla adres ekleyecekseniz, adresleri virgül ile ayırın."

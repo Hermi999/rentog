@@ -566,6 +566,7 @@ it:
       canceled_request: ~
       canceled_offer: ~
       paid: ~
+      payment_preauthorized: ~
     new:
       offer_message_form_title: ~
       request_message_form_title: ~
@@ -947,6 +948,7 @@ it:
     transaction_agreement:
       required_error: ~
     paypal:
+      buyer_cannot_pay_error: ~
       pending_review_error: ~
       generic_error: "Si è verificato un errore durante la procedura di pagamento. Impossibile finalizzare il pagamento di PayPal."
       cancel_error: "Si è verificato un errore durante la cancellazione. Non è stato possibile completare la cancellazione."
@@ -1102,7 +1104,6 @@ it:
       this_is_private_community: ~
     invitation_form:
       email: "Indirizzo/i email"
-      email_with_limit: ~
       message: "Un messaggio personale"
       send_invitation: "Invia un invito"
       add_email_addresses_description: ~

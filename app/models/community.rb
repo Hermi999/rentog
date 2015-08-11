@@ -5,7 +5,7 @@
 #  id                                         :integer          not null, primary key
 #  ident                                      :string(255)
 #  domain                                     :string(255)
-#  redirect_to_domain                         :boolean          default(FALSE), not null
+#  use_domain                                 :boolean          default(FALSE), not null
 #  created_at                                 :datetime
 #  updated_at                                 :datetime
 #  settings                                   :text
@@ -53,7 +53,6 @@
 #  available_currencies                       :text
 #  facebook_connect_enabled                   :boolean          default(TRUE)
 #  only_public_listings                       :boolean          default(TRUE)
-#  custom_email_from_address                  :string(255)
 #  vat                                        :integer
 #  commission_from_seller                     :integer
 #  minimum_price_cents                        :integer
@@ -270,6 +269,10 @@ class Community < ActiveRecord::Base
 
   attr_accessor :terms
 
+  def self.columns
+    super.reject { |c| ["redirect_to_domain", "custom_email_from_address"].include?(c.name) }
+  end
+
   def name(locale)
     customization = Maybe(community_customizations.where(locale: locale).first).or_else {
       # We should not end up in a situation where the given locale is not found.
@@ -412,7 +415,7 @@ class Community < ActiveRecord::Base
     default_host, default_port = APP_CONFIG.domain.split(':')
     port_string = options[:port] || default_port
 
-    if domain.present? # custom domain
+    if domain.present? && use_domain? # custom domain
       dom = domain
     else # just a subdomain specified
       dom = "#{self.ident}.#{default_host}"
@@ -583,6 +586,29 @@ class Community < ActiveRecord::Base
     cover_photo.processing? ||
     small_cover_photo.processing? ||
     favicon.processing?
+  end
+
+  # Finds a community by the given identifier(s)
+  #
+  # Communities have 3 values that can used individually to
+  # uniquely identify a community.
+  #
+  # Those are (in the order of priority):
+  #
+  # - id
+  # - ident
+  # - domain
+  #
+  def self.find_by_identifier(identifiers)
+    priority = [:id, :ident, :domain]
+
+    identifier_to_use = priority.find { |identifier| identifiers[identifier].present? }
+
+    if identifier_to_use.nil?
+      nil
+    else
+      Community.where({ identifier_to_use => identifiers[identifier_to_use]}).first
+    end
   end
 
   private

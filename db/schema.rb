@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(:version => 20150811104640) do
   create_table "communities", :force => true do |t|
     t.string   "ident"
     t.string   "domain"
-    t.boolean  "redirect_to_domain",                                       :default => false,                     :null => false
+    t.boolean  "use_domain",                                               :default => false,                     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "settings"
@@ -553,18 +553,17 @@ ActiveRecord::Schema.define(:version => 20150811104640) do
   add_index "listing_images", ["listing_id"], :name => "index_listing_images_on_listing_id"
 
   create_table "listing_shapes", :force => true do |t|
-    t.integer  "community_id",                                  :null => false
-    t.integer  "transaction_process_id",                        :null => false
-    t.boolean  "price_enabled",                                 :null => false
-    t.boolean  "shipping_enabled",                              :null => false
-    t.string   "name",                                          :null => false
-    t.string   "name_tr_key",                                   :null => false
-    t.string   "action_button_tr_key",                          :null => false
-    t.string   "price_quantity_placeholder"
-    t.integer  "sort_priority",              :default => 0,     :null => false
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
-    t.boolean  "deleted",                    :default => false
+    t.integer  "community_id",                              :null => false
+    t.integer  "transaction_process_id",                    :null => false
+    t.boolean  "price_enabled",                             :null => false
+    t.boolean  "shipping_enabled",                          :null => false
+    t.string   "name",                                      :null => false
+    t.string   "name_tr_key",                               :null => false
+    t.string   "action_button_tr_key",                      :null => false
+    t.integer  "sort_priority",          :default => 0,     :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.boolean  "deleted",                :default => false
   end
 
   add_index "listing_shapes", ["community_id", "deleted", "sort_priority"], :name => "multicol_index"
@@ -653,6 +652,18 @@ ActiveRecord::Schema.define(:version => 20150811104640) do
   add_index "locations", ["community_id"], :name => "index_locations_on_community_id"
   add_index "locations", ["listing_id"], :name => "index_locations_on_listing_id"
   add_index "locations", ["person_id"], :name => "index_locations_on_person_id"
+
+  create_table "marketplace_sender_emails", :force => true do |t|
+    t.integer  "community_id",                            :null => false
+    t.string   "name"
+    t.string   "email",                                   :null => false
+    t.string   "verification_status",       :limit => 32, :null => false
+    t.datetime "verification_requested_at"
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
+  end
+
+  add_index "marketplace_sender_emails", ["community_id"], :name => "index_marketplace_sender_emails_on_community_id"
 
   create_table "menu_link_translations", :force => true do |t|
     t.integer  "menu_link_id"

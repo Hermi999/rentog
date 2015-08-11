@@ -3,6 +3,7 @@ class Admin::CommunitiesController < ApplicationController
 
   before_filter :ensure_is_admin
   before_filter :ensure_is_superadmin, :only => [:payment_gateways, :update_payment_gateway, :create_payment_gateway]
+  ensure_feature_enabled :sender_address, only: [:create_sender_address]
 
   def getting_started
     @selected_left_navi_link = "getting_started"
@@ -30,6 +31,54 @@ class Admin::CommunitiesController < ApplicationController
       :ref => "welcome_email",
       :locale => @current_user.locale
     }
+
+    sender_address = EmailService::API::Api.addresses.get_sender(community_id: @current_community.id).data
+    user_defined_address = EmailService::API::Api.addresses.get_user_defined(community_id: @current_community.id).data
+
+    Maybe(user_defined_address)
+      .reject { |address| address[:verification_status] == :verified }
+      .each { |address|
+      EmailService::API::Api.addresses.enqueue_status_sync(
+        community_id: address[:community_id],
+        id: address[:id])
+    }
+
+    render "edit_welcome_email", locals: {
+             status_check_url: check_email_status_admin_community_path,
+             resend_url: Maybe(user_defined_address).map { |address| resend_verification_email_admin_community_path(address_id: address[:id]) }.or_else(nil),
+             support_email: APP_CONFIG.support_email,
+             sender_address: sender_address,
+             user_defined_address: user_defined_address,
+             post_sender_address_url: create_sender_address_admin_community_path,
+           }
+  end
+
+  def create_sender_address
+    # TODO validate email
+
+    EmailService::API::Api.addresses.create(
+      community_id: @current_community.id,
+      address: {
+        name: params[:name],
+        email: params[:email]
+      })
+
+    flash[:notice] = t("admin.communities.outgoing_email.successfully_saved")
+    redirect_to action: :edit_welcome_email
+  end
+
+  def check_email_status
+    EmailService::API::Api.addresses.get_user_defined(community_id: @current_community.id).on_success { |address|
+      render json: HashUtils.camelize_keys(address)
+    }.on_error { |error_msg|
+      render json: {error: error_msg }, status: 500
+    }
+  end
+
+  def resend_verification_email
+    EmailService::API::Api.addresses.enqueue_verification_request(community_id: @current_community.id, id: params[:address_id])
+
+    redirect_to action: :edit_welcome_email
   end
 
   def social_media

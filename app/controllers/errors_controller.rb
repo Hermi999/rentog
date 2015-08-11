@@ -25,7 +25,12 @@ class ErrorsController < ActionController::Base
   private
 
   def current_community
-    @current_community ||= ApplicationController.default_community_fetch_strategy(request.host)
+    @current_community ||= ApplicationController.find_community(community_identifiers)
+  end
+
+  def community_identifiers
+    app_domain = URLUtils.strip_port_from_host(APP_CONFIG.domain)
+    ApplicationController.parse_community_identifiers_from_host(request.host, app_domain)
   end
 
   def title(status)
@@ -41,6 +46,8 @@ class ErrorsController < ActionController::Base
   end
 
   def set_locale
+    # TODO We should set also the community here and allow I18n
+    # backend to work even if community is not set
     I18n.locale = community_locale || "en"
   end
 

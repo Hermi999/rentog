@@ -44,8 +44,12 @@ GEM
       fog (>= 1.8.0)
       unf
     ast (2.0.0)
-    aws-sdk (1.64.0)
-      aws-sdk-v1 (= 1.64.0)
+    aws-sdk (2.1.12)
+      aws-sdk-resources (= 2.1.12)
+    aws-sdk-core (2.1.12)
+      jmespath (~> 1.0)
+    aws-sdk-resources (2.1.12)
+      aws-sdk-core (= 2.1.12)
     aws-sdk-v1 (1.64.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
@@ -302,6 +306,8 @@ GEM
     inflecto (0.0.2)
     innertube (1.1.0)
     ipaddress (0.8.0)
+    jmespath (1.0.2)
+      multi_json (~> 1.0)
     joiner (0.2.0)
       activerecord (>= 3.1.0, < 4.1.0)
     journey (1.0.4)
@@ -592,7 +598,8 @@ DEPENDENCIES
   airbrake (~> 4.1.0)
   annotate
   asset_sync
-  aws-sdk (< 2)
+  aws-sdk (~> 2)
+  aws-sdk-v1
   better_errors
   braintree
   cache_digests

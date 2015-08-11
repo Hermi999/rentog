@@ -51,10 +51,9 @@ module MailUtils
 
   def set_community(new_community_id, community_locales, &block)
     community_backend = I18n::Backend::CommunityBackend.instance
-    old_community_id = community_backend.community_id
+    old_community = community_backend.set_community!(new_community_id, community_locales, clear: false)
 
-    if old_community_id != new_community_id
-      community_backend.set_community!(new_community_id, community_locales, clear: false)
+    if old_community[:community_id] != new_community_id
       community_translations = TranslationService::API::Api.translations.get(new_community_id)[:data]
       TranslationServiceHelper.community_translations_for_i18n_backend(community_translations).each { |locale, data|
         # Store community translations to I18n backend.
@@ -63,23 +62,19 @@ module MailUtils
         # escape the separators (. dots) in the key
         community_backend.store_translations(locale, data, escape: false)
       }
-      begin
-        block.call
-      ensure
-        community_backend.set_community!(old_community_id, clear: false)
-      end
-    else
+    end
+
+    begin
       block.call
+    ensure
+      community_backend.set_community!(old_community[:community_id], old_community[:locales_in_use], clear: false)
     end
   end
 
   module_function
 
   def community_specific_sender(community)
-    if community && community.custom_email_from_address
-      community.custom_email_from_address
-    else
-      APP_CONFIG.sharetribe_mail_from_address
-    end
+    cid = Maybe(community).id.or_else(nil)
+    EmailService::API::Api.addresses.get_sender(community_id: cid).data[:smtp_format]
   end
 end

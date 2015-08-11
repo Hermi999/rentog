@@ -566,6 +566,7 @@ ca:
       canceled_request: ~
       canceled_offer: ~
       paid: ~
+      payment_preauthorized: ~
     new:
       offer_message_form_title: ~
       request_message_form_title: ~
@@ -949,6 +950,7 @@ ca:
     transaction_agreement:
       required_error: ~
     paypal:
+      buyer_cannot_pay_error: ~
       pending_review_error: ~
       generic_error: ~
       cancel_error: ~

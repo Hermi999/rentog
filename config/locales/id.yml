@@ -446,16 +446,16 @@ id:
         inquiry: ~
   common:
     edit_page: ~
-    default_community_slogan: ~
+    default_community_slogan: "Pasar Komunitas"
     default_community_description: ~
-    cancel: cancel
+    cancel: Batal
     fields_that_are_mandatory: "Kolom dengan tanda bintang (*) adalah wajib."
     or: atau
-    password: ~
-    service_name: ~
+    password: "Kata Sandi"
+    service_name: ""
     share_types:
-      request: ~
-      offer: ~
+      request: Permintaan
+      offer: penawaran
       borrow: meminjamkan
       buy: membeli
       give_away: memberikan
@@ -464,34 +464,34 @@ id:
       rent: menyewakan
       rent_out: menyewakan
       sell: menjual
-      offer_to_swap: ~
-      request_to_swap: ~
-      share_for_free: ~
-      accept_for_free: ~
+      offer_to_swap: Menukar
+      request_to_swap: Menukar
+      share_for_free: "Membagi dengan gratis"
+      accept_for_free: "menggunakan dengan gratis"
     categories:
-      item: ~
-      favor: ~
-      rideshare: ~
-      housing: ~
-      tools: ~
-      sports: ~
-      music: ~
-      books: ~
+      item: Barang
+      favor: Pelayanan
+      rideshare: Tumpangan
+      housing: Tempat
+      tools: Alat
+      sports: Olahraga
+      music: Musik
+      books: "Buku-buku dan majalah"
       games: ~
-      furniture: ~
-      outdoors: ~
-      food: ~
+      furniture: Perabotan
+      outdoors: "Berkemah & mainan di luar rumah"
+      food: "Makanan & Dapur"
       electronics: ~
-      pets: ~
+      pets: "Hewan peliharaan & Hewan yang lain"
       film: ~
       clothes: ~
       garden: ~
       travel: ~
       other: ~
-    username: ~
-    username_or_email: ~
+    username: "Nama Pengguna"
+    username_or_email: "E-mail atau nama pengguna"
     what_is_this: "Apa ini?"
-    removed_user: ~
+    removed_user: "Pengguna dihapus"
     paypal_fee_info:
       title: ~
       body_text: ~
@@ -566,6 +566,7 @@ id:
       canceled_request: ~
       canceled_offer: ~
       paid: ~
+      payment_preauthorized: ~
     new:
       offer_message_form_title: ~
       request_message_form_title: ~
@@ -609,7 +610,7 @@ id:
       message_sent_by: ~
       message_sent_to: ~
       send_reply: "Kirim balasan"
-      write_a_reply: "Tulisa balasan"
+      write_a_reply: "Tulis balasan"
       conversation_about_listing: ~
       conversation_with_user: ~
       conversation_with: ~
@@ -623,9 +624,9 @@ id:
       payment_errored_starter: ~
       payment_errored_author: ~
       cancel_payed_transaction: ~
-      feedback_given: "Feedback yang diberikan"
-      feedback_skipped: "Feedback yang dilewatkan"
-      give_feedback: "Beri feedback"
+      feedback_given: "Masukkan yang diberikan"
+      feedback_skipped: "Masukkan yang dilewatkan"
+      give_feedback: "Berikan masukkan"
       offer_accepted: Diterima
       offer_rejected: Ditolak
       offer_canceled: ~
@@ -649,7 +650,7 @@ id:
       request_canceled: ~
       request_paid: ~
       request_preauthorized: ~
-      skip_feedback: "Lewati feedback"
+      skip_feedback: "Lewati masukkan"
       waiting_for_listing_author_to_accept_offer: ~
       waiting_for_listing_author_to_accept_request: ~
       waiting_for_you_to_accept_request: ~
@@ -947,6 +948,7 @@ id:
     transaction_agreement:
       required_error: ~
     paypal:
+      buyer_cannot_pay_error: ~
       pending_review_error: ~
       generic_error: ~
       cancel_error: ~
@@ -1017,20 +1019,20 @@ id:
       request_partitive: ~
   header:
     about: Tentang
-    home: Home
-    members: ~
-    new_listing: ~
-    mobile_version: "Mobile version"
+    home: Beranda
+    members: Komunitas
+    new_listing: "Daftar baru"
+    mobile_version: "Versi Mobile"
     offers: Penawaran
     requests: Permintaan
     search_kassi: "Cari %{service_name}"
-    create_new_marketplace: ~
-    contact_us: ~
-    profile: ~
-    invite: ~
-    login: ~
-    signup: ~
-    menu: ~
+    create_new_marketplace: "Membuat pasar komunitas yang baru"
+    contact_us: "Hubungi Kami"
+    profile: Profil
+    invite: "Mengundang anggota baru"
+    login: Masuk
+    signup: Daftar
+    menu: "Tampilkan Menu"
   homepage:
     additional_private_listings_slate:
       additionally_one_private_offer_exists: "Selain itu  ada <b>satu tawaran lainnya</ b>,"
@@ -1064,11 +1066,11 @@ id:
       some_private_offers_exist: "Sudah ada <b>%{number_of_listings} penawaran</b>,"
       some_private_requests_exist: "Sudah ada <b>%{number_of_listings} permintaan</b>,"
     custom_filters:
-      update_view: ~
-      min: ~
-      max: ~
+      update_view: ""
+      min: ""
+      max: ""
     event_feed:
-      latest_events: ~
+      latest_events: "yang terbaru"
     grid_item:
       processing_uploaded_image: ~
     index:
@@ -1080,32 +1082,31 @@ id:
       private_listing_notification_log_in: ~
       is: ~
       are: ~
-      what_do_you_need: ~
-      post_new_listing: ~
+      what_do_you_need: "Apa yang Anda cari?"
+      post_new_listing: "Membuat iklan terbaru"
       are_offering: penawaran
-      add_news_item: ~
+      add_news_item: "Tambahkan artikel"
       lend_rent_help_carpool: "Jual, pinjam, bantu, berbagi tumpangan"
       loading_more_content: "Memuat lebih banyak konten"
-      more_events: ~
+      more_events: "Aktivitas yang lain"
       news: Berita
-      no_news: ~
-      more_news: ~
+      no_news: "Tidak ada berita"
+      more_news: "Berita yang lain"
       or: dan
-      or_see_what_the_others: ~
-      recent_events: ~
-      requesting: ~
-      tell_it_here: ~
-      welcome_to_new_kassi: ~
+      or_see_what_the_others: "atau melihat tampilan dari yang lain"
+      recent_events: "Aktivitas yang terbaru"
+      requesting: Dibutuhkan
+      tell_it_here: "Beritahu disini!"
+      welcome_to_new_kassi: ""
       no_reviews: ~
       no_image: ~
       filter: ~
       this_is_private_community: ~
     invitation_form:
-      email: ~
-      email_with_limit: ~
-      message: ~
-      send_invitation: ~
-      add_email_addresses_description: ~
+      email: "Alamat Email"
+      message: "Pesan Pribadi"
+      send_invitation: "Kirim undangan"
+      add_email_addresses_description: ""
       add_lots_of_email_addresses: ~
       this_article_link: ~
       invitation_emails_field_placeholder: ~
@@ -1115,26 +1116,26 @@ id:
       review: ~
       reviews: ~
     news_item:
-      show_less: ~
-      show_more: ~
+      show_less: "Penampilan dikurangi"
+      show_more: "Tampilkan lebih banyak"
     profile_info_empty_notification:
-      add_your_info: ~
-      add_a_profile_picture: ~
-      you_have_not_added_your_info: ~
-      add_your_info_link: ~
+      add_your_info: "Tulis kontak info Anda"
+      add_a_profile_picture: "Masukkan gambar profil Anda"
+      you_have_not_added_your_info: "Anda belum menulis kontak informasi Anda. Silahkan ditulis, jadi orang lain bisa dengan mudah menghubungkan Anda. Juga jangan lupa untuk memasukkan profil gambar Anda jadi membuat orang lain lebih mempercayai akun Anda."
+      add_your_info_link: "Tulis info Anda sekarang"
     recent_listing:
-      please_offer: ~
-      comment: ~
-      comments: ~
+      please_offer: Penawaran
+      comment: Komentar
+      comments: Komentar-komentar
     filters:
-      show: ~
-      search: ~
-      map: ~
-      list: ~
-      map_button: ~
+      show: Menyaring
+      search: Cari
+      map: "Tampilkan Peta"
+      list: "Tampilkan Semua"
+      map_button: Peta
       grid_button: ~
-      list_button: ~
-      all_listing_types: ~
+      list_button: Daftar
+      all_listing_types: "Semua Jenis"
       all_categories: "Semua Kategori"
   infos:
     about:
@@ -1146,7 +1147,7 @@ id:
       default_content: ~
   layouts:
     admin:
-      admin: ~
+      admin: "%{service_name} admin panel"
     no_tribe:
       inbox: ~
       settings: ~
@@ -1155,12 +1156,14 @@ id:
       join_this_community: ~
       read_more: ~
       feedback: "Apa yang Anda mau kabari kami?"
-      default_feedback: ~
+      default_feedback: |-
+          Apakah Anda mengalami masalah dengan %{service_name}? 
+          Memiliki saran untuk meningkatkan pelayanan? Melihat beberapa konten yang mencurigakan atau mengkwatirkan? Atau hanya memiliki sesuatu yang Anda ingin diskusikan dengan kami? Beritahu kami!
       feedback_forum: feedback_forum
       feedback_handle: "Saran atau masukan"
       give_feedback: "Hubungi Kami"
       or_check_our: ~
-      send_feedback_to_admin: ~
+      send_feedback_to_admin: "Kirim Masukkan"
       to_see_what_others_have_suggested: ~
       your_email_address: "Alamat email (untuk menghubungi Anda)"
       connect: ~
@@ -1187,11 +1190,11 @@ id:
     logged_in:
       admin: Admin
       go_to_your_profile_page: Profil
-      hi: Hai
-      login: Login
-      logout: Logout
+      hi: Halo
+      login: Masuk
+      logout: Keluar
       notifications: Notifikasi
-      requests: "Permintaan pertemanan"
+      requests: "Permintaan untuk berteman"
       settings: Pengaturan
       sign_up: "Buat akun"
     logged_in_messages_icon:
@@ -1201,11 +1204,11 @@ id:
     mobile_logged_in:
       admin: Admin
       go_to_your_profile_page: Profil
-      hi: Hai
-      login: Login
-      logout: Logout
+      hi: Halo
+      login: Masuk
+      logout: Keluar
       notifications: Notifikasi
-      requests: "Permintaan pertemanan"
+      requests: "Permintaan untuk berteman"
       settings: ~
       sign_up: Daftar
     notifications:
@@ -1217,8 +1220,8 @@ id:
       community_update_failed: ~
       account_creation_succesful_you_still_need_to_confirm_your_email: ~
       community_joined_succesfully_you_still_need_to_confirm_your_email: ~
-      comment_cannot_be_empty: "Komen tidak boleh kosong"
-      comment_sent: "Komen terkirim"
+      comment_cannot_be_empty: "Komentar tidak boleh kosong"
+      comment_sent: "Komentar terkirim"
       confirmation_link_is_wrong_or_used: ~
       additional_email_confirmed: ~
       could_not_get_email_from_facebook: ~
@@ -1236,8 +1239,8 @@ id:
       invitation_limit_reached: ~
       invitation_sent: ~
       inviting_new_users_is_not_allowed_in_this_community: ~
-      login_again: "Silakan login lagi."
-      login_failed: "Login gagal. Masukkan detil yang benar."
+      login_again: "Silakan masuk lagi."
+      login_failed: "Masuk gagal. Masukkan detil yang benar."
       account_creation_successful: ~
       account_deleted: ~
       login_successful: "Selamat Datang, %{person_name}!"
@@ -1601,8 +1604,8 @@ id:
       favors: Layanan
       housing: Tempat
       items: Item
-      list_view: "List view"
-      map_view: "Map view"
+      list_view: "Tampilan gambar"
+      map_view: "Gambar Peta"
       offer_something: "Sebarkan ke yang lain!"
       offer_type: "Jenis penawaran"
       offers: Penawaran
@@ -1690,7 +1693,7 @@ id:
       deactivate: ~
     help_texts:
       feedback_description_title: Feedback
-      help_captcha_title: "Apakah Anda manusia?"
+      help_captcha_title: "Apakah Anda orang?"
       help_invitation_code_title: ~
       terms_title: "%{service_name} ketentuan penggunaan"
       invite_only_help_text: ~
@@ -1945,61 +1948,61 @@ id:
       about_listing: ~
   date:
     formats:
-      long_with_abbr_day_name: ~
+      long_with_abbr_day_name: "%a, %d %b %Y %H.%M.%S %z"
   datepicker:
     days:
-      sunday: ~
-      monday: ~
-      tuesday: ~
-      wednesday: ~
-      thursday: ~
-      friday: ~
-      saturday: ~
+      sunday: Minggu
+      monday: Senin
+      tuesday: Selasa
+      wednesday: Rabu
+      thursday: Kamis
+      friday: Jumat
+      saturday: Sabtu
     days_short:
-      sunday: ~
-      monday: ~
-      tuesday: ~
-      wednesday: ~
-      thursday: ~
-      friday: ~
-      saturday: ~
+      sunday: Min
+      monday: Sen
+      tuesday: Sel
+      wednesday: Rabu
+      thursday: Kam
+      friday: Jum
+      saturday: Sab
     days_min:
-      sunday: ~
-      monday: ~
-      tuesday: ~
-      wednesday: ~
-      thursday: ~
-      friday: ~
-      saturday: ~
+      sunday: Min
+      monday: Sen
+      tuesday: Sel
+      wednesday: Rabu
+      thursday: Kam
+      friday: Jum
+      saturday: Sab
     months:
-      january: ~
-      february: ~
-      march: ~
-      april: ~
-      may: ~
-      june: ~
-      july: ~
-      august: ~
-      september: ~
-      october: ~
-      november: ~
-      december: ~
+      january: Januari
+      february: Februari
+      march: Maret
+      april: April
+      may: Mei
+      june: Juni
+      july: Juli
+      august: Agustus
+      september: September
+      october: Oktober
+      november: November
+      december: Desember
     months_short:
-      january: ~
-      february: ~
-      march: ~
-      april: ~
-      may: ~
-      june: ~
-      july: ~
-      august: ~
-      september: ~
-      october: ~
-      november: ~
-      december: ~
-    today: ~
-    clear: ~
-    format: ~
+      january: Jan
+      february: Feb
+      march: Mar
+      april: Apr
+      may: Mei
+      june: Jun
+      july: Jul
+      august: Agu
+      september: Sep
+      october: Okt
+      november: Nov
+      december: Des
+    today: "hari ini"
+    clear: hapus
+    format: dd/mm/yyyy
   time:
     formats:
       short: ~

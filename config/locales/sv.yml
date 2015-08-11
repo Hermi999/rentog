@@ -585,6 +585,7 @@ sv:
       canceled_request: "avbröt förfrågan"
       canceled_offer: "avbröt erbjudandet"
       paid: "Betalt %{sum}"
+      payment_preauthorized: ~
     new:
       offer_message_form_title: "Erbjud %{listing} till %{person}"
       request_message_form_title: "Förfrågan %{listing} från %{person}"
@@ -968,6 +969,7 @@ sv:
     transaction_agreement:
       required_error: "Du behöver acceptera avtalet"
     paypal:
+      buyer_cannot_pay_error: ~
       pending_review_error: ~
       generic_error: "Ett fel uppstod i betalningsprocessen. Kunde inte slutföra din PayPal betalning."
       cancel_error: "Ett fel inträffade. Det gick ej att slutföra."
@@ -1123,7 +1125,6 @@ sv:
       this_is_private_community: "Du behöver registrera dig för att se detta innehåll."
     invitation_form:
       email: E-postadress(er)
-      email_with_limit: ~
       message: "Ett personligt meddelande"
       send_invitation: "Skicka inbjudan"
       add_email_addresses_description: "Lägg till de e-postadresser i fältet nedan till personer som du vill bjuda in. Om du lägger till flera e-postadresser, använd kommatecken för att separera dem."

@@ -566,6 +566,7 @@ sw:
       canceled_request: ~
       canceled_offer: ~
       paid: ~
+      payment_preauthorized: ~
     new:
       offer_message_form_title: ~
       request_message_form_title: ~
@@ -947,6 +948,7 @@ sw:
     transaction_agreement:
       required_error: ~
     paypal:
+      buyer_cannot_pay_error: ~
       pending_review_error: ~
       generic_error: ~
       cancel_error: ~
@@ -1102,7 +1104,6 @@ sw:
       this_is_private_community: ~
     invitation_form:
       email: ~
-      email_with_limit: ~
       message: ~
       send_invitation: ~
       add_email_addresses_description: ~
