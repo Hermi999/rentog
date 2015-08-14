@@ -25,8 +25,19 @@ Feature: Admin verifies employee for a company
     When I follow "Accept"
     And I wait for 1 seconds
     Then I should see "Employee"
+
+    Given I am logged in as "employee_1"
+    Then I should not see "Your company administrator needs to verify you"
+
+    Given I am logged in as "admin_1"
+    And I am on the profile page of "company_1"
     #When I hover ".employ-button-small"
     #Then I should see "Remove"
     Given I will confirm all following confirmation dialogs in this page if I am running PhantomJS
     When I remove employee
     Then I should see "Accept"
+
+    Given I am logged in as "employee_1"
+    Then I should see "You have to be verified by your company admin."
+    And I go to the home page
+    Then I should see "Your company administrator needs to verify you"
