@@ -119,6 +119,11 @@ Given /^there are following users:$/ do |person_table|
     id = hash['id']
     membership_created_at = hash['membership_created_at']
 
+    if hash['company']
+      company = hash['company']
+      hash.except!("company")
+    end
+
     person_opts = defaults.merge({
       username: hash['person'],
     }).merge(hash.except('person', 'membership_created_at'))
@@ -133,6 +138,11 @@ Given /^there are following users:$/ do |person_table|
       @hash_person.save!
     end
 
+    if defined? company then
+      company = Person.find_by_organization_name(company)
+      FactoryGirl.create(:employment, :company => company, :employee => @hash_person)
+    end
+
     @hash_person.update_attributes({:preferences => { "email_about_new_comments_to_own_listing" => "true", "email_about_new_messages" => "true" }})
     cm = CommunityMembership.find_by_person_id_and_community_id(@hash_person.id, Community.first.id) ||
          CommunityMembership.create(:community_id => Community.first.id,
@@ -141,7 +151,7 @@ Given /^there are following users:$/ do |person_table|
                                     :status => "accepted")
     cm.update_attribute(:created_at, membership_created_at) if membership_created_at && !membership_created_at.empty?
 
-    attributes_to_update = hash.except('person','person_id', 'locale', 'membership_created_at')
+    attributes_to_update = hash.except('person','person_id', 'locale', 'membership_created_at', 'company')
     @hash_person.update_attributes(attributes_to_update) unless attributes_to_update.empty?
     @hash_person.set_default_preferences
     if hash['locale']

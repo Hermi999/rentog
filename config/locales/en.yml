@@ -1352,6 +1352,7 @@ en:
       you_must_log_in_to_accept_or_reject: "You must sign in to accept or reject the transaction"
       you_must_log_in_to_confirm_or_cancel: "You must sign in to cancel or confirm the transaction"
       you_need_to_confirm_your_account_first: "You need to confirm your email."
+      you_must_be_added_to_a_company: "You have to be verified by your company admin."
       you_must_fill_all_the_fields: "You must fill all the fields"
       you_unfollowed_listing: "You are no longer following this listing"
       joining_community_failed: "Joining failed"
@@ -1880,10 +1881,18 @@ en:
       your_current_email_is: "Your email is %{email}."
       change_email: Change
       confirm_your_email: "Please confirm your email"
+      company_needs_to_verify: "Your company administrator needs to verify you"
       account_confirmation_instructions: "You will soon receive an email with a link that you need to click to confirm the email address you entered. After confirming your email you can join %{service_name}."
       account_confirmation_instructions_title_admin: "Welcome to your marketplace!"
       your_marketplace_has_now_been_created: "Your marketplace site has now been created. That was easy, wasn't it? There's just one more step before you can access your site: you need to confirm your email address."
       account_confirmation_instructions_admin: "You will soon receive an email with a link that you need to click to confirm the email address you entered. After confirming your email you can start configuring your marketplace."
+    employee_not_verified_confirmation_form:
+      new_member: "You are a new member?"
+      new_member_details: "To ensure trust within the companies registered on Rentog, all the employees of a company have to be verified manually by the company administrator. In this way no one can say that he is working for a certain company while he isn't.</br></br>The companies themselfs are checked and verified by the Rentog admins."
+      existing_member: "You are an existing member?"
+      existing_member_details: "If you were already a member of a certain company and suddenly you see this page, then most propably the administrator of your company decided to remove you from his company. If this was a mistake, please contact the administrator of your company so that he can revert this."
+      changed_email: "You changed the company and want to reuse your email address?"
+      changed_email_details: "If you are working for a new company, but still have the same email address you want to use on Rentog, please delete this account and create a new one."
   settings:
     account:
       change: Change

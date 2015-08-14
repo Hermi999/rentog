@@ -1,5 +1,6 @@
 - limit = 8
-- employees = company.employees
+- #employees = company.employees
+- employees = company.employees.joins(:community_memberships).where(:community_memberships => {:status => "accepted"})
 - displayed_people = employees.take(limit)
 
 .row
@@ -14,7 +15,7 @@
 .people-fluid-thumbnail-grid-container
   .people-fluid-thumbnail-grid#profile-employees-list
     - # handle showing the employees with the followed_person partials and controller
-    = render :partial => "people/followed_person", :collection => displayed_people, :as => :person, :locals => { :origin => "show_employees" }
+    = render :partial => "people/followed_person", :collection => displayed_people, :as => :person, :locals => { :origin => "show_employees", :company => company }
 
 - if employees.count > limit
   .people-load-more-listings-container

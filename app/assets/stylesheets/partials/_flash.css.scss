@@ -26,14 +26,17 @@
   }
 }
 
-.ajax-notice, .ajax-warning,
-.flash-notice, .flash-warning,
+.ajax-notice, .flash-notice,
 .ajax-update-notice {
   background: $highlight;
 }
 
+.ajax-warning, .flash-warning{
+  background: $yellow;
+}
+
 .ajax-success,
-.flass-success,
+.flash-success,
 .ajax-update-success {
   background: $light-green;
 }

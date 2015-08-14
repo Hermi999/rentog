@@ -1,5 +1,14 @@
 - content_for :title_header do
-  %h1= t("sessions.confirmation_pending.confirm_your_email")
+  - # New logged in employees neither have verified their emails nor are they
+  - # verified by their company admin. In this case only the pending_email_confirmation
+  - # Message should be shown.
+  - if params[:origin] == "email_confirmation"
+    %h1= t("sessions.confirmation_pending.confirm_your_email")
+  - elsif params[:origin] == "company_admin_verification"
+    %h1= t("sessions.confirmation_pending.company_needs_to_verify")
 
 #new-message-form.centered-section
-  = render :partial => "sessions/confirmation_form"
+  - if params[:origin] == "email_confirmation"
+    = render :partial => "sessions/email_confirmation_form"
+  - elsif params[:origin] == "company_admin_verification"
+    = render :partial => "sessions/employee_not_verified_confirmation_form"

@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
     :set_homepage_path
   before_filter :cannot_access_without_joining, :except => [ :confirmation_pending, :check_email_availability]
   #before_filter :can_access_only_organizations_communities
-  before_filter :check_email_confirmation, :except => [ :confirmation_pending, :check_email_availability_and_validity]
+  before_filter :check_confirmations_and_verifications, :except => [ :confirmation_pending, :check_email_availability_and_validity]
 
   # This updates translation files from WTI on every page load. Only useful in translation test servers.
   before_filter :fetch_translations if APP_CONFIG.update_translations_on_every_page_load == "true"
@@ -353,12 +353,33 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def check_email_confirmation
+  def check_confirmations_and_verifications
     # If confirmation is required, but not done, redirect to confirmation pending announcement page
+    # (but allow confirmation to come through). If this is the case return from this function
+    # because other pending confirmations don't need to be taken into account if this one
+    # is pending.
+    if @current_community &&
+       @current_user &&
+       @current_user.pending_email_confirmation_to_join?(@current_community_membership)
+        flash[:warning] = t("layouts.notifications.you_need_to_confirm_your_account_first")
+        redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation" unless params[:controller] == 'devise/confirmations'
+      return
+    end
+
+    # If confirmation by the company admin is required, but not done, redirect to confirmation pending announcement page
     # (but allow confirmation to come through)
-    if @current_community && @current_user && @current_user.pending_email_confirmation_to_join?(@current_community_membership)
-      flash[:warning] = t("layouts.notifications.you_need_to_confirm_your_account_first")
-      redirect_to :controller => "sessions", :action => "confirmation_pending" unless params[:controller] == 'devise/confirmations'
+    if @current_community &&
+       @current_user &&
+      !@current_user.is_organization &&
+      !@current_user.employer.active
+
+        # If there was already a flash message, then keep this one to display it
+        # This could be for example that the email was confirmed correctly
+        # WARNING: The :warning flash message will be overwritten below
+        flash.keep()
+        flash[:warning] = t("layouts.notifications.you_must_be_added_to_a_company")
+        redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "company_admin_verification" unless params[:controller] == 'devise/confirmations'
+        return
     end
   end
 

@@ -61,3 +61,10 @@ Given /^"(.*?)" is not an organization$/ do |username|
   user.is_organization = false
   user.save!
 end
+
+When /^the company-admin verifies employee$/ do
+  employee = Person.find_by_email(current_email_address)
+  employer = employee.employer
+  employer.active = true
+  employer.save
+end

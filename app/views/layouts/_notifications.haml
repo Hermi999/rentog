@@ -1,4 +1,4 @@
-- { :notice => "ss-check", :warning => "ss-info", :error => "ss-alert" }.each do |announcement, icon_class|
+- { :notice => "ss-check", :warning => "ss-info", :error => "ss-alert", :success => "ss-success" }.each do |announcement, icon_class|
   - if flash[announcement]
     .flash-notifications
       .flash-notification{:class => "flash-#{announcement.to_s}"}

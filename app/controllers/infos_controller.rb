@@ -1,6 +1,6 @@
 class InfosController < ApplicationController
 
-  skip_filter :check_email_confirmation
+  skip_filter :check_confirmations_and_verifications
 
   def about
     @selected_tribe_navi_tab = "about"

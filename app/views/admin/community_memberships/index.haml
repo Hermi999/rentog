@@ -50,10 +50,14 @@
               = mail_to member.confirmed_notification_email_addresses.first
             %td= l(membership.created_at, :format => :short_date)
             - if @current_community.require_verification_to_post_listings
+              - # While the Rentog admin can allow a company to post listings, it doesn't make sense to verify every employee of a company.
+              - # So any way (either if an employee is allowed to post listings or not) the verification of an employee can be done by the company admin.
+              - # Anyhow, the admin can also verify an employee for a company.
               - if member.is_organization
                 %td{:style => "text-align: center"}= check_box_tag "posting-allowed[#{member.id}]", member.id, membership.can_post_listings, :class => "admin-members-can-post-listings"
               - else
-                %td{:style => "text-align: center"}= check_box_tag "posting-allowed[#{member.id}]", member.id, membership.can_post_listings, :class => "admin-members-can-post-listings employee-verified-user"
+                %td
+                -# %td{:style => "text-align: center"}= check_box_tag "posting-allowed[#{member.id}]", member.id, membership.can_post_listings, :class => "admin-members-can-post-listings employee-verified-user"
             %td{:style => "text-align: center"}
               - if member.is_organization
                 = icon_tag("cross")

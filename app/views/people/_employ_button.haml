@@ -1,6 +1,6 @@
 .employ-button-container
-  - if @current_user.employs?(person)
-    = link_to person_employment_path(person, @current_user), :method => "delete", :remote => true, :class => "employ-button-small unemploy button-hoverable",:confirm=>t(".warning", employee: person.full_name) do
+  - if company.employs?(person)
+    = link_to person_employment_path(person, company), :method => "delete", :remote => true, :class => "employ-button-small unemploy button-hoverable",:confirm=>t(".warning", employee: person.full_name) do
       .content.hover-content
         = t(".unemploy")
       .content.default-content

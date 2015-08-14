@@ -1,5 +1,6 @@
 - limit = 8
-- followed_people = person.followed_people
+-# followed_people = person.followed_people
+- followed_people = person.followed_people.joins(:community_memberships).where(:community_memberships => {:status => "accepted"})
 - displayed_people = followed_people.take(limit)
 
 .row

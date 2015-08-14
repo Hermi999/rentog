@@ -1,0 +1,24 @@
+%h2.design-h2
+  = t("sessions.employee_not_verified_confirmation_form.new_member")
+%p
+  = t("sessions.employee_not_verified_confirmation_form.new_member_details").html_safe
+</br>
+%h2
+  = t("sessions.employee_not_verified_confirmation_form.existing_member")
+%p
+  = t("sessions.employee_not_verified_confirmation_form.existing_member_details").html_safe
+</br>
+%h2
+  = t("sessions.employee_not_verified_confirmation_form.changed_email")
+%p
+  = t("sessions.employee_not_verified_confirmation_form.changed_email_details")
+</br>
+%h2
+  = t("settings.account.delete_account")
+%p
+  = t("settings.account.delete_personal_information")
+%p
+  = t("settings.account.delete_information_others_involved")
+
+= form_tag url_for(:controller => :people, :action => :destroy, :id => @current_user.id), :method => :delete do
+  = button_tag t('settings.account.delete_account_button'), :id => "delete_account_button", :data => {:confirm => t('settings.account.delete_account_confirmation_popup')}

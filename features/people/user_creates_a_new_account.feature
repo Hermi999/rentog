@@ -82,6 +82,8 @@ Feature: User creates a new account
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create account"
+
+    # email confirmation
     Then I should see "Please confirm your email"
     When wait for 1 seconds
     Then I should receive 1 email
@@ -91,6 +93,15 @@ Feature: User creates a new account
     And I should see "The email you entered is now confirmed"
     And I should not see my username
     And Most recently created user should be member of "test" community with its latest consent accepted
+
+    # company admin verification
+    Then I should see "You have to be verified by your company admin."
+    And I should see "Your company administrator needs to verify you"
+    And I go to the home page
+    Then I should see "Your company administrator needs to verify you"
+    When the company-admin verifies employee
+    And I go to the home page
+    Then I should not see "Your company administrator needs to verify you"
 
     #Rentog requires people to be verified manually by admin before they can post listings. You have not yet been verified. Please contact the admin to be verified.
 

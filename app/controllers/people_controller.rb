@@ -12,7 +12,7 @@ class PeopleController < Devise::RegistrationsController
 
   before_filter :ensure_is_admin, :only => [ :activate, :deactivate ]
 
-  skip_filter :check_email_confirmation, :only => [ :update]
+  skip_filter :check_confirmations_and_verifications, :only => [ :update, :destroy]
   skip_filter :cannot_access_without_joining, :only => [ :check_email_availability_and_validity, :check_invitation_code ]
 
   # Skip auth token check as current jQuery doesn't provide it automatically
@@ -21,6 +21,7 @@ class PeopleController < Devise::RegistrationsController
   helper_method :show_closed?
 
   def show
+    # @person is the person which owns the profile
     @person = Person.find(params[:person_id] || params[:id])
 
     raise PersonDeleted if @person.deleted?
@@ -154,7 +155,7 @@ class PeopleController < Devise::RegistrationsController
       Email.send_confirmation(email, @current_community)
 
       flash[:notice] = t("layouts.notifications.account_creation_succesful_you_still_need_to_confirm_your_email")
-      redirect_to :controller => "sessions", :action => "confirmation_pending"
+      redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation"
     end
   end
 
@@ -269,7 +270,7 @@ class PeopleController < Devise::RegistrationsController
 
     sign_out @current_user
     report_analytics_event(['user', "deleted", "by user"]);
-    flash[:notice] = t("layouts.notifications.account_deleted")
+    flash[:warning] = t("layouts.notifications.account_deleted")
     redirect_to root
   end
 

@@ -5,7 +5,7 @@ class CommunityMembershipsController < ApplicationController
   end
 
   skip_filter :cannot_access_without_joining
-  skip_filter :check_email_confirmation, :only => [:new, :create]
+  skip_filter :check_confirmations_and_verifications, :only => [:new, :create]
 
   def new
     existing_membership = @current_user.community_memberships.where(:community_id => @current_community.id).first
@@ -22,7 +22,7 @@ class CommunityMembershipsController < ApplicationController
         redirect_to root and return
       end
 
-      redirect_to confirmation_pending_path and return
+      redirect_to confirmation_pending_path :origin => "email_confirmation" and return
     elsif existing_membership && existing_membership.banned?
       redirect_to access_denied_tribe_memberships_path and return
     end

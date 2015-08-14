@@ -183,7 +183,7 @@ ST.utils = (function(_) {
   function showError(errorMsg, errorClass, wrapperSel) {
     wrapperSel = wrapperSel || 'div.wrapper';
     var errorTemplate = _.template('<div class="flash-notifications"><div class="flash-<%= errorClass %> flash-notification"><div class="flash-icon <%= errorIcon %>"></div><div class="flash-text"><%= errorMsg %></div></div></div>');
-    var errorClassMapping = { notice: "ss-check", warning: "ss-info", error: "ss-alert"};
+    var errorClassMapping = { notice: "ss-check", warning: "ss-info", error: "ss-alert", success: "ss-success"};
 
     var $error_el = $(errorTemplate({
       errorMsg: errorMsg,

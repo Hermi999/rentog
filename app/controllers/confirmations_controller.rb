@@ -1,6 +1,6 @@
 class ConfirmationsController < Devise::ConfirmationsController
 
-  skip_filter :check_email_confirmation, :cannot_access_without_joining
+  skip_filter :check_confirmations_and_verifications, :cannot_access_without_joining
 
   # This is directly copied from Devise::ConfirmationsController
   # to be able to handle better the situations of resending confirmation and
@@ -18,14 +18,14 @@ class ConfirmationsController < Devise::ConfirmationsController
           email = Email.create(:person => @current_user, :address => params[:person][:email], :send_notifications => true)
           Email.send_confirmation(email, @current_community)
           flash[:notice] = t("sessions.confirmation_pending.check_your_email")
-          redirect_to :controller => "sessions", :action => "confirmation_pending" and return
+          redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation" and return
         else
           flash[:error] = t("people.new.email_not_allowed")
-          redirect_to :controller => "sessions", :action => "confirmation_pending" and return
+          redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation" and return
         end
       else
         flash[:error] = t("people.new.email_is_in_use")
-        redirect_to :controller => "sessions", :action => "confirmation_pending" and return
+        redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation" and return
       end
     end
 
@@ -34,7 +34,7 @@ class ConfirmationsController < Devise::ConfirmationsController
       email = Email.find_by_address(params[:person][:email])
       Email.send_confirmation(email, @current_community)
       flash[:notice] = t("sessions.confirmation_pending.check_your_email")
-      redirect_to :controller => "sessions", :action => "confirmation_pending" and return
+      redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation" and return
     end
 
   end
@@ -58,7 +58,7 @@ class ConfirmationsController < Devise::ConfirmationsController
         # If the pending membership was accepted now, it's time to send the welcome email, unless creating admin acocunt
         Delayed::Job.enqueue(SendWelcomeEmail.new(person.id, @current_community.id), priority: 5)
       end
-      flash[:notice] = t("layouts.notifications.additional_email_confirmed")
+      flash[:success] = t("layouts.notifications.additional_email_confirmed")
 
       if @current_user && @current_user.has_admin_rights_in?(@current_community) #admins
         redirect_to getting_started_admin_community_path(:id => @current_community.id) and return
@@ -71,7 +71,7 @@ class ConfirmationsController < Devise::ConfirmationsController
 
     flash[:error] = t("layouts.notifications.confirmation_link_is_wrong_or_used")
     if @current_user
-      redirect_to :controller => "sessions", :action => "confirmation_pending"
+      redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation"
     else
       redirect_to :root
     end

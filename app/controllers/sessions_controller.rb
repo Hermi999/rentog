@@ -2,7 +2,7 @@ require 'rest_client'
 
 class SessionsController < ApplicationController
 
-  skip_filter :check_email_confirmation
+  skip_filter :check_confirmations_and_verifications
   skip_filter :cannot_access_without_joining, :only => [ :destroy, :confirmation_pending ]
 
   # For security purposes, Devise just authenticates an user
@@ -161,5 +161,4 @@ class SessionsController < ApplicationController
       redirect_to root
     end
   end
-
 end
