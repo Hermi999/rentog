@@ -1,6 +1,6 @@
 - limit = 8
 - #employees = company.employees
-- employees = company.employees.joins(:community_memberships).where(:community_memberships => {:status => "accepted"})
+- employees = company.employees.joins(:community_memberships).where(:community_memberships => {:status => "accepted", :community_id => @current_community.id})
 - displayed_people = employees.take(limit)
 
 .row

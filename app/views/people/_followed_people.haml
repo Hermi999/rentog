@@ -1,8 +1,8 @@
 - limit = 8
 -# followed_people = person.followed_people
-- followed_people = person.followed_people.joins(:community_memberships).where(:community_memberships => {:status => "accepted"})
+-# followed_people = person.followed_people.joins('INNER JOIN community_memberships ON community_memberships.person_id = people.id')
+- followed_people = person.followed_people.joins(:community_memberships).where(:community_memberships => {:status => "accepted", :community_id => @current_community.id})
 - displayed_people = followed_people.take(limit)
-
 .row
   %h2.people-header
     - if followed_people.count > 0

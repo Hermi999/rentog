@@ -6,13 +6,15 @@ Feature: Admin edits community look-and-feel
 
   Background:
      Given there are following users:
-      | person            | given_name | family_name | email               | organization_name | membership_created_at     |
-      | manager           | matti      | manager     | manager@example.com | Test_Orga         | 2014-03-01 00:12:35 +0200 |
-      | kassi_testperson1 | john       | doe         | test2@example.com   | Test_Orga         | 2013-03-01 00:12:35 +0200 |
-      | kassi_testperson2 | jane       | doe         | test1@example.com   | Test_Orga         | 2012-03-01 00:00:00 +0200 |
+      | person               | given_name | family_name | email               | organization_name | membership_created_at     | company   |
+      | manager              | matti      | manager     | manager@example.com | Test_Orga         | 2014-03-01 00:12:35 +0200 |           |
+      | kassi_testperson1    | john       | doe         | test2@example.com   | Test_Orga         | 2013-03-01 00:12:35 +0200 |           |
+      | kassi_testperson2    | jane       | doe         | test1@example.com   | Test_Orga         | 2012-03-01 00:00:00 +0200 |           |
+      | employee_testperson1 | employee   | yee         | empl1@example.com   |                   | 2015-03-01 00:00:00 +0200 | Test_Orga |
     And I am logged in as "manager"
     And "manager" has admin rights in community "test"
     And "kassi_testperson1" has admin rights in community "test"
+    And "employee_testperson1" has admin rights in community "test"
     And I am on the edit look-and-feel page
 
   Scenario: Admin can change the default listing view to list
@@ -21,13 +23,13 @@ Feature: Admin edits community look-and-feel
     And I go to the homepage
     Then I should see the browse view selected as "List"
 
-  Scenario: Admin can change the name display type to full name (First Last) [normal Marketplace]
-    Given community "test" is not organizations-only
-    And "manager" is not an organization
+  Scenario: Admin can change the name display type of employee to full name (First Last)
+    And I am logged in as "employee_testperson1"
+    And I am on the edit look-and-feel page
     And community "test" has name display type "first_name_with_initial"
     When I change the name display type to "Full name (First Last)"
     And I refresh the page
-    Then I should see my name displayed as "matti manager"
+    Then I should see my name displayed as "employee yee"
 
   Scenario: Admin changes the name display type to full name and there is no difference [organization-only Marketplace]
     Given community "test" has name display type "first_name_with_initial"

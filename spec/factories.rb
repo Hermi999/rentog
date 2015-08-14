@@ -206,6 +206,7 @@ FactoryGirl.define do
   factory :employment do
     build_association(:company)
     build_association(:employee)
+    active :active
   end
 
   factory :invitation do

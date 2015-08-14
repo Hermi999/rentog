@@ -279,7 +279,8 @@ module TestHelpers
 
     FactoryGirl.create(:employment,
     :company => person1,
-    :employee => person3)
+    :employee => person3,
+    :active => true)
   end
   module_function :load_default_test_data_to_db_before_test
 

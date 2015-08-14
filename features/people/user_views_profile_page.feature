@@ -56,7 +56,7 @@ Feature: User views profile page
     And I should see "Kassi T" within "#profile-followed-people-list"
 
     # Employees
-    And I should see "2 employees"
+    And I should see "3 employees"
     And I should see "Kassi T" within "#profile-employees-list"
     And I should see "Test P" within "#profile-employees-list"
 
@@ -115,7 +115,7 @@ Feature: User views profile page
     And I am on the home page
     When I follow "car spare parts"
     And I follow "listing-author-link"
-    Then I should see "2 employees"
+    Then I should see "3 employees"
     And I should see "Kassi T" within "#profile-employees-list"
     And I should see "Test P" within "#profile-employees-list"
 
@@ -127,7 +127,7 @@ Feature: User views profile page
     # Logged in user with admin rights can see employees
     Given "kassi_testperson2" has admin rights in community "test"
     When I refresh the page
-    Then I should see "2 employees"
+    Then I should see "3 employees"
     And I should see "Kassi T" within "#profile-employees-list"
     And I should see "Test P" within "#profile-employees-list"
 

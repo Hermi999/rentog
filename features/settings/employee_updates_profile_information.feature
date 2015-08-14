@@ -1,17 +1,17 @@
-Feature: User updates profile information
+Feature: Employee updates profile information
   In order to change the information the other users see in my profile page
   As a user
   I want to able to update my profile information
 
   Background:
     Given there are following users:
-      | person            |
-      | kassi_testperson2 |
+      | person               |
+      | kassi_testperson2    |
+      | employee_testperson1 |
 
   @javascript
   Scenario: Updating profile successfully
-    Given community and its users are not organizations-only
-    And I am logged in as "kassi_testperson2"
+    Given I am logged in as "employee_testperson1"
     And I am on the profile settings page
     When I fill in "First name" with "Test"
     And I fill in "Last name" with "Dude"
