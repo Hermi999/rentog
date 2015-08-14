@@ -1,9 +1,6 @@
 @javascript
-Feature: Admin verifies employee for a company
-  The administrator can list all the employees of a certain company on the
-  companies profile page.
-  He can also verify an employee for a company, so that the employee account
-  is active.
+Feature: Company verifies employee
+  A company has to verify it's employees. Otherwise their profiles are locked
 
   Background:
     Given there are following users:
@@ -12,24 +9,26 @@ Feature: Admin verifies employee for a company
       | company_2  | comp2      | any2        | Company1          | comp2@example.com    | 1               |          |
       | employee_1 | empl1      | oyee1       |                   | empl1@example.com    | 0               | Company1 |
       | employee_2 | empl2      | oyee2       |                   | empl2@example.com    | 0               | Company2 |
-      | admin_1    | admin      | istrator    | Admin             | admin@example.com    | 1               |          |
-    And "admin_1" has admin rights in community "test"
-    And I am logged in as "admin_1"
-    And I am on the profile page of "company_1"
+    And I am logged in as "company_1"
+    And I am on my profile page
 
-  Scenario: Admin verifies and removes employee for a company
+
+  Scenario: Company verifies and removes employee
     Then I should see "Company1"
     And I should see "empl1"
     And I should see "Accept"
 
+    # Verify employee
     When I follow "Accept"
     And I wait for 1 seconds
     Then I should see "Employee"
 
+    # Check if employees profile isn't locked
     Given I am logged in as "employee_1"
     Then I should not see "Your company administrator needs to verify you"
 
-    Given I am logged in as "admin_1"
+    # Remove employee
+    Given I am logged in as "company_1"
     And I am on the profile page of "company_1"
     #When I hover ".employ-button-small"
     #Then I should see "Remove"
@@ -37,6 +36,7 @@ Feature: Admin verifies employee for a company
     When I remove employee
     Then I should see "Accept"
 
+    # Check if employees profile is locked
     Given I am logged in as "employee_1"
     Then I should see "You have to be verified by your company admin."
     And I go to the home page

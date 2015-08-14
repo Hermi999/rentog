@@ -1,4 +1,4 @@
-Feature: User creates a new listing with payments
+Feature: Company creates a new listing with payments
 
   Background:
     Given there is an organization "company"

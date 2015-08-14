@@ -1,5 +1,5 @@
-Feature: User adds payment information
-  User (organization) has to have its payment information given before organization can
+Feature: Company adds payment information
+  Company has to have its payment information given before it can
   sell and receive any money
 
   Background:
