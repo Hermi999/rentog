@@ -1,0 +1,129 @@
+%h1{:style => "font-size: 30px; font-weight: bold;"} jQuery Frontier Calendar
+#tabs-1
+  #example{:style => "margin: auto; width:80%;"}
+    %br
+      %br
+        %br
+          #toolbar.ui-widget-header.ui-corner-all{:style => "padding:3px; vertical-align: middle; white-space:nowrap; overflow: hidden;"}
+            %button#BtnPreviousMonth Previous Month
+            %button#BtnNextMonth Next Month
+            \&nbsp;&nbsp;&nbsp;
+            Date:
+            %input#dateSelect{:size => "20", :type => "text"}/
+            \&nbsp;&nbsp;&nbsp;
+            %button#BtnDeleteAll Delete All
+            %button#BtnICalTest iCal Test
+            %input#iCalSource{:size => "30", :type => "text", :value => "extra/fifa-world-cup-2010.ics"}/
+          %br
+            /
+              You can use pixel widths or percentages. Calendar will auto resize all sub elements.
+              Height will be calculated by aspect ratio. Basically all day cells will be as tall
+              as they are wide.
+            #mycal
+  / debugging
+  #calDebug
+  / Add event modal form
+  :css
+    //label, input.text, select { display:block; }
+    fieldset { padding:0; border:0; margin-top:25px; }
+    .ui-dialog .ui-state-error { padding: .3em; }
+    .validateTips { border: 1px solid transparent; padding: 0.3em; }
+      #add-event-form{:title => "Add New Event"}
+    %p.validateTips All form fields are required.
+    %form
+      %fieldset
+        %label{:for => "name"} What?
+        %input#what.text.ui-widget-content.ui-corner-all{:name => "what", :style => "margin-bottom:12px; width:95%; padding: .4em;", :type => "text"}/
+        %table{:style => "width:100%; padding:5px;"}
+          %tr
+            %td
+              %label Start Date
+              %input#startDate.text.ui-widget-content.ui-corner-all{:name => "startDate", :style => "margin-bottom:12px; width:95%; padding: .4em;", :type => "text", :value => ""}/
+            %td &nbsp;
+            %td
+              %label Start Hour
+              %select#startHour.text.ui-widget-content.ui-corner-all{:style => "margin-bottom:12px; width:95%; padding: .4em;"}
+                %option{:SELECTED => "", :value => "12"} 12
+                %option{:value => "1"} 1
+                %option{:value => "2"} 2
+                %option{:value => "3"} 3
+                %option{:value => "4"} 4
+                %option{:value => "5"} 5
+                %option{:value => "6"} 6
+                %option{:value => "7"} 7
+                %option{:value => "8"} 8
+                %option{:value => "9"} 9
+                %option{:value => "10"} 10
+                %option{:value => "11"} 11
+              %td
+                %td
+                  %label Start Minute
+                  %select#startMin.text.ui-widget-content.ui-corner-all{:style => "margin-bottom:12px; width:95%; padding: .4em;"}
+                    %option{:SELECTED => "", :value => "00"} 00
+                    %option{:value => "10"} 10
+                    %option{:value => "20"} 20
+                    %option{:value => "30"} 30
+                    %option{:value => "40"} 40
+                    %option{:value => "50"} 50
+                  %td
+                    %td
+                      %label Start AM/PM
+                      %select#startMeridiem.text.ui-widget-content.ui-corner-all{:style => "margin-bottom:12px; width:95%; padding: .4em;"}
+                        %option{:SELECTED => "", :value => "AM"} AM
+                        %option{:value => "PM"} PM
+          %tr
+            %td
+              %label End Date
+              %input#endDate.text.ui-widget-content.ui-corner-all{:name => "endDate", :style => "margin-bottom:12px; width:95%; padding: .4em;", :type => "text", :value => ""}/
+            %td &nbsp;
+            %td
+              %label End Hour
+              %select#endHour.text.ui-widget-content.ui-corner-all{:style => "margin-bottom:12px; width:95%; padding: .4em;"}
+                %option{:SELECTED => "", :value => "12"} 12
+                %option{:value => "1"} 1
+                %option{:value => "2"} 2
+                %option{:value => "3"} 3
+                %option{:value => "4"} 4
+                %option{:value => "5"} 5
+                %option{:value => "6"} 6
+                %option{:value => "7"} 7
+                %option{:value => "8"} 8
+                %option{:value => "9"} 9
+                %option{:value => "10"} 10
+                %option{:value => "11"} 11
+              %td
+                %td
+                  %label End Minute
+                  %select#endMin.text.ui-widget-content.ui-corner-all{:style => "margin-bottom:12px; width:95%; padding: .4em;"}
+                    %option{:SELECTED => "", :value => "00"} 00
+                    %option{:value => "10"} 10
+                    %option{:value => "20"} 20
+                    %option{:value => "30"} 30
+                    %option{:value => "40"} 40
+                    %option{:value => "50"} 50
+                  %td
+                    %td
+                      %label End AM/PM
+                      %select#endMeridiem.text.ui-widget-content.ui-corner-all{:style => "margin-bottom:12px; width:95%; padding: .4em;"}
+                        %option{:SELECTED => "", :value => "AM"} AM
+                        %option{:value => "PM"} PM
+        %table
+          %tr
+            %td
+              %label Background Color
+            %td
+              #colorSelectorBackground
+                %div{:style => "background-color: #333333; width:30px; height:30px; border: 2px solid #000000;"}
+              %input#colorBackground{:type => "hidden", :value => "#333333"}
+            %td &nbsp;&nbsp;&nbsp;
+            %td
+              %label Text Color
+            %td
+              #colorSelectorForeground
+                %div{:style => "background-color: #ffffff; width:30px; height:30px; border: 2px solid #000000;"}
+              %input#colorForeground{:type => "hidden", :value => "#ffffff"}
+  #display-event-form{:title => "View Agenda Item"}
+  %p &nbsp;
+  / end example tab
+/ end tabs
+%p &nbsp;

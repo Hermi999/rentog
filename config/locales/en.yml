@@ -1232,6 +1232,7 @@ en:
       requests: "Friend requests"
       settings: Settings
       sign_up: "Create account"
+      poolTool: "Pool Tool"
     logged_in_messages_icon:
       messages: Messages
     logged_in_notifications_icon:

@@ -30,6 +30,10 @@
 
 //= require fastclick
 
+// Frontier JQuery Calender
+//= require jshashtable-2.1.js
+//= require jquery-frontier-cal-1.3.2.min.js
+
 // Responsive helpers
 // https://github.com/edenspiekermann/minwidth-relocate
 //= require relocate
@@ -71,4 +75,5 @@
 //= require paypal_account_settings
 //= require transaction
 //= require listing_form
+//= require pool_tool
 //= require_self
