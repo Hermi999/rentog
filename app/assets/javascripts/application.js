@@ -5,7 +5,9 @@
 // the compiled file.
 //
 //= require jquery
-//= require jquery-ui-1.9.2.custom
+//= require jquery-ui/widget
+//= require jquery-ui/effect
+
 //= require jquery_ujs
 //= require jquery.form
 //= require jquery.validate
@@ -14,7 +16,6 @@
 //= require jquery.lightbox_me
 //= require jquery.transit.min
 //= require jquery.placeholder
-//= require jquery.ui.widget
 //= require load-image.min.js
 //= require canvas-to-blob.min.js
 //= require jquery.fileupload
@@ -31,8 +32,8 @@
 //= require fastclick
 
 // Frontier JQuery Calender
-//= require jshashtable-2.1.js
-//= require jquery-frontier-cal-1.3.2.min.js
+// require jshashtable-2.1.js
+// require jquery-frontier-cal-1.3.2
 
 // Responsive helpers
 // https://github.com/edenspiekermann/minwidth-relocate
@@ -75,5 +76,5 @@
 //= require paypal_account_settings
 //= require transaction
 //= require listing_form
-//= require pool_tool
+// require pool_tool
 //= require_self
