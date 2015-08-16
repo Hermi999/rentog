@@ -2148,3 +2148,5 @@ en:
       multi_page_html: "Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total"
   person_messages:
     renting_request: "Hi Admin. I would like to rent this device (%{device_link}) from %{start_date} to %{end_date}. Please contact the owner!"
+  pool_tool:
+    headline: "Pool Tool"

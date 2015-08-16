@@ -3,7 +3,7 @@
  *
  * June 24, 2010 - v1.3.2 - Bug fix in getAgendaItemByDataAttr(). I suck...
  * June 23, 2010 - v1.3.1 - Bug fix in deleteAgendaItemByDataAttr() function, and new reRenderAgendaItems() function!
- * June 22, 2010 - v1.3   - Tooltip support. Additional callbacks, applyAgendaTooltipCallback, agendaDragStartCallback, 
+ * June 22, 2010 - v1.3   - Tooltip support. Additional callbacks, applyAgendaTooltipCallback, agendaDragStartCallback,
  *						    and agendaDragStopCallback.
  * June 17, 2010 - v1.2   - Drag-and-drop, CSS updates, allDay event option.
  * June 14, 2010 - v1.1   - Few bug fixes, tweaks, and basic VEVENT ical support.
@@ -25,7 +25,7 @@
  *    Drag-and-drop works fine in Chrome, Opera, Firefox, and Safari using unmodified jQuery core. For more info read the txt file
  *    that should have been included with this plugin at js/jquery-core/README-IE-FIX.TXT
  *    http://jquery.com/
- *    http://jqueryui.com   
+ *    http://jqueryui.com
  *
  * 2) jshashtable.js
  *    Should be included with this plugin in the js/lib/ folder.
@@ -34,34 +34,34 @@
  *    http://www.timdown.co.uk/jshashtable/index.html
  *
  ******************************************************
- **** These last ones are already inlcued in this file. 
- ****************************************************** 
- * 
+ **** These last ones are already inlcued in this file.
+ ******************************************************
+ *
  * 3) WResize is the jQuery plugin for fixing the IE window resize bug.
  *    This plugin is already included at the end of this file.
  *    Copyright 2007 / Andrea Ercolino
- *    LICENSE: http://www.opensource.org/licenses/mit-license.php 
+ *    LICENSE: http://www.opensource.org/licenses/mit-license.php
  *    WEBSITE: http://noteslog.com/
  *
  * 4) Javascript iCal parsers. Merci!
  *    This is already included in this file.
  *    http://code.google.com/p/ijp/
- */ 
+ */
 (function($) {
 
 	// keep track of options for each instance
 	var allOptions = new Array();
-	
+
 	// using jshashset.js library
 	var myCalendars = new Hashtable();
-	
+
 	/**
-	 * String startsWith function. 
+	 * String startsWith function.
 	 */
 	String.prototype.startsWith = function(str){
 		return (this.match("^"+str)==str);
 	}
-	
+
 	/**
 	 * An agenda object to store data for a single agenda item on the calendar.
 	 *
@@ -73,27 +73,27 @@
 	 * @param endDate   - (Date)    - The date the agenda item ends.
 	 * @param allDay    - (boolean) - True if an all day event (do not show start time on agenda div element), false otherwise. False by default.
 	 * @param hashData  - (Hashtable from jshashtable.js) - A Hashtable that contains all data for the agenda item.
-	 */	
+	 */
 	function CalendarAgendaItem(title,startDate,endDate,allDay,hashData) {
-		
+
 		// a unique ID to identify this agenda item. The Calendar will use this internal ID to locate this agenda item for various purposes.
 		// users can store their own ID in the agenda data hash.
 		this.id = 0;
-		
+
 		// agenda title to be displayed on div element
-		this.titleValue = title; 
+		this.titleValue = title;
 		// start date & time
 		this.startDt = startDate;
 		// end date and time
 		this.endDt = endDate;
 		// by default we show the start time on the agenda div element. If allDayEvent is set to true we won't show the time.
 		this.allDayEvent = allDay;
-		
+
 		// By default we use the colors defined in the CSS file but we can override those settings
 		// if we set these variables.
 		this.backgroundColor = null;
 		this.foregroundColor = null;
-		
+
 		// using jshashset.js library
 		// an agenda item can store arbitrary data. we have no idea what the user will want to
 		// store so we give them a hashtable so they can store whatever.
@@ -102,15 +102,15 @@
 		this.isAllDay = function(){
 			return this.allDayEvent;
 		};
-		
+
 		this.setAllDay = function(b){
 			this.allDayEvent = b;
 		};
-		
+
 		this.setBackgroundColor = function(c){
 			this.backgroundColor = c;
 		};
-		
+
 		this.setForegroundColor = function(c){
 			this.foregroundColor = c;
 		};
@@ -118,11 +118,11 @@
 		this.getBackgroundColor = function(){
 			return this.backgroundColor;
 		};
-		
+
 		this.getForegroundColor = function(){
 			return this.foregroundColor;
-		};			
-		
+		};
+
 		/**
 		 * Set the ID. This ID is generated and used by the Calendar object
 		 *
@@ -131,7 +131,7 @@
 		this.setAgendaId = function(agendaId){
 			this.id = agendaId;
 		};
-		
+
 		/**
 		 * Get the id. This ID is used by the Calendar object.
 		 *
@@ -140,7 +140,7 @@
 		this.getAgendaId = function(){
 			return this.id;
 		};
-		
+
 		/**
 		 * Get the agenda start date.
 		 *
@@ -149,16 +149,16 @@
 		this.getStartDate = function(){
 			return this.startDt;
 		};
-		
+
 		/**
 		 * Get the agenda end date.
 		 *
 		 * @return Date object
-		 */		
+		 */
 		this.getEndDate = function(){
 			return this.endDt;
 		};
-		
+
 		/**
 		 * Set the agenda start date.
 		 *
@@ -166,24 +166,24 @@
 		this.setStartDate = function(d){
 			this.startDt = d;
 		};
-		
+
 		/**
 		 * Set the agenda end date.
 		 *
-		 */		
+		 */
 		this.setEndDate = function(d){
 			this.endDt = d;
-		};		
+		};
 
 		/**
 		 * Get the agenda title.
 		 *
 		 * @return string
-		 */		
+		 */
 		this.getTitle = function(){
 			return this.titleValue;
 		};
-		
+
 		/**
 		 * store some data in the agenda item
 		 *
@@ -192,8 +192,8 @@
 		 */
 		this.addAgendaData = function(key,value){
 			this.agendaData.put(key,value);
-		};	
-		
+		};
+
 		/**
 		 * get some data in the agenda item
 		 *
@@ -203,10 +203,10 @@
 		this.getAgendaData = function(key){
 			return this.agendaData.get(key);
 		};
-		
+
 		this.getAgendaDataHash = function(){
 			return this.agendaData;
-		};			
+		};
 
 		/**
 		 * Debug function.
@@ -225,7 +225,7 @@
 			}
 			return s;
 		};
-	
+
 	};
 
 	/**
@@ -234,23 +234,23 @@
 	 * @param jqyObj - (JQuery object) - Reference to the day cell <div/> element.
 	 */
 	function CalendarDayCell(jqyObj) {
-		
-		// jquery object that reference one day cell <div/> 
+
+		// jquery object that reference one day cell <div/>
 		this.jqyObj = jqyObj;
-		
+
 		// A Date object with the year, month, and day set for this day cell.
 		this.date = null;
-		
+
 		/*
 		All the agenda <div> elements being rendered over this day cell.
 		keys are integers (agenda ID), values are jquery objects (agenda <div> elements)
 		*/
 		//this.agendaDivHash = new Hashtable();
 		this.agendaDivArray = new Array();
-		
+
 		// the query object for the "more" link
 		this.jqyMoreDiv = null;
-		
+
 		// add css class
 		this.addClass = function(c){
 			this.jqyObj.addClass(c);
@@ -264,7 +264,7 @@
 				this.jqyObj.removeClass();
 			}
 		};
-		
+
 		/**
 		 * Add the "more" link div and renders it. If you add a more link and one is already there
 		 * than the existing one is removed and the new one is added.
@@ -279,7 +279,7 @@
 				this.appendHtml(element);
 			}
 		};
-		
+
 		/**
 		 * Checks to see if this day cell already has a "more" div link.
 		 *
@@ -291,7 +291,7 @@
 			}
 			return false;
 		};
-		
+
 		/**
 		 * Add an agenda <div> element.
 		 *
@@ -302,7 +302,7 @@
 			//this.agendaDivHash.put(id,element);
 			this.agendaDivArray.push(element);
 		};
-		
+
 		/**
 		 * Clears html for this day cell <div/> and clears the hash of agenda <div> elements.
 		 */
@@ -331,14 +331,14 @@
 				// sort agenda <div> elements by their Y coordinates
 				divArray.sort(this.sortDivByY);
 				var divTop = 0;
-				var divBottom = 0; 
+				var divBottom = 0;
 				for(var i = 0; i < divArray.length; i++){
 					// using position.top seems to produce incorrect results in IE (at least IE 7). We get the top value using the css() call instead
 					divTop = parseInt(divArray[i].css("top").replace("px",""));
-					divBottom = divTop + parseInt(divArray[i].css("height").replace("px","")) + 1;					
+					divBottom = divTop + parseInt(divArray[i].css("height").replace("px","")) + 1;
 					// is there enough space between top of agenda div and top of day cell?
 					if((divTop+2-nextY) > (agendaDivHeight+1)){
-					
+
 					}else{
 						if(!(divBottom < nextY)){
 							nextY = divBottom;
@@ -368,7 +368,7 @@
 			}
 			//return ((y1 < y2) ? -1 : ((y1 > y2) ? 1 : 0));
 		};
-		
+
 		/**
 		 * Alerts the positions of all the agenda div elements.
 		 */
@@ -380,7 +380,7 @@
 				divArray.sort(this.sortDivByY);
 				var s = divArray.length + " agenda div elements for " + this.date + ":\n\n";
 				var divTop = 0;
-				var divBottom = 0;			
+				var divBottom = 0;
 				for(var i = 0; i < divArray.length; i++){
 					divTop = parseInt(divArray[i].css("top").replace("px",""));
 					divBottom = divTop + parseInt(divArray[i].css("height").replace("px","")) + 1;
@@ -392,7 +392,7 @@
 			}
 		}
 		*/
-		
+
 		/**
 		 * set the date for this day cell
 		 *
@@ -400,8 +400,8 @@
 		 */
 		this.setDate = function(date){
 			this.date = date;
-		};		
-		
+		};
+
 		/**
 		 * get the date for this day cell
 		 *
@@ -410,33 +410,33 @@
 		this.getDate = function(){
 			return this.date;
 		};
-		
+
 		/*
 		get height of cell
 		*/
 		this.getHeight = function(){
 			return this.jqyObj.height();
 		};
-		
+
 		/*
 		set height of cell
 		*/
 		this.setHeight = function(h){
 			this.jqyObj.height(h);
-		};		
-		
+		};
+
 		/*
 		width, not inlcuding padding. @see jquery.width() method
 		*/
 		this.getWidth = function(){
 			return this.jqyObj.width();
 		};
-		
+
 		// set width
 		this.setWidth = function(w){
 			this.jqyObj.width(w);
-		};	
-		
+		};
+
 		/*
 		width, inlcuding paddings @see jquery.innerWidth() method
 		*/
@@ -457,7 +457,7 @@
 		this.getX = function(){
 			return this.jqyObj.position().left;
 		};
-		
+
 		/*
 		get y coord of top left corner
 		*/
@@ -471,7 +471,7 @@
 		this.setHtml = function(htmlData){
 			this.jqyObj.html(htmlData);
 		};
-		
+
 		/*
 		append html
 		*/
@@ -485,35 +485,35 @@
 		this.clearHtml = function(){
 			this.setHtml("");
 		};
-		
+
 		/*
 		get html
 		*/
 		this.getHtml = function(){
 			return this.jqyObj.html();
-		};		
-		
+		};
+
 		/*
 		set css value
 		*/
 		this.setCss = function(attr,value){
 			this.jqyObj.css(attr,value);
 		};
-		
+
 		/*
 		get css value
 		*/
 		this.getCss = function(attr){
 			return this.jqyObj.css(attr);
-		};		
-		
+		};
+
 		/*
 		set attribute value
 		*/
 		this.setAttr = function(id,value){
 			this.jqyObj.attr(id,value);
 		};
-		
+
 		/*
 		get attribute value
 		*/
@@ -544,72 +544,72 @@
 	 * @param jqyObj - (JQuery object) - Reference to a header cell <div/> element.
 	 */
 	function CalendarHeaderCell(jqyObj) {
-		
-		// jquery object that reference one header cell <div/> in the header <div/> 
+
+		// jquery object that reference one header cell <div/> in the header <div/>
 		this.jqyObj = jqyObj;
-		
+
 		this.addClass = function(c){
 			this.jqyObj.addClass(c);
 		};
-		
+
 		this.setHtml = function(htmlData){
 			this.jqyObj.html(htmlData);
 		};
-		
+
 		this.getHtml = function(){
 			return this.jqyObj.html();
-		};		
-		
+		};
+
 		this.setCss = function(attr,value){
 			this.jqyObj.css(attr,value);
 		};
-		
+
 		this.getCss = function(attr){
 			return this.jqyObj.css(attr);
-		};		
-		
+		};
+
 		this.setAttr = function(id,value){
 			this.jqyObj.attr(id,value);
 		};
-		
+
 		this.getAttr = function(id){
 			return this.jqyObj.attr(id);
 		};
-		
+
 		this.getX = function(){
 			return this.jqyObj.position().left;
 		};
-		
+
 		this.getY = function(){
 			return this.jqyObj.position().top;
 		};
-		
+
 		/*
 		get height of cell
 		*/
 		this.getHeight = function(){
 			return this.jqyObj.height();
 		};
-		
+
 		/*
 		set height of cell
 		*/
 		this.setHeight = function(h){
 			this.jqyObj.height(h);
-		};		
-		
+		};
+
 		/*
 		width, not inlcuding padding. @see jquery.width() method
 		*/
 		this.getWidth = function(){
 			return this.jqyObj.width();
 		};
-		
+
 		// set width
 		this.setWidth = function(w){
 			this.jqyObj.width(w);
-		};	
-		
+		};
+
 		// width, inlcuding padding
 		this.getInnerWidth = function(){
 			return this.jqyObj.innerWidth();
@@ -619,26 +619,26 @@
 		this.getInnerWidthPlusBorder = function(){
 			return this.jqyObj.outerWidth();
 		};
-		
+
 	};
-	
+
 	/**
 	 * One week header cell in the calendar week header.
 	 *
 	 * @param jqyObj - (JQuery object) - Reference to a week header cell <div/> element.
 	 */
 	function CalendarWeekHeaderCell(jqyObj) {
-		
-		// jquery object that reference one week header cell <div/> in the week header <div/> 
+
+		// jquery object that reference one week header cell <div/> in the week header <div/>
 		this.jqyObj = jqyObj;
-		
+
 		// A Date object with the year, month, and day set for this day cell.
 		this.date = null;
 
 		this.addClass = function(c){
 			this.jqyObj.addClass(c);
-		};		
-		
+		};
+
 		/**
 		 * set the date for this day cell
 		 *
@@ -646,8 +646,8 @@
 		 */
 		this.setDate = function(date){
 			this.date = date;
-		};		
-		
+		};
+
 		/**
 		 * get the date for this day cell
 		 *
@@ -655,66 +655,66 @@
 		 */
 		this.getDate = function(){
 			return this.date;
-		};		
-		
+		};
+
 		this.setHtml = function(htmlData){
 			this.jqyObj.html(htmlData);
 		};
-		
+
 		this.getHtml = function(){
 			return this.jqyObj.html();
-		};		
-		
+		};
+
 		this.setCss = function(attr,value){
 			this.jqyObj.css(attr,value);
 		};
-		
+
 		this.getCss = function(attr){
 			return this.jqyObj.css(attr);
-		};		
-		
+		};
+
 		this.setAttr = function(id,value){
 			this.jqyObj.attr(id,value);
 		};
-		
+
 		this.getAttr = function(id){
 			return this.jqyObj.attr(id);
 		};
-		
+
 		this.getX = function(){
 			return this.jqyObj.position().left;
 		};
-		
+
 		this.getY = function(){
 			return this.jqyObj.position().top;
 		};
-		
+
 		/*
 		get height of cell
 		*/
 		this.getHeight = function(){
 			return this.jqyObj.height();
 		};
-		
+
 		/*
 		set height of cell
 		*/
 		this.setHeight = function(h){
 			this.jqyObj.height(h);
-		};		
-		
+		};
+
 		/*
 		width, not inlcuding padding. @see jquery.width() method
 		*/
 		this.getWidth = function(){
 			return this.jqyObj.width();
 		};
-		
+
 		// set width
 		this.setWidth = function(w){
 			this.jqyObj.width(w);
-		};	
-		
+		};
+
 		// width, inlcuding padding
 		this.getInnerWidth = function(){
 			return this.jqyObj.innerWidth();
@@ -724,7 +724,7 @@
 		this.getInnerWidthPlusBorder = function(){
 			return this.jqyObj.outerWidth();
 		};
-		
+
 		// add a click event callback function to this day cell.
 		// the event object from the click will have the day object and date for the day
 		// e.g. var dayDate = eventObj.data.calDayDate;
@@ -736,9 +736,9 @@
 				},
 				handler
 			);
-		};		
-		
-	};	
+		};
+
+	};
 
 	/**
 	 * Calendar header object. Contains a collection of CalendarHeaderCell objects.
@@ -746,20 +746,20 @@
 	 * @param jqyObj - (JQuery object) - Reference to the header <div/> element.
 	 */
 	function CalendarHeader(jqyObj) {
-		
+
 		// jquery object that reference the calendar header <div/>
 		this.jqyObj = jqyObj;
-		
+
 		// all CalendarHeaderCell objects in the header
 		this.headerCells = new Array();
-		
+
 		// append CalendarHeaderCell object to the header
 		this.appendCalendarHeaderCell = function (calHeaderCell){
 			// push is not supported by IE 5/Win with the JScript 5.0 engine
-			this.headerCells.push(calHeaderCell);		
+			this.headerCells.push(calHeaderCell);
 			this.jqyObj.append(calHeaderCell.jqyObj);
 		};
-		
+
 		// returns an array of CalendarHeaderCell objects
 		this.getHeaderCells = function(){
 			return this.headerCells;
@@ -768,34 +768,34 @@
 		this.setHtml = function(htmlData){
 			this.jqyObj.html(htmlData);
 		};
-		
+
 		this.getHtml = function(){
 			return this.jqyObj.html();
-		};		
-		
+		};
+
 		this.setCss = function(attr,value){
 			this.jqyObj.css(attr,value);
 		};
-		
+
 		this.getCss = function(attr){
 			return this.jqyObj.css(attr);
-		};		
-		
+		};
+
 		this.setAttr = function(id,value){
 			this.jqyObj.attr(id,value);
 		};
-		
+
 		this.getAttr = function(id){
 			return this.jqyObj.attr(id);
 		};
-		
+
 		// set width of the calendar header <div/>
 		this.setWidth = function(w){
 			this.jqyObj.width(w);
 		}
-		
+
 	};
-	
+
 	/**
 	 * Calendar week header object. The row above each CalendarWeek object. Shows the day numbers.
 	 * Contains a collection of CalendarWeekHeaderCell objects.
@@ -803,45 +803,45 @@
 	 * @param jqyObj - (JQuery object) - Reference to the week header <div/> element.
 	 */
 	function CalendarWeekHeader(jqyObj) {
-		
+
 		// jquery object that reference the week header <div/>
 		this.jqyObj = jqyObj;
-		
+
 		// all CalendarWeekHeaderCell objects in the week header
 		this.weekHeaderCells = new Array();
-		
+
 		// append a CalendarWeekHeaderCell object
 		this.appendCalendarWeekHeaderCell = function (weekHeaderCell){
 			// push is not supported by IE 5/Win with the JScript 5.0 engine
 			this.weekHeaderCells.push(weekHeaderCell);
 			this.jqyObj.append(weekHeaderCell.jqyObj);
 		};
-		
+
 		// returns an array of CalendarWeekHeaderCell objects
 		this.getHeaderCells = function(){
 			return this.weekHeaderCells;
 		}
-		
+
 		this.setHtml = function(htmlData){
 			this.jqyObj.html(htmlData);
 		};
-		
+
 		this.getHtml = function(){
 			return this.jqyObj.html();
-		};		
-		
+		};
+
 		this.setCss = function(attr,value){
 			this.jqyObj.css(attr,value);
 		};
-		
+
 		this.getCss = function(attr){
 			return this.jqyObj.css(attr);
-		};		
-		
+		};
+
 		this.setAttr = function(id,value){
 			this.jqyObj.attr(id,value);
 		};
-		
+
 		this.getAttr = function(id){
 			return this.jqyObj.attr(id);
 		};
@@ -849,54 +849,54 @@
 		// set width of the calendar week header <div/>
 		this.setWidth = function(w){
 			this.jqyObj.width(w);
-		}		
-	};	
-	
+		}
+	};
+
 	/**
 	 * Calendar week object. One row in the calendar (7 days). Contains a collection of CalendarDayCell objects.
 	 *
 	 * @param jqyObj - (JQuery object) - Reference to the week <div/> element.
 	 */
 	function CalendarWeek(jqyObj) {
-		
+
 		// jquery object that reference the week <div/>
 		this.jqyObj = jqyObj;
-		
+
 		// all CalendarDayCell objects in the week
 		this.days = new Array();
-		
+
 		// append a CalendarDayCell object
 		this.appendCalendarDayCell = function (calDayCell){
 			// push is not supported by IE 5/Win with the JScript 5.0 engine
 			this.days.push(calDayCell);
 			this.jqyObj.append(calDayCell.jqyObj);
 		};
-		
+
 		// returns an array of CalendarDayCell objects
 		this.getDays = function(){
 			return this.days;
 		}
-		
+
 		this.setHtml = function(htmlData){
 			this.jqyObj.html(htmlData);
 		};
-		
+
 		this.getHtml = function(){
 			return this.jqyObj.html();
-		};		
-		
+		};
+
 		this.setCss = function(attr,value){
 			this.jqyObj.css(attr,value);
 		};
-		
+
 		this.getCss = function(attr){
 			return this.jqyObj.css(attr);
-		};		
-		
+		};
+
 		this.setAttr = function(id,value){
 			this.jqyObj.attr(id,value);
 		};
-		
+
 		this.getAttr = function(id){
 			return this.jqyObj.attr(id);
 		};
@@ -904,8 +904,8 @@
 		// set width of the calendar header <div/>
 		this.setWidth = function(w){
 			this.jqyObj.width(w);
-		}		
-	};	
+		}
+	};
 
 	/**
 	 * Calendar object. Initializes to the current year & month.
@@ -913,28 +913,28 @@
 	 * @param jqyObj - (JQuery object) - Reference to the calendar <div/> element.
 	 */
 	function Calendar() {
-		
+
 		// this value is set when Calendar.initialize(calElm,date) is called
 		this.jqyObj = null;
-		
+
 		// reference to the CalendarHeader object
 		this.calHeaderObj = null;
-		
+
 		// all CalendarWeek objects in the calendar
 		this.weeks = new Array();
-		
+
 		// all buildCalendarWeekHeader objects in the calendar
-		this.weekHeaders = new Array();	
-		
+		this.weekHeaders = new Array();
+
 		// by default the calendar will display the current month for the current year
 		this.displayDate = new Date();
-		
+
 		// hash for storing agenda items. Uses jshashtable.js library. See notes at top of file.
 		this.agendaItems = new Hashtable();
-		
+
 		// turn drag-and-drop on or off.
 		this.dragAndDropEnabled = true;
-		
+
 		/*
 		we already store all the CalendarDayCell objects inside the CalendarWeek objects
 		but we use this hash because in many instances we want to be able to grab a
@@ -943,7 +943,7 @@
 		values = CalendarDayCell objects
 		*/
 		this.dayHash = new Hashtable();
-		
+
 		// the callback function that's triggered when users click a day cell div
 		this.clickEvent_dayCell = null;
 		// the callback function that's triggered when users click an agenda div item
@@ -957,19 +957,19 @@
 		// the callback function that's triggered when a drag event starts on an agenda div element.
 		this.dragStart_agendaCell = null;
 		// the callback function that's triggered when a drag event stops on an agenda div element.
-		this.dragStop_agendaCell = null;		
+		this.dragStop_agendaCell = null;
 
 		// each CalendarAgendaitem added to this calendar gets an ID. We'll increment this ID for each agendar item added.
 		this.agendaId = 1;
-		
+
 		// default values...
 		this.cellBorderWidth			= 1;	// border of all cells
 		this.dayCellHeaderCellHeight	= 17;	// height of day cell header cell (in week header)
 		this.agendaItemHeight 			= 15;	// height of agend item cell
-		
+
 		// by default we make the day cell heights the same as the day cell widths (minus the day cell week header height.)
 		// we can change this behavior with this variable. This value can be anything between 0 and 1. A value of 0.5
-		// would make the day cells half as tall as they are wide. 
+		// would make the day cells half as tall as they are wide.
 		this.aspectRatio = 1;
 
 		/**
@@ -997,7 +997,7 @@
 			agendaTooltipHandler,
 			agendaCellDragStartHandler,
 			agendaCellDragStopHandler){
-			
+
 			this.jqyObj = calElm;
 			this.displayDate = date;
 			this.clickEvent_dayCell = dayCellClickHandler;
@@ -1007,20 +1007,20 @@
 			this.mouseOverEvent_agendaCell = agendaCellMouseoverHandler;
 			this.callBack_agendaTooltip = agendaTooltipHandler;
 			this.dragStart_agendaCell = agendaCellDragStartHandler;
-			this.dragStop_agendaCell = agendaCellDragStopHandler;			
-			
+			this.dragStop_agendaCell = agendaCellDragStopHandler;
+
 			this.do_init();
-			
+
 		};
-		
+
 		/**
 		 * Called by Calendar.initialize(). The real work happens here.
 		 */
 		this.do_init = function(){
-		
+
 			// clear header & weeks & week headers but don't clear agenda items.
 			this.clear(false);
-			
+
 			// build header
 			var calHeaderCell;
 			var calHeader = this.buildCalendarHeader();
@@ -1032,10 +1032,10 @@
 					calHeaderCell.addClass("JFrontierCal-Header-Cell-Last");
 				}
 			}
-			this.addHeader(calHeader); 			
-			
+			this.addHeader(calHeader);
+
 			// initialize some variables we'll use for building the weeks and week headers
-			
+
 			// todays date
 			var today = new Date();
 			// year number for this date
@@ -1058,10 +1058,10 @@
 			var firstDayWkIndex = dtFirst.getDay();
 			// inidex within the week of the last day of the month
 			var lastDayWkIndex = dtLast.getDay();
-			
+
 			var showTodayStyle = ((today.getFullYear() == currentYearNum && today.getMonth() == currentMonthNum) ? true : false);
 
-			// number of day cells that appear on the calendar (days for current month + any days from 
+			// number of day cells that appear on the calendar (days for current month + any days from
 			// previous month + any days from next month.) No more than 42 days, (7 days * 6 weeks.)
 			var totalDayCells = daysInCurrentMonth + firstDayWkIndex;
 			if(lastDayWkIndex > 0){
@@ -1074,19 +1074,19 @@
 			// the day number that appears in each week header cell
 			var dayNum = 1;
 			// the Date object to be store in each CalendarDayCell object & CalendarWeekHeaderCell object
-			// when users click a day cell or week header cell they can get access to this date cause we 
+			// when users click a day cell or week header cell they can get access to this date cause we
 			// store it in the elements data (see jquery data() function)
 			var dt = null;
-			
+
 			// when we display a month we can see a few days from the previous month on the calendar. This is the
 			// day number of the earliest day we can see of the previous month.
 			var firstDayPrevMonth = (daysInPreviousMonth - firstDayWkIndex) + 1;
-			
+
 			// build CalendarWeekHeader & CalendarWeek object for the first week row in the calenar
 			var calDayCell;
 			var calWeekObj;
 			var calWeekHeaderCellObj;
-			var calWeekHeaderObj;			
+			var calWeekHeaderObj;
 			calWeekObj = this.buildCalendarWeek(); // week <div/>
 			calWeekHeaderObj = this.buildCalendarWeekHeader(); // week header <div/>
 			for(var dayIndex = 0; dayIndex < Calendar.dayNames.length; dayIndex++){
@@ -1111,7 +1111,7 @@
 						//calDayCell.removeClass();
 						calDayCell.addClass("JFrontierCal-Day-Cell-Today");
 						calWeekHeaderCellObj.setHtml(/*"Today - "+*/dayNum+"&nbsp;");
-					}					
+					}
 					dayNum += 1;
 				}
 				if(dayIndex == 6){
@@ -1136,7 +1136,7 @@
 						{
 							// pass calendar to the drop handler so we have access to it later.
 							cal: this
-						},					
+						},
 						this.agendaDropHandler
 					);
 				}
@@ -1144,14 +1144,14 @@
 				calWeekObj.appendCalendarDayCell(calDayCell);
 				// add our day cell to our hash so we can look it up quickly when we need to later.
 				this.dayHash.put(
-					(calDayCell.getDate().getFullYear() + "") + 
-					(calDayCell.getDate().getMonth() + "") + 
+					(calDayCell.getDate().getFullYear() + "") +
+					(calDayCell.getDate().getMonth() + "") +
 					(calDayCell.getDate().getDate() + ""),
 					calDayCell);
 			}
 			this.addWeekHeader(calWeekHeaderObj);
 			this.addWeek(calWeekObj);
-			
+
 			// add middle weeks & week headers
 			for(var weekIndex = 2; weekIndex < numberWeekRows; weekIndex++){
 				calWeekObj = this.buildCalendarWeek(); // week <div/>
@@ -1160,7 +1160,7 @@
 					calDayCell = this.buildCalendarDayCell();
 					calWeekHeaderCellObj = this.buildCalendarWeekHeaderCell();
 					dt = new Date(currentYearNum,currentMonthNum,dayNum,0,0,0,0);
-					calDayCell.setDate(dt);						
+					calDayCell.setDate(dt);
 					calWeekHeaderCellObj.setDate(dt);
 					calWeekHeaderCellObj.setHtml(dayNum+"&nbsp;");
 					// add click event handler if the user specified one
@@ -1181,7 +1181,7 @@
 							{
 								// pass calendar to the drop handler so we have access to it later.
 								cal: this
-							},					
+							},
 							this.agendaDropHandler
 						);
 					}
@@ -1193,13 +1193,13 @@
 						//calDayCell.removeClass();
 						calDayCell.addClass("JFrontierCal-Day-Cell-Today");
 						calWeekHeaderCellObj.setHtml(/*"Today - "+*/dayNum+"&nbsp;");
-					}					
+					}
 					calWeekHeaderObj.appendCalendarWeekHeaderCell(calWeekHeaderCellObj);
-					calWeekObj.appendCalendarDayCell(calDayCell);					
+					calWeekObj.appendCalendarDayCell(calDayCell);
 					// add our day cell to our hash so we can look it up quickly when we need to later.
 					this.dayHash.put(
-						(calDayCell.getDate().getFullYear() + "") + 
-						(calDayCell.getDate().getMonth() + "") + 
+						(calDayCell.getDate().getFullYear() + "") +
+						(calDayCell.getDate().getMonth() + "") +
 						(calDayCell.getDate().getDate() + ""),
 						calDayCell);
 					dayNum += 1;
@@ -1207,13 +1207,13 @@
 				this.addWeekHeader(calWeekHeaderObj);
 				this.addWeek(calWeekObj);
 			}
-			
+
 			// when we display a month we can see a few days from the next month on the calendar. this
 			// is the day number of the first day on the next month. Will always be 1.
 			var nextMonthDisplayDayNum = 1;
-			
+
 			//alert("Days in current month: " + daysInCurrentMonth);
-			
+
 			// add last week & last week header
 			calWeekObj = this.buildCalendarWeek(); // week <div/>
 			calWeekHeaderObj = this.buildCalendarWeekHeader(); // week header <div/>
@@ -1223,13 +1223,13 @@
 				if(dayNum <= daysInCurrentMonth){
 					// this month
 					dt = new Date(currentYearNum,currentMonthNum,dayNum,0,0,0,0);
-					calDayCell.setDate(dt);						
+					calDayCell.setDate(dt);
 					calWeekHeaderCellObj.setDate(dt);
-					calWeekHeaderCellObj.setHtml(dayNum+"&nbsp;");				
+					calWeekHeaderCellObj.setHtml(dayNum+"&nbsp;");
 				}else{
 					// next month
 					dt = new Date(currentYearNum,(currentMonthNum+1),nextMonthDisplayDayNum,0,0,0,0);
-					calDayCell.setDate(dt);						
+					calDayCell.setDate(dt);
 					calWeekHeaderCellObj.setDate(dt);
 					calWeekHeaderCellObj.setHtml(nextMonthDisplayDayNum+"&nbsp;");
 					calDayCell.addClass("JFrontierCal-NextMonth-Day-Cell");
@@ -1247,7 +1247,7 @@
 					//calDayCell.removeClass();
 					calDayCell.addClass("JFrontierCal-Day-Cell-Today");
 					calWeekHeaderCellObj.setHtml(/*"Today - "+*/dayNum+"&nbsp;");
-				}					
+				}
 				dayNum += 1;
 				// add click event handler if the user specified one
 				if(this.clickEvent_dayCell != null){
@@ -1267,7 +1267,7 @@
 						{
 							// pass calendar to the drop handler so we have access to it later.
 							cal: this
-						},					
+						},
 						this.agendaDropHandler
 					);
 				}
@@ -1275,10 +1275,10 @@
 				calWeekObj.appendCalendarDayCell(calDayCell);
 				// add our day cell to our hash so we can look it up quickly when we need to later.
 				this.dayHash.put(
-					(calDayCell.getDate().getFullYear() + "") + 
-					(calDayCell.getDate().getMonth() + "") + 
+					(calDayCell.getDate().getFullYear() + "") +
+					(calDayCell.getDate().getMonth() + "") +
 					(calDayCell.getDate().getDate() + ""),
-					calDayCell);				
+					calDayCell);
 			}
 			this.addWeekHeader(calWeekHeaderObj);
 			this.addWeek(calWeekObj);
@@ -1287,20 +1287,20 @@
 			var headerCellTotalHeight = parseInt(calHeaderCell.jqyObj.outerHeight(true));
 			var dayCellTotalHeight = parseInt(calDayCell.jqyObj.outerHeight(true) * numberWeekRows);
 			var weekHeaderCellTotalHeight = parseInt(calWeekHeaderCellObj.jqyObj.outerHeight(true));
-			
+
 			// height of all calendar elements
 			var totalCalendarHeight = dayCellTotalHeight + headerCellTotalHeight + weekHeaderCellTotalHeight;
-			
+
 			// if we don't set the height here than IE fails to render the agenda items correctly.... all other browsers are fine. weird....
 			this.setCss("height",totalCalendarHeight+"px");
-			
+
 			this.jqyObj.addClass("JFrontierCal");
 
 			// re-render all agenda items
 			this.renderAgendaItems();
-		
+
 		};
-		
+
 		/**
 		 * Retrieve all agenda items that appear on a particular day.
 		 *
@@ -1321,39 +1321,39 @@
 				// CalendarAgendaItem object
 				var agi = itemArray[itemIndex];
 				startDt = agi.getStartDate();
-				endDt = agi.getEndDate();				
+				endDt = agi.getEndDate();
 				if(DateUtil.isDateBetween(date,startDt,endDt)){
 					// push is not supported by IE 5/Win with the JScript 5.0 engine
 					itemsForDay.push(agi);
 				}
 			}
 			return itemsForDay;
-		};	
+		};
 
 		/**
 		 * Re-renders all the agenda items stored in the calendar.
 		 *
 		 */
 		this.renderAgendaItems = function(){
-			
+
 			// only render if we actually have some agenda items.
 			if(this.agendaItems == null || this.agendaItems.size() == 0){
 				return;
 			}
-			
+
 			// get all CalendarAgendaItem objects from our Hashtable
 			var itemArray = this.agendaItems.values();
-			
+
 			// sort agenda items by start date
 			itemArray.sort(Calendar.sortAgendaItemsByStartDate);
-			
+
 			// loop through each CalendarAgendaItem and render it
 			for(var itemIndex = 0; itemIndex < this.agendaItems.size(); itemIndex++){
 				// CalendarAgendaItem object
 				var agi = itemArray[itemIndex];
 				this.renderSingleAgendaItem(agi);
 			}
-		
+
 		};
 
 		/**
@@ -1362,10 +1362,10 @@
 		 * @param agi - CalendarAgendaItem - The agenda item to render.
 		 */
 		this.renderSingleAgendaItem = function(agi){
-			
+
 			var now = new Date();
 			LogUtil.log("Calendar.renderSingleAgendaItem() called.");
-		
+
 			if(agi == null){
 				return;
 			}
@@ -1408,7 +1408,7 @@
 			if(DateUtil.daysDifferenceDirection(lastVisDt,agendaStartDate) > 0){
 				// the agenda item is out of view. it's later on the calendar. no need to render.
 				return;
-			}				
+			}
 			// looks like we need to render this agenda item!
 			var firstRenderDate = null;
 			var lastRenderDate = null;
@@ -1423,7 +1423,7 @@
 				// the agenda start date is the first render date.
 				firstRenderDate = agendaStartDate;
 			}
-			
+
 			if(DateUtil.daysDifferenceDirection(lastVisDt,agendaEndDate) > 0){
 				// the agenda end date is out of view (later on the calendar). The last
 				// day we'll render for the agenda item is the last visible day on the calendar.
@@ -1434,18 +1434,18 @@
 			}else{
 				// the agenda end date is the last render date.
 				lastRenderDate = agendaEndDate;
-			}			
-		
+			}
+
 			// if firstRenderDate & lastRenderDate are not in the same week than we'll have
 			// to render multiple <div/>'s for this agenda item (one div for each week.)
-			
+
 			var firstDtIndex = firstRenderDate.getDay();
 			var lastDtIndex = lastRenderDate.getDay();
-			
+
 			if((DateUtil.daysDifference(firstRenderDate,lastRenderDate) + firstDtIndex) > 6){
-			
+
 				// we need to create multiple <div> elements because the agenda item spans more than one week
-			
+
 				// create first <div> from firstRenderDate to the last day in the same week
 				if(agi.isAllDay()){
 					// don't show start time
@@ -1467,7 +1467,7 @@
 				// render the rest of the div elements till we get to the end
 				displayMessage = agi.getTitle();
 				while(DateUtil.daysDifferenceDirection(lastRenderDate,lastDaySameWeekDate) < 0){
-					var firstDayNextWeekDate = DateUtil.getFirstDayNextWeek(lastDaySameWeekDate);	
+					var firstDayNextWeekDate = DateUtil.getFirstDayNextWeek(lastDaySameWeekDate);
 					lastDaySameWeekDate = DateUtil.getLastDayInSameWeek(firstDayNextWeekDate);
 					if(DateUtil.daysDifferenceDirection(lastRenderDate,lastDaySameWeekDate) < 0){
 						// render div from firstDayNextWeekDate to lastDaySameWeekDate
@@ -1478,7 +1478,7 @@
 							this.getCalendarDayObjByDate(lastDaySameWeekDate),
 							false,
 							false
-						);						
+						);
 					}else{
 						// render div from firstDayNextWeekDate to lastRenderDate
 						isBegining = ((DateUtil.daysDifferenceDirection(agendaStartDate,firstDayNextWeekDate) == 0) ? true : false);
@@ -1490,11 +1490,11 @@
 							this.getCalendarDayObjByDate(lastRenderDate),
 							isBegining,
 							isEnd
-						);						
+						);
 					}
 				}
 			}else{
-			
+
 				// the <div/> to render for the agend item is all in the same week.
 				var startDayObj = this.getCalendarDayObjByDate(firstRenderDate);
 				var endDayObj   = this.getCalendarDayObjByDate(lastRenderDate);
@@ -1514,14 +1514,14 @@
 					isBegining,
 					isEnd
 				);
-				
+
 			}
-			
+
 			var then = new Date();
 			LogUtil.log("Calendar.renderSingleAgendaItem() end. Elapsed time in ms = " + Math.abs(then - now));
-			
+
 		};
-		
+
 		/**
 		 * Renders a absolute positioned <div/> element from the start day to the end day
 		 * for the agenda item.
@@ -1540,30 +1540,30 @@
 		 *
 		 * @param rightEnd - (true/false) -
 		 * True - If the endDayObject is the actual end day of the agenda item. Round the corners of the right end of the div element.
-		 * False - If the endDayObject is not the actual end day of the agenda item. Do not round the right and of the div. Draw our jquery triangle icon.		 
+		 * False - If the endDayObject is not the actual end day of the agenda item. Do not round the right and of the div. Draw our jquery triangle icon.
 		 */
 		this.renderAgendaDivElement = function(agi,displayMessage,startDayObject,endDayObject,leftEnd,rightEnd){
-			
+
 			//alert("Calendar.renderAgendaDivElement() called.");
-			
+
 			if(displayMessage == null || startDayObject == null || endDayObject == null){
 				return;
 			}
-		
+
 			var startX = startDayObject.getX() /*+ this.cellBorderWidth*/ + 1;
 			var endX = endDayObject.getX() /*+ this.cellBorderWidth*/ + endDayObject.getWidth() - 1;
 			var width = endX - startX;
-			
+
 			var spacerBetweenAgendaDivs = 1;
-			
+
 			var agendaDivHeight = this.agendaItemHeight;
 			var moreDivHeight = agendaDivHeight;
-			
+
 			var nextY = this.getNextAgendaYPosition(startDayObject,endDayObject,agendaDivHeight,moreDivHeight);
 			//alert("Next Y for item " + displayMessage + ": " + nextY);
-			
+
 			if(nextY > 0){
-			
+
 				var d = $("<div/>");
 				// store agenda ID in agenda div so we can get it later in the drag-drop event
 				d.data("agendaId",agi.getAgendaId());
@@ -1582,7 +1582,7 @@
 							agendaId: agi.getAgendaId(),
 							agendaItem: Calendar.buildUserAgendaObject(agi),
 							callBack: this.dragStart_agendaCell
-						},						
+						},
 						function(event, ui) {
 							var callBack = event.data.callBack;
 							if(callBack != null){
@@ -1601,7 +1601,7 @@
 							agendaId: agi.getAgendaId(),
 							agendaItem: Calendar.buildUserAgendaObject(agi),
 							callBack: this.dragStop_agendaCell
-						},						
+						},
 						function(event, ui) {
 							var callBack = event.data.callBack;
 							if(callBack != null){
@@ -1612,13 +1612,14 @@
 								);
 							}
 						}
-					);						
+					);
+					d.draggable();
 					d.draggable("enable");
 					d.data("agendaDivElement",d);
 					d.data("agendaId",agi.getAgendaId());
 					d.data("agendaItem", Calendar.buildUserAgendaObject(agi));
 					d.data("revertCallBack",this.callBack_agendaTooltip);
-					d.draggable({ 
+					d.draggable({
 						revert: function(event,ui){
 							var callBack = $(this).data("revertCallBack");
 							var agendaDiv = $(this).data("agendaDivElement");
@@ -1630,7 +1631,7 @@
 								);
 							}
 							return true;
-						},						
+						},
 						scroll: true
 					});
 				}
@@ -1643,7 +1644,7 @@
 				}
 				d.css("position","absolute");
 				d.css("left",startX+"px");
-				d.css("top",nextY+"px");					
+				d.css("top",nextY+"px");
 				d.css("width",width+"px");
 				d.css("white-space","nowrap");
 				// round corners for webkit & safari (poor IE :( )
@@ -1657,12 +1658,12 @@
 					var triangle = $("<span/>");
 					triangle.css("float","left");
 					triangle.addClass("ui-icon ui-icon-circle-triangle-w");
-					d.append(triangle);					
+					d.append(triangle);
 				}
 				var mesg = $("<span/>");
 				mesg.css("float","left");
 				mesg.html(displayMessage);
-				d.append(mesg);				
+				d.append(mesg);
 				if(rightEnd){
 					d.css("-moz-border-radius-topright","3px");
 					d.css("-moz-border-radius-bottomright","3px");
@@ -1684,7 +1685,7 @@
 							agendaId: agi.getAgendaId(),
 							// pass click event callback function so we can call it in clickAgendaFromCalendarHandler() function
 							callBack: this.clickEvent_agendaCell
-						},						
+						},
 						this.clickAgendaFromCalendarHandler
 					);
 				}
@@ -1697,9 +1698,9 @@
 							agendaId: agi.getAgendaId(),
 							// pass mouseover event callback function so we can call it in mouseOverAgendaFromCalendarHandler() function
 							callBack: this.mouseOverEvent_agendaCell
-						},						
+						},
 						this.clickAgendaFromCalendarHandler
-					);				
+					);
 				}
 				// change mouse cusor to pointer when hovering over agenda divs.
 				d.hover(
@@ -1715,19 +1716,19 @@
 				if(this.callBack_agendaTooltip){
 					this.callBack_agendaTooltip(d,Calendar.buildUserAgendaObject(agi));
 				}
-	
+
 				// add agenda <div> to all day cells.
 				this.addAgendaDivToDays(startDayObject,endDayObject,d,agi.getAgendaId());
 
 				// add agenda <div> to DOM.
 				startDayObject.appendHtml(d);
-			
+
 			}else{
 
 				this.addMoreDivToDays(startDayObject,endDayObject,moreDivHeight);
-			
+
 			}
-			
+
 		};
 
 		/**
@@ -1748,7 +1749,7 @@
 				callBack(eventObj);
 			}
 		};
-		
+
 		/**
 		 * Fired when users mouse over and agenda item on the calendar.
 		 */
@@ -1758,9 +1759,9 @@
 			if(callBack != null){
 				// pass eventObj to the users click handler. they will have access to the agenda ID (eventObj.data.agendaId)
 				callBack(eventObj);
-			}		
+			}
 		};
-		
+
 		/**
 		 * Fired when users click and agenda item from the "more agenda items" modal dialog.
 		 * This function closes the dialog, then it calls this.clickAgendaFromCalendarHandler()
@@ -1768,7 +1769,7 @@
 		 * @param eventObj - The event object from the click event. Should have the following values in its data.
 		 *					 eventObj.data.callBack - The users custom click event callback function.
 		 *					 eventObj.data.agendaId - The ID of the agenda item that was clicked.
-		 *					 eventObj.data.dialog - Reference to the "more agenda items" modal dialog.		 
+		 *					 eventObj.data.dialog - Reference to the "more agenda items" modal dialog.
 		 */
 		this.clickAgendaFromCalendarMoreModalDialogHandler = function(eventObj){
 			// close the "more" dialog
@@ -1794,15 +1795,15 @@
 		 *
 		 */
 		this.agendaDropHandler = function(event, ui){
-		
+
 			var calObj = event.data.cal;
-			
+
 			if(calObj == null){
 				alert("Drop Error: Calendar object is null.");
-			}			
-		
+			}
+
 			var agendaDiv = ui.draggable;
-			
+
 			var agendaId = parseInt(agendaDiv.data("agendaId"));
 			if(agendaId == null){
 				alert("Drop Error: Agenda id is null.");
@@ -1811,46 +1812,46 @@
 			if(agendaItemObj == null){
 				alert("Drop Error: Agenda item object is null.");
 			}
-			
+
 			// The date on the calendar that agenda div was dropped to
 			var toStartDate = $(this).data("dayDate");
 
-			
+
 			// fade out div that was dragged and dropped, remove agenda item from calendar, update dates, then re-add it.
 			agendaDiv.fadeOut(function() {
-			
+
 				agendaDiv.draggable("destroy");
 				agendaDiv == null;
-				
+
 				calObj.deleteAgendaItemById(agendaId);
-				
+
 				var fromStartDate = agendaItemObj.getStartDate();
 				var fromEndDate = agendaItemObj.getEndDate();
-				
+
 				var daysDiffDirection = DateUtil.daysDifferenceDirection(fromStartDate,toStartDate);
-				
+
 				var newStartDt = DateUtil.addDays(fromStartDate,daysDiffDirection);
 				var newEndDt = DateUtil.addDays(fromEndDate,daysDiffDirection);
-				
+
 				agendaItemObj.setStartDate(newStartDt);
 				agendaItemObj.setEndDate(newEndDt);
-				
+
 				calObj.addAgendaItem(agendaItemObj);
-				
+
 				//event.data.cal = null; // remove calendar object from event.
 				event.data.agendaId = agendaId; // add agenda ID to event so user has access to it.
 				event.data.calDayDate = toStartDate; // add date that the agenda item was dropped to.
-				
+
 				// call users drop handler
 				if(calObj.dropEvent_agendaCell != null){
 					calObj.dropEvent_agendaCell(event);
 				}
-				
+
 			});
-			
+
 			event.stopPropagation();
-		
-		};		
+
+		};
 
 		/**
 		 * Adds the more link <div> element to all the days, from start day to end day.
@@ -1866,7 +1867,7 @@
 
 			var startDt = startDayObj.getDate();
 			var endDt = endDayObj.getDate();
-			var nextDt = DateUtil.getNextDay(startDt);	
+			var nextDt = DateUtil.getNextDay(startDt);
 
 			// create div right at end of day cell
 			var d = $("<div/>");
@@ -1881,7 +1882,7 @@
 					// pass calendar, start date, and agenda items so we have access to them in the click handler function.
 					cal: this,
 					calDayDate: startDt,
-					agendaItems: items  
+					agendaItems: items
 				},
 				function(eventObj){
 					eventObj.stopPropagation();
@@ -1904,7 +1905,7 @@
 			);
 			var startY = (startDayObj.getY() + startDayObj.getHeight()) - moreDivHeight - 1;
 			var startX = startDayObj.getX();
-			var width = startDayObj.getWidth();			
+			var width = startDayObj.getWidth();
 			d.css("top",startY+"px");
 			d.css("left",startX+"px");
 			d.css("width",width+"px");
@@ -1949,16 +1950,16 @@
 				);
 				startY = (nextDatObj.getY() + nextDatObj.getHeight()) - moreDivHeight - 1;
 				startX = nextDatObj.getX();
-				width = nextDatObj.getWidth();			
+				width = nextDatObj.getWidth();
 				d.css("top",startY+"px");
 				d.css("left",startX+"px");
 				d.css("width",width+"px");
 				d.css("height",moreDivHeight+"px");
 				nextDatObj.addMoreDiv(d);
 				nextDt = DateUtil.getNextDay(nextDt);
-			}			
-		};		
-		
+			}
+		};
+
 		/**
 		 * Adds the agenda <div> elements to all the days, from start day to end day.
 		 * You can pass null to remove it.
@@ -1969,9 +1970,9 @@
 		 * @param agendaId - integer - The ID of the agenda item.
 		 */
 		this.addAgendaDivToDays = function(startDayObj,endDayObj,agendaDiv,agendaId){
-			
+
 			//alert("Calendar.addAgendaDivToDays() called.");
-			
+
 			if(startDayObj == null || endDayObj == null || agendaDiv == null || agendaId == null){
 				return;
 			}
@@ -1983,28 +1984,28 @@
 				var nextDatObj = this.getCalendarDayObjByDate(nextDt);
 				nextDatObj.addAgendaDivElement(agendaId,agendaDiv);
 				nextDt = DateUtil.getNextDay(nextDt);
-			}			
-		};		
-		
+			}
+		};
+
 		/**
 		 * Examins all the agenda <div> elements currently rendered from start day to end day
 		 * and finds the next Y coordinate where we can render another agenda <div> element.
 		 *
 		 * @param startDayObj - CalendarDayCell - The start day.
-		 * @param endDayObj - CalendarDayCell - The end day.		 
+		 * @param endDayObj - CalendarDayCell - The end day.
 		 * @param agendaDivHeight - integer - The height of the new agenda <div> element
 		 * @param moreDivHeight - integer - The height of the "more" link <div> element
 		 * @return integer - the next y coordinate, or -1 if no more space.
 		 */
 		this.getNextAgendaYPosition = function(startDayObj,endDayObj,agendaDivHeight,moreDivHeight){
-			
+
 			//alert("Calendar.getNextAgendaYPosition() called.");
-			
+
 			if(startDayObj == null || endDayObj == null || agendaDivHeight == null || moreDivHeight == null){
 				// -1 means no more space
 				return -1;
 			}
-			
+
 			var maxY = 0;
 			var nextY = startDayObj.getY();
 			maxY = nextY;
@@ -2014,13 +2015,13 @@
 			var startDt;
 			var endDt;
 			var nextDt;
-			
+
 			//startDayObj.debugDivElements();
 
 			var itrIndex = 1;
 			// if we get into a nasty loop this upper maximum will eventually end it.
 			var maxIterations = 100;
-			
+
 			while(!found /*|| itrIndex <= maxIterations*/){
 				nextYArray = new Array();
 				nextY = startDayObj.getNextAgendaYstartY(nextY,agendaDivHeight,moreDivHeight);
@@ -2062,9 +2063,9 @@
 				nextY = maxY;
 				itrIndex += 1;
 			}
-			return nextY;			
-		};	
-		
+			return nextY;
+		};
+
 		/**
 		 * Returns the CalendarDayCell object with the matching date: matching on year, month, and day.
 		 *
@@ -2091,9 +2092,9 @@
 						var dayCell = dayCellsArray[dayIndex];
 						var dayDate = dayCell.getDate();
 						if(dayDate != null){
-							if(dayDate.getFullYear() == date.getFullYear() && 
+							if(dayDate.getFullYear() == date.getFullYear() &&
 							   dayDate.getMonth() == date.getMonth() && dayDate.getDate() == date.getDate()){
-								
+
 								return dayCell;
 							}
 						}
@@ -2102,25 +2103,25 @@
 			}
 			*/
 		};
-		
+
 		/**
 		 * Set the calendar to the specified year & month.
-		 * 
+		 *
 		 * @param date - A date object from the datejs library.
 		 */
 		this.setDisplayDate = function(date){
 
 			// set the date
 			this.displayDate = date;
-			
+
 			// re-initialize the calendar
 			this.do_init();
-			
+
 			// resize
 			this.resize();
-		
+
 		};
-		
+
 		/**
 		 * Returns the calendars current date.
 		 *
@@ -2145,7 +2146,7 @@
 			}
 			this.setDisplayDate(dt);
 		};
-		
+
 		/**
 		 * Sets the calendar to the previous month
 		 */
@@ -2157,10 +2158,10 @@
 			}else{
 				dt.setFullYear(this.displayDate.getFullYear());
 				dt.setMonth(this.displayDate.getMonth()-1);
-			}		
-			this.setDisplayDate(dt);	
+			}
+			this.setDisplayDate(dt);
 		};
-		
+
 		/**
 		 * Builds a CalendarHeader object. This goes at the very top of the calendar and displays the day names.
 		 * This object stores all the CalendarHeaderCell objects for the calendar header.
@@ -2170,10 +2171,10 @@
 		this.buildCalendarHeader = function(){
 			var jqyHeaderObj = $("<div/>");
 			jqyHeaderObj.css("width",this.getWidth()+"px");
-			var calHeaderObj = new CalendarHeader(jqyHeaderObj);			
+			var calHeaderObj = new CalendarHeader(jqyHeaderObj);
 			return calHeaderObj;
 		};
-		
+
 		/**
 		 * Builds a CalendarWeek object. This object stores all the CalendarDayCell objects for the week.
 		 *
@@ -2182,7 +2183,7 @@
 		this.buildCalendarWeek = function(){
 			var weekCell = $("<div/>");
 			weekCell.css("width",this.getWidth()+"px");
-			var calWeek = new CalendarWeek(weekCell);			
+			var calWeek = new CalendarWeek(weekCell);
 			return calWeek;
 		};
 
@@ -2194,9 +2195,9 @@
 		this.buildCalendarWeekHeader = function(){
 			var weekHeaderCell = $("<div/>");
 			weekHeaderCell.css("width",this.getWidth()+"px");
-			var calWeekHeader = new CalendarWeekHeader(weekHeaderCell);			
+			var calWeekHeader = new CalendarWeekHeader(weekHeaderCell);
 			return calWeekHeader;
-		};			
+		};
 
 		/**
 		 * Builds a CalendarHeaderCell object. One cell in the CalendarHeader.
@@ -2209,7 +2210,7 @@
 			var calHeadCell = new CalendarHeaderCell(headCell);
 			return calHeadCell;
 		};
-		
+
 		/**
 		 * Builds a CalendarWeekHeaderCell object. One cell in the CalendarWeekHeader.
 		 *
@@ -2231,7 +2232,7 @@
 			*/
 			var calWeekHeadCell = new CalendarWeekHeaderCell(weekHeaderCell);
 			return calWeekHeadCell;
-		};		 
+		};
 
 		/**
 		 * Builds a CalendarDayCell object. One cell in the CalendarWeek object.
@@ -2255,7 +2256,7 @@
 			var calDay = new CalendarDayCell(dayCell);
 			return calDay;
 		};
-		
+
 		/**
 		 * Get the current year, 4-digit.
 		 *
@@ -2264,7 +2265,7 @@
 		this.getCurrentYear = function(){
 			return parseInt(this.displayDate.getFullYear());
 		};
-		
+
 		/**
 		 * Get the current month
 		 *
@@ -2305,7 +2306,7 @@
 		 * Get a new date with the previous month
 		 *
 		 * @return A Date object
-		 */		
+		 */
 		this.getPreviousMonth = function(){
 			var dt = new Date(0,0,1,0,0,0,0);
 			if(this.getCurrentMonth() == 0){
@@ -2316,8 +2317,8 @@
 				dt.setMonth(this.getCurrentMonth()-1);
 			}
 			return dt;
-		};	
-		
+		};
+
 		/**
 		 * Return number of days in current month
 		 *
@@ -2326,51 +2327,51 @@
 		this.getDaysCurrentMonth = function(){
 			return parseInt(DateUtil.getDaysInMonth(this.displayDate));
 		};
-		
+
 		/**
 		 * Return number of days in previous month
 		 *
 		 * @return integer
-		 */		
+		 */
 		this.getDaysPreviousMonth = function(){
 			var prevDt = this.getPreviousMonth();
 			return parseInt(DateUtil.getDaysInMonth(prevDt));
-		};	
-		
+		};
+
 		/**
 		 * Return number of days in next month
 		 *
 		 * @return integer
-		 */			
+		 */
 		this.getDaysNextMonth = function(){
 			var nextDt = this.getNextMonth();
 			return parseInt(DateUtil.getDaysInMonth(nextDt));
 		};
-		
+
 		this.setHtml = function(htmlData){
 			this.jqyObj.html(htmlData);
 		};
-		
+
 		this.getHtml = function(){
 			return this.jqyObj.html();
-		};		
-		
+		};
+
 		this.setCss = function(attr,value){
 			this.jqyObj.css(attr,value);
 		};
-		
+
 		this.getCss = function(attr){
 			return this.jqyObj.css(attr);
-		};		
-		
+		};
+
 		this.setAttr = function(id,value){
 			this.jqyObj.attr(id,value);
 		};
-		
+
 		this.getAttr = function(id){
 			return this.jqyObj.attr(id);
-		};		
-		
+		};
+
 		/**
 		 * Clear all data in the calendar </div> element, inluding
 		 * all week objects, week header objects & the calendar header object.
@@ -2387,7 +2388,7 @@
 				this.agendaItems = new Hashtable();
 			}
 		};
-		
+
 		/**
 		 * Get the height of the calendar <div/> element
 		 *
@@ -2396,8 +2397,8 @@
 		 */
 		this.getHeight = function(){
 			return this.jqyObj.height();
-		}		
-		
+		}
+
 		/**
 		 * Get the width of the calendar <div/> element
 		 *
@@ -2407,7 +2408,7 @@
 		this.getWidth = function(){
 			return this.jqyObj.width();
 		};
-		
+
 		/**
 		 * Set the width of the calendar <div/> element
 		 *
@@ -2417,8 +2418,8 @@
 		this.setWidth = function(w){
 			this.jqyObj.width(w);
 			this.resize();
-		};		
-		
+		};
+
 		/**
 		 * Get the inner width of the calendar <div/> element
 		 *
@@ -2428,7 +2429,7 @@
 		this.getInnerWidth = function(){
 			return this.jqyObj.innerWidth();
 		};
-		
+
 		/**
 		 * Add a header to the calendar
 		 *
@@ -2441,27 +2442,27 @@
 				var headerDiv = this.jqyObj.children("div").first();
 				headerDiv.remove();
 				this.calHeaderObj = calHeader;
-				this.jqyObj.prepend(calHeader.jqyObj);	
+				this.jqyObj.prepend(calHeader.jqyObj);
 			}else{
 				this.calHeaderObj = calHeader;
-				this.jqyObj.prepend(calHeader.jqyObj);				
+				this.jqyObj.prepend(calHeader.jqyObj);
 			}
 		};
-		
+
 		// append a CalendarWeek object
 		this.addWeek = function(calWeek){
 			// push is not supported by IE 5/Win with the JScript 5.0 engine
-			this.weeks.push(calWeek);		
+			this.weeks.push(calWeek);
 			this.jqyObj.append(calWeek.jqyObj);
 		};
-		
+
 		// append a CalendarWeekHeader object
 		this.addWeekHeader = function(calWeekHeader){
 			// push is not supported by IE 5/Win with the JScript 5.0 engine
-			this.weekHeaders.push(calWeekHeader);		
+			this.weekHeaders.push(calWeekHeader);
 			this.jqyObj.append(calWeekHeader.jqyObj);
 		};
-		
+
 		// returns an array of CalendarWeek objects
 		this.getWeeks = function(){
 			return this.weeks;
@@ -2470,13 +2471,13 @@
 		// returns an array of CalendarWeekHeader objects
 		this.getWeekHeaders = function(){
 			return this.weekHeaders;
-		};		
-		
+		};
+
 		// return the number of weeks for the current month
 		this.getNumberWeeks = function(){
 			return this.weeks.length;
 		};
-		
+
 		/**
 		 * Add a CalendarAgendaItem to the calendar.
 		 *
@@ -2485,16 +2486,16 @@
 		this.addAgendaItem = function(item){
 			if(item.getAgendaId() == 0){
 				// no internal agend ID, we need to give it one
-				item.setAgendaId(this.agendaId);	
+				item.setAgendaId(this.agendaId);
 				// increment id value for next agenda item.
-				this.agendaId++;				
+				this.agendaId++;
 			}
 			// add agenda item to hash with unique id
 			this.agendaItems.put(item.getAgendaId(),item);
 			// render the item
-			this.renderSingleAgendaItem(item);			
+			this.renderSingleAgendaItem(item);
 		};
-		
+
 		/**
 		 * Retrieve the number of agenda items in the calendar.
 		 *
@@ -2502,8 +2503,8 @@
 		 */
 		this.getAgendaItemsCount = function(){
 			return this.agendaItems.size();
-		};		
-		
+		};
+
 		/**
 		 * Retrieve all agenda items.
 		 *
@@ -2512,7 +2513,7 @@
 		this.getAgendaItems = function(){
 			return this.agendaItems;
 		};
-		
+
 		/**
 		 * Get an agenda item by ID.
 		 *
@@ -2522,16 +2523,16 @@
 		this.getAgendaItemById = function(id){
 			return this.agendaItems.get(id);
 		};
-		
+
 		/**
 		 * Retrieve all agenda items with a specific attribute value in their data hash.
 		 *
 		 * @param attrName - string - The attribute name in the agenda data object.
 		 * @param attrValue - string/number - The value of the attribute in the agenda data object.
 		 * @return An array of CalendarAgendaItem objects.
-		 */		
+		 */
 		this.getAgendaItemByDataAttr = function(attrName,attrValue){
-			if(this.agendaItems != null && this.agendaItems.size() > 0){		
+			if(this.agendaItems != null && this.agendaItems.size() > 0){
 				var agi = null;
 				var val = null;
 				var pattern = null;
@@ -2552,7 +2553,7 @@
 							pattern = new RegExp(attrValue);
 							if(pattern.test(val)){
 								itemsToDelete.push(agi);
-							}							
+							}
 						}
 						*/
 					}
@@ -2560,13 +2561,13 @@
 				return itemsToReturn;
 			}
 			return null;
-		};			
-		
+		};
+
 		/**
 		 * Deletes an agenda item from the calendar.
 		 *
 		 * @param id - integer - The unique agenda ID.
-		 */		
+		 */
 		this.deleteAgendaItemById = function(id){
 			if(this.agendaItems != null && this.agendaItems.size() > 0){
 				this.agendaItems.remove(id);
@@ -2574,12 +2575,12 @@
 				this.renderAgendaItems();
 			}
 		};
-		
+
 		/**
 		 * Delete an agenda item by a value in its data hash.
 		 *
 		 * @param attrName - string - The attribute name in the agenda data object.
-		 * @param attrValue - string/number - The value of the attribute in the agenda data object.		
+		 * @param attrValue - string/number - The value of the attribute in the agenda data object.
 		 */
 		this.deleteAgendaItemByDataAttr = function(attrName,attrValue){
 			if(this.agendaItems != null && this.agendaItems.size() > 0){
@@ -2603,7 +2604,7 @@
 							pattern = new RegExp(attrValue);
 							if(pattern.test(val)){
 								itemsToDelete.push(agi);
-							}							
+							}
 						}
 						*/
 					}
@@ -2613,36 +2614,36 @@
 						this.deleteAgendaItemById(itemsToDelete[i].getAgendaId());
 					}
 					this.clearDayCellData();
-					this.renderAgendaItems();					
+					this.renderAgendaItems();
 				}
 			}
 		};
 
 		/**
 		 * Deletes all agenda items.
-		 */		
+		 */
 		this.deleteAllAgendaItems = function(){
 			if(this.agendaItems != null && this.agendaItems.size() > 0){
 				this.agendaItems = new Hashtable();
 				this.clearDayCellData();
 				this.renderAgendaItems();
 			}
-		};		
-		
+		};
+
 		// append a JQuery object
 		this.appendJqyObj = function(obj){
 			this.jqyObj.append(obj);
 		};
-		
+
 		this.shoutOut = function(){
 			alert("You have a calendar object!");
 		};
-		
+
 		/**
 		 * This function could be good when we delete agenda items. Since deleting an agenda item
-		 * does not require resizing the calendar we can simply delete the agenda divs and 
+		 * does not require resizing the calendar we can simply delete the agenda divs and
 		 * re-render them.
-		 * 
+		 *
 		 * Loops through all the days cells and clears the html and agenda rendering positison.
 		 */
 		this.clearDayCellData = function(){
@@ -2660,7 +2661,7 @@
 						}
 					}
 				}
-			}		
+			}
 		};
 
 		/**
@@ -2674,23 +2675,23 @@
 				this.aspectRatio = ratio;
 				this.resize();
 			}
-		}		
-		
+		}
+
 		/**
 		 * call this function when the browser is resized. Resizes all <div/> elements. Clears all agenda item
 		 * renders and then re-renders them.
 		 *
 		 */
 		this.resize = function(){
-			
+
 			var firstDayCell = null;
 			var firstWeekHeaderCell = null;
 			var lastDayCell = null;
 			var lastHeaderCell = null;
-			var lastWeekHeaderCell = null;			
-			
+			var lastWeekHeaderCell = null;
+
 			var calWidth = this.getWidth(); // excludes padding
-			
+
 			// all day cells, header cells, and week header cells, should have the same left & right margin, left & right padding,
 			// and left & right border widths. We'll grab the first day cell and use it's values for all other calculations.
 			var weekArray = this.getWeeks();
@@ -2711,24 +2712,24 @@
 			var headerCellHeight = firstWeekHeaderCell.jqyObj.outerHeight(true);
 
 			var borderSize = (firstDayCell.jqyObj.outerWidth(true) - firstDayCell.jqyObj.width()) * Calendar.dayNames.length;
-			
+
 			var cellWidth = Math.floor(calWidth / Calendar.dayNames.length) - (firstDayCell.jqyObj.outerWidth(true) - firstDayCell.jqyObj.width());
 			var cellWidthLast = cellWidth + ( calWidth - (cellWidth * Calendar.dayNames.length)) - (firstDayCell.jqyObj.outerWidth(true) - firstDayCell.jqyObj.width())-borderSize;
 			//var cellWidth = Math.floor(calWidth / Calendar.dayNames.length) - this.cellBorderWidth - (this.cellPadding * 2);
 			//var cellWidthLast = cellWidth + ( calWidth - (cellWidth * Calendar.dayNames.length)) - this.cellBorderTotal - this.cellPaddingTotal;
-			
+
 			// make the day cells square
 			var cellHeight = parseInt((cellWidth - headerCellHeight) * this.aspectRatio);
 			//var cellHeight = cellWidth - this.dayCellHeaderCellHeight;
-			
+
 			// width of all elements inside the header <div/>
 			var totalHeaderWidth = ((cellWidth * 6) + cellWidthLast) + ((firstDayCell.jqyObj.outerWidth(true) - firstDayCell.jqyObj.width()) * Calendar.dayNames.length) + 1;
 			//var totalHeaderWidth = (cellWidth * 6) + cellWidthLast + this.cellBorderTotal + this.cellPaddingTotal;
-			
+
 			// set the width of the header <div/> that wraps all the header cells.
 			this.calHeaderObj.setWidth(totalHeaderWidth);
 			//this.calHeaderObj.jqyObj.css("width",totalHeaderWidth+"px");
-			
+
 			// loop over all cells in header and update their size
 			var headerCellsArray = this.calHeaderObj.getHeaderCells();
 			if(headerCellsArray != null && headerCellsArray.length > 0){
@@ -2742,8 +2743,8 @@
 						lastHeaderCell = headerCellsArray[headIndex];
 					}
 				}
-			}				
-			
+			}
+
 			// loop through all weeks & week headers. Update width of day cells and week header cells
 			// each week has a week header (the arrays should be the same size if the initialization worked correctly)
 			var weekCount = 0;
@@ -2762,59 +2763,59 @@
 						// loop through all days of the week
 						for(var dayIndex = 0; dayIndex < dayCellsArray.length; dayIndex++){
 							if(dayIndex == (dayCellsArray.length - 1)){
-								
+
 								// last day cell in the week (Saturday)
-								
+
 								// set widths
 								dayCellsArray[dayIndex].setCss("width",cellWidthLast+"px");
 								weekHeaderCellsArray[dayIndex].setCss("width",cellWidthLast+"px");
-								
+
 								// set height (make it the same as width so we have a nice aspect ratio)
 								dayCellsArray[dayIndex].setCss("height",cellHeight+"px");
-								
+
 								// clear agenda item html for this cell, we will re-render in
 								dayCellsArray[dayIndex].clearAgendaDivElements();
-								
+
 							}else{
-							
+
 								// Sunday to friday day cells
-							
+
 								// set widths
 								dayCellsArray[dayIndex].setCss("width",cellWidth+"px");
 								weekHeaderCellsArray[dayIndex].setCss("width",cellWidth+"px");
-								
+
 								// set height (make it the same as width so we have a nice aspect ratio)
-								dayCellsArray[dayIndex].setCss("height",cellHeight+"px");								
-								
+								dayCellsArray[dayIndex].setCss("height",cellHeight+"px");
+
 								// clear agenda item html for this cell, we will re-render in
 								dayCellsArray[dayIndex].clearAgendaDivElements();
-								
+
 								// we'll use these later
 								lastDayCell = dayCellsArray[dayIndex];
 								lastWeekHeaderCell = weekHeaderCellsArray[dayIndex];
-								
+
 							}
 						}
 					}
 				}
 			}
-			
+
 			// get some user specified CSS values
 			var headerCellTotalHeight = parseInt(lastHeaderCell.jqyObj.outerHeight(true));
 			var dayCellTotalHeight = parseInt(lastDayCell.jqyObj.outerHeight(true) * weekCount);
 			var weekHeaderCellTotalHeight = parseInt(lastWeekHeaderCell.jqyObj.outerHeight(true) * weekCount);
-			
+
 			var totalCalendarHeight = headerCellTotalHeight + dayCellTotalHeight + weekHeaderCellTotalHeight;
 
 			// set height of calendar <div/>
 			this.setCss("height",totalCalendarHeight+"px");
-			
+
 			// re-render all agenda items
 			this.renderAgendaItems();
-			
-		
+
+
 		};
-		
+
 		/**
 		 * Gets the day index within the week for the day name
 		 *
@@ -2846,9 +2847,9 @@
 				return 6;
 			}else{
 				return -1
-			}			
+			}
 		};
-	
+
 	};
 	// static properties
 	Calendar.dayNames = new Array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
@@ -2893,7 +2894,7 @@
 	 *			backgroundColor: [string],
 	 *			foregroundColor: [string]
 	 *	   }
-	 * }	 
+	 * }
 	 */
 	Calendar.buildUserAgendaObject = function(agendaObject){
 		if(agendaObject == null){
@@ -2914,7 +2915,7 @@
 		}
 		var displayPropObj = new Object();
 		displayPropObj["backgroundColor"] = agendaObject.getBackgroundColor();
-		displayPropObj["foregroundColor"] = agendaObject.getForegroundColor();		
+		displayPropObj["foregroundColor"] = agendaObject.getForegroundColor();
 		var agendaData = {
 			agendaId: agendaObject.getAgendaId(),
 			title: agendaObject.getTitle(),
@@ -2924,7 +2925,7 @@
 			data: dataObj,
 			displayProp: displayPropObj
 		};
-		return agendaData;	
+		return agendaData;
 	};
 	/**
 	 * Open the "more agenda items" modal dialog for the specified day.
@@ -2938,16 +2939,16 @@
 			alert("Can't open dialog. One ore more of Calendar/Date/agendaItems parameters are null.");
 		}
 		var modalId = cal.jqyObj.attr("id") + "-more-agenda-modal";
-		
+
 		// see if we already have a modal dialog with this ID.
 		var haveModel = (($("#"+modalId).length == 0) ? false : true);
-		
+
 		// clear previous modal dialog
 		if(haveModel){
 			$("#"+modalId).dialog("destroy");
 			$("#"+modalId).remove();
 		}
-		
+
 		// create modal dialog
 		var modal = $("<div/>");
 		modal.attr("id",modalId);
@@ -2970,19 +2971,19 @@
 			}
 		});
 		//$("body").append(modal);
-		
+
 		// populate modal with agenda data
 		var agi = null;
 		var agendaDiv  = null;
 		modal.append("<br>");
-		
+
 		agendaItems.sort(Calendar.sortAgendaItemsByStartDate);
-		
+
 		var isBegining = false;
 		var isEnd = false;
 		var agendaStartDt = null;
 		var agendaEndDt = null;
-		
+
 		for(var i=0; i<agendaItems.length; i++){
 			agi = agendaItems[i];
 			agendaStartDt = agi.getStartDate();
@@ -2995,7 +2996,7 @@
 			}
 			if(agi.getForegroundColor() != null){
 				agendaDiv.css("color",agi.getForegroundColor());
-			}			
+			}
 			agendaDiv.css("width","100%");
 			agendaDiv.css("height","30px");
 			agendaDiv.css("margin-bottom","2px");
@@ -3012,7 +3013,7 @@
 				var triangle = $("<span/>");
 				triangle.css("float","left");
 				triangle.addClass("ui-icon ui-icon-circle-triangle-w");
-				agendaDiv.append(triangle);			
+				agendaDiv.append(triangle);
 			}
 			if(isEnd){
 				agendaDiv.css("-moz-border-radius-topright","3px");
@@ -3023,15 +3024,15 @@
 				var triangle = $("<span/>");
 				triangle.css("float","right");
 				triangle.addClass("ui-icon ui-icon-circle-triangle-e");
-				agendaDiv.append(triangle);			
+				agendaDiv.append(triangle);
 			}
-			
+
 			agendaDiv.append(agi.getTitle() + "<br>");
 			if(agi.isAllDay()){
 				// don't show start time
 				agendaDiv.append("(All day event)<br>");
 			}else{
-				agendaDiv.append("From " + DateUtil.getAgendaDisplayTime(agendaStartDt) + " on " + agendaStartDt.toDateString() + 
+				agendaDiv.append("From " + DateUtil.getAgendaDisplayTime(agendaStartDt) + " on " + agendaStartDt.toDateString() +
 					" To " + DateUtil.getAgendaDisplayTime(agendaEndDt) + " " + agendaEndDt.toDateString()  + "<br>");
 			}
 			// add click event
@@ -3048,8 +3049,8 @@
 						dialog: modal
 					},
 					// the function that will be called for the click event
-					cal.clickAgendaFromCalendarMoreModalDialogHandler						
-				);			
+					cal.clickAgendaFromCalendarMoreModalDialogHandler
+				);
 			}
 			// change mouse cusor to pointer when hovering over agenda divs.
 			agendaDiv.hover(
@@ -3059,11 +3060,11 @@
 				function() {
 					$(this).css('cursor','auto');
 				}
-			);			
+			);
 			modal.append(agendaDiv);
 		}
-		modal.dialog('open');				
-		
+		modal.dialog('open');
+
 	};
 	/**
 	 * Loads the iCal calendar data into the calendar.
@@ -3092,7 +3093,7 @@
 				}
 				icalParser.clear();
 				icalParser.parseIcal(data);
-				/*				
+				/*
 				All the vevent elements
 				alert("Events: " + icalParser.ical.events.length);
 				All the vtodo elements
@@ -3110,7 +3111,7 @@
 					var endHour; var endMin; var endSec;
 					var startDt; var endDt;
 					for(var i=0; i<icalParser.ical.events.length; i++){
-						event = icalParser.ical.events[i]; 
+						event = icalParser.ical.events[i];
 						summary = ((event.summary != null) ? event.summary.value : "");
 						// Example iCal date time 20100617T154500Z
 						// strip any preceeding 0's
@@ -3120,7 +3121,7 @@
 						startHour = ((event.dtstart != null) ? event.dtstart.value : "").substring(9,11).replace(/^[0]+/g,"");
 						startMin = ((event.dtstart != null) ? event.dtstart.value : "").substring(11,13).replace(/^[0]+/g,"");
 						startSec = ((event.dtstart != null) ? event.dtstart.value : "").substring(13,15).replace(/^[0]+/g,"");
-						if(startHour == ""){ startHour = "0"; }						
+						if(startHour == ""){ startHour = "0"; }
 						if(startMin == ""){ startMin = "0"; }
 						if(startSec == ""){ startSec = "0"; }
 						//alert("Year: " + startYear + ", Month: " + startMonth + ", Day: " + startDay + ", Hour: " + startHour + ", Min: " + startMin + ", Sec: " + startSec);
@@ -3130,9 +3131,9 @@
 						endHour = ((event.dtend != null) ? event.dtend.value : "").substring(9,11).replace(/^[0]+/g,"");
 						endMin = ((event.dtend != null) ? event.dtend.value : "").substring(11,13).replace(/^[0]+/g,"");
 						endSec = ((event.dtend != null) ? event.dtend.value : "").substring(13,15).replace(/^[0]+/g,"");
-						if(endHour == ""){ endHour = "0"; }						
+						if(endHour == ""){ endHour = "0"; }
 						if(endMin == ""){ endMin = "0"; }
-						if(endSec == ""){ endSec = "0"; }						
+						if(endSec == ""){ endSec = "0"; }
 						startDt = new Date(parseInt(startYear),parseInt(startMonth)-1,parseInt(startDay),parseInt(startHour)-1,parseInt(startMin),parseInt(startSec),0);
 						endDt = new Date(parseInt(endYear),parseInt(endMonth)-1,parseInt(endDay),parseInt(endHour)-1,parseInt(endMin),parseInt(endSec),0);
 						if(DateUtil.secondsDifferenceDirection(startDt,endDt) >= 0){
@@ -3172,22 +3173,22 @@
 							hashData.put('X-',((event.xprop != null) ? event.xprop.value : ""));
 							var agi = new CalendarAgendaItem(summary,startDt,endDt,false,hashData);
 							cal.addAgendaItem(agi);
-						}			
+						}
 					}
-				}	
+				}
 			},
 			error: function(request,status,errorThrown) {
 				alert("iCal load error: Failure in requesting " + iCalUrl + ": " + errorThrown);
 			}
-		});		
-	};	
-	
+		});
+	};
+
 	/**
 	 * Some utility functions for working with javascript Dates.
 	 *
 	 */
 	function DateUtil() {
-	
+
 	};
 	/**
 	 * Get the number of days in the set year & month
@@ -3210,7 +3211,7 @@
 		return 32 - new Date(date.getFullYear(), date.getMonth(), 32).getDate();
 	};
 	/**
-         * Check if date1 is between date2 & date3, or on date2 and date3. 
+         * Check if date1 is between date2 & date3, or on date2 and date3.
          *
 	 * @param date1 - Date - The date you want to check.
 	 * @param date2 - Date - The earlier date.
@@ -3275,18 +3276,18 @@
 	 */
 	DateUtil.secondsDifferenceDirection = function(date1,date2) {
 		return Math.round((date2.getTime() - date1.getTime()) / 1000);
-	};	
+	};
 	/**
 	 * Given a Date object with the year, month, and day set, this function will
-	 * return a Date object set to the next day. Note, this may be in a different 
+	 * return a Date object set to the next day. Note, this may be in a different
 	 * month and year!
 	 *
 	 * @param date - (Date) - A date object with the year, month, and day set.
-	 * @return Date - A Date object set to the next day. Note, this may be in a different 
+	 * @return Date - A Date object set to the next day. Note, this may be in a different
 	 * month and year!
 	 */
 	DateUtil.getNextDay = function(date){
-	
+
 		// week index for the set day (from 0-6)
 		var dayIndex = date.getDay();
 		// day of the month (from 1-31)
@@ -3297,7 +3298,7 @@
 		var yearNum = date.getFullYear();
 		// number of days in month
 		var daysInMonth = DateUtil.getDaysInMonth(date);
-		
+
 		if(dayNum == daysInMonth){
 			// next month
 			if(yearNum == 11){
@@ -3321,8 +3322,8 @@
 	 * @return A new Date object that very well could be in the next/previous month or year.
 	 */
 	DateUtil.addDays = function(date,days){
-		return new Date(date.getTime() + (days*24*60*60*1000));	
-	};	
+		return new Date(date.getTime() + (days*24*60*60*1000));
+	};
 	/**
 	 * Give a date object with the year and month set this function will return a new
 	 * date set to the previous month. This may be in a different year.
@@ -3340,7 +3341,7 @@
 			dt.setMonth(date.getMonth()-1);
 		}
 		return dt;
-	};	
+	};
 	/**
 	 * Given a Date object with the year, month, and day set, this function will
 	 * return a Date object set to the first day of the same week. This may be in a different
@@ -3348,7 +3349,7 @@
 	 *
 	 * @param date - (Date) - A date object with the year, month, and day set.
 	 * @return Date - A Date object set to the last day in the same week. May be in different month or year!
-	 */	
+	 */
 	DateUtil.getFirstDayInSameWeek = function(date){
 
 		// week index for the set day (from 0-6)
@@ -3360,8 +3361,8 @@
 		// the 4-digit year
 		var yearNum = date.getFullYear();
 		// number of days in month
-		var daysInMonth = DateUtil.getDaysInMonth(date);	
-		
+		var daysInMonth = DateUtil.getDaysInMonth(date);
+
 		if(dayIndex == 0){
 			// this is the first day of the week! (Sunday)
 			return new Date(yearNum,monthNum,dayNum,0,0,0,0);
@@ -3376,15 +3377,15 @@
 				// previous year
 				return new Date(yearNum-1,11,newDay,0,0,0,0);
 			}else{
-				// same year			
+				// same year
 				return new Date(yearNum,monthNum-1,newDay,0,0,0,0);
 			}
 		}else{
 			// same month & year
 			return new Date(yearNum,monthNum,backDayNum,0,0,0,0);
 		}
-		
-	};	
+
+	};
 	/**
 	 * Given a Date object with the year, month, and day set, this function will
 	 * return a Date object set to the last day in the same week (last day being Saturday)
@@ -3394,7 +3395,7 @@
 	 * @return Date - A Date object set to the last day in the same week. May be in different month or year!
 	 */
 	DateUtil.getLastDayInSameWeek = function(date){
-		
+
 		// week index for the set day (from 0-6)
 		var dayIndex = date.getDay();
 		// day of the month (from 1-31)
@@ -3405,13 +3406,13 @@
 		var yearNum = date.getFullYear();
 		// number of days in month
 		var daysInMonth = DateUtil.getDaysInMonth(date);
-		
+
 		if(dayIndex == 6){
 			// this is the last day of the week!
 			return new Date(yearNum,monthNum,dayNum,0,0,0,0);
 		}
 		var daysTillEndWeek = 6 - dayIndex;
-		
+
 		if((dayNum + daysTillEndWeek) > daysInMonth){
 			// next month
 			var nextSunday = daysTillEndWeek - (daysInMonth - dayNum);
@@ -3426,7 +3427,7 @@
 			// same month & year
 			return new Date(yearNum,monthNum,dayNum+daysTillEndWeek,0,0,0,0);
 		}
-		
+
 	};
 	/**
 	 * Given a Date object with the year, month, and day set, this function will
@@ -3435,7 +3436,7 @@
 	 *
 	 * @param date - (Date) - A date object with the year, month, and day set.
 	 * @return Date - A Date object set to the first dat of the next week. May be in next month or year.
-	 */		
+	 */
 	DateUtil.getFirstDayNextWeek = function(date){
 
 		// week index for the set day (from 0-6)
@@ -3447,8 +3448,8 @@
 		// the 4-digit year
 		var yearNum = date.getFullYear();
 		// number of days in month
-		var daysInMonth = DateUtil.getDaysInMonth(date);	
-		
+		var daysInMonth = DateUtil.getDaysInMonth(date);
+
 		if(dayIndex == 0){
 			// this is the first day of the week! (Sunday)
 			return new Date(yearNum,monthNum,dayNum,0,0,0,0);
@@ -3497,13 +3498,13 @@
 		}
 		return h + c + m + ampm;
 	};
-	
+
 	/**
 	 * Some utility functions for working with colors
 	 *
 	 */
 	function LogUtil() {
-	
+
 	};
 	/**
 	 * Logs to Firebug console. Comment out for production.
@@ -3513,14 +3514,14 @@
 	LogUtil.log = function(s){
 		//console.log((new Date()).toLocaleTimeString() + ": " + s);
 	};
-	
+
 	/**
 	 * Extend JQuery and and add our function.
 	 */
 	$.fn.jFrontierCal = function(attr,options) {
-	
+
 		var elmId = $(this).attr('id');
-	
+
 		// default options.
 		var opts;
 		var defaults = {
@@ -3550,11 +3551,11 @@
 			},
 			/*true = enable drag-and-drop, false = disabled*/
 			dragAndDropEnabled: true
-		};	
-	
+		};
+
 		// Check to see if an object is a plain object (created using "{}" or "new Object").
 		if($.isPlainObject(attr)){
-			
+
 			/*
 			This block will be executed when we call our plugin with options:
 			$("#elmId").jFrontierCal({
@@ -3562,39 +3563,39 @@
 			     bar: '2'
 			});
 			*/
-			
+
 			// extend default options with any that were provided by user
 			var options = attr;
 			opts = $.extend(defaults, options);
 			allOptions[elmId] = opts;
-			
+
 		}else{
-			
+
 			/*
 			This block will be executed when we call our plugin like so:
 			$("#elmId").jVertTabsDev();
 			Or..
 			$("#elmId").jVertTabsDev('active',true);
 			*/
-			
+
 			opts = $.extend(defaults, options);
 			allOptions[elmId] = opts;
 
-		}	
-		
+		}
+
 		// instantiate instance of plugin and initialize it for all matching elements.
         return this.each(function() {
-		
+
 			var calElm = $(this);
-			
+
 			// Return early if this element already has a plugin instance
 			if (calElm.data('plugin')){
 				return;
 			}
-			
+
 			// options for this calendar
 			var thisCalOpts = allOptions[elmId];
-			
+
 			// create plugin
 			var myplugin = new jFrontierCalPlugin(
 				calElm,
@@ -3607,17 +3608,17 @@
 				thisCalOpts.agendaDragStartCallback,
 				thisCalOpts.agendaDragStopCallback
 			);
-			
+
 			// initialize calendar
 			myplugin.init();
-			
+
 			// Store plugin object in this element's data so the user can access it in their code
 			calElm.data('plugin', myplugin);
-			
-        });		
 
-	};	
-	
+        });
+
+	};
+
 	/**
 	 * The interface to our calendar.
 	 *
@@ -3641,12 +3642,12 @@
 		applyAgendaTooltipCallback,
 		agendaDragStartCallback,
 		agendaDragStopCallback){
-	
+
 		var obj = this;
 
 		// id of calendar <div/> element
 		var calId = calElm.attr('id');
-		
+
 		// the callback function that's triggered when users click a day cell
 		var clickEvent_dayCell = dayClickCallback;
 		// the callback function that's triggered when users click an agenda cell
@@ -3661,16 +3662,16 @@
 		var dragStart_agendaCell = agendaDragStartCallback;
 		// the callback function that's triggered when a drag event stops on an agenda div element.
 		var dragDrop_agendaCell = agendaDragStopCallback;
-		
+
 		/**
 		 * Initialized the plugin. Builds the calendar.
 		 *
 		 */
 		this.init = function(){
-		
+
 			// current date and time
 			var dtNow = new Date();
-			
+
 			var calObj = new Calendar();
 			calObj.initialize(
 				calElm,
@@ -3684,21 +3685,21 @@
 				dragStart_agendaCell,
 				dragDrop_agendaCell
 			);
-			
+
 			// store our calendar in a global hash so we can get at it later
 			// var calId = calObj.getAttr("id");
 			myCalendars.put(calId,calObj);
-			
+
 			// when the window is resized we want to resize all calendars we are keeping track of.
 			//$(window).resize(this.doResizeAll);
-			
+
 			// custom resize (fixes Internet Explorer double resize issue)
-			$(window).wresize(this.doResizeAll);
-			
+			//$(window).wresize(this.doResizeAll);
+
 			// resize all elements in the calendar relative to the parent clendar </div> element
 			this.doResizeAll();
 			this.doResizeAll();
-			
+
 			return calObj;
 		};
 
@@ -3722,7 +3723,7 @@
 		 *
 		 * @param displayProp - (Object) - Optional display properties for the agenda item, or null.
 		 *
-		 * Allowed Options: 
+		 * Allowed Options:
 		 * {
 		 *     backgroundColor: [string],
 		 *     foregroundColor: [string]
@@ -3753,17 +3754,17 @@
 					}
 				}
 				var calObj = myCalendars.get(calId);
-				calObj.addAgendaItem(agi);		
+				calObj.addAgendaItem(agi);
 			}
 		};
-		
+
 		/**
 		 * Retrieve all agenda items in the calendar.
 		 *
 		 * @param calId - (String) - The ID of the calendar </div> element.
 		 *
 		 * @return An array of javascript objects with the following specification:
-		 *         
+		 *
 		 * {
 		 *     agendaId: [integer],
 		 *     title: [string]
@@ -3779,7 +3780,7 @@
 		 *			backgroundColor: [string],
 		 *			foregroundColor: [string]
 		 *	   }
-		 * }		 
+		 * }
 		 */
 		this.getAllAgendaItems = function(calId){
 			var itemsToReturn = new Array();
@@ -3800,22 +3801,22 @@
 			}
 			return itemsToReturn;
 		};
-		
+
 		/**
-		 * Get agenda item data by agenda ID. 
+		 * Get agenda item data by agenda ID.
 		 *
-		 * @param calId - (String) - The ID of the calendar </div> element.			 
+		 * @param calId - (String) - The ID of the calendar </div> element.
 		 * @param agendaId - integer - The unique ID of the agenda item.
-		 * 
+		 *
 		 * When an agenda item is clicked you can get the agenda ID from the click function eventObj.
-		 * 
+		 *
 		 * For example if you intialize your calendar like so:
 		 *
 		 * var jfcalplugin = $("#mycal").jFrontierCal({
 		 *     date: new Date(),
 		 *     dayClickCallback: myDayClickHandler,
 		 * 	   agendaClickCallback: myAgendaClickHandler
-		 * }).data("plugin");			 
+		 * }).data("plugin");
 		 *
 		 * You can get the agenda ID like so:
 		 *
@@ -3825,7 +3826,7 @@
 		 * }
 		 *
 		 * @return Javascript Object with the following specification:
-		 *         
+		 *
 		 * {
 		 *     agendaId: [integer],
 		 *     title: [string]
@@ -3864,13 +3865,13 @@
 				return Calendar.buildUserAgendaObject(calAgendaItem);
 			}
 		};
-		
+
 		/**
 		 * Retrieve all agenda items that have the matching attribute value in their data object.
 		 *
-		 * @param calId - string - The ID of the calendar </div> element.	
+		 * @param calId - string - The ID of the calendar </div> element.
 		 * @param attrName - string - The attribute name in the agenda data object.
-		 * @param attrValue - string/number - The value of the attribute in the agenda data object.		 
+		 * @param attrValue - string/number - The value of the attribute in the agenda data object.
 		 *
 		 * @return An array of javascript objects with the following specification:
 		 *
@@ -3889,7 +3890,7 @@
 		 *			backgroundColor: [string],
 		 *			foregroundColor: [string]
 		 *	   }
-		 * }		 
+		 * }
 		 */
 		this.getAgendaItemByDataAttr = function(calId,attrName,attrValue){
 			if(calId != null && attrName != null && attrValue != null){
@@ -3904,17 +3905,17 @@
 						var agi = itemArray[itemIndex];
 						agendObj = Calendar.buildUserAgendaObject(agi);
 						itemsToReturn.push(agendObj);
-					}					
+					}
 				}
 				return itemsToReturn;
 			}
 			return null;
 		};
-		
+
 		/**
 		 * Delete an agenda item by ID.
 		 *
-		 * @param calId - (String) - The ID of the calendar </div> element.		 
+		 * @param calId - (String) - The ID of the calendar </div> element.
 		 * @param agendaId - integer - The unique ID of the agenda item.
 		 */
 		this.deleteAgendaItemById = function(calId,agendaId){
@@ -3922,9 +3923,9 @@
 				calId = stripNumberSign(calId);
 				var calObj = myCalendars.get(calId);
 				calObj.deleteAgendaItemById(agendaId);
-			}				
+			}
 		};
-		
+
 		/**
 		 * Delete an agenda item by data attribute. Will delete all agenda items where the data attribute value matches.
 		 *
@@ -3937,7 +3938,7 @@
 				calId = stripNumberSign(calId);
 				var calObj = myCalendars.get(calId);
 				calObj.deleteAgendaItemByDataAttr(attrName,attrValue);
-			}				
+			}
 		};
 
 		/**
@@ -3950,9 +3951,9 @@
 				calId = stripNumberSign(calId);
 				var calObj = myCalendars.get(calId);
 				calObj.deleteAllAgendaItems();
-			}		
+			}
 		};
-		
+
 		/**
 		 * Get the number of agenda items stored in the calendar.
 		 *
@@ -3964,9 +3965,9 @@
 				calId = stripNumberSign(calId);
 				var calObj = myCalendars.get(calId);
 				return calObj.getAgendaItemsCount();
-			}		
+			}
 		};
-		
+
 		/**
 		 * Switch to the previous month
 		 *
@@ -3979,7 +3980,7 @@
 				calObj.previousMonth();
 			}
 		};
-		
+
 		/**
 		 * Switch to the next month
 		 *
@@ -3991,8 +3992,8 @@
 				var calObj = myCalendars.get(calId);
 				calObj.nextMonth();
 			}
-		};		
-		
+		};
+
 		/**
 		 * Set the calendar to the specified year & month.
 		 *
@@ -4012,7 +4013,7 @@
 				calObj.setDisplayDate(dateToShow);
 			}
 		};
-		
+
 		/**
 		 * Retrieves the date that the calendar is currently set to.
 		 *
@@ -4026,7 +4027,7 @@
 				return calObj.getDisplayDate();
 			}
 		};
-		
+
 		/**
 		 * Re-render all the agenda items on the calendar. If your js code causes the location of the calendar
 		 * to move (e.g. get shifted down on the page...) the agenda items may not be rendered in the correct
@@ -4043,14 +4044,14 @@
 				calId = stripNumberSign(calId);
 				var calObj = myCalendars.get(calId);
 				calObj.clearDayCellData();
-				calObj.renderAgendaItems();			
-			}		
+				calObj.renderAgendaItems();
+			}
 		};
-		
+
 		/**
 		 * Resizes all calendars that the plugin is managing.
 		 *
-		 */		
+		 */
 		this.doResizeAll = function(){
 			if(myCalendars != null && myCalendars.size() > 0){
 				var cals = myCalendars.values();
@@ -4067,7 +4068,7 @@
 		 * get it to properly render.
 		 *
 		 * @param calId - (String) - The ID of the calendar </div> element.
-		 */		
+		 */
 		this.doResize = function(calId){
 			if(myCalendars != null && myCalendars.size() > 0 && calId != null){
 				calId = stripNumberSign(calId);
@@ -4087,7 +4088,7 @@
 		 *		           cells half as tall as they are wide, 0.75 will make them 3/4th as tall as they are wide,
 		 *			       and a value of 0.25 will make them a quarter tall as they are wide resulting in a very
 		 *			       wide calendar relative to its height.
-		 */ 
+		 */
 		this.setAspectRatio = function(calId,ratio){
 			if(calId != null && ratio != null){
 				if(ratio > 1 || ratio <= 0){
@@ -4114,13 +4115,13 @@
 				Calendar.loadICalSource(calObj,iCalUrl,responseDataType);
 			}
 		};
-		
+
 		/**
 		 *
 		 * Following methods are not exposed via the plugin. These are private.
 		 *
 		 */
-		
+
 		/**
 		 * Strips the "#" from the begining of string s (if there is one)
 		 *
@@ -4162,13 +4163,13 @@
 			this.ical.todos = [];
 			this.ical.journals = [];
 			this.ical.freebusys = [];
-			
+
 		},
 		parseIcal: function(icsString){
 
 			this.ical.version=this.getValue('VERSION',icsString,false);
 			this.ical.prodid=this.getValue('PRODID',icsString,false);
-		
+
 			var reg=/BEGIN:VEVENT(\r?\n[^B].*)+/g;
 			var matches=icsString.match(reg);
 			if(matches){
@@ -4211,9 +4212,9 @@
 				uid:this.getValue('UID',vfreeString,false), //This property defines the persistent, globally unique identifier for the calendar component.
 				url:this.getValue('URL',vfreeString,false), //This property defines a Uniform Resource Locator (URL) associated with the iCalendar object.
 				attendee:this.getValue('ATTENDEE',vfreeString,true), //The property defines an "Attendee" within a calendar component.
-				comment:this.getValue('COMMENT',vfreeString,true), //This property specifies non-processing information intended to provide a comment to the calendar user.			
+				comment:this.getValue('COMMENT',vfreeString,true), //This property specifies non-processing information intended to provide a comment to the calendar user.
 				freebusy:this.getValue('FREEBUSY',vfreeString,true), //The property defines one or more free or busy time intervals.
-				rstatus:this.getValue('REQUEST-STATUS',vfreeString,true), //This property defines the status code returned for a scheduling request.			
+				rstatus:this.getValue('REQUEST-STATUS',vfreeString,true), //This property defines the status code returned for a scheduling request.
 				xprop:this.getValue('X-',vfreeString,true)
 			};
 			this.ical.freebusys[this.ical.freebusys.length]=freebusy;
@@ -4236,14 +4237,14 @@
 				attach:this.getValue('ATTACH',vjournalString,true), //The property provides the capability to associate a document object with a calendar component.
 				attendee:this.getValue('ATTENDEE',vjournalString,true), //The property defines an "Attendee" within a calendar component.
 				categories:this.getValue('CATEGORIES',vjournalString,true), //This property defines the categories for a calendar component.
-				comment:this.getValue('COMMENT',vjournalString,true), //This property specifies non-processing information intended to provide a comment to the calendar user.			
+				comment:this.getValue('COMMENT',vjournalString,true), //This property specifies non-processing information intended to provide a comment to the calendar user.
 				contact:this.getValue('CONTACT',vjournalString,true), //The property is used to represent contact information or alternately a reference to contact information associated with the calendar component.
 				exdate:this.getValue('EXDATE',vjournalString,true), //This property defines the list of date/time exceptions for a recurring calendar component.
 				exrule:this.getValue('EXRULE',vjournalString,true), //This property defines a rule or repeating pattern for an exception to a recurrence set.
 				related:this.getValue('RELATED',vjournalString,true), //To specify the relationship of the alarm trigger with respect to the start or end of the calendar component.
 				rdate:this.getValue('RDATE',vjournalString,true), //This property defines the list of date/times for a recurrence set.
 				rrule:this.getValue('RRULE',vjournalString,true), //This property defines a rule or repeating pattern for recurring events, to-dos, or time zone definitions.
-				rstatus:this.getValue('REQUEST-STATUS',vjournalString,true), //This property defines the status code returned for a scheduling request.			
+				rstatus:this.getValue('REQUEST-STATUS',vjournalString,true), //This property defines the status code returned for a scheduling request.
 				xprop:this.getValue('X-',vjournalString,true)
 			};
 			this.ical.journals[this.ical.journals.length]=journal;
@@ -4272,11 +4273,11 @@
 				attach:this.getValue('ATTACH',vtodoString,true), //The property provides the capability to associate a document object with a calendar component.
 				attendee:this.getValue('ATTENDEE',vtodoString,true), //The property defines an "Attendee" within a calendar component.
 				categories:this.getValue('CATEGORIES',vtodoString,true), //This property defines the categories for a calendar component.
-				comment:this.getValue('COMMENT',vtodoString,true), //This property specifies non-processing information intended to provide a comment to the calendar user.			
+				comment:this.getValue('COMMENT',vtodoString,true), //This property specifies non-processing information intended to provide a comment to the calendar user.
 				contact:this.getValue('CONTACT',vtodoString,true), //The property is used to represent contact information or alternately a reference to contact information associated with the calendar component.
 				exdate:this.getValue('EXDATE',vtodoString,true), //This property defines the list of date/time exceptions for a recurring calendar component.
 				exrule:this.getValue('EXRULE',vtodoString,true), //This property defines a rule or repeating pattern for an exception to a recurrence set.
-				rstatus:this.getValue('REQUEST-STATUS',vtodoString,true), //This property defines the status code returned for a scheduling request.			
+				rstatus:this.getValue('REQUEST-STATUS',vtodoString,true), //This property defines the status code returned for a scheduling request.
 				related:this.getValue('RELATED',vtodoString,true), //To specify the relationship of the alarm trigger with respect to the start or end of the calendar component.
 				resources:this.getValue('RESOURCES',vtodoString,true), //This property defines the equipment or resources anticipated for an activity specified by a calendar entity..
 				rdate:this.getValue('RDATE',vtodoString,true), //This property defines the list of date/times for a recurrence set.
@@ -4286,7 +4287,7 @@
 			this.ical.todos[this.ical.todos.length]=todo;
 		},
 		parseVevent: function(veventString){
-			
+
 			var event={
 				classification:this.getValue('CLASS',veventString,false), //This property defines the access classification for a calendar component.
 				created:this.getValue('CREATED',veventString,false), //This property specifies the date and time that the calendar information was created by the calendar user agent in the calendar store.
@@ -4306,11 +4307,11 @@
 				attach:this.getValue('ATTACH',veventString,true), //The property provides the capability to associate a document object with a calendar component.
 				attendee:this.getValue('ATTENDEE',veventString,true), //The property defines an "Attendee" within a calendar component.
 				categories:this.getValue('CATEGORIES',veventString,true), //This property defines the categories for a calendar component.
-				comment:this.getValue('COMMENT',veventString,true), //This property specifies non-processing information intended to provide a comment to the calendar user.			
+				comment:this.getValue('COMMENT',veventString,true), //This property specifies non-processing information intended to provide a comment to the calendar user.
 				contact:this.getValue('CONTACT',veventString,true), //The property is used to represent contact information or alternately a reference to contact information associated with the calendar component.
 				exdate:this.getValue('EXDATE',veventString,true), //This property defines the list of date/time exceptions for a recurring calendar component.
 				exrule:this.getValue('EXRULE',veventString,true), //This property defines a rule or repeating pattern for an exception to a recurrence set.
-				rstatus:this.getValue('REQUEST-STATUS',veventString,true), //This property defines the status code returned for a scheduling request.			
+				rstatus:this.getValue('REQUEST-STATUS',veventString,true), //This property defines the status code returned for a scheduling request.
 				related:this.getValue('RELATED',veventString,true), //To specify the relationship of the alarm trigger with respect to the start or end of the calendar component.
 				resources:this.getValue('RESOURCES',veventString,true), //This property defines the equipment or resources anticipated for an activity specified by a calendar entity..
 				rdate:this.getValue('RDATE',veventString,true), //This property defines the list of date/times for a recurrence set.
@@ -4322,7 +4323,7 @@
 				dtend:this.getValue('DTEND',veventString,false) //This property specifies the date and time that a calendar component ends.
 			};
 			this.ical.events[this.ical.events.length]=event;
-			
+
 		},
 		getValue: function(propName,txt,multiple){
 			if(multiple){
@@ -4330,7 +4331,7 @@
 				var props=[];
 				if(matches){
 					for(l=0;l<matches.length;l++){
-						//on enleve les parametres 
+						//on enleve les parametres
 						matches[l]=matches[l].replace(/;.*/,'');
 						props[props.length]=this.getValue(matches[l],txt);
 					}
@@ -4348,7 +4349,7 @@
 						for(k=0;k<params.length;k++){
 							pair=params[k].split('=');
 							if(!pair[1]) pair[1]=pair[0];
-							code+=pair[0].replace(/-/,'')+' : "'+pair[1]+'", '; 
+							code+=pair[0].replace(/-/,'')+' : "'+pair[1]+'", ';
 						}
 						eval('tab_params=( { '+code.substr(0,code.length-2)+' } );');
 					}
@@ -4362,85 +4363,6 @@
 			}
 		}
 	}
-		
+
 })(jQuery);
-
-
-/*   
-=============================================================================== 
-WResize is the jQuery plugin for fixing the IE window resize bug 
-............................................................................... 
-                                               Copyright 2007 / Andrea Ercolino 
-------------------------------------------------------------------------------- 
-LICENSE: http://www.opensource.org/licenses/mit-license.php 
-WEBSITE: http://noteslog.com/ 
-
-http://noteslog.com/post/how-to-fix-the-resize-event-in-ie/
-=============================================================================== 
-*/ 
- 
-( function( $ )  
-{ 
-    $.fn.wresize = function( f )  
-    { 
-        version = '1.1'; 
-        wresize = {fired: false, width: 0}; 
- 
-        function resizeOnce()  
-        { 
-            if ( $.browser.msie ) 
-            { 
-                if ( ! wresize.fired ) 
-                { 
-                    wresize.fired = true; 
-                } 
-                else  
-                { 
-                    var version = parseInt( $.browser.version, 10 ); 
-                    wresize.fired = false; 
-                    if ( version < 7 ) 
-                    { 
-                        return false; 
-                    } 
-                    else if ( version == 7 ) 
-                    { 
-                        //a vertical resize is fired once, an horizontal resize twice 
-                        var width = $( window ).width(); 
-                        if ( width != wresize.width ) 
-                        { 
-                            wresize.width = width; 
-                            return false; 
-                        } 
-                    } 
-                } 
-            } 
- 
-            return true; 
-        } 
- 
-        function handleWResize( e )  
-        { 
-            if ( resizeOnce() ) 
-            { 
-                return f.apply(this, [e]); 
-            } 
-        } 
- 
-        this.each( function()  
-        { 
-            if ( this == window ) 
-            { 
-                $( this ).resize( handleWResize ); 
-            } 
-            else 
-            { 
-                $( this ).resize( f ); 
-            } 
-        } ); 
- 
-        return this; 
-    }; 
- 
-} ) ( jQuery );
-
 

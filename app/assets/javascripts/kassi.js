@@ -1153,8 +1153,8 @@ function validateBraintreeForm(locale, beforeSubmit, opts) {
 function set_textarea_maxlength() {
   var ignore = [8,9,13,33,34,35,36,37,38,39,40,46];
   var eventName = 'keypress';
-  $('textarea[maxlength]')
-    .live(eventName, function(event) {
+  $('body')
+    .on(eventName, 'textarea[maxlength]', function(event) {
       var self = $(this),
           maxlength = self.attr('maxlength'),
           code = $.data(this, 'keycode');
@@ -1164,7 +1164,7 @@ function set_textarea_maxlength() {
 
       }
     })
-    .live('keydown', function(event) {
+    .on('keydown','textarea[maxlength]', function(event) {
       $.data(this, 'keycode', event.keyCode || event.which);
     });
 }

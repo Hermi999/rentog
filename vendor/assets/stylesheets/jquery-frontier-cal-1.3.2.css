@@ -41,7 +41,7 @@ Style shared by all day cells.
 	float: left;
 	clear: right;
 	/*
-	height is only used for initialization. heights are calculated by aspect 
+	height is only used for initialization. heights are calculated by aspect
 	ratio relative to width of calendar parent div.
 	*/
 	height: 80px;
@@ -53,8 +53,8 @@ Style for day cells on the current month.
 .JFrontierCal .JFrontierCal-Day-Cell,
 .JFrontierCal .JFrontierCal-Day-Cell-Last{
 	background-color: #efefef;
-	color: #444444;	
-	background-image:url('images/dayCellCurrentMonth.png');
+	color: #444444;
+	background-image:url('/assets/pool_tool/dayCellCurrentMonth.png');
 	background-repeat:repeat-y;
 }
 /*
@@ -65,7 +65,7 @@ Style for previous month and next month day cells.
 .JFrontierCal .JFrontierCal-NextMonth-Day-Cell-Last {
 	background-color: #cccccc;
 	color: #999999;
-	background-image:url('images/dayCellOtherMonth.png');
+	background-image:url('/assets/pool_tool/dayCellOtherMonth.png');
 	background-repeat:repeat-y;
 }
 /*
@@ -89,14 +89,14 @@ Style for current date day cell
 	background-color: #d6e2ff;
 	color: #444444;
 	/*background-image: none;*/
-	background-image:url('images/dayCellToday.png');
+	background-image:url('/assets/pool_tool/dayCellToday.png');
 }
 /*
 Style for header cells (day name cells at top of calendar)
 */
 .JFrontierCal .JFrontierCal-Header-Cell,
 .JFrontierCal .JFrontierCal-Header-Cell-Last {
-	padding: 0px;	
+	padding: 0px;
 	border-top: 0px solid #ffffff;
 	border-bottom: 0px solid #ffffff;
 	border-left: 0px solid #ffffff;
@@ -117,7 +117,7 @@ Style for Saturday header cell at top of calendar.
 /*
 Style for week Header cells (cells for day numbers above each week)
 */
-.JFrontierCal .JFrontierCal-Week-Header-Cell, 
+.JFrontierCal .JFrontierCal-Week-Header-Cell,
 .JFrontierCal .JFrontierCal-Week-Header-Cell-Last,
 .JFrontierCal .JFrontierCal-PrevMonth-Week-Header-Cell,
 .JFrontierCal .JFrontierCal-NextMonth-Week-Header-Cell,
