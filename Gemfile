@@ -20,6 +20,7 @@ gem 'compass-rails'
 
 gem 'jquery-rails', '3.1.3'
 gem 'jquery-ui-rails', '5.0.5'
+gem 'gon', '~> 6.0.1'
 
 # Bundle the extra gems:
 

@@ -1,12 +1,38 @@
+/* Tell jshint that there exists a global called "gon" */
+/* globals gon */
+/* jshint unused: false */
+
 window.ST = window.ST || {};
 
 
 window.ST.poolTool = function() {
+  var listing_background_colors = ["#001f3f", "#FF851B", "#FF4136", "#0074D9", "#85144b", "#39CCCC", "#F012BE", "#3D9970", "#B10DC9", "#2ECC40", "#AAAAAA", "#01FF70", "#DDDDDD"];
   var clickDate = "";
   var clickAgendaItem = "";
   var jfcalplugin = {};
-  var dateLocale = "";
   var temp_dates = {"booking-start-output": "", "booking-end-output": ""};
+
+  function init(){
+    initializeFromToDatePicker('add-event-form');
+    initialize_poolTool();
+    add_listings_to_calender();
+  }
+
+  function initializeDatepicker(){
+    $.fn.datepicker.dates[gon.locale] = {
+      days: gon.translated_days,
+      daysShort: gon.translated_days_short,
+      daysMin: gon.translated_days_min,
+      months: gon.translated_months,
+      monthsShort: gon.translated_months_short,
+      today: gon.today,
+      weekStart: gon.week_start,
+      clear: gon.clear,
+      format: gon.format
+    };
+  }
+
+  $("#shownMonth").html(gon.translated_months[new Date().getMonth('MM')] + " " + new Date().getFullYear());
 
   /**
    * Initialize our tabs
@@ -14,7 +40,7 @@ window.ST.poolTool = function() {
    */
   $("#tabs").tabs({
     show: function(event, ui){
-      if(ui.index == 1){
+      if(ui.index === 1){
         jfcalplugin.doResize("#mycal");
       }
     }
@@ -22,17 +48,12 @@ window.ST.poolTool = function() {
 
   function initializeFromToDatePicker(rangeCongainerId) {
     var dateRage = $('#'+ rangeCongainerId);
-    dateLocale = dateRage.data('locale');
-
     var options = {
       inputs: [$("#startDate"), $("#endDate")],
-      onRender: function(date) {
-        return date.valueOf() < today.valueOf() ? 'disabled' : '';
-      }
     };
 
-    if(dateLocale !== 'en') {
-      options.language = dateLocale;
+    if(gon.locale !== 'en') {
+      options.language = gon.locale;
     }
 
     var picker = dateRage.datepicker(options);
@@ -52,39 +73,39 @@ window.ST.poolTool = function() {
     });
   }
 
-
-  function initializeDateSelect(rangeCongainerId) {
-    // Initialize Datepicker
-    var dateRage = $('#'+ rangeCongainerId);
-    var options = {
-      input: dateRage,
-      language: dateLocale
-    };
-    var picker = dateRage.datepicker(options);
-
-
-    // Initialize Date Textfield with today's date
-    var calDate = new Date();
-    var dt = convertDateToLocaleDate(calDate);
-    $("#dateSelect").datepicker("setDate",dt);
+  // Enter a date and jump to in on the calender
+  // function initializeDateSelect(rangeCongainerId) {
+  //   // Initialize Datepicker
+  //   var dateRage = $('#'+ rangeCongainerId);
+  //   var options = {
+  //     input: dateRage,
+  //     language: gon.locale
+  //   };
+  //   var picker = dateRage.datepicker(options);
 
 
-    // If Date Textfield gets changed
-    picker.on('changeDate', function(e) {
-      var newDate = e.dates[0];
-      var temp_date = ST.utils.toISODate(newDate);
+  //   // Initialize Date Textfield with today's date
+  //   var calDate = new Date();
+  //   var dt = convertDateToLocaleDate(calDate);
+  //   $("#dateSelect").datepicker("setDate",dt);
 
-      var dtArray = temp_date.split("-");
-      var year = dtArray[0];
-      // jquery datepicker months start at 1 (1=January)
-      var month = dtArray[1];
-      // strip any preceeding 0's
-      month = month.replace(/^[0]+/g,"")
-      var day = dtArray[2];
-      // plugin uses 0-based months so we subtrac 1
-      jfcalplugin.showMonth("#mycal",year,parseInt(month-1).toString());
-    });
-  }
+
+  //   // If Date Textfield gets changed
+  //   picker.on('changeDate', function(e) {
+  //     var newDate = e.dates[0];
+  //     var temp_date = ST.utils.toISODate(newDate);
+
+  //     var dtArray = temp_date.split("-");
+  //     var year = dtArray[0];
+  //     // jquery datepicker months start at 1 (1=January)
+  //     var month = dtArray[1];
+  //     // strip any preceeding 0's
+  //     month = month.replace(/^[0]+/g,"")
+  //     var day = dtArray[2];
+  //     // plugin uses 0-based months so we subtrac 1
+  //     jfcalplugin.showMonth("#mycal",year,parseInt(month-1).toString());
+  //   });
+  // }
 
   /**
    * Initializes calendar with current year & month
@@ -117,8 +138,9 @@ window.ST.poolTool = function() {
     $("#BtnPreviousMonth").click(function() {
       jfcalplugin.showPreviousMonth("#mycal");
       var calDate = jfcalplugin.getCurrentDate("#mycal"); // returns Date object
-      var dt = convertDateToLocaleDate(calDate);
-      $("#dateSelect").datepicker("setDate",dt);
+      //var dt = convertDateToLocaleDate(calDate);
+      //$("#dateSelect").datepicker("setDate",dt);
+      $("#shownMonth").html(gon.translated_months[calDate.getMonth('MM')] + " " + calDate.getFullYear());
       return false;
     });
     /**
@@ -128,8 +150,9 @@ window.ST.poolTool = function() {
     $("#BtnNextMonth").click(function() {
       jfcalplugin.showNextMonth("#mycal");
       var calDate = jfcalplugin.getCurrentDate("#mycal"); // returns Date object
-      var dt = convertDateToLocaleDate(calDate);
-      $("#dateSelect").datepicker("setDate",dt);
+      //var dt = convertDateToLocaleDate(calDate);
+      //$("#dateSelect").datepicker("setDate",dt);
+      $("#shownMonth").html(gon.translated_months[calDate.getMonth('MM')] + " " + calDate.getFullYear());
       return false;
     });
 
@@ -152,13 +175,15 @@ window.ST.poolTool = function() {
       height: 650,
       width: 650,
       modal: true,
-      buttons: {
-        'Add Event': function() {
+      buttons: [
+      {
+        text: gon.add_reservation,
+        click: function() {
 
           var what = jQuery.trim($("#what").val());
 
-          if(what == ""){
-            alert("Please enter a short event description into the \"what\" field.");
+          if(what === ""){
+            $( "#dialog_event_description" ).dialog();
           }else{
             var startDtArray = temp_dates["booking-start-output"].split("-");
             var startYear = startDtArray[0];
@@ -173,14 +198,14 @@ window.ST.poolTool = function() {
             var startMin = jQuery.trim($("#startMin").val());
             var startMeridiem = jQuery.trim($("#startMeridiem").val());
             startHour = parseInt(startHour.replace(/^[0]+/g,""));
-            if(startMin == "0" || startMin == "00"){
+            if(startMin === "0" || startMin === "00"){
               startMin = 0;
             }else{
               startMin = parseInt(startMin.replace(/^[0]+/g,""));
             }
-            if(startMeridiem == "AM" && startHour == 12){
+            if(startMeridiem === "AM" && startHour === 12){
               startHour = 0;
-            }else if(startMeridiem == "PM" && startHour < 12){
+            }else if(startMeridiem === "PM" && startHour < 12){
               startHour = parseInt(startHour) + 12;
             }
 
@@ -196,18 +221,16 @@ window.ST.poolTool = function() {
             var endMin = jQuery.trim($("#endMin").val());
             var endMeridiem = jQuery.trim($("#endMeridiem").val());
             endHour = parseInt(endHour.replace(/^[0]+/g,""));
-            if(endMin == "0" || endMin == "00"){
+            if(endMin === "0" || endMin === "00"){
               endMin = 0;
             }else{
               endMin = parseInt(endMin.replace(/^[0]+/g,""));
             }
-            if(endMeridiem == "AM" && endHour == 12){
+            if(endMeridiem === "AM" && endHour === 12){
               endHour = 0;
-            }else if(endMeridiem == "PM" && endHour < 12){
+            }else if(endMeridiem === "PM" && endHour < 12){
               endHour = parseInt(endHour) + 12;
             }
-
-            //alert("Start time: " + startHour + ":" + startMin + " " + startMeridiem + ", End time: " + endHour + ":" + endMin + " " + endMeridiem);
 
             // Dates use integers
             var startDateObj = new Date(parseInt(startYear),parseInt(startMonth)-1,parseInt(startDay),startHour,startMin,0,0);
@@ -237,11 +260,14 @@ window.ST.poolTool = function() {
 
           }
 
-        },
-        Cancel: function() {
-          $(this).dialog('close');
         }
       },
+      {
+        text: gon.cancel_reservation,
+        click: function() {
+          $(this).dialog('close');
+        }
+      }],
       open: function(event, ui){
         // initialize start & end date picker
         initializeFromToDatePicker('add-event-form');
@@ -250,41 +276,6 @@ window.ST.poolTool = function() {
         $("#startDate").val(clickDate);
         $("#endDate").val(clickDate);
 
-        // initialize color pickers
-        $("#colorSelectorBackground").ColorPicker({
-          color: "#333333",
-          onShow: function (colpkr) {
-            $(colpkr).css("z-index","10000");
-            $(colpkr).fadeIn(500);
-            return false;
-          },
-          onHide: function (colpkr) {
-            $(colpkr).fadeOut(500);
-            return false;
-          },
-          onChange: function (hsb, hex, rgb) {
-            $("#colorSelectorBackground div").css("backgroundColor", "#" + hex);
-            $("#colorBackground").val("#" + hex);
-          }
-        });
-        //$("#colorBackground").val("#1040b0");
-        $("#colorSelectorForeground").ColorPicker({
-          color: "#ffffff",
-          onShow: function (colpkr) {
-            $(colpkr).css("z-index","10000");
-            $(colpkr).fadeIn(500);
-            return false;
-          },
-          onHide: function (colpkr) {
-            $(colpkr).fadeOut(500);
-            return false;
-          },
-          onChange: function (hsb, hex, rgb) {
-            $("#colorSelectorForeground div").css("backgroundColor", "#" + hex);
-            $("#colorForeground").val("#" + hex);
-          }
-        });
-        //$("#colorForeground").val("#ffffff");
         // put focus on first form input element
         $("#what").focus();
       },
@@ -314,23 +305,43 @@ window.ST.poolTool = function() {
       height: 400,
       width: 400,
       modal: true,
-      buttons: {
-        Cancel: function() {
-          $(this).dialog('close');
-        },
-        'Edit': function() {
-          alert("Make your own edit screen or dialog!");
-        },
-        'Delete': function() {
-          if(confirm("Are you sure you want to delete this agenda item?")){
-            if(clickAgendaItem != null){
-              jfcalplugin.deleteAgendaItemById("#mycal",clickAgendaItem.agendaId);
-              //jfcalplugin.deleteAgendaItemByDataAttr("#mycal","myNum",42);
-            }
+      buttons: [
+        {
+          text: "Cancel",
+          click: function() {
             $(this).dialog('close');
           }
+        },
+        {
+          text: 'Edit',
+          click: function() {
+
+          }
+        },
+        {
+          text : 'Delete',
+          click: function() {
+            $( "#dialog_confirm_delete" ).dialog({
+              resizable: false,
+              height:200,
+              modal: true,
+              buttons: {
+                "Delete entry": function() {
+                  if(clickAgendaItem != null){
+                    jfcalplugin.deleteAgendaItemById("#mycal",clickAgendaItem.agendaId);
+                    //jfcalplugin.deleteAgendaItemByDataAttr("#mycal","myNum",42);
+                  }
+                  $( this ).dialog( "close" );
+                },
+                Cancel: function() {
+                  $( this ).dialog( "close" );
+                }
+              }
+            });
+            $( this ).dialog( "close" );
+          }
         }
-      },
+      ],
       open: function(event, ui){
         if(clickAgendaItem != null){
           var title = clickAgendaItem.title;
@@ -371,12 +382,55 @@ window.ST.poolTool = function() {
        * Our calendar is initialized in a closed tab so we need to resize it when the example tab opens.
        */
       show: function(event, ui){
-        if(ui.index == 1){
+        if(ui.index === 1){
           jfcalplugin.doResize("#mycal");
         }
       }
     });
 
+  }
+
+  function add_listings_to_calender(){
+    // add new events to the calendar
+    var counter = 0;
+    gon.listings_data.forEach(function(listings_data){
+      counter++;
+
+      var startArray = listings_data.start_on.split("-");
+      var endArray = listings_data.end_on.split("-");
+      var startYear = startArray[0];
+      var endYear = endArray[0];
+      var startMonth = startArray[1];
+      var endMonth = endArray[1];
+      var startDay = startArray[2];
+      var endDay = endArray[2];
+      // strip any preceeding 0's
+      startMonth = startMonth.replace(/^[0]+/g,"");
+      endMonth = endMonth.replace(/^[0]+/g,"");
+      startDay = startDay.replace(/^[0]+/g,"");
+      endDay = endDay.replace(/^[0]+/g,"");
+
+      // create Date objects
+      startDateObj = new Date(parseInt(startYear),parseInt(startMonth)-1,parseInt(startDay),0,1,0,0);
+      endDateObj = new Date(parseInt(endYear),parseInt(endMonth)-1,parseInt(endDay),23,59,0,0);
+      createdDateObj = new Date(listings_data.created_at);
+
+      jfcalplugin.addAgendaItem(
+        "#mycal",
+        listings_data.title,
+        startDateObj,
+        endDateObj,
+        false,
+        {
+          "Renting Organization": listings_data.renting_organization,
+          "Created on": createdDateObj,
+        },
+        {
+          backgroundColor: listing_background_colors[counter],
+          foregroundColor: "white"
+        }
+      );
+    });
   }
 
   /**
@@ -387,14 +441,13 @@ window.ST.poolTool = function() {
     if(divElm.data("qtip")){
       divElm.qtip("destroy");
     }
-  };
+  }
 
   /**
    * Do something when dragging stops on agenda div
    */
   function myAgendaDragStop(eventObj,divElm,agendaItem){
-    //alert("drag stop");
-  };
+  }
 
   /**
    * Custom tooltip - use any tooltip library you want to display the agenda data.
@@ -424,7 +477,7 @@ window.ST.poolTool = function() {
       displayData += "<b>Starts:</b> " + startDate + "<br>" + "<b>Ends:</b> " + endDate + "<br><br>";
     }
     for (var propertyName in data) {
-      displayData += "<b>" + propertyName + ":</b> " + data[propertyName] + "<br>"
+      displayData += "<b>" + propertyName + ":</b> " + data[propertyName] + "<br>";
     }
     // use the user specified colors from the agenda item.
     var backgroundColor = agendaItem.displayProp.backgroundColor;
@@ -439,10 +492,10 @@ window.ST.poolTool = function() {
       tip: true,
       name: "dark" // other style properties are inherited from dark theme
     };
-    if(backgroundColor != null && backgroundColor != ""){
+    if(backgroundColor !== null && backgroundColor !== ""){
       myStyle["backgroundColor"] = backgroundColor;
     }
-    if(foregroundColor != null && foregroundColor != ""){
+    if(foregroundColor !== null && foregroundColor !== ""){
       myStyle["color"] = foregroundColor;
     }
     // apply tooltip
@@ -468,7 +521,7 @@ window.ST.poolTool = function() {
       style: myStyle
     });
 
-  };
+  }
 
   /**
    * Called when user clicks day cell
@@ -485,7 +538,7 @@ window.ST.poolTool = function() {
 
     // open our add event dialog
     $('#add-event-form').dialog('open');
-  };
+  }
 
   /**
    * Called when user clicks and agenda item
@@ -498,7 +551,7 @@ window.ST.poolTool = function() {
     var agendaItem = jfcalplugin.getAgendaItemById("#mycal",agendaId);
     clickAgendaItem = agendaItem;
     $("#display-event-form").dialog('open');
-  };
+  }
 
   /**
    * Called when user drops an agenda item into a day cell.
@@ -510,9 +563,7 @@ window.ST.poolTool = function() {
     var date = eventObj.data.calDayDate;
     // Pull agenda item from calendar
     var agendaItem = jfcalplugin.getAgendaItemById("#mycal",agendaId);
-    alert("You dropped agenda item " + agendaItem.title +
-      " onto " + date.toString() + ". Here is where you can make an AJAX call to update your database.");
-  };
+  }
 
   /**
    * Called when a user mouses over an agenda item
@@ -520,24 +571,22 @@ window.ST.poolTool = function() {
   function myAgendaMouseoverHandler(eventObj){
     var agendaId = eventObj.data.agendaId;
     var agendaItem = jfcalplugin.getAgendaItemById("#mycal",agendaId);
-    //alert("You moused over agenda item " + agendaItem.title + " at location (X=" + eventObj.pageX + ", Y=" + eventObj.pageY + ")");
-  };
+  }
 
   function convertDateToLocaleDate(date){
-    // initialize with the date that was clicked
-    if (dateLocale === "en"){
+    var d;
+    if (gon.locale === "en"){
       d = ('0' + (date.getMonth()+1)).slice(-2) + "/" + ('0' + date.getDate()).slice(-2) + "/" + date.getFullYear();
-    }else if (dateLocale === "de"){
+    }else if (gon.locale === "de"){
       d = ('0' + date.getDate()).slice(-2) + "." + ('0' + (date.getMonth()+1)).slice(-2) + "." + date.getFullYear();
     }else {
       d = date.getFullYear() + "-" + ('0' + (date.getMonth()+1)).slice(-2) + "-" + ('0' + date.getDate()).slice(-2);
     }
     return d;
-  };
+  }
 
   return {
-    initializeFromToDatePicker: initializeFromToDatePicker,
-    initialize_poolTool: initialize_poolTool,
-    initializeDateSelect: initializeDateSelect
+    init: init,
+    initializeDatepicker: initializeDatepicker
   };
 };

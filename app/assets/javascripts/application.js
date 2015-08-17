@@ -37,8 +37,6 @@
 //= require jquery-ui/button
 //= require jquery-ui/dialog
 //= require jquery-ui/tabs
-// require jquery-ui/datepicker
-//= require colorpicker.js
 //= require jquery.qtip-1.0
 //= require jshashtable-2.1.js
 //= require jquery-frontier-cal-1.3.2
