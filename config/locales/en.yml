@@ -1403,6 +1403,7 @@ en:
     follow_links:
       follow: "Get emails about new comments"
       unfollow: "Don't get emails about new comments"
+    cannot_book: "You can't book this this listing at the moment, because the owner set the availability to <b>private</b>. </br>Please contact the owner and ask him to add you to his group of trusted companies."
     form:
       custom_field_partials:
         dropdown:
@@ -1499,6 +1500,11 @@ en:
         privacy: Privacy
         private: "Private (only signed-in users can see)"
         public: "Public (visible to non-signed-in users)"
+      availability:
+        availability: "Availability (Who can book this listing)"
+        intern: "Only your employees"
+        group: "Trusted companies and your employees"
+        all: "All other companies and your employees"
     help_texts:
       help_share_type_title: "Type of the offer or request"
       help_tags_title: Tags
@@ -1830,10 +1836,21 @@ en:
       they_follow_singular: "%{count} followed person"
       show_all_followed_people: "Show all followed people"
       no_followed_people: "No followed people"
+    trusted_companies:
+      you_trust_plural: "You trust %{count} companies"
+      you_trust_singular: "You trust %{count} company"
+      they_trust_plural: "%{count} trusted companies"
+      they_trust_singular: "%{count} trusted company"
+      show_all_trusted_people: "Show all trusted companies"
+      no_trusted_people: "No trusted companies"
     follow_button:
       following: Following
       follow: Follow
       unfollow: Unfollow
+    trust_button:
+      trusted: Trusted
+      trust: Trust
+      untrust: Untrust
     employ_button:
       employee: Employee
       employ: Accept

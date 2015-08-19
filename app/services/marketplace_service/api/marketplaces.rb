@@ -161,6 +161,7 @@ module MarketplaceService::API
 
       def create_listing_shape!(community, marketplace_type, process)
         listing_shape_template = select_listing_shape_template(marketplace_type)
+        # wah: Currently Shipping is only enabled for "product"
         enable_shipping = marketplace_type.or_else("product") == "product"
         TransactionTypeCreator.create(community, listing_shape_template, process, enable_shipping)
       end

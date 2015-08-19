@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150811104640) do
+ActiveRecord::Schema.define(:version => 20150818195213) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -626,6 +626,7 @@ ActiveRecord::Schema.define(:version => 20150811104640) do
     t.boolean  "pickup_enabled",                                :default => false
     t.integer  "shipping_price_cents"
     t.integer  "shipping_price_additional_cents"
+    t.string   "availability"
   end
 
   add_index "listings", ["category_id"], :name => "index_listings_on_new_category_id"
@@ -1083,6 +1084,7 @@ ActiveRecord::Schema.define(:version => 20150811104640) do
     t.string   "delivery_method",                   :limit => 31, :default => "none"
     t.integer  "shipping_price_cents"
     t.boolean  "deleted",                                         :default => false
+    t.string   "condition"
   end
 
   add_index "transactions", ["community_id", "deleted"], :name => "transactions_on_cid_and_deleted"

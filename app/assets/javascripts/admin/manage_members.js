@@ -6,7 +6,7 @@ window.ST = window.ST || {};
 window.ST.initializeManageMembers = function() {
   function elementToValueObject(element) {
     var r = {};
-    r[$(element).val()] = !! $(element).attr("checked");
+    r[$(element).val()] = !! $(element).prop("checked");
     return r;
   }
 
@@ -21,7 +21,6 @@ window.ST.initializeManageMembers = function() {
       function isValueTrue(valueObject) {
         return _.values(valueObject)[0];
       }
-
       var allowed = _.filter(valueObjects, isValueTrue);
       var disallowed = _.reject(valueObjects, isValueTrue);
 

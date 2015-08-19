@@ -178,7 +178,14 @@ $listing-author-avatar-height: 108;
   text-align: center;
 }
 
-// Transaction action button
+.availability_message{
+  padding: 7px;
+  border: 2px solid #A50D2A;
+  border-radius: 7px;
+  color: white;
+  background-color: #A64C5D;
+}
+
 .book-button .content {
   width: 100%;
   display: block;

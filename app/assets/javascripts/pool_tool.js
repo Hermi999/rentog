@@ -6,7 +6,6 @@ window.ST = window.ST || {};
 
 
 window.ST.poolTool = function() {
-  var listing_background_colors = ["#001f3f", "#FF851B", "#FF4136", "#0074D9", "#85144b", "#39CCCC", "#F012BE", "#3D9970", "#B10DC9", "#2ECC40", "#AAAAAA", "#01FF70", "#DDDDDD"];
   var clickDate = "";
   var clickAgendaItem = "";
   var jfcalplugin = {};
@@ -285,12 +284,12 @@ window.ST.poolTool = function() {
         $("#endDate").datepicker("destroy");
         $("#startDate").val("");
         $("#endDate").val("");
-        $("#startHour option:eq(0)").attr("selected", "selected");
-        $("#startMin option:eq(0)").attr("selected", "selected");
-        $("#startMeridiem option:eq(0)").attr("selected", "selected");
-        $("#endHour option:eq(0)").attr("selected", "selected");
-        $("#endMin option:eq(0)").attr("selected", "selected");
-        $("#endMeridiem option:eq(0)").attr("selected", "selected");
+        $("#startHour option:eq(0)").prop("selected", "selected");
+        $("#startMin option:eq(0)").prop("selected", "selected");
+        $("#startMeridiem option:eq(0)").prop("selected", "selected");
+        $("#endHour option:eq(0)").prop("selected", "selected");
+        $("#endMin option:eq(0)").prop("selected", "selected");
+        $("#endMeridiem option:eq(0)").prop("selected", "selected");
         $("#what").val("");
         //$("#colorBackground").val("#1040b0");
         //$("#colorForeground").val("#ffffff");
@@ -392,12 +391,9 @@ window.ST.poolTool = function() {
 
   function add_listings_to_calender(){
     // add new events to the calendar
-    var counter = 0;
-    gon.listings_data.forEach(function(listings_data){
-      counter++;
-
-      var startArray = listings_data.start_on.split("-");
-      var endArray = listings_data.end_on.split("-");
+    gon.transactions.forEach(function(transaction){
+      var startArray = transaction.start_on.split("-");
+      var endArray = transaction.end_on.split("-");
       var startYear = startArray[0];
       var endYear = endArray[0];
       var startMonth = startArray[1];
@@ -413,23 +409,26 @@ window.ST.poolTool = function() {
       // create Date objects
       startDateObj = new Date(parseInt(startYear),parseInt(startMonth)-1,parseInt(startDay),0,1,0,0);
       endDateObj = new Date(parseInt(endYear),parseInt(endMonth)-1,parseInt(endDay),23,59,0,0);
-      createdDateObj = new Date(listings_data.created_at);
+      createdDateObj = new Date(transaction.created_at);
 
       jfcalplugin.addAgendaItem(
         "#mycal",
-        listings_data.title,
+        transaction.title,
         startDateObj,
         endDateObj,
         false,
         {
-          "Renting Organization": listings_data.renting_organization,
+          "Renting Organization": transaction.renting_organization,
           "Created on": createdDateObj,
         },
         {
-          backgroundColor: listing_background_colors[counter],
+          backgroundColor: transaction.color,
           foregroundColor: "white"
         }
       );
+
+      // Set color of listing
+      $('div.people-listings:contains(' + transaction.title + ')').css('background-color', transaction.color);
     });
   }
 

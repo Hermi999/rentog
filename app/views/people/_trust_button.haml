@@ -1,0 +1,11 @@
+.trust-button-container
+  - if @current_user.follows?(person)
+    = link_to person_follower_path(person, @current_user), :method => "delete", :remote => true, :class => "trust-button untrust button-hoverable" do
+      .content.hover-content
+        = t(".untrust")
+      .content.default-content
+        = t(".trusted")
+  - else
+    = link_to [ person, :followers ], :method => "post", :remote => true, :class => "trust-button" do
+      .content
+        = t(".trust")

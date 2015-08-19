@@ -564,7 +564,7 @@ function style_action_selectors() {
             $(".visible-when-" + action).removeClass('hidden');
 
             $(this).addClass(action);
-            $(".conversation-action").find('input:radio[id=' + $(this).attr('name') + ']').attr('checked', true);
+            $(".conversation-action").find('input:radio[id=' + $(this).attr('name') + ']').prop('checked', true);
             $("#conversation_message_attributes_action").val(action);
             $("#conversation_status").val(action + 'ed');
           }
@@ -610,7 +610,7 @@ function style_grade_selectors() {
           function() {
             $(this).siblings().removeClass('negative').removeClass('positive');
             $(this).addClass($(this).attr('id'));
-            $(".feedback-grade").find('input:radio[id=' + $(this).attr('name') + ']').attr('checked', true);
+            $(".feedback-grade").find('input:radio[id=' + $(this).attr('name') + ']').prop('checked', true);
           }
         );
       }
@@ -759,8 +759,8 @@ function initialize_update_account_info_form(locale, change_text, cancel_text, e
       event.preventDefault();
       $('.account-new-email-link').show();
       $('.account-settings-hidden-email-form').hide();
-      $("#person_email_attributes_address").attr("disabled", "disabled");
-      $("#person_email_attributes_send_notifications").attr("disabled", "disabled");
+      $("#person_email_attributes_address").prop("disabled", "disabled");
+      $("#person_email_attributes_send_notifications").prop("disabled", "disabled");
     }
   );
   $('#account_password_link').toggle(

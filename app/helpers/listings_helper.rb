@@ -23,6 +23,10 @@ module ListingsHelper
     Listing::VALID_PRIVACY_OPTIONS.collect { |option| [t("listings.form.#{option}"), option] }
   end
 
+  def availability_array
+    Listing::VALID_AVAILABILITY_OPTIONS.collect { |option| [t("listings.form.availability.#{option}"), option] }
+  end
+
   def listed_listing_title(listing)
     listing_shape_name = shape_name(listing)
     # TODO remove this hotfix when we have admin ui for translations

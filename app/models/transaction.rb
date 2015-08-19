@@ -30,6 +30,7 @@
 #  delivery_method                   :string(31)       default("none")
 #  shipping_price_cents              :integer
 #  deleted                           :boolean          default(FALSE)
+#  condition                         :string(255)
 #
 # Indexes
 #
@@ -65,7 +66,7 @@ class Transaction < ActiveRecord::Base
     :delivery_method
   )
 
-  attr_accessor :contract_agreed
+  attr_accessor :contract_agreed, :color
 
   belongs_to :community
   belongs_to :listing

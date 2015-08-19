@@ -38,6 +38,36 @@
   }
 }
 
+.trust-button {
+  @include grey-button;
+  width: 100%;
+
+  &.untrust:hover:not(.button-disable-hover) {
+    background: $red;
+    color: white;
+  }
+}
+
+.employ-button {
+  @include grey-button;
+  width: 100%;
+
+  &.unemploy:hover:not(.button-disable-hover) {
+    background: $red;
+    color: white;
+  }
+}
+
+.employ-button-new {
+  @include yellow-button;
+  width: 100%;
+
+  &.unemploy:hover:not(.button-disable-hover) {
+    background: $red;
+    color: white;
+  }
+}
+
 .employ-button-small {
   @include grey-button;
   width: 100%;

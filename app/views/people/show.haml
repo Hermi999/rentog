@@ -48,7 +48,11 @@
       = render :partial => 'listings/profile_listings', :locals => {:person => @person, :limit => limit}
 
     - if @current_community.follow_in_use?
-      = render :partial => "followed_people", :locals => { :person => @person, :limit => 6 }
+      - if @person.is_organization
+        = render :partial => "trusted_companies", :locals => { :person => @person, :limit => 6 }
+      - else
+        = render :partial => "followed_people", :locals => { :person => @person, :limit => 6 }
+
 
     - if @current_community.testimonials_in_use
       #people-testimonials.listing-main

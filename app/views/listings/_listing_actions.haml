@@ -18,6 +18,11 @@
 
   - if is_author
     = render partial: "delivery_opts", locals: { delivery_opts: delivery_opts, is_author: is_author }
+
+  - elsif @show_availability_message
+    .availability_message
+      %p= t("listings.cannot_book").html_safe
+
   - elsif show_rent_button
 
     = form_tag form_path, :method => :get, :id => "booking-dates" do

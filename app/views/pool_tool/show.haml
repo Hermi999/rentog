@@ -137,6 +137,12 @@
                           %option{:SELECTED => "", :value => "AM"} AM
                           %option{:value => "PM"} PM
 
+
+    #listings-list{:style => "margin:15px;"}
+      - limit = 8
+      = render :partial => 'listings/pool_tool_listings', :locals => {:person => @person, :limit => limit}
+
+
     #dialog_event_description{:title => "Information", :style => "display:none"}
       %p Please enter a short event description into the "what" field.
 
@@ -146,7 +152,9 @@
 
 
   #tabs-2
-    test
+    #listings-list{:style => "margin:15px;"}
+      - limit = 8
+      = render :partial => 'listings/profile_listings', :locals => {:person => @person, :limit => limit}
 
   #display-event-form{:title => "View Agenda Item"}
   %p &nbsp;

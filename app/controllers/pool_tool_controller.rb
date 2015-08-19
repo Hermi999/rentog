@@ -3,15 +3,40 @@ class PoolToolController < ApplicationController
   before_filter :ensure_is_authorized_to_view, :only => [ :show ]
 
   def show
-    # Get data from database
-    listings_data = Transaction.joins(:listing, :booking, :starter).select("listings.title as title, listings.privacy as privacy, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.organization_name as renting_organization").where("listings.author_id" => @current_user, "transactions.community_id" => @current_community)
+    # @person is the person which owns the profile
+    @person = Person.find(params[:person_id] || params[:id])
+
+    # Get transactions (joined with listings and bookings) from database, ordered by listings.id
+    transactions = Transaction.joins(:listing, :booking, :starter).select("listings.id as listing_id, listings.title as title, listings.privacy as privacy, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.organization_name as renting_organization").where("listings.author_id" => @current_user, "transactions.community_id" => @current_community).order("listings.id asc")
+    # Convert ActiveRecord Relation into array of hashes
+    transaction_array = transactions.as_json
+
+    # Go through each transaction and assign a color. If the listing isn't the
+    # same as in the previous transaction, then change the color. Otherwise use
+    # the same color as previously. This is possible, because the transactions
+    # are ordered by id.
+    prev_listing_id = 0, counter = -1
+    listing_background_colors = ["#001f3f", "#FF851B", "#FF4136", "#0074D9", "#85144b", "#39CCCC", "#F012BE", "#3D9970", "#B10DC9", "#2ECC40", "#AAAAAA", "#01FF70", "#DDDDDD"]
+
+    transaction_array.map! do |transaction|
+      if prev_listing_id != transaction['listing_id']
+        counter = counter + 1
+      end
+      transaction['color'] = listing_background_colors[counter]
+      prev_listing_id = transaction['listing_id']
+
+      # At each iteration the element in the original collection is replaced
+      # by the element returned by the block
+      transaction
+    end
+
 
     # Variables which should be send to JavaScript
     days =    [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday]
     months =  [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
 
     gon.push({
-      listings_data: listings_data,
+      transactions: transaction_array,
       locale: I18n.locale,
       days: days,
       months: months,

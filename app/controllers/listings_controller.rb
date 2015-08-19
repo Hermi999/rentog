@@ -31,6 +31,8 @@ class ListingsController < ApplicationController
   # If admin authorization is required to post. Also employees aren't allowed to post a new listing.
   before_filter :is_authorized_to_post, :only => [ :new, :create ]
 
+
+
   def index
     @selected_tribe_navi_tab = "home"
 
@@ -146,8 +148,19 @@ class ListingsController < ApplicationController
 
         show_rent_button = false
         flash.now[:error] = t("transactions.company_not_verified")
+    elsif @current_user.nil? ||
+         (@current_user &&
+            (@listing.availability == nil ||
+             @listing.availability == "all" ||
+             @listing.availability == "group" && 1 || # wah: show if company is in authors group or company of emplolyee is in authors group
+             @listing.availability == "intern" && !@current_user.is_organization && @current_user.company.id == @listing.author_id))
+         # Show button if no user is logged in or if the availaility fits the
+         # current user
+      show_rent_button = true
+    elsif @current_user != @listing.author
+      @show_availability_message = true
     else
-        show_rent_button = true
+      show_rent_button = false
     end
 
 
@@ -196,6 +209,7 @@ class ListingsController < ApplicationController
     form_content
   end
 
+
   def edit_form_content
     return redirect_to action: :edit unless request.xhr?
 
@@ -205,6 +219,7 @@ class ListingsController < ApplicationController
 
     form_content
   end
+
 
   def create
     if params[:listing][:origin_loc_attributes][:address].empty? || params[:listing][:origin_loc_attributes][:address].blank?

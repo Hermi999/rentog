@@ -45,7 +45,7 @@ function prepare_ajax_form(form_id, locale, rules) {
 }
 
 function disable_submit_button(form_id, locale) {
-  $(form_id).find("button").attr('disabled', 'disabled');
+  $(form_id).find("button").prop('disabled', 'disabled');
   jQuery.getJSON('https://s3.eu-central-1.amazonaws.com/rentog/assets/locales/' + locale + '.json', function(json) {
     $(form_id).find("button").text(json.please_wait);
   });

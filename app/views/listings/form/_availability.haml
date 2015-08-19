@@ -1,0 +1,2 @@
+= form.label :availability, t(".availability") + "*", :class => "input"
+= select("listing", "availability", availability_array, {:selected => (@listing.availability || "all")}, { :class => "full-width" })

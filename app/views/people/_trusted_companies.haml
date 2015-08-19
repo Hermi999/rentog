@@ -6,21 +6,21 @@
     - if followed_people.count > 0
       - if current_user?(@person)
         - if followed_people.count == 1
-          = t(".you_follow_singular", :count => followed_people.count)
+          = t(".you_trust_singular", :count => followed_people.count)
         - else
-          = t(".you_follow_plural", :count => followed_people.count)
+          = t(".you_trust_plural", :count => followed_people.count)
       - else
         - if followed_people.count == 1
-          = t(".they_follow_singular", :count => followed_people.count)
+          = t(".they_trust_singular", :count => followed_people.count)
         - else
-          = t(".they_follow_plural", :count => followed_people.count)
+          = t(".they_trust_plural", :count => followed_people.count)
     - else
-      = t(".no_followed_people")
+      = t(".no_trusted_people")
 .people-fluid-thumbnail-grid-container
   .people-fluid-thumbnail-grid#profile-followed-people-list
-    = render :partial => "people/followed_person", :collection => displayed_people, :as => :person, :locals => { :origin => "followed_people" }
+    = render :partial => "people/followed_person", :collection => displayed_people, :as => :person, :locals => { :origin => "trusted_companies" }
 
 - if followed_people.count > limit
   .people-load-more-listings-container
     #load-more-followed-people
-      = link_to t(".show_all_followed_people"), [ person, :followed_people ], :remote => true
+      = link_to t(".show_all_trusted_people"), [ person, :followed_people ], :remote => true
