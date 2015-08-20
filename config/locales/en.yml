@@ -1403,7 +1403,7 @@ en:
     follow_links:
       follow: "Get emails about new comments"
       unfollow: "Don't get emails about new comments"
-    cannot_book: "You can't book this this listing at the moment, because the owner set the availability to <b>private</b>. </br>Please contact the owner and ask him to add you to his group of trusted companies."
+    cannot_book: "You can't book this this listing at the moment, because the owner set the availability to <b>private</b>. </br>Please contact the owner and ask him to add you to his trusted companies."
     form:
       custom_field_partials:
         dropdown:
@@ -1503,7 +1503,7 @@ en:
       availability:
         availability: "Availability (Who can book this listing)"
         intern: "Only your employees"
-        group: "Trusted companies and your employees"
+        trusted: "Trusted companies and your employees"
         all: "All other companies and your employees"
     help_texts:
       help_share_type_title: "Type of the offer or request"
@@ -2123,6 +2123,8 @@ en:
   transactions:
     employees_cannot_make_transactions: "Employees can't make transactions. Please make a request to your company for renting listings."
     company_not_verified: "Only companies verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
+    listing_is_intern: "The listing is intern and can't be booked by other companies."
+    listing_is_only_for_trusted_companies: "The listing is only for trusted companies. Please contact the owner that he adds you to his trusted copmanies."
     initiate:
       booked_days: "Booked days:"
       price_per_day: "Price per day:"

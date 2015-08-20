@@ -106,7 +106,7 @@ class Listing < ActiveRecord::Base
 
   VALID_VISIBILITIES = ["this_community", "all_communities"]
   VALID_PRIVACY_OPTIONS = ["private", "public"]
-  VALID_AVAILABILITY_OPTIONS = ["intern", "group", "all"]
+  VALID_AVAILABILITY_OPTIONS = ["intern", "trusted", "all"]
 
   before_validation :set_valid_until_time
   before_save :set_community_visibilities

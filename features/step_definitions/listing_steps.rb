@@ -240,7 +240,7 @@ end
 
 def select_start_date(date)
   date = [date.year, date.month, date.day].join("-")
-  page.execute_script("$('#start-on').val('#{date}')");
+  page.execute_script("$('#start').val('#{date}')");
   # Selenium can not interact with hidden elements, use JavaScript
   page.execute_script("$('#booking-start-output').val('#{date}')");
 end

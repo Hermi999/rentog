@@ -59,16 +59,17 @@ class PoolToolController < ApplicationController
 
 
 
-private
-  def ensure_is_authorized_to_view()
-    # Company Admin is authorized
-    return if @current_user && @current_user.is_organization && @current_user.organization_name == params['person_id'].upcase
+  private
 
-    # Rentog Admin is authorized
-    return if @current_user && @current_user.has_admin_rights_in?(@current_community)
+    def ensure_is_authorized_to_view()
+      # Company Admin is authorized
+      return if @current_user && @current_user.is_organization && @current_user.organization_name == params['person_id'].upcase
 
-    # Otherwise return to home page
-    flash[:error] = t("pool_tool.you_have_to_be_company_admin")
-    redirect_to root_path and return
-  end
+      # Rentog Admin is authorized
+      return if @current_user && @current_user.has_admin_rights_in?(@current_community)
+
+      # Otherwise return to home page
+      flash[:error] = t("pool_tool.you_have_to_be_company_admin")
+      redirect_to root_path and return
+    end
 end

@@ -40,7 +40,24 @@ class TransactionsController < ApplicationController
         end
       end
     end
+
+    current_listing = Listing.where(:id => params[:listing_id]).first
+
+    if @current_user.is_organization && params[:listing_id]
+      # Company can't make transaction if listing is "intern"
+      if current_listing.availability == "intern"
+        flash[:error] = t("transactions.listing_is_intern")
+        redirect_to root_path and return
+      end
+
+      # Not trusted company can't make transactions if listing is "trusted"]
+      if current_listing.availability == "trusted" && @current_user.followers.where(:id => current_listing.author_id).first.nil?
+        flash[:error] = t("transactions.listing_is_only_for_trusted_companies")
+        redirect_to root_path and return
+      end
+    end
   end
+
 
   def new
     Result.all(

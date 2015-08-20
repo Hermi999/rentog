@@ -18,6 +18,8 @@ window.ST.poolTool = function() {
   }
 
   function initializeDatepicker(){
+    if (gon.locale === 'en') return;
+
     $.fn.datepicker.dates[gon.locale] = {
       days: gon.translated_days,
       daysShort: gon.translated_days_short,
@@ -407,9 +409,9 @@ window.ST.poolTool = function() {
       endDay = endDay.replace(/^[0]+/g,"");
 
       // create Date objects
-      startDateObj = new Date(parseInt(startYear),parseInt(startMonth)-1,parseInt(startDay),0,1,0,0);
-      endDateObj = new Date(parseInt(endYear),parseInt(endMonth)-1,parseInt(endDay),23,59,0,0);
-      createdDateObj = new Date(transaction.created_at);
+      var startDateObj = new Date(parseInt(startYear),parseInt(startMonth)-1,parseInt(startDay),0,1,0,0);
+      var endDateObj = new Date(parseInt(endYear),parseInt(endMonth)-1,parseInt(endDay),23,59,0,0);
+      var createdDateObj = new Date(transaction.created_at);
 
       jfcalplugin.addAgendaItem(
         "#mycal",

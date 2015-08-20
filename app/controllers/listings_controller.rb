@@ -140,26 +140,30 @@ class ListingsController < ApplicationController
       form_path = new_transaction_path(listing_id: @listing.id)
     end
 
-    # Unverified Companies cant make transactions
     if @current_user &&
        @current_user.is_organization &&
        @current_community.require_verification_to_post_listings &&
        !@current_user.can_post_listings_at?(@current_community)
-
+       # Unverified Companies cant make transactions
         show_rent_button = false
         flash.now[:error] = t("transactions.company_not_verified")
+
     elsif @current_user.nil? ||
          (@current_user &&
             (@listing.availability == nil ||
              @listing.availability == "all" ||
-             @listing.availability == "group" && 1 || # wah: show if company is in authors group or company of emplolyee is in authors group
-             @listing.availability == "intern" && !@current_user.is_organization && @current_user.company.id == @listing.author_id))
-         # Show button if no user is logged in or if the availaility fits the
-         # current user
+             (@listing.availability == "trusted" && @current_user.followers.where(:id => @listing.author_id).first) ||
+             (@listing.availability == "intern" && !@current_user.is_organization && @current_user.company.id == @listing.author_id)))
+         # Show button if no user is logged in or if the availaility fits the current user
       show_rent_button = true
+
     elsif @current_user != @listing.author
+      # do not show rent button, but availability-error-message if the above condition is false
       @show_availability_message = true
+      show_rent_button = false
+
     else
+      # Dont show rent button if listing auhtor is viewing the page
       show_rent_button = false
     end
 
