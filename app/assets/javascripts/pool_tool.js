@@ -18,7 +18,9 @@ window.ST.poolTool = function() {
   }
 
   function initializeDatepicker(){
-    if (gon.locale === 'en') return;
+    if (gon.locale === 'en') {
+      return;
+    }
 
     $.fn.datepicker.dates[gon.locale] = {
       days: gon.translated_days,

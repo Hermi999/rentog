@@ -901,7 +901,12 @@
 					else if (typeof(before) === 'boolean')
 						before = {enabled: before};
 					else if (typeof(before) === 'string')
-						before = {classes: before};
+						/* wah: automatically set to disabled if color is red */
+						if (before === 'red'){
+							before = {classes: before, enabled: false};
+						}else{
+							before = {classes: before};
+						}
 					if (before.enabled === false)
 						clsName.push('disabled');
 					if (before.classes)
