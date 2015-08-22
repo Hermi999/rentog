@@ -40,9 +40,23 @@
           - translated_months = months.map { |day_symbol| t("datepicker.months.#{day_symbol}") }.to_json
           - translated_months_short = months.map { |day_symbol| t("datepicker.months_short.#{day_symbol}") }.to_json
 
+          - # Get transactions (joined with listings and bookings) from database, ordered by booking end date
+          - booked_end_start_dates = Transaction.joins(:listing, :booking).select("bookings.start_on as start_on, bookings.end_on as end_on").where("listings.id" => @listing.id, "transactions.community_id" => @current_community).order("bookings.end_on asc")
+          - booked_dates = []
+          - booked_end_start_dates.each do |booked_end_start_date|
+            -# Merge the arrays and ensure that there are no values twice
+            - if (booked_end_start_date.start_on != booked_end_start_date.end_on)
+              - booked_dates = (booked_dates + (booked_end_start_date.start_on..booked_end_start_date.end_on).map(&:to_s)).uniq
+            - else
+              - booked_dates = (booked_dates + [booked_end_start_date.start_on.to_s])
+
           - content_for :extra_javascript do
             :javascript
-              loc = '#{I18n.locale}';
+              /* Making all booked dates available in Javascript */
+              var booked_dates = #{booked_dates};
+
+              /* Initialize datepicker with locale values */
+              var loc = '#{I18n.locale}';
               if (loc !== 'en'){
                 $.fn.datepicker.dates[loc] = {
                   days: #{translated_days},

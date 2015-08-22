@@ -60,6 +60,37 @@ class TransactionsController < ApplicationController
 
 
   def new
+  # Check if start-on and end-on dates are valid
+    # Get all days of new booking
+    if (params[:start_on] != params[:end_on])
+      new_booked_dates = (params[:start_on]..params[:end_on]).map(&:to_s)
+    else
+      new_booked_dates = [params[:start_on]]
+    end
+
+    # Get already booked dates (joined with listings and bookings) from database, ordered by booking end date
+    booked_end_start_dates = Transaction.joins(:listing, :booking).select("bookings.start_on as start_on, bookings.end_on as end_on").where("listings.id" => params[:listing_id], "transactions.community_id" => @current_community).order("bookings.end_on asc")
+
+    # Get all days of already booked dates
+    booked_dates = []
+    booked_end_start_dates.each do |booked_end_start_date|
+      # Merge the arrays and ensure that there are no values twice
+      if (booked_end_start_date.start_on != booked_end_start_date.end_on)
+        booked_dates = (booked_dates + (booked_end_start_date.start_on..booked_end_start_date.end_on).map(&:to_s)).uniq
+      else
+        booked_dates = (booked_dates + [booked_end_start_date.start_on.to_s])
+      end
+    end
+
+    # Now check if days of new booking conflict with already booked days -> get Intersection of the 2 arrays
+    intersection = new_booked_dates & booked_dates
+
+    # If intersection of the two array isn't empty, then we have a booking conflict!
+    if (intersection != [])
+      flash[:error] = t("transactions.already_booked_for_this_date")
+      redirect_to (session[:return_to_content] || root) and return
+    end
+
     Result.all(
       ->() {
         fetch_data(params[:listing_id])

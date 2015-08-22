@@ -7,8 +7,6 @@ window.ST = window.ST || {};
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
     var dateRage = $('#'+ rangeCongainerId);
     var dateLocale = dateRage.data('locale');
-    var locked_dates = ["08/26/2015", "08/27/2015","08/28/2015", "08/29/2015", "09/10/2015", "09/11/2015", "09/12/2015", "09/13/2015", "09/15/2015", "09/16/2015", "09/19/2015", "09/20/2015", "05/01/2016"];
-
 
     var options = {
       calendarWeeks: true,
@@ -16,11 +14,11 @@ window.ST = window.ST || {};
       autoclose: true,
       inputs: [$("#start-on"), $("#end-on")],
       daysOfWeekDisabled: ["0","6"],
-      //datesDisabled: locked_dates,
+      //datesDisabled: booked_dates,
       beforeShowDay: function(date) {
         // Already booked dates paint red
-        for (var i=0; i<locked_dates.length; i++){
-          var lock_date = new Date(locked_dates[i]);
+        for (var i=0; i<booked_dates.length; i++){
+          var lock_date = new Date(booked_dates[i]);
           if (date.getYear() === lock_date.getYear() && date.getMonth() === lock_date.getMonth() && date.getDate() === lock_date.getDate()){
             return "red";
           }
@@ -52,8 +50,8 @@ window.ST = window.ST || {};
       // set end date of "end-on" datepicker, based on next booked dates
         var endDate = new Date("2099/01/01");
         var lock;
-        for (var i=0; i<locked_dates.length; i++){
-          var lock_date = new Date(locked_dates[i]);
+        for (var i=0; i<booked_dates.length; i++){
+          var lock_date = new Date(booked_dates[i]);
           if (startDate <= lock_date && lock_date < endDate){
             lock = true;
             endDate = lock_date;
@@ -77,5 +75,16 @@ window.ST = window.ST || {};
       e.preventDefault();
     });
 
+    var outputElements = {
+      "booking-start-output": $("#booking-start-output"),
+      "booking-end-output": $("#booking-end-output")
+    };
+
+    picker.on('changeDate', function(e) {
+      var newDate = e.dates[0];
+      var outputElementId = $(e.target).data("output");
+      var outputElement = outputElements[outputElementId];
+      outputElement.val(module.utils.toISODate(newDate));
+    });
   };
 })(window.ST);
