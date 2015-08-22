@@ -780,6 +780,10 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def is_employee?(company_id)
+    !is_organization && company.username.eql?(company_id)
+  end
+
   private
 
   # This method constructs a key to be used in caching.

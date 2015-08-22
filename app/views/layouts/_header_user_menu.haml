@@ -12,9 +12,14 @@
     = icon_tag("user", ["icon-with-text"])
     = t("header.profile")
 
-  = link_to person_poolTool_path(user) do
-    = icon_tag("poolTool", ["icon-with-text"])
-    = t("layouts.logged_in.poolTool")
+  - if @current_user.is_organization
+    = link_to person_poolTool_path(user) do
+      = icon_tag("poolTool", ["icon-with-text"])
+      = t("layouts.logged_in.poolTool")
+  - else
+    = link_to person_poolTool_path(@current_user.company) do
+      = icon_tag("poolTool", ["icon-with-text"])
+      = t("layouts.logged_in.poolTool")
 
   = link_to person_settings_path(user) do
     = icon_tag("settings", ["icon-with-text"])

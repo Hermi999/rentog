@@ -24,6 +24,7 @@ module MarketplaceService::API
         user.update_attribute :organization_name, "Administrator"
         user.update_attribute :is_admin, true
         membership.admin = true
+        membership.status = "accepted"
       end
       membership.save!
     end

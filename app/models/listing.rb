@@ -158,6 +158,12 @@ class Listing < ActiveRecord::Base
     end
   end
 
+  # Filter out listings with availability private
+  def self.available(current_community, ids=nil)
+    id_list = ids ? ids : current_community.listings.pluck(:id)
+    where("listings.availability != 'intern' AND listings.id IN (?)", id_list)
+  end
+
   def self.currently_open(status="open")
     status = "open" if status.blank?
     case status
@@ -251,6 +257,7 @@ class Listing < ActiveRecord::Base
       unless current_user && current_user.communities.include?(current_community)
         with[:visible_to_everybody] = true
       end
+      with[:availability_not_intern] = true
       with[:community_ids] = current_community.id
 
       with[:category_id] = params[:categories][:id] if params[:categories].present?
@@ -290,7 +297,7 @@ class Listing < ActiveRecord::Base
       query[:categories] = params[:categories] if params[:categories]
       query[:author_id] = params[:person_id] if params[:person_id]    # this is not yet used with search
       query[:id] = params[:listing_id] if params[:listing_id].present?
-      listings = joins(joined_tables).where(query).currently_open(params[:status]).visible_to(current_user, current_community).includes(params[:include]).order("listings.sort_date DESC").paginate(:per_page => per_page, :page => page)
+      listings = joins(joined_tables).where(query).currently_open(params[:status]).visible_to(current_user, current_community).available(current_community).includes(params[:include]).order("listings.sort_date DESC").paginate(:per_page => per_page, :page => page)
     end
     return listings
   end

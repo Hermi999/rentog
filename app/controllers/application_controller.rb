@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from RestClient::Unauthorized, :with => :session_unauthorized
 
-  helper_method :root, :logged_in?, :current_user?
+  helper_method :root, :logged_in?, :current_user?, :is_employee?
 
   def redirect_removed_locale
     if params[:locale] && Kassi::Application.config.REMOVED_LOCALES.include?(params[:locale])
@@ -194,6 +194,10 @@ class ApplicationController < ActionController::Base
 
   def current_user?(person)
     @current_user && @current_user.id.eql?(person.id)
+  end
+
+  def is_employee?(person, company_id)
+    @current_user && !@current_user.is_organization && @current_user.company.username.eql?(company_id)
   end
 
   # Saves current path so that the user can be

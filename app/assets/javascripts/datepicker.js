@@ -1,3 +1,5 @@
+/*globals booked_dates*/
+
 window.ST = window.ST || {};
 
 (function(module) {
@@ -37,7 +39,7 @@ window.ST = window.ST || {};
 
 
     // Initialize Datepicker on dateRange
-    var picker = dateRage.datepicker(options)
+    var picker = dateRage.datepicker(options);
 
     // Define what to do with end date when start Date is picked
     $("#start-on").on('changeDate', function(selected){

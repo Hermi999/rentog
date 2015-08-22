@@ -63,10 +63,13 @@ class PoolToolController < ApplicationController
 
     def ensure_is_authorized_to_view()
       # Company Admin is authorized
-      return if @current_user && @current_user.is_organization && @current_user.organization_name == params['person_id'].upcase
+      return if @current_user && @current_user.is_organization && @current_user.username == params['person_id']
 
       # Rentog Admin is authorized
       return if @current_user && @current_user.has_admin_rights_in?(@current_community)
+
+      # Company employee is authorized
+      return if @current_user && @current_user.is_employee?(params['person_id'])
 
       # Otherwise return to home page
       flash[:error] = t("pool_tool.you_have_to_be_company_admin")

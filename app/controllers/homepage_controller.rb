@@ -42,6 +42,8 @@ class HomepageController < ApplicationController
 
     compact_filter_params = HashUtils.compact(filter_params)
 
+    # Get all the listings for displaying them.
+    # But only those which are not "visibility = intern"
     @listings = if @view_type == "map"
       find_listings(params, APP_CONFIG.map_listings_limit, compact_filter_params)
     else
@@ -78,6 +80,8 @@ class HomepageController < ApplicationController
 
   private
 
+  # Get all the listings for displaying them.
+  # But only those which are not "visibility = intern"
   def find_listings(params, listings_per_page, filter_params)
     Maybe(@current_community.categories.find_by_url_or_id(params[:category])).each do |category|
       filter_params[:category] = category.id

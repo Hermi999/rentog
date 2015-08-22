@@ -6,7 +6,7 @@
       = t("people.show.contact", :person => @person.given_name_or_username)
 
 - if @current_community.follow_in_use? && @current_user && !current_user?(@person)
-  - if @person.is_organization
-    = render :partial => "trust_button", :locals => { :person => @person, :limit => 6 }
+  - if @person.is_organization && @current_user.is_organization
+    = render :partial => "trust_button", :locals => { :person => @person}
   - elsif !@current_user.is_organization
     = render :partial => "follow_button", :locals => { :person => @person }
