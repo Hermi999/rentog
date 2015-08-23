@@ -10,7 +10,6 @@ Feature: User creates a new account
 
   Scenario: Creating a new company account successfully
     Then I should not see "The access to Rentog is restricted."
-    When I fill in "person[username]" with "test123456"
     And I fill in "person[organization_name]" with "Hofer"
     And I fill in "First name" with "Hermann"
     And I fill in "Last name" with "Wagner"
@@ -59,7 +58,7 @@ Feature: User creates a new account
     And I am on the manage members admin page
     When I verify user "Hofer" as a seller
     And I log out
-    Given I am logged in as "test123456"
+    Given I am logged in as "kassi_testperson1"
     When I follow "Post a new listing"
     Then I should see "Select category"
     And I should not see "Rentog requires people to be verified manually by admin before they can post listings."
@@ -73,7 +72,6 @@ Feature: User creates a new account
     Given I am on the signup page
     Then I should not see "The access to Rentog is restricted."
     When I click "#signup_employee"
-    And I fill in "person[username]" with random username
     And I fill in "First name" with "Siemens"
     And I fill in "Last name" with "Namez"
     And I select "Bosch" from "person[organization_name2]"
@@ -105,27 +103,26 @@ Feature: User creates a new account
 
     #Rentog requires people to be verified manually by admin before they can post listings. You have not yet been verified. Please contact the admin to be verified.
 
-  Scenario: Trying to create company account with unavailable username
-    When I fill in "person[username]" with "kassi_testperson2"
-    And I fill in "Organization name" with "Siemens"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
-    And I fill in "Email address" with random email
-    And I press "Create account"
-    Then I should see "This username is already in use."
+  # Scenario: Trying to create company account with unavailable username
+  #   When I fill in "person[username]" with "kassi_testperson2"
+  #   And I fill in "Organization name" with "Siemens"
+  #   And I fill in "person_password1" with "test"
+  #   And I fill in "Confirm password" with "test"
+  #   And I fill in "Email address" with random email
+  #   And I press "Create account"
+  #   Then I should see "This username is already in use."
 
-  Scenario: Trying to create company account with invalid username
-    When I fill in "person[username]" with "sirkka-liisa"
-    And I fill in "Organization name" with "Siemens"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
-    And I fill in "Email address" with random email
-    And I press "Create account"
-    Then I should see "Username is invalid."
+  # Scenario: Trying to create company account with invalid username
+  #   When I fill in "person[username]" with "sirkka-liisa"
+  #   And I fill in "Organization name" with "Siemens"
+  #   And I fill in "person_password1" with "test"
+  #   And I fill in "Confirm password" with "test"
+  #   And I fill in "Email address" with random email
+  #   And I press "Create account"
+  #   Then I should see "Username is invalid."
 
   Scenario: Trying to create company account with unavailable email
-    When I fill in "person[username]" with random username
-    And I fill in "Organization name" with "Siemens"
+    When I fill in "Organization name" with "Siemens"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with "kassi_testperson2@example.com"
@@ -134,8 +131,7 @@ Feature: User creates a new account
 
   Scenario: Trying to create an company without First name and last name
     Given I am on the signup page
-    When I fill in "person[username]" with random username
-    And I fill in "person[organization_name]" with "TestCompany"
+    When I fill in "person[organization_name]" with "TestCompany"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
@@ -145,8 +141,7 @@ Feature: User creates a new account
     # Community where First and Last name are not required
     When given name and last name are not required in community "test"
     And I am on the signup page
-    When I fill in "person[username]" with random username
-    And I fill in "person[organization_name]" with "TestCompany1"
+    When I fill in "person[organization_name]" with "TestCompany1"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
@@ -162,8 +157,7 @@ Feature: User creates a new account
 
   Scenario: Trying to create an company account without Organization name
     Given I am on the signup page
-    When I fill in "person[username]" with random username
-    And I fill in "First name" with "Hermann"
+    When I fill in "First name" with "Hermann"
     And I fill in "Last name" with "Wagner"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
@@ -176,7 +170,6 @@ Feature: User creates a new account
     Given I am on the signup page
     Then I should not see "The access to Rentog is restricted."
     When I click "#signup_employee"
-    And I fill in "person[username]" with random username
     And I fill in "First name" with "Siemens"
     And I fill in "Last name" with "Namez"
     And I fill in "person_password1" with "test"

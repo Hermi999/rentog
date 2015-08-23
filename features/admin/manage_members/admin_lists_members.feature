@@ -12,6 +12,7 @@ Feature: Admin lists members
       | kassi_testperson1    | john       | doe         | Siemens           | test2@example.com    | 1               | 2013-03-01 00:12:35 +0000 |
       | kassi_testperson2    | jane       | doe         |                   | test1@example.com    | 0               | 2012-03-01 00:00:00 +0000 |
       | employee_testperson1 | xxxx       | yyy         |                   | test0@example.com    | 0               | 2011-03-01 00:00:00 +0000 |
+      | employee_testperson2 | vvvv       | www         |                   | test3@example.com    | 0               | 2010-03-01 00:00:00 +0000 |
     And I am logged in as "manager"
     And "manager" has admin rights in community "test"
     And "kassi_testperson1" has admin rights in community "test"
@@ -24,10 +25,12 @@ Feature: Admin lists members
       | Siemens       | test2@example.com   | 1 Mar 2013 |       |             |
       | jane doe      | test1@example.com   | 1 Mar 2012 |       |             |
       | xxxx yyy      | test0@example.com   | 1 Mar 2011 |       |             |
+      | vvvv www      | test3@example.com   | 1 Mar 2010 |       |             |
     When I follow "Name"
     Then I should see list of users with the following details:
       | Name          | Email               | Joined     | Admin | Remove User |
       | jane doe      | test1@example.com   | 1 Mar 2012 |       |             |
+      | vvvv www      | test3@example.com   | 1 Mar 2010 |       |             |
       | xxxx yyy      | test0@example.com   | 1 Mar 2011 |       |             |
       | Samsung       | manager@example.com | 1 Mar 2014 |       |             |
       | Siemens       | test2@example.com   | 1 Mar 2013 |       |             |
@@ -37,6 +40,7 @@ Feature: Admin lists members
       | Siemens       | test2@example.com   | 1 Mar 2013 |       |             |
       | Samsung       | manager@example.com | 1 Mar 2014 |       |             |
       | xxxx yyy      | test0@example.com   | 1 Mar 2011 |       |             |
+      | vvvv www      | test3@example.com   | 1 Mar 2010 |       |             |
       | jane doe      | test1@example.com   | 1 Mar 2012 |       |             |
     When I follow "Email"
     Then I should see list of users with the following details:
@@ -45,9 +49,11 @@ Feature: Admin lists members
       | xxxx yyy      | test0@example.com   | 1 Mar 2011 |       |             |
       | jane doe      | test1@example.com   | 1 Mar 2012 |       |             |
       | Siemens       | test2@example.com   | 1 Mar 2013 |       |             |
+      | vvvv www      | test3@example.com   | 1 Mar 2010 |       |             |
     When I follow "Joined"
     Then I should see list of users with the following details:
       | Name          | Email               | Joined     | Admin | Remove User |
+      | vvvv www      | test3@example.com   | 1 Mar 2010 |       |             |
       | xxxx yyy      | test0@example.com   | 1 Mar 2011 |       |             |
       | jane doe      | test1@example.com   | 1 Mar 2012 |       |             |
       | Siemens       | test2@example.com   | 1 Mar 2013 |       |             |
@@ -55,6 +61,7 @@ Feature: Admin lists members
     When I follow "Orga?"
     Then I should see list of users with the following details:
       | Name          | Email               | Joined     | Admin | Remove User |
+      | vvvv www      | test3@example.com   | 1 Mar 2010 |       |             |
       | xxxx yyy      | test0@example.com   | 1 Mar 2011 |       |             |
       | jane doe      | test1@example.com   | 1 Mar 2012 |       |             |
       | Siemens       | test2@example.com   | 1 Mar 2013 |       |             |
@@ -66,12 +73,13 @@ Feature: Admin lists members
       | Siemens       | test2@example.com   | 1 Mar 2013 |       |             |
       | jane doe      | test1@example.com   | 1 Mar 2012 |       |             |
       | xxxx yyy      | test0@example.com   | 1 Mar 2011 |       |             |
+      | vvvv www      | test3@example.com   | 1 Mar 2010 |       |             |
 
 
   Scenario: Admin views member count
     Given there are 50 companies with organization_name prefix "Company"
     And I go to the manage members admin page
-    Then I should see a range from 1 to 50 with total user count of 54
+    Then I should see a range from 1 to 50 with total user count of 55
 
   Scenario: Admin views multiple users with pagination
     Given there are 50 companies with organization_name prefix "Company"
@@ -79,7 +87,7 @@ Feature: Admin lists members
     Then I should see 50 users
     And the first user should be "Company 50"
     When I follow "Next"
-    Then I should see 4 users
+    Then I should see 5 users
     And the first user should be "Samsung"
 
   Scenario: Admin verifies sellers

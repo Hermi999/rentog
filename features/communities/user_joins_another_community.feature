@@ -43,7 +43,7 @@ Feature: User joins another marketplace
     And I fill in "Email" with "aaa@example.com"
     And I press "Join Rentog"
     Then I should see "join Rentog"
-    When I wait for 1 seconds
+    When I wait for 3 seconds
     Then Invitation with code "GH1JX8" should have 0 usages_left
 
   @move_to_subdomain2

@@ -19,7 +19,6 @@ Feature: User joins invite only community
     And I remove the focus
     Then there should be an active ajax request
     When ajax requests are completed
-    And I fill in "person[username]" with random username
     And I fill in "First name" with "Testmanno"
     And I select "Siemens" from "person[organization_name2]"
     And I fill in "Last name" with "Namez"
@@ -48,7 +47,6 @@ Feature: User joins invite only community
     And I remove the focus
     Then there should be an active ajax request
     When ajax requests are completed
-    And I fill in "person[username]" with random username
     And I fill in "Organization name" with "abcd"
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
@@ -70,7 +68,6 @@ Feature: User joins invite only community
     And community "test" requires invite to join
     And I am not logged in
     And I am on the signup page
-    And I fill in "person[username]" with random username
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
     And I fill in "Organization name" with "abcd"
@@ -90,7 +87,6 @@ Feature: User joins invite only community
     And I am not logged in
     And I am on the signup page
     And I follow "Signup as employee"
-    And I fill in "person[username]" with random username
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
     And I select "Siemens" from "person[organization_name2]"
@@ -112,7 +108,6 @@ Feature: User joins invite only community
     And I am on the signup page
     And there is an invitation for community "test" with code "GH1JX8" with 0 usages left
     When I fill in "Invitation code" with "gh1jx8"
-    And I fill in "person[username]" with random username
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
     And I fill in "Organization name" with "abcd"
@@ -134,7 +129,6 @@ Feature: User joins invite only community
     And I follow "Signup as employee"
     And there is an invitation for community "test" with code "GH1JX8" with 0 usages left
     When I fill in "Invitation code" with "gh1jx8"
-    And I fill in "person[username]" with random username
     And I select "Siemens" from "person[organization_name2]"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
@@ -166,7 +160,6 @@ Feature: User joins invite only community
     And there is an invitation for community "test" with code "GH1JX8" with 1 usages left
     And I go to the registration page with invitation code "GH1JX8"
     Then I should not see "Invitation code"
-    When I fill in "person[username]" with random username
     And I fill in "Organization name" with "Testmanno2"
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
