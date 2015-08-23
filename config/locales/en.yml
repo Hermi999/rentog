@@ -522,7 +522,7 @@ en:
       travel: Travel
       other: Other
     username: Username
-    username_or_email: "Email or username"
+    username_or_email: "Email"
     what_is_this: "What's this?"
     removed_user: "Removed user"
     paypal_fee_info:
@@ -1766,7 +1766,7 @@ en:
       invalid_form_data: "The submited form is invalid. Please activate Javascript and only use our official (web) app to signup"
       not_required: ", not required"
       organization_name: "Organization name"
-      organization_is_in_use: "The organizations you entered is already in use. Please signup as employee."
+      organization_is_in_use: "The organization name you entered is already in use. Please signup as employee."
       organization_name_not_chosen: "You have to choose an organization you work for."
       organization_doesnt_exists: "The organization you've given does not exist"
       password_again: "Confirm password"
@@ -1874,7 +1874,7 @@ en:
   sessions:
     new:
       create_new_account: "Create a new account"
-      i_forgot_my_password: "Forgot username or password"
+      i_forgot_my_password: "Forgot password"
       login: "Sign in"
       login_to_kassi: "Sign in to %{service_name}"
       connect_your_facebook_to_kassi: "Connect your Facebook account to %{service_name}"
@@ -1889,7 +1889,7 @@ en:
       we_will_not_post_without_asking_you: "We will never post to Facebook without asking you."
     password_forgotten:
       email: Email
-      password_recovery_instructions: "Enter your email address to receive your username and reset your password."
+      password_recovery_instructions: "Enter your email address to reset your password."
       request_new_password: "Request new password"
       change_your_password: "Change your password"
     confirmation_pending:

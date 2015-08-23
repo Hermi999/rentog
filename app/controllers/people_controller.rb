@@ -70,6 +70,15 @@ class PeopleController < Devise::RegistrationsController
       redirect_to error_redirect_path and return
     end
 
+    # Create username
+    if !params[:person][:username].present?
+      if params[:person][:organization_name] == ""
+        params[:person][:username] = "em_" + params[:person][:organization_name2].truncate(4, omission: '') + "_" + (params[:person][:given_name]).truncate(3, omission: '') + "_" + (params[:person][:family_name]).truncate(3, omission: '') + "_" + rand(0..9999).to_s
+      else
+        params[:person][:username] = "co_" + params[:person][:organization_name].truncate(15, omission: '') + "_" + rand(0..9999).to_s
+      end
+    end
+
     # How does the user wants to signup (if not specified or data is missing, then show an error
     if(signup_as = params[:person][:signup_as]).nil? ||
       params[:person][:signup_as] == "organization" && (params[:person][:organization_name]).nil? ||
