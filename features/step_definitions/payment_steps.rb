@@ -259,6 +259,14 @@ Then /^I should see that I successfully authorized payment (.*?)$/ do |amount|
   page.should have_content("Payment authorized: #{amount}")
 end
 
+Then /^I should see that I authorized the payment for (.*?) or (.*?) if its weekend$/ do |amount, amount_we|
+  if page.has_content?("Payment authorized: #{amount}")
+    page.should have_content("Payment authorized: #{amount}")
+  else
+    page.should have_content("Payment authorized: #{amount_we}")
+  end
+end
+
 Then /^"(.*?)" should receive email about payment$/ do |receiver|
   email = Person.find_by_username(receiver).confirmed_notification_emails.first.address
   steps %Q{

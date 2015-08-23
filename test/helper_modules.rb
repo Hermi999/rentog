@@ -230,6 +230,7 @@ module TestHelpers
     person1 = FactoryGirl.create(:person, :username => "kassi_testperson1", :is_admin => 0, :locale => "en", :encrypted_password => "64ae669314a3fb4b514fa5607ef28d3e1c1937a486e3f04f758270913de4faf5", :password_salt => "vGpGrfvaOhp3", :given_name => "Kassi", :family_name => "Testperson1", :phone_number => "0000-123456", :created_at => "2012-05-04 18:17:04")
     person2 = FactoryGirl.create(:person, :username => "kassi_testperson2", :is_admin => 0, :locale => "en", :encrypted_password => "72bf5831e031cbcf2e226847677fccd6d8ec6fe0673549a60abb5fd05f726462", :password_salt => "zXklAGLwt7Cu", :given_name => "Kassi", :family_name => "Testperson2", :created_at => "2012-05-04 18:17:04", :organization_name => "Siemens")
     person3 = FactoryGirl.create(:person, :username => "employee_testperson1", :is_admin => 0, :locale => "en", :encrypted_password => "72bf5831e031cbcf2e226847677fccd6d8ec6fe0673549a60abb5fd05f726462", :password_salt => "zXklAGLwt7Cu", :given_name => "Kassi", :family_name => "Testperson3", :created_at => "2012-05-04 18:17:04", :is_organization => 0)
+    person4 = FactoryGirl.create(:person, :username => "employee_testperson2", :is_admin => 0, :locale => "en", :encrypted_password => "72bf5831e031cbcf2e226847677fccd6d8ec6fe0673549a60abb5fd05f726462", :password_salt => "zXklAGLwt7Cu", :given_name => "Hermann", :family_name => "Testperson4", :created_at => "2011-05-04 18:17:04", :is_organization => 0)
 
     FactoryGirl.create(:community_membership, :person => person1,
                         :community => community1,
@@ -259,6 +260,13 @@ module TestHelpers
                       :last_page_load_date => DateTime.now,
                       :status => "accepted")
 
+    FactoryGirl.create(:community_membership, :person => person4,
+                      :community => community1,
+                      :admin => 0,
+                      :consent => "test_consent0.1",
+                      :last_page_load_date => DateTime.now,
+                      :status => "accepted")
+
     FactoryGirl.create(:email,
     :person => person1,
     :address => "kassi_testperson1@example.com",
@@ -277,9 +285,20 @@ module TestHelpers
     :send_notifications => true,
     :confirmed_at => "2012-05-04 18:17:04")
 
+    FactoryGirl.create(:email,
+    :person => person4,
+    :address => "employee_testperson2@example.com",
+    :send_notifications => true,
+    :confirmed_at => "2012-05-04 18:17:04")
+
     FactoryGirl.create(:employment,
     :company => person1,
     :employee => person3,
+    :active => true)
+
+    FactoryGirl.create(:employment,
+    :company => person2,
+    :employee => person4,
     :active => true)
   end
   module_function :load_default_test_data_to_db_before_test

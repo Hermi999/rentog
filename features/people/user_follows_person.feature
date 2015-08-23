@@ -2,23 +2,24 @@ Feature: User follows another user
 
   Background:
     Given there are following users:
-       | person            | given_name | organization_name |
-       | kassi_testperson1 | Me         | Bosch             |
-       | kassi_testperson2 | Them       | Siemens           |
-    And I am logged in as "kassi_testperson1"
+       | person               | given_name |
+       | employee_testperson2 | Me         |
+       | employee_testperson1 | Them       |
+       | kassi_testperson1    | Bosch      |
+    And I am logged in as "employee_testperson2"
 
   @javascript
   Scenario: User follows another user
-    When I go to the profile page of "kassi_testperson2"
+    When I go to the profile page of "employee_testperson1"
     And I follow "Follow"
     Then I should see "Following" within ".profile-action-buttons-desktop"
     When I go to my profile page
-    Then I should see "Siemens" within "#profile-followed-people-list"
+    Then I should see "Them T" within "#profile-followed-people-list"
 
   @javascript
   Scenario: User unfollows another user
-    Given "kassi_testperson1" follows "kassi_testperson2"
-    When I go to the profile page of "kassi_testperson2"
+    Given "employee_testperson2" follows "employee_testperson1"
+    When I go to the profile page of "employee_testperson1"
     And I follow "Unfollow"
     Then I should see "Follow" within ".profile-action-buttons-desktop"
     And I should not see "Following" within ".profile-action-buttons-desktop"
@@ -28,25 +29,26 @@ Feature: User follows another user
   @javascript
   Scenario: User views additional followed people
     Given there are 10 companies with organization_name prefix "User"
-    And "kassi_testperson1" follows everyone
-    When I go to the profile page of "kassi_testperson1"
-    Then I should see "You follow 12 people"
+    And "employee_testperson2" follows everyone
+    When I go to the profile page of "employee_testperson2"
+    Then I should see "You follow 13 people"
 
     When I follow "Show all followed people"
     Then I should not see "Show all followed people"
-    Then I should see 12 user profile links
+    Then I should see 13 user profile links
 
     When I follow the first "Following"
     And I refresh the page
-    Then I should see "You follow 11 people"
+    Then I should see "You follow 12 people"
 
   @javascript
   Scenario: Follower receives notification of new listing
-    Given "kassi_testperson2" follows "kassi_testperson1"
+    Given "employee_testperson1" follows "kassi_testperson1"
+    And I am logged in as "kassi_testperson1"
     When I create a new listing "Jewelry" with price "899"
     And the system moves all future jobs to immediate
     And the system processes jobs
-    Then "kassi_testperson2@example.com" should receive an email
+    Then "employee_testperson1@example.com" should receive an email
     When I open the email
     Then I should see "Jewelry" in the email body
 

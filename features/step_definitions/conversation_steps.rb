@@ -303,8 +303,12 @@ When /^I follow link to fill in Braintree payout details$/ do
   click_link("#conversation-payment-settings-link")
 end
 
-Then /^I should see that the total price is "(.*?)"$/ do |total_price|
-  expect(page).to have_content("Total: $#{total_price}")
+Then /^I should see that the total price is "(.*?)" or "(.*?)" if it is weekend$/ do |total_price, total_price_we|
+  if page.has_content?("Total: $#{total_price}")
+    expect(page).to have_content("Total: $#{total_price}")
+  else
+    expect(page).to have_content("Total: $#{total_price_we}")
+  end
 end
 
 When /^the booking is automatically confirmed$/ do

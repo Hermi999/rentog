@@ -20,12 +20,12 @@ Feature: Booking transaction process
       And Braintree escrow release is mocked
 
      When I make a booking request for that listing for 7 days
-     Then I should see that the total price is "490"
+     Then I should see that the total price is "490" or "560" if it is weekend
 
       And I should see payment details form for Braintree
 
      When I fill in my payment details for Braintree
-     Then I should see that I successfully authorized payment $490
+     Then I should see that I authorized the payment for $490 or $560 if its weekend
       And author "owner" should be notified about the request from starter "booker"
       And I should see that the request is waiting for seller acceptance
 

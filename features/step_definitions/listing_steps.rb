@@ -240,7 +240,7 @@ end
 
 def select_start_date(date)
   date = [date.year, date.month, date.day].join("-")
-  page.execute_script("$('#start').val('#{date}')");
+  page.execute_script("$('#start-on').val('#{date}')");
   # Selenium can not interact with hidden elements, use JavaScript
   page.execute_script("$('#booking-start-output').val('#{date}')");
 end
@@ -304,7 +304,27 @@ When(/I fill rent time for (\d+) days$/) do |day_count|
 end
 
 def select_days_from_now(day_count)
-  @booking_end_date = Date.today + day_count.to_i.days - 1.day
-  select_start_date(Date.today)
+  day_count = day_count.to_i
+  # check if today is on weekend
+  if Time.now.utc.wday == 0
+    @booking_start_date = Date.today + 1
+    day_count += 1
+  elsif Time.now.utc.wday == 6
+    @booking_start_date = Date.today + 2
+    day_count += 2
+  else
+    @booking_start_date = Date.today
+  end
+
+  if (Time.now.utc.wday + day_count - 1) == 0
+    @booking_end_date = Date.today + day_count.days
+  elsif (Time.now.utc.wday + day_count - 1) == 6
+    @booking_end_date = Date.today + day_count.days + 1.day
+  else
+    @booking_end_date = Date.today + day_count.days - 1.day
+  end
+
+
+  select_start_date(@booking_start_date)
   select_end_date(@booking_end_date)
 end

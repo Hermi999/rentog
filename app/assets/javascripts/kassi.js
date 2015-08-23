@@ -763,17 +763,17 @@ function initialize_update_account_info_form(locale, change_text, cancel_text, e
       $("#person_email_attributes_send_notifications").prop("disabled", "disabled");
     }
   );
-  $('#account_password_link').toggle(
+  $('#account_password_link').click(
     function() {
-      $('#account_password_form').show();
-      $(this).text(cancel_text);
-      $('#person_password').focus();
-    },
-    function() {
-      $('#account_password_form').hide();
-      $(this).text(change_text);
-    }
-  );
+      if ($(this).text() === cancel_text) {
+        $('#account_password_form').hide();
+        $(this).text(change_text);
+      }else{
+        $('#account_password_form').show();
+        $(this).text(cancel_text);
+        $('#person_password').focus();
+      }
+  });
   var email_form_id = "#email_form";
   $(email_form_id).validate({
     errorPlacement: function(error, element) {

@@ -5,7 +5,7 @@ Feature: User views profile page
 
   # FIXME: when closing listing can be viewed on user profile, uncomment rest of the test
   @javascript
-  Scenario: User views his own profile page
+  Scenario: Company views his own profile page
     Given there are following users:
       | person               | is_organization | email  |
       | kassi_testperson1    | 1               | a@a.at |
@@ -51,18 +51,18 @@ Feature: User views profile page
     #And I should not see "sewing"
 
     # Following others
-    And I should see "You follow 2 people"
+    And I should see "You trust 2 companies"
     And I should see "Siemens" within "#profile-followed-people-list"
     And I should see "Kassi T" within "#profile-followed-people-list"
 
     # Employees
     And I should see "3 employees"
     And I should see "Kassi T" within "#profile-employees-list"
-    And I should see "Test P" within "#profile-employees-list"
+    And I should see "Hermann T" within "#profile-employees-list"
 
 
   @javascript
-  Scenario: User views somebody elses profile page
+  Scenario: Company views somebody elses profile page
     Given there are following users:
       | person               | is_organization | email  |
       | kassi_testperson1    | 1               | a@a.at |
@@ -97,7 +97,7 @@ Feature: User views profile page
     And I should see "massage"
 
     # Following others
-    And I should see "2 followed people"
+    And I should see "2 trusted companies"
     And I should see "Siemens" within "#profile-followed-people-list"
     And I should see "Kassi T" within "#profile-followed-people-list"
 
@@ -117,7 +117,7 @@ Feature: User views profile page
     And I follow "listing-author-link"
     Then I should see "3 employees"
     And I should see "Kassi T" within "#profile-employees-list"
-    And I should see "Test P" within "#profile-employees-list"
+    And I should see "Hermann T" within "#profile-employees-list"
 
     # Logged in user cant see employees
     Given the community does not allow others to view the employees of a company
@@ -129,7 +129,7 @@ Feature: User views profile page
     When I refresh the page
     Then I should see "3 employees"
     And I should see "Kassi T" within "#profile-employees-list"
-    And I should see "Test P" within "#profile-employees-list"
+    And I should see "Hermann T" within "#profile-employees-list"
 
 
   @javascript
