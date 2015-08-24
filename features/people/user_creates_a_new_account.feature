@@ -58,7 +58,7 @@ Feature: User creates a new account
     And I am on the manage members admin page
     When I verify user "Hofer" as a seller
     And I log out
-    Given I am logged in as "kassi_testperson1"
+    Given I am logged in as organization "Hofer"
     When I follow "Post a new listing"
     Then I should see "Select category"
     And I should not see "Rentog requires people to be verified manually by admin before they can post listings."
