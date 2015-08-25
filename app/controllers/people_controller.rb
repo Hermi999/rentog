@@ -166,6 +166,12 @@ class PeopleController < Devise::RegistrationsController
       flash[:notice] = t("layouts.notifications.account_creation_succesful_you_still_need_to_confirm_your_email")
       redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation"
     end
+
+    # If employee, send message & email to company for confirming new employee
+    if signup_as == "employee"
+      Conversation.manuallyCreateConversation(@current_community, @person.company, @person, t('people.new.message_to_company_owner',:name => @person.full_name, :email => @person.emails.first.address, :profile => person_url(@person.company)))
+      PersonMailer.new_employee_notification(@person, @person.company, @current_community, @person.emails.first.address)
+    end
   end
 
   def build_devise_resource_from_person(person)

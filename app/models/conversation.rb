@@ -124,4 +124,15 @@ class Conversation < ActiveRecord::Base
       end
     end
   end
+
+
+  def self.manuallyCreateConversation(community, recipient, sender, message)
+    message_attributes = {:message_attributes => {:sender_id => sender.id, :content => message}}
+    @conversation = Conversation.new(message_attributes.merge(community: community))
+    @conversation.build_starter_participation(sender)
+    @conversation.build_participation(recipient)
+    if @conversation.save
+      Delayed::Job.enqueue(MessageSentJob.new(@conversation.messages.last.id, community.id))
+    end
+  end
 end

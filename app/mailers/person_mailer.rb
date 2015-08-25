@@ -359,6 +359,16 @@ class PersonMailer < ActionMailer::Base
          :subject => "New member in #{@community.full_name(@person.locale)}")
   end
 
+  def new_employee_notification(employee, company, community, email)
+    @community = community
+    @no_settings = true
+    @employee = employee
+    @email = email
+    premailer_mail(:to => company.emails,
+         :from => community_specific_sender(@community),
+         :subject => "New employee in #{@community.full_name(@employee.locale)}")
+  end
+
   def email_confirmation(email, community)
     @current_community = community
     @no_settings = true
