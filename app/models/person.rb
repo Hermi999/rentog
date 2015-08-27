@@ -88,7 +88,7 @@ class Person < ActiveRecord::Base
                 :form_given_name, :form_family_name, :form_password,
                 :form_password2, :form_email, :consent,
                 :input_again, :community_category, :send_notifications,
-                :organization_name2, :signup_as
+                :organization_name2, :signup_as, :organization_email
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
@@ -276,6 +276,11 @@ class Person < ActiveRecord::Base
 
   def self.organization_name_available?(organization_name)
      !Person.find_by_organization_name(organization_name).present? && !organization_name.in?(ORGANIZATION_NAME_BLACKLIST)
+  end
+
+  def self.organization_email_available?(organization_email)
+     person = Person.find_by_email(organization_email)
+     !person.nil? && person.is_organization?
   end
 
   # Deprecated: This is view logic (how to display name) and thus should not be in model layer

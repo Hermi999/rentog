@@ -1757,6 +1757,8 @@ en:
       email_restriction_instructions:
         one: "The access to %{service_name} is restricted. To join you need a '%{allowed_emails}' email address."
         other: "The access to %{service_name} is restricted. You need an email address that proves that you are entitled to join."
+      organization_email: "Your organization admins email address"
+      orga_not_available: "This organization is not available"
       enter_captcha: "I'm a human:"
       family_name: "Last name"
       given_name: "First name"

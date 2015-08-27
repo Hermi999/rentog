@@ -56,6 +56,12 @@ class Email < ActiveRecord::Base
     !email.present? || email.person == user
   end
 
+  # Company email available?
+  def self.company_email_available?(address)
+    email = Email.find_by_address(address)
+    !email.nil? && email.person.is_organization?
+  end
+
   def self.send_confirmation(email, community)
     PersonMailer.email_confirmation(email, community).deliver
   end

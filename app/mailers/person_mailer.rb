@@ -364,7 +364,7 @@ class PersonMailer < ActionMailer::Base
     @no_settings = true
     @employee = employee
     @email = email
-    premailer_mail(:to => company.emails,
+    premailer_mail(:to => [company.emails.first.address],
          :from => community_specific_sender(@community),
          :subject => "New employee in #{@community.full_name(@employee.locale)}")
   end
