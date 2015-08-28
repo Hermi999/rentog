@@ -17,10 +17,10 @@ Feature: User joins invite only community
     And there is an invitation for community "test" with code "GH1JX8"
     When I fill in "Invitation code" with "GH1JX8"
     And I remove the focus
-    Then there should be an active ajax request
+    #Then there should be an active ajax request
     When ajax requests are completed
     And I fill in "First name" with "Testmanno"
-    And I select "Siemens" from "person[organization_name2]"
+    And I fill in "Your organization admins email address" with "kassi_testperson2@example.com"
     And I fill in "Last name" with "Namez"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
@@ -45,7 +45,7 @@ Feature: User joins invite only community
     And there is an invitation for community "test" with code "GH1JX8"
     When I fill in "Invitation code" with "GH1JX8"
     And I remove the focus
-    Then there should be an active ajax request
+    #Then there should be an active ajax request
     When ajax requests are completed
     And I fill in "Organization name" with "abcd"
     And I fill in "First name" with "Testmanno"
@@ -89,7 +89,7 @@ Feature: User joins invite only community
     And I follow "Signup as employee"
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
-    And I select "Siemens" from "person[organization_name2]"
+    And I fill in "Your organization admins email address" with "kassi_testperson2@example.com"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
@@ -129,7 +129,7 @@ Feature: User joins invite only community
     And I follow "Signup as employee"
     And there is an invitation for community "test" with code "GH1JX8" with 0 usages left
     When I fill in "Invitation code" with "gh1jx8"
-    And I select "Siemens" from "person[organization_name2]"
+    And I fill in "Your organization admins email address" with "kassi_testperson2@example.com"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email

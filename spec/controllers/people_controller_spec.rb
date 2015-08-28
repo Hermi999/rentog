@@ -124,17 +124,18 @@ describe PeopleController do
     it "creates an employee" do
       @request.host = "#{FactoryGirl.create(:community).ident}.lvh.me"
       orga = FactoryGirl.create(:company, organization_name: "ABCD")
+      FactoryGirl.create(:email, :person => orga, :address => "abc@xyz.com", :send_notifications => true, :confirmed_at => "2012-05-04 18:17:04")
       employee_count = orga.employees.size
       person_count = Person.count
       username = generate_random_username
 
       # First try: Should not work, because company does not exist
-      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_name2: "SiemBosch"}, :community => "test"}
+      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_email: "Siem@bosch.at"}, :community => "test"}
       Person.find_by_username(username).should be_nil
       flash[:error].to_s.should include("The organization you've given does not exist")
 
       # Second try: Should work, because we use a already created company
-      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_name2: "ABCD"}, :community => "test"}
+      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_email: "abc@xyz.com"}, :community => "test"}
       Person.find_by_username(username).should_not be_nil
       Person.count.should == person_count + 1
       employee = Person.find_by_username(username)

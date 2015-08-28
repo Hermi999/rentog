@@ -685,7 +685,7 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
       "person[email]": {required: true, minlength: 3, email: true, remote: "/people/check_email_availability_and_validity"},
       "person[organization_name]": {required_organization: true, minlength: 3, maxlength: 30, remote: "/people/check_organization_name_availability"},
       //"person[organization_name2]": {required_employee: true},
-      "person[organization_email]": {required: true, minlength: 3, email: true, remote: "/people/check_company_email"},
+      "person[organization_email]": {required_employee: true, minlength: 3, email: true, remote: "/people/check_company_email"},
       "person[terms]": "required",
       "person[password]": { required: true, minlength: 4 },
       "person[password2]": { required: true, minlength: 4, equalTo: "#person_password1" },
