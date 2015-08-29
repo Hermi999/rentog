@@ -73,6 +73,7 @@ When /^(?:|I )press submit(?: within "([^"]*)")?$/ do |selector|
 end
 
 When /^(?:|I )follow "([^"]*)"(?: within "([^"]*)")?$/ do |link, selector|
+  binding.pry
   with_scope(selector) do
     click_link(link)
   end

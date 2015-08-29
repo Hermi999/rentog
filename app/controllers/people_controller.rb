@@ -401,7 +401,7 @@ class PeopleController < Devise::RegistrationsController
       person.is_organization = true
     elsif params[:person][:signup_as] == "employee"
       person.is_organization = false
-      # Also set up a relationship to the given company
+      # Also set up a relationship to the given company per email
       #person.company = Person.find_by_organization_name(params[:person][:organization_name2])
       person.company = Person.find_by_email(params[:person][:organization_email])
     end

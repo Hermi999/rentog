@@ -107,6 +107,7 @@ Then(/^I should see the transactions in descending order by "(.*?)"$/) do |colum
 end
 
 Then(/^I should see the transactions in ascending time order by "(.*?)"$/) do |column|
+  binding.pry
   col_values = column_values(find_column_index(column))
     .map { |value| DateTime.parse(value) }
   col_values.should eql col_values.sort
