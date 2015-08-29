@@ -117,6 +117,37 @@ ja:
         welcome_email_content_description: "下記のメッセージは新規登録されたすべてのユーザに送信されます。あなたのマーケットプレイスに合うようにカスタマイズしてみてください。「%{send_test_message_link}」をクリックするとメッセージをあなたのメールアドレス宛でプレビューが出来、お客様にどのように見えているか確認が出来ます。"
         edit_message: メッセージを編集する
         send_test_message: テストメッセージを送信する
+      outgoing_email:
+        title: ~
+        info: ~
+        read_more: ~
+        sender_address: ~
+        sender_address_default: ~
+        need_to_change: ~
+        contact_support_link_text: ~
+        set_sender_address: ~
+        sender_name_label: ~
+        sender_name_placeholder: ~
+        sender_email_label: ~
+        sender_email_placeholder: ~
+        this_is_how_it_will_look: ~
+        send_verification_button: ~
+        successfully_saved: ~
+        status: ~
+        status_verified: ~
+        status_error: ~
+        status_requested: ~
+        status_expired: ~
+        status_resent: ~
+        resend_link: ~
+        invalid_email_error: ~
+        invalid_email_domain: ~
+        invalid_email_domain_read_more_link: ~
+        unknown_error: ~
+        only_white_label_offer: ~
+        upgrade_pro_plan_link: ~
+        verification_sent_from: ~
+        follow_the_instructions: ~
       getting_started:
         getting_started: 「開始するには」ガイド
         welcome_to_your_marketplace: "%{name}さん、あなたのマーケットプレイスへようこそ！"
@@ -730,6 +761,11 @@ ja:
       credit_card_expiration_date: カード有効期限
       confirm_payment: お支払いを承認する
       exp: カード有効期限：
+  feedback:
+    feedback_subject: ~
+    feedback_body: ~
+    unlogged_user: ~
+    anonymous_user: ~
   preauthorize_payments:
     edit:
       confirm_payment: お支払いを承認する
@@ -923,8 +959,6 @@ ja:
       welcome_email_subject: "%{service_name}へようこそ"
       welcome_to_marketplace: "%{service_name}へようこそ！よくお越しくださいました。"
       love_marketplace_crew: "それではまた、<br /><i>%{service_name}チーム"
-      p_s_did_you_know: "PS. %{service_name}のようなサイトをあなた自身で作成してみたいですか。簡単でプログラムのスキルは必要ありません。%{click_here_link} こちらより詳細をご確認ください。"
-      click_here_link_text: こちらをクリックしてください
       welcome_email_footer_text: "%{service_name}からのメール受信設定が出来ます。%{settings_link}"
       settings_link_text: 設定を確認する
       welcome_email_subject_for_marketplace_creator: Sharetribeへようこそ
@@ -1465,10 +1499,6 @@ ja:
         valid_until: 公開期間
       valid_until_radio_buttons:
         for_the_time_being: 当分の間
-      visibility:
-        all_communities: 私のすべてのSharetribeマーケットプレイス
-        this_community: "%{service_name}のメンバー専用"
-        visibility: 公開状態
       privacy:
         privacy: プライバシー
         private: プライベート（ログインユーザのみが見れます）
@@ -1730,6 +1760,7 @@ ja:
       invalid_invitation_code: その招待コードは無効です。
       invitation_code: 招待コード
       not_required: 、必要ありません
+      notification_is_mandatory: ~
       organization_name: 組織名
       password_again: パスワードを確認する
       show_my_name_to_others: "%{service_name}内の他のユーザーに私の本名を表示する"

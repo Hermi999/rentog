@@ -122,6 +122,37 @@ nb:
         welcome_email_content_description: "Meldingen nedenfor blir sendt ut til alle nye brukere når de registrerer seg. Du kan tilpasse meldingen slik at den passer din markedsplass. Ved å trykke på '%{send_test_message_link}' kan du forhåndsvise meldingen ved å sende en test til din egen epost."
         edit_message: "Rediger melding"
         send_test_message: "Send test melding"
+      outgoing_email:
+        title: "Utgående epostadresse"
+        info: "Dette navnet og adressen brukes for eposter som sendes fra din markedsplass til medlemmene."
+        read_more: "Les mer om utgående epostadresse."
+        sender_address: "Avsender: %{sender_address}"
+        sender_address_default: "Avsender: ikke satt (bruker standardadresse %{sender_address}9"
+        need_to_change: "Hvis du ønsker å endre epostadressen vennligst %{contact_support_link}"
+        contact_support_link_text: "kontakt vår support"
+        set_sender_address: "Sett avsender"
+        sender_name_label: Navn
+        sender_name_placeholder: Avsendernavn
+        sender_email_label: Epostadresse
+        sender_email_placeholder: din-markedplass@eksempel.no
+        this_is_how_it_will_look: "Slik vil det se ut:"
+        send_verification_button: "Send bekreftelses-epost"
+        successfully_saved: "Avsender lagret. Bekreftelses-epost vil bli sendt snart."
+        status: "Status: %{status}"
+        status_verified: "Bekreftet - i bruk"
+        status_error: "En feil oppstod. Vennligst last siden på nytt."
+        status_requested: "Ubekreftet - bekreftelses-epost ble sendt til %{email} %{time_ago}. %{resend_link}"
+        status_expired: "Bekreftelse for %{email} har utgått. %{resend_link}"
+        status_resent: "Bekreftelses-epost sendt på nytt til %{email}. %{resend_link}"
+        resend_link: "Send på nytt"
+        invalid_email_error: "Ugyldig epostformat for '%{email}'"
+        invalid_email_domain: "Epostadressen '%{email}' bruker en epostleverandør vi ikke støtter: '%{domain}'. %{invalid_email_domain_read_more_link}"
+        invalid_email_domain_read_more_link: "Les mer i denne artikkelen."
+        unknown_error: "Noe gikk galt"
+        only_white_label_offer: "Denne funksjonen er en del av Sharetribe white-label. For å aktivere dette må du %{upgrade_pro_plan_link}."
+        upgrade_pro_plan_link: "oppgradere til vår Pro-pakke eller høyere nivå."
+        verification_sent_from: "Bekreftelses-eposten ble sendt fra %{verification_sender_name}."
+        follow_the_instructions: "Følg instruksjonen i eposten for å bekrefte din adresse."
       getting_started:
         getting_started: "Kom i gang"
         welcome_to_your_marketplace: "Velkommen til din markedsplass, %{name}!"
@@ -595,7 +626,7 @@ nb:
       canceled_request: "avslo forespørselen"
       canceled_offer: "avslo tilbudet"
       paid: "betalte %{sum}"
-      payment_preauthorized: ~
+      payment_preauthorized: "Autorisert betaling: %{sum}"
     new:
       offer_message_form_title: "tilby%{listing}til%{person}"
       request_message_form_title: "forespør%{listing}fra%{person}"
@@ -745,6 +776,11 @@ nb:
       credit_card_expiration_date: Utløpsdato
       confirm_payment: "Bekreft betaling"
       exp: "Utløpsdato:"
+  feedback:
+    feedback_subject: "Ny tilbakemelding fra %{service_name}"
+    feedback_body: "%{author_name_and_email} har sendt følgende tilbakemelding fra %{service_name}"
+    unlogged_user: "Ulogget bruker"
+    anonymous_user: "Anonym bruker"
   preauthorize_payments:
     edit:
       confirm_payment: "Bekreft betaling"
@@ -942,8 +978,6 @@ nb:
       welcome_email_subject: "Velkommen til %{service_name}!"
       welcome_to_marketplace: "Velkommen til %{service_name}! Vi er glade for å ha deg med."
       love_marketplace_crew: "Hilsen,<br /><i>%{service_name}</i>"
-      p_s_did_you_know: "PS. Vil du lage din egen markedsplass akkurat slik som %{service_name}? Det er enkelt og du trenger ikke å kunne programmering. %{click_here_link} for å funne ut mer!"
-      click_here_link_text: "Klikk her"
       welcome_email_footer_text: "Ønsker du å endre hvilke e-poster du får fra %{service_name}? %{settings_link}"
       settings_link_text: "Sjekk innstillingene dine."
       welcome_email_subject_for_marketplace_creator: "Velkommen til Sharetribe"
@@ -1484,10 +1518,6 @@ nb:
         valid_until: Utløpsdato
       valid_until_radio_buttons:
         for_the_time_being: "På nåværende tidspunkt"
-      visibility:
-        all_communities: "Alle mine Sharetribe markedsplasser"
-        this_community: "Bare medlemmer av %{service_name}"
-        visibility: Synlighet
       privacy:
         privacy: Personvern
         private: "Privat(bare brukere som er innlogget kan se dette)"
@@ -1750,6 +1780,7 @@ nb:
       invalid_invitation_code: "Invitasjonskode er ikke gyldig."
       invitation_code: Invitasjonskode
       not_required: ", ikke påkrevd"
+      notification_is_mandatory: "Du må velge minst en epostadresse for å motta varslinger. Hvis du ikke ønsker å motta eposter fra %{service_name}, se dine innstillinger for epostvarslinger."
       organization_name: "Navn på organisasjon"
       password_again: "Bekreft passord"
       show_my_name_to_others: "Vis mitt virkelige navn til andre brukere på %{service_name}"

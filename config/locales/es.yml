@@ -107,6 +107,37 @@ es:
         welcome_email_content_description: "Este mensaje será enviado a todos los miembros nuevos cuando ellos se unen a la comunidad. Puede modificar el contenido para adaptar a su comunidad. Haciendo click en '%{send_test_message_link}' puede ver cómo queda el mensaje en tu email."
         edit_message: ~
         send_test_message: ~
+      outgoing_email:
+        title: ~
+        info: ~
+        read_more: ~
+        sender_address: ~
+        sender_address_default: ~
+        need_to_change: ~
+        contact_support_link_text: ~
+        set_sender_address: ~
+        sender_name_label: ~
+        sender_name_placeholder: ~
+        sender_email_label: ~
+        sender_email_placeholder: ~
+        this_is_how_it_will_look: ~
+        send_verification_button: ~
+        successfully_saved: ~
+        status: ~
+        status_verified: ~
+        status_error: ~
+        status_requested: ~
+        status_expired: ~
+        status_resent: ~
+        resend_link: ~
+        invalid_email_error: ~
+        invalid_email_domain: ~
+        invalid_email_domain_read_more_link: ~
+        unknown_error: ~
+        only_white_label_offer: ~
+        upgrade_pro_plan_link: ~
+        verification_sent_from: ~
+        follow_the_instructions: ~
       getting_started:
         getting_started: ~
         welcome_to_your_marketplace: ~
@@ -716,6 +747,11 @@ es:
       credit_card_expiration_date: ~
       confirm_payment: ~
       exp: ~
+  feedback:
+    feedback_subject: ~
+    feedback_body: ~
+    unlogged_user: ~
+    anonymous_user: ~
   preauthorize_payments:
     edit:
       confirm_payment: ~
@@ -916,8 +952,6 @@ es:
       welcome_email_subject: ~
       welcome_to_marketplace: ~
       love_marketplace_crew: ~
-      p_s_did_you_know: "P.D. ¿Sabías que puedes crear un mercado como este para cualquier comunidad a la que perteneces, completamente gratis? %{click_here_link} para saber más!"
-      click_here_link_text: "Haz clic aquí"
       welcome_email_footer_text: "¿Qué tipo de emails desea recibir de %{service_name}? %{settings_link}"
       settings_link_text: "Revisa tu configuración"
       welcome_email_subject_for_marketplace_creator: ~
@@ -1458,10 +1492,6 @@ es:
         valid_until: "Fecha de caducidad"
       valid_until_radio_buttons:
         for_the_time_being: "Por el momento"
-      visibility:
-        all_communities: "Todas mis comunidades %{service_name}"
-        this_community: "Sólo miembros de %{community}"
-        visibility: Visibilidad
       privacy:
         privacy: Privacidad
         private: "Privado (sólo usuarios registrados pueden verlo)"
@@ -1724,6 +1754,7 @@ es:
       invalid_invitation_code: "El código de invitación no es válido."
       invitation_code: "Código de invitación:"
       not_required: ", no es necesario"
+      notification_is_mandatory: ~
       organization_name: ~
       password_again: "Confirma la contraseña:"
       show_my_name_to_others: "Mostrar mi nombre real a otros usuarios de %{service_name}"

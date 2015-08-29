@@ -3,7 +3,7 @@ class Admin::CommunitiesController < ApplicationController
 
   before_filter :ensure_is_admin
   before_filter :ensure_is_superadmin, :only => [:payment_gateways, :update_payment_gateway, :create_payment_gateway]
-  ensure_feature_enabled :sender_address, only: [:create_sender_address]
+  before_filter :ensure_white_label_plan, only: [:create_sender_address]
 
   def getting_started
     @selected_left_navi_link = "getting_started"
@@ -35,13 +35,7 @@ class Admin::CommunitiesController < ApplicationController
     sender_address = EmailService::API::Api.addresses.get_sender(community_id: @current_community.id).data
     user_defined_address = EmailService::API::Api.addresses.get_user_defined(community_id: @current_community.id).data
 
-    Maybe(user_defined_address)
-      .reject { |address| address[:verification_status] == :verified }
-      .each { |address|
-      EmailService::API::Api.addresses.enqueue_status_sync(
-        community_id: address[:community_id],
-        id: address[:id])
-    }
+    enqueue_status_sync!(user_defined_address)
 
     render "edit_welcome_email", locals: {
              status_check_url: check_email_status_admin_community_path,
@@ -50,35 +44,62 @@ class Admin::CommunitiesController < ApplicationController
              sender_address: sender_address,
              user_defined_address: user_defined_address,
              post_sender_address_url: create_sender_address_admin_community_path,
+             can_set_sender_address: can_set_sender_address(@current_plan),
+             knowledge_base_url: APP_CONFIG.knowledge_base_url,
            }
   end
 
   def create_sender_address
-    # TODO validate email
-
-    EmailService::API::Api.addresses.create(
+    res = EmailService::API::Api.addresses.create(
       community_id: @current_community.id,
       address: {
         name: params[:name],
         email: params[:email]
       })
 
-    flash[:notice] = t("admin.communities.outgoing_email.successfully_saved")
-    redirect_to action: :edit_welcome_email
+    if res.success
+      flash[:notice] =
+        t("admin.communities.outgoing_email.successfully_saved")
+
+      redirect_to action: :edit_welcome_email
+    else
+      error_message =
+        case Maybe(res.data)[:error_code]
+        when Some(:invalid_email)
+          t("admin.communities.outgoing_email.invalid_email_error", email: res.data[:email])
+        when Some(:invalid_domain)
+          kb_link = view_context.link_to(t("admin.communities.outgoing_email.invalid_email_domain_read_more_link"), "#{APP_CONFIG.knowledge_base_url}/articles/686493", class: "flash-error-link")
+          t("admin.communities.outgoing_email.invalid_email_domain", email: res.data[:email], domain: res.data[:domain], invalid_email_domain_read_more_link: kb_link).html_safe
+        else
+          t("admin.communities.outgoing_email.unknown_error")
+        end
+
+      flash[:error] = error_message
+      redirect_to action: :edit_welcome_email
+    end
+
   end
 
   def check_email_status
-    EmailService::API::Api.addresses.get_user_defined(community_id: @current_community.id).on_success { |address|
-      render json: HashUtils.camelize_keys(address)
-    }.on_error { |error_msg|
-      render json: {error: error_msg }, status: 500
-    }
+    res = EmailService::API::Api.addresses.get_user_defined(community_id: @current_community.id)
+
+    if res.success
+      address = res.data
+
+      if params[:sync]
+        enqueue_status_sync!(address)
+      end
+
+      render json: HashUtils.camelize_keys(address.merge(translated_verification_sent_time_ago: time_ago(address[:verification_requested_at])))
+    else
+      render json: {error: res.error_msg }, status: 500
+    end
+
   end
 
   def resend_verification_email
     EmailService::API::Api.addresses.enqueue_verification_request(community_id: @current_community.id, id: params[:address_id])
-
-    redirect_to action: :edit_welcome_email
+    render json: {}, status: 200
   end
 
   def social_media
@@ -254,6 +275,16 @@ class Admin::CommunitiesController < ApplicationController
 
   private
 
+  def enqueue_status_sync!(address)
+    Maybe(address)
+      .reject { |addr| addr[:verification_status] == :verified }
+      .each { |addr|
+      EmailService::API::Api.addresses.enqueue_status_sync(
+        community_id: addr[:community_id],
+        id: addr[:id])
+    }
+  end
+
   def regenerate_css?(params, community)
     params[:community][:custom_color1] != community.custom_color1 ||
     params[:community][:custom_color2] != community.custom_color2 ||
@@ -305,7 +336,26 @@ class Admin::CommunitiesController < ApplicationController
   end
 
   def can_delete_marketplace?(community_id)
-    MarketplaceService::Community::Query.current_plan(community_id).plan_level == CommunityPlan::FREE_PLAN
+    PlanService::API::Api.plans.get_current(community_id: community_id).data[:plan_level] == PlanUtils::FREE
+  end
+
+  def can_set_sender_address(plan)
+    PlanUtils.valid_plan_at_least?(plan, PlanUtils::PRO)
+  end
+
+  def ensure_white_label_plan
+    unless can_set_sender_address(@current_plan)
+      flash[:error] = "Not available for your plan" # User shouldn't
+                                                    # normally come
+                                                    # here because
+                                                    # access is
+                                                    # restricted in
+                                                    # front-end. Thus,
+                                                    # no need to
+                                                    # translate.
+
+      redirect_to action: :edit_welcome_email
+    end
   end
 
 end

@@ -117,13 +117,44 @@ tr-TR:
         welcome_email_content_description: "Aşağıdaki mesaj kayıt olan her üyeye gönderilecektir. Bu mesajı pazarınızı yansıtacak şekilde kişiselleştirebilirsiniz. '%{send_test_message_link}' linkine tıklayarak, kendi adresinize önizleme yollayabilir ve mesajın müşterilerinizce nasıl görüntüleneceğini görebilirsiniz."
         edit_message: "Mesajı düzenle"
         send_test_message: "Test mesajı gönder"
+      outgoing_email:
+        title: ~
+        info: ~
+        read_more: ~
+        sender_address: ~
+        sender_address_default: ~
+        need_to_change: ~
+        contact_support_link_text: ~
+        set_sender_address: ~
+        sender_name_label: ~
+        sender_name_placeholder: ~
+        sender_email_label: ~
+        sender_email_placeholder: ~
+        this_is_how_it_will_look: ~
+        send_verification_button: ~
+        successfully_saved: ~
+        status: ~
+        status_verified: ~
+        status_error: ~
+        status_requested: ~
+        status_expired: ~
+        status_resent: ~
+        resend_link: ~
+        invalid_email_error: ~
+        invalid_email_domain: ~
+        invalid_email_domain_read_more_link: ~
+        unknown_error: ~
+        only_white_label_offer: ~
+        upgrade_pro_plan_link: ~
+        verification_sent_from: ~
+        follow_the_instructions: ~
       getting_started:
-        getting_started: "Başlangıç rehberi"
+        getting_started: "Hızlı Başlangıç"
         welcome_to_your_marketplace: "%{name}, pazarına hoş geldin!"
         intro: "Bu, pazar sitenin ayarları ve yönetimi için kısa bir rehber niteliğinde olacak."
         live_site_link_text: buradan
         look_and_feel: "Sitenizi halka açmadan önce, bazı ayarlamaları yapmak isteyeceksiniz. Örneğin, %{logo_link} ya da kapak fotoğrafınızı ya da renkleri markanızı daha iyi yansıtacak şekilde düzenlemek isteyebilirsiniz."
-        logo_link_text: "kendi logonuzu eklemek"
+        logo_link_text: "kendi logonuzu ekleyin"
         custom_domain: "Ya da kişiselleştirilmiş bir web adresi (örneğin, www.yourmarketplace.com) eklemek isteyebilirsiniz. Bunu yapmak bizim tarafımızdan bazı ayarlamaları gerektirdiği için hello@sharetribe.com adresinden ekibimize ulaşmalısınız."
         categories_and_custom_fields: "Karar vermeniz gereken diğer şey ise kişilerin sitenize gönderebileceği içeriklerin türü. %{categories_link} ekleyebilir ya da asıl listeleme formunda yer alan %{custom_fields_link}nı düzenleyebilir ve kişiler listelemeleri görüntülerken hangi %{filters_link}in kullanılacağını belirleyebilirsiniz."
         categories_link_text: "Kategori ve alt kategoriler"
@@ -135,7 +166,7 @@ tr-TR:
         payments_link_text: "bir ödeme metodu"
         info_texts: "Kullanıcılarınıza pazarınızdan bahsedeceğiniz bilgi sayfası ve diğer metinleri düzenlemeyi unutmayın. Bakmanız gereken en önemli yerlerden bazıları %{about_page_link} sayfanız, %{terms_of_use_link} bağlantınız (burada var olan metni düzenleyerek ya da tamamen yeni bir belge oluşturarak kendi kullanım koşullarınızı eklemelisiniz), %{privacy_policy_link} bağlantınız ve her yeni üyeye gönderilen %{welcome_email_link}dır. Düzenleyebileceğiniz bazı %{instruction_texts_link} de mevcuttur."
         about_page_link_text: hakkımda
-        terms_of_use_link_text: "kullanma koşulları"
+        terms_of_use_link_text: "kullanım koşulları"
         privacy_policy_link_text: "gizlilik politikası"
         welcome_email_link_text: "hoş geldiniz e-postası"
         instruction_texts_link_text: "diğer yönerge metinleri"
@@ -732,6 +763,11 @@ tr-TR:
       credit_card_expiration_date: "Kredi kartı son kullanma tarihi"
       confirm_payment: "Ödemeyi onayla"
       exp: "Son:"
+  feedback:
+    feedback_subject: ~
+    feedback_body: ~
+    unlogged_user: ~
+    anonymous_user: ~
   preauthorize_payments:
     edit:
       confirm_payment: "Ödemeyi onayla"
@@ -925,8 +961,6 @@ tr-TR:
       welcome_email_subject: "%{service_name} pazar yerine hoş geldiniz!"
       welcome_to_marketplace: "%{service_name} pazar yerine hoş geldiniz! Sizi aramızda görmekten mutluyuz."
       love_marketplace_crew: "Sevgiler, <br /><i>%{service_name} ekibi</i>"
-      p_s_did_you_know: "Not: %{service_name} gibi kendi pazar sitenizi oluşturmak ister misiniz? Bu çok kolay ve kodlama bilgisi gerektirmez. Ayrıntılı bilgi için %{click_here_link}!"
-      click_here_link_text: "Buraya tıklayın"
       welcome_email_footer_text: "%{service_name}'den hangi e-postaları almak istiyorsunuz? %{settings_link}"
       settings_link_text: "Ayarlarınızı kontrol ediniz"
       welcome_email_subject_for_marketplace_creator: "Sharetribe'a hoş geldiniz"
@@ -1467,10 +1501,6 @@ tr-TR:
         valid_until: "Sonlanma tarihi"
       valid_until_radio_buttons:
         for_the_time_being: "Şu an için"
-      visibility:
-        all_communities: "Tüm Sharetribe pazarlarım"
-        this_community: "Sadece %{service_name} üyeleri için"
-        visibility: Görünürlük
       privacy:
         privacy: Gizlilik
         private: "Gizli (sadece giriş yapmış kullanıcılar görebilir)"
@@ -1732,6 +1762,7 @@ tr-TR:
       invalid_invitation_code: "Davet kodu geçerli değil."
       invitation_code: "Davet kodu"
       not_required: ", gerekmemektedir"
+      notification_is_mandatory: ~
       organization_name: "Kurum adı"
       password_again: "Şifreyi doğrula"
       show_my_name_to_others: "Diğer %{service_name} kullanıcılarına gerçek adımı göster"

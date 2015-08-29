@@ -107,6 +107,37 @@ el:
         welcome_email_content_description: "Αυτό είναι το μήνυμα ηλεκτρονικού ταχυδρομείου που στέλνεται σε κάθε νέο μέλος όταν εγγράφεται. Μπορείτε να το τροποποιήσετε για να ταιριάζει στην κοινότητα. Αν θέλετε να δείτε πως φαίνεται στους χρήστες, πατήστε \"%{send_test_message_link}\" για να σταλεί ένα μήνυμα στη δική σας διεύθυνση."
         edit_message: "Επεξεργασία μηνύματος"
         send_test_message: "Αποστολή δοκιμαστικού μηνύματος"
+      outgoing_email:
+        title: ~
+        info: ~
+        read_more: ~
+        sender_address: ~
+        sender_address_default: ~
+        need_to_change: ~
+        contact_support_link_text: ~
+        set_sender_address: ~
+        sender_name_label: ~
+        sender_name_placeholder: ~
+        sender_email_label: ~
+        sender_email_placeholder: ~
+        this_is_how_it_will_look: ~
+        send_verification_button: ~
+        successfully_saved: ~
+        status: ~
+        status_verified: ~
+        status_error: ~
+        status_requested: ~
+        status_expired: ~
+        status_resent: ~
+        resend_link: ~
+        invalid_email_error: ~
+        invalid_email_domain: ~
+        invalid_email_domain_read_more_link: ~
+        unknown_error: ~
+        only_white_label_offer: ~
+        upgrade_pro_plan_link: ~
+        verification_sent_from: ~
+        follow_the_instructions: ~
       getting_started:
         getting_started: ~
         welcome_to_your_marketplace: ~
@@ -716,6 +747,11 @@ el:
       credit_card_expiration_date: "Ημερομηνία λήξης πιστωτικής κάρτας"
       confirm_payment: "Επιβεβαίωση πληρωμής"
       exp: ~
+  feedback:
+    feedback_subject: ~
+    feedback_body: ~
+    unlogged_user: ~
+    anonymous_user: ~
   preauthorize_payments:
     edit:
       confirm_payment: ~
@@ -909,8 +945,6 @@ el:
       welcome_email_subject: ~
       welcome_to_marketplace: ~
       love_marketplace_crew: ~
-      p_s_did_you_know: "Υ.Γ.: Ξέρετε ότι μπορείτε να δημιουργήσετε δωρεάν μια αγορά όπως αυτή για οποιαδήποτε άλλη κοινότητα επιθυμείτε; %{click_here_link} για να μάθετε περισσότερα!"
-      click_here_link_text: "Πατήστε εδώ"
       welcome_email_footer_text: "Θέλετε να ελέγξετε τι μηνύματα θα λαμβάνετε από το %{service_name}; %{settings_link}"
       settings_link_text: "Δείτε τις ρυθμίσεις σας"
       welcome_email_subject_for_marketplace_creator: ~
@@ -1451,10 +1485,6 @@ el:
         valid_until: "Ημερομηνία λήξης"
       valid_until_radio_buttons:
         for_the_time_being: "Επ' αόριστον"
-      visibility:
-        all_communities: "Σε όλες τις κοινότητες %{service_name} που συμμετέχω"
-        this_community: "Μόνο σε αυτή την κοινότητα"
-        visibility: Ορατό
       privacy:
         privacy: Ιδιωτικότητα
         private: "Ιδιωτικό (ορατό μόνο σε συνδεδεμένους χρήστες)"
@@ -1717,6 +1747,7 @@ el:
       invalid_invitation_code: "Ο κωδικός της πρόσκλησης δεν είναι έγκυρος."
       invitation_code: "Κωδικός πρόσκλησης"
       not_required: ", δεν απαιτείται"
+      notification_is_mandatory: ~
       organization_name: ~
       password_again: Επιβεβαίωση
       show_my_name_to_others: "Να εμφανίζεται το πραγματικό μου όνομα στους άλλους χρήστες του %{service_name}"

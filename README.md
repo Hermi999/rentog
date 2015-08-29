@@ -45,16 +45,16 @@ Before you get started, the following needs to be installed:
     1. `mailcatcher`
     1. Create a `config/config.yml` file and add the following lines to it:
       ```yml
-      mail_delivery_method: smtp
-      smtp_email_address: "localhost"
-      smtp_email_port: 1025
+      development:
+        mail_delivery_method: smtp
+        smtp_email_address: "localhost"
+        smtp_email_port: 1025
       ```
     1. Open `http://localhost:1080` in your browser
 1. Invoke the delayed job worker: `bundle exec rake jobs:work`
 1. In a new console, open the project root folder and start the server. The simplest way is to use the included Webrick server: `bundle exec rails server`
 
 Congratulations! Sharetribe should now be up and running. Open a browser and go to the server URL (e.g. http://lvh.me:3000). Fill in the form to create a new marketplace and admin user. You should be now able to access your marketplace and modify it from the admin area.
-
 
 ### Running tests
 
@@ -68,7 +68,6 @@ Tests are handled by [RSpec](http://rspec.info/) for unit tests and [Cucumber](h
 
 To automatically run unit tests when code is changed, start [Guard](https://github.com/guard/guard): `bundle exec guard`
 
-
 ### Setting up Sharetribe for production
 
 Steps 1-6 from above need to be done before performing these steps.
@@ -80,8 +79,9 @@ Steps 1-6 from above need to be done before performing these steps.
 1. Invoke the delayed job worker: `bundle exec rake RAILS_ENV=production jobs:work`
 1. In a new console, open the project root folder and start the server: `bundle exec rails server -e production`
 
-It is not recommended to serve static assets from a Rails server in production. Instead, you should serve assets from Amazon S3 or use an Apache/Nginx server. In this case, you'll need to set the value of `serve_static_assets_in_production` to `false` in `config/config.yml`.
+It is not recommended to use the built-in WEBrick server (which was started in the last step above) for production due to performance reasons. A dedicated HTTP server such as [unicorn](http://unicorn.bogomips.org/) is recommended.
 
+It is also not recommended to serve static assets from a Rails server in production. Instead, you should serve assets from Amazon S3 or use an Apache/Nginx server. In this case, you'll need to set the value of `serve_static_assets_in_production` to `false` in `config/config.yml`.
 
 ### Advanced settings
 
@@ -89,126 +89,42 @@ Default configuration settings are stored in `config/config.default.yml`. If you
 
 >>>>>>> 5ca90b6bea46213028cf1c3b041b665e224221e8
 
-### Experimental: Docker container installation
-
-#### Prerequisite
-
-Prerequisite: Docker and Fig need to be installed. If you are on a non-linux OS, you also need to have Vagrant. If you can successfully run `docker info`, you should be good to go.
-
-```bash
-brew cask install virtualbox
-brew cask install vagrant
-brew install docker
-brew install fig
-```
-
-Run:
-
-```bash
-vagrant up
-export DOCKER_HOST=tcp://192.168.33.10:2375   # Set Docker CLI to connect to Vagrant box. This IP is set in Vagrantfile
-export DOCKER_TLS_VERIFY=                     # disable TLS
-docker info                                   # this should run ok now
-```
-
-#### Sharetribe installation
-
-1. Modify `config/database.yml`. The easiest way is to use the provided `database.docker.yml`
-
-  `cp config/database.docker.yml config/database.yml`
-
-1. Load schema (only on the first run)
-
-  `fig run web /bin/bash -l -c 'bundle exec rake db:schema:load'`
-
-1. Run the app
-
-  `fig up web`
-
-1. Set docker.lvh.me to point to the docker IP
-
-  Modify your `/etc/hosts` file. If you're in Linux, point 127.0.0.1 to docker.lvh.me. If you are on OSX (or Windows), point 192.168.33.10 to docker.lvh.me
-
-1. All done! Open http://docker.lvh.me:3000 in your browser and create a new marketplace with the name `docker`
-
-#### Docker development tips and tricks
-
-If you are planning to use Docker for development, here are some tips and tricks to make the development workflow smoother.
-
-1. Add the `figrun` function to your zsh/bash config.
-
-  Here is an example for ZSH:
-
-  ```zsh
-  figrun() {
-    PARAMS="$*"
-    CMD="bundle exec ${PARAMS}"
-    fig run web /bin/bash -l -c "$CMD"
-  }
-  ```
-
-  With this function, you can run commands on the web container like this:
-
-  ```
-  figrun rake routes
-  ```
-
-2. Use Zeus
-
-  First, add `figzeus` helper function to your zsh/bash config.
-
-  Here is an example for ZSH:
-
-  ```zsh
-  figzeus() {
-    PARAMS="$*"
-    CMD="zeus ${PARAMS}"
-    fig run web /bin/bash -l -c "$CMD"
-  }
-  ```
-
-  To use Zeus, do not start server by saying `fig up web`! Do this instead:
-
-  Start Zeus server in one terminal tab:
-
-  ```zsh
-  fig up zeus
-  ```
-
-  In another tab, start rails server:
-
-  ```zsh
-  figzeus s
-  ```
-
 ## Payments
 
 Sharetribe's open source version supports payments using [Braintree Marketplace](https://www.braintreepayments.com/features/marketplace). To enable payments with Braintree, you need to have a legal business in the United States. You can sign up for Braintree [here](https://signups.braintreepayments.com/). Once that's done, create a new row in the payment gateways table with your Braintree merchant_id, master_merchant_id, public_key, private_key and client_side_encryption_key.
 
 PayPal payments are only available on marketplaces hosted at [Sharetribe.com](https://www.sharetribe.com) due to special permissions needed from PayPal. We hope to add support for PayPal payments to the open source version of Sharetribe in the future.
 
+
 ## Updating
 
 See [release notes](RELEASE_NOTES.md) for information about what has changed and if actions are needed to upgrade.
 
+
 ## Contributing
 
-Would you like to make Sharetribe better? [Here's a basic guide](CONTRIBUTING.md).
+Would you like to make Sharetribe better? [Follow these steps](CONTRIBUTING.md).
+
 
 ## Translation
 
-We use WebTranslateIt (WTI) for translations. If you'd like to translate Sharetribe to your language or improve existing translations, please ask for a WTI invitation. To get an invite, send an email to info@sharetribe.com and mention that you would like to become a translator.
+Sharetribe uses [WebTranslateIt (WTI)](https://webtranslateit.com/en) for translations. If you'd like to translate Sharetribe to your language or improve existing translations, please ask for a WTI invitation. To get an invite, send an email to [info@sharetribe.com](mailto:info@sharetribe.com) and mention that you would like to become a translator.
+
+All language additions and modifications (except for English) should be done through the WTI tool. We do not accept Pull Requests that add or modify languages (except English).
+
 
 ## Known issues
 
 Browse open issues and submit new ones at http://github.com/sharetribe/sharetribe/issues.
 
-## Developer docs
+
+## Developer documentation
 
 * [Testing](docs/testing.md)
 * [SCSS coding guidelines](docs/scss-coding-guidelines.md)
 * [Delayed job priorities](docs/delayed-job-priorities.md)
 * [Cucumber testing Do's and Don'ts](docs/cucumber-do-dont.md)
+
 
 ## MIT License
 

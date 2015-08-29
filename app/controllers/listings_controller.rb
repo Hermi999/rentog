@@ -104,7 +104,13 @@ class ListingsController < ApplicationController
   # Used to show multiple listings in one bubble
   def listing_bubble_multiple
     ids = numbers_str_to_array(params[:ids])
-    @listings = Listing.visible_to(@current_user, @current_community, ids).order("id DESC")
+
+    if @current_user || !@current_community.private?
+      @listings = @current_community.listings.where(listings: {id: ids}).order("listings.created_at DESC")
+    else
+      @listings = []
+    end
+
     if @listings.size > 0
       render :partial => "homepage/listing_bubble_multiple"
     else
@@ -246,40 +252,42 @@ class ListingsController < ApplicationController
     m_unit = select_unit(listing_unit, shape)
 
     listing_params = create_listing_params(listing_params).merge(
+        community_id: @current_community.id,
         listing_shape_id: shape[:id],
         transaction_process_id: shape[:transaction_process_id],
         shape_name_tr_key: shape[:name_tr_key],
         action_button_tr_key: shape[:action_button_tr_key],
-        current_community_id: @current_community.id
     ).merge(unit_to_listing_opts(m_unit)).except(:unit)
 
     @listing = Listing.new(listing_params)
 
-    @listing.author = @current_user
+    ActiveRecord::Base.transaction do
+      @listing.author = @current_user
 
-    if @listing.save
-      upsert_field_values!(@listing, params[:custom_fields])
+      if @listing.save
+        upsert_field_values!(@listing, params[:custom_fields])
 
-      listing_image_ids = params[:listing_images].collect { |h| h[:id] }.select { |id| id.present? }
-      ListingImage.where(id: listing_image_ids, author_id: @current_user.id).update_all(listing_id: @listing.id)
+        listing_image_ids = params[:listing_images].collect { |h| h[:id] }.select { |id| id.present? }
+        ListingImage.where(id: listing_image_ids, author_id: @current_user.id).update_all(listing_id: @listing.id)
 
-      Delayed::Job.enqueue(ListingCreatedJob.new(@listing.id, @current_community.id))
-      if @current_community.follow_in_use?
-        Delayed::Job.enqueue(NotifyFollowersJob.new(@listing.id, @current_community.id), :run_at => NotifyFollowersJob::DELAY.from_now)
+        Delayed::Job.enqueue(ListingCreatedJob.new(@listing.id, @current_community.id))
+        if @current_community.follow_in_use?
+          Delayed::Job.enqueue(NotifyFollowersJob.new(@listing.id, @current_community.id), :run_at => NotifyFollowersJob::DELAY.from_now)
+        end
+
+        flash[:notice] = t(
+          "layouts.notifications.listing_created_successfully",
+          :new_listing_link => view_context.link_to(t("layouts.notifications.create_new_listing"),new_listing_path)
+        ).html_safe
+        redirect_to @listing, status: 303 and return
+      else
+        Rails.logger.error "Errors in creating listing: #{@listing.errors.full_messages.inspect}"
+        flash[:error] = t(
+          "layouts.notifications.listing_could_not_be_saved",
+          :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), new_user_feedback_path, :class => "flash-error-link")
+        ).html_safe
+        redirect_to new_listing_path and return
       end
-
-      flash[:notice] = t(
-        "layouts.notifications.listing_created_successfully",
-        :new_listing_link => view_context.link_to(t("layouts.notifications.create_new_listing"),new_listing_path)
-        ).html_safe
-      redirect_to @listing, status: 303 and return
-    else
-      Rails.logger.error "Errors in creating listing: #{@listing.errors.full_messages.inspect}"
-      flash[:error] = t(
-        "layouts.notifications.listing_could_not_be_saved",
-        :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), new_user_feedback_path, :class => "flash-error-link")
-        ).html_safe
-      redirect_to new_listing_path and return
     end
   end
 
@@ -353,7 +361,6 @@ class ListingsController < ApplicationController
       transaction_process_id: shape[:transaction_process_id],
       shape_name_tr_key: shape[:name_tr_key],
       action_button_tr_key: shape[:action_button_tr_key],
-      current_community_id: @current_community.id,
       last_modified: DateTime.now
     ).merge(open_params).merge(unit_to_listing_opts(m_unit)).except(:unit)
 
@@ -589,17 +596,15 @@ class ListingsController < ApplicationController
 
   # Ensure that only users with appropriate visibility settings can view the listing
   def ensure_authorized_to_view
-    @listing = Listing.find(params[:id])
+    # If listing is not found (in this community) the find method
+    # will throw ActiveRecord::NotFound exception, which is handled
+    # correctly in production environment (404 page)
+    @listing = @current_community.listings.find(params[:id])
 
     raise ListingDeleted if @listing.deleted?
 
     unless @listing.visible_to?(@current_user, @current_community) || (@current_user && @current_user.has_admin_rights_in?(@current_community))
-      if @listing.public?
-        # This situation occurs when the user tries to access a listing
-        # via a different community url.
-        flash[:error] = t("layouts.notifications.this_content_is_not_available_in_this_community")
-        redirect_to root and return
-      elsif @current_user
+      if @current_user
         flash[:error] = t("layouts.notifications.you_are_not_authorized_to_view_this_content")
         redirect_to root and return
       else

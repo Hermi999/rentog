@@ -122,6 +122,37 @@ pt-BR:
         welcome_email_content_description: "A mensagem abaixo será enviada para cada novo membro quando eles se registrarem. Você pode personalizar a mensagem para se encaixar melhor em seu mercado virtual. Clicando em '%{send_test_message_link}' você pode ter uma pré-visualização para o seu endereço de e-mail, para que você possa ver como fica em um cliente de e-mail."
         edit_message: "Editar mensagem"
         send_test_message: "Enviar mensagem de teste"
+      outgoing_email:
+        title: ~
+        info: ~
+        read_more: ~
+        sender_address: ~
+        sender_address_default: ~
+        need_to_change: ~
+        contact_support_link_text: ~
+        set_sender_address: ~
+        sender_name_label: ~
+        sender_name_placeholder: ~
+        sender_email_label: ~
+        sender_email_placeholder: ~
+        this_is_how_it_will_look: ~
+        send_verification_button: ~
+        successfully_saved: ~
+        status: ~
+        status_verified: ~
+        status_error: ~
+        status_requested: ~
+        status_expired: ~
+        status_resent: ~
+        resend_link: ~
+        invalid_email_error: ~
+        invalid_email_domain: ~
+        invalid_email_domain_read_more_link: ~
+        unknown_error: ~
+        only_white_label_offer: ~
+        upgrade_pro_plan_link: ~
+        verification_sent_from: ~
+        follow_the_instructions: ~
       getting_started:
         getting_started: "Guia dos primeiros passos"
         welcome_to_your_marketplace: "Bem-vindo(a) ao seu mercado virtual, %{name}!"
@@ -508,9 +539,13 @@ pt-BR:
     what_is_this: "O que é isso?"
     removed_user: "Usuário removido"
     paypal_fee_info:
-      title: "Processamento da taxa de pagamento do PayPal"
-      body_text: ~
-      body_with_shipping_text: ~
+      title: "Taxa de processamento do pagamento do PayPal"
+      body_text: |-
+          O PayPal cobra uma taxa de processamento de cada pagamento. Esta taxa varia entre 2% e 5% do preço total da venda, dependendo do seu volume de vendas mensal e do país de residência do comprador. Em geral, as compras locais tem taxas mais baixas do que as internacionais, e um alto volume de vendas mensais dão descontos na taxa. 
+          Você pode ver as taxas exatas, fazendo login em sua conta do PayPal clicando %{link_to_paypal}. Após cada compra você receberá um recibo exibindo a taxa exata.
+      body_with_shipping_text: |-
+          O PayPal cobra uma taxa de processamento de cada pagamento. Esta taxa varia entre 2% e 5% do preço total da venda (incluindo frete), dependendo do seu volume de vendas mensal e do país de residência do comprador. Em geral, as compras locais tem taxas mais baixas do que as internacionais, e um alto volume de vendas mensais dão descontos na taxa. 
+          Você pode ver as taxas exatas, fazendo login em sua conta do PayPal clicando %{link_to_paypal}. Após cada compra você receberá um recibo exibindo a taxa exata.
       link_to_paypal_text: aqui
   conversations:
     accept:
@@ -731,6 +766,11 @@ pt-BR:
       credit_card_expiration_date: Validade
       confirm_payment: "Confirmar pagamento"
       exp: "Validade:"
+  feedback:
+    feedback_subject: ~
+    feedback_body: ~
+    unlogged_user: ~
+    anonymous_user: ~
   preauthorize_payments:
     edit:
       confirm_payment: "Confirmar pagamento"
@@ -913,7 +953,7 @@ pt-BR:
     transaction_preauthorized:
       subject: "%{requester} solicitou e pagou por %{listing_title}"
       transaction_requested_by_user: "%{requester} solicitou e pagou por \"%{listing_title}\""
-      you_have_time_to_accept: ~
+      you_have_time_to_accept: "Você precisa aceitar ou rejeitar o pedido no prazo de %{payment_expires_in}. Se você aceita vender, dentro deste prazo, o pagamento vai ser enviado para sua conta. Se você não aceitar, o pedido será rejeitado automaticamente e você não vai ser pago."
       click_here_to_reply: "Clique aqui para responder ao pedido"
     transaction_preauthorized_reminder:
       subject: "Não esqueça de aceitar o pedido de %{requester} sobre o anúncio %{listing_title}"
@@ -924,8 +964,6 @@ pt-BR:
       welcome_email_subject: "Bem-vindo(a) à %{service_name}"
       welcome_to_marketplace: "Bem-vindo(a) à %{service_name}! Ficamos felizes em tê-lo a bordo."
       love_marketplace_crew: "Com carinho,<br/><i>Equipe %{service_name}</i>"
-      p_s_did_you_know: "P.S.: Você gostaria de criar o seu próprio site de mercado virtual como %{service_name}? É fácil e não requer nenhum conhecimento de programação. %{click_here_link} para saber mais!"
-      click_here_link_text: "Clique aqui"
       welcome_email_footer_text: "Que tipo de e-mails que você quer receber da %{service_name}? %{settings_link}"
       settings_link_text: "Verifique suas configurações"
       welcome_email_subject_for_marketplace_creator: "Bem-vindo(a) à Sharetribe"
@@ -1428,8 +1466,8 @@ pt-BR:
         long_time: "semana, mês, ..."
         after_service_fee_you_will_get: "Depois do processamento das taxas da %{service_name}, você receberá %{sum_with_currency}"
         no_service_fee_you_will_get_paypal_text: "%{paypal_fee_info_link} irá deduzir do preço."
-        after_service_fee_you_will_get_paypal_text: ~
-        paypal_fee_info_link_text: "processando o pagamento da taxa do PayPal"
+        after_service_fee_you_will_get_paypal_text: "%{service_name} taxa (%{sum_with_currency}) and %{paypal_fee_info_link} será deduzida do preço."
+        paypal_fee_info_link_text: "taxa de processamento do pagamento do PayPal"
         after_service_fee_you_will_get_vat: "Depois do processamento das taxas da %{service_name}, você receberá aproximadamente %{sum_with_currency} (VAT 0%)"
         price_excludes_vat: "O preço não inclui VAT."
         delivery: "Método de entrega"
@@ -1466,10 +1504,6 @@ pt-BR:
         valid_until: Validade
       valid_until_radio_buttons:
         for_the_time_being: "Por enquanto"
-      visibility:
-        all_communities: "Todas as minhas tribos da Sharetribe"
-        this_community: "Somente os membros desta %{service_name}"
-        visibility: Visibilidade
       privacy:
         privacy: Privacidade
         private: "Privativo (visível unicamente pelos usuários conectados)"
@@ -1734,6 +1768,7 @@ pt-BR:
       invalid_invitation_code: "O código de convite não é válido."
       invitation_code: "Código do convite "
       not_required: ", não necessaria"
+      notification_is_mandatory: ~
       organization_name: "Nome da organização"
       password_again: "Confirme a senha"
       show_my_name_to_others: "Mostrar o meu nome completo aos utilizadores de %{service_name}"
@@ -2042,6 +2077,10 @@ pt-BR:
     days_since:
       one: ontem
       other: "%{count} dias"
+    time_to:
+      days:
+        one: "%{count} dia"
+        other: "%{count} dias"
   transactions:
     initiate:
       booked_days: "Dias reservados:"
