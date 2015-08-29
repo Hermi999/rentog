@@ -184,7 +184,6 @@ class Community < ActiveRecord::Base
                                                       "image/gif",
                                                       "image/pjpeg",
                                                       "image/x-png"]
-  process_in_background :logo
 
   has_attached_file :wide_logo,
                     :styles => {
@@ -205,7 +204,6 @@ class Community < ActiveRecord::Base
                                                       "image/gif",
                                                       "image/pjpeg",
                                                       "image/x-png"]
-  process_in_background :wide_logo
 
   has_attached_file :cover_photo,
                     :styles => {
@@ -222,7 +220,6 @@ class Community < ActiveRecord::Base
                                                       "image/gif",
                                                       "image/pjpeg",
                                                       "image/x-png"]
-  process_in_background :cover_photo
 
   has_attached_file :small_cover_photo,
                     :styles => {
@@ -239,7 +236,6 @@ class Community < ActiveRecord::Base
                                                       "image/gif",
                                                       "image/pjpeg",
                                                       "image/x-png"]
-  process_in_background :small_cover_photo
 
   has_attached_file :favicon,
                     :styles => {
@@ -258,6 +254,11 @@ class Community < ActiveRecord::Base
                                                       "image/gif",
                                                       "image/x-icon",
                                                       "image/vnd.microsoft.icon"]
+
+  process_in_background :logo
+  process_in_background :wide_logo
+  process_in_background :cover_photo
+  process_in_background :small_cover_photo
   process_in_background :favicon
 
   validates_format_of :twitter_handle, with: /\A[A-Za-z0-9_]{1,15}\z/, allow_nil: true
