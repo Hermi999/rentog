@@ -69,13 +69,13 @@ describe NumericFieldValue do
     end
 
     it "searches by numeric field and value pairs" do
-      test_search((0..50),  (0..20),  0) # Neither matches
-      test_search((0..150), (0..20),  0) # Length matches 1, width matches 0
-      test_search((0..150), (0..35),  1) # Length matches 1, width matches 1
-      test_search((0..180), nil,      2) # Length matches 2
-      test_search((0..220), nil,      3) # Length matches 3
-      test_search((0..220), (20..35), 1) # Length matches 3, width matches 1
-      test_search((0..220), (20..50), 2) # Length matches 3, width matches 2
+      test_search((0.0..50.0),  (0.0..20.0),  0) # Neither matches
+      test_search((0.0..150.0), (0.0..20.0),  0) # Length matches 1, width matches 0
+      test_search((0.0..150.0), (0.0..35.0),  1) # Length matches 1, width matches 1
+      test_search((0.0..180.0),  nil,         2) # Length matches 2
+      test_search((0.0..220.0),  nil,         3) # Length matches 3
+      test_search((0.0..220.0), (20.0..35.0), 1) # Length matches 3, width matches 1
+      test_search((0.0..220.0), (20.0..50.0), 2) # Length matches 3, width matches 2
     end
   end
 end

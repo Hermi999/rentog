@@ -43,8 +43,8 @@ Feature: User joins another marketplace
     And I fill in "Email" with "aaa@example.com"
     And I press "Join Rentog"
     Then I should see "join Rentog"
-    When the system processes jobs
-    When I wait for 1 seconds
+    When the system moves all future jobs to immediate
+    And the system processes jobs
     Then Invitation with code "GH1JX8" should have 0 usages_left
 
   @move_to_subdomain2
