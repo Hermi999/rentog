@@ -4,6 +4,7 @@
 # Table name: listings
 #
 #  id                              :integer          not null, primary key
+#  community_id                    :integer          not null
 #  author_id                       :string(255)
 #  category_old                    :string(255)
 #  title                           :string(255)
@@ -14,7 +15,6 @@
 #  updated_at                      :datetime
 #  last_modified                   :datetime
 #  sort_date                       :datetime
-#  visibility                      :string(255)      default("this_community")
 #  listing_type_old                :string(255)
 #  description                     :text
 #  origin                          :string(255)
@@ -51,12 +51,12 @@
 # Indexes
 #
 #  index_listings_on_category_id       (old_category_id)
+#  index_listings_on_community_id      (community_id)
 #  index_listings_on_listing_shape_id  (listing_shape_id)
 #  index_listings_on_listing_type      (listing_type_old)
 #  index_listings_on_new_category_id   (category_id)
 #  index_listings_on_open              (open)
 #  index_listings_on_share_type_id     (share_type_id)
-#  index_listings_on_visibility        (visibility)
 #
 
 class Listing < ActiveRecord::Base
@@ -83,7 +83,6 @@ class Listing < ActiveRecord::Base
   has_one :destination_loc, :class_name => "Location", :conditions => ['location_type = ?', 'destination_loc'], :dependent => :destroy
   accepts_nested_attributes_for :origin_loc, :destination_loc
 
-  has_and_belongs_to_many :communities
   has_and_belongs_to_many :followers, :class_name => "Person", :join_table => "listing_followers"
 
   belongs_to :category
@@ -92,11 +91,6 @@ class Listing < ActiveRecord::Base
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :currency
   monetize :shipping_price_additional_cents, allow_nil: true, with_model_currency: :currency
 
-  attr_accessor :current_community_id
-
-  scope :public, :conditions  => "privacy = 'public'"
-  scope :private, :conditions  => "privacy = 'private'"
-
   # Create an "empty" relationship. This is needed in search when we want to stop the search chain (NumericFields)
   # and just return empty result.
   #
@@ -104,12 +98,9 @@ class Listing < ActiveRecord::Base
   # http://stackoverflow.com/questions/4877931/how-to-return-an-empty-activerecord-relation
   scope :none, where('1 = 0')
 
-  VALID_VISIBILITIES = ["this_community", "all_communities"]
-  VALID_PRIVACY_OPTIONS = ["private", "public"]
   VALID_AVAILABILITY_OPTIONS = ["intern", "trusted", "all"]
 
   before_validation :set_valid_until_time
-  before_save :set_community_visibilities
 
   validates_presence_of :author_id
   validates_length_of :title, :in => 2..60, :allow_nil => false
@@ -132,31 +123,9 @@ class Listing < ActiveRecord::Base
     self.description = description.gsub("\r\n","\n") if self.description
   end
   validates_length_of :description, :maximum => 5000, :allow_nil => true
-  validates_inclusion_of :visibility, :in => VALID_VISIBILITIES
   validates_presence_of :category
   validates_inclusion_of :valid_until, :allow_nil => :true, :in => DateTime.now..DateTime.now + 7.months
   validates_numericality_of :price_cents, :only_integer => true, :greater_than_or_equal_to => 0, :message => "price must be numeric", :allow_nil => true
-
-  def set_community_visibilities
-    if current_community_id
-      communities.clear
-      if visibility.eql?("this_community")
-        communities << Community.find(current_community_id)
-      else
-        author.communities.each { |c| communities << c }
-      end
-    end
-  end
-
-  # Filter out listings that current user cannot see
-  def self.visible_to(current_user, current_community, ids=nil)
-    id_list = ids ? ids : current_community.listings.pluck(:id)
-    if current_user && current_user.member_of?(current_community)
-      where("listings.id IN (?)", id_list)
-    else
-      where("listings.privacy = 'public' AND listings.id IN (?)", id_list)
-    end
-  end
 
   # Filter out listings with availability private
   def self.available(current_community, ids=nil)
@@ -180,19 +149,6 @@ class Listing < ActiveRecord::Base
     ListingVisibilityGuard.new(self, current_community, current_user).visible?
   end
 
-  def public?
-    self.privacy.eql?("public")
-  end
-
-  # Get only listings that are restricted only to the members of the current
-  # community (or to many communities including current)
-  def self.private_to_community(community)
-    where("
-      listings.privacy = 'private'
-      AND listings.id IN (SELECT listing_id FROM communities_listings WHERE community_id = '#{community.id}')
-    ")
-  end
-
   # sets the time to midnight
   def set_valid_until_time
     if valid_until
@@ -206,7 +162,7 @@ class Listing < ActiveRecord::Base
   end
 
   def self.columns
-    super.reject { |c| c.name == "transaction_type_id" }
+    super.reject { |c| c.name == "transaction_type_id" || c.name == "visibility"}
   end
 
   def self.find_with(params, current_user=nil, current_community=nil, per_page=100, page=1)
@@ -254,11 +210,8 @@ class Listing < ActiveRecord::Base
       #   with[:open] = false
       # end
 
-      unless current_user && current_user.communities.include?(current_community)
-        with[:visible_to_everybody] = true
-      end
       with[:availability_not_intern] = true
-      with[:community_ids] = current_community.id
+      with[:community_id] = current_community.id
 
       with[:category_id] = params[:categories][:id] if params[:categories].present?
       with[:listing_shape_id] = params[:listing_shapes][:id] if params[:listing_shapes].present?
@@ -297,7 +250,8 @@ class Listing < ActiveRecord::Base
       query[:categories] = params[:categories] if params[:categories]
       query[:author_id] = params[:person_id] if params[:person_id]    # this is not yet used with search
       query[:id] = params[:listing_id] if params[:listing_id].present?
-      listings = joins(joined_tables).where(query).currently_open(params[:status]).visible_to(current_user, current_community).available(current_community).includes(params[:include]).order("listings.sort_date DESC").paginate(:per_page => per_page, :page => page)
+
+      listings = current_community.listings.joins(joined_tables).where(query).currently_open(params[:status]).available(current_community).includes(params[:include]).order("listings.sort_date DESC").paginate(:per_page => per_page, :page => page)
     end
     return listings
   end

@@ -4,7 +4,7 @@ Feature: User creates a new listing with photos
   Background:
     Given I am logged in
     And I am on the new listing page
-    And I follow "Items"
+    And I follow "Items" within "#new_listing_form"
     And I follow "Tools" within "#option-groups"
     And I follow "Requesting"
     And I fill in "listing_title" with "Sledgehammer"

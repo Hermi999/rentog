@@ -20,7 +20,7 @@ class ListingVisibilityGuard
     if user_logged_in? && user_member_of_community?
       true
     else
-      public_listing? && public_community?
+      public_community?
     end
   end
 
@@ -31,7 +31,7 @@ class ListingVisibilityGuard
   end
 
   def listing_belongs_to_community?
-    @community && @listing.communities.include?(@community)
+    @community && @listing.community_id == @community.id
   end
 
   def user_logged_in?
@@ -40,10 +40,6 @@ class ListingVisibilityGuard
 
   def user_member_of_community?
     @user.communities.include?(@community)
-  end
-
-  def public_listing?
-    @listing.privacy == "public"
   end
 
   def public_community?

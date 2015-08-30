@@ -25,6 +25,10 @@
   padding: 20px;
 }
 
+.sender-address-verification-from {
+  font-weight: bold;
+}
+
 .status-verified {
   font-weight: bold;
   color: $green;
@@ -36,5 +40,25 @@
 }
 
 .status-error {
-    font-weight: bold;
+  font-weight: bold;
+}
+
+.status-resent {
+  font-weight: bold;
+}
+
+input {
+  &.sender-address-disabled {
+    &, &:hover {
+      background-color: $highlight;
+    }
+  }
+}
+
+button {
+  &.sender-address-disabled {
+    &, &:hover {
+      background-color: $border;
+    }
+  }
 }

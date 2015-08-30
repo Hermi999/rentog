@@ -15,7 +15,8 @@ describe EmailService::API::Addresses do
       config: {
         region: "fake-region",
         access_key_id: "access_key",
-        secret_access_key: "secret_access_key"},
+        secret_access_key: "secret_access_key",
+        sns_topic: "fake-sns-topic-arn"},
       stubs: true)
   end
 
@@ -94,6 +95,40 @@ describe EmailService::API::Addresses do
                               display_format: "hello@mymarketplace.invalid",
                               smtp_format: "hello@mymarketplace.invalid")
 
+      end
+
+      it "returns SMTP formatted address, with quotes and special characters properly escaped" do
+        # User input: Hello
+        # Expected print output: "Hello" <hello@mymarketplace.invalid>
+        expect(addresses_wo_ses.create(
+          community_id: 1, address: {
+            name: "Hello",
+            email: "hello@mymarketplace.invalid",
+          }).data[:smtp_format]).to eq("\"Hello\" <hello@mymarketplace.invalid>")
+
+        # User input: Hello "Hello" Hello
+        # Expected print output: "Hello \"Hello\" Hello" <hello@mymarketplace.invalid>
+        expect(addresses_wo_ses.create(
+          community_id: 1, address: {
+            name: "Hello \"Hello\" Hello",
+            email: "hello@mymarketplace.invalid",
+          }).data[:smtp_format]).to eq("\"Hello \\\"Hello\\\" Hello\" <hello@mymarketplace.invalid>")
+
+        # User input: Hello \"Hello\" Hello
+        # Expected print output: "Hello \\\"Hello\\\" Hello" <hello@mymarketplace.invalid>
+        expect(addresses_wo_ses.create(
+          community_id: 1, address: {
+            name: "Hello \\\"Hello\\\" Hello",
+            email: "hello@mymarketplace.invalid",
+          }).data[:smtp_format]).to eq("\"Hello \\\\\\\"Hello\\\\\\\" Hello\" <hello@mymarketplace.invalid>")
+
+        # User input: Hello \\"Hello\\" Hello
+        # Expected print output: "Hello \\\\\"Hello\\\\\" Hello" <hello@mymarketplace.invalid>
+        expect(addresses_wo_ses.create(
+          community_id: 1, address: {
+            name: "Hello \\\\\"Hello\\\\\" Hello",
+            email: "hello@mymarketplace.invalid",
+          }).data[:smtp_format]).to eq("\"Hello \\\\\\\\\\\"Hello\\\\\\\\\\\" Hello\" <hello@mymarketplace.invalid>")
       end
 
     end
@@ -248,9 +283,88 @@ describe EmailService::API::Addresses do
           expect(address[:verification_status]).to eq(:requested)
           expect(address[:verification_requested_at]).to eq(now)
         end
-
       end
 
+      it "fails for disallowed email providers" do
+        res = addresses_with_ses.create(
+          community_id: 123, address: {
+            name: "Email 2 Sender Name",
+            email: "hello2@yahoo.com"
+          })
+
+        expect(res.success).to eq(false)
+        expect(res.data[:error_code]).to eq(:invalid_domain)
+        expect(res.data[:domain]).to eq("yahoo.com")
+
+        res2 = addresses_with_ses.create(
+          community_id: 123, address: {
+            name: "Email 2 Sender Name",
+            email: "hello2@subdomain.yahoo.com"
+          })
+
+        expect(res2.success).to eq(false)
+        expect(res2.data[:error_code]).to eq(:invalid_domain)
+        expect(res2.data[:domain]).to eq("subdomain.yahoo.com")
+
+        res3 = addresses_with_ses.create(
+          community_id: 123, address: {
+            name: "Email 2 Sender Name",
+            email: "hello2@subdomain.yahoo.co.uk"
+          })
+
+        expect(res3.success).to eq(false)
+        expect(res3.data[:error_code]).to eq(:invalid_domain)
+        expect(res3.data[:domain]).to eq("subdomain.yahoo.co.uk")
+
+        res4 = addresses_with_ses.create(
+          community_id: 123, address: {
+            name: "Email 2 Sender Name",
+            email: "hello2@subdomain.yahoo.whatever"
+          })
+
+        expect(res4.success).to eq(false)
+        expect(res4.data[:error_code]).to eq(:invalid_domain)
+        expect(res4.data[:domain]).to eq("subdomain.yahoo.whatever")
+
+
+        res5 = addresses_with_ses.create(
+          community_id: 123, address: {
+            name: "Email 2 Sender Name",
+            email: "hello2@yahoo.mymarketplace.com"
+          })
+
+        # Note: This should fail!
+        #
+        # However, parsing the host is not that easy, due to the fact
+        # that there are top-level domains like co.uk.
+        # If this becames a problem, consider adding a gem, e.g.
+        # https://github.com/pauldix/domainatrix
+        # or https://github.com/weppos/publicsuffix-ruby
+        expect(res5.success).to eq(false)
+        expect(res5.data[:error_code]).to eq(:invalid_domain)
+        expect(res5.data[:domain]).to eq("yahoo.mymarketplace.com")
+      end
+
+    end
+
+    it "returns error result if email is malformatted" do
+        res_valid = addresses_wo_ses.create(
+          community_id: 123, address: {
+            name: "Email 2 Sender Name",
+            email: "valid_email@example.com"
+          })
+
+        expect(res_valid.success).to eq(true)
+
+        res_invalid = addresses_wo_ses.create(
+          community_id: 123, address: {
+            name: "Email 2 Sender Name",
+            email: "invalid_email"
+          })
+
+        expect(res_invalid.success).to eq(false)
+        expect(res_invalid.error_msg).to eq("Incorrect email format: 'invalid_email'")
+        expect(res_invalid.data).to eq(error_code: :invalid_email, email: "invalid_email")
     end
   end
 

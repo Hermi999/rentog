@@ -107,6 +107,37 @@ ro:
         welcome_email_content_description: ~
         edit_message: ~
         send_test_message: ~
+      outgoing_email:
+        title: ~
+        info: ~
+        read_more: ~
+        sender_address: ~
+        sender_address_default: ~
+        need_to_change: ~
+        contact_support_link_text: ~
+        set_sender_address: ~
+        sender_name_label: ~
+        sender_name_placeholder: ~
+        sender_email_label: ~
+        sender_email_placeholder: ~
+        this_is_how_it_will_look: ~
+        send_verification_button: ~
+        successfully_saved: ~
+        status: ~
+        status_verified: ~
+        status_error: ~
+        status_requested: ~
+        status_expired: ~
+        status_resent: ~
+        resend_link: ~
+        invalid_email_error: ~
+        invalid_email_domain: ~
+        invalid_email_domain_read_more_link: ~
+        unknown_error: ~
+        only_white_label_offer: ~
+        upgrade_pro_plan_link: ~
+        verification_sent_from: ~
+        follow_the_instructions: ~
       getting_started:
         getting_started: ~
         welcome_to_your_marketplace: ~
@@ -716,6 +747,11 @@ ro:
       credit_card_expiration_date: ~
       confirm_payment: ~
       exp: ~
+  feedback:
+    feedback_subject: ~
+    feedback_body: ~
+    unlogged_user: ~
+    anonymous_user: ~
   preauthorize_payments:
     edit:
       confirm_payment: ~
@@ -909,8 +945,6 @@ ro:
       welcome_email_subject: ~
       welcome_to_marketplace: ~
       love_marketplace_crew: ~
-      p_s_did_you_know: ~
-      click_here_link_text: ~
       welcome_email_footer_text: ~
       settings_link_text: ~
       welcome_email_subject_for_marketplace_creator: ~
@@ -1451,10 +1485,6 @@ ro:
         valid_until: ~
       valid_until_radio_buttons:
         for_the_time_being: ~
-      visibility:
-        all_communities: ~
-        this_community: ~
-        visibility: ~
       privacy:
         privacy: ~
         private: ~
@@ -1714,6 +1744,7 @@ ro:
       invalid_invitation_code: ~
       invitation_code: ~
       not_required: ~
+      notification_is_mandatory: ~
       organization_name: ~
       password_again: ~
       show_my_name_to_others: ~

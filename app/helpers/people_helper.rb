@@ -6,21 +6,24 @@ module PeopleHelper
   def persons_listings(person, per_page=6, page=1)
     if @current_user.nil?
       logger.info "Showing only open & not intern"
-      person.listings.currently_open.visible_to(@current_user, @current_community).available(@current_community).order("created_at DESC").paginate(:per_page => per_page, :page => page)
+      person.listings.currently_open.available(@current_community).order("created_at DESC").paginate(:per_page => per_page, :page => page)
     elsif current_user?(person) || @current_user.has_admin_rights_in?(@current_community)
+      # The company who owns the profile or an admin:
       if params[:show_closed]
-        logger.info "Showing also closed & intern"
-        person.listings.visible_to(@current_user, @current_community).order("created_at DESC").paginate(:per_page => per_page, :page => page)
+        # Showing all listings
+        person.listings.order("created_at DESC").paginate(:per_page => per_page, :page => page)
       else
-        logger.info "Showing also intern"
-        person.listings.currently_open.visible_to(@current_user, @current_community).order("created_at DESC").paginate(:per_page => per_page, :page => page)
+         # Showing all listings, but the closed ones"
+        person.listings.currently_open.order("created_at DESC").paginate(:per_page => per_page, :page => page)
       end
     elsif is_employee?(person, params[:id])
-      logger.info "Showing also intern"
-      person.listings.currently_open.visible_to(@current_user, @current_community).order("created_at DESC").paginate(:per_page => per_page, :page => page)
+      # An employee of the company
+      # Showing all listings, but the closed ones
+      person.listings.currently_open.order("created_at DESC").paginate(:per_page => per_page, :page => page)
     else
-      logger.info "Showing only open & not intern"
-      person.listings.currently_open.visible_to(@current_user, @current_community).available(@current_community).order("created_at DESC").paginate(:per_page => per_page, :page => page)
+      # Another rentog user
+      # Showing only the open & not intern listings"
+      person.listings.currently_open.available(@current_community).order("created_at DESC").paginate(:per_page => per_page, :page => page)
     end
   end
 

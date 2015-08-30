@@ -53,10 +53,11 @@ Feature: User creates a new account
 
     # After log in as admin and verification of the company, the company can post listings
     When I log out
-    Given I am logged in as "kassi_testperson1"
-    And "kassi_testperson1" has admin rights in community "test"
-    And I am on the manage members admin page
-    When I verify user "Hofer" as a seller
+    Given "kassi_testperson1" has admin rights in community "test"
+    And I am logged in as "kassi_testperson1"
+    When I wait for 1 seconds
+    Given I am on the manage members admin page
+    And I verify user "Hofer" as a seller
     And I log out
     Given I am logged in as organization "Hofer"
     When I follow "Post a new listing"
@@ -74,7 +75,7 @@ Feature: User creates a new account
     When I click "#signup_employee"
     And I fill in "First name" with "Siemens"
     And I fill in "Last name" with "Namez"
-    And I select "Bosch" from "person[organization_name2]"
+    And I fill in "Your organization admins email address" with "kassi_testperson2@example.com"
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
@@ -177,7 +178,7 @@ Feature: User creates a new account
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create account"
-    Then I should see "You have to choose an organization"
+    Then I should see "The organization you've given does not exist"
 
   @subdomain2
   Scenario: Seeing info of community's email restriction

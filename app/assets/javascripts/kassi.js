@@ -618,7 +618,7 @@ function style_grade_selectors() {
   });
 }
 
-function initialize_signup_form(locale, username_in_use_message, invalid_username_message, email_in_use_message, captcha_message, invalid_invitation_code_message, name_required, invitation_required, organization_name_in_use_message, organization_name_not_chosen) {
+function initialize_signup_form(locale, username_in_use_message, invalid_username_message, email_in_use_message, captcha_message, invalid_invitation_code_message, name_required, invitation_required, organization_name_in_use_message, organization_name_not_chosen, orga_not_available) {
   translate_validation_messages(locale);
 
   $('#person_signup_as').val('organization');
@@ -626,7 +626,10 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
   $('#signup_company').css({"background-color": "#A64C5D"});
   $('.fb_signup').hide();
   $('#person_organization_name').show();
-  $('#person_organization_name2').hide();
+  //$('#person_organization_name2').hide();
+  $('#organization_name_label').show();
+  $('#person_organization_email').hide();
+  $('#organization_email_label').hide();
 
   $('#signup_company').click(function(link){
     link.preventDefault();
@@ -635,7 +638,10 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
     $('#signup_company').css({"background-color": "#A64C5D"});
     $('.fb_signup').hide();
     $('#person_organization_name').show();
-    $('#person_organization_name2').hide();
+    //$('#person_organization_name2').hide();
+    $('#organization_name_label').show();
+    $('#organization_email_label').hide();
+    $('#person_organization_email').hide();
   });
   $('#signup_employee').click(function(link){
     link.preventDefault();
@@ -644,7 +650,10 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
     $('#signup_employee').css({"background-color": "#A64C5D"});
     $('.fb_signup').show();
     $('#person_organization_name').hide();
-    $('#person_organization_name2').show();
+    //$('#person_organization_name2').show();
+    $('#organization_name_label').hide();
+    $('#organization_email_label').show();
+    $('#person_organization_email').show();
   });
 
   $('#help_invitation_code_link').click(function(link) {
@@ -675,7 +684,8 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
       "person[family_name]": {required: name_required, maxlength: 30},
       "person[email]": {required: true, minlength: 3, email: true, remote: "/people/check_email_availability_and_validity"},
       "person[organization_name]": {required_organization: true, minlength: 3, maxlength: 30, remote: "/people/check_organization_name_availability"},
-      "person[organization_name2]": {required_employee: true},
+      //"person[organization_name2]": {required_employee: true},
+      "person[organization_email]": {required_employee: true, minlength: 3, email: true, remote: "/people/check_company_email"},
       "person[terms]": "required",
       "person[password]": { required: true, minlength: 4 },
       "person[password2]": { required: true, minlength: 4, equalTo: "#person_password1" },
@@ -688,7 +698,8 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
       "person[username]": { valid_username: invalid_username_message, remote: username_in_use_message },
       "person[email]": { remote: email_in_use_message },
       "person[organization_name]": { remote: organization_name_in_use_message },
-      "person[organization_name2]": { required_employee: organization_name_not_chosen },
+      //"person[organization_name2]": { required_employee: organization_name_not_chosen },
+      "person[organization_email]": { remote: orga_not_available },
       "invitation_code": { remote: invalid_invitation_code_message }
     },
     onkeyup: false, //Only do validations when form focus changes to avoid exessive ASI calls

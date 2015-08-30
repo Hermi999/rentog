@@ -1,5 +1,5 @@
 - content_for :javascript do
-  initialize_signup_form("#{I18n.locale}","#{t("people.new.username_is_in_use")}","#{t("people.new.username_is_invalid")}","#{email_not_accepted_message}","#{t("people.new.captcha_was_wrong")}", "#{t("people.new.invalid_invitation_code")}", #{@current_community.real_name_required?}, #{@current_community.join_with_invite_only?}, "#{t("people.new.organization_is_in_use")}", "#{t("people.new.organization_name_not_chosen")}" );
+  initialize_signup_form("#{I18n.locale}","#{t("people.new.username_is_in_use")}","#{t("people.new.username_is_invalid")}","#{email_not_accepted_message}","#{t("people.new.captcha_was_wrong")}", "#{t("people.new.invalid_invitation_code")}", #{@current_community.real_name_required?}, #{@current_community.join_with_invite_only?}, "#{t("people.new.organization_is_in_use")}", "#{t("people.new.organization_name_not_chosen")}", "#{t("people.new.orga_not_available")}" );
 
 - content_for :title_header do
   %h1= t('.sign_up')
@@ -67,11 +67,11 @@
     = form.text_field :email, :class => :text_field, :maxlenght => "255"
 
     -# Name
-    -# if @current_community.only_organizations
-    = form.label :organization_name, t('.organization_name')
+    = form.label :organization_name, t('.organization_name'), :id => 'organization_name_label'
     = form.text_field :organization_name, :class => :text_field, :maxlength => "30"
-    = form.collection_select(:organization_name2, @all_organizations, :organization_name, :organization_name, {:prompt => true}, :class => "dropbox")
-    -# else
+    -#= form.collection_select(:organization_name2, @all_organizations, :organization_name, :organization_name, {:prompt => true}, :class => "dropbox")
+    = form.label :organization_email, t('.organization_email'), :id => 'organization_email_label'
+    = form.text_field :organization_email, :class => :text_field, :maxlenght => "255"
     = form.label :given_name, t('.given_name')
     = form.text_field :given_name, :class => :text_field, :maxlength => "30"
     = form.label :family_name, t('.family_name')

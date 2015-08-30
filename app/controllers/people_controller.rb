@@ -13,7 +13,7 @@ class PeopleController < Devise::RegistrationsController
   before_filter :ensure_is_admin, :only => [ :activate, :deactivate ]
 
   skip_filter :check_confirmations_and_verifications, :only => [ :update, :destroy]
-  skip_filter :cannot_access_without_joining, :only => [ :check_email_availability_and_validity, :check_invitation_code ]
+  skip_filter :cannot_access_without_joining, :only => [ :check_email_availability_and_validity, :check_company_email, :check_invitation_code ]
 
   # Skip auth token check as current jQuery doesn't provide it automatically
   skip_before_filter :verify_authenticity_token, :only => [:activate, :deactivate]
@@ -73,7 +73,8 @@ class PeopleController < Devise::RegistrationsController
     # Create username
     if !params[:person][:username].present?
       if params[:person][:organization_name] == ""
-        params[:person][:username] = "em_" + params[:person][:organization_name2].truncate(4, omission: '') + "_" + (params[:person][:given_name]).truncate(3, omission: '') + "_" + (params[:person][:family_name]).truncate(3, omission: '') + "_" + rand(0..9999).to_s
+        #params[:person][:username] = "em_" + params[:person][:organization_name2].truncate(4, omission: '') + "_" + (params[:person][:given_name]).truncate(3, omission: '') + "_" + (params[:person][:family_name]).truncate(3, omission: '') + "_" + rand(0..9999).to_s
+        params[:person][:username] = "em_" + params[:person][:organization_email].truncate(4, omission: '') + "_" + (params[:person][:given_name]).truncate(3, omission: '') + "_" + (params[:person][:family_name]).truncate(3, omission: '') + "_" + rand(0..9999).to_s
       else
         params[:person][:username] = "co_" + params[:person][:organization_name].truncate(15, omission: '') + "_" + rand(0..9999).to_s
       end
@@ -82,7 +83,8 @@ class PeopleController < Devise::RegistrationsController
     # How does the user wants to signup (if not specified or data is missing, then show an error
     if(signup_as = params[:person][:signup_as]).nil? ||
       params[:person][:signup_as] == "organization" && (params[:person][:organization_name]).nil? ||
-      params[:person][:signup_as] == "employee" && (params[:person][:organization_name2]).nil?
+      #params[:person][:signup_as] == "employee" && (params[:person][:organization_name2]).nil?
+      params[:person][:signup_as] == "employee" && (params[:person][:organization_email]).nil?
         flash[:error] = t("people.new.invalid_form_data")
         redirect_to error_redirect_path and return
     end
@@ -126,7 +128,8 @@ class PeopleController < Devise::RegistrationsController
     # If an employee should be created
     elsif signup_as == "employee"
       # Check that the given organization is available if a new employee should be registered
-      if Person.organization_name_available?(params[:person][:organization_name2])
+      #if Person.organization_name_available?(params[:person][:organization_name2])
+      if !Person.organization_email_available?(params[:person][:organization_email])
         flash[:error] = t("people.new.organization_doesnt_exists")
         redirect_to error_redirect_path and return
       end
@@ -323,6 +326,11 @@ class PeopleController < Devise::RegistrationsController
     end
   end
 
+  def check_company_email
+    email = params[:person][:organization_email]
+    company_email_availability(email)
+  end
+
   # this checks that email is not already in use for anyone (including current user)
   def check_email_availability
     email = params[:person] && params[:person][:email_attributes] && params[:person][:email_attributes][:address]
@@ -393,8 +401,9 @@ class PeopleController < Devise::RegistrationsController
       person.is_organization = true
     elsif params[:person][:signup_as] == "employee"
       person.is_organization = false
-      # Also set up a relationship to the given company
-      person.company = Person.find_by_organization_name(params[:person][:organization_name2])
+      # Also set up a relationship to the given company per email
+      #person.company = Person.find_by_organization_name(params[:person][:organization_name2])
+      person.company = Person.find_by_email(params[:person][:organization_email])
     end
 
     if person.save!
@@ -408,6 +417,14 @@ class PeopleController < Devise::RegistrationsController
 
   def email_availability(email, own_email_allowed)
     available = own_email_allowed ? Email.email_available_for_user?(@current_user, email) : Email.email_available?(email)
+
+    respond_to do |format|
+      format.json { render :json => available }
+    end
+  end
+
+  def company_email_availability(email)
+    available = Email.company_email_available?(email)
 
     respond_to do |format|
       format.json { render :json => available }

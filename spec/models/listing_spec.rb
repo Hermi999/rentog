@@ -3,6 +3,7 @@
 # Table name: listings
 #
 #  id                              :integer          not null, primary key
+#  community_id                    :integer          not null
 #  author_id                       :string(255)
 #  category_old                    :string(255)
 #  title                           :string(255)
@@ -13,7 +14,6 @@
 #  updated_at                      :datetime
 #  last_modified                   :datetime
 #  sort_date                       :datetime
-#  visibility                      :string(255)      default("this_community")
 #  listing_type_old                :string(255)
 #  description                     :text
 #  origin                          :string(255)
@@ -50,12 +50,12 @@
 # Indexes
 #
 #  index_listings_on_category_id       (old_category_id)
+#  index_listings_on_community_id      (community_id)
 #  index_listings_on_listing_shape_id  (listing_shape_id)
 #  index_listings_on_listing_type      (listing_type_old)
 #  index_listings_on_new_category_id   (category_id)
 #  index_listings_on_open              (open)
 #  index_listings_on_share_type_id     (share_type_id)
-#  index_listings_on_visibility        (visibility)
 #
 
 require 'spec_helper'
@@ -119,7 +119,7 @@ describe Listing do
     let(:community) { FactoryGirl.create(:community, private: true) }
     let(:community2) { FactoryGirl.create(:community) }
     let(:person) { FactoryGirl.create(:person, communities: [community, community2]) }
-    let(:listing) { FactoryGirl.create(:listing, communities: [community], listing_shape_id: 123) }
+    let(:listing) { FactoryGirl.create(:listing, community_id: community.id, listing_shape_id: 123) }
 
     it "is not visible, if the listing doesn't belong to the given community" do
       listing.visible_to?(person, community2).should be_falsey
@@ -131,21 +131,12 @@ describe Listing do
 
     it "is visible, if user is not logged in and the listing and community are public" do
       community.update_attribute(:private, false)
-      listing.update_attribute(:privacy, "public")
 
       listing.visible_to?(nil, community).should be_truthy
     end
 
-    it "is not visible, if user is not logged in but the listing is private" do
-      community.update_attribute(:private, false)
-      listing.update_attribute(:privacy, "private")
-
-      listing.visible_to?(nil, community).should be_falsey
-    end
-
     it "is not visible, if user is not logged in but the community is private" do
       community.update_attribute(:private, true)
-      listing.update_attribute(:privacy, "public")
 
       listing.visible_to?(nil, community).should be_falsey
     end

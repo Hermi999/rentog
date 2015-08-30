@@ -80,22 +80,7 @@ Feature: User views a single listing
 
   Scenario: Company tries to view a listing restricted viewable to community members without logging in
     Given I am not logged in
-    And privacy of that listing is "private"
-    And I am on the home page
-    When I go to the listing page
-    Then I should see "You must sign in to view this content"
-
-  @subdomain2
-  Scenario: Company tries to view a listing from another community
-    Given I am not logged in
-    And that listing belongs to community "test"
-    And I am on the home page
-    When I go to the listing page
-    Then I should see "This content is not available."
-
-  Scenario: Company belongs to multiple communities, adds listing in one and sees it in another
-    Given I am not logged in
-    And privacy of that listing is "private"
+    And this community is private
     And I am on the home page
     When I go to the listing page
     Then I should see "You must sign in to view this content"

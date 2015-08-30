@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150818195213) do
+ActiveRecord::Schema.define(:version => 20150825122606) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -174,7 +174,6 @@ ActiveRecord::Schema.define(:version => 20150818195213) do
     t.text     "available_currencies"
     t.boolean  "facebook_connect_enabled",                                 :default => true
     t.boolean  "only_public_listings",                                     :default => true
-    t.string   "custom_email_from_address"
     t.integer  "vat"
     t.integer  "commission_from_seller"
     t.integer  "minimum_price_cents"
@@ -224,14 +223,6 @@ ActiveRecord::Schema.define(:version => 20150818195213) do
 
   add_index "communities", ["domain"], :name => "index_communities_on_domain"
   add_index "communities", ["ident"], :name => "index_communities_on_ident"
-
-  create_table "communities_listings", :id => false, :force => true do |t|
-    t.integer "community_id"
-    t.integer "listing_id"
-  end
-
-  add_index "communities_listings", ["community_id"], :name => "index_communities_listings_on_community_id"
-  add_index "communities_listings", ["listing_id", "community_id"], :name => "communities_listings"
 
   create_table "community_customizations", :force => true do |t|
     t.integer  "community_id"
@@ -584,6 +575,7 @@ ActiveRecord::Schema.define(:version => 20150818195213) do
   add_index "listing_units", ["listing_shape_id"], :name => "index_listing_units_on_listing_shape_id"
 
   create_table "listings", :force => true do |t|
+    t.integer  "community_id",                                                         :null => false
     t.string   "author_id"
     t.string   "category_old"
     t.string   "title"
@@ -594,13 +586,12 @@ ActiveRecord::Schema.define(:version => 20150818195213) do
     t.datetime "updated_at"
     t.datetime "last_modified"
     t.datetime "sort_date"
-    t.string   "visibility",                                    :default => "this_community"
     t.string   "listing_type_old"
     t.text     "description"
     t.string   "origin"
     t.string   "destination"
     t.datetime "valid_until"
-    t.boolean  "delta",                                         :default => true,             :null => false
+    t.boolean  "delta",                                         :default => true,      :null => false
     t.boolean  "open",                                          :default => true
     t.string   "share_type_old"
     t.string   "privacy",                                       :default => "private"
@@ -630,12 +621,12 @@ ActiveRecord::Schema.define(:version => 20150818195213) do
   end
 
   add_index "listings", ["category_id"], :name => "index_listings_on_new_category_id"
+  add_index "listings", ["community_id"], :name => "index_listings_on_community_id"
   add_index "listings", ["listing_shape_id"], :name => "index_listings_on_listing_shape_id"
   add_index "listings", ["listing_type_old"], :name => "index_listings_on_listing_type"
   add_index "listings", ["old_category_id"], :name => "index_listings_on_category_id"
   add_index "listings", ["open"], :name => "index_listings_on_open"
   add_index "listings", ["share_type_id"], :name => "index_listings_on_share_type_id"
-  add_index "listings", ["visibility"], :name => "index_listings_on_visibility"
 
   create_table "locations", :force => true do |t|
     t.float    "latitude"
