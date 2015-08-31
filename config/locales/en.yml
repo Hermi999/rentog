@@ -2205,7 +2205,8 @@ en:
   pool_tool:
     you_have_to_be_company_admin: "You must be company admin to access the Pool Tool!"
     tab_1: "Calender"
-    tab_2: "Inventory"
+    tab_2: "Gantt"
+    tab_3: "Inventory"
     previous_month: "Previous Month"
     next_month: "Next Month"
     date: "Date:"

@@ -2,9 +2,26 @@
   :javascript
     pooltool = ST.poolTool();
     pooltool.initializeDatepicker();
+    pooltool.initializeGantt();
+
+:css
+  /* Bootstrap 3.x re-reset */
+  .fn-gantt *,
+  .fn-gantt *:after,
+  .fn-gantt *:before {
+    -webkit-box-sizing: content-box;
+       -moz-box-sizing: content-box;
+            box-sizing: content-box;
+  }
 
 - content_for :title_header do
   %h1= t("pool_tool.headline")
+
+
+.poolTool_gantt_container
+  .gantt
+
+
 
 #tabs
   %ul
@@ -14,6 +31,10 @@
     %li
       %a{:href => "#tabs-2"}
         = t("pool_tool.tab_2")
+
+    %li
+      %a{:href => "#tabs-3"}
+        = t("pool_tool.tab_3")
   #tabs-1
     #example{:style => "margin: auto; width:95%;"}
       %br
@@ -151,7 +172,11 @@
         Are you sure you want to delete this agenda item?
 
 
+
   #tabs-2
+
+
+  #tabs-3
     #listings-list{:style => "margin:15px;"}
       - limit = 20
       = render :partial => 'listings/profile_listings', :locals => {:person => @person, :limit => limit}

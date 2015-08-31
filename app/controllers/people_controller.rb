@@ -76,7 +76,7 @@ class PeopleController < Devise::RegistrationsController
         #params[:person][:username] = "em_" + params[:person][:organization_name2].truncate(4, omission: '') + "_" + (params[:person][:given_name]).truncate(3, omission: '') + "_" + (params[:person][:family_name]).truncate(3, omission: '') + "_" + rand(0..9999).to_s
         params[:person][:username] = "em_" + params[:person][:organization_email].truncate(4, omission: '') + "_" + (params[:person][:given_name]).truncate(3, omission: '') + "_" + (params[:person][:family_name]).truncate(3, omission: '') + "_" + rand(0..9999).to_s
       else
-        params[:person][:username] = "co_" + params[:person][:organization_name].truncate(15, omission: '') + "_" + rand(0..9999).to_s
+        params[:person][:username] = "co_" + params[:person][:organization_name].truncate(11, omission: '') + "_" + rand(0..9999).to_s
       end
     end
 

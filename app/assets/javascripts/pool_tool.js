@@ -35,6 +35,128 @@ window.ST.poolTool = function() {
     };
   }
 
+
+
+
+  var source = [{
+        name: "Sprint 0",
+        desc: "Analysis",
+        values: [{
+          from: "/Date(1320192000000)/",
+          to: "/Date(1322401600000)/",
+          label: "Requirement Gathering",
+          customClass: "ganttRed"
+        }]
+      },{
+        name: " ",
+        desc: "Scoping",
+        values: [{
+          from: "/Date(1322611200000)/",
+          to: "/Date(1323302400000)/",
+          label: "Scoping",
+          customClass: "ganttRed"
+        }]
+      },{
+        name: "Sprint 1",
+        desc: "Development",
+        values: [{
+          from: "/Date(1323802400000)/",
+          to: "/Date(1325685200000)/",
+          label: "Development",
+          customClass: "ganttGreen"
+        }]
+      },{
+        name: " ",
+        desc: "Showcasing",
+        values: [{
+          from: "/Date(1325685200000)/",
+          to: "/Date(1325695200000)/",
+          label: "Showcasing",
+          customClass: "ganttBlue"
+        }]
+      },{
+        name: "Sprint 2",
+        desc: "Development",
+        values: [{
+          from: "/Date(1326785200000)/",
+          to: "/Date(1325785200000)/",
+          label: "Development",
+          customClass: "ganttGreen"
+        }]
+      },{
+        name: " ",
+        desc: "Showcasing",
+        values: [{
+          from: "/Date(1328785200000)/",
+          to: "/Date(1328905200000)/",
+          label: "Showcasing",
+          customClass: "ganttBlue"
+        }]
+      },{
+        name: "Release Stage",
+        desc: "Training",
+        values: [{
+          from: "/Date(1330011200000)/",
+          to: "/Date(1336611200000)/",
+          label: "Training",
+          customClass: "ganttOrange"
+        }]
+      },{
+        name: " ",
+        desc: "Deployment",
+        values: [{
+          from: "/Date(1336611200000)/",
+          to: "/Date(1338711200000)/",
+          label: "Deployment",
+          customClass: "ganttOrange"
+        }]
+      },{
+        name: " ",
+        desc: "Warranty Period",
+        values: [{
+          from: "/Date(1336611200000)/",
+          to: "/Date(1349711200000)/",
+          label: "Warranty Period",
+          customClass: "ganttOrange"
+        }]
+      }];
+
+
+
+  function initializeGantt(){
+    $(".gantt").gantt({
+      navigate: "scroll",
+      minScale: "days",
+      itemsPerPage: 10,
+      holidays: ["/Date(1334872800000)/","/Date(1335823200000)/"],
+      /* Get them from here: http://kayaposoft.com/enrico/json/*/
+      source: source,
+      onItemClick: function(data) {
+        alert("Item clicked - show some details");
+      },
+      onAddClick: function(dt, rowId) {
+        // If clicked in one of the fields
+        if (rowId !== ""){
+
+        }
+      },
+      onRender: function() {
+        if (window.console && typeof console.log === "function") {
+          console.log("chart rendered");
+        }
+      }
+    });
+
+    prettyPrint();
+    $( "#draggme" ).draggable();
+  }
+
+
+
+
+
+
+
   $("#shownMonth").html(gon.translated_months[new Date().getMonth('MM')] + " " + new Date().getFullYear());
 
   /**
@@ -75,40 +197,6 @@ window.ST.poolTool = function() {
       temp_dates[outputElementId] = temp_date;
     });
   }
-
-  // Enter a date and jump to in on the calender
-  // function initializeDateSelect(rangeCongainerId) {
-  //   // Initialize Datepicker
-  //   var dateRage = $('#'+ rangeCongainerId);
-  //   var options = {
-  //     input: dateRage,
-  //     language: gon.locale
-  //   };
-  //   var picker = dateRage.datepicker(options);
-
-
-  //   // Initialize Date Textfield with today's date
-  //   var calDate = new Date();
-  //   var dt = convertDateToLocaleDate(calDate);
-  //   $("#dateSelect").datepicker("setDate",dt);
-
-
-  //   // If Date Textfield gets changed
-  //   picker.on('changeDate', function(e) {
-  //     var newDate = e.dates[0];
-  //     var temp_date = ST.utils.toISODate(newDate);
-
-  //     var dtArray = temp_date.split("-");
-  //     var year = dtArray[0];
-  //     // jquery datepicker months start at 1 (1=January)
-  //     var month = dtArray[1];
-  //     // strip any preceeding 0's
-  //     month = month.replace(/^[0]+/g,"")
-  //     var day = dtArray[2];
-  //     // plugin uses 0-based months so we subtrac 1
-  //     jfcalplugin.showMonth("#mycal",year,parseInt(month-1).toString());
-  //   });
-  // }
 
   /**
    * Initializes calendar with current year & month
@@ -590,6 +678,7 @@ window.ST.poolTool = function() {
 
   return {
     init: init,
-    initializeDatepicker: initializeDatepicker
+    initializeDatepicker: initializeDatepicker,
+    initializeGantt: initializeGantt
   };
 };

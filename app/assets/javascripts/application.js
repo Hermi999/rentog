@@ -83,4 +83,7 @@
 //= require paypal_account_settings
 //= require transaction
 //= require listing_form
+//= require jquery.fn.gantt
+//= require prettify
+
 //= require_self
