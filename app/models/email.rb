@@ -22,7 +22,7 @@ class Email < ActiveRecord::Base
   include ApplicationHelper
 
   # Handle exceptions
-  rescue_from Net::SMTPFatalError, :with => :error_render_method
+  #rescue_from Net::SMTPFatalError, :with => :error_render_method
 
   belongs_to :person
 
