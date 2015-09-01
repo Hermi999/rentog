@@ -3,6 +3,9 @@ class PeopleController < Devise::RegistrationsController
 
   include PeopleHelper
 
+  # Handle exceptions
+  rescue_from Net::SMTPFatalError, :with => :error_render_method
+
   skip_before_filter :verify_authenticity_token, :only => [:creates]
   skip_before_filter :require_no_authentication, :only => [:new]
 
@@ -460,4 +463,10 @@ class PeopleController < Devise::RegistrationsController
     end
   end
 
+  # Exception handler
+  def error_render_method
+    flash[:error] = "Email address is not verified by Amazon SES. This should only occur during testing."
+    redirect_to request.original_url
+    return
+  end
 end

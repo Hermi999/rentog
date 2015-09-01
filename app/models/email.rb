@@ -21,9 +21,6 @@
 class Email < ActiveRecord::Base
   include ApplicationHelper
 
-  # Handle exceptions
-  #rescue_from Net::SMTPFatalError, :with => :error_render_method
-
   belongs_to :person
 
   validates_presence_of :person
@@ -68,12 +65,5 @@ class Email < ActiveRecord::Base
 
   def self.send_confirmation(email, community)
     PersonMailer.email_confirmation(email, community).deliver
-  end
-
-  # Exception handler
-  def error_render_method
-    flash[:error] = "Email address is not verified by Amazon SES. This should only occur during testing."
-    redirect_to request.original_url
-    return
   end
 end
