@@ -308,6 +308,12 @@ Given(/^"(.*?)" follows "(.*?)"$/) do |follower, person|
   person.followers << follower unless follower.follows? person
 end
 
+Given(/^"(.*?)" trusts "(.*?)"$/) do |follower, person|
+  person = Person.find_by_username(person)
+  follower = Person.find_by_username(follower)
+  person.followers << follower unless follower.follows? person
+end
+
 Given(/^"(.*?)" follows everyone$/) do |person|
   person = Person.find_by_username(person)
   person.followed_people = Person.all - [ person ]

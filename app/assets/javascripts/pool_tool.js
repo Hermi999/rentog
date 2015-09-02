@@ -132,7 +132,7 @@ window.ST.poolTool = function() {
       /* Get them from here: http://kayaposoft.com/enrico/json/*/
       source: source,
       onItemClick: function(data) {
-        alert("Item clicked - show some details");
+        //alert("Item clicked - show some details");
       },
       onAddClick: function(dt, rowId) {
         // If clicked in one of the fields
@@ -141,9 +141,9 @@ window.ST.poolTool = function() {
         }
       },
       onRender: function() {
-        if (window.console && typeof console.log === "function") {
+        /*if (window.console && typeof console.log === "function") {
           console.log("chart rendered");
-        }
+        }*/
       }
     });
 

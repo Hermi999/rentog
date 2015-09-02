@@ -4,6 +4,10 @@ require 'base64'
 module PeopleHelper
 
   def persons_listings(person, per_page=6, page=1)
+    # Get the company username (only needed if user is employee)
+    @company = params[:id] || params[:person_id]
+
+    # Check what kind of user it is
     if @current_user.nil?
       logger.info "Showing only open & not intern"
       person.listings.currently_open.available(@current_community).order("created_at DESC").paginate(:per_page => per_page, :page => page)
@@ -16,7 +20,7 @@ module PeopleHelper
          # Showing all listings, but the closed ones"
         person.listings.currently_open.order("created_at DESC").paginate(:per_page => per_page, :page => page)
       end
-    elsif is_employee?(person, params[:id])
+    elsif is_employee?(person, @company)
       # An employee of the company
       # Showing all listings, but the closed ones
       person.listings.currently_open.order("created_at DESC").paginate(:per_page => per_page, :page => page)

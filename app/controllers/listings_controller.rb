@@ -164,6 +164,11 @@ class ListingsController < ApplicationController
       show_rent_button = true
 
     elsif @current_user != @listing.author
+      if @listing.availability == "intern"
+        flash[:error] = t("transactions.listing_is_intern")
+        redirect_to root_path and return
+      end
+
       # do not show rent button, but availability-error-message if the above condition is false
       @show_availability_message = true
       show_rent_button = false

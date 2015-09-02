@@ -1,6 +1,7 @@
-Given /^there is a listing with title "([^"]*)"(?: from "([^"]*)")?(?: with category "([^"]*)")?(?: and with listing shape "([^"]*)")?$/ do |title, author, category_name, shape_name|
+Given /^there is a listing with title "([^"]*)"(?: from "([^"]*)")?(?: with category "([^"]*)")?(?: with availability "([^"]*)")?(?: and with listing shape "([^"]*)")?$/ do |title, author, category_name, availability, shape_name|
   opts = Hash.new
   opts[:title] = title
+  opts[:availability] = availability if availability
   opts[:category] = find_category_by_name(category_name) if category_name
   opts[:author] = Person.find_by_username(author) if author
 

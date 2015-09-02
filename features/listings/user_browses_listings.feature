@@ -5,7 +5,7 @@ Feature: User browses listings
 
 
   @javascript @sphinx @no-transaction
-  Scenario: User browses offers page
+  Scenario: Visitor browses offers page
     Given there are following users:
       | person |
       | kassi_testperson1 |
@@ -54,7 +54,7 @@ Feature: User browses listings
     And I should not see "toolbox"
 
   @javascript @sphinx @no-transaction
-  Scenario: User browses requests page
+  Scenario: Visitor browses requests page
     Given there are following users:
       | person |
       | kassi_testperson1 |
@@ -102,3 +102,48 @@ Feature: User browses listings
     And I should not see "saw"
     And I should not see "axe"
     And I should not see "toolbox"
+
+
+  @javascript @sphinx @no-transaction
+  Scenario: Visitor should only see trusted and public listings
+    Given there are following users:
+      | person |
+      | kassi_testperson1 |
+      | kassi_testperson2 |
+    # intern listings
+    And there is a listing with title "items_intern_requesting" from "kassi_testperson2" with category "Items" with availability "intern" and with listing shape "Requesting"
+    And there is a listing with title "items_intern_renting" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Renting"
+    And there is a listing with title "services_intern_lending" from "kassi_testperson1" with category "Services" with availability "intern" and with listing shape "Lending"
+    And there is a listing with title "spaces_intern_selling" from "kassi_testperson2" with category "Spaces" with availability "intern" and with listing shape "Selling"
+
+    # trusted listings
+    And there is a listing with title "items_trusted_requesting" from "kassi_testperson2" with category "Items" with availability "trusted" and with listing shape "Requesting"
+    And there is a listing with title "items_trusted_renting" from "kassi_testperson1" with category "Items" with availability "trusted" and with listing shape "Renting"
+    And there is a listing with title "services_trusted_lending" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Lending"
+    And there is a listing with title "spaces_trusted_selling" from "kassi_testperson2" with category "Spaces" with availability "trusted" and with listing shape "Selling"
+
+    # public listings
+    And there is a listing with title "items_all_requesting" from "kassi_testperson2" with category "Items" and with listing shape "Requesting"
+    And there is a listing with title "items_all_renting" from "kassi_testperson1" with category "Items" and with listing shape "Renting"
+    And there is a listing with title "services_all_lending" from "kassi_testperson1" with category "Services" and with listing shape "Lending"
+    And there is a listing with title "spaces_all_selling" from "kassi_testperson2" with category "Spaces" and with listing shape "Selling"
+    And the Listing indexes are processed
+
+    When I am on the home page
+    When I choose to view only listing shape "All listing types"
+
+    Then I should see "items_all_requesting"
+    And I should see "items_all_renting"
+    And I should see "services_all_lending"
+    And I should see "spaces_all_selling"
+
+    Then I should see "items_trusted_requesting"
+    And I should see "items_trusted_renting"
+    And I should see "services_trusted_lending"
+    And I should see "spaces_trusted_selling"
+
+    Then I should not see "items_intern_requesting"
+    And I should not see "items_intern_renting"
+    And I should not see "services_intern_lending"
+    And I should not see "spaces_intern_selling"
+
