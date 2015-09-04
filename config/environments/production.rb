@@ -33,7 +33,6 @@ Kassi::Application.configure do
   config.lograge.custom_options = ->(event) {
     params = event.payload[:params].except('controller', 'action')
     {
-      time: event.time,
       params:  params,
       host: event.payload[:host],
       community_id: event.payload[:community_id],
