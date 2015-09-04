@@ -32,13 +32,14 @@ Kassi::Application.configure do
   config.lograge.enabled = true
   config.lograge.custom_options = ->(event) {
     params = event.payload[:params].except('controller', 'action')
-
-    { params:  params,
+    {
+      time: event.time,
+      params:  params,
       host: event.payload[:host],
       community_id: event.payload[:community_id],
       current_user_id: event.payload[:current_user_id],
       request_uuid: event.payload[:request_uuid] }
-  }
+    }
 
   config.lograge.formatter = Lograge::Formatters::Json.new
 
