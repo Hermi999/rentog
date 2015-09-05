@@ -92,7 +92,7 @@
 /* === RIGHT PANEL === */
 
 #draggme {
-    cursor: e-resize;
+    cursor: grab;
 }
 
 .fn-gantt .rightPanel {

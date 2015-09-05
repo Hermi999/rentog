@@ -350,6 +350,7 @@
                 var wheel = 'onwheel' in element ? 'wheel' : document.onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
                 $(element).on(wheel, function (e) { core.wheelScroll(element, e); });
 
+
                 dataPanel.mousedown(function (e) {
                     if (e.which != 1)
                         return true;
@@ -369,7 +370,7 @@
                     element.scrollNavigation.panelMouseDown = false;
                     element.scrollNavigation.mouseX = null;
                     var $dataPanel = $(element).find('.fn-gantt .dataPanel');
-                    $dataPanel.css("cursor", "auto");
+                    $dataPanel.css("cursor", "grab");
 
                     core.repositionLabel(element);
                 });
