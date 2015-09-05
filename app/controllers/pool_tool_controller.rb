@@ -7,27 +7,49 @@ class PoolToolController < ApplicationController
     @person = Person.find(params[:person_id] || params[:id])
 
     # Get transactions (joined with listings and bookings) from database, ordered by listings.id
-    transactions = Transaction.joins(:listing, :booking, :starter).select("listings.id as listing_id, listings.title as title, listings.privacy as privacy, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.organization_name as renting_organization").where("listings.author_id" => @current_user, "transactions.community_id" => @current_community).order("listings.id asc")
+    transactions = Transaction.joins(:listing, :booking, :starter).select("listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.organization_name as renting_organization").where("listings.author_id" => @current_user, "transactions.community_id" => @current_community).order("listings.id asc")
     # Convert ActiveRecord Relation into array of hashes
     transaction_array = transactions.as_json
 
-    # Go through each transaction and assign a color. If the listing isn't the
-    # same as in the previous transaction, then change the color. Otherwise use
-    # the same color as previously. This is possible, because the transactions
-    # are ordered by id.
-    prev_listing_id = 0, counter = -1
-    listing_background_colors = ["#001f3f", "#FF851B", "#FF4136", "#0074D9", "#85144b", "#39CCCC", "#F012BE", "#3D9970", "#B10DC9", "#2ECC40", "#AAAAAA", "#01FF70", "#DDDDDD"]
+    # Get all open Listings of the current user
+    open_listings = Listing.currently_open.where("listings.author_id" => @current_user).select('listings.title')
 
-    transaction_array.map! do |transaction|
+    open_listings_array = []
+    open_listings.each do |listing|
+      open_listings_array << listing.title
+    end
+
+    # Convert all the transaction into a jquery-Gantt readable source.
+    # wah: This might be shifted to the client (javascript) in future, since
+    # it would reduce load on the server
+    listing_background_colors = ["ganttRed", "ganttGreen", "ganttBlue", "ganttOrange"]
+    devices = []
+    act_transaction = {}
+    prev_listing_id = 0, counter = -1
+
+    transaction_array.each do |transaction|
       if prev_listing_id != transaction['listing_id']
         counter = counter + 1
-      end
-      transaction['color'] = listing_background_colors[counter]
-      prev_listing_id = transaction['listing_id']
+        transaction['name'] = transaction['title']
+        transaction['customClass'] = listing_background_colors[counter]
+        transaction['values'] = [{
+          'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
+          'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
+          'label' => transaction['renting_organization']
+        }]
+        transaction.except!('title', 'start_on', 'end_on', 'renting_organization')
 
-      # At each iteration the element in the original collection is replaced
-      # by the element returned by the block
-      transaction
+        prev_listing_id = transaction['listing_id']
+        act_transaction = transaction
+        devices << transaction
+      else
+        newTrans = {
+          'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
+          'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
+          'label' => transaction['renting_organization']
+        }
+        devices[counter]['values'] << newTrans
+      end
     end
 
 
@@ -37,6 +59,8 @@ class PoolToolController < ApplicationController
 
     gon.push({
       transactions: transaction_array,
+      devices: devices,
+      open_listings: open_listings_array,
       locale: I18n.locale,
       days: days,
       months: months,

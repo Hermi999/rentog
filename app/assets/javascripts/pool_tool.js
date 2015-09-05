@@ -35,91 +35,40 @@ window.ST.poolTool = function() {
     };
   }
 
+  var source = gon.devices;
 
-
-
-  var source = [{
-        name: "Sprint 0",
-        desc: "Analysis",
-        values: [{
-          from: "/Date(1320192000000)/",
-          to: "/Date(1322401600000)/",
-          label: "Requirement Gathering",
-          customClass: "ganttRed"
-        }]
-      },{
-        name: " ",
-        desc: "Scoping",
-        values: [{
-          from: "/Date(1322611200000)/",
-          to: "/Date(1323302400000)/",
-          label: "Scoping",
-          customClass: "ganttRed"
-        }]
-      },{
-        name: "Sprint 1",
-        desc: "Development",
-        values: [{
-          from: "/Date(1323802400000)/",
-          to: "/Date(1325685200000)/",
-          label: "Development",
-          customClass: "ganttGreen"
-        }]
-      },{
-        name: " ",
-        desc: "Showcasing",
-        values: [{
-          from: "/Date(1325685200000)/",
-          to: "/Date(1325695200000)/",
-          label: "Showcasing",
-          customClass: "ganttBlue"
-        }]
-      },{
-        name: "Sprint 2",
-        desc: "Development",
-        values: [{
-          from: "/Date(1326785200000)/",
-          to: "/Date(1325785200000)/",
-          label: "Development",
-          customClass: "ganttGreen"
-        }]
-      },{
-        name: " ",
-        desc: "Showcasing",
-        values: [{
-          from: "/Date(1328785200000)/",
-          to: "/Date(1328905200000)/",
-          label: "Showcasing",
-          customClass: "ganttBlue"
-        }]
-      },{
-        name: "Release Stage",
-        desc: "Training",
-        values: [{
-          from: "/Date(1330011200000)/",
-          to: "/Date(1336611200000)/",
-          label: "Training",
-          customClass: "ganttOrange"
-        }]
-      },{
-        name: " ",
-        desc: "Deployment",
+  // Add listings which have no transaction yet
+  var empty_arr = [];
+  for (var j=0; j<gon.open_listings.length; j++){
+    var already_there = false;
+    for (var k=0; k<source.length; k++){
+      if (gon.open_listings[j] === source[k].name){
+        already_there = true;
+      }
+    }
+    if (!already_there){
+      empty_arr.push({
+        name: gon.open_listings[j],
+        //desc: "No bookings",
         values: [{
           from: "/Date(1336611200000)/",
-          to: "/Date(1338711200000)/",
-          label: "Deployment",
-          customClass: "ganttOrange"
+          to: "/Date(1451231200000)/",
+          customClass: "ganttHidden"
         }]
-      },{
-        name: " ",
-        desc: "Warranty Period",
-        values: [{
-          from: "/Date(1336611200000)/",
-          to: "/Date(1349711200000)/",
-          label: "Warranty Period",
-          customClass: "ganttOrange"
-        }]
-      }];
+      });
+    }
+  }
+  source = source.concat(empty_arr);
+
+  // Add hidden gantt-element, to show the chart at least until today + 1 week
+  var hiddenElement = {
+    values: [{
+      from: "/Date(1336611200000)/",
+      to: "/Date(1451231200000)/",
+      customClass: "ganttHidden"
+    }]
+  }
+  source.push(hiddenElement);
 
 
 
@@ -128,6 +77,7 @@ window.ST.poolTool = function() {
       navigate: "scroll",
       minScale: "days",
       itemsPerPage: 10,
+      scrollToToday: true,
       holidays: ["/Date(1334872800000)/","/Date(1335823200000)/"],
       /* Get them from here: http://kayaposoft.com/enrico/json/*/
       source: source,

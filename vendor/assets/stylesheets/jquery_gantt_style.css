@@ -217,6 +217,9 @@
 .fn-gantt .ganttOrange .fn-label {
     color: #714715 !important;
 }
+.fn-gantt .ganttHidden {
+    visibility: hidden;
+}
 
 
 /* === BOTTOM NAVIGATION === */
