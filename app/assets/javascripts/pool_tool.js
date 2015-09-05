@@ -14,7 +14,7 @@ window.ST.poolTool = function() {
   function init(){
     initializeFromToDatePicker('add-event-form');
     initialize_poolTool();
-    add_listings_to_calender();
+    //add_listings_to_calender();
   }
 
   function initializeDatepicker(){
@@ -35,45 +35,55 @@ window.ST.poolTool = function() {
     };
   }
 
-  var source = gon.devices;
-
-  // Add listings which have no transaction yet
-  var empty_arr = [];
-  for (var j=0; j<gon.open_listings.length; j++){
-    var already_there = false;
-    for (var k=0; k<source.length; k++){
-      if (gon.open_listings[j] === source[k].name){
-        already_there = true;
-      }
-    }
-    if (!already_there){
-      empty_arr.push({
-        name: gon.open_listings[j],
-        //desc: "No bookings",
-        values: [{
-          from: "/Date(1336611200000)/",
-          to: "/Date(1451231200000)/",
-          customClass: "ganttHidden"
-        }]
-      });
-    }
-  }
-  source = source.concat(empty_arr);
-
-  // Add hidden gantt-element, to show the chart at least until today + 1 week
-  var hiddenElement = {
-    values: [{
-      from: "/Date(1336611200000)/",
-      to: "/Date(1451231200000)/",
-      customClass: "ganttHidden"
-    }]
-  }
-  source.push(hiddenElement);
-
-
 
   function initializeGantt(){
+
+    var source = gon.devices;
+    var today = new Date();
+    var today_ms = Math.round(today.getTime());
+    var today_minus_3 = new Date(new Date(today).setMonth(today.getMonth()-3));
+    var today_minus_3_ms = Math.round(today_minus_3.getTime());
+    var next_month = new Date(new Date(today).setMonth(today.getMonth()+1));
+    var next_month_ms = Math.round(next_month.getTime());
+
+    // Add listings which have no transaction yet
+    var empty_arr = [];
+    for (var j=0; j<gon.open_listings.length; j++){
+      var already_there = false;
+      for (var k=0; k<source.length; k++){
+        if (gon.open_listings[j] === source[k].name){
+          already_there = true;
+        }
+      }
+      if (!already_there){
+        empty_arr.push({
+          name: gon.open_listings[j],
+          //desc: "No bookings",
+          values: [{
+            from: "/Date(" + today_ms + ")/",
+            to: "/Date(" + next_month_ms + ")/",
+            customClass: "ganttHidden"
+          }]
+        });
+      }
+    }
+    source = source.concat(empty_arr);
+
+
+    // Add hidden gantt-element, to show the chart at least until today + 1 month
+    var hiddenElement = {
+      values: [{
+        from: "/Date(" + today_minus_3_ms + ")/",
+        to: "/Date(" + next_month_ms + ")/",
+        customClass: "ganttHidden"
+      }]
+    }
+    source.push(hiddenElement);
+
+
     $(".gantt").gantt({
+      dow: gon.translated_days_min,
+      months: gon.translated_months,
       navigate: "scroll",
       minScale: "days",
       itemsPerPage: 10,
@@ -91,14 +101,13 @@ window.ST.poolTool = function() {
         }
       },
       onRender: function() {
-        /*if (window.console && typeof console.log === "function") {
-          console.log("chart rendered");
-        }*/
+        if (window.console && typeof console.log === "function") {
+          //$( "#draggme" ).draggable({axis: 'x'});
+        }
       }
     });
 
     prettyPrint();
-    $( "#draggme" ).draggable();
   }
 
 

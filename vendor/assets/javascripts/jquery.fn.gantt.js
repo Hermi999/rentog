@@ -318,7 +318,7 @@
             // Create and return the left panel with labels
             leftPanel: function (element) {
                 /* Left panel */
-                var ganttLeftPanel = $('<div class="leftPanel" id="draggme"/>')
+                var ganttLeftPanel = $('<div class="leftPanel"/>')
                     .append($('<div class="row_g spacer"/>')
                     .css("height", tools.getCellSize() * element.headerRows + "px")
                     .css("width", "100%"));
@@ -344,11 +344,35 @@
 
             // Create and return the data panel element
             dataPanel: function (element, width) {
-                var dataPanel = $('<div class="dataPanel" style="width: ' + width + 'px;"/>');
+                var dataPanel = $('<div class="dataPanel" id="draggme" style="width: ' + width + 'px;"/>');
 
                 // Handle mousewheel events for scrolling the data panel
                 var wheel = 'onwheel' in element ? 'wheel' : document.onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
                 $(element).on(wheel, function (e) { core.wheelScroll(element, e); });
+
+                dataPanel.mousedown(function (e) {
+                    if (e.which != 1)
+                        return true;
+                    if (e.preventDefault) e.preventDefault();
+                    element.scrollNavigation.panelMouseDown = true;
+                    core.mouseScroll(element, e);
+                })
+                    .mousemove(function (e) {
+                        if (element.scrollNavigation.panelMouseDown) {
+                            core.mouseScroll(element, e);
+                        }
+                    });
+
+                $(document).mouseup(function (e) {
+                    if (e.which != 1)
+                        return true;
+                    element.scrollNavigation.panelMouseDown = false;
+                    element.scrollNavigation.mouseX = null;
+                    var $dataPanel = $(element).find('.fn-gantt .dataPanel');
+                    $dataPanel.css("cursor", "auto");
+
+                    core.repositionLabel(element);
+                });
 
                 // Handle click events and dispatch to registered `onAddClick`
                 // function

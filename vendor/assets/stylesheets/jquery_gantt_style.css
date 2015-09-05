@@ -91,6 +91,10 @@
 
 /* === RIGHT PANEL === */
 
+#draggme {
+    cursor: e-resize;
+}
+
 .fn-gantt .rightPanel {
     overflow: hidden;
 }
