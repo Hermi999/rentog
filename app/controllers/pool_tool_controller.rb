@@ -22,7 +22,6 @@ class PoolToolController < ApplicationController
     # Convert all the transaction into a jquery-Gantt readable source.
     # wah: This might be shifted to the client (javascript) in future, since
     # it would reduce load on the server
-    listing_background_colors = ["ganttRed", "ganttGreen", "ganttBlue", "ganttOrange"]
     devices = []
     act_transaction = {}
     prev_listing_id = 0, counter = -1
@@ -39,7 +38,7 @@ class PoolToolController < ApplicationController
           'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
           'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
           'label' => transaction['renting_organization'],
-          'customClass' => listing_background_colors[counter % (listing_background_colors.length-1)] + "_" + renter[:relation]
+          'customClass' =>  "gantt_" + renter[:relation]
         }]
         transaction.except!('title', 'start_on', 'end_on', 'renting_organization')
 
@@ -53,7 +52,7 @@ class PoolToolController < ApplicationController
           'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
           'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
           'label' => transaction['renting_organization'],
-          'customClass' => listing_background_colors[counter % (listing_background_colors.length-1)] + "_" + renter[:relation]
+          'customClass' => "gantt_" + renter[:relation]
         }
         devices[counter]['values'] << newTrans
       end
