@@ -32,14 +32,6 @@
     }
 }
 
-@mixin show_slider {
-    display: block;
-    text-align: left;
-    width: 160px;
-    height: 20px;
-    display: inline-block;
-    margin: 0 10px;
-}
 
 .gantt, .gantt2 {
     width: 100%;
@@ -364,7 +356,13 @@
 }
 .fn-gantt .navigate {
     border-top: 1px solid #DDD;
-    padding: 10px 0 10px 225px;
+    padding: 10px 0 10px 0px;
+    text-align: center;
+
+    @include media(small-desktop) {
+        padding: 10px 0 10px 225px;
+        text-align:left;
+    }
 }
 
 .fn-gantt .navigate .nav-slider {
@@ -389,7 +387,14 @@
 .fn-gantt .navigate .nav-slider-content {
     display: none;
 
-    @include media(tablet) { @include show_slider }
+    @include media(small-desktop) {
+        display: block;
+        text-align: left;
+        width: 160px;
+        height: 20px;
+        display: inline-block;
+        margin: 0 10px;
+    }
 }
 
 .fn-gantt .navigate .nav-slider-bar, .fn-gantt .navigate .nav-slider-button {
@@ -437,74 +442,131 @@
 .fn-gantt .nav-link {
     margin: 0 3px 0 0;
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     font-size: 0px;
-    background: #595959 url(icon_sprite.png) !important;
+    background: #595959 url(icon_sprite_mobile.png) !important;
     border: 1px solid #454546;
     cursor: pointer;
     vertical-align: top;
     border-radius: 2px;
     box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 1px 1px rgba(0,0,0,0.2);
     box-sizing: border-box;
+
+    @include media(small-desktop) {
+        width: 20px;
+        height: 20px;
+        font-size: 0px;
+        background: #595959 url(icon_sprite.png) !important;
+    }
 }
 .fn-gantt .nav-link:active {
     box-shadow: 0 1px 1px rgba(0,0,0,0.25) inset, 0 1px 0 #FFF;
 }
 
 .fn-gantt .navigate .nav-page-back {
-    background-position: 1px 0 !important;
+    background-position: 2px 0 !important;
     margin: 0;
+    @include media(small-desktop){
+        background-position: 1px 0 !important;
+    }
 }
 
 .fn-gantt .navigate .nav-page-next {
-    background-position: 1px -16px !important;
+    background-position: 2px -24px !important;
     margin-right: 15px;
+    @include media(small-desktop){
+        background-position: 1px -16px !important;
+    }
 }
 
 .fn-gantt .navigate .nav-slider .nav-page-next {
-    margin-right: 5px;
+    @include media(small-desktop){
+        margin-right: 5px;
+    }
 }
 
 .fn-gantt .navigate .nav-begin {
-    background-position: 1px -112px !important;
+    background-position: 2px -168px !important;
+
+    @include media(small-desktop){
+        background-position: 1px -112px !important;
+    }
 }
 
 .fn-gantt .navigate .nav-prev-week {
-    background-position: 1px -128px !important;
+    background-position: 2px -192px !important;
+
+    @include media(small-desktop){
+        background-position: 1px -128px !important;
+    }
 }
 
 .fn-gantt .navigate .nav-prev-day {
-    background-position: 1px -48px !important;
+    background-position: 2px -72px !important;
+    margin-right:15px;
+
+    @include media(small-desktop){
+        background-position: 1px -48px !important;
+        margin-right:3px;
+    }
 }
 
 .fn-gantt .navigate .nav-next-day {
-    background-position: 1px -64px !important;
+    background-position: 2px -96px !important;
+
+    @include media(small-desktop){
+        background-position: 1px -64px !important;
+    }
 }
 
 .fn-gantt .navigate .nav-next-week {
-    background-position: 1px -160px !important;
+    background-position: 2px -240px !important;
+
+    @include media(small-desktop){
+        background-position: 1px -160px !important;
+    }
 }
 
 .fn-gantt .navigate .nav-end {
-    background-position: 1px -144px !important;
+    background-position: 2px -216px !important;
+
+    @include media(small-desktop){
+        background-position: 1px -144px !important;
+    }
 }
 
 .fn-gantt .navigate .nav-zoomOut {
-    background-position: 1px -96px !important;
+    background-position: 2px -144px !important;
+
+    @include media(small-desktop){
+        background-position: 1px -96px !important;
+    }
 }
 
 .fn-gantt .navigate .nav-zoomIn {
-    background-position: 1px -80px !important;
     margin-left: 15px;
+    background-position: 2px -120px !important;
+
+    @include media(small-desktop){
+        background-position: 1px -80px !important;
+    }
+
 }
 
 .fn-gantt .navigate .nav-now {
-    background-position: 1px -32px !important;
+    background-position: 2px -48px !important;
+
+    @include media(small-desktop){
+        background-position: 1px -32px !important;
+    }
 }
 
 .fn-gantt .navigate .nav-slider .nav-now {
-    margin-right: 5px;
+    margin-right: 15px;
+    @include media(small-desktop){
+        margin-right: 15px;
+    }
 }
 
 .fn-gantt-loader {
