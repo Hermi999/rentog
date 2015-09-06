@@ -347,28 +347,29 @@
 
             // Create and return the data panel element
             dataPanel: function (element, width) {
-                var dataPanel = $('<div class="dataPanel" id="draggme" style="width: ' + width + 'px;"/>');
+                var dataPanel = $('<div class="dataPanel" style="width: ' + width + 'px;"/>');
 
                 // Handle mousewheel events for scrolling the data panel
                 var wheel = 'onwheel' in element ? 'wheel' : document.onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
                 $(element).on(wheel, function (e) { core.wheelScroll(element, e); });
 
-
-                dataPanel.mousedown(function (e) {
-                    if (e.which != 1)
-                        return true;
-                    if (e.preventDefault) e.preventDefault();
-                    element.scrollNavigation.panelMouseDown = true;
-                    core.mouseScroll(element, e);
-                })
-                    .mousemove(function (e) {
+                dataPanel
+                    .on('vmousedown',function (e) {
+                        if (e.which != 1 && e.which != 0)
+                            return true;
+                        if (e.preventDefault) e.preventDefault();
+                        element.scrollNavigation.panelMouseDown = true;
+                        core.mouseScroll(element, e);
+                    })
+                    .on('vmousemove', function (e) {
                         if (element.scrollNavigation.panelMouseDown) {
                             core.mouseScroll(element, e);
                         }
                     });
 
-                $(document).mouseup(function (e) {
-                    if (e.which != 1)
+
+                $(document).on('vmouseup', function (e) {
+                    if (e.which != 1 && e.which != 0)
                         return true;
                     element.scrollNavigation.panelMouseDown = false;
                     element.scrollNavigation.mouseX = null;
@@ -377,6 +378,7 @@
 
                     core.repositionLabel(element);
                 });
+
 
                 // Handle click events and dispatch to registered `onAddClick`
                 // function
@@ -837,12 +839,12 @@
                                     .append($('<div class="nav-slider-bar" />')
                                             .append($('<a class="nav-slider-button" />')
                                                 )
-                                                .mousedown(function (e) {
+                                                .on('vmousedown', function (e) {
                                                     e.preventDefault();
                                                     element.scrollNavigation.scrollerMouseDown = true;
                                                     core.sliderScroll(element, e);
                                                 })
-                                                .mousemove(function (e) {
+                                                .on('vmousemove', function (e) {
                                                     if (element.scrollNavigation.scrollerMouseDown) {
                                                         core.sliderScroll(element, e);
                                                     }

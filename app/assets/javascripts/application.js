@@ -23,6 +23,8 @@
 //= require jquery.fileupload-validate
 //= require jquery.fileupload-image
 
+//= require jquery.mobile.custom
+
 //= require selectize-standalone.js
 //= require datepicker/bootstrap-datepicker.js
 

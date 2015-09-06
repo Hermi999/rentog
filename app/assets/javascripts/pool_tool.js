@@ -101,7 +101,6 @@ window.ST.poolTool = function() {
         }
       },
       onRender: function() {
-        //$( "#draggme" ).draggable({axis: 'x'});
       }
     });
 
@@ -111,7 +110,6 @@ window.ST.poolTool = function() {
 
   function initializeCheckOrientation(){
     window.addEventListener("orientationchange", function() {
-      console.log("orientationchange");
         check_orientation();
     });
     check_orientation();
@@ -122,16 +120,14 @@ window.ST.poolTool = function() {
           //not a mobile
           return true;
       }
-      if(Math.abs(window.orientation) != 90) {
+      if(Math.abs(window.orientation) != 90 && $(window).width() < 600) {
           //portrait mode
-          console.log("portrait");
           $('#orr').fadeIn().bind('touchstart', function(e) {
               e.preventDefault();
           });
           return false;
       }
       else {
-          console.log("landscape");
           //landscape mode
           $('#orr').fadeOut();
           return true;

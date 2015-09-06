@@ -1,3 +1,5 @@
+@import "mixins/all";
+
 @mixin trusted_company($color1, $color2, $color3) {
     background-image: -webkit-linear-gradient(bottom, $color1 46%, $color2 55%);
     background-image: linear-gradient(to bottom, $color1 46%, $color2 55%);
@@ -28,6 +30,15 @@
     .fn-label {
         color: $color3 !important;
     }
+}
+
+@mixin show_slider {
+    display: block;
+    text-align: left;
+    width: 160px;
+    height: 20px;
+    display: inline-block;
+    margin: 0 10px;
 }
 
 .gantt, .gantt2 {
@@ -376,11 +387,9 @@
 }
 
 .fn-gantt .navigate .nav-slider-content {
-    text-align: left;
-    width: 160px;
-    height: 20px;
-    display: inline-block;
-    margin: 0 10px;
+    display: none;
+
+    @include media(tablet) { @include show_slider }
 }
 
 .fn-gantt .navigate .nav-slider-bar, .fn-gantt .navigate .nav-slider-button {
