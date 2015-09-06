@@ -13,7 +13,7 @@ window.ST.poolTool = function() {
 
   function init(){
     initializeFromToDatePicker('add-event-form');
-    initialize_poolTool();
+    initialize_poolToolCalender();
     //add_listings_to_calender();
   }
 
@@ -109,9 +109,34 @@ window.ST.poolTool = function() {
   }
 
 
+  function initializeCheckOrientation(){
+    window.addEventListener("orientationchange", function() {
+      console.log("orientationchange");
+        check_orientation();
+    });
+    check_orientation();
+  }
 
-
-
+  var check_orientation = function() {
+      if(typeof window.orientation == 'undefined') {
+          //not a mobile
+          return true;
+      }
+      if(Math.abs(window.orientation) != 90) {
+          //portrait mode
+          console.log("portrait");
+          $('#orr').fadeIn().bind('touchstart', function(e) {
+              e.preventDefault();
+          });
+          return false;
+      }
+      else {
+          console.log("landscape");
+          //landscape mode
+          $('#orr').fadeOut();
+          return true;
+      }
+    };
 
 
   $("#shownMonth").html(gon.translated_months[new Date().getMonth('MM')] + " " + new Date().getFullYear());
@@ -160,7 +185,7 @@ window.ST.poolTool = function() {
    * specifies the callbacks for day click & agenda item click events
    * then returns instance of plugin object
    */
-  function initialize_poolTool (){
+  function initialize_poolToolCalender (){
     jfcalplugin = $("#mycal").jFrontierCal({
       date: new Date(),
       dayClickCallback: myDayClickHandler,
@@ -636,6 +661,7 @@ window.ST.poolTool = function() {
   return {
     init: init,
     initializeDatepicker: initializeDatepicker,
-    initializeGantt: initializeGantt
+    initializeGantt: initializeGantt,
+    initializeCheckOrientation: initializeCheckOrientation
   };
 };

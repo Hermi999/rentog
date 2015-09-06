@@ -3,6 +3,7 @@
     pooltool = ST.poolTool();
     pooltool.initializeDatepicker();
     pooltool.initializeGantt();
+    pooltool.initializeCheckOrientation();
 
 :css
   /* Bootstrap 3.x re-reset */
@@ -21,7 +22,8 @@
 .poolTool_gantt_container
   .gantt
 
-
+#orr
+  %p.orrText= t("pool_tool.turn_your_device")
 
 #tabs
   %ul
