@@ -1026,6 +1026,8 @@
                         break;
                     default:
                         $(element).find(':findday("' + cd + '")').removeClass('wd_g').addClass('today');
+                        $(element).find(':findday("' + cd + '")').removeClass('sa_g').addClass('today');
+                        $(element).find(':findday("' + cd + '")').removeClass('sn_g').addClass('today');
                         break;
                 }
             },
