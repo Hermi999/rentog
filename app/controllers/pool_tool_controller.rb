@@ -3,11 +3,11 @@ class PoolToolController < ApplicationController
   before_filter :ensure_is_authorized_to_view, :only => [ :show ]
 
   def show
-    # @person is the person which owns the profile
+    # @person is the person which owns the company
     @person = Person.find(params[:person_id] || params[:id])
 
     # Get transactions (joined with listings and bookings) from database, ordered by listings.id
-    transactions = Transaction.joins(:listing, :booking, :starter).select("listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.organization_name as renting_organization").where("listings.author_id" => @current_user, "transactions.community_id" => @current_community).order("listings.id asc")
+    transactions = Transaction.joins(:listing, :booking, :starter).select("listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.organization_name as renting_organization, people.id as person_id").where("listings.author_id" => @current_user, "transactions.community_id" => @current_community).order("listings.id asc")
     # Convert ActiveRecord Relation into array of hashes
     transaction_array = transactions.as_json
 
@@ -28,25 +28,32 @@ class PoolToolController < ApplicationController
     prev_listing_id = 0, counter = -1
 
     transaction_array.each do |transaction|
+      renter = get_renter_and_relation(transaction)
+
       if prev_listing_id != transaction['listing_id']
+        # new Listing, new transaction
         counter = counter + 1
+
         transaction['name'] = transaction['title']
-        transaction['customClass'] = listing_background_colors[counter]
         transaction['values'] = [{
           'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
           'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
-          'label' => transaction['renting_organization']
+          'label' => transaction['renting_organization'],
+          'customClass' => listing_background_colors[counter % (listing_background_colors.length-1)] + "_" + renter[:relation]
         }]
         transaction.except!('title', 'start_on', 'end_on', 'renting_organization')
 
         prev_listing_id = transaction['listing_id']
         act_transaction = transaction
         devices << transaction
+
       else
+        # Previous Listing, new transaction
         newTrans = {
           'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
           'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
-          'label' => transaction['renting_organization']
+          'label' => transaction['renting_organization'],
+          'customClass' => listing_background_colors[counter % (listing_background_colors.length-1)] + "_" + renter[:relation]
         }
         devices[counter]['values'] << newTrans
       end
@@ -98,5 +105,31 @@ class PoolToolController < ApplicationController
       # Otherwise return to home page
       flash[:error] = t("pool_tool.you_have_to_be_company_admin")
       redirect_to root_path and return
+    end
+
+    def get_renter_and_relation(transaction)
+      # How is the relation between the company & the renter of this one listing?
+        renter = Person.where(id: transaction["person_id"]).first
+        if renter.is_organization
+          # Company is renting listing
+          if @person.follows?(renter)
+            # Other company is trusted by the company
+            relation = "trustedCompany"
+          else
+            # Other company is not trusted by the company
+            relation = "anyCompany"
+          end
+        else
+          # Any Employee is renting listing
+          if renter.is_employee?(@person.id)
+            # Own employee is renting listing
+            relation = "ownEmployee"
+          else
+            # Employee of another company is renting listing
+            relation = "anyEmployee"
+          end
+        end
+
+        { renter: renter, relation: relation }
     end
 end

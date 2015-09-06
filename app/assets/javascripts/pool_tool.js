@@ -80,6 +80,7 @@ window.ST.poolTool = function() {
     }
     source.push(hiddenElement);
 
+console.log(source);
 
     $(".gantt").gantt({
       dow: gon.translated_days_min,
