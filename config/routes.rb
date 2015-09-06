@@ -886,6 +886,7 @@ Kassi::Application.routes.draw do
         resources :employments
 
         get :poolTool, to: 'pool_tool#show'
+        post :poolTool, to: 'pool_tool#create'
       end # people
 
     end # devise scope person

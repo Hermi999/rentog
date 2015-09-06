@@ -1,23 +1,23 @@
 - content_for :extra_javascript do
   :javascript
     pooltool = ST.poolTool();
-    pooltool.initializeDatepicker();
-    pooltool.initializeGantt();
-    pooltool.initializeCheckOrientation();
+    pooltool.init();
 
-:css
-  /* Bootstrap 3.x re-reset */
-  .fn-gantt *,
-  .fn-gantt *:after,
-  .fn-gantt *:before {
-    -webkit-box-sizing: content-box;
-       -moz-box-sizing: content-box;
-            box-sizing: content-box;
-  }
 
 - content_for :title_header do
   %h1= t("pool_tool.headline")
 
+%button#addNewBooking
+  .content
+    Add new booking
+
+#addNewBookingForm
+  = form_tag(person_poolTool_path(@person), :action => :create) do
+    = label_tag(:newBooking, "Title")
+    = text_field_tag(:newBooking)
+    = submit_tag("Create")
+
+    Todo...
 
 .poolTool_gantt_container
   .gantt
@@ -25,171 +25,10 @@
 #orr
   %p.orrText= t("pool_tool.turn_your_device")
 
-#tabs
-  %ul
-    %li
-      %a{:href => "#tabs-1"}
-        = t("pool_tool.tab_1")
-    %li
-      %a{:href => "#tabs-2"}
-        = t("pool_tool.tab_2")
-
-    %li
-      %a{:href => "#tabs-3"}
-        = t("pool_tool.tab_3")
-  #tabs-1
-    #example{:style => "margin: auto; width:95%;"}
-      %br
-        #toolbar.ui-widget-header.ui-corner-all{:style => "padding:3px; vertical-align: middle; white-space:nowrap; overflow: hidden;"}
-          %button#BtnPreviousMonth
-            <
-          %button#BtnNextMonth
-            >
-          &nbsp;&nbsp;&nbsp;
-          %span#shownMonth
-          &nbsp;&nbsp;&nbsp;
-          -#= t("pool_tool.date")
-          -#%input#dateSelect{:size => "10", :type => "text", :style => "width:auto"}
-          -#&nbsp;&nbsp;&nbsp;
-          %button#BtnICalTest
-            = t("pool_tool.load_ical")
-          %input#iCalSource{:size => "30", :type => "text", :value => "extra/fifa-world-cup-2010.ics", :style => "width:auto"}
-        %br
-          /
-            You can use pixel widths or percentages. Calendar will auto resize all sub elements.
-            Height will be calculated by aspect ratio. Basically all day cells will be as tall
-            as they are wide.
-          #mycal
-    / debugging
-    #calDebug
-    / Add event modal form
-    :css
-      //label, input.text, select { display:block; }
-      .ui-tabs .ui-tabs-panel {padding: 0px;}
-      fieldset { padding:0; border:0; margin-top:25px; }
-      .ui-dialog .ui-state-error { padding: .3em; }
-      .validateTips { border: 1px solid transparent; padding: 0.3em; }
-
-    #add-event-form{:title => t("pool_tool.add_reservation")}
-      %p.validateTips
-        = t("pool_tool.event_hint")
-      %form
-        %fieldset
-          %label{:for => "name"}
-            = t("pool_tool.device_name")
-          %input#what.text.ui-widget-content.ui-corner-all{:name => "what", :style => "margin-bottom:12px; width:95%; padding: .4em;", :type => "text"}
-          %table{:style => "width:100%; padding:5px;"}
-            %tr
-              %td
-                %label
-                  = t("pool_tool.start_date")
-                %input#startDate.text.ui-widget-content.ui-corner-all{:name => "startDate", :style => "margin-bottom:12px; width:95%; padding: .4em;", :type => "text", :value => "", :placeholder => t("datepicker.format"), :data => { :output => "booking-start-output" }}
-              %td &nbsp;
-              %td
-                %label
-                  = t("pool_tool.start_hour")
-                %select#startHour.text.ui-widget-content.ui-corner-all{:style => "margin-bottom:12px; width:95%; padding: .4em;"}
-                  %option{:SELECTED => "", :value => "12"} 12
-                  %option{:value => "1"} 1
-                  %option{:value => "2"} 2
-                  %option{:value => "3"} 3
-                  %option{:value => "4"} 4
-                  %option{:value => "5"} 5
-                  %option{:value => "6"} 6
-                  %option{:value => "7"} 7
-                  %option{:value => "8"} 8
-                  %option{:value => "9"} 9
-                  %option{:value => "10"} 10
-                  %option{:value => "11"} 11
-                %td
-                  %td
-                    %label
-                      = t("pool_tool.start_minute")
-                    %select#startMin.text.ui-widget-content.ui-corner-all{:style => "margin-bottom:12px; width:95%; padding: .4em;"}
-                      %option{:SELECTED => "", :value => "00"} 00
-                      %option{:value => "10"} 10
-                      %option{:value => "20"} 20
-                      %option{:value => "30"} 30
-                      %option{:value => "40"} 40
-                      %option{:value => "50"} 50
-                    %td
-                      %td
-                        %label
-                          = t("pool_tool.start_am_pm")
-                        %select#startMeridiem.text.ui-widget-content.ui-corner-all{:style => "margin-bottom:12px; width:95%; padding: .4em;"}
-                          %option{:SELECTED => "", :value => "AM"} AM
-                          %option{:value => "PM"} PM
-            %tr
-              %td
-                %label
-                  = t("pool_tool.end_date")
-                %input#endDate.text.ui-widget-content.ui-corner-all{:name => "endDate", :style => "margin-bottom:12px; width:95%; padding: .4em;", :type => "text", :value => "", :placeholder => t("datepicker.format"), :data => { :output => "booking-end-output" }}
-              %td &nbsp;
-              %td
-                %label
-                  = t("pool_tool.end_hour")
-                %select#endHour.text.ui-widget-content.ui-corner-all{:style => "margin-bottom:12px; width:95%; padding: .4em;"}
-                  %option{:SELECTED => "", :value => "12"} 12
-                  %option{:value => "1"} 1
-                  %option{:value => "2"} 2
-                  %option{:value => "3"} 3
-                  %option{:value => "4"} 4
-                  %option{:value => "5"} 5
-                  %option{:value => "6"} 6
-                  %option{:value => "7"} 7
-                  %option{:value => "8"} 8
-                  %option{:value => "9"} 9
-                  %option{:value => "10"} 10
-                  %option{:value => "11"} 11
-                %td
-                  %td
-                    %label
-                      = t("pool_tool.end_minute")
-                    %select#endMin.text.ui-widget-content.ui-corner-all{:style => "margin-bottom:12px; width:95%; padding: .4em;"}
-                      %option{:SELECTED => "", :value => "00"} 00
-                      %option{:value => "10"} 10
-                      %option{:value => "20"} 20
-                      %option{:value => "30"} 30
-                      %option{:value => "40"} 40
-                      %option{:value => "50"} 50
-                    %td
-                      %td
-                        %label
-                          = t("pool_tool.end_am_pm")
-                        %select#endMeridiem.text.ui-widget-content.ui-corner-all{:style => "margin-bottom:12px; width:95%; padding: .4em;"}
-                          %option{:SELECTED => "", :value => "AM"} AM
-                          %option{:value => "PM"} PM
-
-
-    #listings-list{:style => "margin:15px;"}
-      - limit = 20
-      = render :partial => 'listings/pool_tool_listings', :locals => {:person => @person, :limit => limit}
-
-
-    #dialog_event_description{:title => "Information", :style => "display:none"}
-      %p Please enter a short event description into the "what" field.
-
-    #dialog_confirm_delete{:title => "Delete?", :style => "display:none"}
-      %p
-        Are you sure you want to delete this agenda item?
-
-
-
-  #tabs-2
-
-
-  #tabs-3
-    #listings-list{:style => "margin:15px;"}
-      - limit = 20
-      = render :partial => 'listings/profile_listings', :locals => {:person => @person, :limit => limit}
-
-  #display-event-form{:title => "View Agenda Item"}
-  %p &nbsp;
-  / end example tab
-/ end tabs
-%p &nbsp;
-
-- content_for :extra_javascript do
-  :javascript
-    pooltool.init();
+#editListings
+  %h3
+    Edit your devices
+  #listings-list{:style => "margin:15px;"}
+    - limit = 20
+    = render :partial => 'listings/profile_listings', :locals => {:person => @person, :limit => limit}
 
