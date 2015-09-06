@@ -1,7 +1,7 @@
 @mixin trusted_company($color1, $color2, $color3) {
     background-image: -webkit-linear-gradient(bottom, $color1 46%, $color2 55%);
     background-image: linear-gradient(to bottom, $color1 46%, $color2 55%);
-    background-size: 2px 2px;
+    background-size: 3px 3px;
     color:black!important;
     .fn-label {
         color: $color3 !important;
@@ -12,7 +12,7 @@
     background-image: -webkit-linear-gradient(left bottom, $color2 46%, $color1 55%);
     background-image: linear-gradient(to left bottom, $color2 46%, $color1 55%);
 
-    background-size: 3px 3px;
+    background-size: 5px 5px;
     color:black!important;
     .fn-label {
         color: $color3 !important;
@@ -248,7 +248,7 @@
         @include any_employee(#ffffff, #F9C4E1, #78436D);
     }
 
-    .ganttGreen {
+    .ganttGreen_ownEmployee {
         background-color: #D8EDA3;
         .fn-label {
             color: #778461 !important;
@@ -265,7 +265,7 @@
     }
 
 
-    .ganttOrange {
+    .ganttOrange_ownEmployee {
         background-color: #FCD29A;
         .fn-label {
             color: #714715 !important;
@@ -282,7 +282,7 @@
     }
 
 
-    .ganttBlue {
+    .ganttBlue_ownEmployee {
         background-color: #FCD29A;
         .fn-label {
             color: #714715 !important;
@@ -296,6 +296,47 @@
     }
     .ganttBlue_anyEmployee {
         @include any_employee(#ffffff, #D8EDA3, #714715);
+    }
+
+
+    .ganttLegend_ownEmployee {
+        background-color: #A3D7F3;
+        .fn-label {
+            color: #4D85BC !important;
+            font-weight: bold;
+        }
+        border: 1px solid #0FA9F0;
+        border-radius: 5px;
+        margin: 5px;
+        width:21%;
+        float:left;
+    }
+    .ganttLegend_trustedCompany {
+        @include trusted_company(#ffffff, #A3D7F3, #4D85BC);
+        border: 1px solid #0FA9F0;
+        border-radius: 5px;
+        margin: 5px;
+        width:21%;
+        float:left;
+        font-weight: bold;
+    }
+    .ganttLegend_anyCompany {
+        @include any_company(#ffffff, #A3D7F3, #4D85BC);
+        border: 1px solid #0FA9F0;
+        border-radius: 5px;
+        margin: 5px;
+        width:21%;
+        float:left;
+        font-weight: bold;
+    }
+    .ganttLegend_anyEmployee {
+        @include any_employee(#ffffff, #A3D7F3, #4D85BC);
+        border: 1px solid #0FA9F0;
+        border-radius: 5px;
+        margin: 5px;
+        width:21%;
+        float:left;
+        font-weight: bold;
     }
 
     .ganttHidden {
@@ -488,3 +529,19 @@
     clear: both;
 }
 
+.legend {
+    font-size: 0.8em;
+    text-align: center;
+    height:70px;
+    border: 1px solid rgba(243, 187, 187, 0.3);
+    border-radius: 5px;
+    width: 500px;
+    background-color:#F9F2E5;
+    margin: 15px;
+    box-shadow: 10px 20px 30px #E1DDC8;
+}
+.legend_title {
+    text-align: left;
+    margin-top:5px;
+    margin-left:10px;
+}

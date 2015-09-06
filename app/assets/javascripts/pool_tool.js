@@ -1,5 +1,5 @@
 /* Tell jshint that there exists a global called "gon" */
-/* globals gon */
+/* globals gon, prettyPrint */
 /* jshint unused: false */
 
 window.ST = window.ST || {};
@@ -77,10 +77,9 @@ window.ST.poolTool = function() {
         to: "/Date(" + next_month_ms + ")/",
         customClass: "ganttHidden"
       }]
-    }
+    };
     source.push(hiddenElement);
 
-console.log(source);
 
     $(".gantt").gantt({
       dow: gon.translated_days_min,
@@ -102,9 +101,7 @@ console.log(source);
         }
       },
       onRender: function() {
-        if (window.console && typeof console.log === "function") {
-          //$( "#draggme" ).draggable({axis: 'x'});
-        }
+        //$( "#draggme" ).draggable({axis: 'x'});
       }
     });
 

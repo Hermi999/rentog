@@ -265,6 +265,9 @@
                 content.append($rightPanel);
                 content.append(core.navigation(element));
 
+                // append legend
+                content.append(core.legend);
+
                 var $dataPanel = $rightPanel.find(".dataPanel");
 
                 element.gantt = $('<div class="fn-gantt" />').append(content);
@@ -951,6 +954,26 @@
                             }));
                 }
                 return $('<div class="bottom"/>').append(ganttNavigate);
+            },
+
+            legend: function() {
+                var legend = $('<div class="legend" />')
+                    .append($('<h3 class="legend_title" />')
+                        .html('Legend'))
+                    .append($('<div class="ganttLegend_trustedCompany" />')
+                        .append($('<div class="fn-label" />')
+                            .html('Trusted Company')))
+                    .append($('<div class="ganttLegend_anyCompany" />')
+                        .append($('<div class="fn-label" />')
+                            .html('Any Company')))
+                    .append($('<div class="ganttLegend_ownEmployee" />')
+                        .append($('<div class="fn-label" />')
+                            .html('Own Employee')))
+                    .append($('<div class="ganttLegend_anyEmployee" />')
+                        .append($('<div class="fn-label" />')
+                            .html('Any Employee')));
+
+                return legend;
             },
 
             // **Progress Bar**
