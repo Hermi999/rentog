@@ -7,7 +7,7 @@
 - content_for :title_header do
   %h1= t("pool_tool.headline")
 
-%button#addNewBooking
+%button#addNewBooking.primary-button
   .content
     Add new booking
 
@@ -15,7 +15,7 @@
   = form_tag(person_poolTool_path(@person), :action => :create) do
     = label_tag(:newBooking, "Title")
     = text_field_tag(:newBooking)
-    = submit_tag("Create")
+    = submit_tag("Create", class: "success-button")
 
     Todo...
 

@@ -16,8 +16,19 @@ window.ST.poolTool = function() {
 
 
   function initializeFormular(){
-    $('#addNewBooking').on('vclick', function(ev){
-      $('#addNewBookingForm').fadeIn();
+    button = $('#addNewBooking');
+    button.on('vclick', function(ev){
+      if (button.html() === 'Abort'){
+        $('#addNewBookingForm').fadeOut();
+        button.html('Add new booking');
+        button.addClass('primary-button');
+        button.removeClass('delete-button');
+      } else {
+        $('#addNewBookingForm').fadeIn();
+        button.html('Abort');
+        button.removeClass('primary-button');
+        button.addClass('delete-button');
+      }
     });
   }
 

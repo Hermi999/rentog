@@ -230,3 +230,81 @@
     background-color: darken(#CAEBCC, 20%);
   }
 }
+
+@mixin color-block($color) {
+  float:left;
+  color:black;
+  margin: 5px;
+  margin-bottom:20px;
+  padding: 7px;
+  width: 200px;
+  height: 40px;
+  background-color: $color;
+  border: 1px dashed black;
+}
+.color-block-highlight{
+  @include color-block($highlight);
+}
+.color-block-background{
+  @include color-block($background);
+}
+.color-block-aside{
+  @include color-block($aside);
+}
+.color-block-light-body{
+  @include color-block($light-body);
+}
+.color-block-body{
+  @include color-block($body);
+}
+.color-block-emphasis{
+  @include color-block($emphasis);
+}
+.color-block-link{
+  @include color-block($link);
+}
+.color-block-link2{
+  @include color-block($link2);
+}
+.color-block-green{
+  @include color-block($green);
+}
+.color-block-light-green{
+  @include color-block($light-green);
+}
+.color-block-red{
+  @include color-block($red);
+}
+.color-block-error-red{
+  @include color-block($error-red);
+}
+.color-block-yellow{
+  @include color-block($yellow);
+}
+.color-block-sharetribe-color{
+  @include color-block($sharetribe-color);
+}
+.color-block-expiration-background{
+  @include color-block($expiration-background);
+}
+.color-block-bootstrap-primary{
+  @include color-block($bootstrap-primary);
+}
+.color-block-bootstrap-success{
+  @include color-block($bootstrap-success);
+}
+.color-block-bootstrap-info{
+  @include color-block($bootstrap-info);
+}
+.color-block-bootstrap-warning{
+  @include color-block($bootstrap-warning);
+}
+.color-block-bootstrap-danger{
+  @include color-block($bootstrap-danger);
+}
+
+.color-end{
+  height:10px;
+  width:10px;
+  clear:both;
+}

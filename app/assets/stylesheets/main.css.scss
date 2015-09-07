@@ -403,8 +403,16 @@ button, .button {
   margin-left: lines(0.25);
 }
 
+.primary-button {
+  @include button($bootstrap-primary);
+}
+
 .delete-button {
-  @include button(red);
+  @include button($error-red);
+}
+
+.success-button {
+  @include button($bootstrap-success);
 }
 
 .big-button {

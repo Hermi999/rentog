@@ -466,6 +466,11 @@
                 var today = new Date();
                 today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
+                var firstClassYear=' firstElement ',
+                    firstClassMonth=' firstElement ',
+                    firstClassDay=' firstElement ',
+                    firstClassWeeks=' firstElement ';
+
                 // Setup the headings based on the chosen `settings.scale`
                 switch (settings.scale) {
                     // **Hours**
@@ -484,7 +489,7 @@
                             var rfy = rday.getFullYear();
                             if (rfy !== year) {
                                 yearArr.push(
-                                    ('<div class="row_g header_g year_g" style="width: '
+                                    ('<div class="row_g header_g year_g' + firstClassYear + '" style="width: '
                                         + tools.getCellSize() * daysInYear
                                         + 'px;"><div class="fn-label">'
                                         + year
@@ -492,6 +497,10 @@
 
                                 year = rfy;
                                 daysInYear = 0;
+
+                                if (firstClassYear !== ''){
+                                    firstClassYear = '';
+                                }
                             }
                             daysInYear++;
 
@@ -500,13 +509,17 @@
                             var rm = rday.getMonth();
                             if (rm !== month) {
                                 monthArr.push(
-                                    ('<div class="row_g header_g month_g" style="width: '
+                                    ('<div class="row_g header_g month_g' + firstClassMonth + '" style="width: '
                                     + tools.getCellSize() * daysInMonth + 'px"><div class="fn-label">'
                                     + settings.months[month]
                                     + '</div></div>'));
 
                                 month = rm;
                                 daysInMonth = 0;
+
+                                if (firstClassMonth !== ''){
+                                    firstClassMonth = '';
+                                }
                             }
                             daysInMonth++;
 
@@ -522,38 +535,46 @@
                             if (rgetDay !== getDay) {
                                 var day_class2 = (today - day === 0) ? "today" : tools.isHoliday( day.getTime() ) ? "holiday" : dowClass[getDay];
 
-                                dayArr.push('<div class="row_g date ' + day_class2 + '" '
+                                dayArr.push('<div class="row_g date' + firstClassDay + day_class2 + '" '
                                         + ' style="width: ' + tools.getCellSize() * hoursInDay + 'px;"> '
                                         + ' <div class="fn-label">' + day.getDate() + '</div></div>');
-                                dowArr.push('<div class="row_g day_g ' + day_class2 + '" '
+                                dowArr.push('<div class="row_g day_g' + firstClassDay + day_class2 + '" '
                                         + ' style="width: ' + tools.getCellSize() * hoursInDay + 'px;"> '
                                         + ' <div class="fn-label">' + settings.dow[getDay] + '</div></div>');
 
                                 day = rday;
                                 hoursInDay = 0;
+
+                                if (firstClassDay !== ''){
+                                    firstClassDay = '';
+                                }
                             }
                             hoursInDay++;
 
-                            horArr.push('<div class="row_g day_g '
+                            horArr.push('<div class="row_g day_g' + firstClassDay + ''
                                     + day_class
                                     + '" id="dh-'
                                     + rday.getTime()
                                     + '"  offset="' + i * tools.getCellSize() + '" repdate="' + rday.getRepDate() + '"><div class="fn-label">'
                                     + rday.getHours()
                                     + '</div></div>');
+
+                            if (firstClassDay !== ''){
+                                firstClassDay = '';
+                            }
                         }
 
 
                         // Last year
                         yearArr.push(
-                            '<div class="row_g header_g year_g" style="width: '
+                            '<div class="row_g header_g year_g' + firstClassYear + '" style="width: '
                             + tools.getCellSize() * daysInYear + 'px;"><div class="fn-label">'
                             + year
                             + '</div></div>');
 
                         // Last month
                         monthArr.push(
-                            '<div class="row_g header_g month_g" style="width: '
+                            '<div class="row_g header_g month_g' + firstClassMonth + '" style="width: '
                             + tools.getCellSize() * daysInMonth + 'px"><div class="fn-label">'
                             + settings.months[month]
                             + '</div></div>');
@@ -564,11 +585,11 @@
                             day_class = "holiday";
                         }
 
-                        dayArr.push('<div class="row_g date ' + day_class + '" '
+                        dayArr.push('<div class="row_g date' + firstClassDay + day_class + '" '
                                 + ' style="width: ' + tools.getCellSize() * hoursInDay + 'px;"> '
                                 + ' <div class="fn-label">' + day.getDate() + '</div></div>');
 
-                        dowArr.push('<div class="row_g day_g ' + day_class + '" '
+                        dowArr.push('<div class="row_g day_g' + firstClassDay + day_class + '" '
                                 + ' style="width: ' + tools.getCellSize() * hoursInDay + 'px;"> '
                                 + ' <div class="fn-label">' + settings.dow[day.getDay()] + '</div></div>');
 
@@ -599,46 +620,58 @@
                             // Fill years
                             if (rday.getFullYear() !== year) {
                                 yearArr.push(
-                                    ('<div class="row_g header_g year_g" style="width: '
+                                    ('<div class="row_g header_g year_g' + firstClassYear + '" style="width: '
                                         + tools.getCellSize() * daysInYear
                                         + 'px;"><div class="fn-label">'
                                         + year
                                         + '</div></div>'));
                                 year = rday.getFullYear();
                                 daysInYear = 0;
+
+                                if (firstClassYear !== ''){
+                                    firstClassYear = '';
+                                }
                             }
                             daysInYear++;
 
                             // Fill months
                             if (rday.getMonth() !== month) {
                                 monthArr.push(
-                                    ('<div class="row_g header_g month_g" style="width:'
+                                    ('<div class="row_g header_g month_g' + firstClassMonth + '" style="width:'
                                        + tools.getCellSize() * daysInMonth
                                        + 'px;"><div class="fn-label">'
                                        + settings.months[month]
                                        + '</div></div>'));
                                 month = rday.getMonth();
                                 daysInMonth = 0;
+
+                                if (firstClassMonth !== ''){
+                                    firstClassMonth = '';
+                                }
                             }
                             daysInMonth++;
 
                             // Fill weeks
-                            dayArr.push('<div class="row_g day_g wd_g" '
+                            dayArr.push('<div class="row_g day_g wd_g' + firstClassWeeks + '" '
                                     + ' id="' + rday.getWeekId() + '" offset="' + i * tools.getCellSize() + '" repdate="' + rday.getRepDate() + '"> '
                                     + ' <div class="fn-label">' + rday.getWeekOfYear() + '</div></div>');
+
+                            if (firstClassWeeks !== ''){
+                                firstClassWeeks = '';
+                            }
                         }
 
 
                         // Last year
                         yearArr.push(
-                            '<div class="row_g header_g year_g" style="width: '
+                            '<div class="row_g header_g year_g' + firstClassYear + '" style="width: '
                             + tools.getCellSize() * daysInYear + 'px;"><div class="fn-label">'
                             + year
                             + '</div></div>');
 
                         // Last month
                         monthArr.push(
-                            '<div class="row_g header_g month_g" style="width: '
+                            '<div class="row_g header_g month_g' + firstClassMonth + '" style="width: '
                             + tools.getCellSize() * daysInMonth + 'px"><div class="fn-label">'
                             + settings.months[month]
                             + '</div></div>');
@@ -663,29 +696,37 @@
                             // Fill years
                             if (rday.getFullYear() !== year) {
                                 yearArr.push(
-                                    ('<div class="row_g header_g year_g" style="width: '
+                                    ('<div class="row_g header_g year_g' + firstClassYear + '" style="width: '
                                         + tools.getCellSize() * daysInYear
                                         + 'px;"><div class="fn-label">'
                                         + year
                                         + '</div></div>'));
                                 year = rday.getFullYear();
                                 daysInYear = 0;
+
+                                if (firstClassYear !== ''){
+                                    firstClassYear = '';
+                                }
                             }
                             daysInYear++;
-                            monthArr.push('<div class="row_g day_g wd_g" id="dh-' + tools.genId(rday.getTime()) + '" offset="' + i * tools.getCellSize() + '" repdate="' + rday.getRepDate() + '">' + (1 + rday.getMonth()) + '</div>');
+                            monthArr.push('<div class="row_g day_g wd_g' + firstClassMonth + '" id="dh-' + tools.genId(rday.getTime()) + '" offset="' + i * tools.getCellSize() + '" repdate="' + rday.getRepDate() + '">' + (1 + rday.getMonth()) + '</div>');
+
+                            if (firstClassMonth !== ''){
+                                firstClassMonth = '';
+                            }
                         }
 
 
                         // Last year
                         yearArr.push(
-                            '<div class="row_g header_g year_g" style="width: '
+                            '<div class="row_g header_g year_g' + firstClassYear + '" style="width: '
                             + tools.getCellSize() * daysInYear + 'px;"><div class="fn-label">'
                             + year
                             + '</div></div>');
 
                         // Last month
                         monthArr.push(
-                            '<div class="row_g header_g month_g" style="width: '
+                            '<div class="row_g header_g month_g' + firstClassMonth + '" style="width: '
                             + tools.getCellSize() * daysInMonth + 'px"><div class="fn-label">'
                             + settings.months[month]
                             + '</div></div>');
@@ -715,26 +756,34 @@
                             // Fill years
                             if (rday.getFullYear() !== year) {
                                 yearArr.push(
-                                    ('<div class="row_g header_g year_g" style="width:'
+                                    ('<div class="row_g header_g year_g' + firstClassYear + '" style="width:'
                                         + tools.getCellSize() * daysInYear
                                         + 'px;"><div class="fn-label">'
                                         + year
                                         + '</div></div>'));
                                 year = rday.getFullYear();
                                 daysInYear = 0;
+
+                                if (firstClassYear !== ''){
+                                    firstClassYear = '';
+                                }
                             }
                             daysInYear++;
 
                             // Fill months
                             if (rday.getMonth() !== month) {
                                 monthArr.push(
-                                    ('<div class="row_g header_g month_g" style="width:'
+                                    ('<div class="row_g header_g month_g' + firstClassMonth + '" style="width:'
                                        + tools.getCellSize() * daysInMonth
                                        + 'px;"><div class="fn-label">'
                                        + settings.months[month]
                                        + '</div></div>'));
                                 month = rday.getMonth();
                                 daysInMonth = 0;
+
+                                if (firstClassMonth !== ''){
+                                    firstClassMonth = '';
+                                }
                             }
                             daysInMonth++;
 
@@ -744,24 +793,28 @@
                                 day_class = "holiday";
                             }
 
-                            dayArr.push('<div class="row_g date ' + day_class + '" '
+                            dayArr.push('<div class="row_g date ' + day_class + firstClassDay + '" '
                                     + ' id="dh-' + tools.genId(rday.getTime()) + '" offset="' + i * tools.getCellSize() + '" repdate="' + rday.getRepDate() + '"> '
                                     + ' <div class="fn-label">' + rday.getDate() + '</div></div>');
-                            dowArr.push('<div class="row_g day_g ' + day_class + '" '
+                            dowArr.push('<div class="row_g day_g ' + day_class + firstClassDay + '" '
                                     + ' id="dw-' + tools.genId(rday.getTime()) + '"  repdate="' + rday.getRepDate() + '"> '
                                     + ' <div class="fn-label">' + settings.dow[getDay] + '</div></div>');
+
+                            if (firstClassDay !== ''){
+                                firstClassDay = '';
+                            }
                         } //for
 
                         // Last year
                         yearArr.push(
-                            '<div class="row_g header_g year_g" style="width: '
+                            '<div class="row_g header_g year_g' + firstClassYear + '" style="width: '
                             + tools.getCellSize() * daysInYear + 'px;"><div class="fn-label">'
                             + year
                             + '</div></div>');
 
                         // Last month
                         monthArr.push(
-                            '<div class="row_g header_g month_g" style="width: '
+                            '<div class="row_g header_g month_g' + firstClassMonth + '" style="width: '
                             + tools.getCellSize() * daysInMonth + 'px"><div class="fn-label">'
                             + settings.months[month]
                             + '</div></div>');
