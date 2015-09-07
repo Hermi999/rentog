@@ -12,11 +12,11 @@ class PoolToolController < ApplicationController
     transaction_array = transactions.as_json
 
     # Get all open Listings of the current user
-    open_listings = Listing.currently_open.where("listings.author_id" => @current_user).select('listings.title')
+    open_listings = Listing.currently_open.where("listings.author_id" => @current_user).select('listings.title, listings.availability')
 
     open_listings_array = []
     open_listings.each do |listing|
-      open_listings_array << listing.title
+      open_listings_array << { name: listing.title, desc: listing.availability }
     end
 
     # Convert all the transaction into a jquery-Gantt readable source.
@@ -34,6 +34,7 @@ class PoolToolController < ApplicationController
         counter = counter + 1
 
         transaction['name'] = transaction['title']
+        transaction['desc'] = transaction['availability']
         transaction['values'] = [{
           'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
           'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
@@ -87,7 +88,10 @@ class PoolToolController < ApplicationController
    })
   end
 
+  def create
 
+    redirect_to person_poolTool_path(params[:person_id]) and return
+  end
 
   private
 

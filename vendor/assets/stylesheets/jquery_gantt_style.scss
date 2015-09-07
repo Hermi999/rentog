@@ -85,7 +85,7 @@
     display: inline-block;
     margin: 0 0 0 5px;
     color: #484A4D;
-    width: 110px;
+    width: 170px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -103,12 +103,15 @@
 }
 
 .fn-gantt .leftPanel .name {
-    width: 108px;
+    width: 168px;
     font-weight: bold;
 }
 
 .fn-gantt .leftPanel .desc {
-    width: 115px;
+    width: 55px;
+    font-size: 0.7em;
+    font-style:italic;
+    padding-left:5px;
 }
 
 .fn-gantt .leftPanel .fn-wide, .fn-gantt .leftPanel .fn-wide .fn-label {

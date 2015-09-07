@@ -66,13 +66,14 @@ window.ST.poolTool = function() {
     for (var j=0; j<gon.open_listings.length; j++){
       var already_there = false;
       for (var k=0; k<source.length; k++){
-        if (gon.open_listings[j] === source[k].name){
+        if (gon.open_listings[j].name === source[k].name){
           already_there = true;
         }
       }
       if (!already_there){
         empty_arr.push({
-          name: gon.open_listings[j],
+          name: gon.open_listings[j].name,
+          desc: gon.open_listings[j].desc,
           //desc: "No bookings",
           values: [{
             from: "/Date(" + today_ms + ")/",

@@ -13,11 +13,12 @@
 
 #addNewBookingForm
   = form_tag(person_poolTool_path(@person), :action => :create) do
-    = label_tag(:newBooking, "Title")
-    = text_field_tag(:newBooking)
+    = label_tag :employees, "Choose Employee"
+    = collection_select :employee, :username, @person.employees, :id, :full_name, prompt: true
+    = label_tag :renter, "Or enter another user/reason"
+    = text_field_tag :renter
     = submit_tag("Create", class: "success-button")
 
-    Todo...
 
 .poolTool_gantt_container
   .gantt
