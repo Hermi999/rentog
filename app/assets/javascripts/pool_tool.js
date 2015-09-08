@@ -17,7 +17,7 @@ window.ST.poolTool = function() {
 
   function initializeFormular(){
     // Add button
-    addButton = $('#addNewBooking');
+    var addButton = $('#addNewBooking');
     addButton.on('vclick', function(ev){
       if (addButton.html() === 'Abort'){
         $('#addNewBookingForm').fadeOut();
@@ -33,8 +33,8 @@ window.ST.poolTool = function() {
     });
 
     // Employee dropdown & renter textfield
-    dd_employee = $('#dd_employee');
-    tf_device_renter = $('#tf_device_renter');
+    var dd_employee = $('#dd_employee');
+    var tf_device_renter = $('#tf_device_renter');
     dd_employee.change(function(ev){
       if (dd_employee[0].selectedIndex === 0){
         tf_device_renter.prop('disabled', false);
@@ -50,7 +50,7 @@ window.ST.poolTool = function() {
       else{
         dd_employee.prop('disabled', true);
       }
-    })
+    });
   }
 
   function initializeDatepicker(){
@@ -153,11 +153,11 @@ window.ST.poolTool = function() {
   }
 
   var check_orientation = function() {
-      if(typeof window.orientation == 'undefined') {
+      if(typeof window.orientation === 'undefined') {
           //not a mobile
           return true;
       }
-      if(Math.abs(window.orientation) != 90 && $(window).width() < 600) {
+      if(Math.abs(window.orientation) !== 90 && $(window).width() < 600) {
           //portrait mode
           $('#orr').fadeIn().bind('touchstart', function(e) {
               e.preventDefault();
