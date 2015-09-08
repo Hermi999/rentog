@@ -2203,7 +2203,8 @@ en:
   person_messages:
     renting_request: "Hi Admin. I would like to rent this device (%{device_link}) from %{start_date} to %{end_date}. Please contact the owner!"
   pool_tool:
-    you_have_to_be_company_admin: "You must be company admin to access the Pool Tool!"
+    you_have_to_be_company_member: "You must be a company member to view the Pool Tool!"
+    you_have_to_be_company_admin: "You must be company admin to change something in the Pool Tool!"
     tab_1: "Calender"
     tab_2: "Gantt"
     tab_3: "Inventory"

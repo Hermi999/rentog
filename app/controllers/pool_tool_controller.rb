@@ -1,6 +1,7 @@
 class PoolToolController < ApplicationController
   # Filters
   before_filter :ensure_is_authorized_to_view, :only => [ :show ]
+  before_filter :ensure_is_authorized_to_change, :only => [:create]
 
   def show
     # @person is the person which owns the company
@@ -88,7 +89,6 @@ class PoolToolController < ApplicationController
   end
 
   def create
-
     redirect_to person_poolTool_path(params[:person_id]) and return
   end
 
@@ -105,9 +105,23 @@ class PoolToolController < ApplicationController
       return if @current_user && @current_user.is_employee?(params['person_id'])
 
       # Otherwise return to home page
+      flash[:error] = t("pool_tool.you_have_to_be_company_member")
+      redirect_to root_path and return
+    end
+
+
+    def ensure_is_authorized_to_change()
+      # # Company Admin is authorized
+      return if @current_user && @current_user.is_organization && @current_user.username == params['person_id']
+
+      # Rentog Admin is authorized
+      return if @current_user && @current_user.has_admin_rights_in?(@current_community)
+
+      # Otherwise return to home page
       flash[:error] = t("pool_tool.you_have_to_be_company_admin")
       redirect_to root_path and return
     end
+
 
     def get_renter_and_relation(transaction)
       # How is the relation between the company & the renter of this one listing?

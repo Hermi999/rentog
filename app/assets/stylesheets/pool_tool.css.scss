@@ -1,3 +1,19 @@
+@import "mixins/all";
+
+.poolTool_no_listings{
+  background-color: $bootstrap-warning;
+  font-weight: bold;
+  padding: 20px;
+  border-radius: 15px;
+  -webkit-box-shadow: 11px 10px 40px -1px rgba(0,0,0,0.75);
+  box-shadow: 11px 10px 40px -1px rgba(0,0,0,0.75);
+  @include large-type;
+}
+.poolTool_no_listings_whatToDo{
+  margin-top:15px;
+  font-size:0.9em;
+}
+
 #orr {
     display:none;
     position:fixed;
@@ -17,6 +33,10 @@
     font-weight: bold;
 }
 
+#addNewBooking{
+  width:100%;
+}
+
 #addNewBookingForm{
  display: none;
 }
@@ -24,8 +44,19 @@
 #tf_device_renter{
 }
 
+#poolTool_or{
+  display: none;
+
+  @include media(tablet){
+    display: block;
+    text-align: center;
+    height: 81px;
+    padding-top: 45px;
+  }
+}
 #dd_employee{
   height:42px!important;
+  width: 100%;
 }
 .radiobutton_griditem{
   text-align: center;
@@ -46,4 +77,7 @@
 }
 .clear-floating{
   clear:both;
+}
+.pooltool_create_booking{
+  width:100%;
 }
