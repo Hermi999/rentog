@@ -107,6 +107,10 @@ window.ST.poolTool = function() {
     source = source.concat(empty_arr);
 
 
+    // If source is still empty (because company has no open listings),
+    // then add dummy listings
+    source = addDummyListings();
+
     // Add hidden gantt-element, to show the chart at least until today + 1 month
     var hiddenElement = {
       values: [{
@@ -153,8 +157,8 @@ window.ST.poolTool = function() {
   }
 
   var check_orientation = function() {
-      if(typeof window.orientation === 'undefined') {
-          //not a mobile
+      if(typeof window.orientation === 'undefined' || (gon.devices.length + gon.open_listings.length) === 0 ) {
+          //not a mobile or no open listings
           return true;
       }
       if(Math.abs(window.orientation) !== 90 && $(window).width() < 600) {
@@ -171,6 +175,87 @@ window.ST.poolTool = function() {
       }
     };
 
+  var addDummyListings = function(){
+    var today = new Date();
+
+    var from1_ms = Math.round(new Date(new Date(today).setDate(today.getDate()-3)).getTime());
+    var to1_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+5)).getTime());
+
+    var from2_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+1)).getTime());
+    var to2_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+7)).getTime());
+    var from3_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+9)).getTime());
+    var to3_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+16)).getTime());
+    var from4_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+23)).getTime());
+    var to4_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+32)).getTime());
+
+    var from5_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+3)).getTime());
+    var to5_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+10)).getTime());
+    var from6_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+16)).getTime());
+    var to6_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+25)).getTime());
+    var from7_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+30)).getTime());
+    var to7_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+40)).getTime());
+
+    return [
+        {
+          name: "Test Device 1",
+          desc: "intern",
+          values: [{
+            from: "/Date(" + from1_ms + ")/",
+            to: "/Date(" + to1_ms + ")/",
+            label: "Renting Organization 1",
+            customClass: "gantt_ownEmployee"
+          }]
+        },
+        {
+          name: "Test Device 2",
+          desc: "trusted",
+          values: [
+            {
+              from: "/Date(" + from2_ms + ")/",
+              to: "/Date(" + to2_ms + ")/",
+              label: "Renting Organization 4",
+              customClass: "gantt_trustedCompany"
+            },
+            {
+              from: "/Date(" + from3_ms + ")/",
+              to: "/Date(" + to3_ms + ")/",
+              label: "Renting Organization 2",
+              customClass: "gantt_ownEmployee"
+            },
+            {
+              from: "/Date(" + from4_ms + ")/",
+              to: "/Date(" + to4_ms + ")/",
+              label: "Renting Organization 7",
+              customClass: "gantt_trustedCompany"
+            }
+          ]
+        },
+        {
+          name: "Test Device 3",
+          desc: "all",
+          values: [
+            {
+              from: "/Date(" + from5_ms + ")/",
+              to: "/Date(" + to5_ms + ")/",
+              label: "Renting Organization 9",
+              customClass: "gantt_anyCompany"
+            },
+            {
+              from: "/Date(" + from6_ms + ")/",
+              to: "/Date(" + to6_ms + ")/",
+              label: "Renting Organization 7",
+              customClass: "gantt_ownEmployee"
+            },
+            {
+              from: "/Date(" + from7_ms + ")/",
+              to: "/Date(" + to7_ms + ")/",
+              label: "Renting Organization 7",
+              customClass: "gantt_trustedCompany"
+            }
+          ]
+        }
+    ];
+  };
 
   return {
     init: init

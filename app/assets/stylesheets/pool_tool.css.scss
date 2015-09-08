@@ -1,7 +1,12 @@
 @import "mixins/all";
 
 .poolTool_no_listings{
+  position: fixed;
+  bottom:10%;
+  width: 90%;
+  margin: 0 5% 0 5%;
   background-color: $bootstrap-warning;
+  opacity: 0.87;
   font-weight: bold;
   padding: 20px;
   border-radius: 15px;
@@ -9,9 +14,20 @@
   box-shadow: 11px 10px 40px -1px rgba(0,0,0,0.75);
   @include large-type;
 }
+
 .poolTool_no_listings_whatToDo{
-  margin-top:15px;
   font-size:0.9em;
+}
+
+.poolTool_no_listings_coverSite{
+  margin-top:60px;
+  background-color:rgba(0, 0, 0, 0.56);
+  height:100%;
+  width: 100%;
+  position:absolute;
+  left:0px;
+  top:0px;
+  z-index: 1000;
 }
 
 #orr {
