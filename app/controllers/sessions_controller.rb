@@ -83,7 +83,6 @@ class SessionsController < ApplicationController
     else
       redirect_to new_tribe_membership_path
     end
-    flash[:notice] = "test"
   end
 
   def destroy
