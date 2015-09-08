@@ -19,9 +19,9 @@
         %br/
       = listing.title
 
-    .fluid-thumbnail-grid-image-price-container{:class => "#{modifier_class}"}
+    .fluid-thumbnail-grid-image-price-container{:class => "#{modifier_price}"}
       - if listing.price
-        %span.fluid-thumbnail-grid-image-price
+        %span.fluid-thumbnail-grid-image-price{:class => "#{modifier_price}"}
           = humanized_money_with_symbol(listing.price).upcase
           - price_unit = price_quantity_slash_unit(listing)
         - if !price_unit.blank?

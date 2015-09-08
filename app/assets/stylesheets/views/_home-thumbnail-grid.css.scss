@@ -16,6 +16,10 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
   @include create-fluid-thumbnail-grid(home, 1, 1, 2, 3, 4, 4, 4, 4);
 }
 
+.home-fluid-thumbnail-grid-pooltool {
+  @include create-fluid-thumbnail-grid(home, 2, 2, 3, 4, 5, 5, 6, 6);
+}
+
 .home-fluid-thumbnail-grid-author {
   @include border-bottom-radius($default-border-radius);
   background-color: $highlight;

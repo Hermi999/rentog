@@ -16,20 +16,41 @@ window.ST.poolTool = function() {
 
 
   function initializeFormular(){
-    button = $('#addNewBooking');
-    button.on('vclick', function(ev){
-      if (button.html() === 'Abort'){
+    // Add button
+    addButton = $('#addNewBooking');
+    addButton.on('vclick', function(ev){
+      if (addButton.html() === 'Abort'){
         $('#addNewBookingForm').fadeOut();
-        button.html('Add new booking');
-        button.addClass('primary-button');
-        button.removeClass('delete-button');
+        addButton.html('Add new booking');
+        addButton.addClass('primary-button');
+        addButton.removeClass('delete-button');
       } else {
         $('#addNewBookingForm').fadeIn();
-        button.html('Abort');
-        button.removeClass('primary-button');
-        button.addClass('delete-button');
+        addButton.html('Abort');
+        addButton.removeClass('primary-button');
+        addButton.addClass('delete-button');
       }
     });
+
+    // Employee dropdown & renter textfield
+    dd_employee = $('#dd_employee');
+    tf_device_renter = $('#tf_device_renter');
+    dd_employee.change(function(ev){
+      if (dd_employee[0].selectedIndex === 0){
+        tf_device_renter.prop('disabled', false);
+      }
+      else{
+        tf_device_renter.prop('disabled', true);
+      }
+    });
+    tf_device_renter.keyup(function(ev){
+      if (tf_device_renter.val() === ''){
+        dd_employee.prop('disabled', false);
+      }
+      else{
+        dd_employee.prop('disabled', true);
+      }
+    })
   }
 
   function initializeDatepicker(){

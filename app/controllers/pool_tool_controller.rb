@@ -7,18 +7,18 @@ class PoolToolController < ApplicationController
     @person = Person.find(params[:person_id] || params[:id])
 
     # Get transactions (joined with listings and bookings) from database, ordered by listings.id
-    transactions = Transaction.joins(:listing, :booking, :starter).select("listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.organization_name as renting_organization, people.id as person_id").where("listings.author_id" => @current_user, "transactions.community_id" => @current_community).order("listings.id asc")
+    transactions = Transaction.joins(:listing, :booking, :starter).select("listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.organization_name as renting_organization, people.id as person_id").where("listings.author_id" => @person, "transactions.community_id" => @current_community).order("listings.id asc")
     # Convert ActiveRecord Relation into array of hashes
     transaction_array = transactions.as_json
 
     # Get all open Listings of the current user
-    open_listings = Listing.currently_open.where("listings.author_id" => @current_user).select('listings.title, listings.availability')
+    @open_listings = Listing.currently_open.where("listings.author_id" => @person)
 
+    # Only use certain fields in JS
     open_listings_array = []
-    open_listings.each do |listing|
+    @open_listings.each do |listing|
       open_listings_array << { name: listing.title, desc: listing.availability }
     end
-
     # Convert all the transaction into a jquery-Gantt readable source.
     # wah: This might be shifted to the client (javascript) in future, since
     # it would reduce load on the server
@@ -65,7 +65,6 @@ class PoolToolController < ApplicationController
     months =  [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
 
     gon.push({
-      transactions: transaction_array,
       devices: devices,
       open_listings: open_listings_array,
       locale: I18n.locale,

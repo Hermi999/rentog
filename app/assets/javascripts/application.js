@@ -42,7 +42,6 @@
 //= require jquery.qtip-1.0
 //= require jshashtable-2.1.js
 //= require jquery-frontier-cal-1.3.2
-//= require pool_tool
 
 // Responsive helpers
 // https://github.com/edenspiekermann/minwidth-relocate
@@ -87,5 +86,6 @@
 //= require listing_form
 //= require jquery.fn.gantt
 //= require prettify
-
+//= require pool_tool
+//
 //= require_self
