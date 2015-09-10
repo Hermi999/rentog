@@ -20,17 +20,16 @@
 - content_for :title_header do
   %h1= t("pool_tool.headline")
 .row
-  .col-2
+  .col-3
     %button#addNewBooking.primary-button
-      .content
-        Add new booking
+      Add new booking
 
 #addNewBookingForm
   = form_tag(person_poolTool_path(@person), :action => :create) do
     .row
       #employee_wrapper.col-5
         = label_tag :employees, "Choose Employee"
-        = collection_select :employee, :username, @person.employees, :id, :full_name, {:prompt => "Please select..."}, {id: "dd_employee"}
+        = collection_select :employee, :id, @person.employees, :id, :full_name, {:prompt => "Please select..."}, {id: "dd_employee"}
 
       #poolTool_or.col-1
         or
@@ -63,8 +62,8 @@
 
     #submit_wrapper.row
       /.col-4
-      .col-2
-        = submit_tag("Create", class: "success-button pooltool_create_booking")
+      .col-3
+        = submit_tag("Create", id: "pooltool_submit_new_transaction", class: "success-button pooltool_create_booking")
 
 .poolTool_gantt_container
   .gantt

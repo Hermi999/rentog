@@ -51,6 +51,14 @@ window.ST.poolTool = function() {
         dd_employee.prop('disabled', true);
       }
     });
+
+    // Prenvent submitting if no employee or other reason was choosen
+    var submitButton = $('#pooltool_submit_new_transaction');
+    submitButton.on('vclick', function(ev){
+      if (dd_employee[0].selectedIndex === 0 && tf_device_renter.val() === ''){
+        ev.preventDefault();
+      }
+    });
   }
 
   function initializeDatepicker(){
@@ -106,10 +114,11 @@ window.ST.poolTool = function() {
     }
     source = source.concat(empty_arr);
 
-
     // If source is still empty (because company has no open listings),
     // then add dummy listings
-    source = addDummyListings();
+    if (source.length < 1) {
+      source = addDummyListings();
+    }
 
     // Add hidden gantt-element, to show the chart at least until today + 1 month
     var hiddenElement = {

@@ -4,4 +4,4 @@
       -# Listing image
       = render :partial => "layouts/grid_item_listing_image", :locals => {:listing => listing, :modifier_class => "pooltool_grid_item_modifier_class", :modifier_price => "pooltool_price_modifier"}
       .radiobutton_griditem
-        = radio_button_tag :devicename, listing[:title], style: "vertical-align:center"
+        = radio_button_tag :device_id, listing[:id], style: "vertical-align:center"
