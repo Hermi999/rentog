@@ -261,6 +261,12 @@
             color: #714715 !important;
         }
     }
+    .gantt_otherReason {
+        background-color: #EC8282;
+        .fn-label {
+            color: #990909 !important;
+        }
+    }
 
     .ganttLegend_ownEmployee {
         background-color: #F9C4E1;
@@ -272,6 +278,8 @@
         border-radius: 5px;
         margin: 5px;
         width:22%;
+        min-width:100px;
+        max-width:130px;
         float:left;
     }
     .ganttLegend_trustedCompany {
@@ -283,6 +291,8 @@
         border-radius: 5px;
         margin: 5px;
         width:22%;
+        min-width:100px;
+        max-width:130px;
         float:left;
         font-weight: bold;
     }
@@ -295,6 +305,8 @@
         border-radius: 5px;
         margin: 5px;
         width:22%;
+        min-width:100px;
+        max-width:130px;
         float:left;
         font-weight: bold;
     }
@@ -307,9 +319,26 @@
         border-radius: 5px;
         margin: 5px;
         width:22%;
+        min-width:100px;
+        max-width:130px;
         float:left;
         font-weight: bold;
     }
+    .ganttLegend_otherReason {
+        background-color: #EC8282;
+        .fn-label {
+            color: #990909 !important;
+        }
+        border: 1px solid #E95454;
+        border-radius: 5px;
+        margin: 5px;
+        width:22%;
+        min-width:100px;
+        max-width:130px;
+        float:left;
+        font-weight: bold;
+    }
+
 
     .ganttHidden {
         visibility: hidden;
@@ -575,13 +604,14 @@
 .legend {
     font-size: 0.7em;
     text-align: center;
-    height:70px;
     border: 1px solid rgba(243, 187, 187, 0.3);
     border-radius: 5px;
-    width: 500px;
+    width: 90%;
     background-color:#F9F2E5;
-    margin: 15px;
+    margin: 15px 5%;
     box-shadow: 10px 20px 30px #E1DDC8;
+    padding-top:5px;
+    padding-bottom:5px;
 }
 .legend_title {
     text-align: left;

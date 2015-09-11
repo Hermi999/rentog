@@ -29,12 +29,13 @@ function disable_and_submit(form_id, form, ajax, locale) {
 }
 
 /* This should be used always with ajax forms */
-function prepare_ajax_form(form_id, locale, rules) {
+function prepare_ajax_form(form_id, locale, rules, messages) {
   $(form_id).ajaxForm({
     dataType: 'script',
     beforeSubmit: function() {
       $(form_id).validate({
-        rules: rules
+        rules: rules,
+        messages: messages
       });
       if ($(form_id).valid() == true) {
         disable_submit_button(form_id, locale);

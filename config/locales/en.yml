@@ -2228,6 +2228,9 @@ en:
     end_am_pm: "End AM/PM"
     where_is_it: "Where is the device?"
     turn_your_device: "Please turn your device within the Pool Tool!"
+    invalid_booking_dates: "You've entered invalid booking dates"
     show:
+      could_not_create_new_booking: "Error: Action failed!"
       booking_from: "From"
       booking_to: "To"
+      choose_employee_or_renter: "Please choose either an employee or fill in another reason"

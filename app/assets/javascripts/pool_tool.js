@@ -10,73 +10,58 @@ window.ST.poolTool = function() {
   function init(){
     initializeCheckOrientation();
     initializeGantt();
-    initializeFormular();
     initializeDatepicker();
+    initialize_poolTool_createTransaction_form(gon.locale, gon.choose_employee_or_renter_msg);
+    initialize_device_picker();
   }
 
-
-  function initializeFormular(){
-    // Add button
-    var addButton = $('#addNewBooking');
-    addButton.on('vclick', function(ev){
-      if (addButton.html() === 'Abort'){
-        $('#addNewBookingForm').fadeOut();
-        addButton.html('Add new booking');
-        addButton.addClass('primary-button');
-        addButton.removeClass('delete-button');
-      } else {
-        $('#addNewBookingForm').fadeIn();
-        addButton.html('Abort');
-        addButton.removeClass('primary-button');
-        addButton.addClass('delete-button');
-      }
-    });
-
-    // Employee dropdown & renter textfield
-    var dd_employee = $('#dd_employee');
-    var tf_device_renter = $('#tf_device_renter');
-    dd_employee.change(function(ev){
-      if (dd_employee[0].selectedIndex === 0){
-        tf_device_renter.prop('disabled', false);
-      }
-      else{
-        tf_device_renter.prop('disabled', true);
-      }
-    });
-    tf_device_renter.keyup(function(ev){
-      if (tf_device_renter.val() === ''){
-        dd_employee.prop('disabled', false);
-      }
-      else{
-        dd_employee.prop('disabled', true);
-      }
-    });
-
-    // Prenvent submitting if no employee or other reason was choosen
-    var submitButton = $('#pooltool_submit_new_transaction');
-    submitButton.on('vclick', function(ev){
-      if (dd_employee[0].selectedIndex === 0 && tf_device_renter.val() === ''){
-        ev.preventDefault();
-      }
-    });
-  }
 
   function initializeDatepicker(){
-    if (gon.locale === 'en') {
-      return;
+    if (gon.locale !== 'en') {
+      $.fn.datepicker.dates[gon.locale] = {
+        days: gon.translated_days,
+        daysShort: gon.translated_days_short,
+        daysMin: gon.translated_days_min,
+        months: gon.translated_months,
+        monthsShort: gon.translated_months_short,
+        today: gon.today,
+        weekStart: gon.week_start,
+        clear: gon.clear,
+        format: gon.format
+      };
     }
 
-    $.fn.datepicker.dates[gon.locale] = {
-      days: gon.translated_days,
-      daysShort: gon.translated_days_short,
-      daysMin: gon.translated_days_min,
-      months: gon.translated_months,
-      monthsShort: gon.translated_months_short,
-      today: gon.today,
-      weekStart: gon.week_start,
-      clear: gon.clear,
-      format: gon.format
-    };
+    // Get booked dates for
+    // Set the first listing as checked and initialize datepicker with the booked dates of this listing
+    var booked_dates = [];
+    $('input:radio[name=listing_id]:first').attr('checked',true);
+    var listing_id = parseInt($('input[name=listing_id]:checked', '#poolTool_form').val());
+    for(var y=0; y<gon.devices.length; y++){
+      if(gon.devices[y].listing_id === listing_id){
+        booked_dates = gon.devices[y].already_booked_dates;
+        break;
+      }
+    }
+
+    var picker = window.ST.initializeFromToDatePicker('datepicker', booked_dates);
+
+    // If listing changes, then also update the booked dates in the datepicker
+    $("input[name=listing_id]:radio").change(function () {
+      var booked_dates = [];
+      var listing_id = parseInt($('input[name=listing_id]:checked', '#poolTool_form').val());
+
+      for(var y=0; y<gon.devices.length; y++){
+        if(gon.devices[y].listing_id === listing_id){
+          booked_dates = gon.devices[y].already_booked_dates;
+          break;
+        }
+      }
+      $('#start-on').val('');
+      $('#end-on').val('');
+      $('#datepicker').datepicker('remove');
+      window.ST.initializeFromToDatePicker('datepicker', booked_dates);
+      $('#datepicker').datepicker('update');
+    });
   }
 
 
@@ -104,6 +89,8 @@ window.ST.poolTool = function() {
           name: gon.open_listings[j].name,
           desc: gon.open_listings[j].desc,
           //desc: "No bookings",
+          availability: gon.open_listings[j].availability,
+          listing_id: gon.open_listings[j].listing_id,
           values: [{
             from: "/Date(" + today_ms + ")/",
             to: "/Date(" + next_month_ms + ")/",
@@ -130,6 +117,8 @@ window.ST.poolTool = function() {
     };
     source.push(hiddenElement);
 
+    // Create gon.source, so that we can access the source when adding an element to one device
+    gon.source = source;
 
     $(".gantt").gantt({
       dow: gon.translated_days_min,
@@ -141,22 +130,25 @@ window.ST.poolTool = function() {
       holidays: ["/Date(1334872800000)/","/Date(1335823200000)/"],
       /* Get them from here: http://kayaposoft.com/enrico/json/*/
       source: source,
-      onItemClick: function(data) {
-        //alert("Item clicked - show some details");
+      /*onItemClick: function(data) {
       },
       onAddClick: function(dt, rowId) {
-        // If clicked in one of the fields
-        if (rowId !== ""){
-
-        }
       },
       onRender: function() {
-      }
+      }*/
     });
 
     prettyPrint();
   }
 
+  function initialize_device_picker(){
+    $('.pooltool_grid_item_modifier_class').on('vclick', function(ev){
+      ev.preventDefault();
+      if(ev.currentTarget.nextElementSibling && ev.currentTarget.nextElementSibling.className === "radiobutton_griditem"){
+        ev.currentTarget.nextElementSibling.firstElementChild.checked = true;
+      }
+    });
+  }
 
   function initializeCheckOrientation(){
     window.addEventListener("orientationchange", function() {

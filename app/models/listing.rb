@@ -269,6 +269,23 @@ class Listing < ActiveRecord::Base
     Listing.where(:category_id => category.own_and_subcategory_ids)
   end
 
+  def self.already_booked_dates(listing_id, current_community)
+    # Get already booked dates (joined with listings and bookings) from database, ordered by booking end date
+    booked_end_start_dates = Transaction.joins(:listing, :booking).select("bookings.start_on as start_on, bookings.end_on as end_on").where("listings.id" => listing_id, "transactions.community_id" => current_community).order("bookings.end_on asc")
+
+    # Get all days of already booked dates
+    booked_dates = []
+    booked_end_start_dates.each do |booked_end_start_date|
+      # Merge the arrays and ensure that there are no values twice
+      if (booked_end_start_date.start_on != booked_end_start_date.end_on)
+        booked_dates = (booked_dates + (booked_end_start_date.start_on..booked_end_start_date.end_on).map(&:to_s)).uniq
+      else
+        booked_dates = (booked_dates + [booked_end_start_date.start_on.to_s])
+      end
+    end
+    booked_dates
+  end
+
   # Returns true if listing exists and valid_until is set
   def temporary?
     !new_record? && valid_until

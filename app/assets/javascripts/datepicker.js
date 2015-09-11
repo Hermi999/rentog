@@ -4,7 +4,7 @@ window.ST = window.ST || {};
 
 (function(module) {
 
-  module.initializeFromToDatePicker = function(rangeCongainerId) {
+  module.initializeFromToDatePicker = function(rangeCongainerId, booked_dates) {
     var now = new Date();
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
     var dateRage = $('#'+ rangeCongainerId);
@@ -88,5 +88,7 @@ window.ST = window.ST || {};
       var outputElement = outputElements[outputElementId];
       outputElement.val(module.utils.toISODate(newDate));
     });
+
+    return picker;
   };
 })(window.ST);

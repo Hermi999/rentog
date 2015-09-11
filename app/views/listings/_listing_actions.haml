@@ -81,7 +81,7 @@
                 }
               });
 
-              window.ST.initializeFromToDatePicker('datepicker');
+              window.ST.initializeFromToDatePicker('datepicker', booked_dates);
           .input-daterange.input-group.clearfix#datepicker{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
             .datepicker-start-wrapper
               = label_tag t(".booking_from")

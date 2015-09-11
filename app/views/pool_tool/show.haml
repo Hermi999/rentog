@@ -1,3 +1,6 @@
+#error_message
+  = t('pool_tool.show.could_not_create_new_booking')
+
 - if @open_listings == []
   .poolTool_no_listings_coverSite
     .poolTool_no_listings
@@ -12,10 +15,7 @@
 
 - content_for :extra_javascript do
   :javascript
-    pooltool = ST.poolTool();
-    pooltool.init();
-    booked_dates = [];
-    window.ST.initializeFromToDatePicker('datepicker');
+    ST.poolTool().init();
 
 - content_for :title_header do
   %h1= t("pool_tool.headline")
@@ -25,11 +25,17 @@
       Add new booking
 
 #addNewBookingForm
-  = form_tag(person_poolTool_path(@person), :action => :create) do
+  /= form_tag(person_poolTool_path(@person), :action => :create) do
+  /= form_tag(person_transactions_path, :action => :create, id:"test_abc") do
+  = form_tag person_transactions_path, :action => :create, url: person_transactions_path, id: "poolTool_form" do
+
+    %input{:type => 'hidden', :name => 'poolTool', :value => 'true'}
+    %input{:type => 'hidden', :name => 'message', :value => 'Booked with PoolTool'}
+
     .row
       #employee_wrapper.col-5
         = label_tag :employees, "Choose Employee"
-        = collection_select :employee, :id, @person.employees, :id, :full_name, {:prompt => "Please select..."}, {id: "dd_employee"}
+        = collection_select :employee, :username, @person.employees, :username, :full_name, {:prompt => "Please select..."}, {id: "dd_employee"}
 
       #poolTool_or.col-1
         or
@@ -37,7 +43,6 @@
       #renter_wrapper.col-5
         = label_tag :renter, "Enter another renter/reason"
         = text_field_tag :renter, nil, maxlength: 15, id: "tf_device_renter", placeholder: "fg: Maintainance", style: "width:100%;"
-
 
     #device_wrapper.row
       .col-12
@@ -71,9 +76,13 @@
 #orr
   %p.orrText= t("pool_tool.turn_your_device")
 
+.row
+  .col-3
+    = link_to t("homepage.index.post_new_listing"), new_listing_path, :class => "new-listing-link", :id => "new-listing-link"
+
 #editListings
   %h3
-    Edit your devices
+    Edit your existing devices
   #listings-list{:style => "margin:15px;"}
     - limit = 20
     = render :partial => 'listings/profile_listings', :locals => {:person => @person, :limit => limit}

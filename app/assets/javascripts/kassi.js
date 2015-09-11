@@ -51,6 +51,30 @@ function add_validator_methods() {
     );
 
   $.validator.
+    addMethod("required_employee_username",
+      function(value, element, param) {
+        if ($('#dd_employee').prop('disabled') === false && $('#dd_employee')[0].selectedIndex === 0){
+          return false;
+        }
+        else{
+          return true;
+        }
+      }
+    );
+
+  $.validator.
+    addMethod("required_renter",
+      function(value, element, param) {
+        if ($('#tf_device_renter').prop('disabled') === false && $('#tf_device_renter').val() === ''){
+          return false;
+        }
+        else{
+          return true;
+        }
+      }
+    );
+
+  $.validator.
     addMethod("accept",
       function(value, element, param) {
         return value.match(new RegExp(/(\.jpe?g|\.gif|\.png|^$)/i));
@@ -709,6 +733,140 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
     }
   });
 }
+
+
+function initialize_poolTool_createTransaction_form(locale, renter_or_employee_required){
+  var addButton = $('#addNewBooking');
+  var dd_employee = $('#dd_employee');
+  var tf_device_renter = $('#tf_device_renter');
+  var tf_start_on = $('#start-on');
+  var tf_end_on = $('#end-on');
+
+  // Change add button to cancel button and vice vercia
+  addButton.on('vclick', function(ev){
+    if (addButton.html() === 'Cancel'){
+      $('#addNewBookingForm').hide();
+      addButton.html('Add new booking');
+      addButton.addClass('primary-button');
+      addButton.removeClass('delete-button');
+    } else {
+      $('#addNewBookingForm').fadeIn();
+      addButton.html('Cancel');
+      addButton.removeClass('primary-button');
+      addButton.addClass('delete-button');
+
+      dd_employee[0].selectedIndex = 0;
+      tf_device_renter.val('');
+      tf_start_on.val('');
+      tf_end_on.val('');
+      tf_device_renter.prop('disabled', false);
+      dd_employee.prop('disabled', false);
+      $('label.error').remove();
+    }
+  });
+
+  // Lock Employee dropdown or renter textfield
+  dd_employee.change(function(ev){
+    if (dd_employee[0].selectedIndex === 0){
+      tf_device_renter.prop('disabled', false);
+    }
+    else{
+      tf_device_renter.prop('disabled', true);
+      $('#renter_wrapper label.error').remove();
+    }
+  });
+  tf_device_renter.keyup(function(ev){
+    if (tf_device_renter.val() === ''){
+      dd_employee.prop('disabled', false);
+    }
+    else{
+      dd_employee.prop('disabled', true);
+      $('#employee_wrapper label.error').remove();
+    }
+  });
+
+  // Remove validation errors from start-on & end-on textfields if values are
+  // present
+  tf_start_on.change(function(){
+    if (tf_start_on.val() !== ''){
+      $('.datepicker-start-wrapper label.error').remove();
+    }
+  });
+  tf_end_on.change(function(){
+    if (tf_end_on.val() !== ''){
+      $('.datepicker-end-wrapper label.error').remove();
+    }
+  });
+
+
+  // Submit actions
+  var form_id = "#poolTool_form";
+
+  /* Prepare ajax form */
+  $(form_id).ajaxForm({
+    dataType: 'json',
+    beforeSubmit: function() {
+      $(form_id).validate({
+        rules:
+        {
+          "start_on": {required: true, minlength: 1},
+          "end_on": {required: true, minlength: 1},
+          "listing_id": {required: true, minlength: 1},
+          "renter": {required_renter: true, minlength: 1},
+          "employee[username]": {required_employee_username: true, minlength: 1}
+        },
+        messages:
+        {
+          "renter": {required_renter: renter_or_employee_required},
+          "employee[username]": {required_employee_username: renter_or_employee_required}
+        }
+      });
+      return $(form_id).valid();
+    },
+    success: function(data, status, xhr){
+      if (data.status === "success"){
+        var from = Math.round(new Date(data.start_on).getTime());
+        var to = Math.round(new Date(data.end_on).getTime());
+        var custom_class = "";
+
+        if (data.employee){
+          custom_class = "gantt_ownEmployee";
+        }else{
+          custom_class = "gantt_otherReason";
+        }
+
+        // Add booking element to existing device (skip the empty dummy one)
+        for(var x=0; x<gon.source.length-1; x++){
+          if(gon.source[x].listing_id.toString() === data.listing_id){
+            gon.source[x].values.push({
+              customClass: custom_class,
+              from: "/Date(" + from + ")/",
+              to: "/Date(" + to + ")/",
+              label: data.empl_or_reason
+            });
+          }
+        }
+
+        // Update gantt chart
+        $(".gantt").gantt({source: gon.source});
+
+        // close form
+        $('#addNewBookingForm').hide();
+        addButton.html('Add new booking');
+        addButton.addClass('primary-button');
+        addButton.removeClass('delete-button');
+      }else{
+        // error occured
+      }
+    },
+    error: function(){
+      $('#error_message').show();
+      $('#error_message').fadeOut(8000);
+    }
+  });
+
+}
+
 
 function initialize_terms_form() {
   $('#terms_link').click(function(link) {

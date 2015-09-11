@@ -18,7 +18,7 @@ class PoolToolController < ApplicationController
     # Only use certain fields in JS
     open_listings_array = []
     @open_listings.each do |listing|
-      open_listings_array << { name: listing.title, desc: listing.availability }
+      open_listings_array << { name: listing.title, desc: listing.availability, availability: listing.availability, listing_id: listing.id }
     end
     # Convert all the transaction into a jquery-Gantt readable source.
     # wah: This might be shifted to the client (javascript) in future, since
@@ -36,6 +36,7 @@ class PoolToolController < ApplicationController
 
         transaction['name'] = transaction['title']
         transaction['desc'] = transaction['availability']
+        transaction['already_booked_dates'] = Listing.already_booked_dates(transaction['listing_id'], @current_community)
         transaction['values'] = [{
           'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
           'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
@@ -85,6 +86,7 @@ class PoolToolController < ApplicationController
       cancel_reservation: t("pool_tool.cancel_reservation"),
       device_name: t("pool_tool.device_name"),
       comment: t("pool_tool.comment"),
+      choose_employee_or_renter_msg: t("pool_tool.show.choose_employee_or_renter")
    })
   end
 

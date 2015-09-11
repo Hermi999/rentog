@@ -21,6 +21,11 @@ class TransactionsController < ApplicationController
   )
 
   def is_authorized_for_transaction
+    # Company admin can do what he want's to do
+    if @current_user.username == params[:person_id]
+      return true
+    end
+
     # employee can't make transactions
     if !@current_user.is_organization
       if !@current_community.employees_can_buy_listings
@@ -60,33 +65,8 @@ class TransactionsController < ApplicationController
 
 
   def new
-  # Check if start-on and end-on dates are valid
-    # Get all days of new booking
-    if (params[:start_on] != params[:end_on])
-      new_booked_dates = (params[:start_on]..params[:end_on]).map(&:to_s)
-    else
-      new_booked_dates = [params[:start_on]]
-    end
-
-    # Get already booked dates (joined with listings and bookings) from database, ordered by booking end date
-    booked_end_start_dates = Transaction.joins(:listing, :booking).select("bookings.start_on as start_on, bookings.end_on as end_on").where("listings.id" => params[:listing_id], "transactions.community_id" => @current_community).order("bookings.end_on asc")
-
-    # Get all days of already booked dates
-    booked_dates = []
-    booked_end_start_dates.each do |booked_end_start_date|
-      # Merge the arrays and ensure that there are no values twice
-      if (booked_end_start_date.start_on != booked_end_start_date.end_on)
-        booked_dates = (booked_dates + (booked_end_start_date.start_on..booked_end_start_date.end_on).map(&:to_s)).uniq
-      else
-        booked_dates = (booked_dates + [booked_end_start_date.start_on.to_s])
-      end
-    end
-
-    # Now check if days of new booking conflict with already booked days -> get Intersection of the 2 arrays
-    intersection = new_booked_dates & booked_dates
-
-    # If intersection of the two array isn't empty, then we have a booking conflict!
-    if (intersection != [])
+    # Check if start-on and end-on dates are valid
+    if !bookingDatesValid?
       flash[:error] = t("transactions.already_booked_for_this_date")
       redirect_to (session[:return_to_content] || root) and return
     end
@@ -125,51 +105,93 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    Result.all(
-      ->() {
-        TransactionForm.validate(params)
-      },
-      ->(form) {
-        fetch_data(form[:listing_id])
-      },
-      ->(form, (_, _, _, process)) {
-        validate_form(form, process)
-      },
-      ->(_, (listing_id, listing_model), _) {
-        ensure_can_start_transactions(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
-      },
-      ->(form, (listing_id, listing_model, author_model, process, gateway), _, _) {
-        booking_fields = Maybe(form).slice(:start_on, :end_on).select { |booking| booking.values.all? }.or_else({})
+    poolTool = false
+    poolTool = true if params[:employee] || params[:renter]
+    validDates = bookingDatesValid?
 
-        quantity = Maybe(booking_fields).map { |b| DateUtils.duration_days(b[:start_on], b[:end_on]) }.or_else(form[:quantity])
+    # Check if we are in Pool Tool and Pool Tool is registered for employee
+    if poolTool
+      if !validDates
+        error_message = t("pool_tool.invalid_booking_dates")
+        render :json => {
+            status: "error",
+            error_code: "invalid_dates",
+            error_message: error_message
+          } and return
+      end
 
-        TransactionService::Transaction.create(
-          {
-            transaction: {
-              community_id: @current_community.id,
-              listing_id: listing_id,
-              listing_title: listing_model.title,
-              starter_id: @current_user.id,
-              listing_author_id: author_model.id,
-              unit_type: listing_model.unit_type,
-              unit_price: listing_model.price,
-              unit_tr_key: listing_model.unit_tr_key,
-              listing_quantity: quantity,
-              content: form[:message],
-              booking_fields: booking_fields,
-              payment_gateway: process[:process] == :none ? :none : gateway, # TODO This is a bit awkward
-              payment_process: process[:process]}
-          })
+      if params[:employee]
+        empl_or_reason = params[:employee][:username]
+        params[:person_id] = empl_or_reason
+      else
+        empl_or_reason = params[:renter]
+      end
+
+      render :json => {
+          status: "success",
+          employee: !!params[:employee],
+          empl_or_reason: empl_or_reason,
+          start_on: params[:start_on],
+          end_on: params[:end_on],
+          listing_id: params[:listing_id]
+        } and return
+
+    else
+      # Check if start-on and end-on dates are valid
+      if !validDates
+        flash[:error] = t("transactions.already_booked_for_this_date")
+        redirect_to (session[:return_to_content] || root) and return
+      end
+
+      Result.all(
+        ->() {
+          TransactionForm.validate(params)
+        },
+        ->(form) {
+          fetch_data(form[:listing_id])
+        },
+        ->(form, (_, _, _, process)) {
+          validate_form(form, process)
+        },
+        ->(_, (listing_id, listing_model), _) {
+          ensure_can_start_transactions(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
+        },
+        ->(form, (listing_id, listing_model, author_model, process, gateway), _, _) {
+          booking_fields = Maybe(form).slice(:start_on, :end_on).select { |booking| booking.values.all? }.or_else({})
+
+          quantity = Maybe(booking_fields).map { |b| DateUtils.duration_days(b[:start_on], b[:end_on]) }.or_else(form[:quantity])
+
+          TransactionService::Transaction.create(
+            {
+              transaction: {
+                community_id: @current_community.id,
+                listing_id: listing_id,
+                listing_title: listing_model.title,
+                starter_id: @current_user.id,
+                listing_author_id: author_model.id,
+                unit_type: listing_model.unit_type,
+                unit_price: listing_model.price,
+                unit_tr_key: listing_model.unit_tr_key,
+                listing_quantity: quantity,
+                content: form[:message],
+                booking_fields: booking_fields,
+                payment_gateway: process[:process] == :none ? :none : gateway, # TODO This is a bit awkward
+                payment_process: process[:process]}
+            })
+        }
+      ).on_success { |(_, (_, _, _, process), _, _, tx)|
+        after_create_actions!(process: process, transaction: tx[:transaction], community_id: @current_community.id)
+        flash[:notice] = after_create_flash(process: process) # add more params here when needed
+        redirect_to after_create_redirect(process: process, starter_id: @current_user.id, transaction: tx[:transaction]) # add more params here when needed
+      }.on_error { |error_msg, data|
+        flash[:error] = Maybe(data)[:error_tr_key].map { |tr_key| t(tr_key) }.or_else("Could not start a transaction, error message: #{error_msg}")
+        redirect_to (session[:return_to_content] || root)
       }
-    ).on_success { |(_, (_, _, _, process), _, _, tx)|
-      after_create_actions!(process: process, transaction: tx[:transaction], community_id: @current_community.id)
-      flash[:notice] = after_create_flash(process: process) # add more params here when needed
-      redirect_to after_create_redirect(process: process, starter_id: @current_user.id, transaction: tx[:transaction]) # add more params here when needed
-    }.on_error { |error_msg, data|
-      flash[:error] = Maybe(data)[:error_tr_key].map { |tr_key| t(tr_key) }.or_else("Could not start a transaction, error message: #{error_msg}")
-      redirect_to (session[:return_to_content] || root)
-    }
+    end
   end
+
+
+
 
   def show
     m_participant =
@@ -259,6 +281,31 @@ class TransactionsController < ApplicationController
   end
 
   private
+
+  def bookingDatesValid?
+    # If poolTool, then booking dates have to be present
+    if params[:poolTool] == "true"
+      if params[:start_on] == "" or params[:end_on] == ""
+        return false
+      end
+    end
+
+    # Get all days of new booking
+    if (params[:start_on] != params[:end_on])
+      new_booked_dates = (params[:start_on]..params[:end_on]).map(&:to_s)
+    else
+      new_booked_dates = [params[:start_on]]
+    end
+
+    booked_dates = Listing.already_booked_dates(params[:listing_id], @current_community)
+
+    # Now check if days of new booking conflict with already booked days -> get Intersection of the 2 arrays
+    intersection = new_booked_dates & booked_dates
+
+    # If intersection of the two array isn't empty, then we have a booking conflict!
+    return false if intersection != []
+    return true
+  end
 
   def ensure_can_start_transactions(listing_model:, current_user:, current_community:)
     error =

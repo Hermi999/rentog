@@ -1026,7 +1026,11 @@
                             .html('Own Employee')))
                     .append($('<div class="ganttLegend_anyEmployee" />')
                         .append($('<div class="fn-label" />')
-                            .html('Any Employee')));
+                            .html('Any Employee')))
+                    .append($('<div class="ganttLegend_otherReason" />')
+                        .append($('<div class="fn-label" />')
+                            .html('Other Reason')))
+                    .append($('<div class="clear-floating" />'));
 
                 return legend;
             },
