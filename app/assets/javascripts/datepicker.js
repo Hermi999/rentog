@@ -1,5 +1,3 @@
-/*globals booked_dates*/
-
 window.ST = window.ST || {};
 
 (function(module) {

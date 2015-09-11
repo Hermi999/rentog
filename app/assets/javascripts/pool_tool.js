@@ -1,5 +1,5 @@
 /* Tell jshint that there exists a global called "gon" */
-/* globals gon, prettyPrint */
+/* globals gon, prettyPrint, initialize_poolTool_createTransaction_form */
 /* jshint unused: false */
 
 window.ST = window.ST || {};
