@@ -1,3 +1,20 @@
+Date.prototype._addDays = function(days) {
+     var dat = new Date(this.valueOf())
+     dat.setDate(dat.getDate() + days);
+     return dat;
+ }
+
+ function getDatesBetweenRange(startDate, stopDate) {
+    var dateArray = new Array();
+    var currentDate = startDate;
+    while (currentDate <= stopDate) {
+      dateArray.push(currentDate)
+      currentDate = currentDate._addDays(1);
+    }
+    return dateArray;
+  }
+
+
 function initialize_confirmation_pending_form(locale, email_in_use_message) {
   $('#mistyped_email_link').click(function() {
     $('#password_forgotten').slideToggle('fast');
@@ -46,9 +63,9 @@ function prepare_ajax_form(form_id, locale, rules, messages) {
 }
 
 function disable_submit_button(form_id, locale) {
-  $(form_id).find("button").prop('disabled', 'disabled');
+  $(form_id).find("button").prop('disabled', true);
   jQuery.getJSON('https://s3.eu-central-1.amazonaws.com/rentog/assets/locales/' + locale + '.json', function(json) {
-    $(form_id).find("button").text(json.please_wait);
+    $(form_id).find("button").prop('value', json.please_wait);
   });
 }
 

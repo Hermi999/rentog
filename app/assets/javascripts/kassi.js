@@ -802,6 +802,9 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
   // Submit actions
   var form_id = "#poolTool_form";
 
+  // Save button text
+  var btn_text = $(form_id).find(":submit").prop('value');
+
   /* Prepare ajax form */
   $(form_id).ajaxForm({
     dataType: 'json',
@@ -821,6 +824,12 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
           "employee[username]": {required_employee_username: renter_or_employee_required}
         }
       });
+      if ($(form_id).valid() == true) {
+        $(form_id).find(":submit").prop('disabled', true);
+        var _jqxhr = jQuery.getJSON('https://s3.eu-central-1.amazonaws.com/rentog/assets/locales/' + locale + '.json', function(json) {
+          $(form_id).find(":submit").prop('value', json.please_wait);
+        });
+      }
       return $(form_id).valid();
     },
     success: function(data, status, xhr){
@@ -829,6 +838,11 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         var to = Math.round(new Date(data.end_on).getTime());
         var custom_class = "";
 
+        // Enable Submit button again
+        $(form_id).find(":submit").prop('disabled', false);
+        $(form_id).find(":submit").prop('value', btn_text);
+
+        // Decide which gantt-Class to use for drawing the new booking
         if (data.employee){
           custom_class = "gantt_ownEmployee";
         }else{
@@ -847,14 +861,30 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
           }
         }
 
-        // Update gantt chart
-        $(".gantt").gantt({source: gon.source});
+        // Update already booked dates
+        for(var y=0; y<gon.devices.length; y++){
+          if(gon.devices[y].listing_id.toString() === data.listing_id){
+            var dateArray = getDatesBetweenRange(new Date(data.start_on), new Date(data.end_on));
+            for (var ii = 0; ii < dateArray.length; ii ++ ) {
+                gon.devices[y].already_booked_dates.push(dateArray[ii]);
+            }
+            break;
+          }
+        }
+
+        // Set the first radio button checked
+        $('input:radio[name=listing_id]:first').prop('checked',true);
+        $("input:radio[name=listing_id]:first").change();
 
         // close form
         $('#addNewBookingForm').hide();
         addButton.html('Add new booking');
         addButton.addClass('primary-button');
         addButton.removeClass('delete-button');
+
+        // Update gantt chart
+        $(".gantt").gantt({source: gon.source});
+
       }else{
         // error occured
       }

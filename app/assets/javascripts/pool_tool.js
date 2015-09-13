@@ -34,7 +34,7 @@ window.ST.poolTool = function() {
     // Get booked dates for
     // Set the first listing as checked and initialize datepicker with the booked dates of this listing
     var booked_dates = [];
-    $('input:radio[name=listing_id]:first').attr('checked',true);
+    $('input:radio[name=listing_id]:first').prop('checked',true);
     var listing_id = parseInt($('input[name=listing_id]:checked', '#poolTool_form').val());
     for(var y=0; y<gon.devices.length; y++){
       if(gon.devices[y].listing_id === listing_id){
@@ -138,12 +138,13 @@ window.ST.poolTool = function() {
       holidays: ["/Date(1334872800000)/","/Date(1335823200000)/"],
       /* Get them from here: http://kayaposoft.com/enrico/json/*/
       source: source,
-      /*onItemClick: function(data) {
+      onItemClick: function(data) {
+        console.log(data);
       },
       onAddClick: function(dt, rowId) {
       },
       onRender: function() {
-      }*/
+      }
     });
 
     prettyPrint();

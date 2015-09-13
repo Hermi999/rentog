@@ -1114,6 +1114,11 @@
                         $.each(entry.values, function (j, day) {
                             var _bar = null;
 
+                            var dataObj = {
+                                listing: entry,
+                                booking: day
+                            };
+
                             switch (settings.scale) {
                                 // **Hourly data**
                                 case "hours":
@@ -1132,7 +1137,7 @@
                                                 day.customClass ? day.customClass : "",
                                                 day.desc ? day.desc : "",
                                                 day.label ? day.label : "",
-                                                day.dataObj ? day.dataObj : null
+                                                day.dataObj ? day.dataObj : dataObj
                                             );
 
                                     // find row
@@ -1175,7 +1180,7 @@
                                              day.customClass ? day.customClass : "",
                                              day.desc ? day.desc : "",
                                              day.label ? day.label : "",
-                                            day.dataObj ? day.dataObj : null
+                                            day.dataObj ? day.dataObj : dataObj
                                         );
 
                                     // find row
@@ -1215,7 +1220,7 @@
                                         day.customClass ? day.customClass : "",
                                         day.desc ? day.desc : "",
                                         day.label ? day.label : "",
-                                        day.dataObj ? day.dataObj : null
+                                        day.dataObj ? day.dataObj : dataObj
                                     );
 
                                     // find row
@@ -1241,7 +1246,7 @@
                                                 day.customClass ? day.customClass : "",
                                                 day.desc ? day.desc : "",
                                                 day.label ? day.label : "",
-                                                day.dataObj ? day.dataObj : null
+                                                day.dataObj ? day.dataObj : dataObj
                                         );
 
                                     // find row

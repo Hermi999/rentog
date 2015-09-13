@@ -148,7 +148,7 @@ class TransactionsController < ApplicationController
           fetch_data(form[:listing_id])
         },
         ->(_, (listing_id, listing_model)) {
-          ensure_can_start_transactions(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
+          ensure_can_start_transactions(listing_model: listing_model, current_user: @current_user, current_community: @current_community, poolTool: true)
         },
         ->(form, (listing_id, listing_model, author_model, process, gateway), _) {
           booking_fields = Maybe(form).slice(:start_on, :end_on).select { |booking| booking.values.all? }.or_else({})
@@ -187,7 +187,6 @@ class TransactionsController < ApplicationController
 
 
       }.on_error { |error_msg, data|
-        binding.pry
         flash[:error] = Maybe(data)[:error_tr_key].map { |tr_key| t(tr_key) }.or_else("Could not start a transaction, error message: #{error_msg}")
         redirect_to (session[:return_to_content] || root)
       }
@@ -365,12 +364,12 @@ class TransactionsController < ApplicationController
     return true
   end
 
-  def ensure_can_start_transactions(listing_model:, current_user:, current_community:)
+  def ensure_can_start_transactions(listing_model:, current_user:, current_community:, poolTool: false)
     error =
       if listing_model.closed?
         "layouts.notifications.you_cannot_reply_to_a_closed_offer"
-      #elsif listing_model.author == current_user
-      # "layouts.notifications.you_cannot_send_message_to_yourself"
+      elsif !poolTool and listing_model.author == current_user
+       "layouts.notifications.you_cannot_send_message_to_yourself"
       elsif !listing_model.visible_to?(current_user, current_community)
         "layouts.notifications.you_are_not_authorized_to_view_this_content"
       else
