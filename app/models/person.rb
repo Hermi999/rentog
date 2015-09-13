@@ -786,7 +786,7 @@ class Person < ActiveRecord::Base
   end
 
   def is_employee?(company_id)
-    !is_organization && company.username.eql?(company_id)
+    !is_organization && company.id.eql?(company_id)
   end
 
   private

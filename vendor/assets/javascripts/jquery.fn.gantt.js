@@ -1067,7 +1067,7 @@
                 }
                 bar.click(function (e) {
                     e.stopPropagation();
-                    settings.onItemClick($(this).data("dataObj"));
+                    settings.onItemClick($(this));
                 });
                 return bar;
             },

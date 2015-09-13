@@ -8,7 +8,7 @@ class PoolToolController < ApplicationController
     @person = Person.find(params[:person_id] || params[:id])
 
     # Get transactions (joined with listings and bookings) from database, ordered by listings.id
-    transactions = Transaction.joins(:listing, :booking, :starter).select("listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.organization_name as renting_organization, people.id as person_id").where("listings.author_id" => @person, "transactions.community_id" => @current_community).order("listings.id asc")
+    transactions = Transaction.joins(:listing, :booking, :starter).select("listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.username as renting_entity_username, people.organization_name as renting_entity_organame, people.id as person_id").where("listings.author_id" => @person, "transactions.community_id" => @current_community).order("listings.id asc")
     # Convert ActiveRecord Relation into array of hashes
     transaction_array = transactions.as_json
 
@@ -29,6 +29,8 @@ class PoolToolController < ApplicationController
 
     transaction_array.each do |transaction|
       renter = get_renter_and_relation(transaction)
+      renting_entity = transaction['renting_entity_username']
+      renting_entity = transaction['renting_entity_organame'] if transaction['renting_entity_organame'] != ""
 
       if prev_listing_id != transaction['listing_id']
         # new Listing, new transaction
@@ -40,10 +42,10 @@ class PoolToolController < ApplicationController
         transaction['values'] = [{
           'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
           'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
-          'label' => transaction['renting_organization'],
+          'label' => renting_entity,
           'customClass' =>  "gantt_" + renter[:relation]
         }]
-        transaction.except!('title', 'start_on', 'end_on', 'renting_organization')
+        transaction.except!('title', 'start_on', 'end_on', 'renting_entity_username', 'renting_entity_organame')
 
         prev_listing_id = transaction['listing_id']
         act_transaction = transaction
@@ -54,7 +56,7 @@ class PoolToolController < ApplicationController
         newTrans = {
           'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
           'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
-          'label' => transaction['renting_organization'],
+          'label' => renting_entity,
           'customClass' => "gantt_" + renter[:relation]
         }
         devices[counter]['values'] << newTrans

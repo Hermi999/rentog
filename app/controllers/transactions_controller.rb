@@ -132,6 +132,7 @@ class TransactionsController < ApplicationController
       if params[:employee]
         empl_or_reason = params[:employee][:username]
         params[:person_id] = empl_or_reason
+        employee = Person.where(username: params[:employee][:username]).first
       else
         empl_or_reason = params[:renter]
       end
@@ -156,13 +157,21 @@ class TransactionsController < ApplicationController
 
           quantity = Maybe(booking_fields).map { |b| DateUtils.duration_days(b[:start_on], b[:end_on]) }.or_else(form[:quantity])
 
+          # Starter is either the employee or the current user (= company)
+          starter_id =
+            if employee
+              employee.id
+            else
+              @current_user.id
+            end
+
           TransactionService::Transaction.create(
             {
               transaction: {
                 community_id: @current_community.id,
                 listing_id: listing_id,
                 listing_title: listing_model.title,
-                starter_id: @current_user.id,
+                starter_id: starter_id,
                 listing_author_id: author_model.id,
                 listing_quantity: quantity,
                 content: form[:message],
@@ -173,7 +182,6 @@ class TransactionsController < ApplicationController
         }
       ).on_success { |(_, (_, _, _, process), _, tx)|
         #after_create_actions!(process: process, transaction: tx[:transaction], community_id: @current_community.id)
-
 
         # Renter json-response with the new data stored in the db
         render :json => {

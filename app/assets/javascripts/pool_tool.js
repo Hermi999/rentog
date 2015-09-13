@@ -13,6 +13,8 @@ window.ST.poolTool = function() {
     initializeDatepicker();
     initialize_poolTool_createTransaction_form(gon.locale, gon.choose_employee_or_renter_msg);
     initialize_device_picker();
+
+    $(".inline").colorbox({inline:true, width:"90%", height:"90%", maxWidth:"600px", maxHeight:"400px"});
   }
 
 
@@ -128,6 +130,12 @@ window.ST.poolTool = function() {
     // Create gon.source, so that we can access the source when adding an element to one device
     gon.source = source;
 
+    updateGanttChart(source);
+
+    prettyPrint();
+  }
+
+  function updateGanttChart(source){
     $(".gantt").gantt({
       dow: gon.translated_days_min,
       months: gon.translated_months,
@@ -139,15 +147,20 @@ window.ST.poolTool = function() {
       /* Get them from here: http://kayaposoft.com/enrico/json/*/
       source: source,
       onItemClick: function(data) {
-        console.log(data);
+        console.log(data.data("dataObj"));
+        $('#modifyBookingLink').click();
+
+        // Remove booking from pool tool
+        $('#btn_delete').on('vclick', function(){
+          data.remove();
+          $.colorbox.close();
+        });
       },
       onAddClick: function(dt, rowId) {
       },
       onRender: function() {
       }
     });
-
-    prettyPrint();
   }
 
   function initialize_device_picker(){
@@ -272,6 +285,7 @@ window.ST.poolTool = function() {
   };
 
   return {
-    init: init
+    init: init,
+    updateGanttChart: updateGanttChart
   };
 };

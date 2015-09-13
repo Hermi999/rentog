@@ -164,7 +164,20 @@
   }
 }
 
+#modifyBookingLinkWrapper{
+  display: none;
+}
 
-.testabc{
-  border: 1px solid red;
+#modifyBookingWrapper{
+  display: none;
+}
+
+#modifyBookingContent{
+  padding-left: 15px;
+  padding-top: 15px;
+}
+#btn_delete{
+  position: absolute;
+  right:15px;
+  bottom:5px;
 }

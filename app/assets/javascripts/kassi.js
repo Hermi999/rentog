@@ -883,7 +883,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         addButton.removeClass('delete-button');
 
         // Update gantt chart
-        $(".gantt").gantt({source: gon.source});
+        window.ST.poolTool().updateGanttChart(gon.source);
 
       }else{
         // error occured
@@ -892,6 +892,20 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
     error: function(){
       $('#error_message').show();
       $('#error_message').fadeOut(8000);
+
+      // Enable Submit button again
+      $(form_id).find(":submit").prop('disabled', false);
+      $(form_id).find(":submit").prop('value', btn_text);
+
+      // Set the first radio button checked
+      $('input:radio[name=listing_id]:first').prop('checked',true);
+      $("input:radio[name=listing_id]:first").change();
+
+      // close form
+      $('#addNewBookingForm').hide();
+      addButton.html('Add new booking');
+      addButton.addClass('primary-button');
+      addButton.removeClass('delete-button');
     }
   });
 

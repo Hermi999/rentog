@@ -1,6 +1,13 @@
+/ Lock screen and show 'turn your device' message on small mobile
+/ devices in portrait mode
+#orr
+  %p.orrText= t("pool_tool.turn_your_device")
+
+/ Show automatically fading out error message if booking could not be added
 #error_message
   = t('pool_tool.show.could_not_create_new_booking')
 
+/ Lock Screen and show 'no listing' message if the company has no listings yet
 - if @open_listings == []
   .poolTool_no_listings_coverSite
     .poolTool_no_listings
@@ -13,6 +20,43 @@
           %li
             and you have already listings (but they are closed), then you can re-open them <a href="#{person_path(@person)}">here</a>
 
+/ Show 'colorbox' modal/popover if user clicked in gantt chart on a booking
+#modifyBookingLinkWrapper
+  %a#modifyBookingLink.inline{:href => "#modifyBookingContent"}-
+#modifyBookingWrapper
+  #modifyBookingContent
+    .row{style: "margin-bottom: 0.15em;"}
+      .col-3
+        %b Device name
+    .row
+      .col-3
+        Device 1
+    .row{style: "margin-bottom: 0.15em;"}
+      .col-3
+        %b Renter
+    .row
+      .col-3
+        Hermann Wagner
+    .row{style: "margin-bottom: 0.15em;"}
+      .col-3
+        %b Availability
+    .row
+      .col-3
+        intern
+    .row
+      .col-2{style: "margin-bottom: 0.15em;"}
+        %b Starts on
+      .col-2{style: "margin-bottom: 0.15em;"}
+        23.10.1990
+    .row
+      .col-2{style: "margin-bottom: 0.15em;"}
+        %b Ends on
+      .col-2{style: "margin-bottom: 0.15em;"}
+        23.11.1990
+    %button.delete-button#btn_delete Delete Booking
+
+
+/ Pool Tool Main code
 - content_for :extra_javascript do
   :javascript
     ST.poolTool().init();
@@ -72,9 +116,6 @@
 
 .poolTool_gantt_container
   .gantt
-
-#orr
-  %p.orrText= t("pool_tool.turn_your_device")
 
 .row
   .col-3
