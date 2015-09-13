@@ -46,7 +46,7 @@ window.ST.poolTool = function() {
     var picker = window.ST.initializeFromToDatePicker('datepicker', booked_dates);
 
     // If listing changes, then also update the booked dates in the datepicker
-    $("input[name=listing_id]:radio").change(function () {
+    $("input[name=listing_id]:radio").change(function (ev) {
       var booked_dates = [];
       var listing_id = parseInt($('input[name=listing_id]:checked', '#poolTool_form').val());
 
@@ -56,14 +56,22 @@ window.ST.poolTool = function() {
           break;
         }
       }
+
+      // Re-initialize Datepickers
       $('#start-on').val('');
       $('#end-on').val('');
       $('#datepicker').datepicker('remove');
-      window.ST.initializeFromToDatePicker('datepicker', booked_dates);
-      $('#datepicker').datepicker('update');
+
+      // Slightly delay execution of Datepicker update, so that DOM is
+      // immediately updated and UI with radio button change isn't stuck
+      setTimeout(updateDatepicker(booked_dates), 1);
     });
   }
 
+  function updateDatepicker(booked_dates){
+    window.ST.initializeFromToDatePicker('datepicker', booked_dates);
+    $('#datepicker').datepicker('update');
+  }
 
   function initializeGantt(){
 
@@ -146,6 +154,10 @@ window.ST.poolTool = function() {
       ev.preventDefault();
       if(ev.currentTarget.nextElementSibling && ev.currentTarget.nextElementSibling.className === "radiobutton_griditem"){
         ev.currentTarget.nextElementSibling.firstElementChild.checked = true;
+        $('#' + ev.currentTarget.nextElementSibling.firstElementChild.id).change();
+        // Add styling to selected radio-image-element
+        //$('.testabc').removeClass('testabc');
+        //ev.currentTarget.firstChild.classList.add('testabc');
       }
     });
   }

@@ -20,6 +20,12 @@ class TransactionsController < ApplicationController
     [:end_on, transform_with: ->(v) { Maybe(v).map { |d| TransactionViewUtils.parse_booking_date(d) }.or_else(nil) } ]
   )
 
+  PoolToolTransactionForm = EntityUtils.define_builder(
+    [:listing_id, :fixnum, :to_integer, :mandatory],
+    [:start_on, transform_with: ->(v) { Maybe(v).map { |d| TransactionViewUtils.parse_booking_date(d) }.or_else(nil) } ],
+    [:end_on, transform_with: ->(v) { Maybe(v).map { |d| TransactionViewUtils.parse_booking_date(d) }.or_else(nil) } ]
+  )
+
   def is_authorized_for_transaction
     # Company admin can do what he want's to do
     if @current_user.username == params[:person_id]
@@ -109,8 +115,9 @@ class TransactionsController < ApplicationController
     poolTool = true if params[:employee] || params[:renter]
     validDates = bookingDatesValid?
 
-    # Check if we are in Pool Tool and Pool Tool is registered for employee
+    # Check if we are in Pool Tool
     if poolTool
+      # Check if booking dates are valid for selected listing
       if !validDates
         error_message = t("pool_tool.invalid_booking_dates")
         render :json => {
@@ -120,6 +127,8 @@ class TransactionsController < ApplicationController
           } and return
       end
 
+      # Check if employee or another reason for booking was choosen
+      # In case of employee replace the person_id (= renter id)
       if params[:employee]
         empl_or_reason = params[:employee][:username]
         params[:person_id] = empl_or_reason
@@ -127,7 +136,47 @@ class TransactionsController < ApplicationController
         empl_or_reason = params[:renter]
       end
 
-      render :json => {
+
+
+
+      Result.all(
+        ->() {
+          PoolToolTransactionForm.validate(params)
+        },
+        ->(form) {
+          # Returns: Result::Success([listing_id, listing_model, author, process, gateway])
+          fetch_data(form[:listing_id])
+        },
+        ->(_, (listing_id, listing_model)) {
+          ensure_can_start_transactions(listing_model: listing_model, current_user: @current_user, current_community: @current_community)
+        },
+        ->(form, (listing_id, listing_model, author_model, process, gateway), _) {
+          booking_fields = Maybe(form).slice(:start_on, :end_on).select { |booking| booking.values.all? }.or_else({})
+
+
+          quantity = Maybe(booking_fields).map { |b| DateUtils.duration_days(b[:start_on], b[:end_on]) }.or_else(form[:quantity])
+
+          TransactionService::Transaction.create(
+            {
+              transaction: {
+                community_id: @current_community.id,
+                listing_id: listing_id,
+                listing_title: listing_model.title,
+                starter_id: @current_user.id,
+                listing_author_id: author_model.id,
+                listing_quantity: quantity,
+                content: form[:message],
+                booking_fields: booking_fields,
+                payment_gateway: process[:process] == :none ? :none : gateway, # TODO This is a bit awkward
+                payment_process: process[:process]}
+            })
+        }
+      ).on_success { |(_, (_, _, _, process), _, tx)|
+        #after_create_actions!(process: process, transaction: tx[:transaction], community_id: @current_community.id)
+
+
+        # Renter json-response with the new data stored in the db
+        render :json => {
           status: "success",
           employee: !!params[:employee],
           empl_or_reason: empl_or_reason,
@@ -135,6 +184,15 @@ class TransactionsController < ApplicationController
           end_on: params[:end_on],
           listing_id: params[:listing_id]
         } and return
+
+
+      }.on_error { |error_msg, data|
+        binding.pry
+        flash[:error] = Maybe(data)[:error_tr_key].map { |tr_key| t(tr_key) }.or_else("Could not start a transaction, error message: #{error_msg}")
+        redirect_to (session[:return_to_content] || root)
+      }
+
+
 
     else
       # Check if start-on and end-on dates are valid
@@ -311,8 +369,8 @@ class TransactionsController < ApplicationController
     error =
       if listing_model.closed?
         "layouts.notifications.you_cannot_reply_to_a_closed_offer"
-      elsif listing_model.author == current_user
-       "layouts.notifications.you_cannot_send_message_to_yourself"
+      #elsif listing_model.author == current_user
+      # "layouts.notifications.you_cannot_send_message_to_yourself"
       elsif !listing_model.visible_to?(current_user, current_community)
         "layouts.notifications.you_are_not_authorized_to_view_this_content"
       else
