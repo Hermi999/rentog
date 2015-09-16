@@ -8,7 +8,7 @@ class PoolToolController < ApplicationController
     @person = Person.find(params[:person_id] || params[:id])
 
     # Get transactions (joined with listings and bookings) from database, ordered by listings.id
-    transactions = Transaction.joins(:listing, :booking, :starter).select("listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.username as renting_entity_username, people.organization_name as renting_entity_organame, people.id as person_id").where("listings.author_id" => @person, "transactions.community_id" => @current_community).order("listings.id asc")
+    transactions = Transaction.joins(:listing, :booking, :starter).select("transactions.id as transaction_id, listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.username as renting_entity_username, people.organization_name as renting_entity_organame, people.id as person_id").where("listings.author_id" => @person, "transactions.community_id" => @current_community).order("listings.id asc")
     # Convert ActiveRecord Relation into array of hashes
     transaction_array = transactions.as_json
 
@@ -43,9 +43,11 @@ class PoolToolController < ApplicationController
           'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
           'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
           'label' => renting_entity,
-          'customClass' =>  "gantt_" + renter[:relation]
+          'customClass' =>  "gantt_" + renter[:relation],
+          'transaction_id' => transaction['transaction_id']
         }]
-        transaction.except!('title', 'start_on', 'end_on', 'renting_entity_username', 'renting_entity_organame')
+        # Remove unused keys from hash
+        transaction.except!('title', 'start_on', 'end_on', 'renting_entity_username', 'renting_entity_organame', 'transaction_id')
 
         prev_listing_id = transaction['listing_id']
         act_transaction = transaction
@@ -57,7 +59,8 @@ class PoolToolController < ApplicationController
           'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
           'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
           'label' => renting_entity,
-          'customClass' => "gantt_" + renter[:relation]
+          'customClass' => "gantt_" + renter[:relation],
+          'transaction_id' => transaction['transaction_id']
         }
         devices[counter]['values'] << newTrans
       end
@@ -88,7 +91,10 @@ class PoolToolController < ApplicationController
       cancel_reservation: t("pool_tool.cancel_reservation"),
       device_name: t("pool_tool.device_name"),
       comment: t("pool_tool.comment"),
-      choose_employee_or_renter_msg: t("pool_tool.show.choose_employee_or_renter")
+      choose_employee_or_renter_msg: t("pool_tool.show.choose_employee_or_renter"),
+      deleteConfirmation: t("pool_tool.deleteConfirmation"),
+
+      p_id: @person.id
    })
   end
 

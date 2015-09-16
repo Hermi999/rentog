@@ -2,17 +2,22 @@ window.ST = window.ST || {};
 
 (function(module) {
 
-  module.initializeFromToDatePicker = function(rangeCongainerId, booked_dates) {
+  module.initializeFromToDatePicker = function(rangeCongainerId, booked_dates, tf_start_on, tf_end_on, booking_start_output, booking_end_output, start_today) {
     var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
-    var dateRage = $('#'+ rangeCongainerId);
+    var dateRage = $(rangeCongainerId);
     var dateLocale = dateRage.data('locale');
+    var today = null;
+
+    if (start_today){
+      var today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+    }
 
     var options = {
       calendarWeeks: true,
       startDate: today,
       autoclose: true,
-      inputs: [$("#start-on"), $("#end-on")],
+      todayHighlight: true,
+      inputs: [$(tf_start_on), $(tf_end_on)],
       daysOfWeekDisabled: ["0","6"],
       //datesDisabled: booked_dates,
       beforeShowDay: function(date) {
@@ -39,52 +44,62 @@ window.ST = window.ST || {};
     // Initialize Datepicker on dateRange
     var picker = dateRage.datepicker(options);
 
-    // Define what to do with end date when start Date is picked
-    $("#start-on").on('changeDate', function(selected){
-      // Set Start Date of "end-on" datepicker
-        var startDate = new Date(selected.date.valueOf());
-        var aktEndDate = $('#end-on').datepicker('getDate') || new Date("2099");
-        startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
-        $('#end-on').datepicker('setStartDate', startDate);
+    // Remove old event listeners
+    $(tf_start_on).unbind('changeDate');
+    $(tf_start_on).unbind('keyDown');
+    $(tf_end_on).unbind('keyDown');
+    picker.unbind('changeDate');
 
-      // set end date of "end-on" datepicker, based on next booked dates
-        var endDate = new Date("2099/01/01");
-        var lock;
-        for (var i=0; i<booked_dates.length; i++){
-          var lock_date = new Date(booked_dates[i]);
-          if (startDate <= lock_date && lock_date < endDate){
-            lock = true;
-            endDate = lock_date;
+    // Define what to do with end date when start Date is picked
+    $(tf_start_on).on('changeDate', function(selected){
+      // Set Start Date of "end-on" datepicker
+        if (selected.date){
+          var startDate = new Date(selected.date.valueOf());
+          var aktEndDate = $(tf_end_on).datepicker('getDate') || new Date("2099");
+          startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+          $(tf_end_on).datepicker('setStartDate', startDate);
+
+        // set end date of "end-on" datepicker, based on next booked dates
+          var endDate = new Date("2099/01/01");
+          var lock;
+          for (var i=0; i<booked_dates.length; i++){
+            var lock_date = new Date(booked_dates[i]);
+            if (startDate <= lock_date && lock_date < endDate){
+              lock = true;
+              endDate = lock_date;
+            }
           }
-        }
-        if (lock){
-          $('#end-on').datepicker('setEndDate', endDate);
-          if (aktEndDate > endDate){
-            $('#end-on').datepicker('setDate', startDate);
+          if (lock){
+            $(tf_end_on).datepicker('setEndDate', endDate);
+            if (aktEndDate > endDate){
+              $(tf_end_on).datepicker('setDate', startDate);
+            }
+          }else{
+            $(tf_end_on).datepicker('setEndDate', new Date("2099/01/01"));
           }
-        }else{
-          $('#end-on').datepicker('setEndDate', new Date("2099/01/01"));
         }
       });
 
     // Do not allow manual input
-    $("#start-on").keydown(function(e){
+    $(tf_start_on).keydown(function(e){
       e.preventDefault();
     });
-    $("#end-on").keydown(function(e){
+    $(tf_end_on).keydown(function(e){
       e.preventDefault();
     });
 
     var outputElements = {
-      "booking-start-output": $("#booking-start-output"),
-      "booking-end-output": $("#booking-end-output")
+      "booking-start-output": $(booking_start_output),
+      "booking-end-output": $(booking_end_output)
     };
 
     picker.on('changeDate', function(e) {
       var newDate = e.dates[0];
-      var outputElementId = $(e.target).data("output");
-      var outputElement = outputElements[outputElementId];
-      outputElement.val(module.utils.toISODate(newDate));
+      if (newDate){
+        var outputElementId = $(e.target).data("output");
+        var outputElement = outputElements[outputElementId];
+        outputElement.val(module.utils.toISODate(newDate));
+      }
     });
 
     return picker;

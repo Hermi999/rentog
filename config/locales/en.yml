@@ -2218,6 +2218,7 @@ en:
     event_hint: "You can add reservations for your measurment devices here."
     device_name: "Choose one of your devices"
     comment: "Comment (optional)"
+    deleteConfirmation: "Do you really want to delete this transaction?"
     start_date: "Start Date"
     start_hour: "Start Hour"
     start_minute: "Start Minute"

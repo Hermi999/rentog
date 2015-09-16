@@ -824,6 +824,8 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
           "employee[username]": {required_employee_username: renter_or_employee_required}
         }
       });
+
+      // Disable Sumbmit Buttons
       if ($(form_id).valid() == true) {
         $(form_id).find(":submit").prop('disabled', true);
         var _jqxhr = jQuery.getJSON('https://s3.eu-central-1.amazonaws.com/rentog/assets/locales/' + locale + '.json', function(json) {

@@ -6,7 +6,7 @@
   left:35%;
   width:30%;
   background-color: $error-red;
-  z-index: 9999;
+  z-index: 999999;
   display: none;
   text-align: center;
   color:white;
@@ -180,4 +180,27 @@
   position: absolute;
   right:15px;
   bottom:5px;
+  width: 150px;
+}
+#btn_update{
+  position: absolute;
+  right: 15px;
+  bottom: 55px;
+  width: 150px;
+
+  @include media(tablet){
+    right: 175px;
+    bottom: 5px;
+  }
+}
+
+#start-on2{
+  height: 32px;
+  min-height: 32px;
+  max-width: 140px;
+}
+#end-on2{
+  height: 32px;
+  min-height: 32px;
+  max-width: 140px;
 }

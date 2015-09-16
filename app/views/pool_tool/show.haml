@@ -25,34 +25,42 @@
   %a#modifyBookingLink.inline{:href => "#modifyBookingContent"}-
 #modifyBookingWrapper
   #modifyBookingContent
-    .row{style: "margin-bottom: 0.15em;"}
+    /= form_tag "/#{I18n.locale}/#{@person.id}/transactions/#{@open_listings.first.id}", method: "put", id: "poolTool_updateForm" do
+    .row{style: "margin-bottom: 0.10em;"}
       .col-3
         %b Device name
     .row
-      .col-3
+      .col-3#poolTool_popover_deviceName
         Device 1
-    .row{style: "margin-bottom: 0.15em;"}
+    .row{style: "margin-bottom: 0.10em;"}
       .col-3
-        %b Renter
+        %b Renter/Reason
     .row
-      .col-3
+      .col-3#poolTool_popover_renter
         Hermann Wagner
-    .row{style: "margin-bottom: 0.15em;"}
+    .row{style: "margin-bottom: 0.10em;"}
       .col-3
         %b Availability
     .row
-      .col-3
+      .col-3#poolTool_popover_availability
         intern
-    .row
-      .col-2{style: "margin-bottom: 0.15em;"}
-        %b Starts on
-      .col-2{style: "margin-bottom: 0.15em;"}
-        23.10.1990
-    .row
-      .col-2{style: "margin-bottom: 0.15em;"}
-        %b Ends on
-      .col-2{style: "margin-bottom: 0.15em;"}
-        23.11.1990
+
+    #datepicker_wrapper2
+      .input-daterange.input-group.clearfix#datepicker2{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
+        .row
+          .col-2{style: "margin-bottom: 0.15em;"}
+            %b Starts on
+          .datepicker-start-wrapper.col-3
+            %input.input-sm.form-control.required#start-on2{:type => 'text', :name => "start_on2", :placeholder => t("datepicker.format"), :data => { :output => "booking-start-output" } }
+            %input#booking-start-output2{:type => 'hidden', :name => 'start_on2'}
+        .row
+          .col-2{style: "margin-bottom: 0.15em;"}
+            %b Ends on
+          .datepicker-end-wrapper.col-3
+            %input.input-sm.form-control.required#end-on2{:type => 'text', :name => "end_on2", :placeholder => t("datepicker.format"), :data => { :output => "booking-end-output" }}
+            %input#booking-end-output2{:type => 'hidden', :name => 'end_on2'}
+
+    %button.primary-button#btn_update Update
     %button.delete-button#btn_delete Delete Booking
 
 
@@ -69,8 +77,6 @@
       Add new booking
 
 #addNewBookingForm
-  /= form_tag(person_poolTool_path(@person), :action => :create) do
-  /= form_tag(person_transactions_path, :action => :create, id:"test_abc") do
   = form_tag person_transactions_path, :action => :create, url: person_transactions_path, id: "poolTool_form" do
 
     %input{:type => 'hidden', :name => 'poolTool', :value => 'true'}
@@ -86,7 +92,8 @@
 
       #renter_wrapper.col-5
         = label_tag :renter, "Enter another renter/reason"
-        = text_field_tag :renter, nil, maxlength: 15, id: "tf_device_renter", placeholder: "fg: Maintainance", style: "width:100%;"
+        /= text_field_tag :renter, nil, maxlength: 15, id: "tf_device_renter", placeholder: "fg: Maintainance", style: "width:100%;"
+        = text_field_tag :renter, nil, maxlength: 15, id: "tf_device_renter", placeholder: "Backend funktioniert noch net!!!", style: "width:100%;"
 
     #device_wrapper.row
       .col-12
@@ -110,7 +117,6 @@
     .clear-floating
 
     #submit_wrapper.row
-      /.col-4
       .col-3
         = submit_tag("Create", id: "pooltool_submit_new_transaction", class: "primary-button pooltool_create_booking")
 

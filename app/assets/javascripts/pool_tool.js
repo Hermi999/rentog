@@ -14,7 +14,7 @@ window.ST.poolTool = function() {
     initialize_poolTool_createTransaction_form(gon.locale, gon.choose_employee_or_renter_msg);
     initialize_device_picker();
 
-    $(".inline").colorbox({inline:true, width:"90%", height:"90%", maxWidth:"600px", maxHeight:"400px"});
+    $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"600px", maxHeight:"450px"});
   }
 
 
@@ -45,7 +45,8 @@ window.ST.poolTool = function() {
       }
     }
 
-    var picker = window.ST.initializeFromToDatePicker('datepicker', booked_dates);
+    window.ST.initializeFromToDatePicker('#datepicker', booked_dates, '#start-on', '#end-on', "#booking-start-output", "#booking-end-output");
+    window.ST.initializeFromToDatePicker('#datepicker2', booked_dates, '#start-on2', '#end-on2', "#booking-start-output2", "#booking-end-output2");
 
     // If listing changes, then also update the booked dates in the datepicker
     $("input[name=listing_id]:radio").change(function (ev) {
@@ -71,8 +72,12 @@ window.ST.poolTool = function() {
   }
 
   function updateDatepicker(booked_dates){
-    window.ST.initializeFromToDatePicker('datepicker', booked_dates);
+    window.ST.initializeFromToDatePicker('#datepicker', booked_dates, '#start-on', '#end-on', "#booking-start-output", "#booking-end-output");
     $('#datepicker').datepicker('update');
+  }
+  function updateDatepicker2(booked_dates){
+    window.ST.initializeFromToDatePicker('#datepicker2', booked_dates, '#start-on2', '#end-on2', "#booking-start-output2", "#booking-end-output2");
+    $('#datepicker2').datepicker('update');
   }
 
   function initializeGantt(){
@@ -147,13 +152,229 @@ window.ST.poolTool = function() {
       /* Get them from here: http://kayaposoft.com/enrico/json/*/
       source: source,
       onItemClick: function(data) {
-        console.log(data.data("dataObj"));
+        var info = data.data("dataObj");
+        var regEx = /\d+/;
+        var s = new Date(parseInt(info.booking.from.match(regEx)));
+        var e = new Date(parseInt(info.booking.to.match(regEx)));
+        var booked_dates = [];
+        var listing_id = parseInt(info.listing.listing_id);
+        var transaction_id = parseInt(info.booking.transaction_id);
+
+        // Update shown information in popover
+        $('#poolTool_popover_deviceName').html(info.listing.name);
+        $('#poolTool_popover_renter').html(info.booking.label);
+        $('#poolTool_popover_availability').html(info.listing.availability);
+
+        // Open Popover
         $('#modifyBookingLink').click();
 
-        // Remove booking from pool tool
+        // Re-initialize Datepickers with booked dates
+        for(var y=0; y<gon.devices.length; y++){
+          if(gon.devices[y].listing_id === listing_id){
+            // Copy array, because we do not want to get our source changed
+            booked_dates = gon.devices[y].already_booked_dates.slice();
+            break;
+          }
+        }
+
+        // Remove booked_dates from this transaction
+        for(var yy=0; yy<booked_dates.length; yy++){
+          var dateArray = getDatesBetweenRange(s, e);
+
+          for (var ii = 0; ii < dateArray.length; ii ++ ) {
+
+            var yyyy = dateArray[ii].getFullYear();
+            var mm = dateArray[ii].getMonth() + 1;
+            var dd = dateArray[ii].getDate();
+
+            if (mm < 10){
+              mm = "0" + mm;
+            }
+
+            if (dd < 10){
+              dd = "0" + dd;
+            }
+
+            dateArray[ii] = yyyy + "-" + mm + "-" + dd;
+
+            if (booked_dates[yy] === dateArray[ii]){
+              booked_dates.splice(yy, 1);
+            }
+          }
+        }
+
+        $('#start-on2').val('');
+        $('#end-on2').val('');
+        $('#datepicker2').datepicker('remove');
+
+        // Slightly delay execution of Datepicker update, so that DOM is
+        // immediately updated and UI with radio button change isn't stuck
+        // setTimeout(updateDatepicker2(booked_dates), 1);
+        updateDatepicker2(booked_dates);
+
+        // Set datepicker dates to those from db
+        $('#start-on2').datepicker('setDate', s);
+        $('#end-on2').datepicker('setDate', e);
+
+        // Disable buttons if booking is external
+        if (info.booking.customClass === "gantt_anyCompany" ||
+            info.booking.customClass === "gantt_anyEmployee" ||
+            info.booking.customClass === "gantt_trustedCompany"){
+          $('#btn_update').prop('disabled', true);
+          $('#btn_delete').prop('disabled', true);
+          $('#btn_update').css('opacity', 0.6);
+          $('#btn_delete').css('opacity', 0.6);
+        }else{
+          $('#btn_update').prop('disabled', false);
+          $('#btn_delete').prop('disabled', false);
+          $('#btn_update').css('opacity', 1);
+          $('#btn_delete').css('opacity', 1);
+        }
+
+        // Store button text
+        btn_update_text = $('#btn_update').html();
+        btn_delete_text = $('#btn_delete').html();
+
+        // Remove old event listeners
+        $('#btn_update').unbind();
+        $('#btn_delete').unbind();
+
+        // Remove booking from pool tool & db
         $('#btn_delete').on('vclick', function(){
-          data.remove();
-          $.colorbox.close();
+          result = window.confirm(gon.deleteConfirmation);
+
+          if (result){
+            // Add event listeners for remove booking from db
+            $.ajax({
+              method: "post",   // Browser can't do delete requests
+              dataType: "json",
+              url: "/" + gon
+              .locale + "/" + gon.p_id + "/transactions/" + transaction_id,
+              data: {_method:'delete'},
+              beforeSend :function(){
+                // Disable Sumbmit Buttons
+                $("#btn_update").prop('disabled', true);
+                $("#btn_delete").prop('disabled', true);
+                $('#btn_update').css('opacity', 0.6);
+                $('#btn_delete').css('opacity', 0.6);
+                var _jqxhr = jQuery.getJSON('https://s3.eu-central-1.amazonaws.com/rentog/assets/locales/' + gon.locale + '.json', function(json) {
+                  $("#btn_update").html(json.please_wait);
+                  $("#btn_delete").html(json.please_wait);
+                });
+              }
+            })
+              .success(function(data){
+                if (data.status === "sucess"){
+                  // Close popover
+                  $.colorbox.close();
+
+                  // Enable Submit button again
+                  setTimeout(function(){
+                    $("#btn_update").prop('disabled', false);
+                    $("#btn_update").html(btn_update_text);
+                    $("#btn_delete").prop('disabled', false);
+                    $("#btn_delete").html(btn_delete_text);
+                    $('#btn_update').css('opacity', 1);
+                    $('#btn_delete').css('opacity', 1);
+                  }, 200);
+
+                  // Remove from pool tool
+                  data.remove();
+                }
+              })
+              .error(function(){
+                // Show error message and fade it out after some time
+                $('#error_message').show();
+                $('#error_message').fadeOut(8000);
+
+                // Enable Submit button again
+                $("#btn_update").prop('disabled', false);
+                $("#btn_update").html(btn_update_text);
+                $("#btn_delete").prop('disabled', false);
+                $("#btn_delete").html(btn_delete_text);
+                $('#btn_update').css('opacity', 1);
+                $('#btn_delete').css('opacity', 1);
+              });
+          }
+        });
+
+        $('#btn_update').on('vclick', function(){
+          var s_new = new Date($('#booking-start-output2').val());
+          var e_new = new Date($('#booking-end-output2').val());
+
+          $.ajax({
+            method: "PUT",
+            url: "/" + gon.locale + "/" + gon.p_id + "/transactions/" + transaction_id,
+            data: {from: s_new, to: e_new},
+            beforeSend: function(){
+              // Disable Sumbmit Buttons
+              $("#btn_update").prop('disabled', true);
+              $("#btn_delete").prop('disabled', true);
+              $('#btn_update').css('opacity', 0.6);
+              $('#btn_delete').css('opacity', 0.6);
+              var _jqxhr = jQuery.getJSON('https://s3.eu-central-1.amazonaws.com/rentog/assets/locales/' + gon.locale + '.json', function(json) {
+                $("#btn_update").html(json.please_wait);
+                $("#btn_delete").html(json.please_wait);
+              });
+            }
+          })
+            .success(function(data){
+              if (data.status === "success"){
+                // update gantt view
+                for(var x=0; x<source.length; x++){
+                  if(source[x].listing_id === listing_id){
+                    for(var y=0; y<source[x].values.length; y++){
+                      if(source[x].values[y].transaction_id === transaction_id){
+                        source[x].values[y].from = "/Date(" + Math.round(s_new.getTime()) + ")/";
+                        source[x].values[y].to = "/Date(" + Math.round(e_new.getTime()) + ")/";
+                        x = source.length;
+                        break;
+                      }
+                    }
+                  }
+                }
+                gon.source = source;
+                updateGanttChart(gon.source);
+              }
+              else{
+                // Show error message and fade it out after some time
+                var received_msg = data.message || "";
+                var msg = $('#error_message').html();
+                $('#error_message').html(msg + " " + received_msg);
+                $('#error_message').show();
+                $('#error_message').fadeOut(8000);
+                // Reset shown error message
+                setTimeout(function(){
+                  $('#error_message').html(msg);
+                },8000);
+              }
+
+              // close popover
+              $.colorbox.close();
+
+              // Enable Submit button again
+              setTimeout(function(){
+                $("#btn_update").prop('disabled', false);
+                $("#btn_update").html(btn_update_text);
+                $("#btn_delete").prop('disabled', false);
+                $("#btn_delete").html(btn_delete_text);
+                $('#btn_update').css('opacity', 1);
+                $('#btn_delete').css('opacity', 1);
+              }, 200);
+            })
+            .error(function(){
+              // Show error message and fade it out after some time
+              $('#error_message').show();
+              $('#error_message').fadeOut(8000);
+
+              // Enable Submit button again
+              $("#btn_update").prop('disabled', false);
+              $("#btn_update").html(btn_update_text);
+              $("#btn_delete").prop('disabled', false);
+              $("#btn_delete").html(btn_delete_text);
+              $('#btn_update').css('opacity', 1);
+              $('#btn_delete').css('opacity', 1);
+            });
         });
       },
       onAddClick: function(dt, rowId) {
@@ -200,7 +421,7 @@ window.ST.poolTool = function() {
           $('#orr').fadeOut();
           return true;
       }
-    };
+  };
 
   var addDummyListings = function(){
     var today = new Date();

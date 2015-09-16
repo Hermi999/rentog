@@ -238,6 +238,7 @@
 .fn-gantt {
     .gantt_ownEmployee {
         background-color: #F9C4E1;
+        cursor: pointer;
         .fn-label {
             color: #78436D !important;
         }
@@ -245,24 +246,28 @@
 
     .gantt_anyEmployee {
         background-color: #D8EDA3;
+        cursor: pointer;
         .fn-label {
             color: #778461 !important;
         }
     }
     .gantt_trustedCompany {
         background-color: #D0E4FD;
+        cursor: pointer;
         .fn-label {
             color: #286DC5 !important;
         }
     }
     .gantt_anyCompany {
         background-color: #FCD29A;
+        cursor: pointer;
         .fn-label {
             color: #714715 !important;
         }
     }
     .gantt_otherReason {
         background-color: #EC8282;
+        cursor: pointer;
         .fn-label {
             color: #990909 !important;
         }

@@ -10,6 +10,7 @@ class TransactionsController < ApplicationController
 
   before_filter :is_authorized_for_transaction
 
+
   MessageForm = Form::Message
 
   TransactionForm = EntityUtils.define_builder(
@@ -138,7 +139,8 @@ class TransactionsController < ApplicationController
       end
 
 
-
+      # wah todo: Handle new bookings with do not have an employee, but another
+      # reason ...
 
       Result.all(
         ->() {
@@ -255,8 +257,73 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def update
+
+    # wah toDo: Ensure that only internal transactions can be changed...
+
+    # Get new start and end date
+    start_day = Date.parse(params[:from])
+    end_day = Date.parse(params[:to])
+
+    # Check if start date is smaller than end date
+    if start_day > end_day
+      render :json => {
+        action: "update",
+        status: "error",
+        message: "Start date is greater than end date"
+      } and return
+    end
+
+    # wah toDo: Check if dates are valid. They should not interfere with other
+    # already booked transactions
+    # ....
+
+    # Get Booking from db
+    booking = Booking.where(:transaction_id => params[:id]).first
+
+    # Ensure that company admin can only modify bookings from his company
+    # The Rentog admin can also modify bookings
+    if booking.transaction.author != @current_user && !@current_user.has_admin_rights_in?(@current_community)
+      flash[:error] = "Access denied"
+      redirect_to root and return
+    end
+
+    # Update booking with the corresponding transaction id
+    booking[:start_on] = start_day
+    booking[:end_on] = end_day
+    booking.save!
+
+    # Render response
+    render :json => {
+          action: "update",
+          status: "success"
+        } and return
+  end
 
 
+  def destroy
+    # wah toDo: Ensure that only internal transactions can be deleted...
+
+    # wah toDo: Delete booking, transaction & conversation ...
+    # Get Booking from db
+    booking = Booking.where(:transaction_id => params[:id]).first
+
+    # Ensure that company admin can only modify bookings from his company
+    # The Rentog admin can also modify bookings
+    if booking.transaction.author != @current_user && !@current_user.has_admin_rights_in?(@current_community)
+      flash[:error] = "Access denied"
+      redirect_to root and return
+    end
+
+    # Delete booking with the corresponding transaction id
+    booking.delete
+
+    # Render response
+    render :json => {
+          action: "update",
+          status: "success"
+        } and return
+  end
 
   def show
     m_participant =
