@@ -2159,7 +2159,7 @@ en:
     company_not_verified: "Only companies verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
     listing_is_intern: "The listing is intern and can't be viewed or booked by other companies."
     listing_is_only_for_trusted_companies: "The listing is only for trusted companies. Please contact the owner that he adds you to his trusted copmanies."
-    already_booked_for_this_date: "You tried to book a date which is already booked! Please try again."
+    already_booked_for_this_date: "Either you tried to book a date which is already booked or the start date was behind the end date! Please try again."
     initiate:
       booked_days: "Booked days:"
       price_per_day: "Price per day:"

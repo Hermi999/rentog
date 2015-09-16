@@ -431,6 +431,9 @@
     display: inline-block;
     font-size: 10px;
     height: 20px;
+
+    // wah: Remove this - too much buttons
+    display:none;
 }
 
 .fn-gantt .navigate .page-number span {
@@ -476,6 +479,9 @@
     @include media(small-desktop){
         background-position: 1px 0 !important;
     }
+
+    // wah: Remove this - too much buttons
+    display:none;
 }
 
 .fn-gantt .navigate .nav-page-next {
@@ -484,6 +490,8 @@
     @include media(small-desktop){
         background-position: 1px -16px !important;
     }
+    // wah: Remove this - too much buttons
+    display:none;
 }
 
 .fn-gantt .navigate .nav-slider .nav-page-next {
@@ -502,9 +510,12 @@
 
 .fn-gantt .navigate .nav-prev-week {
     background-position: 2px -192px !important;
+    // wah: Remove this on mobile -> Too much buttons
+    display: none;
 
     @include media(small-desktop){
         background-position: 1px -128px !important;
+        display: inline-block;
     }
 }
 
@@ -512,25 +523,37 @@
     background-position: 2px -72px !important;
     margin-right:15px;
 
+    // wah: Remove this on mobile -> Too much buttons
+    display: none;
+
     @include media(small-desktop){
         background-position: 1px -48px !important;
         margin-right:3px;
+        display: inline-block;
     }
 }
 
 .fn-gantt .navigate .nav-next-day {
     background-position: 2px -96px !important;
 
+    // wah: Remove this on mobile -> Too much buttons
+    display: none;
+
     @include media(small-desktop){
         background-position: 1px -64px !important;
+        display: inline-block;
     }
 }
 
 .fn-gantt .navigate .nav-next-week {
     background-position: 2px -240px !important;
 
+    // wah: Remove this on mobile -> Too much buttons
+    display: none;
+
     @include media(small-desktop){
         background-position: 1px -160px !important;
+        display: inline-block;
     }
 }
 
@@ -544,8 +567,10 @@
 
 .fn-gantt .navigate .nav-zoomOut {
     background-position: 2px -144px !important;
+    margin-left: 27px;
 
     @include media(small-desktop){
+        margin-left: 0px;
         background-position: 1px -96px !important;
     }
 }

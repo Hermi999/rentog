@@ -261,25 +261,26 @@ class TransactionsController < ApplicationController
 
     # wah toDo: Ensure that only internal transactions can be changed...
 
+    # Get Booking from db
+    booking = Booking.where(:transaction_id => params[:id]).first
+
     # Get new start and end date
     start_day = Date.parse(params[:from])
     end_day = Date.parse(params[:to])
 
-    # Check if start date is smaller than end date
-    if start_day > end_day
+    # Check if booking dates are valid
+    if !bookingDatesValid?( Date.parse(params[:from]).to_s,
+                            Date.parse(params[:to]).to_s,
+                            booking.transaction.listing_id,
+                            booking[:start_on],
+                            booking[:end_on])
+      error_message = t("pool_tool.invalid_booking_dates")
       render :json => {
         action: "update",
         status: "error",
-        message: "Start date is greater than end date"
+        message: "Either the start date is greater than end date or this booking collidates with another existing booking"
       } and return
     end
-
-    # wah toDo: Check if dates are valid. They should not interfere with other
-    # already booked transactions
-    # ....
-
-    # Get Booking from db
-    booking = Booking.where(:transaction_id => params[:id]).first
 
     # Ensure that company admin can only modify bookings from his company
     # The Rentog admin can also modify bookings
@@ -304,7 +305,6 @@ class TransactionsController < ApplicationController
   def destroy
     # wah toDo: Ensure that only internal transactions can be deleted...
 
-    # wah toDo: Delete booking, transaction & conversation ...
     # Get Booking from db
     booking = Booking.where(:transaction_id => params[:id]).first
 
@@ -316,6 +316,7 @@ class TransactionsController < ApplicationController
     end
 
     # Delete booking with the corresponding transaction id
+    # wah toDo: Also delete transaction & conversation? ...
     booking.delete
 
     # Render response
@@ -414,28 +415,50 @@ class TransactionsController < ApplicationController
 
   private
 
-  def bookingDatesValid?
+  def bookingDatesValid?(start_on=nil, end_on=nil, listing_id=nil, start_on_old=nil, end_on_old=nil)
+    start_on ||= params[:start_on]
+    end_on ||= params[:end_on]
+    listing_id ||= params[:listing_id]
+
     # If poolTool, then booking dates have to be present
     if params[:poolTool] == "true"
-      if params[:start_on] == "" or params[:end_on] == ""
+      if start_on == "" or end_on == ""
         return false
       end
     end
 
-    # Get all days of new booking
-    if (params[:start_on] != params[:end_on])
-      new_booked_dates = (params[:start_on]..params[:end_on]).map(&:to_s)
-    else
-      new_booked_dates = [params[:start_on]]
+    # Only check if start and end date are given
+    if start_on and end_on
+      # Check if start date is smaller end date
+      if Date.parse(start_on) > Date.parse(end_on)
+        return false
+      end
+
+      # Get all days of new booking
+      if (start_on != end_on)
+        new_booked_dates = (start_on..end_on).map(&:to_s)
+      else
+        new_booked_dates = [start_on]
+      end
+
+      # Get all booked dates from current listing which are saved in the db
+      booked_dates = Listing.already_booked_dates(listing_id, @current_community)
+
+      # Get all day of old booking if this is a booking change
+      if (start_on_old and end_on_old)
+        old_booked_dates = (start_on_old..end_on_old).map(&:to_s)
+
+        # Remove those dates from the booked dates
+        booked_dates = booked_dates - old_booked_dates
+      end
+
+      # Now check if days of new booking conflict with already booked days -> get Intersection of the 2 arrays
+      intersection = new_booked_dates & booked_dates
+
+      # If intersection of the two array isn't empty, then we have a booking conflict!
+      return false if intersection != []
     end
 
-    booked_dates = Listing.already_booked_dates(params[:listing_id], @current_community)
-
-    # Now check if days of new booking conflict with already booked days -> get Intersection of the 2 arrays
-    intersection = new_booked_dates & booked_dates
-
-    # If intersection of the two array isn't empty, then we have a booking conflict!
-    return false if intersection != []
     return true
   end
 

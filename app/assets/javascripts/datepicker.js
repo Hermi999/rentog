@@ -9,7 +9,7 @@ window.ST = window.ST || {};
     var today = null;
 
     if (start_today){
-      var today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+      today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
     }
 
     var options = {
@@ -40,15 +40,15 @@ window.ST = window.ST || {};
       language: dateLocale
     };
 
-
     // Initialize Datepicker on dateRange
     var picker = dateRage.datepicker(options);
 
     // Remove old event listeners
-    $(tf_start_on).unbind('changeDate');
-    $(tf_start_on).unbind('keyDown');
-    $(tf_end_on).unbind('keyDown');
-    picker.unbind('changeDate');
+    $(tf_start_on).off('changeDate');
+    $(tf_start_on).off('keyDown');
+    $(tf_end_on).off('keyDown');
+    picker.off('changeDate');
+
 
     // Define what to do with end date when start Date is picked
     $(tf_start_on).on('changeDate', function(selected){
@@ -56,26 +56,36 @@ window.ST = window.ST || {};
         if (selected.date){
           var startDate = new Date(selected.date.valueOf());
           var aktEndDate = $(tf_end_on).datepicker('getDate') || new Date("2099");
-          startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+          //startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+
           $(tf_end_on).datepicker('setStartDate', startDate);
 
-        // set end date of "end-on" datepicker, based on next booked dates
-          var endDate = new Date("2099/01/01");
-          var lock;
-          for (var i=0; i<booked_dates.length; i++){
-            var lock_date = new Date(booked_dates[i]);
-            if (startDate <= lock_date && lock_date < endDate){
-              lock = true;
-              endDate = lock_date;
-            }
-          }
-          if (lock){
-            $(tf_end_on).datepicker('setEndDate', endDate);
-            if (aktEndDate > endDate){
-              $(tf_end_on).datepicker('setDate', startDate);
-            }
+          // If current end_date is before new start date, then set
+          // end date to start date
+          if (aktEndDate < startDate || aktEndDate > new Date("2098")){
+            $(tf_end_on).datepicker('setDate', startDate);
           }else{
-            $(tf_end_on).datepicker('setEndDate', new Date("2099/01/01"));
+            // set end date of "end-on" datepicker, based on next booked dates
+            var endDate = new Date("2099/01/01");
+            var lock;
+            // Get the nearest locked date next to the startDate
+            for (var i=0; i<booked_dates.length; i++){
+              var lock_date = new Date(booked_dates[i]);
+              if (startDate <= lock_date && lock_date < endDate){
+                lock = true;
+                endDate = lock_date;
+              }
+            }
+            if (lock){
+              // Set maximal pickable date
+              $(tf_end_on).datepicker('setEndDate', endDate);
+              // Set end date to startDate if the current endDate is in the locked area
+              if (aktEndDate > endDate){
+                $(tf_end_on).datepicker('setDate', startDate);
+              }
+            }else{
+              $(tf_end_on).datepicker('setEndDate', new Date("2099/01/01"));
+            }
           }
         }
       });
@@ -94,6 +104,7 @@ window.ST = window.ST || {};
     };
 
     picker.on('changeDate', function(e) {
+      // Add new date to hidden form elements
       var newDate = e.dates[0];
       if (newDate){
         var outputElementId = $(e.target).data("output");

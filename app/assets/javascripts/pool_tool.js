@@ -1,5 +1,5 @@
 /* Tell jshint that there exists a global called "gon" */
-/* globals gon, prettyPrint, initialize_poolTool_createTransaction_form */
+/* globals gon, prettyPrint, initialize_poolTool_createTransaction_form, getDatesBetweenRange */
 /* jshint unused: false */
 
 window.ST = window.ST || {};
@@ -146,7 +146,7 @@ window.ST.poolTool = function() {
       months: gon.translated_months,
       navigate: "scroll",
       minScale: "days",
-      itemsPerPage: 10,
+      itemsPerPage: 100,
       scrollToToday: true,
       holidays: ["/Date(1334872800000)/","/Date(1335823200000)/"],
       /* Get them from here: http://kayaposoft.com/enrico/json/*/
@@ -232,8 +232,8 @@ window.ST.poolTool = function() {
         }
 
         // Store button text
-        btn_update_text = $('#btn_update').html();
-        btn_delete_text = $('#btn_delete').html();
+        var btn_update_text = $('#btn_update').html();
+        var btn_delete_text = $('#btn_delete').html();
 
         // Remove old event listeners
         $('#btn_update').unbind();
@@ -241,7 +241,7 @@ window.ST.poolTool = function() {
 
         // Remove booking from pool tool & db
         $('#btn_delete').on('vclick', function(){
-          result = window.confirm(gon.deleteConfirmation);
+          var result = window.confirm(gon.deleteConfirmation);
 
           if (result){
             // Add event listeners for remove booking from db
