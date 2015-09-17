@@ -8,7 +8,7 @@ class PoolToolController < ApplicationController
     @person = Person.find(params[:person_id] || params[:id])
 
     # Get transactions (joined with listings and bookings) from database, ordered by listings.id
-    transactions = Transaction.joins(:listing, :booking, :starter).select("transactions.id as transaction_id, listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.username as renting_entity_username, people.organization_name as renting_entity_organame, people.id as person_id").where("listings.author_id" => @person, "transactions.community_id" => @current_community).order("listings.id asc")
+    transactions = Transaction.joins(:listing, :booking, :starter).select("transactions.id as transaction_id, listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.created_at as created_at, transactions.current_state, people.given_name as renter_given_name, people.family_name as renter_family_name, people.username as renting_entity_username, people.organization_name as renting_entity_organame, people.id as person_id").where("listings.author_id" => @person, "transactions.community_id" => @current_community).order("listings.id asc")
     # Convert ActiveRecord Relation into array of hashes
     transaction_array = transactions.as_json
 
@@ -29,7 +29,7 @@ class PoolToolController < ApplicationController
 
     transaction_array.each do |transaction|
       renter = get_renter_and_relation(transaction)
-      renting_entity = transaction['renting_entity_username']
+      renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name']
       renting_entity = transaction['renting_entity_organame'] if transaction['renting_entity_organame'] != ""
 
       if prev_listing_id != transaction['listing_id']
@@ -47,7 +47,7 @@ class PoolToolController < ApplicationController
           'transaction_id' => transaction['transaction_id']
         }]
         # Remove unused keys from hash
-        transaction.except!('title', 'start_on', 'end_on', 'renting_entity_username', 'renting_entity_organame', 'transaction_id')
+        transaction.except!('title', 'start_on', 'end_on', 'renting_entity_username', 'renting_entity_organame', 'transaction_id', 'renter_family_name', 'renter_given_name')
 
         prev_listing_id = transaction['listing_id']
         act_transaction = transaction

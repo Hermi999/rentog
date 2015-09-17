@@ -1065,7 +1065,7 @@
                           $(".fn-gantt-hint").css("top", e.pageY + 15);
                       });
                 }
-                bar.click(function (e) {
+                bar.on('vclick', function (e) {
                     e.stopPropagation();
                     settings.onItemClick($(this));
                 });
