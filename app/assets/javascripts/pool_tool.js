@@ -263,24 +263,23 @@ window.ST.poolTool = function() {
                 });
               }
             })
-              .success(function(data){
-                if (data.status === "sucess"){
-                  // Close popover
-                  $.colorbox.close();
-
-                  // Enable Submit button again
-                  setTimeout(function(){
-                    $("#btn_update").prop('disabled', false);
-                    $("#btn_update").html(btn_update_text);
-                    $("#btn_delete").prop('disabled', false);
-                    $("#btn_delete").html(btn_delete_text);
-                    $('#btn_update').css('opacity', 1);
-                    $('#btn_delete').css('opacity', 1);
-                  }, 200);
-
+              .success(function(ev){
+                if (ev.status === "success"){
                   // Remove from pool tool
                   data.remove();
                 }
+                // Close popover
+                $.colorbox.close();
+
+                // Enable Submit button again
+                setTimeout(function(){
+                  $("#btn_update").prop('disabled', false);
+                  $("#btn_update").html(btn_update_text);
+                  $("#btn_delete").prop('disabled', false);
+                  $("#btn_delete").html(btn_delete_text);
+                  $('#btn_update').css('opacity', 1);
+                  $('#btn_delete').css('opacity', 1);
+                }, 200);
               })
               .error(function(){
                 // Show error message and fade it out after some time

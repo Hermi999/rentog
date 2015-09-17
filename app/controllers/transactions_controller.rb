@@ -318,10 +318,12 @@ class TransactionsController < ApplicationController
     # Delete booking with the corresponding transaction id
     # wah toDo: Also delete transaction & conversation? ...
     booking.delete
+    booking.transaction.conversation.delete
+    booking.transaction.delete
 
     # Render response
     render :json => {
-          action: "update",
+          action: "delete",
           status: "success"
         } and return
   end
