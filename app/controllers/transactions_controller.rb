@@ -195,7 +195,8 @@ class TransactionsController < ApplicationController
           empl_or_reason: empl_or_reason,
           start_on: params[:start_on],
           end_on: params[:end_on],
-          listing_id: params[:listing_id]
+          listing_id: params[:listing_id],
+          transaction_id: Transaction.last.id
         } and return
 
 
@@ -261,11 +262,17 @@ class TransactionsController < ApplicationController
   end
 
   def update
-
-    # wah toDo: Ensure that only internal transactions can be changed...
-
     # Get Booking from db
     booking = Booking.where(:transaction_id => params[:id]).first
+
+    # Ensure that only internal transactions can be changed...
+    starter = booking.transaction.starter
+    author = booking.transaction.author
+
+    unless starter.is_employee?(@current_user.id) || starter == author
+      flash[:error] = "Access denied"
+      redirect_to root and return
+    end
 
     # Get new start and end date
     start_day = Date.parse(params[:from])
@@ -306,10 +313,16 @@ class TransactionsController < ApplicationController
 
 
   def destroy
-    # wah toDo: Ensure that only internal transactions can be deleted...
-
     # Get Booking from db
     booking = Booking.where(:transaction_id => params[:id]).first
+
+    # Ensure that only internal transactions can be deleted...
+    starter = booking.transaction.starter
+    author = booking.transaction.author
+    unless starter.is_employee?(@current_user.id) || starter == author
+      flash[:error] = "Access denied"
+      redirect_to root and return
+    end
 
     # Ensure that company admin can only modify bookings from his company
     # The Rentog admin can also modify bookings

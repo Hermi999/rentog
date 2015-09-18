@@ -858,7 +858,8 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
               customClass: custom_class,
               from: "/Date(" + from + ")/",
               to: "/Date(" + to + ")/",
-              label: data.empl_or_reason
+              label: data.empl_or_reason,
+              transaction_id: data.transaction_id
             });
           }
         }

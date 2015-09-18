@@ -120,7 +120,8 @@ class PoolToolController < ApplicationController
       return if @current_user && @current_user.has_admin_rights_in?(@current_community)
 
       # Company employee is authorized
-      return if @current_user && @current_user.is_employee?(params['person_id'])
+      empl = Person.where(:username => params['person_id']).first
+      return if @current_user && @current_user.is_employee?(empl.id)
 
       # Otherwise return to home page
       flash[:error] = t("pool_tool.you_have_to_be_company_member")

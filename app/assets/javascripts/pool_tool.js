@@ -268,6 +268,10 @@ window.ST.poolTool = function() {
                 if (ev.status === "success"){
                   // Remove from pool tool
                   data.remove();
+
+                  // Update source
+
+                  // Update datepicker
                 }
                 // Close popover
                 $.colorbox.close();
