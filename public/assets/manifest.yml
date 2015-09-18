@@ -299,8 +299,8 @@ small_loader.gif: small_loader-ecd41366530713385f639a8c7dcf1ec4.gif
 small_loader/index.gif: small_loader-ecd41366530713385f639a8c7dcf1ec4.gif
 sprite.png: sprite-deed9194a7a36dbaf693d3213769960e.png
 sprite/index.png: sprite-deed9194a7a36dbaf693d3213769960e.png
-application.js: application-3ed1c90f9693d936948e8b4373d3dceb.js
-application/index.js: application-3ed1c90f9693d936948e8b4373d3dceb.js
+application.js: application-4fa83ca0ab77d4fa156467e2706d020d.js
+application/index.js: application-4fa83ca0ab77d4fa156467e2706d020d.js
 locales/ab.json: locales/ab-fc70691b46a70e62f004b630425fd640.json
 locales/ab/index.json: locales/ab-fc70691b46a70e62f004b630425fd640.json
 locales/bn-BD.json: locales/bn-BD-8653f95b3e2dbb0e9d1c6e37a1b64aa1.json
@@ -385,8 +385,8 @@ markerclusterer.js: markerclusterer-7f48f5bd153c418c95354d5266be8b62.js
 markerclusterer/index.js: markerclusterer-7f48f5bd153c418c95354d5266be8b62.js
 mercury.js: mercury-7c3df51a6c579dba85dcb6ed0b629870.js
 mercury/index.js: mercury-7c3df51a6c579dba85dcb6ed0b629870.js
-application.css: application-92d867de28588b9e7a7444d111e10d81.css
-application/index.css: application-92d867de28588b9e7a7444d111e10d81.css
+application.css: application-c5ace3025d5da134337586908ec06fb8.css
+application/index.css: application-c5ace3025d5da134337586908ec06fb8.css
 mercury.css: mercury-c4ecad98cee5777f69e721e98c9fdc0f.css
 mercury/index.css: mercury-c4ecad98cee5777f69e721e98c9fdc0f.css
 ss-pika.css: ss-pika-4f41c05ec8287c261b27e4c60f034df2.css
