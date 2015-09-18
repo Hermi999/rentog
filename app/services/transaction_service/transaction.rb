@@ -80,11 +80,20 @@ module TransactionService::Transaction
   end
 
   def create(opts, paypal_async: false)
+    # opts contains: community_id, listing_id, listing_title, starter_id,
+    # listing_author_id, listing_quantity, content,
+    # booking_fields=>{:start_on, :end_on}, payment_gateway, payment_process
     opts_tx = opts[:transaction]
 
+    # Set payment adapter according to the current payment gateway
     set_adapter = settings_adapter(opts_tx[:payment_gateway])
+
+    # Get the process settings from the payment adapter:
+    # minimum_commission, commission_from_seller, automatic_confirmation_after_days
     tx_process_settings = set_adapter.tx_process_settings(opts_tx)
 
+    # Create & Save Transaction, Booking & Conversation
+    # TxStore = TransactionService::Store::Transaction
     tx = TxStore.create(opts_tx.merge(tx_process_settings))
 
     tx_process = tx_process(tx[:payment_process])

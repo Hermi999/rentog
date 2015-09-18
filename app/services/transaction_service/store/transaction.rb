@@ -22,7 +22,7 @@ module TransactionService::Store::Transaction
     [:automatic_confirmation_after_days, :fixnum, :mandatory],
     [:minimum_commission, :money, :mandatory],
     [:content, :string],
-    [:booking_fields, :hash])
+    [:booking_fields, :hash]) # start_on, end_on, reason
 
   Transaction = EntityUtils.define_builder(
     [:id, :fixnum, :mandatory],
@@ -74,7 +74,15 @@ module TransactionService::Store::Transaction
   module_function
 
   def create(opts)
+    # Create a new Hash based on the opts with the New Transaction Entity
+    # Builder & then remove all nil key-value pairs from the hash with compact
+    #
+    # The Entity Builder checks all the given params. He checks fg. the datatype,
+    # if values are within a range, ..., adds the unit_price (with default value)
+    # & removes all keys which are not defined in NewTransaction specs.
+    # (call = alias for build)
     tx_data = HashUtils.compact(NewTransaction.call(opts))
+    # create Transaction
     tx_model = TransactionModel.new(tx_data.except(:content, :booking_fields))
     build_conversation(tx_model, tx_data)
     build_booking(tx_model, tx_data)
@@ -209,7 +217,13 @@ module TransactionService::Store::Transaction
 
       start_on = tx_data[:booking_fields][:start_on]
       end_on = tx_data[:booking_fields][:end_on]
-      tx_model.build_booking({start_on: start_on, end_on: end_on})
+
+      if tx_data[:booking_fields][:reason]
+        reason = tx_data[:booking_fields][:reason]
+        tx_model.build_booking({start_on: start_on, end_on: end_on, reason: reason})
+      else
+        tx_model.build_booking({start_on: start_on, end_on: end_on})
+      end
     end
   end
 

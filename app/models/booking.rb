@@ -8,13 +8,14 @@
 #  end_on         :date
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  reason         :string(255)
 #
 
 class Booking < ActiveRecord::Base
 
   belongs_to :transaction
 
-  attr_accessible :transaction_id, :end_on, :start_on
+  attr_accessible :transaction_id, :end_on, :start_on, :reason
 
   validates :start_on, :end_on, presence: true
   validates_date :end_on, on_or_after: :start_on

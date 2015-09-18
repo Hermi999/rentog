@@ -155,6 +155,10 @@ class TransactionsController < ApplicationController
         ->(form, (listing_id, listing_model, author_model, process, gateway), _) {
           booking_fields = Maybe(form).slice(:start_on, :end_on).select { |booking| booking.values.all? }.or_else({})
 
+          # Add reason if not an employee was choosen
+          if !params[:employee]
+            booking_fields[:reason] = empl_or_reason
+          end
 
           quantity = Maybe(booking_fields).map { |b| DateUtils.duration_days(b[:start_on], b[:end_on]) }.or_else(form[:quantity])
 

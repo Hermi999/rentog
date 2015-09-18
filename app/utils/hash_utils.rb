@@ -1,6 +1,7 @@
 module HashUtils
   module_function
 
+  # Returns a hash without nil elements
   def compact(h)
     h.reject { |k, v| v.nil? }
   end
