@@ -852,6 +852,8 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         }
 
         // Add booking element to existing device (skip the empty dummy one)
+        var dateArray = getDatesBetweenRange(new Date(data.start_on), new Date(data.end_on));
+
         for(var x=0; x<gon.source.length-1; x++){
           if(gon.source[x].listing_id.toString() === data.listing_id){
             gon.source[x].values.push({
@@ -861,17 +863,26 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
               label: data.empl_or_reason,
               transaction_id: data.transaction_id
             });
-          }
-        }
 
-        // Update already booked dates
-        for(var y=0; y<gon.devices.length; y++){
-          if(gon.devices[y].listing_id.toString() === data.listing_id){
-            var dateArray = getDatesBetweenRange(new Date(data.start_on), new Date(data.end_on));
-            for (var ii = 0; ii < dateArray.length; ii ++ ) {
-                gon.devices[y].already_booked_dates.push(dateArray[ii]);
-            }
-            break;
+            // Add new booking dates to already booked dates
+              // Format new dates
+              for (var ii = 0; ii < dateArray.length; ii ++ ) {
+                var yyyy = dateArray[ii].getFullYear();
+                var mm = dateArray[ii].getMonth() + 1;
+                var dd = dateArray[ii].getDate();
+                if (mm < 10){ mm = "0" + mm; }
+                if (dd < 10){ dd = "0" + dd; }
+                dateArray[ii] = yyyy + "-" + mm + "-" + dd;
+              }
+
+              // Listing has already bookings
+              if (gon.source[x].already_booked_dates){
+                gon.source[x].already_booked_dates = gon.source[x].already_booked_dates.concat(dateArray);
+              }
+              // Listing has no bookings yet
+              else{
+                gon.source[x].already_booked_dates = dateArray;
+              }
           }
         }
 

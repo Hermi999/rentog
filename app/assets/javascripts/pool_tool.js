@@ -15,7 +15,6 @@ window.ST.poolTool = function() {
     initialize_device_picker();
 
     // Initialize popover and remove buttons if employee is logged in
-    console.log(gon.is_admin);
     if (gon.is_admin === false){
       $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"500px", maxHeight:"400px"});
     }
@@ -45,9 +44,11 @@ window.ST.poolTool = function() {
     var booked_dates = [];
     $('input:radio[name=listing_id]:first').prop('checked',true);
     var listing_id = parseInt($('input[name=listing_id]:checked', '#poolTool_form').val());
-    for(var y=0; y<gon.devices.length; y++){
-      if(gon.devices[y].listing_id === listing_id){
-        booked_dates = gon.devices[y].already_booked_dates;
+    for(var y=0; y<gon.source.length; y++){
+      if(gon.source[y].listing_id === listing_id){
+        if (gon.source[y].already_booked_dates){
+          booked_dates = gon.source[y].already_booked_dates;
+        }
         break;
       }
     }
@@ -60,9 +61,11 @@ window.ST.poolTool = function() {
       var booked_dates = [];
       var listing_id = parseInt($('input[name=listing_id]:checked', '#poolTool_form').val());
 
-      for(var y=0; y<gon.devices.length; y++){
-        if(gon.devices[y].listing_id === listing_id){
-          booked_dates = gon.devices[y].already_booked_dates;
+      for(var y=0; y<gon.source.length; y++){
+        if(gon.source[y].listing_id === listing_id){
+          if (gon.source[y].already_booked_dates){
+            booked_dates = gon.source[y].already_booked_dates;
+          }
           break;
         }
       }
@@ -156,7 +159,8 @@ window.ST.poolTool = function() {
       itemsPerPage: 100,
       scrollToToday: true,
       holidays: ["/Date(1334872800000)/","/Date(1335823200000)/"],
-      /* Get them from here: http://kayaposoft.com/enrico/json/*/
+      // wah todo: Add Holidays
+      // Get them from here: http://kayaposoft.com/enrico/json/
       source: source,
       onItemClick: function(data) {
         var info = data.data("dataObj");
@@ -194,11 +198,13 @@ window.ST.poolTool = function() {
         }
         else{
         // Company admin
-          // Re-initialize Datepickers with booked dates
-          for(var y=0; y<gon.devices.length; y++){
-            if(gon.devices[y].listing_id === listing_id){
+        // Re-initialize Datepickers with booked dates
+          for(var y=0; y<source.length; y++){
+            if(source[y].listing_id === listing_id){
               // Copy array, because we do not want to get our source changed
-              booked_dates = gon.devices[y].already_booked_dates.slice();
+              if (source[y].already_booked_dates){
+                booked_dates = source[y].already_booked_dates.slice();
+              }
               break;
             }
           }
@@ -208,19 +214,11 @@ window.ST.poolTool = function() {
             var dateArray = getDatesBetweenRange(s, e);
 
             for (var ii = 0; ii < dateArray.length; ii ++ ) {
-
               var yyyy = dateArray[ii].getFullYear();
               var mm = dateArray[ii].getMonth() + 1;
               var dd = dateArray[ii].getDate();
-
-              if (mm < 10){
-                mm = "0" + mm;
-              }
-
-              if (dd < 10){
-                dd = "0" + dd;
-              }
-
+              if (mm < 10){ mm = "0" + mm; }
+              if (dd < 10){ dd = "0" + dd; }
               dateArray[ii] = yyyy + "-" + mm + "-" + dd;
 
               if (booked_dates[yy] === dateArray[ii]){
@@ -232,10 +230,6 @@ window.ST.poolTool = function() {
           $('#start-on2').val('');
           $('#end-on2').val('');
           $('#datepicker2').datepicker('remove');
-
-          // Slightly delay execution of Datepicker update, so that DOM is
-          // immediately updated and UI with radio button change isn't stuck
-          // setTimeout(updateDatepicker2(booked_dates), 1);
           updateDatepicker2(booked_dates);
 
           // Set datepicker dates to those from db
@@ -294,10 +288,54 @@ window.ST.poolTool = function() {
                     // Remove from pool tool
                     data.remove();
 
-                    // wah todo: Update source
+                    // Update source
+                    var booked_d = [];
+                    for(var x=0; x<source.length; x++){
+                      if(source[x].listing_id === listing_id){
+                        for(var y=0; y<source[x].values.length; y++){
+                          if(source[x].values[y].transaction_id === transaction_id){
+                            // Remove element from array
+                            source[x].values.splice(y, 1);
 
-                    // wah todo: Update datepicker
+                            // Remove also days from already booked dates
+                            var dateArray = getDatesBetweenRange(s, e);
+                            // Go through each booked day and remove it from
+                            // the already booked dates
+                            for (var ii = 0; ii < dateArray.length; ii ++ ) {
+                              // Format for compare
+                              var yyyy = dateArray[ii].getFullYear();
+                              var mm = dateArray[ii].getMonth() + 1;
+                              var dd = dateArray[ii].getDate();
+                              if (mm < 10){ mm = "0" + mm; }
+                              if (dd < 10){ dd = "0" + dd; }
+                              var new_date = yyyy + "-" + mm + "-" + dd;
 
+
+                              // New reference
+                              booked_d = source[x].already_booked_dates;
+
+                              // Compare and remove
+                              for (var yy =0; yy < booked_d.length; yy++){
+                                if (booked_d[yy] === new_date){
+                                  booked_d.splice(yy, 1);
+                                }
+                              }
+                            }
+
+                            // Leave loops
+                            x = source.length;
+                            break;
+                          }
+                        }
+                      }
+                    }
+                    gon.source = source;
+
+                    // update datepicker
+                    $('#start-on').val('');
+                    $('#end-on').val('');
+                    $('#datepicker').datepicker('remove');
+                    updateDatepicker(booked_d);
                   }
                   // Close popover
                   $.colorbox.close();
@@ -350,24 +388,70 @@ window.ST.poolTool = function() {
             })
               .success(function(data){
                 if (data.status === "success"){
-                  // wah todo: Update datepicker
-
-
                   // update gantt view & source
-                  for(var x=0; x<source.length; x++){
-                    if(source[x].listing_id === listing_id){
-                      for(var y=0; y<source[x].values.length; y++){
-                        if(source[x].values[y].transaction_id === transaction_id){
-                          source[x].values[y].from = "/Date(" + Math.round(s_new.getTime()) + ")/";
-                          source[x].values[y].to = "/Date(" + Math.round(e_new.getTime()) + ")/";
-                          x = source.length;
+                  // Update datepicker
+                      for(var x=0; x<source.length; x++){
+                        if(source[x].listing_id === listing_id){
+
+                          // Update start and end date
+                          for(var y=0; y<source[x].values.length; y++){
+                            if(source[x].values[y].transaction_id === transaction_id){
+                              source[x].values[y].from = "/Date(" + Math.round(s_new.getTime()) + ")/";
+                              source[x].values[y].to = "/Date(" + Math.round(e_new.getTime()) + ")/";
+                              break;
+                            }
+                          }
+
+                          // New reference
+                          var booked_d = source[x].already_booked_dates;
+
+                          // Get each booked day of current booking (transaction)
+                          var dateArray_old = getDatesBetweenRange(s, e);
+                          var dateArray_new = getDatesBetweenRange(s_new, e_new);
+
+                          // Go through each booked day and remove it from
+                          // the already booked dates
+                          for (var ii = 0; ii < dateArray_old.length; ii ++ ) {
+                            // Format for compare
+                            var yyyy = dateArray_old[ii].getFullYear();
+                            var mm = dateArray_old[ii].getMonth() + 1;
+                            var dd = dateArray_old[ii].getDate();
+                            if (mm < 10){ mm = "0" + mm; }
+                            if (dd < 10){ dd = "0" + dd; }
+                            var formated_date = yyyy + "-" + mm + "-" + dd;
+
+                            // Remove old dates
+                            for (var yy =0; yy < booked_d.length; yy++){
+                              if (booked_d[yy] === formated_date){
+                                booked_d.splice(yy, 1);
+                              }
+                            }
+                          }
+
+                          // Go through each new booked day and it to array
+                          for (var ii = 0; ii < dateArray_new.length; ii ++ ) {
+                            var yyyy = dateArray_new[ii].getFullYear();
+                            var mm = dateArray_new[ii].getMonth() + 1;
+                            var dd = dateArray_new[ii].getDate();
+                            if (mm < 10){ mm = "0" + mm; }
+                            if (dd < 10){ dd = "0" + dd; }
+                            dateArray_new[ii] = yyyy + "-" + mm + "-" + dd;
+                          }
+                          // Add new dates
+                          booked_d = booked_d.concat(dateArray_new);
+                          gon.source[x].already_booked_dates = booked_d;
                           break;
                         }
                       }
-                    }
-                  }
-                  gon.source = source;
-                  updateGanttChart(gon.source);
+
+                      // update datepicker
+                      $('#start-on').val('');
+                      $('#end-on').val('');
+                      $('#datepicker').datepicker('remove');
+                      updateDatepicker(booked_d);
+
+                      gon.source = source;
+                      updateGanttChart(gon.source);
                 }
                 else{
                   // Show error message and fade it out after some time
