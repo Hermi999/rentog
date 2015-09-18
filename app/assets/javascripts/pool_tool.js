@@ -377,6 +377,8 @@ window.ST.poolTool = function() {
         });
       },
       onAddClick: function(dt, rowId) {
+        //console.log(dt);
+        //console.log(rowId);
       },
       onRender: function() {
       }

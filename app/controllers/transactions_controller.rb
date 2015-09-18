@@ -141,7 +141,6 @@ class TransactionsController < ApplicationController
 
       # wah todo: Handle new bookings with do not have an employee, but another
       # reason ...
-
       Result.all(
         ->() {
           PoolToolTransactionForm.validate(params)
@@ -316,7 +315,6 @@ class TransactionsController < ApplicationController
     end
 
     # Delete booking with the corresponding transaction id
-    # wah toDo: Also delete transaction & conversation? ...
     booking.delete
     booking.transaction.conversation.delete
     booking.transaction.delete

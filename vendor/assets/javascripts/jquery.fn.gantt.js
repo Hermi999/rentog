@@ -382,9 +382,10 @@
 
                 // Handle click events and dispatch to registered `onAddClick`
                 // function
-/*                dataPanel.click(function (e) {
+                dataPanel.on('dblclick', function (e) {
 
                     e.stopPropagation();
+
                     var corrY;
                     var leftpanel = $(element).find(".fn-gantt .leftPanel");
                     var datapanel = $(element).find(".fn-gantt .dataPanel");
@@ -431,9 +432,10 @@
 
                     // Dispatch user registered function with the DateTime in ms
                     // and the id if the clicked object is a row
+                    //settings.onAddClick(dt, rowId, $(this));
                     settings.onAddClick(dt, rowId);
                 });
-*/
+
                 return dataPanel;
             },
 
