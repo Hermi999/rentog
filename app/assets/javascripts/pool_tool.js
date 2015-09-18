@@ -14,6 +14,7 @@ window.ST.poolTool = function() {
     initialize_poolTool_createTransaction_form(gon.locale, gon.choose_employee_or_renter_msg);
     initialize_device_picker();
 
+    // Initialize popover
     $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"600px", maxHeight:"450px"});
   }
 

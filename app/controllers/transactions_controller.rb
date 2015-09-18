@@ -131,9 +131,9 @@ class TransactionsController < ApplicationController
       # Check if employee or another reason for booking was choosen
       # In case of employee replace the person_id (= renter id)
       if params[:employee]
-        empl_or_reason = params[:employee][:username]
-        params[:person_id] = empl_or_reason
+        params[:person_id] = params[:employee][:username]
         employee = Person.where(username: params[:employee][:username]).first
+        empl_or_reason = employee[:family_name] + " " + employee[:given_name]
       else
         empl_or_reason = params[:renter]
       end
