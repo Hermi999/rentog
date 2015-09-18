@@ -15,6 +15,7 @@ window.ST.poolTool = function() {
     initialize_device_picker();
 
     // Initialize popover and remove buttons if employee is logged in
+    console.log(gon.is_admin);
     if (gon.is_admin === false){
       $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"500px", maxHeight:"400px"});
     }
@@ -274,7 +275,7 @@ window.ST.poolTool = function() {
                 method: "post",   // Browser can't do delete requests
                 dataType: "json",
                 url: "/" + gon
-                .locale + "/" + gon.p_id + "/transactions/" + transaction_id,
+                .locale + "/" + gon.comp_id + "/transactions/" + transaction_id,
                 data: {_method:'delete'},
                 beforeSend :function(){
                   // Disable Sumbmit Buttons
@@ -333,7 +334,7 @@ window.ST.poolTool = function() {
 
             $.ajax({
               method: "PUT",
-              url: "/" + gon.locale + "/" + gon.p_id + "/transactions/" + transaction_id,
+              url: "/" + gon.locale + "/" + gon.comp_id + "/transactions/" + transaction_id,
               data: {from: s_new, to: e_new},
               beforeSend: function(){
                 // Disable Sumbmit Buttons

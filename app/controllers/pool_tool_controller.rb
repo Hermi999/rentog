@@ -102,8 +102,8 @@ class PoolToolController < ApplicationController
       choose_employee_or_renter_msg: t("pool_tool.show.choose_employee_or_renter"),
       deleteConfirmation: t("pool_tool.deleteConfirmation"),
 
-      p_id: @person.id,
-      is_admin: @person.has_admin_rights_in?(@current_community)
+      comp_id: @person.id,
+      is_admin: @current_user.is_company_admin_of?(@person) || @current_user.has_admin_rights_in?(@current_community)
    })
   end
 
