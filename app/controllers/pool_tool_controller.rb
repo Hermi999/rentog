@@ -8,7 +8,7 @@ class PoolToolController < ApplicationController
     @person = Person.find(params[:person_id] || params[:id])
 
     # Get transactions (joined with listings and bookings) from database, ordered by listings.id
-    transactions = Transaction.joins(:listing, :booking, :starter).select("transactions.id as transaction_id, listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.reason as reason, transactions.current_state, people.given_name as renter_given_name, people.family_name as renter_family_name, people.username as renting_entity_username, people.organization_name as renting_entity_organame, people.id as person_id").where("listings.author_id" => @person, "transactions.community_id" => @current_community).order("listings.id asc")
+    transactions = Transaction.joins(:listing, :booking, :starter).select("transactions.id as transaction_id, listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.reason as reason, transactions.current_state, people.given_name as renter_given_name, people.family_name as renter_family_name, people.username as renting_entity_username, people.organization_name as renting_entity_organame, people.id as person_id").where("listings.author_id = ? AND transactions.community_id = ? AND listings.open = '1' AND (listings.valid_until IS NULL OR valid_until > ?)", @person.id, @current_community.id, DateTime.now).order("listings.id asc")
     # Convert ActiveRecord Relation into array of hashes
     transaction_array = transactions.as_json
 
@@ -102,7 +102,8 @@ class PoolToolController < ApplicationController
       choose_employee_or_renter_msg: t("pool_tool.show.choose_employee_or_renter"),
       deleteConfirmation: t("pool_tool.deleteConfirmation"),
 
-      p_id: @person.id
+      p_id: @person.id,
+      is_admin: @person.has_admin_rights_in?(@current_community)
    })
   end
 

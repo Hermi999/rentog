@@ -504,6 +504,10 @@ class Person < ActiveRecord::Base
     community_membership && community_membership.admin?
   end
 
+  def is_company_admin_of?(company)
+    is_organization and (organization_name == company.organization_name)
+  end
+
   def has_admin_rights_in?(community)
     is_admin? || is_admin_of?(community)
   end
