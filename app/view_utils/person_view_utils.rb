@@ -35,7 +35,7 @@ module PersonViewUtils
   # This is another adapter to `display_name`.
   # It accepts person entity
   def person_entity_display_name(person_entity, name_display_type)
-    if person_entity[:id].nil?
+    if person_entity.nil? or person_entity[:id].nil?
       display_name(
         first_name: nil,
         last_name: nil,

@@ -445,7 +445,7 @@ class TransactionsController < ApplicationController
     end
 
     # Only check if start and end date are given
-    if start_on and end_on
+    if start_on && end_on && start_on != "" && end_on != ""
       # Check if start date is smaller end date
       if Date.parse(start_on) > Date.parse(end_on)
         return false
