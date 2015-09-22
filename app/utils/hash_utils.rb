@@ -50,7 +50,6 @@ module HashUtils
     }.flatten.compact
   end
 
-
   # Select a subset of the hash h using given set of keys.
   # Only include keys that are present in h.
   #

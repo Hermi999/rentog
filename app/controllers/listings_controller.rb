@@ -45,7 +45,26 @@ class ListingsController < ApplicationController
 
           # Returns the listings for one person formatted for profile page view
           per_page = params[:per_page] || 200 # the point is to show all here by default
-          render :partial => "listings/profile_listings", :locals => {:person => @person, :limit => per_page}
+          includes = [:author, :listing_images]
+          include_closed = @person == @current_user
+          search = {
+            author_id: @person.id,
+            include_closed: include_closed,
+            page: 1,
+            per_page: per_page
+          }
+
+          listings = ListingIndexService::API::Api.listings.search(community_id: @current_community.id, search: search, includes: includes).and_then { |res|
+            Result::Success.new(
+              ListingIndexViewUtils.to_struct(
+              result: res,
+              includes: includes,
+              page: search[:page],
+              per_page: search[:per_page]
+            ))
+          }.data
+
+          render :partial => "listings/profile_listings", :locals => {person: @person, limit: per_page, listings: listings}
         else
           redirect_to root
         end
@@ -68,10 +87,19 @@ class ListingsController < ApplicationController
             }.map { |shape| shape[:id] }
           }
         end
+        search_res = @current_community.private ? Result::Success.new({count: 0, listings: []}) : ListingIndexService::API::Api.listings.search(
+                     community_id: @current_community.id,
+                     search: {
+                       listing_shapes: params[:listing_shapes],
+                       page: page,
+                       per_page: per_page
+                     },
+                     includes: [:listing_images, :author, :location])
 
-        listings = @current_community.private ? [] : Listing.find_with(params, @current_user, @current_community, per_page, page)
+        listings = search_res.data[:listings]
+
         title = build_title(params)
-        updated = listings.first.present? ? listings.first.updated_at : Time.now
+        updated = listings.first.present? ? listings.first[:updated_at] : Time.now
 
         render layout: false,
                locals: { listings: listings,
@@ -120,9 +148,6 @@ class ListingsController < ApplicationController
 
   def show
     @selected_tribe_navi_tab = "home"
-    unless current_user?(@listing.author)
-      @listing.increment!(:times_viewed)
-    end
 
     @current_image = if params[:image]
       @listing.image_by_id(params[:image])
@@ -194,7 +219,7 @@ class ListingsController < ApplicationController
 
   def new
     category_tree = CategoryViewUtils.category_tree(
-      categories: ListingService::API::Api.categories.get(community_id: @current_community.id)[:data],
+      categories: ListingService::API::Api.categories.get_all(community_id: @current_community.id)[:data],
       shapes: get_shapes,
       locale: I18n.locale,
       all_locales: @current_community.locales
@@ -312,7 +337,7 @@ class ListingsController < ApplicationController
     end
 
     category_tree = CategoryViewUtils.category_tree(
-      categories: ListingService::API::Api.categories.get(community_id: @current_community.id)[:data],
+      categories: ListingService::API::Api.categories.get_all(community_id: @current_community.id)[:data],
       shapes: get_shapes,
       locale: I18n.locale,
       all_locales: @current_community.locales
@@ -610,7 +635,11 @@ class ListingsController < ApplicationController
 
     unless @listing.visible_to?(@current_user, @current_community) || (@current_user && @current_user.has_admin_rights_in?(@current_community))
       if @current_user
-        flash[:error] = t("layouts.notifications.you_are_not_authorized_to_view_this_content")
+        if @listing.closed?
+          flash[:error] = t("layouts.notifications.listing_closed")
+        else
+          flash[:error] = t("layouts.notifications.you_are_not_authorized_to_view_this_content")
+        end
         redirect_to root and return
       else
         session[:return_to] = request.fullpath

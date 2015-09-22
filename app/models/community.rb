@@ -52,7 +52,6 @@
 #  service_logo_style                         :string(255)      default("full-logo")
 #  available_currencies                       :text
 #  facebook_connect_enabled                   :boolean          default(TRUE)
-#  only_public_listings                       :boolean          default(TRUE)
 #  vat                                        :integer
 #  commission_from_seller                     :integer
 #  minimum_price_cents                        :integer
@@ -271,7 +270,7 @@ class Community < ActiveRecord::Base
   attr_accessor :terms
 
   def self.columns
-    super.reject { |c| ["redirect_to_domain", "custom_email_from_address"].include?(c.name) }
+    super.reject { |c| ["only_public_listings"].include?(c.name) }
   end
 
   def name(locale)
@@ -460,6 +459,7 @@ class Community < ActiveRecord::Base
         listings
           .currently_open
           .where("updates_email_at > ? AND updates_email_at = created_at", latest)
+          .order("updates_email_at DESC")
           .limit(additional_listings)
           .to_a
       else

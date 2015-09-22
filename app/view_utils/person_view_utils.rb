@@ -20,12 +20,9 @@ module PersonViewUtils
         first_name: person.given_name,
         last_name: person.family_name,
         username: person.username,
-
         name_display_type: community.name_display_type,
-
         is_organization: person.is_organization?,
         organization_name: person.organization_name,
-
         is_deleted: person.deleted?,
         deleted_user_text: I18n.translate("common.removed_user"),
       )
@@ -47,16 +44,13 @@ module PersonViewUtils
         deleted_user_text: I18n.translate("common.removed_user")
       )
     else
-      # wah82wi: Remove this code someday. Too many database queries!
-      orga_name = Person.find(person_entity[:id]).organization_name
-
       display_name(
         first_name: person_entity[:first_name],
         last_name: person_entity[:last_name],
-        organization_name: orga_name,
+        organization_name: person_entity[:organization_name],
         username: person_entity[:username],
         name_display_type: name_display_type,
-        is_organization: true,
+        is_organization: person_entity[:is_organization],
         is_deleted: person_entity[:is_deleted],
         deleted_user_text: I18n.translate("common.removed_user")
       )

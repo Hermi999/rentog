@@ -179,7 +179,7 @@ de:
         facebook_link_text: ~
         twitter_link_text: "füge deinen Twitter-Account hinzu"
         analytics: ~
-        analytics_link_text: ~
+        analytics_link_text: "Verknüpfe einen Google Analytics Account"
         settings: ~
         settings_link_text: "Hier siehst du deine Marktplatz-Einstellungen"
         final_words: ~
@@ -571,7 +571,7 @@ de:
       paypal_fee_info: "* Ohne <a id='%{fee_info_link_id}' href='#'>PayPal-Zahlungsbearbeitungsgebühr</a>"
       shipping_price_label: "Versand:"
     confirm:
-      confirm_description: "Deine Anfrage wurde aufgenommen, du solltest sie bestätigen nachdem du fertig bist. Dann kannst du dem Anderen Feedback geben."
+      confirm_description: "Deine Anfrage wurde aufgenommen, du solltest sie bestätigen nachdem du fertig bist. Dann kannst du den Anderen bewerten."
       cancel_description: "Wenn deine Anfrage nicht erfüllt wurde, dann markiere sie als \"noch nicht erledigt\". Du kannst dem anderen trotzdem Feedback geben und beschreiben, was passiert ist."
       cancel_payed_description: "Wenn deine Anfrage akzeptiert wurde, du aber noch einmal darüber nachdenken willst, kannst du deine Anfrage vor der Bezahlung immer noch ablehnen."
       canceling_payed_transaction: "Transaktion abbrechen"
@@ -656,7 +656,7 @@ de:
       message_sent_by: "Nachricht gesendet von"
       message_sent_to: "Nachricht gesendet an"
       send_reply: "Antwort senden"
-      write_a_reply: "Schreibe eine Nachricht:"
+      write_a_reply: "Schreibe eine Antwort:"
       conversation_about_listing: "Mit %{person} ein Gespräch geführt über %{listing}"
       conversation_with_user: "Gespräch mit  %{person}"
       conversation_with: "Unterhaltung mit %{person}"
@@ -764,7 +764,7 @@ de:
       exp: ~
   feedback:
     feedback_subject: "Neue Bewertung von %{service_name}"
-    feedback_body: "%{author_name_and_email} hat Dir die folgende Bewertung auf %{service_name} gesendet"
+    feedback_body: "%{author_name_and_email} hat Dir die folgende Nachricht auf %{service_name} gesendet"
     unlogged_user: "Nicht angemeldeter Nutzer"
     anonymous_user: "Anonymer Benutzer"
   preauthorize_payments:
@@ -781,7 +781,7 @@ de:
       join_community: "'%{service_name}' beitreten"
       you_can_join: "Du kannst %{service_name} beitreten, indem du die Nutzungsbedingungen akzeptierst und unten auf ''%{service_name}' beitreten' klickst."
       you_can_join_email_confirmation: "Um %{service_name} beitreten zu können, benötigst du eine gültige E-Mail-Adresse, die auf %{email_ending} endet. Beitreten kannst Du, indem Du Deine E-Mail-Adresse einträgst, die Nutzungsbedingungen der Community akzeptierst, unten auf \"%{service_name} beitreten\" klickst und deine E-Mail-Adresse bestätigst."
-      you_can_join_email_confirmation_multiple_addresses: "Um dieser Community beitreten zu können, benötigst du eine E-Mail-Adresse, die der Administrator dieser Seite zugelassen hat. Beitreten kannst du, indem du deine E-Mail-Adresse einträgst, die Nutzungsbedingungen der Community akzeptierst und unten auf \"Community beitreten\"  klickst."
+      you_can_join_email_confirmation_multiple_addresses: "Um %{service_name} beitreten zu können, benötigst Du eine bestätigte E-Mail-Adresse. Beitreten kannst Du, indem Du Deine E-Mail-Adresse einträgst, die Nutzungsbedingungen von %{service_name} akzeptierst und unten auf \"%{service_name} beitreten\"  klickst."
       you_can_join_with_invite_only: "Du musst eine Einladung eines anderen Mitglieds besitzen, um dieser Community beitreten zu können. Falls du einen Einladungs-Code hast, kannst du der Community beitreten, indem du den Code unten in das Feld eingibst, die Nutzungsbedingungen akzeptierst und auf 'Community beitreten' klickst."
       if_want_to_view_content: "Wenn du den Inhalt dieser Community ansehen möchtest, ohne beitreten zu wollen, musst du dich"
       log_out: abmelden
@@ -809,7 +809,7 @@ de:
       automatic_confirmation: "Wenn du die Anfrage nicht innerhalb von %{days_to_automatic_confirmation} Tagen bestätigst oder ablehnst, nachdem die Anfrage akzeptiert wurde, werden wir sie automatisch als abgeschlossen markieren."
     payment_reminder:
       remember_to_pay: "Bezahle für %{listing_title}"
-      you_have_not_yet_paid: "Du hast noch nicht für %{listing_title} bezahlt, %{other_party_name} hat dein Angebot akzeptiert."
+      you_have_not_yet_paid: "Du hast noch nicht für %{listing_title} bezahlt, %{other_party_name} hat Dein Angebot akzeptiert."
       if_will_not_happen_you_should_cancel: "Wen du denkst, dass aus anderen Gründen die Anfrage noch nicht vollständig ist, kannst du auch %{cancel_it_link}."
       cancel_it_link_text: Abbrechen
     payment_settings_reminder:
@@ -843,9 +843,9 @@ de:
     confirmation_instructions:
       confirmation_instructions_signature: "Liebe Grüße, <br/> das %{service_name} Team"
       welcome_to_kassi: "Willkommen bei %{service_name},"
-      need_to_confirm: "Du musst deine E-Mail-Adresse bestätigen."
+      need_to_confirm: "Du musst Deine E-Mail-Adresse bestätigen."
       confirmation_link_text: "Meine E-Mail-Adresse bestätigen"
-      or_paste_link: "Alternativ kannst du den folgenden Link in die Adresszeile deines Browsers kopieren:"
+      or_paste_link: "Alternativ kannst Du den folgenden Link in die Adresszeile deines Browsers kopieren:"
       turning_on_confirmations_in_this_community: "Wir beginnen mit der Verwendung von E-Mail-Bestätigungen in dieser %{service_name} Community."
     common:
       check_your_settings: "Überprüfe deine Einstellungen"
@@ -943,7 +943,7 @@ de:
       change_my_password: "Mein Passwort ändern"
       reset_password_instructions: "<p>Du hast angegeben, dein Passwort oder den Benutzernamen im %{service_name} Dienst vergessen zu haben.</p><p>Dein Benutzername ist: %{username}</p><p>Um dein Passwort zurückzusetzen, klicke auf den folgenden Link: %{password_reset_link}</p><br/><p> Falls du das Zurücksetzen des Passworts nicht angefordert hast, ignoriere diese E-Mail. Dein Passwort wird nicht zurückgesetzt, solange du den oberen Link nicht anklickst und ein neues Passwort erstellst.</p>"
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Bewertungen sind öffentlich und werden allen anderen Nutzern angezeigt. Bewertungen helfen, ob %{name} vertrauenswürdig ist. Deshalb ist es immer gut, Transaktionen zu bewerten und auch den Anderen daran zu erinnern, ein Feedback zu geben. Außerdem benötigst Du positive Bewertungen, um Abzeichen erlangen zu können."
+      feedback_is_public_and_is_shown: "Bewertungen sind öffentlich und werden allen anderen Nutzern angezeigt. Bewertungen helfen zu zeigen, ob %{name} vertrauenswürdig ist. Deshalb ist es immer gut, Transaktionen zu bewerten und auch den Anderen daran zu erinnern, ein Feedback zu geben. Außerdem benötigst Du positive Bewertungen, um Abzeichen erlangen zu können."
       remember_to_give_feedback_to: "Zur Erinnerung: Denke daran, %{name} zu bewerten"
       you_have_not_given_feedback_yet: "Du hast %{name} noch kein Feedback zur Transaktion '%{event}' gegeben. Denke daran, ein Feedback darüber zu hinterlassen, wie %{given_name} die Transaktion durchgeführt hat."
     transaction_preauthorized:
@@ -1026,7 +1026,7 @@ de:
       javascript_is_disabled_in_your_browser: "JavaScript ist in deinem Browser deaktiviert."
       kassi_does_not_currently_work_without_javascript: "Leider funktioniert %{service_name} derzeit nicht ohne javascript. Versuche javascript in deinen Browser-Einstellungen zu aktivieren und lade diese Seite dann noch einmal."
       contact_us: Kontakt
-      send_feedback: Senden
+      send_feedback: "Bewertung senden"
       your_feedback_to_admins: "Dein Feedback an die Administratoren"
     send: Senden
     your_email_address: "Deine E-Mail-Adresse"
@@ -1339,6 +1339,7 @@ de:
       you_are_not_allowed_to_give_feedback_on_this_transaction: "Du bist nicht berechtigt, Feedback zu dieser Transaktion zu geben"
       you_are_not_authorized_to_do_this: "Du bist nicht berechtigt, dies zu tun"
       you_are_not_authorized_to_view_this_content: "Du bist nicht berechtigt, diesen Inhalt zu sehen"
+      listing_closed: "Dieses Angebot wurde entfernt"
       send_instructions: "Du wirst in einigen Minuten eine E-Mail erhalten mit Anweisungen zum Zurücksetzen deines Passworts."
       you_cannot_reply_to_a_closed_offer: "Du kannst nicht auf ein beendetes Angebot antworten."
       you_cannot_reply_to_a_closed_request: "Du kannst nicht auf eine beendete Anfrage antworten."
@@ -1701,7 +1702,7 @@ de:
       admin_account_not_connected: "%{service_name} ist nicht für Zahlungen konfiguriert, deswegen kannst Du Dein PayPal-Konto nicht verbinden. Bitte %{contact_admin_link} für Einzelheiten."
       paypal_account_email: "Verbinde dein PayPal Konto"
       paypal_account_email_placeholder: "Deine PayPal E-Mail Adresse"
-      paypal_account_email_info_text: "Wenn du kein PayPal-Konto hast, kannst du eins über %{create_paypal_account} erstellen. Wenn du eine Fehlermeldung erhälst, wenn Du dein PayPal-Konto verknüpfst, musst du auf ein Geschäftskonto  upgraden. Ein Upgrade ist schnell und einfach und kostet dich nichts. Wenn Du eine Privatperson bist, solltest du deinen Vor- und Nachnamen ins Feld \"Firma\" eintragen, wenn PayPal danach fragt. Den Link für ein Upgrade deine Kontos findest du hier %{upgrade_paypal_account}."
+      paypal_account_email_info_text: "Wenn du kein PayPal-Konto hast, kannst du %{create_paypal_account} eines erstellen. Sofern du eine Fehlermeldung erhältst, wenn du dein PayPal-Konto verknüpfst, musst du auf ein Geschäftskonto upgraden. Ein Upgrade ist schnell und einfach und kostet dich nichts. Wenn Du eine Privatperson bist, solltest du deinen Vor- und Nachnamen ins Feld \"Firma\" eintragen, wenn PayPal danach fragt. Den Link für ein Upgrade deine Kontos findest du hier %{upgrade_paypal_account}."
       create_paypal_account: hier
       upgrade_paypal_account: "Upgrade deinen PayPal Konto hier."
       connect_paypal_account: "Verbinde deinen PayPal Account"

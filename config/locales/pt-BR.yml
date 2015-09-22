@@ -1217,7 +1217,7 @@ pt-BR:
       send_feedback_to_admin: "Enviar feedback"
       to_see_what_others_have_suggested: "para ver o que outros usuários sugeriram, e votar para novas idéias."
       your_email_address: "Seu e-mail (para entrar em contato)"
-      connect: Registar
+      connect: Registrar
       invite_your_friends: "Convide amigos!"
       invite_your_neighbors: "Convidar os vizinhos!"
       invite_your_friends_description: "Quanto mais pessoas no %{service_name}, mais o serviço é útil e eficaz."
@@ -1343,6 +1343,7 @@ pt-BR:
       you_are_not_allowed_to_give_feedback_on_this_transaction: "Você não está autorizado a fazer comentários sobre este evento"
       you_are_not_authorized_to_do_this: "Você não está autorizado a fazer isso"
       you_are_not_authorized_to_view_this_content: "Você não está autorizado a visualizar este conteúdo"
+      listing_closed: ~
       send_instructions: "Você receberá um e-mail com instruções sobre como redefinir sua senha em alguns minutos."
       you_cannot_reply_to_a_closed_offer: "Você não pode responder a uma oferta fechada"
       you_cannot_reply_to_a_closed_request: "Você não pode responder a um pedido fechado"

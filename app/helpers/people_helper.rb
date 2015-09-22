@@ -3,6 +3,10 @@ require 'base64'
 
 module PeopleHelper
 
+########################################################
+# wah: remove this, see people_controller.rb:
+# include_closed = @current_user == @person && params[:show_closed] ...
+
   def persons_listings(person, per_page=6, page=1)
     # Get the company username (only needed if user is employee)
     @company = params[:id] || params[:person_id]
@@ -30,6 +34,7 @@ module PeopleHelper
       person.listings.currently_open.available(@current_community).order("created_at DESC").paginate(:per_page => per_page, :page => page)
     end
   end
+ #########################################################
 
   def grade_image_class(grade)
     "feedback_average_image_#{grade_number(grade).to_s}"

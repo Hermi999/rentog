@@ -50,19 +50,18 @@
 #
 # Indexes
 #
+#  homepage_query                      (community_id,open,sort_date)
+#  homepage_query_valid_until          (community_id,open,valid_until,sort_date)
 #  index_listings_on_category_id       (old_category_id)
 #  index_listings_on_community_id      (community_id)
 #  index_listings_on_listing_shape_id  (listing_shape_id)
-#  index_listings_on_listing_type      (listing_type_old)
 #  index_listings_on_new_category_id   (category_id)
 #  index_listings_on_open              (open)
-#  index_listings_on_share_type_id     (share_type_id)
+#  person_listings                     (community_id,author_id)
+#  updates_email_listings              (community_id,open,updates_email_at)
 #
 
 class Listing < ActiveRecord::Base
-
-  # http://pat.github.io/thinking-sphinx/advanced_config.html
-  SPHINX_MAX_MATCHES = 1000
 
   include ApplicationHelper
   include ActionView::Helpers::TranslationHelper
@@ -165,6 +164,10 @@ class Listing < ActiveRecord::Base
     super.reject { |c| c.name == "transaction_type_id" || c.name == "visibility"}
   end
 
+########################################################
+# wah: remove this, see listings_controller.rb:
+# search_res = @current_community.private ? Result::Success.new({count ...
+
   def self.find_with(params, current_user=nil, current_community=nil, per_page=100, page=1)
     params ||= {}  # Set params to empty hash if it's nil
     joined_tables = []
@@ -264,6 +267,8 @@ class Listing < ActiveRecord::Base
   def self.search_with_sphinx?(params)
     params[:search].present? || params[:listing_shapes].present? || params[:category].present? || params[:custom_dropdown_field_options].present?  || params[:custom_checkbox_field_options].present? || params[:price_cents].present?
   end
+########################################################
+
 
   def self.find_by_category_and_subcategory(category)
     Listing.where(:category_id => category.own_and_subcategory_ids)
@@ -298,21 +303,6 @@ class Listing < ActiveRecord::Base
 
   def closed?
     !open? || (valid_until && valid_until < DateTime.now)
-  end
-
-  # This is used to provide clean JSON-strings for map view queries
-  def as_json(options = {})
-    # This is currently optimized for the needs of the map, so if extending, make a separate JSON mode, and keep map data at minimum
-    hash = {
-      :category => self.category.id,
-      :id => self.id,
-      :icon => icon_class(icon_name)
-    }
-    if self.origin_loc
-      hash.merge!({:latitude => self.origin_loc.latitude,
-                  :longitude => self.origin_loc.longitude})
-    end
-    return hash
   end
 
   # Send notifications to the users following this listing

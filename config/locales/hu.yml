@@ -601,7 +601,7 @@ hu:
     new:
       offer_message_form_title: ~
       request_message_form_title: ~
-      favor_offer_message_form_title: "Segítséget kérek innen: %{person}"
+      favor_offer_message_form_title: "Segítséget kérek tőle: %{person}"
       favor_request_message_form_title: "Segítek neki: %{person}"
       housing_offer_message_form_title: ~
       housing_request_message_form_title: ~
@@ -850,8 +850,8 @@ hu:
       has_rejected_your_offer: ~
       has_rejected_your_request: ~
       view_thread: ~
-      your_offer_was_accepted: Elfogadva
-      your_offer_was_rejected: Elutasítva
+      your_offer_was_accepted: "Ajánlat elfogadva"
+      your_offer_was_rejected: "Ajánlat elutasítva"
       your_request_was_accepted: Elfogadva
       your_request_was_rejected: Elutasítva
       you_can_now_pay_to: ~
@@ -1324,6 +1324,7 @@ hu:
       you_are_not_allowed_to_give_feedback_on_this_transaction: ~
       you_are_not_authorized_to_do_this: ~
       you_are_not_authorized_to_view_this_content: ~
+      listing_closed: ~
       send_instructions: ~
       you_cannot_reply_to_a_closed_offer: ~
       you_cannot_reply_to_a_closed_request: ~
