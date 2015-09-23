@@ -226,6 +226,7 @@ class TransactionsController < ApplicationController
       end
     end
 
+
     # Handle new bookings with do not have an employee, but another reason
     Result.all(
       ->() {
