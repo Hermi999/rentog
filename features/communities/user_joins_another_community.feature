@@ -23,6 +23,7 @@ Feature: User joins another marketplace
 
   @move_to_subdomain2
   @javascript
+  @ignore
   Scenario: User joins another marketplace that is invitation-only
     Given there are following users:
       | person            | email    |

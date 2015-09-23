@@ -107,9 +107,6 @@ class PoolToolController < ApplicationController
    })
   end
 
-  def create
-    redirect_to person_poolTool_path(params[:person_id]) and return
-  end
 
   private
 

@@ -93,6 +93,14 @@ module NavigationHelpers
     when /the getting started page for admins/
       getting_started_admin_community_path(:id => @current_community.id)
 
+    when /my companies pool tool page/
+      person_poolTool_path(:person_id => @people[@current_user.username].username, :locale => "en")
+    when /^the pool tool page of "(.*)"$/
+      person_poolTool_path(:person_id => @people[$1].username, :locale => "en")
+    when /the pool tool page/
+      person_poolTool_path(:person_id => @current_user.username, :locale => "en")
+
+
     # the following are examples using path_to_pickle
 
     when /^#{capture_model}(?:'s)? page$/                           # eg. the forum's page

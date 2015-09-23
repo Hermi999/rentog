@@ -237,7 +237,9 @@ module TestHelpers
                                  given_name: "Kassi",
                                  family_name: "Testperson1",
                                  phone_number: "0000-123456",
-                                 created_at: "2012-05-04 18:17:04")
+                                 created_at: "2012-05-04 18:17:04",
+                                 is_organization: 1,
+                                 organization_name: "Bosch")
     person2 = FactoryGirl.create(:person,
                                   username: "kassi_testperson2",
                                   emails: [ FactoryGirl.build(:email, :address => "kassi_testperson4@example.com") ],
@@ -248,6 +250,7 @@ module TestHelpers
                                   given_name: "Kassi",
                                   family_name: "Testperson2",
                                   created_at: "2012-05-04 18:17:04",
+                                  is_organization: 1,
                                   organization_name: "Siemens")
     person3 = FactoryGirl.create(:person,
                                   username: "employee_testperson1",
@@ -258,7 +261,8 @@ module TestHelpers
                                   given_name: "Kassi",
                                   family_name: "Testperson3",
                                   created_at: "2012-05-04 18:17:04",
-                                  is_organization: 0)
+                                  is_organization: 0,
+                                  organization_name: "")
     person4 = FactoryGirl.create(:person,
                                   username: "employee_testperson2",
                                   is_admin: 0,
@@ -268,7 +272,8 @@ module TestHelpers
                                   given_name: "Hermann",
                                   family_name: "Testperson4",
                                   created_at: "2011-05-04 18:17:04",
-                                  is_organization: 0)
+                                  is_organization: 0,
+                                  organization_name: "")
 
 
     FactoryGirl.create(:community_membership, :person => person1,

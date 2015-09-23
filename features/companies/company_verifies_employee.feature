@@ -1,6 +1,6 @@
 @javascript
 Feature: Company verifies employee
-  A company has to verify it's employees. Otherwise their profiles are locked
+  A company has to verify its employees. Otherwise their profiles are locked
 
   Background:
     Given there are following users:
