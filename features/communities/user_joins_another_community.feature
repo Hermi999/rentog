@@ -21,32 +21,31 @@ Feature: User joins another marketplace
     Then I should see "Welcome to Rentog!"
     And I should see "Post a new listing"
 
-  @move_to_subdomain2
-  @javascript
-  @ignore
-  Scenario: User joins another marketplace that is invitation-only
-    Given there are following users:
-      | person            | email    |
-      | kassi_testperson3 | abc@a.at |
-    And I am on the home page
-    And I move to community "test2"
-    And community "test2" requires invite to join
-    And there is an invitation for community "test2" with code "GH1JX8"
-    And I am on the home page
-    And I am logged in as "kassi_testperson3"
-    Then Invitation with code "GH1JX8" should have 1 usages_left
-    And I should see "Invitation code"
-    When I check "community_membership_consent"
-    And I fill in "Invitation code" with "random"
-    And I press "Join Rentog"
-    Then I should see "The invitation code is not valid."
-    When I fill in "Invitation code" with "GH1JX8"
-    And I fill in "Email" with "aaa@example.com"
-    And I press "Join Rentog"
-    Then I should see "join Rentog"
-    When the system moves all future jobs to immediate
-    And the system processes jobs
-    Then Invitation with code "GH1JX8" should have 0 usages_left
+  # @move_to_subdomain2
+  # @javascript
+  # Scenario: User joins another marketplace that is invitation-only
+  #   Given there are following users:
+  #     | person            | email    |
+  #     | kassi_testperson3 | abc@a.at |
+  #   And I am on the home page
+  #   And I move to community "test2"
+  #   And community "test2" requires invite to join
+  #   And there is an invitation for community "test2" with code "GH1JX8"
+  #   And I am on the home page
+  #   And I am logged in as "kassi_testperson3"
+  #   Then Invitation with code "GH1JX8" should have 1 usages_left
+  #   And I should see "Invitation code"
+  #   When I check "community_membership_consent"
+  #   And I fill in "Invitation code" with "random"
+  #   And I press "Join Rentog"
+  #   Then I should see "The invitation code is not valid."
+  #   When I fill in "Invitation code" with "GH1JX8"
+  #   And I fill in "Email" with "aaa@example.com"
+  #   And I press "Join Rentog"
+  #   Then I should see "join Rentog"
+  #   When the system moves all future jobs to immediate
+  #   And the system processes jobs
+  #   Then Invitation with code "GH1JX8" should have 0 usages_left
 
   @move_to_subdomain2
   @javascript
