@@ -390,6 +390,8 @@ window.ST.poolTool = function() {
                 if (data.status === "success"){
                   // update gantt view & source
                   // Update datepicker
+                      var booked_d;
+
                       for(var x=0; x<source.length; x++){
                         if(source[x].listing_id === listing_id){
 
@@ -403,7 +405,7 @@ window.ST.poolTool = function() {
                           }
 
                           // New reference
-                          var booked_d = source[x].already_booked_dates;
+                          booked_d = source[x].already_booked_dates;
 
                           // Get each booked day of current booking (transaction)
                           var dateArray_old = getDatesBetweenRange(s, e);
@@ -429,13 +431,13 @@ window.ST.poolTool = function() {
                           }
 
                           // Go through each new booked day and it to array
-                          for (var ii = 0; ii < dateArray_new.length; ii ++ ) {
-                            var yyyy = dateArray_new[ii].getFullYear();
-                            var mm = dateArray_new[ii].getMonth() + 1;
-                            var dd = dateArray_new[ii].getDate();
-                            if (mm < 10){ mm = "0" + mm; }
-                            if (dd < 10){ dd = "0" + dd; }
-                            dateArray_new[ii] = yyyy + "-" + mm + "-" + dd;
+                          for (var jj = 0; jj < dateArray_new.length; jj ++ ) {
+                            var _yyyy = dateArray_new[jj].getFullYear();
+                            var _mm = dateArray_new[jj].getMonth() + 1;
+                            var _dd = dateArray_new[jj].getDate();
+                            if (_mm < 10){ _mm = "0" + _mm; }
+                            if (_dd < 10){ _dd = "0" + _dd; }
+                            dateArray_new[jj] = _yyyy + "-" + _mm + "-" + _dd;
                           }
                           // Add new dates
                           booked_d = booked_d.concat(dateArray_new);
