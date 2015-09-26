@@ -44,6 +44,10 @@ module PersonViewUtils
         deleted_user_text: I18n.translate("common.removed_user")
       )
     else
+      # wah todo: Remove some day - to many db queries!
+      person_entity[:organization_name] ||= Person.find(person_entity[:id]).organization_name
+      person_entity[:is_organization] ||= true if person_entity[:organization_name]
+
       display_name(
         first_name: person_entity[:first_name],
         last_name: person_entity[:last_name],
