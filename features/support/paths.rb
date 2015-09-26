@@ -92,12 +92,11 @@ module NavigationHelpers
       admin_community_transactions_path(:community_id => @current_community.id)
     when /the getting started page for admins/
       getting_started_admin_community_path(:id => @current_community.id)
-
     when /my companies pool tool page/
       person_poolTool_path(:person_id => @people[@current_user.username].username, :locale => "en")
-    when /^the pool tool page of "(.*)"$/
+    when /^the pool tool page of "(.*)"$/i
       person_poolTool_path(:person_id => @people[$1].username, :locale => "en")
-    when /the pool tool page/
+    when /my pool tool page/
       person_poolTool_path(:person_id => @current_user.username, :locale => "en")
 
 

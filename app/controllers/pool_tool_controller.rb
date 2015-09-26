@@ -148,7 +148,7 @@ class PoolToolController < ApplicationController
           if @person.follows?(renter)
             # Other company is trusted by the company
             relation = "trustedCompany"
-          elsif renter = @person
+          elsif renter == @person
             relation = "otherReason"
           else
             # Other company is not trusted by the company

@@ -82,6 +82,10 @@ When(/^I follow the first "(.*?)"$/) do |link|
   first(:link, link).click
 end
 
+When /^(?:|I )click on element "([^"]*)" with text "([^"]*)"(?: and within "([^"]*)")?$/ do |element, text, selector|
+  first(selector).first(element, :text => text).click
+end
+
 When /^I remove the focus"?$/ do
   page.execute_script("$('input').blur();")
 end
@@ -206,6 +210,22 @@ end
 
 Then /^I should see "([^"]*)" in the "([^"]*)" input$/ do |content, field|
   find_field(field).value.should == content
+end
+
+Then /^I should see element "([^"]*)"$/ do |element|
+  find(element).should be_visible
+end
+
+Then /^I should not see element "([^"]*)"$/ do |element|
+  find(element,:visible=>false).should_not be_visible
+end
+
+Then /^I should see disabled element "([^"]*)"$/ do |element|
+  find(element,:visible=>false).should be_visible
+end
+
+Then /^I should see enabled element "([^"]*)"$/ do |element|
+  find(element,:visible=>true).should be_visible
 end
 
 Then /^(?:|I )should not see "([^"]*)"(?: within "([^"]*)")?$/ do |text, selector|

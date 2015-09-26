@@ -40,12 +40,14 @@ class TransactionsController < ApplicationController
       end
 
       # Company admin can do what he want's to do
-      if @current_user.username == company_id
+      if @current_user.id == company_id ||
+         @current_user.username == company_id
         return true
       end
 
       # Employee can only make transactions within pool tool
-      if !@current_user.is_organization && @current_user.company.username == company_id
+      if !@current_user.is_organization && (@current_user.company.id == company_id ||
+                                            @current_user.company.username == company_id)
         return true
       end
 
@@ -145,6 +147,11 @@ class TransactionsController < ApplicationController
       create_poolToolTransaction(validDates)
 
     else
+      if !bookingDatesValid?
+        flash[:error] = t("transactions.already_booked_for_this_date")
+        redirect_to (session[:return_to_content] || root) and return
+      end
+
       Result.all(
         ->() {
           TransactionForm.validate(params)
@@ -191,8 +198,6 @@ class TransactionsController < ApplicationController
       }
     end
   end
-
-
 
   def create_poolToolTransaction(validDates)
     # Check if booking dates are valid for selected listing
@@ -256,7 +261,6 @@ class TransactionsController < ApplicationController
           else
             @current_user.id
           end
-
         TransactionService::Transaction.create(
           {
             transaction: {
@@ -293,9 +297,6 @@ class TransactionsController < ApplicationController
     }
   end
 
-
-
-
   def update
     # Get Booking from db
     booking = Booking.where(:transaction_id => params[:id]).first
@@ -304,7 +305,8 @@ class TransactionsController < ApplicationController
       starter = booking.transaction.starter
       author = booking.transaction.author
       # If starter is an oranisation & starter is not the company admin
-      if starter.is_organization? && starter.username != params[:person_id]
+      if starter.is_organization? &&
+         (starter.id != params[:person_id] && starter.username != params[:person_id])
         flash[:error] = "Access denied"
         redirect_to root and return
       end
@@ -360,7 +362,8 @@ class TransactionsController < ApplicationController
       starter = booking.transaction.starter
       author = booking.transaction.author
       # If starter is an oranisation & starter is not the company admin
-      if starter.is_organization? && starter.username != params[:person_id]
+      if starter.is_organization? &&
+         (starter.id != params[:person_id] && starter.username != params[:person_id])
         flash[:error] = "Access denied"
         redirect_to root and return
       end

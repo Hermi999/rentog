@@ -15,9 +15,9 @@
       .poolTool_no_listings_whatToDo
         If you are the company admin...
         %ul
-          %li
+          %li#create_new_listing
             then you can create a new listing <a href="#{new_listing_path}">here</a>
-          %li
+          %li#reopen_listing
             and you have already listings (but they are closed), then you can re-open them <a href="#{person_path(@person)}">here</a>
 
 / Show 'colorbox' modal/popover if user clicked in gantt chart on a booking
@@ -73,7 +73,7 @@
   %h1= t("pool_tool.headline")
 .row
   .col-3
-    - if @current_user.is_company_admin_of?(@person)
+    - if @current_user.is_company_admin_of?(@person) || @current_user.has_admin_rights_in?(@current_community)
       %button#addNewBooking.primary-button
         Add new booking
 
@@ -125,12 +125,12 @@
 
 .row
   .col-3
-    - if @current_user.is_company_admin_of?(@person)
+    - if @current_user.is_company_admin_of?(@person) || @current_user.has_admin_rights_in?(@current_community)
       = link_to t("homepage.index.post_new_listing"), new_listing_path, :class => "new-listing-link", :id => "new-listing-link"
 
 #editListings
   %h3
-    - if @current_user.is_company_admin_of?(@person)
+    - if @current_user.is_company_admin_of?(@person) || @current_user.has_admin_rights_in?(@current_community)
       Edit your existing devices
     - else
       All devices of your company

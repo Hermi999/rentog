@@ -481,7 +481,7 @@ window.ST.poolTool = function() {
                   $('#btn_delete').css('opacity', 1);
                 }, 200);
               })
-              .error(function(){
+              .error(function(data){
                 // Show error message and fade it out after some time
                 $('#error_message').show();
                 $('#error_message').fadeOut(8000);

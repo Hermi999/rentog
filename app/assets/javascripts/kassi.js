@@ -775,7 +775,14 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
       $('#renter_wrapper label.error').remove();
     }
   });
+  tf_device_renter.change(function(ev){
+    disable_emp_or_reason();
+  });
   tf_device_renter.keyup(function(ev){
+    disable_emp_or_reason();
+  });
+
+  function disable_emp_or_reason(){
     if (tf_device_renter.val() === ''){
       dd_employee.prop('disabled', false);
     }
@@ -783,7 +790,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
       dd_employee.prop('disabled', true);
       $('#employee_wrapper label.error').remove();
     }
-  });
+  }
 
   // Remove validation errors from start-on & end-on textfields if values are
   // present
