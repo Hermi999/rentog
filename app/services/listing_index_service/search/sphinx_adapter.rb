@@ -29,7 +29,6 @@ module ListingIndexService::Search
         else
           fetch_from_db(community_id: community_id, search: search, included_models: included_models)
         end
-
       {count: result[:count], listings: result[:listings].map { |l| to_hash(l, includes) } }
     end
 
@@ -129,7 +128,8 @@ module ListingIndexService::Search
         unit_type: l.unit_type,
         quantity: l.quantity,
         shape_name_tr_key: l.shape_name_tr_key,
-        listing_shape_id: l.listing_shape_id
+        listing_shape_id: l.listing_shape_id,
+        availability: l.availability
       }.merge(location_hash(l, includes))
         .merge(author_hash(l, includes))
         .merge(listing_images_hash(l, includes))

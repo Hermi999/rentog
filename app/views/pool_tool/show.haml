@@ -8,7 +8,7 @@
   = t('pool_tool.show.could_not_create_new_booking')
 
 / Lock Screen and show 'no listing' message if the company has no listings yet
-- if @open_listings == []
+- if listings == []
   .poolTool_no_listings_coverSite
     .poolTool_no_listings
       Your company has no (open) devices yet.
@@ -25,7 +25,6 @@
   %a#modifyBookingLink.inline{:href => "#modifyBookingContent"}-
 #modifyBookingWrapper
   #modifyBookingContent
-    /= form_tag "/#{I18n.locale}/#{@person.id}/transactions/#{@open_listings.first.id}", method: "put", id: "poolTool_updateForm" do
     .row{style: "margin-bottom: 0.10em;"}
       .col-3
         %b Device name
@@ -99,7 +98,7 @@
       .col-12
         .home-fluid-thumbnail-grid-pooltool
           .home-fluid-thumbnail-grid
-            = render :partial => "radio_grid_item", :collection => @open_listings, :as => :listing
+            = render :partial => "radio_grid_item", :collection => listings, :as => :listing
       .clear-floating
 
     #datepicker_wrapper.row
@@ -136,4 +135,4 @@
       All devices of your company
   #listings-list{:style => "margin:15px;"}
     - limit = 20
-    = render :partial => 'listings/profile_listings', :locals => {:person => @person, :limit => limit}
+    = render :partial => 'listings/profile_listings', :locals => {:person => @person, :limit => limit, :listings => listings}

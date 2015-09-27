@@ -13,11 +13,31 @@ class PoolToolController < ApplicationController
     transaction_array = transactions.as_json
 
     # Get all open Listings of the current user
-    @open_listings = Listing.currently_open.where("listings.author_id" => @person)
+    #@open_listings = Listing.currently_open.where("listings.author_id" => @person)
+    #
+
+    search = {
+      author_id: @person.id,
+      include_closed: false,
+      page: 1,
+      per_page: 200
+    }
+
+    includes = [:author, :listing_images]
+    listings = ListingIndexService::API::Api.listings.search(community_id: @current_community.id, search: search, includes: includes).and_then { |res|
+      Result::Success.new(
+        ListingIndexViewUtils.to_struct(
+        result: res,
+        includes: includes,
+        page: search[:page],
+        per_page: search[:per_page]
+      ))
+    }.data
+
 
     # Only use certain fields in JS
     open_listings_array = []
-    @open_listings.each do |listing|
+    listings.each do |listing|
       open_listings_array << { name: listing.title, desc: listing.availability, availability: listing.availability, listing_id: listing.id }
     end
     # Convert all the transaction into a jquery-Gantt readable source.
@@ -37,7 +57,6 @@ class PoolToolController < ApplicationController
       else
         renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name']
       end
-
 
 
       if prev_listing_id != transaction['listing_id']
@@ -104,7 +123,9 @@ class PoolToolController < ApplicationController
 
       comp_id: @person.id,
       is_admin: @current_user.is_company_admin_of?(@person) || @current_user.has_admin_rights_in?(@current_community)
-   })
+    })
+
+    render locals: { listings: listings }
   end
 
 
