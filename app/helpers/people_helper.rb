@@ -3,39 +3,6 @@ require 'base64'
 
 module PeopleHelper
 
-########################################################
-# wah: remove this, see people_controller.rb:
-# include_closed = @current_user == @person && params[:show_closed] ...
-
-  def persons_listings(person, per_page=6, page=1)
-    # Get the company username (only needed if user is employee)
-    @company = params[:id] || params[:person_id]
-
-    # Check what kind of user it is
-    if @current_user.nil?
-      logger.info "Showing only open & not intern"
-      person.listings.currently_open.available(@current_community).order("created_at DESC").paginate(:per_page => per_page, :page => page)
-    elsif current_user?(person) || @current_user.has_admin_rights_in?(@current_community)
-      # The company who owns the profile or an admin:
-      if params[:show_closed]
-        # Showing all listings
-        person.listings.order("created_at DESC").paginate(:per_page => per_page, :page => page)
-      else
-         # Showing all listings, but the closed ones"
-        person.listings.currently_open.order("created_at DESC").paginate(:per_page => per_page, :page => page)
-      end
-    elsif person.is_employee_of?(@company)
-      # An employee of the company
-      # Showing all listings, but the closed ones
-      person.listings.currently_open.order("created_at DESC").paginate(:per_page => per_page, :page => page)
-    else
-      # Another rentog user
-      # Showing only the open & not intern listings"
-      person.listings.currently_open.available(@current_community).order("created_at DESC").paginate(:per_page => per_page, :page => page)
-    end
-  end
- #########################################################
-
   def grade_image_class(grade)
     "feedback_average_image_#{grade_number(grade).to_s}"
   end
