@@ -174,7 +174,6 @@ ActiveRecord::Schema.define(:version => 20150918102223) do
     t.string   "service_logo_style",                                       :default => "full-logo"
     t.text     "available_currencies"
     t.boolean  "facebook_connect_enabled",                                 :default => true
-    t.boolean  "only_public_listings",                                     :default => true
     t.integer  "vat"
     t.integer  "commission_from_seller"
     t.integer  "minimum_price_cents"
@@ -622,12 +621,14 @@ ActiveRecord::Schema.define(:version => 20150918102223) do
   end
 
   add_index "listings", ["category_id"], :name => "index_listings_on_new_category_id"
+  add_index "listings", ["community_id", "author_id"], :name => "person_listings"
+  add_index "listings", ["community_id", "open", "sort_date"], :name => "homepage_query"
+  add_index "listings", ["community_id", "open", "updates_email_at"], :name => "updates_email_listings"
+  add_index "listings", ["community_id", "open", "valid_until", "sort_date"], :name => "homepage_query_valid_until"
   add_index "listings", ["community_id"], :name => "index_listings_on_community_id"
   add_index "listings", ["listing_shape_id"], :name => "index_listings_on_listing_shape_id"
-  add_index "listings", ["listing_type_old"], :name => "index_listings_on_listing_type"
   add_index "listings", ["old_category_id"], :name => "index_listings_on_category_id"
   add_index "listings", ["open"], :name => "index_listings_on_open"
-  add_index "listings", ["share_type_id"], :name => "index_listings_on_share_type_id"
 
   create_table "locations", :force => true do |t|
     t.float    "latitude"
