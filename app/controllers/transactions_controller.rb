@@ -269,7 +269,7 @@ class TransactionsController < ApplicationController
     starter = booking.transaction.starter
     author = booking.transaction.author
 
-    unless starter.is_employee?(@current_user.id) || starter == author
+    unless starter.is_employee_of?(@current_user.id) || starter == author
       flash[:error] = "Access denied"
       redirect_to root and return
     end
@@ -319,7 +319,7 @@ class TransactionsController < ApplicationController
     # Ensure that only internal transactions can be deleted...
     starter = booking.transaction.starter
     author = booking.transaction.author
-    unless starter.is_employee?(@current_user.id) || starter == author
+    unless starter.is_employee_of?(@current_user.id) || starter == author
       flash[:error] = "Access denied"
       redirect_to root and return
     end

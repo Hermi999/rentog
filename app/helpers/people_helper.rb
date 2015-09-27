@@ -24,7 +24,7 @@ module PeopleHelper
          # Showing all listings, but the closed ones"
         person.listings.currently_open.order("created_at DESC").paginate(:per_page => per_page, :page => page)
       end
-    elsif is_employee?(person, @company)
+    elsif is_employee_of?(person, @company)
       # An employee of the company
       # Showing all listings, but the closed ones
       person.listings.currently_open.order("created_at DESC").paginate(:per_page => per_page, :page => page)

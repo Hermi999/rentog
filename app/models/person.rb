@@ -789,9 +789,14 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def is_employee?(company_id)
+  def is_employee_of?(company_id)
     !is_organization && company.id.eql?(company_id)
   end
+
+  def self.get_type_of_user(user)
+
+  end
+
 
   private
 

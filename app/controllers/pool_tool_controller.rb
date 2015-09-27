@@ -121,8 +121,8 @@ class PoolToolController < ApplicationController
       return if @current_user && @current_user.has_admin_rights_in?(@current_community)
 
       # Company employee is authorized
-      empl = Person.where(:username => params['person_id']).first
-      return if @current_user && @current_user.is_employee?(empl.id)
+      comp = Person.where(:username => params['person_id']).first
+      return if @current_user && @current_user.is_employee_of?(comp.id)
 
       # Otherwise return to home page
       flash[:error] = t("pool_tool.you_have_to_be_company_member")
@@ -159,7 +159,7 @@ class PoolToolController < ApplicationController
           end
         else
           # Any Employee is renting listing
-          if renter.is_employee?(@person.id)
+          if renter.is_employee_of?(@person.id)
             # Own employee is renting listing
             relation = "ownEmployee"
           else
