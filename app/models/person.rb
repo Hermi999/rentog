@@ -793,8 +793,8 @@ class Person < ActiveRecord::Base
     !is_organization && company.id.eql?(company_id)
   end
 
-  def self.get_type_of_user(user)
-
+  def is_employee?()
+    !is_organization
   end
 
 

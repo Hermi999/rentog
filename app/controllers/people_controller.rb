@@ -43,12 +43,21 @@ class PeopleController < Devise::RegistrationsController
     @selected_tribe_navi_tab = "members"
     @community_membership = CommunityMembership.find_by_person_id_and_community_id_and_status(@person.id, @current_community.id, "accepted")
 
+    # Do not show internal listings if current logged in user is not ...
+    if  !@current_user ||                                          # logged in or
+        !@current_user.is_employee_of?(@person.id) &&              # not an employee of the company and
+        !@current_user.has_admin_rights_in?(@current_community) && # not the rentog admin and
+        !current_user?(@person)                                    # not the company admin himself
+      availability = ["all", "trusted"]
+    end
+
     include_closed = @current_user == @person && params[:show_closed]
     search = {
       author_id: @person.id,
       include_closed: include_closed,
       page: 1,
-      per_page: 6
+      per_page: 6,
+      availability: availability,    # wah new
     }
 
     includes = [:author, :listing_images]

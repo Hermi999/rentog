@@ -32,7 +32,7 @@ class ListingsController < ApplicationController
   before_filter :is_authorized_to_post, :only => [ :new, :create ]
 
 
-
+  # called when clicked on "show all listings"
   def index
     @selected_tribe_navi_tab = "home"
 
@@ -43,15 +43,24 @@ class ListingsController < ApplicationController
           @person = Person.find(params[:person_id])
           PersonViewUtils.ensure_person_belongs_to_community!(@person, @current_community)
 
+          # Do not show internal listings if current logged in user is not ...
+          if  !@current_user ||                                          # logged in or
+              !@current_user.is_employee_of?(@person.id) &&              # not an employee of the company and
+              !@current_user.has_admin_rights_in?(@current_community) && # not the rentog admin and
+              !current_user?(@person)                                    # not the company admin himself
+            availability = ["all", "trusted"]
+          end
+
           # Returns the listings for one person formatted for profile page view
           per_page = params[:per_page] || 200 # the point is to show all here by default
           includes = [:author, :listing_images]
-          include_closed = @person == @current_user
+          include_closed = @current_user == @person && params[:show_closed]
           search = {
             author_id: @person.id,
             include_closed: include_closed,
             page: 1,
-            per_page: per_page
+            per_page: per_page,
+            availability: availability
           }
 
           listings = ListingIndexService::API::Api.listings.search(community_id: @current_community.id, search: search, includes: includes).and_then { |res|
