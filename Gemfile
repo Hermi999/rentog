@@ -25,9 +25,7 @@ gem 'gon', '~> 6.0.1'
 # Bundle the extra gems:
 
 # gem 'heroku' install the Heroku toolbelt (https://toolbelt.heroku.com/) instead (as gem had some problems)
-#gem 'thin'
-
-gem 'unicorn', "~>4.6.3"
+gem "passenger", "~> 5.0.18"
 gem "rack-timeout"
 
 gem "mysql2"
