@@ -107,9 +107,6 @@ class PoolToolController < ApplicationController
    })
   end
 
-  def create
-    redirect_to person_poolTool_path(params[:person_id]) and return
-  end
 
   private
 
@@ -151,7 +148,7 @@ class PoolToolController < ApplicationController
           if @person.follows?(renter)
             # Other company is trusted by the company
             relation = "trustedCompany"
-          elsif renter = @person
+          elsif renter == @person
             relation = "otherReason"
           else
             # Other company is not trusted by the company

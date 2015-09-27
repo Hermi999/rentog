@@ -13,6 +13,9 @@ Given /^there is a listing with title "([^"]*)"(?: from "([^"]*)")?(?: with cate
     end
 
   create_listing(shape: shape, opts: opts)
+
+  @created_listing_ids = [] if @created_listing_ids.nil?
+  @created_listing_ids << Listing.last.id
 end
 
 Given /^the price of that listing is (\d+)\.(\d+) (EUR|USD)(?: per (.*?))?$/ do |price, price_decimal, currency, price_per|
@@ -37,6 +40,14 @@ end
 Given(/^that listing has a numeric answer "(.*?)" for "(.*?)"$/) do |answer, custom_field|
   numeric_custom_field = find_numeric_custom_field_type_by_name(custom_field)
   FactoryGirl.create(:custom_numeric_field_value, listing: @listing, numeric_value: answer, question: numeric_custom_field)
+end
+
+
+When /^I choose listing "(.*?)"(?: within "([^"]*)")?$/ do |listing_nr, selector|
+  field = "listing_id_" + @created_listing_ids[listing_nr.to_i].to_s
+  with_scope(selector) do
+    choose(field)
+  end
 end
 
 When(/^I set search range for "(.*?)" between "(.*?)" and "(.*?)"$/) do |selector, min, max|
@@ -238,14 +249,36 @@ def select_date_from_date_selector(date, date_selector_base_id)
 end
 
 def select_start_date(date)
-  date = [date.year, date.month, date.day].join("-")
+  if date.day < 10
+    day = "0" + date.day.to_s
+  else
+    day = date.day
+  end
+  if date.month < 10
+    month = "0" + date.month.to_s
+  else
+    month = date.month
+  end
+
+  date = [date.year, month, day].join("-")
   page.execute_script("$('#start-on').val('#{date}')");
   # Selenium can not interact with hidden elements, use JavaScript
   page.execute_script("$('#booking-start-output').val('#{date}')");
 end
 
 def select_end_date(date)
-  date = [date.year, date.month, date.day].join("-")
+  if date.day < 10
+    day = "0" + date.day.to_s
+  else
+    day = date.day
+  end
+  if date.month < 10
+    month = "0" + date.month.to_s
+  else
+    month = date.month
+  end
+
+  date = [date.year, month, day].join("-")
   page.execute_script("$('#end-on').val('#{date}')");
   # Selenium can not interact with hidden elements, use JavaScript
   page.execute_script("$('#booking-end-output').val('#{date}')");
