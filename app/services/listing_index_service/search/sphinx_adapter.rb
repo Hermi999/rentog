@@ -39,7 +39,8 @@ module ListingIndexService::Search
       where_opts = HashUtils.compact(
         {
           community_id: community_id,
-          author_id: search[:author_id]
+          author_id: search[:author_id],
+          availability: search[:availability]  # wah_new
         })
 
       query = Listing
@@ -59,6 +60,7 @@ module ListingIndexService::Search
     end
 
     def search_with_sphinx(community_id:, search:, included_models:)
+
       numeric_search_fields = search[:fields].select { |f| f[:type] == :numeric_range }
       perform_numeric_search = numeric_search_fields.present?
 
@@ -77,7 +79,6 @@ module ListingIndexService::Search
         # Do a short circuit and return emtpy paginated collection of listings
         {count: 0, listings: []}
       else
-
         with = HashUtils.compact(
           {
             community_id: community_id,
@@ -85,6 +86,7 @@ module ListingIndexService::Search
             listing_shape_id: search[:listing_shape_id],
             price_cents: search[:price_cents],
             listing_id: numeric_search_match_listing_ids,
+            availability_not_intern: search[:availability_not_intern]   # wah_new
           })
 
         selection_groups = search[:fields].select { |v| v[:type] == :selection_group }

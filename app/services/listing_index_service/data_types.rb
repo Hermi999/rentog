@@ -21,7 +21,9 @@ module ListingIndexService::DataTypes
     [:price_cents, :range, :optional],
     [:fields, :array, default: []],
     [:author_id, :string],
-    [:include_closed, :to_bool, default: false]
+    [:include_closed, :to_bool, default: false],
+    [:availability, :array, :optional],           # wah_new
+    [:availability_not_intern, :bool, :optional]  # wah_new
   )
 
   AvatarImage = EntityUtils.define_builder(
@@ -66,6 +68,7 @@ module ListingIndexService::DataTypes
     [:quantity, :string], # This is outdated
     [:shape_name_tr_key, :string], # TODO is this mandatory?
     [:listing_shape_id, :fixnum, :optional], # This can be nil, if the listing shape was deleted
+    [:availability, :string]  # wah_new
   )
 
   ListingIndexResult = EntityUtils.define_builder(

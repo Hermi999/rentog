@@ -142,6 +142,8 @@ class HomepageController < ApplicationController
       fields: checkboxes.concat(dropdowns).concat(numbers),
       per_page: listings_per_page,
       page: params[:page] || 1,
+      availability: ["all", "trusted"],   # wah_new
+      availability_not_intern: true       # wah_new
     }
 
     ListingIndexService::API::Api.listings.search(community_id: @current_community.id, search: search, includes: includes).and_then { |res|

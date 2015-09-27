@@ -10,7 +10,6 @@ module ListingIndexService::API
   class Listings
 
     def search(community_id:, search:, includes: [])
-
       unless includes.to_set <= RELATED_RESOURCES
         return Result::Error.new("Unknown included resources: #{(includes.to_set - RELATED_RESOURCES).to_a}")
       end

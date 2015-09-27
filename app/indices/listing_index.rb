@@ -22,7 +22,7 @@ ThinkingSphinx::Index.define :listing, :with => :active_record, :delta => Thinki
   has sort_date
   has category(:id), :as => :category_id
   has listing_shape_id
-  has "availability != 'intern'", :as => :availability_not_intern, :type => :boolean
+  has "availability != 'intern'", :as => :availability_not_intern, :type => :boolean  # wah_new
   has community_id
 
   has custom_dropdown_field_values.selected_options.id, :as => :custom_dropdown_field_options, :type => :integer, :multi => true
