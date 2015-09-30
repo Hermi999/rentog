@@ -63,6 +63,8 @@ class PreauthorizeTransactionsController < ApplicationController
       total: vprms[:total_price]
     })
 
+    community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
+
     render "listing_conversations/initiate", locals: {
       preauthorize_form: PreauthorizeMessageForm.new,
       listing: vprms[:listing],
@@ -72,7 +74,8 @@ class PreauthorizeTransactionsController < ApplicationController
       action_button_label: vprms[:action_button_label],
       expiration_period: MarketplaceService::Transaction::Entity.authorization_expiration_period(vprms[:payment_type]),
       form_action: initiated_order_path(person_id: @current_user.id, listing_id: vprms[:listing][:id]),
-      price_break_down_locals: price_break_down_locals
+      price_break_down_locals: price_break_down_locals,
+      country_code: community_country_code
     }
   end
 
@@ -162,6 +165,8 @@ class PreauthorizeTransactionsController < ApplicationController
         raise ArgumentError.new("Unknown payment type #{vprms[:payment_type]} for booking")
       end
 
+    community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
+
     price_break_down_locals = TransactionViewUtils.price_break_down_locals({
       booking:  true,
       start_on: booking_data[:start_on],
@@ -179,7 +184,8 @@ class PreauthorizeTransactionsController < ApplicationController
       preauthorize_form: PreauthorizeBookingForm.new({
           start_on: booking_data[:start_on],
           end_on: booking_data[:end_on]
-        }),
+      }),
+      country_code: community_country_code,
       listing: vprms[:listing],
       delivery_method: delivery_method,
       subtotal: vprms[:subtotal],

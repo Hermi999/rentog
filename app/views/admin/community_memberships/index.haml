@@ -26,6 +26,9 @@
 .left-navi-section
   %h2= t("admin.communities.manage_members.manage_members", :community_name => @community.name(I18n.locale))
 
+  - if feature_enabled?(:export_as_csv)
+    #export-as-csv.right= link_to(" " + t("admin.communities.manage_members.export_all_as_csv"), {format: :csv}, {class: icon_class("download")})
+
   %span#admin_members_count= page_entries_info(@memberships, :model => "Person")
 
   %form
@@ -43,32 +46,32 @@
       %tbody
         - @memberships.each do |membership|
           - member = membership.person
-          %tr
-            %td.admin-members-full-name
-              = link_to member.full_name(@current_community), member
-            %td
-              = mail_to member.confirmed_notification_email_addresses.first
+          - unless member.blank?
+            %tr
+              %td.admin-members-full-name
+                = link_to member.full_name(@current_community), member
+              %td
+                = mail_to member.confirmed_notification_email_addresses.first
 
-            %td= l(membership.created_at, :format => :short_date)
-            - if @current_community.require_verification_to_post_listings
-              - # While the Rentog admin can allow a company to post listings, it doesn't make sense to verify every employee of a company.
-              - # So any way (either if an employee is allowed to post listings or not) the verification of an employee can be done by the company admin.
-              - # Anyhow, the admin can also verify an employee for a company.
-              - if member.is_organization
-                %td{:style => "text-align: center"}= check_box_tag "posting-allowed[#{member.id}]", member.id, membership.can_post_listings, :class => "admin-members-can-post-listings"
-              - else
-                %td
-                -# %td{:style => "text-align: center"}= check_box_tag "posting-allowed[#{member.id}]", member.id, membership.can_post_listings, :class => "admin-members-can-post-listings employee-verified-user"
+              %td= l(membership.created_at, :format => :short_date)
+              - if @current_community.require_verification_to_post_listings
+                - # While the Rentog admin can allow a company to post listings, it doesn't make sense to verify every employee of a company.
+                - # So any way (either if an employee is allowed to post listings or not) the verification of an employee can be done by the company admin.
+                - # Anyhow, the admin can also verify an employee for a company.
+                - if member.is_organization
+                  %td{:style => "text-align: center"}= check_box_tag "posting-allowed[#{member.id}]", member.id, membership.can_post_listings, :class => "admin-members-can-post-listings"
+                - else
+                  %td
+                  -# %td{:style => "text-align: center"}= check_box_tag "posting-allowed[#{member.id}]", member.id, membership.can_post_listings, :class => "admin-members-can-post-listings employee-verified-user"
 
-            %td{:style => "text-align: center"}
-              - if member.is_organization
-                = icon_tag("cross")
+              %td{:style => "text-align: center"}
+                - if member.is_organization
+                  = icon_tag("cross")
 
-            %td{:style => "text-align: center"}= check_box_tag "is_admin[#{member.id}]", member.id, member.is_admin_of?(@community), :class => "admin-members-is-admin", :disabled => member.eql?(@current_user)
+              %td{:style => "text-align: center"}= check_box_tag "is_admin[#{member.id}]", member.id, member.is_admin_of?(@community), :class => "admin-members-is-admin", :disabled => member.eql?(@current_user)
 
-            %td{:style => "text-align: center"}
-              = link_to(icon_tag("cross"), ban_admin_community_community_membership_path(@current_community.id, membership.id), method: :put, :data => {:confirm => t("admin.communities.manage_members.ban_user_confirmation")}, :class => "admin-members-remove-user")
-
+              %td{:style => "text-align: center"}
+                = link_to(icon_tag("cross"), ban_admin_community_community_membership_path(@current_community.id, membership.id), method: :put, :data => {:confirm => t("admin.communities.manage_members.ban_user_confirmation")}, :class => "admin-members-remove-user")
   .row
     .col-12
       = will_paginate @memberships

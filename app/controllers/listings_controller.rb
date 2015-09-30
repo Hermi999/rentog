@@ -212,6 +212,7 @@ class ListingsController < ApplicationController
       show_rent_button = false
     end
 
+    community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
 
     delivery_opts = delivery_config(@listing.require_shipping_address, @listing.pickup_enabled, @listing.shipping_price, @listing.shipping_price_additional, @listing.currency)
 
@@ -222,7 +223,8 @@ class ListingsController < ApplicationController
              process: process,
              delivery_opts: delivery_opts,
              listing_unit_type: @listing.unit_type,
-             show_rent_button: show_rent_button
+             show_rent_button: show_rent_button,
+             country_code: community_country_code
            }
   end
 
@@ -423,6 +425,7 @@ class ListingsController < ApplicationController
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: @listing.transaction_process_id)
 
     payment_gateway = MarketplaceService::Community::Query.payment_type(@current_community.id)
+    community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
 
     @listing.update_attribute(:open, false)
     respond_to do |format|
@@ -430,7 +433,7 @@ class ListingsController < ApplicationController
         redirect_to @listing
       }
       format.js {
-        render :layout => false, locals: {payment_gateway: payment_gateway, process: process}
+        render :layout => false, locals: {payment_gateway: payment_gateway, process: process, country_code: community_country_code }
       }
     end
   end
