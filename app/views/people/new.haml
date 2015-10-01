@@ -16,26 +16,11 @@
             :allowed_emails => @current_community.allowed_emails,
             :count => (@current_community.allowed_emails.split(",").count))
   .row
-    - # Javascript is enabled -> switch between company & employee signup with JS
-    - unless params[:js_disabled]
-      - id_company = "signup_company"
-      - id_employee = "signup_employee"
-      - _class = "signupType"
-    - else
-      - # Javascript is disabled -> Swtich between company & employee signup with
-      - # different params in the links & reloading the page
-      - if params[:as] == "company"
-        - id_company = "signup_company_enabled"
-        - id_employee = "signup_employee_disabled"
-      - elsif params[:as] == "employee"
-        - id_company = "signup_company_disabled"
-        - id_employee = "signup_employee_enabled"
-
     .col-6
-      %a.button{ :href => "?js_disabled=true&as=company", :title => "Signup as company", id: id_company, class: _class }
+      %a.button{ :href => "#", :title => "Signup as company", id: "signup_company", class: "signupType" }
         .content= "Signup as company"
     .col-6
-      %a.button{ :href => "?js_disabled=true&as=employee", :title => "Signup as employee", id: id_employee, class: _class }
+      %a.button{ :href => "#", :title => "Signup as employee", id: "signup_employee", class: "signupType" }
         .content= "Signup as employee"
 
   .fb_signup
