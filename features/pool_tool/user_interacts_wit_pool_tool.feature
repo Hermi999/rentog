@@ -230,6 +230,7 @@ Feature: User interacts with Pool Tool
      Then I should see element "#cboxLoadedContent"
      When I press "Delete"
       And I confirm alert popup
+      And I wait for 1 seconds
      Then I should not see element "#error_message"
       And I should not see "Testperson3 Kassi" within ".poolTool_gantt_container"
       And there should not be a booking with starter "employee_testperson1" in the Db
@@ -247,7 +248,8 @@ Feature: User interacts with Pool Tool
      Then I should see element "#cboxLoadedContent"
      When I press "Delete"
       And I confirm alert popup
-      And I should not see element "#error_message"
+      And I wait for 1 seconds
+     Then I should not see element "#error_message"
       And I should not see "internal000" within ".poolTool_gantt_container"
       And there should not be a booking with starter "kassi_testperson1" and reason "internal000" in the Db
     # done
@@ -281,6 +283,7 @@ Feature: User interacts with Pool Tool
      When I click on element "div" with text "Testperson3 Kassi" and within ".gantt_ownEmployee"
       And I press "Delete"
       And I confirm alert popup
+      And I wait for 1 seconds
      Then I should not see element "#error_message"
       And I should not see "Testperson3 Kassi" within ".poolTool_gantt_container"
       And there should not be a booking with starter "employee_testperson1" in the Db
