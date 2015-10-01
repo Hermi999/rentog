@@ -39,7 +39,7 @@ Given /^I signup as an organization "(.*?)" with name "(.*?)"$/ do |org_username
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person[terms]"
-    And I press "Create account"
+    And I press "Create company account"
   }
 end
 

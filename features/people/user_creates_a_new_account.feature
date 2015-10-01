@@ -17,7 +17,7 @@ Feature: User creates a new account
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company account"
     Then I should see "Please confirm your email"
     When wait for 1 seconds
     Then I should receive 1 email
@@ -80,7 +80,7 @@ Feature: User creates a new account
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company employee"
 
     # email confirmation
     Then I should see "Please confirm your email"
@@ -110,7 +110,7 @@ Feature: User creates a new account
   #   And I fill in "person_password1" with "test"
   #   And I fill in "Confirm password" with "test"
   #   And I fill in "Email address" with random email
-  #   And I press "Create account"
+  #   And I press "Create company account"
   #   Then I should see "This username is already in use."
 
   # Scenario: Trying to create company account with invalid username
@@ -119,7 +119,7 @@ Feature: User creates a new account
   #   And I fill in "person_password1" with "test"
   #   And I fill in "Confirm password" with "test"
   #   And I fill in "Email address" with random email
-  #   And I press "Create account"
+  #   And I press "Create company account"
   #   Then I should see "Username is invalid."
 
   Scenario: Trying to create company account with unavailable email
@@ -127,7 +127,7 @@ Feature: User creates a new account
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with "kassi_testperson2@example.com"
-    And I press "Create account"
+    And I press "Create company employee"
     Then I should see "The email you gave is already in use."
 
   Scenario: Trying to create an company without First name and last name
@@ -137,7 +137,7 @@ Feature: User creates a new account
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company account"
     Then I should see "This field is required."
     # Community where First and Last name are not required
     When given name and last name are not required in community "test"
@@ -147,7 +147,7 @@ Feature: User creates a new account
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company account"
     And wait for 1 seconds
     Then I should receive 1 email
     When I open the email
@@ -164,7 +164,7 @@ Feature: User creates a new account
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company account"
     Then I should see "This field is required."
 
   Scenario: Trying to create an employee account without choosing an organization
@@ -177,7 +177,7 @@ Feature: User creates a new account
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company employee"
     Then I should see "The organization you've given does not exist"
 
   @subdomain2

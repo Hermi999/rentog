@@ -229,10 +229,6 @@ Then /^I should see enabled element "([^"]*)"$/ do |element|
 end
 
 Then /^(?:|I )should not see "([^"]*)"(?: within "([^"]*)")?$/ do |text, selector|
-  if text == "Testperson3 Kassi"
-    print page.html
-  end
-
   with_scope(selector) do
     if page.respond_to? :should
       page.should have_no_content(text)

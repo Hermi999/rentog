@@ -82,7 +82,7 @@
 #       And I am on the home page
 
 #      When I follow sign up link
-#       And I follow "Signup as employee"
+#       And I follow "signup as an employee"
 #       And I follow "Sign up with Facebook"
 #      Then I should see "Successfully authorized from Facebook account"
 #       And I should see "Marko"
@@ -101,7 +101,7 @@
 #     And I am not logged in
 #     And there is an invitation for community "test" with code "GH1JX8"
 #     When I arrive to sign up page with the link in the invitation email with code "GH1JX8"
-#     And I follow "Signup as employee"
+#     And I follow "signup as an employee"
 #     And I follow "Sign up with Facebook"
 #     Then I should see "Welcome to Rentog, Markus! There's one more step to join"
 #     When I check "community_membership_consent"
@@ -125,4 +125,4 @@
 #     And I follow "fb-login"
 #     Then I should see "Could not get email address from Facebook"
 #     And I should see "Signup as company"
-#     And I should see "Signup as employee"
+#     And I should see "signup as an employee"

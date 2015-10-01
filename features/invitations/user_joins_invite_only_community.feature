@@ -13,7 +13,7 @@ Feature: User joins invite only community
     And community "test" requires invite to join
     And I am not logged in
     And I am on the signup page
-    And I follow "Signup as employee"
+    And I follow "signup as an employee"
     And there is an invitation for community "test" with code "GH1JX8"
     When I fill in "Invitation code" with "GH1JX8"
     And I remove the focus
@@ -26,7 +26,7 @@ Feature: User joins invite only community
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company employee"
     Then I should not see "The invitation code is not valid."
     And I should not see "This field is required."
     And Most recently created user should be member of "test" community with status "pending_email_confirmation" and its latest consent accepted with invitation code "GH1JX8"
@@ -54,7 +54,7 @@ Feature: User joins invite only community
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company account"
     Then I should not see "The invitation code is not valid."
     And I should not see "This field is required."
     And Most recently created user should be member of "test" community with status "pending_email_confirmation" and its latest consent accepted with invitation code "GH1JX8"
@@ -75,7 +75,7 @@ Feature: User joins invite only community
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company account"
     Then I should see "This field is required."
 
   @javascript
@@ -86,7 +86,7 @@ Feature: User joins invite only community
     And community "test" requires invite to join
     And I am not logged in
     And I am on the signup page
-    And I follow "Signup as employee"
+    And I follow "signup as an employee"
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
     And I fill in "Your organization admins email address" with "kassi_testperson2@example.com"
@@ -94,7 +94,7 @@ Feature: User joins invite only community
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company employee"
     Then I should see "This field is required."
 
 
@@ -115,7 +115,7 @@ Feature: User joins invite only community
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company account"
     Then I should see "The invitation code is not valid."
 
   @javascript
@@ -126,7 +126,7 @@ Feature: User joins invite only community
     And community "test" requires invite to join
     And I am not logged in
     And I am on the signup page
-    And I follow "Signup as employee"
+    And I follow "signup as an employee"
     And there is an invitation for community "test" with code "GH1JX8" with 0 usages left
     When I fill in "Invitation code" with "gh1jx8"
     And I fill in "Your organization admins email address" with "kassi_testperson2@example.com"
@@ -134,7 +134,7 @@ Feature: User joins invite only community
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company employee"
     Then I should see "The invitation code is not valid."
 
   @javascript
@@ -144,7 +144,7 @@ Feature: User joins invite only community
     And I am on the signup page
     Then I should not see "Invitation code"
     Given I am on the signup page
-    And I follow "Signup as employee"
+    And I follow "signup as an employee"
     Then I should not see "Invitation code"
     Given community "test" requires invite to join
     And I am on the signup page
@@ -167,7 +167,7 @@ Feature: User joins invite only community
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create account"
+    And I press "Create company account"
     Then I should not see "The invitation code is not valid."
     And I should not see "This field is required."
     And I should see "Please confirm your email"
