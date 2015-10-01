@@ -127,7 +127,7 @@ Feature: User creates a new account
     And I fill in "person_password1" with "test"
     And I fill in "Confirm password" with "test"
     And I fill in "Email address" with "kassi_testperson2@example.com"
-    And I press "Create company employee"
+    And I press "Create company account"
     Then I should see "The email you gave is already in use."
 
   Scenario: Trying to create an company without First name and last name
