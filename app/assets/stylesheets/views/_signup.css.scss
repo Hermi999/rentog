@@ -1,15 +1,24 @@
 @import "mixins/all";
 
 .signupType{
-  width:100%
+  width:100%;
+  margin-top: 18px;
+  text-align: center;
+  color: #4d5c8b;
+
+  :hover{
+    color: #1C378B;
+  }
 }
-#signup_employee{
-  background-color: grey;
-}
-.fb_signup{
+
+#signup_company{
   display: none;
 }
 
+
+.fb_signup{
+  display: none;
+}
 
 .signup-horizontal-line {
   margin: lines(1.25) 0;
@@ -50,3 +59,40 @@
   display: block;
 }
 
+#create_new_account{
+  width: 100%;
+}
+
+#create_new_account_row{
+  margin-top: 20px;
+}
+
+.fb_signup{
+  display: none;
+}
+#person_organization_email{
+  display: none;
+}
+#organization_email_label{
+  display: none;
+}
+
+
+.webui-popover{
+  background-color: rgb(250, 240, 217);
+}
+
+#webuiPopover0{
+  -webkit-box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.9);
+  box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.9);
+  text-align: justify;
+  background-color: rgb(81, 134, 179);
+  color: rgb(227, 239, 249);
+  border-color: rgb(44, 102, 150);
+  .arrow:after{
+    border-bottom-color: rgb(44, 102, 150);
+  }
+  .close{
+    opacity: 0.4;
+  }
+}

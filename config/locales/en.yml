@@ -1783,7 +1783,8 @@ en:
     new:
       captcha_incorrect: "reCAPTCHA check failed. Please write the words in the image to the box below."
       captcha_was_wrong: "Captcha text was incorrect."
-      create_new_account: "Create account"
+      create_new_account: "Create company account"
+      create_new_employee: "Create company employee"
       email: "Email address"
       email_is_in_use: "The email you gave is already in use."
       email_is_in_use_or_not_allowed: "This email is not allowed or it is already in use. If you can't get in, contact us."

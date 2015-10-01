@@ -23,7 +23,7 @@
 //= require jquery.fileupload-validate
 //= require jquery.fileupload-image
 //= require jquery.colorbox
-
+//= require jquery.webui-popover
 //= require jquery.mobile.custom
 
 //= require selectize-standalone.js
@@ -33,16 +33,6 @@
 //= require jquery.iframe-transport.js
 
 //= require fastclick
-
-// PoolTool + Frontier JQuery Calender
-// require jquery-ui/draggable
-// require jquery-ui/droppable
-// require jquery-ui/button
-// require jquery-ui/dialog
-// require jquery-ui/tabs
-// require jquery.qtip-1.0
-// require jshashtable-2.1.js
-// require jquery-frontier-cal-1.3.2
 
 // Responsive helpers
 // https://github.com/edenspiekermann/minwidth-relocate

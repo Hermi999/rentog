@@ -75,6 +75,12 @@ class PeopleController < Devise::RegistrationsController
   end
 
   def new
+    # define javascript variables with values from backend
+    gon.push({
+      btn_create_company: t("people.new.create_new_account"),
+      btn_create_employee: t("people.new.create_new_employee")
+    });
+
     @selected_tribe_navi_tab = "members"
     @all_organizations = Person.where(:is_organization => true, :is_admin => false)
 

@@ -642,57 +642,42 @@ function style_grade_selectors() {
   });
 }
 
+
+function showPopoverOnFocus(id){
+  // Add events for showing the popovers
+  $(id).focus(function(){
+    $(id).webuiPopover('show');
+  });
+  $(id).focusout(function(){
+    $(id).webuiPopover('hide');
+  });
+}
+
 function initialize_signup_form(locale, username_in_use_message, invalid_username_message, email_in_use_message, captcha_message, invalid_invitation_code_message, name_required, invitation_required, organization_name_in_use_message, organization_name_not_chosen, orga_not_available) {
   translate_validation_messages(locale);
 
-  $('#person_signup_as').val('organization');
-  $('#signup_employee').css({"background-color": "grey"});
-  $('#signup_company').css({"background-color": "#A64C5D"});
-  $('.fb_signup').hide();
-  $('#person_organization_name').show();
-  //$('#person_organization_name2').hide();
-  $('#organization_name_label').show();
-  $('#person_organization_email').hide();
-  $('#organization_email_label').hide();
+  var form_width = $('.signup-form').width();
+  console.log(form_width);
 
-  $('#signup_company').click(function(link){
-    link.preventDefault();
-    $('#person_signup_as').val('organization');
-    $('#signup_employee').css({"background-color": "grey"});
-    $('#signup_company').css({"background-color": "#A64C5D"});
-    $('.fb_signup').hide();
-    $('#person_organization_name').show();
-    //$('#person_organization_name2').hide();
-    $('#organization_name_label').show();
-    $('#organization_email_label').hide();
-    $('#person_organization_email').hide();
-  });
-  $('#signup_employee').click(function(link){
-    link.preventDefault();
-    $('#person_signup_as').val('employee');
-    $('#signup_company').css({"background-color": "grey"});
-    $('#signup_employee').css({"background-color": "#A64C5D"});
-    $('.fb_signup').show();
-    $('#person_organization_name').hide();
-    //$('#person_organization_name2').show();
-    $('#organization_name_label').hide();
-    $('#organization_email_label').show();
-    $('#person_organization_email').show();
-  });
+  $('.marketplace-title-header').webuiPopover({content: 'If you are the owner or equipment responsible of a company you can create a new company right here. Afterwards you can add test equipment and employees to your company. <br><br>Employees can also add themselves to a existing company by following the link below the signup form.', animation: 'pop', closeable: true, trigger:'manual', dismissible: false, width: form_width});
+  $('#person_email').webuiPopover({content:'Please enter a valid email address',animation:'fade', placement:'right', trigger:'manual'});
+  $('#person_organization_name').webuiPopover({content:'Please enter the name of your company',animation:'fade', placement:'right', trigger:'manual'});
+  $('#person_organization_email').webuiPopover({content:'Please enter the email address your company admin uses on Rentog',animation:'fade', placement:'right', trigger:'manual'});
+  $('#person_password1').webuiPopover({content:'Please use a strong password with at least 4 characters.',animation:'fade', placement:'right', trigger:'manual'});
+  $('#signup_employee').webuiPopover({content:'If you know the email address of the person who administers your companies profile on Rentog, then you can directly create an employee here...',animation:'pop', placement:'top', trigger:'hover'});
 
-  $('#help_invitation_code_link').click(function(link) {
-    //link.preventDefault();
-    $('#help_invitation_code').lightbox_me({centered: true, zIndex: 1000000 });
-  });
-  $('#terms_link').click(function(link) {
-    link.preventDefault();
-    $('#terms').lightbox_me({ centered: true, zIndex: 1000000 });
-  });
+  $('.marketplace-title-header').webuiPopover('show');
+  showPopoverOnFocus('#person_email');
+  showPopoverOnFocus('#person_organization_name');
+  showPopoverOnFocus('#person_organization_email');
+  showPopoverOnFocus('#person_password1');
+  //showPopoverOnFocus('#');
+
+
   var form_id = "#new_person";
-  //name_required = (name_required == 1) ? true : false
 
   // Live-validatino of the form
-  $(form_id).validate({
+  var signup_validator = $(form_id).validate({
     errorPlacement: function(error, element) {
       if (element.attr("name") == "person[terms]") {
         error.appendTo(element.parent().parent());
@@ -732,6 +717,49 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
       report_analytics_event(['user', "signed up", "normal form"]);
     }
   });
+
+  // Click events
+  $('#signup_company').click(function(link){
+    link.preventDefault();
+    signup_validator.resetForm();
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    $("input:text:visible:first").focus();
+    $('#person_signup_as').val('organization');
+    $('#create_new_account').html(gon.btn_create_company);
+    $('#signup_employee').show();
+    $('#signup_company').hide()
+    $('.fb_signup').hide();
+    $('#person_organization_name').show();
+    $('#organization_name_label').show();
+    $('#organization_email_label').hide();
+    $('#person_organization_email').hide();
+  });
+  $('#signup_employee').click(function(link){
+    link.preventDefault();
+    signup_validator.resetForm();
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    $("input:text:visible:first").focus();
+    $('#person_signup_as').val('employee');
+    $('#create_new_account').html(gon.btn_create_employee);
+    $('#signup_company').show();
+    $('#signup_employee').hide();
+    $('.fb_signup').show();
+    $('#person_organization_name').hide();
+    $('#organization_name_label').hide();
+    $('#organization_email_label').show();
+    $('#person_organization_email').show();
+  });
+
+  $('#help_invitation_code_link').click(function(link) {
+    //link.preventDefault();
+    $('#help_invitation_code').lightbox_me({centered: true, zIndex: 1000000 });
+  });
+
+  $('#terms_link').click(function(link) {
+    link.preventDefault();
+    $('#terms').lightbox_me({ centered: true, zIndex: 1000000 });
+  });
+
 }
 
 

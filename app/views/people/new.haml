@@ -5,7 +5,6 @@
   %h1= t('.sign_up')
 
 .signup-form.centered-section
-
   - if @community_customization && @community_customization.signup_info_content
     %p
       = @community_customization.signup_info_content.html_safe
@@ -15,13 +14,6 @@
             :community_name => @current_community.name(I18n.locale),
             :allowed_emails => @current_community.allowed_emails,
             :count => (@current_community.allowed_emails.split(",").count))
-  .row
-    .col-6
-      %a.button{ :href => "#", :title => "Signup as company", id: "signup_company", class: "signupType" }
-        .content= "Signup as company"
-    .col-6
-      %a.button{ :href => "#", :title => "Signup as employee", id: "signup_employee", class: "signupType" }
-        .content= "Signup as employee"
 
   .fb_signup
     - unless !facebook_connect_in_use? || params[:no_fb]
@@ -62,10 +54,6 @@
     = form.label :family_name, t('.family_name')
     = form.text_field :family_name, :class => :text_field, :maxlength => "30"
 
-    -# Username
-    -#= form.label :username, username_label
-    -#= form.text_field :username, :class => :text_field, :maxlength => "20", :id => "person_username1"
-
     -# Password
     = form.label :password, t('common.password')
     = form.password_field :password, :class => :text_field, :maxlength => "255", :id => "person_password1"
@@ -85,6 +73,17 @@
     -# Hidden Field to tell controller how the user wants to register
     = form.hidden_field :signup_as, :value => "organization"
 
-    = button_tag t('.create_new_account')
+    .row#create_new_account_row
+      .col-2
+      .col-8
+        = button_tag t('.create_new_account'), :id => "create_new_account"
+
+    .row
+      .col-2
+      .col-8
+        %a{ :href => "#", id: "signup_employee", class: "signupType" }
+          .content= "or signup as an employee of a company"
+        %a{ :href => "#", id: "signup_company", class: "signupType" }
+          .content= "or create a new company"
 
 = render :partial => "help_texts", :collection => ["terms", "help_invitation_code"], :as => :field
