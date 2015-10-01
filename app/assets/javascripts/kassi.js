@@ -659,15 +659,15 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
   var form_width = $('.signup-form').width();
   var page_width = $('.page-content').width();
 
-  $('.marketplace-title-header').webuiPopover({content: 'If you are the owner or equipment responsible of a company you can create a new company right here. Afterwards you can add test equipment and employees to your company. <br><br>Employees can also add themselves to a existing company by following the link below the signup form.', animation: 'pop', closeable: true, trigger:'manual', dismissible: false, width: form_width});
+  $('.marketplace-title-header').webuiPopover({content: gon.main_description, animation: 'pop', closeable: true, trigger:'manual', dismissible: false, width: form_width});
   $('.marketplace-title-header').webuiPopover('show');
 
   if (page_width > 1024){
-    $('#person_email').webuiPopover({content:'Please enter a valid email address',animation:'fade', placement:'right', trigger:'manual'});
-    $('#person_organization_name').webuiPopover({content:'Please enter the name of your company',animation:'fade', placement:'right', trigger:'manual'});
-    $('#person_organization_email').webuiPopover({content:'Please enter the email address your company admin uses on Rentog',animation:'fade', placement:'right', trigger:'manual'});
-    $('#person_password1').webuiPopover({content:'Please use a strong password with at least 4 characters.',animation:'fade', placement:'right', trigger:'manual'});
-    $('#signup_employee').webuiPopover({content:'If you know the email address of the person who administers your companies profile on Rentog, then you can directly create an employee here...',animation:'pop', placement:'top', trigger:'hover'});
+    $('#person_email').webuiPopover({content:gon.person_email, animation:'fade', placement:'right', trigger:'manual'});
+    $('#person_organization_name').webuiPopover({content:gon.person_organization_name, animation:'fade', placement:'right', trigger:'manual'});
+    $('#person_organization_email').webuiPopover({content:gon.person_organization_email, animation:'fade', placement:'right', trigger:'manual'});
+    $('#person_password1').webuiPopover({content:gon.person_password1 ,animation:'fade', placement:'right', trigger:'manual'});
+    $('#signup_employee').webuiPopover({content:gon.signup_employee ,animation:'pop', placement:'top', trigger:'hover'});
 
     showPopoverOnFocus('#person_email');
     showPopoverOnFocus('#person_organization_name');

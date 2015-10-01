@@ -78,7 +78,13 @@ class PeopleController < Devise::RegistrationsController
     # define javascript variables with values from backend
     gon.push({
       btn_create_company: t("people.new.create_new_account"),
-      btn_create_employee: t("people.new.create_new_employee")
+      btn_create_employee: t("people.new.create_new_employee"),
+      main_description: t("people.new.help_texts.main_description"),
+      person_email: t("people.new.help_texts.person_email"),
+      person_organization_name: t("people.new.help_texts.person_organization_name"),
+      person_organization_email: t("people.new.help_texts.person_organization_email"),
+      person_password1: t("people.new.help_texts.person_password1"),
+      signup_employee: t("people.new.help_texts.signup_employee")
     });
 
     @selected_tribe_navi_tab = "members"
