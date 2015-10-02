@@ -220,7 +220,8 @@ Feature: User interacts with Pool Tool
 
 
   Scenario: Delete existing Booking with Employee
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given I will confirm all following confirmation dialogs in this page if I am running PhantomJS
+      And there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
       And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
       And there exists an internal booking for company "kassi_testperson1" and employee "employee_testperson1" and listing "Listing1" with length 2 and offset 1 days
       And I am logged in as "kassi_testperson1"
@@ -238,7 +239,8 @@ Feature: User interacts with Pool Tool
 
 
   Scenario: Delete existing Booking with other Reason
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given I will confirm all following confirmation dialogs in this page if I am running PhantomJS
+      And there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
       And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
       And there exists an internal booking for company "kassi_testperson1" and listing "Listing1" with reason "internal000" and length 2 days and offset 1 days
       And I am logged in as "kassi_testperson1"
@@ -257,8 +259,9 @@ Feature: User interacts with Pool Tool
 
   Scenario: Create, update and delete a booking in a row
     # Create
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
-    Given there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given I will confirm all following confirmation dialogs in this page if I am running PhantomJS
+      And there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
      When I press "Add new booking"
