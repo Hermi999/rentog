@@ -9,6 +9,11 @@ class HomepageController < ApplicationController
   def index
     @homepage = true
 
+    # Display list if on mobile device and no view selected
+    if mobile_device? && params[:view].nil?
+      params[:view] = "list"
+    end
+
     @view_type = HomepageController.selected_view_type(params[:view], @current_community.default_browse_view, APP_DEFAULT_VIEW_TYPE, VIEW_TYPES)
 
     @categories = @current_community.categories.includes(:children)

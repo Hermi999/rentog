@@ -203,9 +203,15 @@ class ListingsController < ApplicationController
         redirect_to root_path and return
       end
 
-      # do not show rent button, but availability-error-message if the above condition is false
-      @show_availability_message = true
-      show_rent_button = false
+      # show -> "not trusted" message for other company
+      # Employee should get message "contact your company admin", because he
+      # shouldn contact the listing owner
+      unless @current_user.is_employee?
+        @show_availability_message = true
+        show_rent_button = false
+      else
+        show_rent_button = true
+      end
 
     else
       # Dont show rent button if listing auhtor is viewing the page

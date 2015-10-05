@@ -1,5 +1,39 @@
 @import "mixins/all";
 
+.fullscreen{
+  max-width: 90%!important;
+}
+
+.poolTool_themes{
+  height: 22px;
+}
+.poolTool_theme{
+  width: 20px;
+  height: 20px;
+  margin: 1px;
+  float:right;
+  cursor:pointer;
+}
+#theme_white{
+  background-color: rgb(234, 233, 233);
+  border: 2px solid black;
+}
+#theme_white:hover{
+  background-color:rgb(240, 240, 240);
+}
+#theme_dark{
+  background-color: #4C699D;
+}
+#theme_dark:hover{
+  background-color: #617AA9;
+}
+#theme_red{
+  background-color: #a64c5d;
+}
+#theme_red:hover{
+  background-color: #D05E73;
+}
+
 #error_message{
   position: absolute;
   top:35%;
@@ -67,9 +101,29 @@
 
 #addNewBooking{
   width:100%;
+  max-width: 275px;
 }
+
+#pooltool_submit_new_transaction{
+  width:100%;
+  max-width: 275px;
+}
+
+#new-listing-link{
+  width:100%;
+  max-width: 275px;
+}
+
 #addNewDevice{
   width:100%;
+  max-width: 275px;
+}
+
+#employee_wrapper{
+  max-width: 450px;
+}
+#renter_wrapper{
+  max-width: 450px;
 }
 
 #addNewBookingForm{
@@ -100,6 +154,7 @@
 }
 #device_wrapper {
   margin-top:30px;
+  max-width: 1200px;
 }
 
 .pooltool_grid_item_modifier_class{

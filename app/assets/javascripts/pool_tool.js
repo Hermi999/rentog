@@ -4,15 +4,17 @@
 
 window.ST = window.ST || {};
 
-
+window.ST.poolToolTheme = "theme_dark";
 window.ST.poolTool = function() {
 
   function init(){
+    fullScreen();
     initializeCheckOrientation();
     initializeGantt();
     initializeDatepicker();
     initialize_poolTool_createTransaction_form(gon.locale, gon.choose_employee_or_renter_msg);
     initialize_device_picker();
+
 
     // Initialize popover and remove buttons if employee is logged in
     if (gon.is_admin === false){
@@ -20,6 +22,67 @@ window.ST.poolTool = function() {
     }
     else{
       $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"600px", maxHeight:"450px"});
+    }
+  }
+
+
+  function fullScreen(){
+    $('.header-wrapper').addClass('fullscreen');
+    $('.title-header-wrapper').addClass('fullscreen');
+    $('.page-content .wrapper').addClass('fullscreen');
+  }
+
+
+  function initializeThemes(){
+    allThemes  = ["theme_dark", "theme_red", "theme_white"];
+    allClasses = ["gantt", "header_g", "row_g", "wd_g", "sa_g", "sn_g",
+                  "today", "navigate", "fn-content", "legend", "dataPanel_past",
+                  "gantt_otherReason", "ganttLegend_otherReason",
+                  "gantt_ownEmployee", "ganttLegend_ownEmployee",
+                  "gantt_anyEmployee", "ganttLegend_anyEmployee",
+                  "gantt_anyCompany", "ganttLegend_anyCompany",
+                  "gantt_trustedCompany", "ganttLegend_trustedCompany",
+                  "nav-link", "showLegend"];
+
+    // Set default theme
+    changeTheme(window.ST.poolToolTheme, allThemes, allClasses);
+    $('#theme_dark').css('border', 'none');
+    $('#theme_white').css('border', 'none');
+    $('#theme_red').css('border', 'none');
+    $('#' + window.ST.poolToolTheme).css('border', '2px solid black');
+
+    $('#theme_dark').on('vclick', function(){
+      changeTheme('theme_dark', allThemes, allClasses);
+      $('#theme_dark').css('border', '2px solid black');
+      $('#theme_white').css('border', 'none');
+      $('#theme_red').css('border', 'none');
+      window.ST.poolToolTheme = "theme_dark";
+    });
+    $('#theme_white').on('vclick', function(){
+      changeTheme('theme_white', allThemes, allClasses);
+      $('#theme_white').css('border', '2px solid black');
+      $('#theme_dark').css('border', 'none');
+      $('#theme_red').css('border', 'none');
+      window.ST.poolToolTheme = "theme_white";
+    });
+    $('#theme_red').on('vclick', function(){
+      changeTheme('theme_red', allThemes, allClasses);
+      $('#theme_red').css('border', '2px solid black');
+      $('#theme_white').css('border', 'none');
+      $('#theme_dark').css('border', 'none');
+      window.ST.poolToolTheme = "theme_red";
+    });
+  }
+
+  function changeTheme(theme, allThemes, allClasses){
+    for (var y=0; y<allClasses.length; y++){
+      // remove old themes
+      for (var i=0; i<allThemes.length; i++){
+        $('.' + allClasses[y]).removeClass(allClasses[y] + '_' + allThemes[i]);
+      }
+
+      // add new theme
+      $('.' + allClasses[y]).addClass(allClasses[y] + '_' + theme);
     }
   }
 
@@ -97,7 +160,7 @@ window.ST.poolTool = function() {
     var today_ms = Math.round(today.getTime());
     var today_minus_3 = new Date(new Date(today).setMonth(today.getMonth()-3));
     var today_minus_3_ms = Math.round(today_minus_3.getTime());
-    var next_month = new Date(new Date(today).setMonth(today.getMonth()+1));
+    var next_month = new Date(new Date(today).setMonth(today.getMonth()+3));
     var next_month_ms = Math.round(next_month.getTime());
 
     // Add listings which have no transaction yet
@@ -132,7 +195,7 @@ window.ST.poolTool = function() {
       source = addDummyListings();
     }
 
-    // Add hidden gantt-element, to show the chart at least until today + 1 month
+    // Add hidden gantt-element, to show the chart at least until today + 3 months
     var hiddenElement = {
       values: [{
         from: "/Date(" + today_minus_3_ms + ")/",
@@ -502,6 +565,10 @@ window.ST.poolTool = function() {
         //console.log(rowId);
       },
       onRender: function() {
+        initializeThemes();
+
+        // Helpers
+        //$('#showLegendId').webuiPopover({content:"gon.signup_employee", arrow: false, placement: 'bottom-left', animation:'pop', trigger:'hover'});
       }
     });
   }

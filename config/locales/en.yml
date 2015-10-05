@@ -1101,7 +1101,7 @@ en:
     search_kassi: "Search %{service_name}"
     create_new_marketplace: "Create a new marketplace"
     contact_us: "Contact us"
-    profile: Profile
+    profile: "Profile & Listings"
     invite: "Invite new members"
     login: "Sign in"
     signup: "Sign up"
@@ -1440,7 +1440,7 @@ en:
     follow_links:
       follow: "Get emails about new comments"
       unfollow: "Don't get emails about new comments"
-    cannot_book: "You can't book this this listing at the moment, because the owner set the availability to <b>private</b>. </br>Please contact the owner and ask him to add you to his trusted companies."
+    cannot_book: "This listing can only be booked by users the owner <b>trusts</b>.<br> Please contact the owner and ask him to add you to his trusted companies."
     form:
       custom_field_partials:
         dropdown:

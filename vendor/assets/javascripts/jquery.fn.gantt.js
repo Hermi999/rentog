@@ -280,6 +280,9 @@
                 element.scrollNavigation.canScroll = ($dataPanel.width() > $rightPanel.width());
 
                 core.markNow(element);
+
+                core.darkenPast(element);
+
                 core.fillData(element, $dataPanel, $leftPanel);
 
                 // Set a cookie to record current position in the view
@@ -464,6 +467,8 @@
 
                 var horArr = [];
 
+                var init = true;
+
 
                 var today = new Date();
                 today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -599,6 +604,7 @@
 
 
                         // Append panel elements
+                        dataPanel.append('<div class="dataPanel_past"/>');
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
                         dataPanel.append($('<div class="row_g"/>').html(dayArr.join("")));
@@ -680,6 +686,7 @@
 
                         var dataPanel = core.dataPanel(element, range.length * tools.getCellSize());
 
+                        dataPanel.append('<div class="dataPanel_past"/>');
                         dataPanel.append(yearArr.join("") + monthArr.join("") + dayArr.join("") + (dowArr.join("")));
 
                         break;
@@ -736,6 +743,7 @@
                         var dataPanel = core.dataPanel(element, range.length * tools.getCellSize());
 
                         // Append panel elements
+                        dataPanel.append('<div class="dataPanel_past"/>');
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
                         dataPanel.append($('<div class="row_g"/>').html(dayArr.join("")));
@@ -774,9 +782,18 @@
 
                             // Fill months
                             if (rday.getMonth() !== month) {
+                                var _width = 0;
+
+                                if (init === true && daysInMonth === 31){
+                                    _width = tools.getCellSize() * daysInMonth - 1;
+                                    init = false;
+                                }else{
+                                    _width = tools.getCellSize() * daysInMonth;
+                                }
+
                                 monthArr.push(
                                     ('<div class="row_g header_g month_g' + firstClassMonth + '" style="width:'
-                                       + tools.getCellSize() * daysInMonth
+                                       + _width
                                        + 'px;"><div class="fn-label">'
                                        + settings.months[month]
                                        + '</div></div>'));
@@ -817,7 +834,7 @@
                         // Last month
                         monthArr.push(
                             '<div class="row_g header_g month_g' + firstClassMonth + '" style="width: '
-                            + tools.getCellSize() * daysInMonth + 'px"><div class="fn-label">'
+                            + (tools.getCellSize() * daysInMonth) + 'px"><div class="fn-label">'
                             + settings.months[month]
                             + '</div></div>');
 
@@ -825,7 +842,7 @@
 
 
                         // Append panel elements
-
+                        dataPanel.append('<div class="dataPanel_past"/>');
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
                         dataPanel.append($('<div class="row_g" style="margin-left: 0;" />').html(dayArr.join("")));
@@ -944,7 +961,11 @@
                                         core.zoomInOut(element, 1);
                                     }))
                                     )
-                                );
+                                )
+                        .append($('<p class="showLegend" id="showLegendId">Show Legend</p>')
+                            .on('vclick', function () {
+                                $('.legend').toggle();
+                            }));
                     $(document).mouseup(function () {
                         element.scrollNavigation.scrollerMouseDown = false;
                     });
@@ -1091,6 +1112,11 @@
                         $(element).find(':findday("' + cd + '")').removeClass('sn_g').addClass('today');
                         break;
                 }
+            },
+
+            darkenPast: function(element){
+                var offset = tools.getTodayOffset(element);
+                $(element).find('div.dataPanel_past').css('width', offset);
             },
 
             // **Fill the Chart**
@@ -1818,6 +1844,26 @@
                     $("#measureBarWidth").empty().remove();
                 }
                 return tools._getProgressBarMargin;
+            },
+
+            // Get the offset of today within the dataPanel
+            getTodayOffset: function(element){
+                var offset = 0;
+                var cd = new Date().setHours(0, 0, 0, 0);
+
+                switch (settings.scale) {
+                    case "weeks":
+                        offset = $(element).find(':findweek("' + cd + '")');
+                        break;
+                    case "months":
+                        offset = $(element).find(':findmonth("' + new Date().getTime() + '")');
+                        break;
+                    default:
+                        offset = $(element).find(':findday("' + cd + '")');
+                        break;
+                }
+
+                return offset[0].offsetLeft;
             }
         };
 

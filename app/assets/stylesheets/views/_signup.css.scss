@@ -82,7 +82,7 @@
   background-color: rgb(250, 240, 217);
 }
 
-#webuiPopover0{
+.signup_helper_0{
   -webkit-box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.9);
   box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.9);
   text-align: justify;
@@ -90,7 +90,7 @@
   color: rgb(227, 239, 249);
   border-color: rgb(44, 102, 150);
   .arrow:after{
-    border-bottom-color: rgb(44, 102, 150);
+    border-bottom-color: rgb(44, 102, 150)!important;
   }
   .close{
     opacity: 0.4;

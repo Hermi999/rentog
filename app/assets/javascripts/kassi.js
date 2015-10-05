@@ -661,6 +661,7 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
 
   $('.marketplace-title-header').webuiPopover({content: gon.main_description, animation: 'pop', closeable: true, trigger:'manual', dismissible: false, width: form_width});
   $('.marketplace-title-header').webuiPopover('show');
+  $('#webuiPopover0').addClass('signup_helper_0');
 
   if (page_width > 1024){
     $('#person_email').webuiPopover({content:gon.person_email, animation:'fade', placement:'right', trigger:'manual'});
