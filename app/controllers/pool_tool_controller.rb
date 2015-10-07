@@ -8,14 +8,31 @@ class PoolToolController < ApplicationController
     @person = Person.find(params[:person_id] || params[:id])
 
     # Get transactions (joined with listings and bookings) from database, ordered by listings.id
-    transactions = Transaction.joins(:listing, :booking, :starter).select("transactions.id as transaction_id, listings.id as listing_id, listings.title as title, listings.availability as availability, bookings.start_on as start_on, bookings.end_on as end_on, bookings.reason as reason, transactions.current_state, people.given_name as renter_given_name, people.family_name as renter_family_name, people.username as renting_entity_username, people.organization_name as renting_entity_organame, people.id as person_id").where("listings.author_id = ? AND transactions.community_id = ? AND listings.open = '1' AND (listings.valid_until IS NULL OR valid_until > ?)", @person.id, @current_community.id, DateTime.now).order("listings.id asc")
+    transactions = Transaction.joins(:listing, :booking, :starter).select(" transactions.id as transaction_id,
+                                                                            listings.id as listing_id,
+                                                                            listings.title as title,
+                                                                            listings.availability as availability,
+                                                                            listings.created_at,
+                                                                            bookings.start_on as start_on,
+                                                                            bookings.end_on as end_on,
+                                                                            bookings.reason as reason,
+                                                                            transactions.current_state,
+                                                                            people.given_name as renter_given_name,
+                                                                            people.family_name as renter_family_name,
+                                                                            people.username as renting_entity_username,
+                                                                            people.organization_name as renting_entity_organame,
+                                                                            people.id as person_id")
+                                                                  .where("  listings.author_id = ? AND
+                                                                            transactions.community_id = ? AND
+                                                                            listings.open = '1' AND
+                                                                            (listings.valid_until IS NULL OR valid_until > ?)",
+                                                                            @person.id, @current_community.id, DateTime.now)
+                                                                  .order("  listings.id asc")
     # Convert ActiveRecord Relation into array of hashes
     transaction_array = transactions.as_json
 
     # Get all open Listings of the current user
-    #@open_listings = Listing.currently_open.where("listings.author_id" => @person)
-    #
-
+    # @open_listings = Listing.currently_open.where("listings.author_id" => @person)
     search = {
       author_id: @person.id,
       include_closed: false,
@@ -34,11 +51,14 @@ class PoolToolController < ApplicationController
       ))
     }.data
 
-
     # Only use certain fields in JS
     open_listings_array = []
     listings.each do |listing|
-      open_listings_array << { name: listing.title, desc: listing.availability, availability: listing.availability, listing_id: listing.id }
+      open_listings_array << {  name: listing.title,
+                                desc: listing.availability,
+                                availability: listing.availability,
+                                listing_id: listing.id,
+                                created_at: listing.created_at }
     end
     # Convert all the transaction into a jquery-Gantt readable source.
     # wah: This might be shifted to the client (javascript) in future, since
@@ -122,7 +142,12 @@ class PoolToolController < ApplicationController
       deleteConfirmation: t("pool_tool.deleteConfirmation"),
 
       comp_id: @person.id,
-      is_admin: @current_user.is_company_admin_of?(@person) || @current_user.has_admin_rights_in?(@current_community)
+      is_admin: @current_user.is_company_admin_of?(@person) || @current_user.has_admin_rights_in?(@current_community),
+
+      utilization_header: t("pool_tool.load_popover.utilization_header"),
+      utilization_desc_1: t("pool_tool.load_popover.utilization_desc_1"),
+      utilization_desc_2: t("pool_tool.load_popover.utilization_desc_2"),
+      utilization_text: t("pool_tool.load_popover.utilization_text"),
     })
 
     render locals: { listings: listings }

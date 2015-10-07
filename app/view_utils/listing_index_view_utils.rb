@@ -17,7 +17,8 @@ module ListingIndexViewUtils
     :shape_name_tr_key,
     :listing_shape_id,
     :icon_name,
-    :availability)
+    :availability,    # wah_new
+    :created_at)      # wah_new
 
   Author = Struct.new(
     :id,
@@ -86,7 +87,8 @@ module ListingIndexViewUtils
         l[:shape_name_tr_key],
         l[:listing_shape_id],
         l[:icon_name],
-        l[:availability]
+        l[:availability],
+        l[:created_at]
       )
     }
 

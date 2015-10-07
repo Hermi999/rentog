@@ -336,12 +336,61 @@
                         entries.push('<span class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + (entry.name || '') + '</span>');
                         entries.push('</div>');
 
+                        // desc = availability
                         if (entry.desc) {
                             entries.push('<div class="row_g desc row' + i + ' " id="RowdId_' + i + '" data-id="' + entry.id + '">');
                             entries.push('<span class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + entry.desc + '</span>');
                             entries.push('</div>');
                         }
 
+                    // Calculate load factor
+                        var created_at = new Date (entry.created_at);
+                        var today = new Date();
+
+                        // count (week)days till now
+                        var count_weekdays = 0;
+                        var count_days = 0;
+                        var  x = created_at;
+                        while (x<=today){
+                            count_days++;
+                            // increase weekdays if not sunday or saturday
+                            if (x.getDay() != 6 && x.getDay() != 0){
+                                count_weekdays++;
+                            }
+                            x.setDate(x.getDate() + 1);
+                        }
+
+                        // count booked (week)days till now
+                        var count_booked_weekdays = 0;
+                        var count_booked_days = 0;
+                        if (entry.already_booked_dates){
+                            for (var y=0; y<entry.already_booked_dates.length; y++){
+                                // Only get booked day which are not on weekend
+                                if (new Date(entry.already_booked_dates[y]).getDay() != 6 &&
+                                    new Date(entry.already_booked_dates[y]).getDay() != 0){
+                                        count_booked_weekdays++;
+                                }
+                                count_booked_days++;
+                            }
+                        }
+
+                        if (entry.name){
+                            // Calculate load factor
+                            var weekday_load = count_booked_weekdays / count_weekdays * 100;
+                            var day_load = count_booked_days / count_days * 100;
+                            weekday_load = (Math.round(weekday_load * 100) / 100).toFixed(1);
+                            day_load = (Math.round(day_load * 100) / 100).toFixed(1);
+
+                            entries.push('<div class="row_g load row' + i + '" id="load' + i + '">');
+                            entries.push('<span class="fn-label">' + weekday_load + '%</span>');
+                            entries.push('</div>');
+
+                            var popover_html = "";
+                            popover_html += "<p><b>" + gon.utilization_header + "</b></p>";
+                            popover_html += "<p class='popover_desc'>" + gon.utilization_desc_1 + ":</p> <p class='popover_text'>" + count_booked_weekdays + " " + gon.utilization_text + " " + count_weekdays + " days</p> <p class='popover_percent'>(" + weekday_load + "%)</p>";
+                            popover_html += "<p class='popover_desc'>" + gon.utilization_desc_2 + ":</p> <p class='popover_text'>" + count_booked_days + " " + gon.utilization_text + " " + count_days + " days</p> <p class='popover_percent'>(" + day_load + "%)</p>";
+                            entries.push('<script type="text/javascript">$("#load" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: false, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "utilization"});</script>');
+                        }
                     }
                 });
                 ganttLeftPanel.append(entries.join(""));

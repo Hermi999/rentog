@@ -8,7 +8,8 @@
                 $otherReason_font_color, $ownEmployee_bg_color, $ownEmployee_font_color,
                 $anyCompany_bg_color, $anyCompany_font_color, $anyEmployee_bg_color,
                 $anyEmployee_font_color, $trustedCompany_bg_color, $trustedCompany_font_color,
-                $button_bg_color, $showLegend_color, $showLegend_bg_color) {
+                $button_bg_color, $showLegend_color, $showLegend_bg_color,
+                $load_bg_color) {
 
     .gantt_#{$theme} {
         border: $border;
@@ -60,6 +61,11 @@
         }
         .nav-link_#{$theme} {
             background: $button_bg_color url(icon_sprite_mobile.png) !important;
+        }
+        .load_#{$theme} {
+            .fn-label {
+                background-color: $load_bg_color;
+            }
         }
 
         .gantt_otherReason_#{$theme} {
@@ -163,7 +169,7 @@
 
 .fn-gantt .leftPanel {
     float: left;
-    width: 225px;
+    width: 279px;
     overflow: hidden;
     border-right: 1px solid #DDD;
     position: relative;
@@ -177,23 +183,15 @@
     margin-left: -1px;
 }
 
-.fn-gantt .leftPanel .fn-label {
-    display: inline-block;
-    margin: 0 0 0 5px;
-    color: #484A4D;
-    width: 170px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
 .fn-gantt .leftPanel .row0 {
     border-top: 1px solid #DDD;
 }
-.fn-gantt .leftPanel .name, .fn-gantt .leftPanel .desc {
+.fn-gantt .leftPanel .name,
+.fn-gantt .leftPanel .desc,
+.fn-gantt .leftPanel .load {
     float: left;
     height: 24px;
-    margin: 0;
+    margin: 0px;
     border-bottom: 1px solid #DDD;
     background-color: #f6f6f6;
 }
@@ -201,6 +199,7 @@
 .fn-gantt .leftPanel .name {
     width: 168px;
     font-weight: bold;
+    padding-left: 4px;
 }
 
 .fn-gantt .leftPanel .desc {
@@ -210,8 +209,32 @@
     padding-left:5px;
 }
 
-.fn-gantt .leftPanel .fn-wide, .fn-gantt .leftPanel .fn-wide .fn-label {
-    width: 225px;
+.fn-gantt .leftPanel .load {
+    width: 55px;
+    font-size: 0.7em;
+    font-style:italic;
+    padding-left:5px;
+    cursor: pointer;
+    text-align: right;
+    padding-right: 5px;
+
+    .fn-label {
+        border-radius: 8px;
+        padding: 0px 4px;
+        background-color: #347689;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        width: 50px;
+    }
+}
+.webui-popover-utilization{
+    background-color: rgb(86, 86, 86) !important;
+    color: white;
+}
+
+.fn-gantt .leftPanel .fn-wide,
+.fn-gantt .leftPanel .fn-wide .fn-label {
+    width: 279px;
 }
 
 .fn-gantt .spacer {
@@ -220,8 +243,22 @@
     background-color: #f6f6f6;
 }
 
-
-
+.popover_desc{
+    width: 130px;
+    margin-left: 15px;
+    float:left;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+.popover_text{
+    margin-left: 15px;
+    width:110px;
+    float:left;
+    font-size: 0.9em;
+}
+.popover_percent{
+    font-size: 0.9em;
+}
 
 /* === RIGHT PANEL === */
 .fn-gantt .rightPanel {
@@ -729,7 +766,8 @@
                 white, #EFB332, white,
                 #E18942, white, #B95835,
                 white, #3D3242, white,
-                #7E7E7E, white, rgb(102, 112, 131));
+                #7E7E7E, white, rgb(102, 112, 131),
+                #347689);
 
 
 
@@ -741,7 +779,8 @@
                 white, #EFB332, white,
                 #E18942, white, #B95835,
                 white, #3D3242, white,
-                #4E87A9, white, #A56464);
+                #4E87A9, white, #A56464,
+                #7A3E48);
 
 
 
@@ -751,6 +790,7 @@
                 #939496, #fff8da, #484a4d, #6D929B, rgb(52, 82, 116),
                 #E8D0A9, rgb(52, 82, 116), #ACD1E9, rgb(52, 82, 116),
                 #B7AFA3, rgb(52, 82, 116), #C1DAD6, rgb(52, 82, 116),
-                #595959, rgb(126, 126, 126), rgb(213, 213, 213));
+                #595959, rgb(126, 126, 126), rgb(213, 213, 213),
+                #347689);
 
 

@@ -42,7 +42,7 @@ window.ST.poolTool = function() {
                   "gantt_anyEmployee", "ganttLegend_anyEmployee",
                   "gantt_anyCompany", "ganttLegend_anyCompany",
                   "gantt_trustedCompany", "ganttLegend_trustedCompany",
-                  "nav-link", "showLegend"];
+                  "nav-link", "showLegend", "load"];
 
     // Set default theme
     changeTheme(window.ST.poolToolTheme, allThemes, allClasses);
@@ -176,7 +176,7 @@ window.ST.poolTool = function() {
         empty_arr.push({
           name: gon.open_listings[j].name,
           desc: gon.open_listings[j].desc,
-          //desc: "No bookings",
+          created_at: gon.open_listings[j].created_at,
           availability: gon.open_listings[j].availability,
           listing_id: gon.open_listings[j].listing_id,
           values: [{
@@ -566,7 +566,7 @@ window.ST.poolTool = function() {
       },
       onRender: function() {
         initializeThemes();
-
+        $(".webui-popover").css("background-color","#714565");
         // Helpers
         //$('#showLegendId').webuiPopover({content:"gon.signup_employee", arrow: false, placement: 'bottom-left', animation:'pop', trigger:'hover'});
       }
