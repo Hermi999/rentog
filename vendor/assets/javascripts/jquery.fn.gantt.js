@@ -321,6 +321,7 @@
                 settings.onRender();
             },
 
+            // wah:
             // Create and return the left panel with labels
             leftPanel: function (element) {
                 /* Left panel */
@@ -333,7 +334,7 @@
                 $.each(element.data, function (i, entry) {
                     if (i >= element.pageNum * settings.itemsPerPage && i < (element.pageNum * settings.itemsPerPage + settings.itemsPerPage)) {
                         entries.push('<div class="row_g name row' + i + (entry.desc ? '' : ' fn-wide') + '" id="rowheader' + i + '" offset="' + i % settings.itemsPerPage * tools.getCellSize() + '">');
-                        entries.push('<span class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + (entry.name || '') + '</span>');
+                        entries.push('<a href="listings/' + entry.listing_id + '" class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + (entry.name || '') + '</a>');
                         entries.push('</div>');
 
                         // desc = availability
@@ -341,11 +342,35 @@
                             entries.push('<div class="row_g desc row' + i + ' " id="RowdId_' + i + '" data-id="' + entry.id + '">');
                             entries.push('<span class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + entry.desc + '</span>');
                             entries.push('</div>');
+
+                            var header = "",text = "";
+                            switch(entry.desc){
+                                case 'intern':
+                                    text = gon.availability_desc_text_intern;
+                                    header = gon.availability_desc_header_intern;
+                                    break;
+                                case 'trusted':
+                                    text = gon.availability_desc_text_trusted
+                                    header = gon.availability_desc_header_trusted;
+                                    break;
+                                case 'all':
+                                    text = gon.availability_desc_text_all;
+                                    header = gon.availability_desc_header_all;
+                                    break;
+                            }
+
+                            var popover_html = "";
+                            popover_html += "<p><b>" + header + "</b></p>";
+                            popover_html += text;
+                            entries.push('<script type="text/javascript">$("#RowdId_" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
                         }
 
                     // Calculate load factor
                         var created_at = new Date (entry.created_at);
                         var today = new Date();
+                        today.setHours(0);
+                        today.setMinutes(0);
+                        today.setSeconds(0);
 
                         // count (week)days till now
                         var count_weekdays = 0;
@@ -365,9 +390,14 @@
                         var count_booked_days = 0;
                         if (entry.already_booked_dates){
                             for (var y=0; y<entry.already_booked_dates.length; y++){
+                                var booked_day = new Date(entry.already_booked_dates[y]);
+                                if (booked_day > today){
+                                    break;
+                                }
+
                                 // Only get booked day which are not on weekend
-                                if (new Date(entry.already_booked_dates[y]).getDay() != 6 &&
-                                    new Date(entry.already_booked_dates[y]).getDay() != 0){
+                                if (booked_day.getDay() != 6 &&
+                                    new Date(booked_day).getDay() != 0){
                                         count_booked_weekdays++;
                                 }
                                 count_booked_days++;
@@ -375,21 +405,43 @@
                         }
 
                         if (entry.name){
-                            // Calculate load factor
-                            var weekday_load = count_booked_weekdays / count_weekdays * 100;
-                            var day_load = count_booked_days / count_days * 100;
-                            weekday_load = (Math.round(weekday_load * 100) / 100).toFixed(1);
-                            day_load = (Math.round(day_load * 100) / 100).toFixed(1);
+                            // if just dummy listing
+                            if(entry.dummy !== undefined){
+                                if (entry.name === 'Test Device 3'){
+                                    weekday_load = 90.0;
+                                    day_load = 85.0;
+                                }else if (entry.name === 'Test Device 2'){
+                                    weekday_load = 50.0;
+                                    day_load = 45.0;
+                                }else {
+                                    weekday_load = 35.0;
+                                    day_load = 32.0;
+                                }
+                            }else{
+                                // Calculate load factor
+                                var weekday_load = count_booked_weekdays / count_weekdays * 100;
+                                var day_load = count_booked_days / count_days * 100;
+                                weekday_load = (Math.round(weekday_load * 100) / 100).toFixed(1);
+                                day_load = (Math.round(day_load * 100) / 100).toFixed(1);
+                            }
+
+                            var load_class = "load_red";
+                            if (weekday_load > 70){
+                                load_class = "load_green";
+                            }else if (weekday_load > 40 ){
+                                load_class = "load_yellow";
+                            }
 
                             entries.push('<div class="row_g load row' + i + '" id="load' + i + '">');
-                            entries.push('<span class="fn-label">' + weekday_load + '%</span>');
+                            entries.push('<span class="fn-label ' + load_class + '">' + weekday_load + '%</span>');
                             entries.push('</div>');
 
                             var popover_html = "";
                             popover_html += "<p><b>" + gon.utilization_header + "</b></p>";
                             popover_html += "<p class='popover_desc'>" + gon.utilization_desc_1 + ":</p> <p class='popover_text'>" + count_booked_weekdays + " " + gon.utilization_text + " " + count_weekdays + " days</p> <p class='popover_percent'>(" + weekday_load + "%)</p>";
                             popover_html += "<p class='popover_desc'>" + gon.utilization_desc_2 + ":</p> <p class='popover_text'>" + count_booked_days + " " + gon.utilization_text + " " + count_days + " days</p> <p class='popover_percent'>(" + day_load + "%)</p>";
-                            entries.push('<script type="text/javascript">$("#load" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: false, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "utilization"});</script>');
+                            popover_html += "<p class='popover_small'>*" + gon.utilization_created_at + new Date(entry.created_at).toLocaleString() + "</p>";
+                            entries.push('<script type="text/javascript">$("#load" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "utilization"});</script>');
                         }
                     }
                 });

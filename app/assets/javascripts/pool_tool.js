@@ -42,7 +42,7 @@ window.ST.poolTool = function() {
                   "gantt_anyEmployee", "ganttLegend_anyEmployee",
                   "gantt_anyCompany", "ganttLegend_anyCompany",
                   "gantt_trustedCompany", "ganttLegend_trustedCompany",
-                  "nav-link", "showLegend", "load"];
+                  "nav-link", "showLegend", "load", "newBookingForm"];
 
     // Set default theme
     changeTheme(window.ST.poolToolTheme, allThemes, allClasses);
@@ -636,16 +636,18 @@ window.ST.poolTool = function() {
         {
           name: "Test Device 1",
           desc: "intern",
+          dummy: "true",
           values: [{
             from: "/Date(" + from1_ms + ")/",
             to: "/Date(" + to1_ms + ")/",
-            label: "Renting Organization 1",
+            label: "Max Mustermann",
             customClass: "gantt_ownEmployee"
           }]
         },
         {
           name: "Test Device 2",
           desc: "trusted",
+          dummy: "true",
           values: [
             {
               from: "/Date(" + from2_ms + ")/",
@@ -656,7 +658,7 @@ window.ST.poolTool = function() {
             {
               from: "/Date(" + from3_ms + ")/",
               to: "/Date(" + to3_ms + ")/",
-              label: "Renting Organization 2",
+              label: "Hermann Wagner",
               customClass: "gantt_ownEmployee"
             },
             {
@@ -670,6 +672,7 @@ window.ST.poolTool = function() {
         {
           name: "Test Device 3",
           desc: "all",
+          dummy: "true",
           values: [
             {
               from: "/Date(" + from5_ms + ")/",
@@ -680,13 +683,13 @@ window.ST.poolTool = function() {
             {
               from: "/Date(" + from6_ms + ")/",
               to: "/Date(" + to6_ms + ")/",
-              label: "Renting Organization 7",
+              label: "Geräte-Kalibrierung",
               customClass: "gantt_ownEmployee"
             },
             {
               from: "/Date(" + from7_ms + ")/",
               to: "/Date(" + to7_ms + ")/",
-              label: "Renting Organization 7",
+              label: "Renting Organization 1",
               customClass: "gantt_trustedCompany"
             }
           ]

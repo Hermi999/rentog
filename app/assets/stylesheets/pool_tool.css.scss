@@ -104,6 +104,10 @@
   max-width: 275px;
 }
 
+#addNewBookingWrapper{
+  padding-left: 0px;
+}
+
 #pooltool_submit_new_transaction{
   width:100%;
   max-width: 275px;
@@ -126,8 +130,12 @@
   max-width: 450px;
 }
 
-#addNewBookingForm{
- display: none;
+.newBookingForm{
+  display: none;
+  padding: 5px 20px;
+  border-radius: 9px;
+  background-color: #CAD5EA;
+  margin-bottom: 25px;
 }
 
 #tf_device_renter{

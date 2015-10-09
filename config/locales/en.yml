@@ -2248,7 +2248,8 @@ en:
       booking_to: "To"
       choose_employee_or_renter: "Please choose either an employee or fill in another reason"
     load_popover:
-      utilization_header: "Average utilization"
+      utilization_header: "Utilization untill today"
       utilization_desc_1: "Only working days"
       utilization_desc_2: "Incl weekend"
       utilization_text: "out of"
+      utilization_created_at: "Listing was created on: "

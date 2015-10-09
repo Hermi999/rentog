@@ -148,6 +148,13 @@ class PoolToolController < ApplicationController
       utilization_desc_1: t("pool_tool.load_popover.utilization_desc_1"),
       utilization_desc_2: t("pool_tool.load_popover.utilization_desc_2"),
       utilization_text: t("pool_tool.load_popover.utilization_text"),
+      utilization_created_at: t("pool_tool.load_popover.utilization_created_at"),
+      availability_desc_header_trusted: "Trusted",
+      availability_desc_header_intern: "Intern",
+      availability_desc_header_all: "All",
+      availability_desc_text_trusted: "This listing is marked as trusted. So only trusted companies and company employees can book it.",
+      availability_desc_text_intern: "This listing is marked as intern. So only company employees can book it.",
+      availability_desc_text_all: "This listing can be booked by all registered companies and the company employees.",
     })
 
     render locals: { listings: listings }

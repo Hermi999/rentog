@@ -787,8 +787,10 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
       addButton.removeClass('primary-button');
       addButton.addClass('delete-button');
 
-      dd_employee[0].selectedIndex = 0;
-      tf_device_renter.val('');
+      if (tf_device_renter.val() !== "24afsdiouAFdsf123kljadf"){
+        dd_employee[0].selectedIndex = 0;
+        tf_device_renter.val('');
+      }
       tf_start_on.val('');
       tf_end_on.val('');
       tf_device_renter.prop('disabled', false);

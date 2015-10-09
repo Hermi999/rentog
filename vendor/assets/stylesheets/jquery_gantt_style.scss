@@ -9,10 +9,14 @@
                 $anyCompany_bg_color, $anyCompany_font_color, $anyEmployee_bg_color,
                 $anyEmployee_font_color, $trustedCompany_bg_color, $trustedCompany_font_color,
                 $button_bg_color, $showLegend_color, $showLegend_bg_color,
-                $load_bg_color) {
+                $newBookingForm_bg_color /*,$load_bg_color*/) {
 
     .gantt_#{$theme} {
         border: $border;
+    }
+
+    .row .newBookingForm_#{$theme} {
+        background-color: $newBookingForm_bg_color;
     }
 
     .fn-gantt{
@@ -62,11 +66,13 @@
         .nav-link_#{$theme} {
             background: $button_bg_color url(icon_sprite_mobile.png) !important;
         }
-        .load_#{$theme} {
+        /*
+        .leftPanel .load_#{$theme} {
             .fn-label {
                 background-color: $load_bg_color;
             }
         }
+        */
 
         .gantt_otherReason_#{$theme} {
             background-color: $otherReason_bg_color;
@@ -167,15 +173,6 @@
 
 /* === LEFT PANEL === */
 
-.fn-gantt .leftPanel {
-    float: left;
-    width: 279px;
-    overflow: hidden;
-    border-right: 1px solid #DDD;
-    position: relative;
-    z-index: 7;
-}
-
 .fn-gantt .row_g {
     float: left;
     height: 24px;
@@ -183,59 +180,104 @@
     margin-left: -1px;
 }
 
-.fn-gantt .leftPanel .row0 {
-    border-top: 1px solid #DDD;
-}
-.fn-gantt .leftPanel .name,
-.fn-gantt .leftPanel .desc,
-.fn-gantt .leftPanel .load {
+.fn-gantt .leftPanel {
     float: left;
-    height: 24px;
-    margin: 0px;
-    border-bottom: 1px solid #DDD;
-    background-color: #f6f6f6;
-}
+    width: 279px;
+    overflow: hidden;
+    border-right: 1px solid #DDD;
+    position: relative;
+    z-index: 7;
 
-.fn-gantt .leftPanel .name {
-    width: 168px;
-    font-weight: bold;
-    padding-left: 4px;
-}
 
-.fn-gantt .leftPanel .desc {
-    width: 55px;
-    font-size: 0.7em;
-    font-style:italic;
-    padding-left:5px;
-}
-
-.fn-gantt .leftPanel .load {
-    width: 55px;
-    font-size: 0.7em;
-    font-style:italic;
-    padding-left:5px;
-    cursor: pointer;
-    text-align: right;
-    padding-right: 5px;
-
-    .fn-label {
-        border-radius: 8px;
-        padding: 0px 4px;
-        background-color: #347689;
+    .row0 {
+        border-top: 1px solid #DDD;
+    }
+    .name, .desc, .load {
+        float: left;
+        height: 24px;
+        margin: 0px;
+        border-bottom: 1px solid #DDD;
+        background-color: #f6f6f6;
+    }
+    .name {
+        width: 168px;
         font-weight: bold;
-        letter-spacing: 0.5px;
-        width: 50px;
+        padding-left: 4px;
+    }
+    .name:hover {
+        border-left: 3px solid rgb(255, 195, 39);
+    }
+    .desc {
+        width: 55px;
+        font-size: 0.7em;
+        font-style:italic;
+        padding-left:5px;
+        cursor: pointer;
+    }
+    .desc:hover{
+        font-weight: bold;
+    }
+    .load {
+        width: 55px;
+        font-size: 0.7em;
+        font-style:italic;
+        padding-left:5px;
+        cursor: pointer;
+        text-align: right;
+        padding-right: 5px;
+
+        .fn-label {
+            border-radius: 8px;
+            padding: 0px 4px;
+            background-color: #347689;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            width: 50px;
+        }
+        .fn-label:hover {
+            border: 1px solid rgb(255, 200, 126);
+        }
+
+        .load_red {
+            background-color: #C60000;
+            color: white !important;
+        }
+        .load_green {
+            background-color: #008D11;
+            color: white !important;
+        }
+        .load_yellow {
+            background-color: #CF9008;
+            color: white !important;
+        }
+    }
+
+    .fn-wide,
+    .fn-wide:hover,
+    .fn-wide .fn-label {
+        width: 279px;
+        border-left:none;
     }
 }
+
 .webui-popover-utilization{
     background-color: rgb(86, 86, 86) !important;
     color: white;
+
+    .arrow:after{
+        border-right-color: #565656!important;
+    }
 }
 
-.fn-gantt .leftPanel .fn-wide,
-.fn-gantt .leftPanel .fn-wide .fn-label {
-    width: 279px;
+.webui-popover-availability_desc{
+    background-color: rgb(86, 86, 86) !important;
+    color: white;
+
+    .arrow:after{
+        border-right-color: #565656!important;
+    }
 }
+
 
 .fn-gantt .spacer {
     margin: -2px 0 1px 0;
@@ -258,6 +300,12 @@
 }
 .popover_percent{
     font-size: 0.9em;
+}
+.popover_small{
+      margin-top: 5px;
+      font-size: 0.8em;
+      font-style: italic;
+      color: darksalmon;
 }
 
 /* === RIGHT PANEL === */
@@ -370,6 +418,14 @@
 
 
 .fn-gantt {
+    .gantt_anyCompany:hover,
+    .gantt_anyEmployee:hover,
+    .gantt_ownEmployee:hover,
+    .gantt_trustedCompany:hover,
+    .gantt_otherReason:hover {
+        opacity: 0.7;
+    }
+
     .gantt_ownEmployee {
         background-color: #E8D0A9;
         cursor: pointer;
@@ -767,7 +823,7 @@
                 #E18942, white, #B95835,
                 white, #3D3242, white,
                 #7E7E7E, white, rgb(102, 112, 131),
-                #347689);
+                #CAD5EA /*,#347689*/);
 
 
 
@@ -780,7 +836,7 @@
                 #E18942, white, #B95835,
                 white, #3D3242, white,
                 #4E87A9, white, #A56464,
-                #7A3E48);
+                #ECDADA /*,#7A3E48*/);
 
 
 
@@ -791,6 +847,6 @@
                 #E8D0A9, rgb(52, 82, 116), #ACD1E9, rgb(52, 82, 116),
                 #B7AFA3, rgb(52, 82, 116), #C1DAD6, rgb(52, 82, 116),
                 #595959, rgb(126, 126, 126), rgb(213, 213, 213),
-                #347689);
+                #E8E7E7 /*,#C3C3C3*/);
 
 
