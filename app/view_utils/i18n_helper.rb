@@ -14,7 +14,7 @@ module I18nHelper
     end
   end
 
-  def select_locale(user_locale:, param_locale:, community_locales:, community_default:, all_locales:)
+  def select_locale(user_locale:, http_locale:, param_locale:, community_locales:, community_default:, all_locales:)
 
     # Use user locale, if community supports it
     locale_from_user = Maybe(user_locale).select { |locale| community_locales.include?(locale) }.or_else(nil)
@@ -37,6 +37,9 @@ module I18nHelper
                                  .select { |locale| community_locales.include?(locale) }
                                  .or_else(nil)
     return locale_from_param_fallback if locale_from_param_fallback.present?
+
+    # Use the http_locale
+    return Maybe(http_locale).select { |locale| community_locales.include?(locale) }.or_else(nil)
 
     # Use community default locale
     return community_default

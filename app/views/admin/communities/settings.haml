@@ -10,13 +10,17 @@
   = form_for @current_community, :url => update_settings_admin_community_path(@current_community), :method => :put do |form|
     %h2= t(".settings")
 
-    - Maybe(@current_community).payment_gateway.each do
-      .row
-        .col-12
-          %h3= t(".general")
+
+    .row
+      .col-12
+        %h3= t(".general")
+        - Maybe(@current_community).payment_gateway.each do
           .checkbox-container
             = form.check_box :testimonials_in_use
             = form.label :testimonials_in_use, t(".users_can_review_each_other_after_transaction"), :class => "settings-checkbox-label"
+        .checkbox-container
+          = form.check_box :only_pool_tool
+          = form.label :only_pool_tool, t(".only_pool_tool"), :class => "settings-checkbox-label"
 
     .row
       .col-12

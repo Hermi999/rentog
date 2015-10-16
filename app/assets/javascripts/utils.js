@@ -193,6 +193,13 @@ ST.utils = (function(_) {
     $(wrapperSel).prepend($error_el).click(window.hideNotice);
   }
 
+  function adjustHeight(target_classes, source_class){
+    for (var i=0; i<target_classes.length; i++){
+      if ($('.' + source_class).height() > $('.' + target_classes[i]).height()){
+        $('.' + target_classes[i]).height($('.' + source_class).height());
+      }
+    }
+  }
 
   return {
     findNextIndex: findNextIndex,
@@ -211,6 +218,7 @@ ST.utils = (function(_) {
     pad: pad,
     toISODate: toISODate,
     showError: showError,
+    adjustHeight: adjustHeight,
     not: not
   };
 

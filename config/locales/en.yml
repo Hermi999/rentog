@@ -219,6 +219,7 @@ en:
         require_verification_to_post_listings: "Only users verified by admin can post new listings"
         profile_preferences: "Profile preferences"
         others_can_see_employees: "Show employees to others on profile page"
+        only_pool_tool: "Only the pool tool is accessable on Rentog. Not the market place."
         listing_preferences: "Listing preferences"
         transaction_preferences: "Transaction preferences"
         show_listing_publishing_date: "Display publishing date of the listing on the listing page"
@@ -2248,7 +2249,7 @@ en:
       booking_to: "To"
       choose_employee_or_renter: "Please choose either an employee or fill in another reason"
     load_popover:
-      utilization_header: "Utilization untill today"
+      utilization_header: "Utilization until today"
       utilization_desc_1: "Only working days"
       utilization_desc_2: "Incl weekend"
       utilization_text: "out of"

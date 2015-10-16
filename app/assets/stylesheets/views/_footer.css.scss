@@ -1,0 +1,103 @@
+@import "mixins/all";
+
+/* Height of an element (i.e. button) in the footer bar */
+$elementHeight: lines(2);
+
+/* Element padding, i.e. empty space on the top and below of the element */
+$elementPadding: ($footerHeight - $elementHeight) / 2;
+
+/* Line heights, add -3px finetuning, text looks better */
+$buttonLineHeight: $elementHeight - em(3);
+$textLineHeight: lines(2);
+
+/* Default spacing between footer bar elements */
+$elementSpacing: lines(0.5);
+
+
+
+
+.footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  background-color: #242424;
+  min-height: $footerHeight;
+}
+.footer-wrapper {
+  @include wrapper(0);
+  background:inherit;
+  color: white;
+  padding-bottom: 45px;
+}
+.footer-left {
+  float: left;
+}
+
+.footer-right {
+  padding-top:10px;
+  float: right;
+  width:70%;
+}
+
+.footer-center {
+  clear: both;
+  text-align:center;
+}
+.footer-copyright {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  color: rgba(205, 205, 205, 0.8);
+  padding-top: 7px;
+  max-width: lines(41);
+
+  @include media(tablet) {
+    border-top: 1px solid rgba(205, 205, 205, 0.36);
+  }
+}
+
+.footer-hover {
+  &:hover {
+    background-color: $highlight;
+  }
+
+  &.toggled {
+    background-color: $light-body;
+  }
+}
+
+.footer-text-link {
+  height: $textLineHeight;
+  line-height: $textLineHeight;
+  padding-right: $elementSpacing;
+  padding-left: $elementSpacing;
+  display: block;
+  color: white;
+
+  &:hover {
+    color: $body;
+  }
+
+  .toggled & {
+    color: $background;
+  }
+}
+
+#footer-locales-menu{
+  height: $elementHeight;
+  background-color: rgb(166, 76, 93);
+}
+
+@mixin footer-toggle-menu {
+  min-width: em(200);
+  position: absolute;
+  bottom: $footerHeight;
+  margin-bottom: 0px;
+}
+
+.footer-toggle-menu-language {
+  @include footer-toggle-menu;
+}

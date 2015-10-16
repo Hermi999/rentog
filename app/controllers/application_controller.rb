@@ -54,7 +54,11 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
+    # Get locale of current user
     user_locale = Maybe(@current_user).locale.or_else(nil)
+
+    # Get locale based on the "Accept-Language HTTP Header"
+    http_locale = request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
 
     # We should fix this -- START
     #
@@ -87,6 +91,7 @@ class ApplicationController < ActionController::Base
 
     locale = I18nHelper.select_locale(
       user_locale: user_locale,
+      http_locale: http_locale,
       param_locale: params[:locale],
       community_locales: community_locales,
       community_default: community_default_locale,

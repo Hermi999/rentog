@@ -97,6 +97,7 @@
 #  others_can_see_employees                   :boolean          default(FALSE)
 #  employees_can_create_listings              :boolean          default(FALSE)
 #  employees_can_buy_listings                 :boolean          default(FALSE)
+#  only_pool_tool                             :boolean          default(FALSE)
 #
 # Indexes
 #

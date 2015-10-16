@@ -1,0 +1,80 @@
+- show_marketplace = !Community.first.only_pool_tool
+
+%footer.footer
+  .footer-wrapper
+
+    - with_available_locales do |locales|
+      .footer-left
+        #footer-locales-menu.toggle_reverse.footer-hover{data: {toggle: '#footer-locales-toggle-menu', 'toggle-position' => 'absolute'}}
+          %span.footer-text-link
+            = get_full_locale_name(I18n.locale).to_s
+            = icon_tag("dropdown", ["icon-dropdown"])
+        #footer-locales-toggle-menu.toggle-menu.footer-toggle-menu-language.hidden
+          = render :partial => "layouts/locale_select", :collection => locales, :as => :loc_array
+    .footer-right
+      .row
+        .col-3{:style => "text-align:left; font-size:0.9em"}
+          %b
+            Company
+          %br
+          = link_to new_user_feedback_path do
+            Contact
+            / = t("footer.feedback")
+          %br
+          = link_to about_infos_path do
+            About
+            / = t("header.about")
+          %br
+          %a{:href=>"#"}
+            Terms
+          %br
+          %a{:href=>"#"}
+            Privacy
+          %br
+          %a{:href=>"#"}
+            Policies
+
+        .col-3{:style => "text-align:left; font-size:0.9em"}
+          %b
+            Support
+          %br
+          %a{:href=>"#"}
+            How Rentog works
+          %br
+          %a{:href=>"#"}
+            FAQ
+          %br
+
+          - if show_marketplace
+            %a{:href=>"#"}
+              Owner Help
+            %br
+
+          - if show_marketplace
+            %a{:href=>"#"}
+              Renter Help
+            %br
+
+          %a{:href=>"#"}
+            Pool Tool Help
+        .col-3{:style => "text-align:left; font-size:0.9em"}
+          %b
+            Getting started
+          %br
+          %a{:href=>"#"}
+            Create a device
+          %br
+          %a{:href=>"#"}
+            Get the mobile app
+          %br
+          %a{:href=>"#"}
+            Show own devices
+          %br
+          %a{:href=>"#"}
+            Show my profile
+
+    .footer-center
+
+    .footer-copyright
+      %p{:style => "font-size:0.8em"}
+        Copyright &copy; 2015 RENTOG

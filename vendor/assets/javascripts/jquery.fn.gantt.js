@@ -419,8 +419,16 @@
                                 }
                             }else{
                                 // Calculate load factor
-                                var weekday_load = count_booked_weekdays / count_weekdays * 100;
-                                var day_load = count_booked_days / count_days * 100;
+                                var weekday_load = 0;
+                                var day_load = 0;
+
+                                if (count_weekdays > 0){
+                                    weekday_load = count_booked_weekdays / count_weekdays * 100;
+                                }
+                                if (count_days > 0){
+                                    day_load = count_booked_days / count_days * 100;
+                                }
+
                                 weekday_load = (Math.round(weekday_load * 100) / 100).toFixed(1);
                                 day_load = (Math.round(day_load * 100) / 100).toFixed(1);
                             }

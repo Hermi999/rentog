@@ -42,7 +42,10 @@ body {
 }
 
 .page-content {
-  padding-bottom: lines(3);
+  padding-bottom: $footerHeight_tablet;
+  @include media(tablet) {
+    padding-bottom: $footerHeight;
+  }
   padding-top: lines(0.5);
 
   p {

@@ -1,9 +1,14 @@
 $(function() {
   var toggles = [];
+  var toggles_reverse = [];
 
   function closeAll() {
     toggles.forEach(function(toggle) {
       toggle.close();
+    });
+
+    toggles_reverse.forEach(function(toggle_reverse) {
+      toggle_reverse.close();
     });
   }
 
@@ -13,7 +18,7 @@ $(function() {
     var anchorPosition = el.attr('data-toggle-anchor-position') || "left";
     var togglePosition = el.attr('data-toggle-position') || "relative";
 
-    function absolutePosition() {
+    function absolutePosition(reverse) {
       var anchorOffset = anchorElement.offset();
       var top = anchorOffset.top + anchorElement.outerHeight();
       var left = anchorOffset.left;
@@ -25,15 +30,19 @@ $(function() {
         $menu.css("left", left);
       }
 
-      $menu.css("top", top);
+      if (reverse){
+
+      }else{
+        $menu.css("top", top);
+      }
     }
 
-    function open() {
+    function open(reverse) {
       // Opens the menu toggle menu
       closeAll();
 
       if (togglePosition === "absolute") {
-        absolutePosition();
+        absolutePosition(reverse);
       }
 
       $menu.removeClass('hidden');
@@ -52,7 +61,14 @@ $(function() {
 
     el.click(function(event) {
       event.stopPropagation();
-      toggleFn();
+
+      if (event.currentTarget.className.indexOf("reverse") > 0){
+        toggleFn(true);
+      }
+      else{
+        toggleFn(false);
+      }
+
     });
 
     $menu.click(function(event){
@@ -66,6 +82,10 @@ $(function() {
 
   // Initialize menu
   toggles = _.toArray($('.toggle')).map(function(el) {
+    return toggleMenu($(el));
+  });
+
+  toggles_reverse = _.toArray($('.toggle_reverse')).map(function(el) {
     return toggleMenu($(el));
   });
 

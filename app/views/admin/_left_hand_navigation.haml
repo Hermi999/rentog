@@ -49,3 +49,6 @@
     %a{:href => link[:path], :title => link[:text], :id => "#{link[:name]}_left_navi_link"}
       .icon-with-text{:class => link[:icon_class]}
       .text-with-icon= link[:text]
+
+- content_for :javascript do
+  window.ST.utils.adjustHeight(["wrapper"], "left-navi");
