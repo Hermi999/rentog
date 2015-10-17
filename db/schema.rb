@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151017161249) do
+ActiveRecord::Schema.define(:version => 20150918102223) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -219,8 +219,6 @@ ActiveRecord::Schema.define(:version => 20151017161249) do
     t.boolean  "others_can_see_employees",                                 :default => false
     t.boolean  "employees_can_create_listings",                            :default => false
     t.boolean  "employees_can_buy_listings",                               :default => false
-    t.boolean  "only_pool_tool",                                           :default => false
-    t.boolean  "disable_facebook_twitter",                                 :default => false
   end
 
   add_index "communities", ["domain"], :name => "index_communities_on_domain"
@@ -619,7 +617,7 @@ ActiveRecord::Schema.define(:version => 20151017161249) do
     t.boolean  "pickup_enabled",                                :default => false
     t.integer  "shipping_price_cents"
     t.integer  "shipping_price_additional_cents"
-    t.string   "availability",                                  :default => "intern"
+    t.string   "availability"
   end
 
   add_index "listings", ["category_id"], :name => "index_listings_on_new_category_id"
