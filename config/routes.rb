@@ -498,6 +498,10 @@
 # http://guides.rubyonrails.org/routing.html
 
 Kassi::Application.routes.draw do
+  # wah: remove this in production
+  get '/switch_pool_tool', to: 'application#switch_pool_tool'
+
+
   get "employees/create"
 
   get "employees/destroy"

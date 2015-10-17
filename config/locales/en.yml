@@ -228,6 +228,7 @@ en:
         listing_comments_in_use: "Allow users to post comments to listings (viewable to all other users)"
         employees_can_create_listings: "Employees can create listings"
         employees_can_buy_listings: "Employees can buy listings"
+        disable_facebook_twitter: "Disable functionality for sharing on Facebook and Twitter"
         email_preferences: "Email preferences"
         automatic_newsletters: "Send automatic daily / weekly newsletters to all users (unless they opt out)"
         email_admins_about_new_members: "Send admins an email whenever a new user signs up"

@@ -567,8 +567,12 @@ window.ST.poolTool = function() {
       onRender: function() {
         initializeThemes();
         $(".webui-popover").css("background-color","#714565");
-        // Helpers
-        //$('#showLegendId').webuiPopover({content:"gon.signup_employee", arrow: false, placement: 'bottom-left', animation:'pop', trigger:'hover'});
+
+        // Change leftPanel size depending on Rentog functionality
+        if(gon.only_pool_tool){
+          $(".leftPanel").width("224px");
+          $(".fn-wide").width("220px");
+        }
       }
     });
   }

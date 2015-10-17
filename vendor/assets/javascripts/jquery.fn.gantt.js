@@ -338,7 +338,7 @@
                         entries.push('</div>');
 
                         // desc = availability
-                        if (entry.desc) {
+                        if (entry.desc && !gon.only_pool_tool) {
                             entries.push('<div class="row_g desc row' + i + ' " id="RowdId_' + i + '" data-id="' + entry.id + '">');
                             entries.push('<span class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + entry.desc + '</span>');
                             entries.push('</div>');
@@ -966,6 +966,12 @@
             // **Navigation**
             navigation: function (element) {
                 var ganttNavigate = null;
+                var appendLegend;
+
+                if (!gon.only_pool_tool){
+                    appendLegend = '<p class="showLegend" id="showLegendId">Show Legend</p>';
+                }
+
                 // Scrolling navigation is provided by setting
                 // `settings.navigate='scroll'`
                 if (settings.navigate === "scroll") {
@@ -1071,7 +1077,7 @@
                                     }))
                                     )
                                 )
-                        .append($('<p class="showLegend" id="showLegendId">Show Legend</p>')
+                        .append($(appendLegend)
                             .on('vclick', function () {
                                 $('.legend').toggle();
                             }));

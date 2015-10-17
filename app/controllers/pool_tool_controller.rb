@@ -119,6 +119,7 @@ class PoolToolController < ApplicationController
     months =  [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
 
     gon.push({
+      only_pool_tool: @current_community.only_pool_tool,
       devices: devices,
       open_listings: open_listings_array,
       locale: I18n.locale,

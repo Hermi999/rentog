@@ -422,6 +422,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+
+
+  # wah: remove this i production
+  def switch_pool_tool
+    Community.first.update_attribute(:only_pool_tool, !Community.first.only_pool_tool)
+    redirect_to :back and return
+  end
+
+
+
   private
 
   # Override basic instrumentation and provide additional info for lograge to consume

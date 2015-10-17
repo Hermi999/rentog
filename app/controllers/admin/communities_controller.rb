@@ -249,7 +249,7 @@ class Admin::CommunitiesController < ApplicationController
       :default_min_days_between_community_updates,
       :email_admins_about_new_members, :others_can_see_employees,
       :employees_can_create_listings, :employees_can_buy_listings,
-      :only_pool_tool
+      :only_pool_tool, :disable_facebook_twitter
     ]
     permitted_params << :testimonials_in_use if @current_community.payment_gateway
     params.require(:community).permit(*permitted_params)

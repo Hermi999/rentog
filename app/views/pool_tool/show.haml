@@ -31,18 +31,23 @@
     .row
       .col-3#poolTool_popover_deviceName
         Device 1
+
+
     .row{style: "margin-bottom: 0.10em;"}
       .col-3
         %b Renter/Reason
     .row
       .col-3#poolTool_popover_renter
         Hermann Wagner
-    .row{style: "margin-bottom: 0.10em;"}
-      .col-3
-        %b Availability
-    .row
-      .col-3#poolTool_popover_availability
-        intern
+
+
+    - if !@current_community.only_pool_tool
+      .row{style: "margin-bottom: 0.10em;"}
+        .col-3
+          %b Availability
+      .row
+        .col-3#poolTool_popover_availability
+          intern
 
     #datepicker_wrapper2
       .input-daterange.input-group.clearfix#datepicker2{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
