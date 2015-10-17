@@ -499,8 +499,8 @@ de:
         inquiry: Kontakt
   common:
     edit_page: "Seite bearbeiten"
-    default_community_slogan: Community-Marktplatz
-    default_community_description: "Dies ist ein Ort, wo Mitglieder der Community Waren, Dienstleistungen, Mitfahrgelegenheiten oder Unterkünfte anbieten und teilen können."
+    default_community_slogan: "Miete anstatt zu kaufen"
+    default_community_description: "Mieten und Vermieten von Test- und Messgeräten zwischen Unternehmen"
     cancel: Abbrechen
     fields_that_are_mandatory: "Mit einem Stern (*) gekennzeichnete Felder sind Pflichtfelder."
     or: oder

@@ -1,10 +1,19 @@
 # encoding: utf-8
 class HomepageController < ApplicationController
 
+  # Save current path, so that the user can be redirected if needed
   before_filter :save_current_path, :except => :sign_in
+  before_filter :check_if_only_pool_tool
 
   APP_DEFAULT_VIEW_TYPE = "grid"
   VIEW_TYPES = ["grid", "list", "map"]
+
+
+  def check_if_only_pool_tool
+    if !Community.first.only_pool_tool
+      redirect_to landingpage_path and return
+    end
+  end
 
   def index
     @homepage = true

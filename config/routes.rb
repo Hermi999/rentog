@@ -20,6 +20,7 @@
 # fog_provider:          Not available
 #
 #                                                         GET      /channel.html(.:format)                                                                      FbChannelFileApp
+#                                        switch_pool_tool GET      /switch_pool_tool(.:format)                                                                  application#switch_pool_tool
 #                                        employees_create GET      /employees/create(.:format)                                                                  employees#create
 #                                       employees_destroy GET      /employees/destroy(.:format)                                                                 employees#destroy
 #                                          mercury_images GET      /mercury/images(.:format)                                                                    mercury/images#index
@@ -47,6 +48,8 @@
 #                                    homepage_with_locale          /:locale(.:format)                                                                           homepage#index {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                 homepage_without_locale          /                                                                                            homepage#index
 #                                                    root          /                                                                                            homepage#index
+#                                                                  /:locale/landingpage(.:format)                                                               landing_page#index {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                                             landingpage          /landingpage(.:format)                                                                       landing_page#index
 #                                                                  /500(.:format)                                                                               errors#server_error
 #                                         error_not_found          /404(.:format)                                                                               errors#not_found
 #                                              error_gone          /410(.:format)                                                                               errors#gone
@@ -267,7 +270,9 @@
 #                                                         DELETE   (/:locale)/terms(.:format)                                                                   terms#destroy {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                   how_to_use_help_index GET      (/:locale)/help/how_to_use(.:format)                                                         help#how_to_use {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                          faq_help_index GET      (/:locale)/help/faq(.:format)                                                                help#faq {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
-#                               pool_tool_help_help_index GET      (/:locale)/help/pool_tool_help(.:format)                                                     help#pool_tool_help {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                                    pool_tool_help_index GET      (/:locale)/help/pool_tool(.:format)                                                          help#pool_tool {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                                        owner_help_index GET      (/:locale)/help/owner(.:format)                                                              help#owner {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                                       renter_help_index GET      (/:locale)/help/renter(.:format)                                                             help#renter {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                              help_index GET      (/:locale)/help(.:format)                                                                    help#index {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                         POST     (/:locale)/help(.:format)                                                                    help#create {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                new_help GET      (/:locale)/help/new(.:format)                                                                help#new {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
@@ -567,6 +572,10 @@ Kassi::Application.routes.draw do
   match '/:locale/' => 'homepage#index', :constraints => { :locale => locale_matcher }, as: :homepage_with_locale
   match '/' => 'homepage#index', as: :homepage_without_locale
   root :to => 'homepage#index'
+
+  match '/:locale/landingpage' => 'landing_page#index', :constraints => { :locale => locale_matcher }
+  match '/landingpage' => 'landing_page#index'
+
 
   # error handling: 3$: http://blog.plataformatec.com.br/2012/01/my-five-favorite-hidden-features-in-rails-3-2/
   match '/500' => 'errors#server_error'

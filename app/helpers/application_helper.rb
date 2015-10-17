@@ -911,7 +911,7 @@ module ApplicationHelper
   end
 
   def show_big_cover_photo?
-    @homepage && (!@current_user || params[:big_cover_photo])
+    (@homepage || @landing_page) && (!@current_user || params[:big_cover_photo])
   end
 
   def sort_link_direction(column)

@@ -636,6 +636,16 @@ window.ST.poolTool = function() {
     var from7_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+30)).getTime());
     var to7_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+40)).getTime());
 
+    var from8_ms = Math.round(new Date(new Date(today).setDate(today.getDate()-1)).getTime());
+    var to8_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+15)).getTime());
+
+    var from9_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+2)).getTime());
+    var to9_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+4)).getTime());
+    var from10_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+7)).getTime());
+    var to10_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+19)).getTime());
+    var from11_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+45)).getTime());
+    var to11_ms = Math.round(new Date(new Date(today).setDate(today.getDate()+55)).getTime());
+
     return [
         {
           name: "Test Device 1",
@@ -695,6 +705,44 @@ window.ST.poolTool = function() {
               to: "/Date(" + to7_ms + ")/",
               label: "Renting Organization 1",
               customClass: "gantt_trustedCompany"
+            }
+          ]
+        },
+        {
+          name: "Test Device 4",
+          desc: "intern",
+          dummy: "true",
+          values: [
+            {
+              from: "/Date(" + from8_ms + ")/",
+              to: "/Date(" + to8_ms + ")/",
+              label: "Renting Organization 5",
+              customClass: "gantt_trustedCompany"
+            }
+          ]
+        },
+        {
+          name: "Test Device 5",
+          desc: "trusted",
+          dummy: "true",
+          values: [
+            {
+              from: "/Date(" + from9_ms + ")/",
+              to: "/Date(" + to9_ms + ")/",
+              label: "Helga Hummel",
+              customClass: "gantt_ownEmployee"
+            },
+            {
+              from: "/Date(" + from10_ms + ")/",
+              to: "/Date(" + to10_ms + ")/",
+              label: "Interne Revision",
+              customClass: "gantt_otherReason"
+            },
+            {
+              from: "/Date(" + from11_ms + ")/",
+              to: "/Date(" + to11_ms + ")/",
+              label: "Hermann Wagner",
+              customClass: "gantt_ownEmployee"
             }
           ]
         }

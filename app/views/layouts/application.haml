@@ -83,6 +83,10 @@
   :javascript
     $(document).ready(function() { initialize_defaults("#{I18n.locale}"); #{yield :javascript} });
 
+  = yield :section_1
+  = yield :section_2
+  = yield :section_3
+
   = render :partial => "layouts/noscript"
 
 

@@ -407,15 +407,22 @@
                         if (entry.name){
                             // if just dummy listing
                             if(entry.dummy !== undefined){
-                                if (entry.name === 'Test Device 3'){
+                                if (entry.name === 'Test Device 5'){
                                     weekday_load = 90.0;
                                     day_load = 85.0;
+                                }else if (entry.name === 'Test Device 4'){
+                                    weekday_load = 61.0;
+                                    day_load = 58.0;
+                                }
+                                else if (entry.name === 'Test Device 3'){
+                                    weekday_load = 85.0;
+                                    day_load = 83.0;
                                 }else if (entry.name === 'Test Device 2'){
-                                    weekday_load = 50.0;
-                                    day_load = 45.0;
-                                }else {
                                     weekday_load = 35.0;
                                     day_load = 32.0;
+                                }else{
+                                    weekday_load = 22.0;
+                                    day_load = 20.0;
                                 }
                             }else{
                                 // Calculate load factor

@@ -26,6 +26,8 @@
 //= require jquery.webui-popover
 //= require jquery.mobile.custom
 
+// require html5show.min
+
 //= require selectize-standalone.js
 //= require datepicker/bootstrap-datepicker.js
 
@@ -49,6 +51,7 @@
 //= require googlemaps
 //= require map_label
 //= require homepage
+//= require landing_page
 //= require order_manager
 //= require ajax_status
 //= require admin/expiration_notice

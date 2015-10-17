@@ -15,6 +15,12 @@ $elementSpacing: lines(0.5);
 
 
 
+.footer-placeholder{
+  min-height: $footerHeight_tablet + lines(2);
+  @include media(tablet) {
+    min-height: $footerHeight + lines(2);
+  }
+}
 
 .footer {
   position: absolute;

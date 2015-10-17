@@ -42,10 +42,6 @@ body {
 }
 
 .page-content {
-  padding-bottom: $footerHeight_tablet + lines(2);
-  @include media(tablet) {
-    padding-bottom: $footerHeight + lines(2);
-  }
   padding-top: lines(0.5);
 
   p {
@@ -2333,7 +2329,7 @@ figure.fluidratio {
     .marketplace-lander-content-title {
       margin-bottom: 0;
       margin-top: 0;
-      @include huge-type;
+      @include larger-type;
       line-height: em(13);
     }
 
@@ -2384,7 +2380,7 @@ figure.fluidratio {
     .marketplace-lander-content-title {
       margin-bottom: 0;
       margin-top: 0;
-      @include mega-type;
+      @include huge-type;
       line-height: em(15);
     }
   }
