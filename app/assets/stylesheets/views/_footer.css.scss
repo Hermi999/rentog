@@ -21,7 +21,11 @@ $elementSpacing: lines(0.5);
   width: 100%;
   bottom: 0px;
   background-color: #242424;
-  min-height: $footerHeight;
+
+  min-height: $footerHeight_tablet;
+  @include media(tablet){
+    min-height: $footerHeight;
+  }
 }
 .footer-wrapper {
   @include wrapper(0);
@@ -94,8 +98,12 @@ $elementSpacing: lines(0.5);
 @mixin footer-toggle-menu {
   min-width: em(200);
   position: absolute;
-  bottom: $footerHeight;
   margin-bottom: 0px;
+
+  bottom: $footerHeight_tablet;
+  @include media(tablet) {
+    bottom: $footerHeight;
+  }
 }
 
 .footer-toggle-menu-language {

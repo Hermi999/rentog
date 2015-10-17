@@ -15,63 +15,62 @@
       .row
         .col-3{:style => "text-align:left; font-size:0.9em"}
           %b
-            Company
+            = t("footer.company.header")
           %br
           = link_to new_user_feedback_path do
-            Contact
-            / = t("footer.feedback")
+            = t("footer.company.contact")
           %br
           = link_to about_infos_path do
-            About
-            / = t("header.about")
+            = t("footer.company.about")
           %br
-          %a{:href=>"#"}
-            Terms
+          = link_to terms_infos_path do
+            = t("footer.company.terms")
+
           %br
-          %a{:href=>"#"}
-            Privacy
-          %br
-          %a{:href=>"#"}
-            Policies
+          = link_to privacy_infos_path do
+            = t("footer.company.privacy")
 
         .col-3{:style => "text-align:left; font-size:0.9em"}
           %b
-            Support
+            = t("footer.help.header")
           %br
-          %a{:href=>"#"}
-            How Rentog works
+          = link_to how_to_use_help_index_path do
+            = t("footer.help.how_it_works")
           %br
-          %a{:href=>"#"}
-            FAQ
+
+          = link_to faq_help_index_path do
+            = t("footer.help.faq")
           %br
 
           - if show_marketplace
             %a{:href=>"#"}
-              Owner Help
+              = t("footer.help.owner_help")
             %br
 
           - if show_marketplace
             %a{:href=>"#"}
-              Renter Help
+              = t("footer.help.renter_help")
             %br
 
-          %a{:href=>"#"}
-            Pool Tool Help
+          = link_to pool_tool_help_index_path do
+            = t("footer.help.pool_tool")
+
+
         .col-3{:style => "text-align:left; font-size:0.9em"}
           %b
-            Getting started
+            = t("footer.getting_started.header")
           %br
           %a{:href=>"#"}
-            Create a device
+            = t("footer.getting_started.create_device")
           %br
           %a{:href=>"#"}
-            Get the mobile app
+            = t("footer.getting_started.get_app")
           %br
           %a{:href=>"#"}
-            Show own devices
+            = t("footer.getting_started.show_devices")
           %br
           %a{:href=>"#"}
-            Show my profile
+            = t("footer.getting_started.show_profile")
 
     .footer-center
 

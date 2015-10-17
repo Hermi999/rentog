@@ -1,0 +1,10 @@
+- questions_cnt = 5
+
+%h1= t("layouts.help.faq_default_page.header")
+
+- for i in 1..questions_cnt do
+  .question
+    %p= t("layouts.help.faq_default_page.question_" + i.to_s).html_safe
+
+  %div{:id=>"answer"+i.to_s, :class=> "hidden answer"}
+    %p=  t("layouts.help.faq_default_page.answer_" + i.to_s).html_safe

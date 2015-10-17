@@ -1,5 +1,23 @@
-%h2= t("common.default_community_slogan")
+%h2= t("infos.about.default_about_title1")
 
-%p= t("common.default_community_description").html_safe
+%p= t("infos.about.default_about_text1")
 
-%p= t("infos.about.default_about_text", :click_here_link => link_to(t("infos.about.click_here_link_text"), "https://www.sharetribe.com/?ref=about_page")).html_safe
+%br
+%br
+
+%h2= t("infos.about.default_about_title2")
+
+%table
+  %tr
+    %td= t("infos.about.default_about_name_header").html_safe
+    %td= t("infos.about.default_about_name").html_safe
+  %tr
+    %td= t("infos.about.default_about_address_header").html_safe
+    %td= t("infos.about.default_about_address").html_safe
+  %tr
+    %td= t("infos.about.default_about_email_header").html_safe
+    %td= t("infos.about.default_about_email").html_safe
+  %tr
+    %td= t("infos.about.default_about_phone_header").html_safe
+    %td= t("infos.about.default_about_phone").html_safe
+

@@ -78,5 +78,6 @@
 //= require jquery.fn.gantt
 //= require prettify
 //= require pool_tool
+//= require faq
 //
 //= require_self

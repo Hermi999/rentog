@@ -1107,6 +1107,27 @@ en:
     login: "Sign in"
     signup: "Sign up"
     menu: Menu
+  footer:
+    company:
+        header: Company
+        contact: Contact
+        about: About
+        terms: Terms
+        privacy: Privacy
+    help:
+        header: Help
+        how_it_works: "How Rentog works"
+        faq: FAQ
+        owner_help: "Owner Help"
+        renter_help: "Renter Help"
+        pool_tool: "Pool Tool Help"
+    getting_started:
+        header: "Getting started"
+        create_device: "Create a device"
+        get_app: "Get the mobile app"
+        show_devices: "Show own devices"
+        show_profile: "Show my profile"
+
   homepage:
     additional_private_listings_slate:
       additionally_one_private_offer_exists: "Additionally  there is <b>one other offer</b>,"
@@ -1213,9 +1234,17 @@ en:
       all_categories: "All categories"
   infos:
     about:
-      default_about_text_title: "What is Sharetribe?"
-      default_about_text: "This marketplace is powered by Sharetribe platform. With Sharetribe you can easily create your own marketplace website. It's free and only takes a minute. %{click_here_link} to learn more!"
-      click_here_link_text: "Click here"
+      default_about_title1: "What is Rentog?"
+      default_about_text1: "With Rentog you can easily manage all your companies test and measurement devices. Once you've signed up your company and created listings on Rentog, you and your employee's can easily have a closer look at the booking schedule of all company devices and can directly book a device within the Pool Tool."
+      default_about_title2: "Site notice"
+      default_about_name_header: "Name:"
+      default_about_address_header: "Address:"
+      default_about_email_header: "Email:"
+      default_about_phone_header: "Phone:"
+      default_about_name: "Hermann Wagner"
+      default_about_address: "1190 Wien, Budinskygasse 18 (Austria)"
+      default_about_email: "<a href='mailto:info@rentog.com'>info@rentog.com</a>"
+      default_about_phone: "+43 664 4576808"
     how_to_use:
       default_title: "How it works"
       default_content: "Here you can find information about how %{marketplace_name} works."
@@ -1231,6 +1260,8 @@ en:
       read_more: "Read more"
       feedback: "What would you like to tell us?"
       default_feedback: "Did you encounter a problem with %{service_name}? Have a suggestion for improving the service? Noticed some suspicious content? Or just have something you want to discuss with us? Let us know!"
+      contact_per_phone: "or directly contact us per phone call:"
+      phone_number: "+43 664 4576808"
       feedback_forum: "feedback forum"
       feedback_handle: Feedback
       give_feedback: "Contact us"
@@ -1254,11 +1285,31 @@ en:
       select_language: "Select language"
     infos:
       about: About
-      how_to_use: "How it works"
       info_about_kassi: "Information about %{service_name}"
       news: News
       register_details: Privacy
       terms: "Terms of use"
+    help:
+        help_on_rentog: "Help and FAQ"
+        faq: "FAQ"
+        how_to_use: "How it works"
+        pool_tool: "Pool Tool Help"
+        owner_help: "Owner Help"
+        renter_help: "Renter Help"
+        faq_default_page:
+            header: "Frequently asked questions (FAQ)"
+            question_1: "aaaaaa?"
+            answer_1: "AAAAA?"
+            question_2: "bbbb?"
+            answer_2: "BBBBBBBBBBBBBBBBBBBBBBBBBBb?"
+            question_3: "ccc ccc ccc?"
+            answer_3: "CCCCCC cCCCCCCCCC ?"
+            question_4: "ddd ddd dddddddddddddd?"
+            answer_4: "DDDDDDD d DDDDDDDDDDDD?"
+            question_5: "ee eeeeee eeeeee ee eeeeeeee?"
+            answer_5: "EEEEEEEEe EEEEEEEEEEEEE EEEEEEEEEEEEEE EE?"
+        pool_tool_default_page:
+            header: "Pool Tool Help"
     logged_in:
       admin: Admin
       go_to_your_profile_page: Profile
