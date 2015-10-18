@@ -22,6 +22,20 @@
   @if $point == tiny-mobile {
     @media (max-width: em(318)) { @content; }
   }
+
+  @if $point == smaller-than-mobile {
+    @media (max-width: em(319)) { @content; }
+  }
+  @if $point == smaller-than-large-mobile {
+    @media (max-width: em(479)) { @content; }
+  }
+  @if $point == smaller-than-small-tablet {
+    @media (max-width: em(599)) { @content; }
+  }
+  @if $point == smaller-than-tablet {
+    @media (max-width: em(767)) { @content; }
+  }
+
   @if $point == mobile {
     @media (min-width: em(320)) { @content; }
   }

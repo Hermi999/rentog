@@ -213,9 +213,15 @@ p.landing-page-section-small-header{
   .col-5.landing-page-colored-box {
     background-color: rgba(153, 183, 247, 0.25);
     border-radius: 20px;
-    padding: 1px 20px;
     -webkit-box-shadow: 5px 5px 19px 0px rgba(0,0,0,0.75);
     box-shadow: 5px 5px 19px 0px rgba(0,0,0,0.75);
+
+    @include media(smaller-than-tablet){
+      width: 96%;
+      margin-left: 2%;
+      margin-right: 2%;
+      padding: 1px 10px;
+    }
 
     @include media(tablet){
       padding: 5px 20px;
