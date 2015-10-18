@@ -776,14 +776,14 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
 
   // Change add button to cancel button and vice vercia
   addButton.on('vclick', function(ev){
-    if (addButton.html() === 'Cancel'){
+    if (addButton.html() === gon.cancel_booking){
       $('#addNewBookingForm').hide();
-      addButton.html('Add new booking');
+      addButton.html(gon.add_booking);
       addButton.addClass('primary-button');
       addButton.removeClass('delete-button');
     } else {
       $('#addNewBookingForm').fadeIn();
-      addButton.html('Cancel');
+      addButton.html(gon.cancel_booking);
       addButton.removeClass('primary-button');
       addButton.addClass('delete-button');
 
@@ -933,7 +933,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
 
         // close form
         $('#addNewBookingForm').hide();
-        addButton.html('Add new booking');
+        addButton.html(gon.add_booking);
         addButton.addClass('primary-button');
         addButton.removeClass('delete-button');
 
@@ -958,7 +958,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
 
       // close form
       $('#addNewBookingForm').hide();
-      addButton.html('Add new booking');
+      addButton.html(gon.add_booking);
       addButton.addClass('primary-button');
       addButton.removeClass('delete-button');
     }

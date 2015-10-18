@@ -135,8 +135,8 @@ class PoolToolController < ApplicationController
       clear: t("datepicker.clear"),
       format: t("datepicker.format"),
 
-      add_reservation: t("pool_tool.add_reservation"),
-      cancel_reservation: t("pool_tool.cancel_reservation"),
+      add_booking: t("pool_tool.add_booking"),
+      cancel_booking: t("pool_tool.cancel_booking"),
       device_name: t("pool_tool.device_name"),
       comment: t("pool_tool.comment"),
       choose_employee_or_renter_msg: t("pool_tool.show.choose_employee_or_renter"),

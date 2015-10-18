@@ -17,34 +17,36 @@
     %h1.marketplace-lander-content-title= t("landing_page.only_pool_tool.slogan")
 
 .landing-page-section.main-features
-  %p.landing-page-section-header Access & book from everywhere!
-  %p.landing-page-section-main-text Let your staff access the companies inventary easily.
+  %p.landing-page-section-header= t("landing_page.only_pool_tool.section1_header")
+  %p.landing-page-section-main-text= t("landing_page.only_pool_tool.section1_mainText")
 
   .row
     .col-5.landing-page-colored-box
       %p.landing-page-section-small-header
-        List your devices
+        =t("landing_page.only_pool_tool.section1_smallHeader1")
       %p.landing-page-section-text
-        Rentog allows you to create devices in a fast and convenient way. You can describe the basic details of each single device and also add serveral images.
+        =t("landing_page.only_pool_tool.section1_text1")
         .button.create_listing
           = link_to "https://www.youtube.com/embed/G7-X1dQTG8c", :class=>"create_listing_youtube" do
-            How to create devices
+            =t("landing_page.only_pool_tool.section1_button1")
+
     .col-1
     .col-5.landing-page-colored-box
       %p.landing-page-section-small-header
-        Let your staff book the devices
+        =t("landing_page.only_pool_tool.section1_smallHeader2")
       %p.landing-page-section-text
-        Your employees can access the schedule of all devices and can book a device. With our mobile app it's possible to book within seconds.
+        =t("landing_page.only_pool_tool.section1_text2")
         .button.book-a-device
           = link_to "http://www.youtube.com/embed/VOJyrQa_WR4?rel=0&amp;wmode=transparent", :class=>"book_a_listing_youtube" do
-            How to book a device
+            =t("landing_page.only_pool_tool.section1_button2")
+
     .col-1
 
 -content_for :section_1 do
   .landing-page-section.pooltool_screenshot#showBox
     .landing-page-content.page
-      %p.landing-page-colored-section-header We give you back the overview!
-      %p.landing-page-colored-section-main-text See all your devices at once and check the current working load of each one.
+      %p.landing-page-colored-section-header= t("landing_page.only_pool_tool.section2_header")
+      %p.landing-page-colored-section-main-text= t("landing_page.only_pool_tool.section2_mainText")
       = image_tag "landingpage/pool_tool.PNG", class: "pool_tool_screenshot"
 
 -content_for :section_2 do
@@ -55,6 +57,6 @@
         %p.landing-page-section-header
           %b Rentog
           %br
-          for your mobile
+          = t("landing_page.only_pool_tool.section3_header")
         = link_to image_tag("landingpage/Download_on_the_App_Store_Badge_US-UK_135x40.svg"), "#", :class => "landingpage-apple-store-icon"
         = link_to image_tag("landingpage/android_en_badge.png"), "#", :class => "landingpage-android-store-icon"

@@ -11,14 +11,15 @@
 - if listings == []
   .poolTool_no_listings_coverSite
     .poolTool_no_listings
-      Your company has no (open) devices yet.
+      = t('pool_tool.show.no_open_devices')
       .poolTool_no_listings_whatToDo
-        If you are the company admin...
+        = t('pool_tool.show.ifYouCompanyAdmin')
         %ul
           %li#create_new_listing
-            then you can create a new listing <a href="#{new_listing_path}">here</a>
+            = t('pool_tool.show.createListingHere', :listing_path => new_listing_path).html_safe
           %li#reopen_listing
-            and you have already listings (but they are closed), then you can re-open them <a href="#{person_path(@person)}">here</a>
+            = t('pool_tool.show.reopen_listing', :person_path => person_path(@person)).html_safe
+
 
 / Show 'colorbox' modal/popover if user clicked in gantt chart on a booking
 #modifyBookingLinkWrapper
@@ -27,45 +28,45 @@
   #modifyBookingContent
     .row{style: "margin-bottom: 0.10em;"}
       .col-3
-        %b Device name
+        %b= t('pool_tool.show.modify_booking.device_name')
     .row
       .col-3#poolTool_popover_deviceName
-        Device 1
+        DummyText_Device1
 
 
     .row{style: "margin-bottom: 0.10em;"}
       .col-3
-        %b Renter/Reason
+        %b= t('pool_tool.show.modify_booking.renter_reason')
     .row
       .col-3#poolTool_popover_renter
-        Hermann Wagner
+        DummyText_HermannWagner
 
 
     - if !@current_community.only_pool_tool
       .row{style: "margin-bottom: 0.10em;"}
         .col-3
-          %b Availability
+          %b= t('pool_tool.show.modify_booking.availability')
       .row
         .col-3#poolTool_popover_availability
-          intern
+          DummyText_Intern
 
     #datepicker_wrapper2
       .input-daterange.input-group.clearfix#datepicker2{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
         .row
           .col-2{style: "margin-bottom: 0.15em;"}
-            %b Starts on
+            %b= t('pool_tool.show.modify_booking.starts_on')
           .datepicker-start-wrapper.col-3
             %input.input-sm.form-control.required#start-on2{:type => 'text', :name => "start_on2", :placeholder => t("datepicker.format"), :data => { :output => "booking-start-output" } }
             %input#booking-start-output2{:type => 'hidden', :name => 'start_on2'}
         .row
           .col-2{style: "margin-bottom: 0.15em;"}
-            %b Ends on
+            %b= t('pool_tool.show.modify_booking.ends_on')
           .datepicker-end-wrapper.col-3
             %input.input-sm.form-control.required#end-on2{:type => 'text', :name => "end_on2", :placeholder => t("datepicker.format"), :data => { :output => "booking-end-output" }}
             %input#booking-end-output2{:type => 'hidden', :name => 'end_on2'}
 
-    %button.primary-button#btn_update Update
-    %button.delete-button#btn_delete Delete Booking
+    %button.primary-button#btn_update= t('pool_tool.show.modify_booking.update')
+    %button.delete-button#btn_delete= t('pool_tool.show.modify_booking.delete')
 
 / Pool Tool Main code
 - content_for :extra_javascript do
@@ -84,7 +85,7 @@
   .col-3#addNewBookingWrapper
     / - if @current_user.is_company_admin_of?(@person) || @current_user.has_admin_rights_in?(@current_community)
     %button#addNewBooking.primary-button
-      Add new booking
+      = t('pool_tool.show.addNewBooking')
 
 .row
   .col-12
@@ -92,20 +93,20 @@
       = form_tag person_transactions_path, :action => :create, url: person_transactions_path, id: "poolTool_form" do
 
         %input{:type => 'hidden', :name => 'poolTool', :value => 'true'}
-        %input{:type => 'hidden', :name => 'message', :value => 'Booked with PoolTool'}
+        %input{:type => 'hidden', :name => 'message', :value => t('pool_tool.show.booked_with_poolTool')}
 
         - if @current_user.is_company_admin_of?(@person) || @current_user.has_admin_rights_in?(@current_community)
           .row
             #employee_wrapper.col-5
-              = label_tag :employees, "Choose Employee"
-              = collection_select :employee, :username, @person.employees, :username, :full_name, {:prompt => "Please select..."}, {id: "dd_employee"}
+              = label_tag :employees, t('pool_tool.show.choose_employee')
+              = collection_select :employee, :username, @person.employees, :username, :full_name, {:prompt => t('pool_tool.show.please_select')}, {id: "dd_employee"}
 
             #poolTool_or.col-1
-              or
+              = t('pool_tool.show.or')
 
             #renter_wrapper.col-5
-              = label_tag :renter, "Enter another renter/reason"
-              = text_field_tag :renter, nil, maxlength: 15, id: "tf_device_renter", placeholder: "fg: Maintainance", style: "width:100%;"
+              = label_tag :renter, t('pool_tool.show.enter_other_reason')
+              = text_field_tag :renter, nil, maxlength: 15, id: "tf_device_renter", placeholder: t('pool_tool.show.example'), style: "width:100%;"
 
         - else
           %input{:type => 'hidden', :name => 'employee[username]', :value => @current_user.username, :id => "dd_employee"}
@@ -135,7 +136,7 @@
 
         #submit_wrapper.row
           .col-3
-            = submit_tag("Create", id: "pooltool_submit_new_transaction", class: "primary-button pooltool_create_booking")
+            = submit_tag(t('pool_tool.show.create'), id: "pooltool_submit_new_transaction", class: "primary-button pooltool_create_booking")
 
 
 .poolTool_gantt_container
