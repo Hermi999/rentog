@@ -9,11 +9,6 @@ class HomepageController < ApplicationController
   VIEW_TYPES = ["grid", "list", "map"]
 
 
-  def check_if_only_pool_tool
-    if !Community.first.only_pool_tool
-      redirect_to landingpage_path and return
-    end
-  end
 
   def index
     @homepage = true
@@ -119,6 +114,13 @@ class HomepageController < ApplicationController
   end
 
   private
+
+
+  def check_if_only_pool_tool
+    if Community.first.only_pool_tool
+      redirect_to landingpage_path and return
+    end
+  end
 
   # Get all the listings for displaying them.
   # But only those which are not "visibility = intern"
