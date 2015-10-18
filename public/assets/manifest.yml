@@ -97,6 +97,12 @@ kaapo/kaapo_grades_small.png: kaapo/kaapo_grades_small-2bc22894ae1109c902b94a97d
 kaapo/kaapo_grades_small/index.png: kaapo/kaapo_grades_small-2bc22894ae1109c902b94a97dbdfe5c4.png
 kaapo/sad_kaapo_big.png: kaapo/sad_kaapo_big-4bfede2f2d3c9db4a0954bcbd8753eab.png
 kaapo/sad_kaapo_big/index.png: kaapo/sad_kaapo_big-4bfede2f2d3c9db4a0954bcbd8753eab.png
+landingpage/Download_on_the_App_Store_Badge_US-UK_135x40.svg: landingpage/Download_on_the_App_Store_Badge_US-UK_135x40-f1914ecb31abd79d2b4c1788a4348f21.svg
+landingpage/Download_on_the_App_Store_Badge_US-UK_135x40/index.svg: landingpage/Download_on_the_App_Store_Badge_US-UK_135x40-f1914ecb31abd79d2b4c1788a4348f21.svg
+landingpage/android_en_badge.png: landingpage/android_en_badge-d8df11edba9ca592a180b645b13c1cab.png
+landingpage/android_en_badge/index.png: landingpage/android_en_badge-d8df11edba9ca592a180b645b13c1cab.png
+landingpage/mobile_rentog.png: landingpage/mobile_rentog-812b3ab57ae09acdf3c0e22659ce0f1e.png
+landingpage/mobile_rentog/index.png: landingpage/mobile_rentog-812b3ab57ae09acdf3c0e22659ce0f1e.png
 landingpage/pool_tool.PNG: landingpage/pool_tool-71eb95f631dd8bdf8bcf5ede838a0030.PNG
 landingpage/pool_tool/index.PNG: landingpage/pool_tool-71eb95f631dd8bdf8bcf5ede838a0030.PNG
 listing_image/processing.png: listing_image/processing-9a03fe4aaf7a44359b92ac58814ec5ae.png
@@ -333,8 +339,8 @@ markerclusterer.js: markerclusterer-7f48f5bd153c418c95354d5266be8b62.js
 markerclusterer/index.js: markerclusterer-7f48f5bd153c418c95354d5266be8b62.js
 mercury.js: mercury-7c3df51a6c579dba85dcb6ed0b629870.js
 mercury/index.js: mercury-7c3df51a6c579dba85dcb6ed0b629870.js
-application.css: application-25952477ef891c83b6beb6db904e8596.css
-application/index.css: application-25952477ef891c83b6beb6db904e8596.css
+application.css: application-8758617ce4fa61ebf3cfa4c53947f4c0.css
+application/index.css: application-8758617ce4fa61ebf3cfa4c53947f4c0.css
 mercury.css: mercury-c4ecad98cee5777f69e721e98c9fdc0f.css
 mercury/index.css: mercury-c4ecad98cee5777f69e721e98c9fdc0f.css
 ss-pika.css: ss-pika-4f41c05ec8287c261b27e4c60f034df2.css
