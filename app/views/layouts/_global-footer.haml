@@ -15,7 +15,7 @@
           = render :partial => "layouts/locale_select", :collection => locales, :as => :loc_array
     .footer-right
       .row
-        .col-3{:style => "text-align:left; font-size:0.9em"}
+        .col-3.footer-section
           %b
             = t("footer.company.header")
           %br
@@ -32,7 +32,7 @@
           = link_to privacy_infos_path do
             = t("footer.company.privacy")
 
-        .col-3{:style => "text-align:left; font-size:0.9em"}
+        .col-3.footer-section
           %b
             = t("footer.help.header")
           %br
@@ -58,7 +58,7 @@
             = t("footer.help.pool_tool")
 
 
-        .col-3{:style => "text-align:left; font-size:0.9em"}
+        .col-3.footer-section.footer-getting-started
           %b
             = t("footer.getting_started.header")
           %br
@@ -74,7 +74,7 @@
           %a{:href=>"#"}
             = t("footer.getting_started.show_profile")
 
-        .col-3{:style => "text-align:left; font-size:0.9em; color:rgb(52, 50, 50);"}
+        .col-3.temp-footer-section
           %b
             Only PoolTool
           %br

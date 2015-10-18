@@ -115,3 +115,36 @@ $elementSpacing: lines(0.5);
 .footer-toggle-menu-language {
   @include footer-toggle-menu;
 }
+
+.col-3.footer-section{
+  text-align:left;
+  font-size:0.9em;
+
+  float:left;
+  width:49%;
+
+  @include media(small-tablet){
+    width: 33%;
+  }
+
+  @include media(tablet){
+    width: 25%
+  }
+}
+
+.footer-getting-started{
+  display: none;
+  @include media(small-tablet){
+    display: block;
+  }
+}
+
+.col-3.temp-footer-section{
+  text-align:left;
+  font-size:0.9em;
+  color:rgb(52, 50, 50);
+  display: none;
+  @include media(small-tablet){
+    display: block;
+  }
+}

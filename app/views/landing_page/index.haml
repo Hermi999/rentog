@@ -50,5 +50,11 @@
 -content_for :section_2 do
   .landing-page-section.rentog_on_mobile
     .landing-page-content
-      Hier gehts zu den Mobilen Apps
-
+      = image_tag "landingpage/mobile_rentog.png", class: "mobile_rentog_screenshot"
+      .landing-page-mobile-wrapper
+        %p.landing-page-section-header
+          %b Rentog
+          %br
+          for your mobile
+        = link_to image_tag("landingpage/Download_on_the_App_Store_Badge_US-UK_135x40.svg"), "#", :class => "landingpage-apple-store-icon"
+        = link_to image_tag("landingpage/android_en_badge.png"), "#", :class => "landingpage-android-store-icon"

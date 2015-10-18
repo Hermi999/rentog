@@ -55,6 +55,7 @@
 
 .landing-page-section {
   height: 30em;
+  overflow:hidden;
 }
 
 .landing-page-content {
@@ -73,11 +74,6 @@
 .pooltool_screenshot{
   background-color: rgb(148, 42, 42);
 }
-
-.rentog_on_mobile{
-
-}
-
 .pool_tool_screenshot{
   border-radius: 20px;
   border: 3px solid white;
@@ -85,6 +81,54 @@
   width: 100%;
   min-width:700px;
 }
+
+.landing-page-mobile-wrapper{
+  margin-top:10px;
+
+  @include media(mobile){
+    margin-top:60px;
+  }
+
+  @include media(small-tablet){
+    margin-top:80px;
+  }
+}
+.rentog_on_mobile{
+  margin-bottom: -49px;
+}
+.mobile_rentog_screenshot{
+  display: block;
+  min-width: 150px;
+  width: 35%;
+  float:right;
+  margin-right:-60px;
+  margin-top:10px;
+
+  @include media(mobile){
+    margin-right:-30px;
+    margin-top:40px;
+  }
+
+  @include media(small-tablet){
+    margin-top: 10px;
+    margin-right:40px;
+    float: left;
+  }
+
+  @include media(tablet){
+    margin-top: 50px;
+    margin-left: 60px;
+  }
+}
+.landingpage-apple-store-icon{
+  margin-top:20px;
+  display: block;
+  margin-bottom:8px;
+}
+.landingpage-android-store-icon{
+  display: block;
+}
+
 
 .landing-page-colored-section-header{
   color: white;
@@ -111,38 +155,46 @@
 
 .landing-page-section-header{
   color: rgb(99, 110, 171);
-  margin: 0px 0 20px 0!important;
-  @include large-type;
+  margin: 5px!important;
+  @include big-type;
+
+  @include media(large-mobile) {
+    @include large-type;
+  }
 
   @include media(small-tablet) {
     @include huge-type;
     font-weight: 500;
     padding-top:10px;
+    margin: 0px 0 20px 0!important;
   }
   @include media(tablet){
     padding-top: 40px;
   }
 }
 
-.landing-page-section-main-text {
+p.landing-page-section-main-text {
   color: black;
-  margin-bottom: 10px!important;
+  margin-bottom: 10px;
+  margin-left: 5px;
   @include normal-type;
 
-  @include media(small-tablet){
+  @include media(large-mobile){
     @include big-type;
     font-weight: 500;
     margin-bottom: 40px!important;
   }
 }
 
-.landing-page-section-small-header{
+p.landing-page-section-small-header{
   color: #398C50;
-  margin: 10px 0 20px 0;
+  margin-bottom: 5px;
+  margin-top: 5px;
   @include normal-type;
 
   @include media(tablet) {
     @include big-type;
+    margin: 10px 0 20px 0;
   }
 }
 
