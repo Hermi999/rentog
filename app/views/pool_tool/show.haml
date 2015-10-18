@@ -9,6 +9,9 @@
 
 / Lock Screen and show 'no listing' message if the company has no listings yet
 - if listings == []
+  - content_for :javascript do
+    $('body').css('overflow', 'hidden');
+
   .poolTool_no_listings_coverSite
     .poolTool_no_listings
       = t('pool_tool.show.no_open_devices')
