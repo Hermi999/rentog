@@ -13,11 +13,6 @@ window.ST = window.ST || {};
     $(window).resize(function(){
       size_video();
     });
-
-    // Start html5show effects
-    (function(){
-      var show = new html5show('showBox',{play:false});
-    })();
   };
 
 
@@ -41,7 +36,7 @@ window.ST = window.ST || {};
     var video_width = calc_video_width();
 
     // Show videos with colorbox
-    $(".create_listing_youtube").colorbox({iframe:true, innerWidth:video_width, innerHeight:video_width/1.6});
-    $(".book_a_listing_youtube").colorbox({iframe:true, innerWidth:video_width, innerHeight:video_width/1.6});
+    $(".create_listing_youtube").colorbox({iframe:true, innerWidth:video_width, innerHeight:video_width/ratio});
+    $(".book_a_listing_youtube").colorbox({iframe:true, innerWidth:video_width, innerHeight:video_width/ratio});
   };
 })(window.ST);

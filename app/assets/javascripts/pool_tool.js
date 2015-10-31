@@ -34,15 +34,15 @@ window.ST.poolTool = function() {
 
 
   function initializeThemes(){
-    allThemes  = ["theme_dark", "theme_red", "theme_white"];
-    allClasses = ["gantt", "header_g", "row_g", "wd_g", "sa_g", "sn_g",
-                  "today", "navigate", "fn-content", "legend", "dataPanel_past",
-                  "gantt_otherReason", "ganttLegend_otherReason",
-                  "gantt_ownEmployee", "ganttLegend_ownEmployee",
-                  "gantt_anyEmployee", "ganttLegend_anyEmployee",
-                  "gantt_anyCompany", "ganttLegend_anyCompany",
-                  "gantt_trustedCompany", "ganttLegend_trustedCompany",
-                  "nav-link", "showLegend", "load", "newBookingForm"];
+    var allThemes  = ["theme_dark", "theme_red", "theme_white"];
+    var allClasses = ["gantt", "header_g", "row_g", "wd_g", "sa_g", "sn_g",
+                      "today", "navigate", "fn-content", "legend", "dataPanel_past",
+                      "gantt_otherReason", "ganttLegend_otherReason",
+                      "gantt_ownEmployee", "ganttLegend_ownEmployee",
+                      "gantt_anyEmployee", "ganttLegend_anyEmployee",
+                      "gantt_anyCompany", "ganttLegend_anyCompany",
+                      "gantt_trustedCompany", "ganttLegend_trustedCompany",
+                      "nav-link", "showLegend", "load", "newBookingForm"];
 
     // Set default theme
     changeTheme(window.ST.poolToolTheme, allThemes, allClasses);
