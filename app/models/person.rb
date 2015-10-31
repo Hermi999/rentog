@@ -183,7 +183,7 @@ class Person < ActiveRecord::Base
     "email_from_admins"
   ]
 
-  PERSONAL_EMAIL_ENDINGS = ["gmail.com", "hotmail.com", "yahoo.com"]
+  PERSONAL_EMAIL_ENDINGS = ["gmail.com", "hotmail.com", "yahoo.com", "gmx.at", "yahoo.de"]
 
   serialize :preferences
 
