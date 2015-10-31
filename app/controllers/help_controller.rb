@@ -23,7 +23,9 @@ class HelpController < ApplicationController
     @selected_left_navi_link = "pool_tool"
   end
 
+
   private
+
     def how_to_use_content?
       Maybe(@community_customization).map { |customization| !customization.how_to_use_page_content.nil? }
     end

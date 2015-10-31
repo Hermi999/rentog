@@ -115,51 +115,8 @@ class PoolToolController < ApplicationController
       end
     end
 
-
     # Variables which should be send to JavaScript
-    days =    [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday]
-    months =  [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
-
-    gon.push({
-      only_pool_tool: @current_community.only_pool_tool,
-      devices: devices,
-      open_listings: open_listings_array,
-      locale: I18n.locale,
-      days: days,
-      months: months,
-      translated_days: days.map { |day_symbol| t("datepicker.days.#{day_symbol}") },
-      translated_days_short: days.map { |day_symbol| t("datepicker.days_short.#{day_symbol}") },
-      translated_days_min: days.map { |day_symbol| t("datepicker.days_min.#{day_symbol}") },
-      translated_months: months.map { |day_symbol| t("datepicker.months.#{day_symbol}") },
-      translated_months_short: months.map { |day_symbol| t("datepicker.months_short.#{day_symbol}") },
-      today: t("datepicker.today"),
-      week_start: t("datepicker.week_start", default: 0),
-      clear: t("datepicker.clear"),
-      format: t("datepicker.format"),
-
-      add_booking: t("pool_tool.add_booking"),
-      cancel_booking: t("pool_tool.cancel_booking"),
-      device_name: t("pool_tool.device_name"),
-      comment: t("pool_tool.comment"),
-      choose_employee_or_renter_msg: t("pool_tool.show.choose_employee_or_renter"),
-      deleteConfirmation: t("pool_tool.deleteConfirmation"),
-
-      comp_id: @company_owner.id,
-      current_user_id: @current_user.id,
-      is_admin: @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community),
-
-      utilization_header: t("pool_tool.load_popover.utilization_header"),
-      utilization_desc_1: t("pool_tool.load_popover.utilization_desc_1"),
-      utilization_desc_2: t("pool_tool.load_popover.utilization_desc_2"),
-      utilization_text: t("pool_tool.load_popover.utilization_text"),
-      utilization_created_at: t("pool_tool.load_popover.utilization_created_at"),
-      availability_desc_header_trusted: "Trusted",
-      availability_desc_header_intern: "Intern",
-      availability_desc_header_all: "All",
-      availability_desc_text_trusted: "This listing is marked as trusted. So only trusted companies and company employees can book it.",
-      availability_desc_text_intern: "This listing is marked as intern. So only company employees can book it.",
-      availability_desc_text_all: "This listing can be booked by all registered companies and the company employees.",
-    })
+    poolTool_gon_vars(devices, open_listings_array)
 
     render locals: { listings: listings }
   end
@@ -223,5 +180,53 @@ class PoolToolController < ApplicationController
         end
 
         { renter: renter, relation: relation }
+    end
+
+
+    def poolTool_gon_vars(devices, open_listings_array)
+      # Variables which should be send to JavaScript
+      days =    [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday]
+      months =  [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
+
+      gon.push({
+        only_pool_tool: @current_community.only_pool_tool,
+        devices: devices,
+        open_listings: open_listings_array,
+        locale: I18n.locale,
+        days: days,
+        months: months,
+        translated_days: days.map { |day_symbol| t("datepicker.days.#{day_symbol}") },
+        translated_days_short: days.map { |day_symbol| t("datepicker.days_short.#{day_symbol}") },
+        translated_days_min: days.map { |day_symbol| t("datepicker.days_min.#{day_symbol}") },
+        translated_months: months.map { |day_symbol| t("datepicker.months.#{day_symbol}") },
+        translated_months_short: months.map { |day_symbol| t("datepicker.months_short.#{day_symbol}") },
+        today: t("datepicker.today"),
+        week_start: t("datepicker.week_start", default: 0),
+        clear: t("datepicker.clear"),
+        format: t("datepicker.format"),
+
+        add_booking: t("pool_tool.add_booking"),
+        cancel_booking: t("pool_tool.cancel_booking"),
+        device_name: t("pool_tool.device_name"),
+        comment: t("pool_tool.comment"),
+        choose_employee_or_renter_msg: t("pool_tool.show.choose_employee_or_renter"),
+        deleteConfirmation: t("pool_tool.deleteConfirmation"),
+
+        comp_id: @company_owner.id,
+        current_user_id: @current_user.id,
+        is_admin: @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community),
+
+        utilization_header: t("pool_tool.load_popover.utilization_header"),
+        utilization_desc_1: t("pool_tool.load_popover.utilization_desc_1"),
+        utilization_desc_2: t("pool_tool.load_popover.utilization_desc_2"),
+        utilization_text: t("pool_tool.load_popover.utilization_text"),
+        utilization_created_at: t("pool_tool.load_popover.utilization_created_at"),
+        availability_desc_header_trusted: "Trusted",
+        availability_desc_header_intern: "Intern",
+        availability_desc_header_all: "All",
+        availability_desc_text_trusted: "This listing is marked as trusted. So only trusted companies and company employees can book it.",
+        availability_desc_text_intern: "This listing is marked as intern. So only company employees can book it.",
+        availability_desc_text_all: "This listing can be booked by all registered companies and the company employees.",
+      })
     end
 end
