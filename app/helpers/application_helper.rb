@@ -646,12 +646,13 @@ module ApplicationHelper
         :path => edit_look_and_feel_admin_community_path(@current_community),
         :name => "tribe_look_and_feel"
       },
-      {
-        :text => t("admin.communities.menu_links.menu_links"),
-        :icon_class => icon_class("link"),
-        :path => menu_links_admin_community_path(@current_community),
-        :name => "menu_links"
-      },
+      # wah: Changed Sharetribe menu --> Please add menu link via programming
+      # {
+      #   :text => t("admin.communities.menu_links.menu_links"),
+      #   :icon_class => icon_class("link"),
+      #   :path => menu_links_admin_community_path(@current_community),
+      #   :name => "menu_links"
+      # },
       {
         :text => t("admin.categories.index.listing_categories"),
         :icon_class => icon_class("list"),

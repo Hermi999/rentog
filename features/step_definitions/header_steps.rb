@@ -31,7 +31,11 @@ When(/^I click the community logo$/) do
 end
 
 When(/^I open language menu$/) do
-  find("#header-locales-menu").click
+  if first("#header-locales-menu") != nil
+    find("#header-locales-menu").click
+  elsif first("#footer-locales-menu") != nil
+    find("#footer-locales-menu").click
+  end
 end
 
 Then(/^I should (not see|see) "(.*)" on the menu$/) do |action, language|
@@ -41,28 +45,41 @@ Then(/^I should (not see|see) "(.*)" on the menu$/) do |action, language|
 end
 
 Then(/^I should see "(.*)" on the language menu$/) do |language|
+  if first("#header-locales-toggle-menu").nil?
+    lang_menu = "#footer-locales-toggle-menu"
+  else
+    lang_menu = "#header-locales-toggle-menu"
+  end
+
   steps %Q{
-    Then I should see "#{language}" within "#header-locales-toggle-menu"
+    Then I should see "#{language}" within "#{lang_menu}"
   }
 end
 
 When(/^I select "(.*)" from the language menu$/) do |language|
+  if first("#header-locales-toggle-menu").nil?
+    lang_menu = "#footer-locales-toggle-menu"
+  else
+    lang_menu = "#header-locales-toggle-menu"
+  end
+
   steps %Q{
-    When I follow "#{language}" within "#header-locales-toggle-menu"
+    When I follow "#{language}" within "#{lang_menu}"
   }
 end
 
-When(/^I open the menu$/) do
-  find("#header-menu-desktop-anchor").click
-end
+# wah: Removed "normal" menu. Only "user menu" is left
+#When(/^I open the menu$/) do
+#  find("#header-menu-desktop-anchor").click
+#end
 
 When(/^I open user menu$/) do
   find("#header-user-desktop-anchor").click
 end
 
-When(/^I follow "(.*)" within the menu$/) do |label|
+When(/^I follow "(.*)" within the user menu$/) do |label|
   steps %Q{
-    When I follow "#{label}" within "#header-menu-toggle-menu"
+    When I follow "#{label}" within "#header-user-toggle-menu"
   }
 end
 
@@ -95,8 +112,8 @@ end
 
 When(/^I navigate to invitations page$/) do
   steps %Q{
-    When I open the menu
-    And I follow "Invite" within the menu
+    When I open user menu
+    And I follow "Invite new members" within the user menu
   }
 end
 

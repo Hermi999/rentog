@@ -102,7 +102,8 @@ $elementSpacing: lines(0.5);
 }
 
 @mixin footer-toggle-menu {
-  min-width: em(200);
+  //min-width: em(200);
+  max-width: $default-page-width;
   position: absolute;
   margin-bottom: 0px;
 
@@ -114,6 +115,12 @@ $elementSpacing: lines(0.5);
 
 .footer-toggle-menu-language {
   @include footer-toggle-menu;
+}
+
+.footer-locale{
+  min-width: em(200);
+  float:left;
+  border-right: 1px solid white;
 }
 
 .col-3.footer-section{
