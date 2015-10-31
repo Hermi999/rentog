@@ -4,8 +4,8 @@ class PoolToolController < ApplicationController
   before_filter :ensure_is_authorized_to_change, :only => [:create]
 
   def show
-    # @person is the person which owns the company
-    @person = Person.find(params[:person_id] || params[:id])
+    # @company_owner is the person which owns the company
+    @company_owner = Person.find(params[:person_id] || params[:id])
 
     # Get transactions (joined with listings and bookings) from database, ordered by listings.id
     transactions = Transaction.joins(:listing, :booking, :starter).select(" transactions.id as transaction_id,
@@ -21,20 +21,20 @@ class PoolToolController < ApplicationController
                                                                             people.family_name as renter_family_name,
                                                                             people.username as renting_entity_username,
                                                                             people.organization_name as renting_entity_organame,
-                                                                            people.id as person_id")
+                                                                            people.id as renter_id")
                                                                   .where("  listings.author_id = ? AND
                                                                             transactions.community_id = ? AND
                                                                             listings.open = '1' AND
                                                                             (listings.valid_until IS NULL OR valid_until > ?)",
-                                                                            @person.id, @current_community.id, DateTime.now)
+                                                                            @company_owner.id, @current_community.id, DateTime.now)
                                                                   .order("  listings.id asc")
     # Convert ActiveRecord Relation into array of hashes
     transaction_array = transactions.as_json
 
     # Get all open Listings of the current user
-    # @open_listings = Listing.currently_open.where("listings.author_id" => @person)
+    # @open_listings = Listing.currently_open.where("listings.author_id" => @company_owner)
     search = {
-      author_id: @person.id,
+      author_id: @company_owner.id,
       include_closed: false,
       page: 1,
       per_page: 200
@@ -91,10 +91,11 @@ class PoolToolController < ApplicationController
           'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
           'label' => renting_entity,
           'customClass' =>  "gantt_" + renter[:relation],
-          'transaction_id' => transaction['transaction_id']
+          'transaction_id' => transaction['transaction_id'],
+          'renter_id' => transaction['renter_id']
         }]
         # Remove unused keys from hash
-        transaction.except!('title', 'start_on', 'end_on', 'renting_entity_username', 'renting_entity_organame', 'transaction_id', 'renter_family_name', 'renter_given_name')
+        transaction.except!('title', 'start_on', 'end_on', 'renting_entity_username', 'renting_entity_organame', 'transaction_id', 'renter_family_name', 'renter_given_name', 'renter_id')
 
         prev_listing_id = transaction['listing_id']
         act_transaction = transaction
@@ -107,7 +108,8 @@ class PoolToolController < ApplicationController
           'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
           'label' => renting_entity,
           'customClass' => "gantt_" + renter[:relation],
-          'transaction_id' => transaction['transaction_id']
+          'transaction_id' => transaction['transaction_id'],
+          'renter_id' => transaction['renter_id']
         }
         devices[counter]['values'] << newTrans
       end
@@ -142,8 +144,9 @@ class PoolToolController < ApplicationController
       choose_employee_or_renter_msg: t("pool_tool.show.choose_employee_or_renter"),
       deleteConfirmation: t("pool_tool.deleteConfirmation"),
 
-      comp_id: @person.id,
-      is_admin: @current_user.is_company_admin_of?(@person) || @current_user.has_admin_rights_in?(@current_community),
+      comp_id: @company_owner.id,
+      current_user_id: @current_user.id,
+      is_admin: @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community),
 
       utilization_header: t("pool_tool.load_popover.utilization_header"),
       utilization_desc_1: t("pool_tool.load_popover.utilization_desc_1"),
@@ -196,13 +199,13 @@ class PoolToolController < ApplicationController
 
     def get_renter_and_relation(transaction)
       # How is the relation between the company & the renter of this one listing?
-        renter = Person.where(id: transaction["person_id"]).first
+        renter = Person.where(id: transaction["renter_id"]).first
         if renter.is_organization
           # Company is renting listing
-          if @person.follows?(renter)
+          if @company_owner.follows?(renter)
             # Other company is trusted by the company
             relation = "trustedCompany"
-          elsif renter == @person
+          elsif renter == @company_owner
             relation = "otherReason"
           else
             # Other company is not trusted by the company
@@ -210,7 +213,7 @@ class PoolToolController < ApplicationController
           end
         else
           # Any Employee is renting listing
-          if renter.is_employee_of?(@person.id)
+          if renter.is_employee_of?(@company_owner.id)
             # Own employee is renting listing
             relation = "ownEmployee"
           else

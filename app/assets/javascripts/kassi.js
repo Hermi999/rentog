@@ -902,7 +902,8 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
               from: "/Date(" + from + ")/",
               to: "/Date(" + to + ")/",
               label: data.empl_or_reason,
-              transaction_id: data.transaction_id
+              transaction_id: data.transaction_id,
+              renter_id: data.renter_id
             });
 
             // Add new booking dates to already booked dates

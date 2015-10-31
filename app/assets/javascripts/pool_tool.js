@@ -241,9 +241,9 @@ window.ST.poolTool = function() {
 
         // Open Popover
         $('#modifyBookingLink').click();
-        // Employee
-        if (gon.is_admin === false){
-          // Remove buttons if user is not company admin or rentog admin
+        // Employee - Remove buttons if user is not company admin or rentog admin
+        // and this is not a booking of the user
+        if (gon.is_admin === false && info.booking.renter_id !== gon.current_user_id){
           $('#btn_update').css('display', 'none');
           $('#btn_delete').css('display', 'none');
 
@@ -253,13 +253,17 @@ window.ST.poolTool = function() {
           $('#end-on2').datepicker('setDate', e);
 
           // Remove datepicker if employee is showing booking
-          $('#datepicker2').datepicker('remove');
+          //$('#datepicker2').datepicker('remove');
 
           // Disable datepickers
           $('#start-on2').prop('disabled', true);
           $('#end-on2').prop('disabled', true);
         }
         else{
+          $('#btn_update').css('display', 'block');
+          $('#btn_delete').css('display', 'block');
+          $('#start-on2').prop('disabled', false);
+          $('#end-on2').prop('disabled', false);
         // Company admin
         // Re-initialize Datepickers with booked dates
           for(var y=0; y<source.length; y++){

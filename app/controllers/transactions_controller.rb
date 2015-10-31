@@ -222,6 +222,14 @@ class TransactionsController < ApplicationController
       empl_or_reason = params[:renter]
     end
 
+    # Starter is either the employee or the current user (= company)
+    starter_id =
+      if employee
+        employee.id
+      else
+        @current_user.id
+      end
+
     # If current user is employee, only allow him to make transactions for
     # himself
     unless @current_user.is_organization
@@ -254,13 +262,6 @@ class TransactionsController < ApplicationController
 
         quantity = Maybe(booking_fields).map { |b| DateUtils.duration_days(b[:start_on], b[:end_on]) }.or_else(form[:quantity])
 
-        # Starter is either the employee or the current user (= company)
-        starter_id =
-          if employee
-            employee.id
-          else
-            @current_user.id
-          end
         TransactionService::Transaction.create(
           {
             transaction: {
@@ -287,7 +288,8 @@ class TransactionsController < ApplicationController
         start_on: params[:start_on],
         end_on: params[:end_on],
         listing_id: params[:listing_id],
-        transaction_id: Transaction.last.id
+        transaction_id: Transaction.last.id,
+        renter_id: starter_id
       } and return
 
 

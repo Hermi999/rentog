@@ -21,7 +21,7 @@
           %li#create_new_listing
             = t('pool_tool.show.createListingHere', :listing_path => new_listing_path).html_safe
           %li#reopen_listing
-            = t('pool_tool.show.reopen_listing', :person_path => person_path(@person)).html_safe
+            = t('pool_tool.show.reopen_listing', :person_path => person_path(@company_owner)).html_safe
 
 
 / Show 'colorbox' modal/popover if user clicked in gantt chart on a booking
@@ -86,7 +86,7 @@
     .poolTool_theme#theme_red
 
   .col-3#addNewBookingWrapper
-    / - if @current_user.is_company_admin_of?(@person) || @current_user.has_admin_rights_in?(@current_community)
+    / - if @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community)
     %button#addNewBooking.primary-button
       = t('pool_tool.show.addNewBooking')
 
@@ -98,11 +98,11 @@
         %input{:type => 'hidden', :name => 'poolTool', :value => 'true'}
         %input{:type => 'hidden', :name => 'message', :value => t('pool_tool.show.booked_with_poolTool')}
 
-        - if @current_user.is_company_admin_of?(@person) || @current_user.has_admin_rights_in?(@current_community)
+        - if @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community)
           .row
             #employee_wrapper.col-5
               = label_tag :employees, t('pool_tool.show.choose_employee')
-              = collection_select :employee, :username, @person.employees, :username, :full_name, {:prompt => t('pool_tool.show.please_select')}, {id: "dd_employee"}
+              = collection_select :employee, :username, @company_owner.employees, :username, :full_name, {:prompt => t('pool_tool.show.please_select')}, {id: "dd_employee"}
 
             #poolTool_or.col-1
               = t('pool_tool.show.or')
