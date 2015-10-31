@@ -56,8 +56,9 @@ describe I18nHelper do
     it "uses user locale if available" do
       expect_locale(
         user_locale: "es",
+        http_locale: "de",
         param_locale: "en",
-        community_locales: ["fr", "en", "es"],
+        community_locales: ["fr", "en", "es", "de"],
         community_default: "fr",
         all_locales: all_locales
       ).to eq("es")
@@ -66,8 +67,9 @@ describe I18nHelper do
     it "otherwise uses user locale fallback if available" do
       expect_locale(
         user_locale: "es",
+        http_locale: "de",
         param_locale: "en",
-        community_locales: ["fr", "en", "es-ES"],
+        community_locales: ["fr", "en", "es-ES", "de"],
         community_default: "fr",
         all_locales: all_locales
       ).to eq("es-ES")
@@ -76,8 +78,9 @@ describe I18nHelper do
     it "otherwise uses param locale if available" do
       expect_locale(
         user_locale: "en",
+        http_locale: "de",
         param_locale: "es",
-        community_locales: ["fr", "es"],
+        community_locales: ["fr", "es", "de"],
         community_default: "fr",
         all_locales: all_locales
       ).to eq("es")
@@ -86,16 +89,29 @@ describe I18nHelper do
     it "otherwise uses param locale fallback if available" do
       expect_locale(
         user_locale: "en",
+        http_locale: "de",
         param_locale: "es",
-        community_locales: ["fr", "es-ES"],
+        community_locales: ["fr", "es-ES", "de"],
         community_default: "fr",
         all_locales: all_locales
       ).to eq("es-ES")
     end
 
+    it "otherwise uses http request header locale" do
+      expect_locale(
+        user_locale: "en",
+        http_locale: "de",
+        param_locale: "fi",
+        community_locales: ["fr", "es-ES", "de"],
+        community_default: "fr",
+        all_locales: all_locales
+      ).to eq("de")
+    end
+
     it "otherwise uses community default" do
       expect_locale(
         user_locale: "en",
+        http_locale: "de",
         param_locale: "fi",
         community_locales: ["fr", "es-ES"],
         community_default: "fr",

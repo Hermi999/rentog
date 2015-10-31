@@ -5,7 +5,7 @@ describe LandingPageController do
   describe "GET 'index'" do
     it "returns http success" do
       get 'index'
-      response.should be_success
+      response.should be_redirect
     end
   end
 

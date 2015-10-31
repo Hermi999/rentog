@@ -58,7 +58,11 @@ class ApplicationController < ActionController::Base
     user_locale = Maybe(@current_user).locale.or_else(nil)
 
     # Get locale based on the "Accept-Language HTTP Header"
-    http_locale = request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
+    if request.env['HTTP_ACCEPT_LANGUAGE']
+      http_locale = request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
+    else
+      http_locale = "en"
+    end
 
     # We should fix this -- START
     #

@@ -84,7 +84,8 @@ describe TransactionsController do
           "start_on" => "2015-01-01",
           "end_on" => "2015-01-05",
           "listing_id" => @listing_all.id.to_s,
-          "transaction_id" => last_trans.id
+          "transaction_id" => last_trans.id,
+          "renter_id" => @employee.id
           }
       end
 
@@ -124,7 +125,8 @@ describe TransactionsController do
           "start_on" => "2015-01-01",
           "end_on" => "2015-01-05",
           "listing_id" => @listing_all.id.to_s,
-          "transaction_id" => last_trans.id
+          "transaction_id" => last_trans.id,
+          "renter_id" => @employee.id
           }
       end
 
@@ -163,7 +165,8 @@ describe TransactionsController do
           "start_on" => "2015-01-01",
           "end_on" => "2015-01-05",
           "listing_id" => @listing_all.id.to_s,
-          "transaction_id" => last_trans.id
+          "transaction_id" => last_trans.id,
+          "renter_id" => @company.id
           }
       end
 
