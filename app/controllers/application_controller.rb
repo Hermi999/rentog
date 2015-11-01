@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
     :set_default_url_for_mailer,
     :fetch_chargebee_plan_data,
     :fetch_community_admin_status,
-  # :fetch_community_plan_expiration_status,
+    :fetch_community_plan_expiration_status,
     :warn_about_missing_payment_info,
     :set_homepage_path,
     :report_queue_size
