@@ -46,7 +46,7 @@ Feature: User interacts with Pool Tool
       And I click on element "div.fluid-thumbnail-grid-image-title" with text "Listing2" and within ".home-fluid-thumbnail-grid"
       And I fill rent time for 4 days
       And I press "Create"
-     Then I should not see "Create"
+     Then I should not see "Create" within ".page-content"
       And I should see "Testperson3 Kassi" within ".poolTool_gantt_container"
       And there should be a booking with starter "employee_testperson1" in the Db
     #done
@@ -63,7 +63,7 @@ Feature: User interacts with Pool Tool
       And I click on element "div.fluid-thumbnail-grid-image-title" with text "Listing2" and within ".home-fluid-thumbnail-grid"
       And I fill rent time for 4 days
       And I press "Create"
-     Then I should not see "Create"
+     Then I should not see "Create" within ".page-content"
       And I should see "Wartung" within ".poolTool_gantt_container"
       And there should be a booking with starter "kassi_testperson1" and reason "Wartung" in the Db
     #done
@@ -77,7 +77,7 @@ Feature: User interacts with Pool Tool
       And I should see element "#addNewBookingForm"
      When I press "Cancel"
      Then I should see "Add new booking"
-      And I should not see "Create"
+      And I should not see "Create" within ".page-content"
       And I should not see element "#addNewBookingForm"
     #done
 
@@ -93,7 +93,7 @@ Feature: User interacts with Pool Tool
      Then I should see enabled element "#tf_device_renter"
      When I select "Kassi Testperson3" from "dd_employee"
      Then I should see disabled element "#tf_device_renter"
-     When I select "Please select..." from "dd_employee"
+     When I select "Please choose..." from "dd_employee"
      Then I should see enabled element "#tf_device_renter"
      Then I should see enabled element "#dd_employee"
     #done
@@ -119,7 +119,7 @@ Feature: User interacts with Pool Tool
       And I press "Create"
      Then I should see 2 validation errors
 
-     When I select "Please select..." from "dd_employee"
+     When I select "Please choose..." from "dd_employee"
       And I press "Create"
      Then I should see 4 validation errors
 

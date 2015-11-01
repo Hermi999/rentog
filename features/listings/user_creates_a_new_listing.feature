@@ -165,6 +165,7 @@ Feature: User creates a new listing
     And I select "Selling" from listing type menu
     And I fill in "listing_title" with "My house"
     And I fill in text field "Details" with "Test details"
+    And I select "All other companies and your employees" from "listing_availability"
     And I press "Save listing"
     And the Listing indexes are processed
     When I go to the home page
@@ -238,6 +239,7 @@ Scenario: Company creates a new listing with date field
     Then I should not see "Privacy*"
     And I fill in "listing_title" with "Sledgehammer"
     And I fill in "listing_description" with "My description"
+    And I select "All other companies and your employees" from "listing_availability"
     And I press "Save listing"
     Then I should see "Sledgehammer" within "#listing-title"
     When I go to the home page

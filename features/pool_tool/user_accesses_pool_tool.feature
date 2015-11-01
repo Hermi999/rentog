@@ -20,8 +20,7 @@ Feature: User tries to access the pool tool
     When I follow "Pool Tool"
     Then I should see "Pool Management Tool"
     And I should see "Add new booking"
-    And I should see "Post a new listing" within ".page-content"
-    And I should see "Edit your existing devices"
+    And I should see "Post a new listing"
     And I should see "Listing1"
     And I should see "Listing2"
 
@@ -52,8 +51,7 @@ Feature: User tries to access the pool tool
     When I go to the pool tool page of "kassi_testperson1"
     Then I should see "Pool Management Tool"
     And I should see "Add new booking"
-    And I should see "Edit your existing devices"
-    And I should see "Post a new listing" within ".page-content"
+    And I should see "Post a new listing"
     And I should see "Listing1"
     And I should see "Listing2"
 

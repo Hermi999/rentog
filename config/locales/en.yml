@@ -2290,7 +2290,7 @@ en:
     next_month: "Next Month"
     date: "Date:"
     headline: "Pool Management Tool"
-    add_booking: "Add new Booking"
+    add_booking: "Add new booking"
     cancel_booking: "Cancel"
     event_hint: "You can add reservations for your measurment devices here."
     device_name: "Choose one of your devices"
