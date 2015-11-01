@@ -659,10 +659,35 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
   var form_width = $('.signup-form').width();
   var page_width = $('.page-content').width();
 
-  $('.marketplace-title-header').webuiPopover({content: gon.main_description, animation: 'pop', closeable: true, trigger:'manual', dismissible: false, width: form_width});
-  $('.marketplace-title-header').webuiPopover('show');
-  $('#webuiPopover0').addClass('signup_helper_0');
+  // Only show "signup as employee of a company" if an invitation has been made
+  if (gon.invitation){
+    $('#signup_employee').hide();
+    $('#signup_company').hide();
+    $('#person_signup_as').val('employee');
+    $('#create_new_account').html(gon.btn_create_employee);
+    $('.fb_signup').show();
 
+    $('#person_email').val(gon.employee_email);
+    $('#person_email').prop('disabled', true);
+
+    $('#person_organization_name').show();
+    $('#organization_name_label').show();
+    $('#person_organization_name').val(gon.organization_name);
+    $('#person_organization_name').prop('disabled', true);
+
+    $('#organization_email_label').hide();
+    $('#person_organization_email').hide();
+  }
+  else{
+    $('#signup_employee').show();
+
+    // Add main popover
+    $('.marketplace-title-header').webuiPopover({content: gon.main_description, animation: 'pop', closeable: true, trigger:'manual', dismissible: false, width: form_width});
+    $('.marketplace-title-header').webuiPopover('show');
+    $('#webuiPopover0').addClass('signup_helper_0');
+  }
+
+  // Add other popovers
   if (page_width > 1024){
     $('#person_email').webuiPopover({content:gon.person_email, animation:'fade', placement:'right', trigger:'manual'});
     $('#person_organization_name').webuiPopover({content:gon.person_organization_name, animation:'fade', placement:'right', trigger:'manual'});

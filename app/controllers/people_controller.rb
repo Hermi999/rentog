@@ -74,6 +74,29 @@ class PeopleController < Devise::RegistrationsController
   end
 
   def new
+    # Check if signup link is an invitation from a company admin
+    company_inviter = false
+    if params[:code].present? && params[:ref].present? && params[:ref] == "email"
+      if Invitation.code_usable?(params[:code], @current_community)
+        invitation = Invitation.find_by_code(params[:code].upcase)
+        if invitation.present?
+          invited_email = invitation.email
+          inviter = Person.where(id: invitation.inviter_id).first
+          if invitation.target == "employee"
+            company_invitation = true
+            if inviter.is_organization?
+              inviter_name = inviter.organization_name
+            else
+              inviter_name = inviter.company.organization_name
+            end
+          end
+        end
+      else
+        flash[:error] = "Invitation code invalid"
+        redirect_to sign_up_path and return
+      end
+    end
+
     # define javascript variables with values from backend
     gon.push({
       btn_create_company: t("people.new.create_new_account"),
@@ -83,7 +106,10 @@ class PeopleController < Devise::RegistrationsController
       person_organization_name: t("people.new.help_texts.person_organization_name"),
       person_organization_email: t("people.new.help_texts.person_organization_email"),
       person_password1: t("people.new.help_texts.person_password1"),
-      signup_employee: t("people.new.help_texts.signup_employee")
+      signup_employee: t("people.new.help_texts.signup_employee"),
+      invitation: company_invitation,
+      organization_name: inviter_name,
+      employee_email: invited_email
     });
 
     @selected_tribe_navi_tab = "members"
@@ -116,7 +142,6 @@ class PeopleController < Devise::RegistrationsController
     # How does the user wants to signup (if not specified or data is missing, then show an error
     if(signup_as = params[:person][:signup_as]).nil? ||
       params[:person][:signup_as] == "organization" && (params[:person][:organization_name]).nil? ||
-      #params[:person][:signup_as] == "employee" && (params[:person][:organization_name2]).nil?
       params[:person][:signup_as] == "employee" && (params[:person][:organization_email]).nil?
         flash[:error] = t("people.new.invalid_form_data")
         redirect_to error_redirect_path and return
@@ -135,8 +160,26 @@ class PeopleController < Devise::RegistrationsController
         redirect_to error_redirect_path and return
       else
         invitation = Invitation.find_by_code(params[:invitation_code].upcase)
+
+        # If employee-invitation from a company admin
+        inviter = Person.where(id: invitation.inviter_id).first
+
+        if inviter.nil?
+          flash[:error] = "Something went wrong with your invitation"
+          redirect_to error_redirect_path and return
+        end
+
+        # If invitation is for company employee, ...
+        if invitation.target == "employee"
+          invited_email = invitation.email
+        else
+          inviter = nil
+        end
       end
     end
+
+    # Get correct email if company invited employee
+    params[:person][:email] = params[:person][:email] || invited_email
 
     # Check that email is not taken
     unless Email.email_available?(params[:person][:email])
@@ -161,8 +204,8 @@ class PeopleController < Devise::RegistrationsController
     # If an employee should be created
     elsif signup_as == "employee"
       # Check that the given organization is available if a new employee should be registered
-      #if Person.organization_name_available?(params[:person][:organization_name2])
-      comp = Person.organization_email_available?(params[:person][:organization_email])
+      # If employee got an invitation, then the company is the inviter
+      comp = inviter || Person.organization_email_available?(params[:person][:organization_email])
       if comp.nil?
         flash[:error] = t("people.new.organization_doesnt_exists")
         redirect_to error_redirect_path and return
@@ -173,8 +216,7 @@ class PeopleController < Devise::RegistrationsController
 
     # Create username
     if !params[:person][:username].present?
-      if params[:person][:organization_name] == ""
-        #params[:person][:username] = "em_" + params[:person][:organization_name2].truncate(4, omission: '') + "_" + (params[:person][:given_name]).truncate(3, omission: '') + "_" + (params[:person][:family_name]).truncate(3, omission: '') + "_" + rand(0..9999).to_s
+      if signup_as == "employee"
         params[:person][:username] = "em_" + params[:person][:organization_name].truncate(4, omission: '') + "_" + (params[:person][:given_name]).truncate(3, omission: '') + "_" + (params[:person][:family_name]).truncate(3, omission: '') + "_" + rand(0..9999).to_s
       else
         params[:person][:username] = "co_" + params[:person][:organization_name].truncate(11, omission: '') + "_" + rand(0..9999).to_s
@@ -217,11 +259,20 @@ class PeopleController < Devise::RegistrationsController
       redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation"
     end
 
-    # If employee, send message & email to company for confirming new employee
+    # If employee ...
     if signup_as == "employee"
-      Conversation.manuallyCreateConversation(@current_community, @person.company, @person, t('people.new.message_to_company_owner',:name => @person.full_name, :email => @person.emails.first.address, :profile => person_url(@person.company)))
-      PersonMailer.new_employee_notification(@person, @person.company, @current_community, @person.emails.first.address)
+      # ... and not invited, then send message & email to company for confirming new employee
+      if invitation.nil? || invitation.target != "employee"
+        Conversation.manuallyCreateConversation(@current_community, @person.company, @person, t('people.new.message_to_company_owner',:name => @person.full_name, :email => @person.emails.first.address, :profile => person_url(@person.company)))
+        PersonMailer.new_employee_notification(@person, @person.company, @current_community, @person.emails.first.address)
+
+      # ... and invited by company admin, then no need for verification by company admin
+      else
+        @person.employer.update_attribute(:active, true)
+      end
     end
+
+
   end
 
   def build_devise_resource_from_person(person)
@@ -465,9 +516,7 @@ class PeopleController < Devise::RegistrationsController
       person.is_organization = true
     elsif params[:person][:signup_as] == "employee"
       person.is_organization = false
-      # Also set up a relationship to the given company per email
-      #person.company = Person.find_by_organization_name(params[:person][:organization_name2])
-      person.company = Person.find_by_email(params[:person][:organization_email])
+      person.company = Person.find_by_organization_name(params[:person][:organization_name])
     end
 
     if person.save!

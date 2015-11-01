@@ -20,4 +20,9 @@
     = f.text_area :message, :class => "invitation_message_text", :placeholder => t("homepage.invitation_form.invitation_message_field_placeholder")
     = f.hidden_field :community_id, :value => @current_community.id.to_s
     = f.hidden_field :inviter_id, :value => @current_user.id
+    = f.radio_button :target, 'employee'
+    = f.label :target_employee, 'Add a new employee to your companies profile', :id => "target_employee_label"
+    %br
+    = f.radio_button :target, 'any', :checked => true
+    = label :target_anyone, 'Invite another company to join Rentog', :id => "target_any_label"
     = f.button t("homepage.invitation_form.send_invitation")

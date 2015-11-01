@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151022183133) do
+ActiveRecord::Schema.define(:version => 20151101214714) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -483,6 +483,7 @@ ActiveRecord::Schema.define(:version => 20151022183133) do
     t.string   "inviter_id"
     t.text     "message"
     t.string   "email"
+    t.string   "target",       :default => "employee"
   end
 
   add_index "invitations", ["code"], :name => "index_invitations_on_code"

@@ -13,6 +13,7 @@
 #  inviter_id   :string(255)
 #  message      :text
 #  email        :string(255)
+#  target       :string(255)      default("employee")
 #
 # Indexes
 #
