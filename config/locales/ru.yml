@@ -263,6 +263,7 @@ ru:
         ban_user: "Заблокировать участника"
         saving_user_status: Сохранение...
         save_user_status_successful: Сохранено
+        export_all_as_csv: ~
         save_user_status_error: "Во время сохранения поля произошла ошибка Обновите страницу и попробуйте еще раз."
         ban_user_confirmation: "Это удалит участника из проекта и доступ из этого аккаунта будет не возможен. Вы уверены что хотите продолжить?"
         ban_me_error: "Вы не можете заблокировать сами себя"
@@ -301,6 +302,7 @@ ru:
         url: URL
         empty: "У вас нет дополнительных ссылок меню"
       transactions:
+        export_all_as_csv: ~
         transactions: "Посмотреть транзакции"
         headers:
           conversation: Обсуждение
@@ -395,6 +397,7 @@ ru:
       configure: Конфигурация
       emails_title: Emails
       support: Поддержка
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -953,7 +956,6 @@ ru:
       change_my_password: "Изменить пароль"
       reset_password_instructions: "<p>Вы указали, что вы забыли свой пароль или имя пользователя в  %{service_name}.</p><p>Ваше имя пользователя: %{username}</p><p>Если вам нужно сбросить ваш пароль, нажмите на следующую ссылку: %{password_reset_link}</p><br><p>Если это были не вы,  просто проигнорируйте это сообщение. Ваш пароль не изменится до тех пор, пока вы не перейдёте по ссылке, указанной выше и не создадите новый пароль.</p>"
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Отзывы являются публичными и видны всем пользователям. Основываясь на отзывах, другие пользователи могут сделать вывод о том, стоит ли доверять %{name} и иметь с ним общие дела. Таким образом, оставлять отзывы после событий, это всегда хорошо. Не забывайте делать это сами и просите о том же тех, кто участвовал в вашем событии. Кроме того, положительные отзывы требуются для получения большинства значков."
       remember_to_give_feedback_to: "Напоминание: не забудьте оставить отзыв о %{name}"
       you_have_not_given_feedback_yet: "Вы ещё не оставили отзыв о %{name} после события «%{event}». Не забудьте оставить отзыв о том, как зарекомендовал себя %{given_name} во время этого события."
     transaction_preauthorized:
@@ -1196,6 +1198,8 @@ ru:
       list_button: Список
       all_listing_types: "Все предложения"
       all_categories: "Все категории"
+    errors:
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: "Что такое Sharetribe?"
@@ -1398,6 +1402,8 @@ ru:
     comment:
       wrote: написал
       send_private_message: "Отправить личное сообщение для %{person}"
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: "Оставьте комментарий или запросите более подробную информацию. Ваш комментарий смогут увидеть все остальные пользователи."
       log_in: войти
@@ -1418,6 +1424,8 @@ ru:
       show_in_updates_email_loading: загрузка...
       show_in_updates_email_error: "Не удалось установить связь с сервером. Попробуйте еще раз после перезагрузки страницы."
       show_in_updates_email_success: "Это размещение будет показано в следующей рассылке email отправляемой клиентам"
+    map:
+      open_in_google_maps: ~
     error:
       something_went_wrong: ~
     follow_links:
@@ -1451,17 +1459,22 @@ ru:
         googlemap_updatemap: "Обновить карту"
       images:
         image: Изображение
+        best_result: ~
         no_file_selected: "Файл не выбран"
         remove_image: "Удалить изображение"
         select_file: "Выбрать файл"
+        add_more: ~
         removing: Удаление...
         processing: Обработка...
         loading_image: Загрузка...
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: "(возможно нужно подождать)"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Ошибка загрузки изображения"
         file_too_large: "Файл слишком большой"
         accepted_formats: "Файлы изображений должны быть в формате GIF, JPG или PNG."
+        images_not_uploaded_confirm: ~
       location:
         location: Местоположение
       price:
@@ -1561,6 +1574,7 @@ ru:
       booking_from: От
       booking_to: До
       how_paypal_works: "Как функционирует PayPal"
+      payment_help: ~
     new:
       post_a_new_listing: "Новое предложение"
       listing: список

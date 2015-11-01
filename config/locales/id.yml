@@ -238,6 +238,7 @@ id:
         ban_user: ~
         saving_user_status: ~
         save_user_status_successful: ~
+        export_all_as_csv: ~
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
@@ -276,6 +277,7 @@ id:
         url: ~
         empty: ~
       transactions:
+        export_all_as_csv: ~
         transactions: ~
         headers:
           conversation: ~
@@ -370,6 +372,7 @@ id:
       configure: ~
       emails_title: ~
       support: ~
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -928,7 +931,6 @@ id:
       change_my_password: ~
       reset_password_instructions: ~
     testimonial_reminder:
-      feedback_is_public_and_is_shown: ~
       remember_to_give_feedback_to: "Reminder: Ingat untuk memberikan feedback untuk %{name}"
       you_have_not_given_feedback_yet: "Anda belum memberikan feedback untuk %{name} tentang  '%{event}'. Ingat untuk memberikan feedback bagaimana layanan %{given_name}."
     transaction_preauthorized:
@@ -1171,6 +1173,8 @@ id:
       list_button: Daftar
       all_listing_types: "Semua Jenis"
       all_categories: "Semua Kategori"
+    errors:
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: ~
@@ -1375,6 +1379,8 @@ id:
     comment:
       wrote: ~
       send_private_message: ~
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: ~
       log_in: Login
@@ -1395,6 +1401,8 @@ id:
       show_in_updates_email_loading: ~
       show_in_updates_email_error: ~
       show_in_updates_email_success: ~
+    map:
+      open_in_google_maps: ~
     error:
       something_went_wrong: ~
     follow_links:
@@ -1428,17 +1436,22 @@ id:
         googlemap_updatemap: "Update Map"
       images:
         image: Gambar
+        best_result: ~
         no_file_selected: "Tidak ada file yang dipilih"
         remove_image: "Hapus gambar"
         select_file: "Pilih file"
+        add_more: ~
         removing: ~
         processing: ~
         loading_image: ~
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: ~
         percentage_loaded: ~
         uploading_failed: ~
         file_too_large: ~
         accepted_formats: ~
+        images_not_uploaded_confirm: ~
       location:
         location: Lokasi
       price:

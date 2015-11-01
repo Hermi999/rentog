@@ -248,6 +248,7 @@ tr-TR:
         ban_user: "Kullanıcıyı engelle"
         saving_user_status: Kaydediliyor...
         save_user_status_successful: Kaydedildi
+        export_all_as_csv: ~
         save_user_status_error: "Kayıt başarısız oldu. Sayfayı yenileyin ve tekrar deneyin."
         ban_user_confirmation: "Bu, kullanıcıyı pazar yerinden engeller ve bu hesapla siteye tekrar giriş yapmalarını önler. Devam etmek istediğinizden emin misiniz?"
         ban_me_error: "Kendinizi banlayamazsınız."
@@ -286,6 +287,7 @@ tr-TR:
         url: URL
         empty: "Ek menü bağlantınız bulunmamaktadır"
       transactions:
+        export_all_as_csv: ~
         transactions: "İşlemleri görüntüle"
         headers:
           conversation: "Konuşma başlığı"
@@ -380,6 +382,7 @@ tr-TR:
       configure: Ayarlar
       emails_title: E-postalar
       support: Destek
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -944,7 +947,6 @@ tr-TR:
       change_my_password: "Parolamı değiştir"
       reset_password_instructions: "%{service_name} şifre ya da kullanıcı adınızı unuttuğunuzu belirttiniz. Kullanıcı adınız: %{username} Şifrenizi sıfırlamak istiyorsanız, linke tıklayın: %{password_reset_link} Eğer böyle bir şey talep etmediyseniz, bu e-postayı görmezden gelin. Aşağıdaki linke tıklayıp yeni bir şifre oluşturmadan, geçerli şifreniz değişmeyecektir."
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Geri bildirimler açık olarak yayınlanmakta olup tüm diğer üyeler tarafından görüntülenebilmektedir. Diğer kullanıcılar geri bildirimleri dikkate alarak %{name} kullanıcısının güvenilir ve temasa geçmek isteyecekleri bir kişi olup olmadığına karar verebilirler. Bu nedenle başınıza gelenlerle ilgili geri bildirim vermenin her zaman iyi bir şey olduğunu akılda tutmakta ve karşı taraflara da hatırlatmakta fayda var. Ayrıca başarılı olabilmek için olumlu geri bildirimler almanız çok gerekli."
       remember_to_give_feedback_to: "Hatırlatma: Lütfen %{name} kullanıcına geri bildirim vermeyi unutmayınız"
       you_have_not_given_feedback_yet: "%{name} kullanıcısına %{event} hakkında geri bildirim vermediniz. %{given_name} kullanıcısının bu konuda nasıl bir performans sergilediğine ilişkin geri bildirim vermeyi unutmayınız."
     transaction_preauthorized:
@@ -1187,6 +1189,8 @@ tr-TR:
       list_button: Liste
       all_listing_types: "Tüm listeleme türleri"
       all_categories: "Tüm kategoriler"
+    errors:
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: "Sharetribe nedir?"
@@ -1389,6 +1393,8 @@ tr-TR:
     comment:
       wrote: yazdı
       send_private_message: "%{person} kullanıcısına özel mesaj gönder"
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: "Ayrıntılı bilgi için listelemeye yorum yapın. Diğer tüm kullanıcılar yorumunuzu görebilir."
       log_in: "oturum aç"
@@ -1409,6 +1415,8 @@ tr-TR:
       show_in_updates_email_loading: Yükleniyor...
       show_in_updates_email_error: "Sunucuyla bağlantı kurulamadı. Sayfayı yeniledikten sonra tekrar deneyin."
       show_in_updates_email_success: "Bu listeleme kullanıcılara gönderilecek bir sonraki otomatik güncelleme e-postasında gösterilecek"
+    map:
+      open_in_google_maps: ~
     error:
       something_went_wrong: ~
     follow_links:
@@ -1442,17 +1450,22 @@ tr-TR:
         googlemap_updatemap: "Haritayı Güncelle"
       images:
         image: Görsel
+        best_result: ~
         no_file_selected: "Dosya seçilmedi"
         remove_image: "Görseli kaldır"
         select_file: "Dosya seç"
+        add_more: ~
         removing: Kaldırılıyor...
         processing: İşleniyor...
         loading_image: Yükleniyor...
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: "(bu biraz zaman alabilir)"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Görsel yükleme başarısız oldu"
         file_too_large: "Dosya çok büyük"
         accepted_formats: "Resim dosyası GIF, JPG veya PNG formatında olmalıdır."
+        images_not_uploaded_confirm: ~
       location:
         location: Konum
       price:

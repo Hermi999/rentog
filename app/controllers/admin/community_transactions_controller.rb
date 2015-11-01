@@ -65,7 +65,7 @@ class Admin::CommunityTransactionsController < ApplicationController
           }
         })
       end
-      with_feature(:export_as_csv) do
+      with_feature(:export_transactions_as_csv) do
         format.csv do
           marketplace_name = if @current_community.use_domain
             @current_community.domain
@@ -79,34 +79,32 @@ class Admin::CommunityTransactionsController < ApplicationController
   end
 
   def generate_csv_for(conversations)
-    CSV.generate(headers: true) do |csv|
+    CSV.generate(headers: true, force_quotes: true) do |csv|
       # first line is column names
       csv << %w{
         transaction_id
         listing_id
-        listing_name
+        listing_title
         status
+        currency
         sum
-        commission
         started_at
         last_activity_at
         starter_username
         other_party_username
       }
       conversations.each do |conversation|
-        starter_username = conversation[:starter] ? conversation[:starter][:username] : "DELETED"
-        other_party_username = conversation[:author] ? conversation[:author][:username] : "DELETED"
         csv << [
           conversation[:id],
-          conversation[:listing][:id],
+          conversation[:listing] ? conversation[:listing][:id] : "N/A",
           conversation[:listing_title] || "N/A",
           conversation[:status],
+          conversation[:payment_total].is_a?(Money) ? conversation[:payment_total].currency : "N/A",
           conversation[:payment_total],
-          conversation[:commission_from_seller],
           conversation[:created_at],
           conversation[:last_activity_at],
-          starter_username,
-          other_party_username
+          conversation[:starter] ? conversation[:starter][:username] : "DELETED",
+          conversation[:author] ? conversation[:author][:username] : "DELETED"
         ]
       end
     end

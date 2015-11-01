@@ -14,18 +14,17 @@ class Admin::CommunityMembershipsController < ApplicationController
                                            .paginate(:page => params[:page], :per_page => 50)
                                            .order("#{sort_column} #{sort_direction}")
       end
-      with_feature(:export_as_csv) do
-        format.csv do
-          all_memberships = CommunityMembership.where(:community_id => @community.id)
-                                                .includes(:person => :emails)
-                                                .order("created_at ASC")
-          marketplace_name = if @community.use_domain
-            @community.domain
-          else
-            @community.ident
-          end
-          send_data generate_csv_for(all_memberships), filename: "#{marketplace_name}-users-#{Date.today}.csv"
+      format.csv do
+        all_memberships = CommunityMembership.where(:community_id => @community.id)
+                                              .where("status != 'deleted_user'")
+                                              .includes(:person => :emails)
+                                              .order("created_at ASC")
+        marketplace_name = if @community.use_domain
+          @community.domain
+        else
+          @community.ident
         end
+        send_data generate_csv_for(all_memberships), filename: "#{marketplace_name}-users-#{Date.today}.csv"
       end
     end
   end
@@ -67,7 +66,7 @@ class Admin::CommunityMembershipsController < ApplicationController
   private
 
   def generate_csv_for(memberships)
-    CSV.generate(headers: true) do |csv|
+    CSV.generate(headers: true, force_quotes: true) do |csv|
       # first line is column names
       header_row = %w{
         first_name
@@ -78,7 +77,8 @@ class Admin::CommunityMembershipsController < ApplicationController
         joined_at
         status
         is_admin
-        email_from_admins_allowed
+        accept_emails_from_admin
+        language
       }
       community_requires_verification_to_post =
         memberships.first && memberships.first.community.require_verification_to_post_listings
@@ -94,11 +94,12 @@ class Admin::CommunityMembershipsController < ApplicationController
             membership.created_at,
             membership.status,
             membership.admin,
-            user.preferences["email_from_admins"]
+            user.locale
           ]
           user_data.push(membership.can_post_listings) if community_requires_verification_to_post
           user.emails.each do |email|
-            csv << user_data.clone.insert(3, email.address, !!email.confirmed_at)
+            accept_emails_from_admin = user.preferences["email_from_admins"] && email.send_notifications
+            csv << user_data.clone.insert(3, email.address, !!email.confirmed_at).insert(8, !!accept_emails_from_admin)
           end
         end
       end

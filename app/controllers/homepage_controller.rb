@@ -90,7 +90,7 @@ class HomepageController < ApplicationController
                  testimonials_in_use: @current_community.testimonials_in_use,
                  listing_shape_menu_enabled: listing_shape_menu_enabled }
       }.on_error { |e|
-        flash[:error] = t("layouts.notifications.something_went_wrong")
+        flash[:error] = t("homepage.errors.search_engine_not_responding")
         @listings = Listing.none.paginate(:per_page => 1, :page => 1)
         render status: 500, locals: {
                  shapes: all_shapes,
@@ -157,7 +157,7 @@ class HomepageController < ApplicationController
       keywords: filter_params[:search],
       fields: checkboxes.concat(dropdowns).concat(numbers),
       per_page: listings_per_page,
-      page: params[:page] || 1,
+      page: params[:page].to_i > 0 ? params[:page].to_i : 1,
       availability: ["all", "trusted"],   # wah_new
       availability_not_intern: true       # wah_new
     }

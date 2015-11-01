@@ -279,9 +279,7 @@ class ListingsController < ApplicationController
 
 
   def create
-    if params[:listing][:origin_loc_attributes][:address].empty? || params[:listing][:origin_loc_attributes][:address].blank?
-      params[:listing].delete("origin_loc_attributes")
-    end
+    params[:listing].delete("origin_loc_attributes") if params[:listing][:origin_loc_attributes][:address].blank?
 
     shape = get_shape(Maybe(params)[:listing][:listing_shape_id].to_i.or_else(nil))
 
@@ -314,7 +312,14 @@ class ListingsController < ApplicationController
       if @listing.save
         upsert_field_values!(@listing, params[:custom_fields])
 
-        listing_image_ids = params[:listing_images].collect { |h| h[:id] }.select { |id| id.present? }
+        listing_image_ids =
+          if params[:listing_images]
+            params[:listing_images].collect { |h| h[:id] }.select { |id| id.present? }
+          else
+            logger.error("Listing images array is missing", nil, {params: params})
+            []
+          end
+
         ListingImage.where(id: listing_image_ids, author_id: @current_user.id).update_all(listing_id: @listing.id)
 
         Delayed::Job.enqueue(ListingCreatedJob.new(@listing.id, @current_community.id))
@@ -328,7 +333,7 @@ class ListingsController < ApplicationController
         ).html_safe
         redirect_to @listing, status: 303 and return
       else
-        Rails.logger.error "Errors in creating listing: #{@listing.errors.full_messages.inspect}"
+        logger.error("Errors in creating listing: #{@listing.errors.full_messages.inspect}")
         flash[:error] = t(
           "layouts.notifications.listing_could_not_be_saved",
           :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), new_user_feedback_path, :class => "flash-error-link")
@@ -421,7 +426,7 @@ class ListingsController < ApplicationController
       Delayed::Job.enqueue(ListingUpdatedJob.new(@listing.id, @current_community.id))
       redirect_to @listing
     else
-      Rails.logger.error "Errors in editing listing: #{@listing.errors.full_messages.inspect}"
+      logger.error("Errors in editing listing: #{@listing.errors.full_messages.inspect}")
       flash[:error] = t("layouts.notifications.listing_could_not_be_saved", :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), new_user_feedback_path, :class => "flash-error-link")).html_safe
       redirect_to edit_listing_path(@listing)
     end
@@ -452,7 +457,7 @@ class ListingsController < ApplicationController
       redirect_to homepage_index_path
     else
       flash[:warning] = "An error occured while trying to move the listing to the top of the homepage"
-      Rails.logger.error "An error occured while trying to move the listing (id=#{Maybe(@listing).id.or_else('No id available')}) to the top of the homepage"
+      logger.error("An error occured while trying to move the listing (id=#{Maybe(@listing).id.or_else('No id available')}) to the top of the homepage")
       redirect_to @listing
     end
   end
@@ -464,7 +469,7 @@ class ListingsController < ApplicationController
     if @listing.update_attribute(:updates_email_at, Time.now)
       render :nothing => true, :status => 200
     else
-      Rails.logger.error "An error occured while trying to move the listing (id=#{Maybe(@listing).id.or_else('No id available')}) to the top of the homepage"
+      logger.error("An error occured while trying to move the listing (id=#{Maybe(@listing).id.or_else('No id available')}) to the top of the homepage")
       render :nothing => true, :status => 500
     end
   end
@@ -512,6 +517,8 @@ class ListingsController < ApplicationController
           0
         end
 
+      community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
+
       commission(@current_community, process).merge({
         shape: shape,
         unit_options: unit_options,
@@ -519,7 +526,8 @@ class ListingsController < ApplicationController
         shipping_enabled: @listing.require_shipping_address?,
         pickup_enabled: @listing.pickup_enabled?,
         shipping_price_additional: shipping_price_additional,
-        always_show_additional_shipping_price: shape[:units].length == 1 && shape[:units].first[:kind] == :quantity
+        always_show_additional_shipping_price: shape[:units].length == 1 && shape[:units].first[:kind] == :quantity,
+        paypal_fees_url: PaypalHelper.fee_link(community_country_code)
       })
     else
       nil

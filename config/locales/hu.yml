@@ -238,6 +238,7 @@ hu:
         ban_user: ~
         saving_user_status: ~
         save_user_status_successful: ~
+        export_all_as_csv: ~
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
@@ -276,6 +277,7 @@ hu:
         url: ~
         empty: ~
       transactions:
+        export_all_as_csv: ~
         transactions: ~
         headers:
           conversation: ~
@@ -370,6 +372,7 @@ hu:
       configure: ~
       emails_title: ~
       support: ~
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -928,7 +931,6 @@ hu:
       change_my_password: ~
       reset_password_instructions: ~
     testimonial_reminder:
-      feedback_is_public_and_is_shown: ~
       remember_to_give_feedback_to: ~
       you_have_not_given_feedback_yet: ~
     transaction_preauthorized:
@@ -1171,6 +1173,8 @@ hu:
       list_button: ~
       all_listing_types: ~
       all_categories: ~
+    errors:
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: ~
@@ -1373,6 +1377,8 @@ hu:
     comment:
       wrote: ~
       send_private_message: ~
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: "Írj hozzászólást vagy vedd fel a kapcsolatot az eladóval, ha kérdésed van. Hozzászólásódát valamennyi felhasználó olvashatja."
       log_in: ~
@@ -1393,6 +1399,8 @@ hu:
       show_in_updates_email_loading: Töltés...
       show_in_updates_email_error: ~
       show_in_updates_email_success: ~
+    map:
+      open_in_google_maps: ~
     error:
       something_went_wrong: ~
     follow_links:
@@ -1426,17 +1434,22 @@ hu:
         googlemap_updatemap: ~
       images:
         image: ~
+        best_result: ~
         no_file_selected: ~
         remove_image: ~
         select_file: ~
+        add_more: ~
         removing: ~
         processing: ~
         loading_image: Töltés...
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: ~
         percentage_loaded: ~
         uploading_failed: "A kép feltöltése sikertelen"
         file_too_large: ~
         accepted_formats: ~
+        images_not_uploaded_confirm: ~
       location:
         location: ~
       price:

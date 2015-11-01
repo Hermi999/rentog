@@ -78,8 +78,12 @@ gem 'paypal-sdk-permissions', '1.96.4'
 gem 'paypal-sdk-merchant', '~> 1.116.0'
 gem 'airbrake', '~>4.1.0'
 gem 'cache_digests'
+gem 'librato-rails'
+gem 'jwt', '~> 1.5.1'
 
 gem 'lograge'
+gem 'public_suffix' # Needed currently to set GA hostname right, probably not
+                    # needed anymore when GA script updated.
 
 group :staging, :production do
   gem 'newrelic_rpm', '~> 3.9.1.236'

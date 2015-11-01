@@ -39,7 +39,6 @@ class PeopleController < Devise::RegistrationsController
 
 
     redirect_to root and return if @current_community.private? && !@current_user
-    redirect_to url_for(params.merge(:locale => nil)) and return if params[:locale] # This is an important URL to keep pretty
     @selected_tribe_navi_tab = "members"
     @community_membership = CommunityMembership.find_by_person_id_and_community_id_and_status(@person.id, @current_community.id, "accepted")
 
@@ -286,7 +285,23 @@ class PeopleController < Devise::RegistrationsController
     @person.set_emails_that_receive_notifications(params[:person][:send_notifications])
 
     begin
-      if @person.update_attributes(params[:person])
+      person_params = params[:person].slice(
+        :given_name,
+        :family_name,
+        :street_address,
+        :phone_number,
+        :image,
+        :description,
+        :location,
+        :password,
+        :password2,
+        :send_notifications,
+        :email_attributes,
+        :min_days_between_community_updates,
+        :preferences,
+      )
+
+      if @person.update_attributes(person_params)
         if params[:person][:password]
           #if password changed Devise needs a new sign in.
           sign_in @person, :bypass => true

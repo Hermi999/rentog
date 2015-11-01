@@ -253,6 +253,7 @@ nb:
         ban_user: "Forby bruker"
         saving_user_status: "Lagrer ..."
         save_user_status_successful: Lagret
+        export_all_as_csv: "Eksportér alle i CSV-fil"
         save_user_status_error: "Lagring feilet. Vennligst oppdater siden på nytt og prøv igjen."
         ban_user_confirmation: "Dette fjerner bruker fra denne markedsplassen og hindrer vedkommende tilgang med denne bruker kontoen igjen. Er du sikker på at du ønsker å fortsette?"
         ban_me_error: "Du kan ikke forby deg selv."
@@ -291,6 +292,7 @@ nb:
         url: URL
         empty: "Du har ingen ekstra menylenker"
       transactions:
+        export_all_as_csv: "Eksportér alle i CSV-fil"
         transactions: "Vis transaksjoner"
         headers:
           conversation: "Samtale tråd"
@@ -385,6 +387,7 @@ nb:
       configure: Innstillinger
       emails_title: E-poster
       support: Support
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: Annonsetype
@@ -961,7 +964,6 @@ nb:
       change_my_password: "Endre mitt passord"
       reset_password_instructions: "<p>Du har indikert at du har glemt ditt passord eller brukernavn på %{service_name} </p><p>Ditt brukernavn er : %{username}</p><p>Dersom du må tilbakestille ditt passord kan du klikke på denne linken:  %{password_reset_link}</p><br/><p>Vennligst se bort fra dette dersom du ikke har etterspurt tilbakestilling av ditt passord. Ditt passord endres ikke før du bruker linken over og lager et nytt.</p>"
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Tilbakemeldingene er offentlige og synlige for alle brukere. Basert på tilbakemeldingene kan andre brukere vurdere om %{name} er en pålitelig person man ønsker å assosiere seg med. Det er derfor alltid viktig å gi tilbakemeldinger og be om å få dette av den andre parten. Du trenger også positive vurderinger for å oppnå de fleste titlene."
       remember_to_give_feedback_to: "Påminnelse: husk å gi tilbakemelding til %{name}"
       you_have_not_given_feedback_yet: "Du har ennå ikke gitt tilbakemelding til %{name} om '%{event}'. Husk å gi tilbakemelding på hvordan %{given_name} oppførte seg."
     transaction_preauthorized:
@@ -1204,6 +1206,8 @@ nb:
       list_button: Liste
       all_listing_types: "Vis alle typer listinger"
       all_categories: "Alle kategorier"
+    errors:
+      search_engine_not_responding: "Søk er for øyeblikket utilgjengelig. Forsøk å søke igjen snart."
   infos:
     about:
       default_about_text_title: "Hva er Sharetribe?"
@@ -1318,7 +1322,7 @@ nb:
       offer_accepted: "Tilbud godtatt"
       offer_confirmed: "Tilbud godtatt"
       offer_closed: "Tilbud stengt"
-      listing_created_successfully: "Annonse opprettet%{new_listing_link}"
+      listing_created_successfully: "Annonse opprettet. %{new_listing_link}"
       offer_rejected: "Tilbud avvist"
       offer_canceled: "Tilbud avslått"
       listing_updated_successfully: "Annonse oppdatert"
@@ -1406,6 +1410,8 @@ nb:
     comment:
       wrote: skrev
       send_private_message: "Send privat melding til %{person}"
+      delete: slett
+      are_you_sure: "Er du sikker på at du vil slette kommentaren?"
     comment_form:
       ask_a_question: "Kommenter på en listing eller etterpør flere detaljer. Alle brukere kan se din kommentar."
       log_in: "logg inn"
@@ -1426,6 +1432,8 @@ nb:
       show_in_updates_email_loading: Laster…
       show_in_updates_email_error: "Kunne ikke nå server. Oppdater siden og prøv igjen."
       show_in_updates_email_success: "Denne annonsen vil bli vist i den neste automatiske e-post utsendelsen til brukere"
+    map:
+      open_in_google_maps: "Åpne i Google Maps"
     error:
       something_went_wrong: "Noe gikk galt, feilkode: %{error_code}"
     follow_links:
@@ -1459,17 +1467,22 @@ nb:
         googlemap_updatemap: "Oppdater kart"
       images:
         image: Bilde
+        best_result: "For beste resultatet, last opp bilder i JPEG, GIF eller PNG-format i oppløsning %{width}x%{height} pixler."
         no_file_selected: "Ingen fil er valgt"
         remove_image: "Fjern bilde"
         select_file: "Velg fil"
+        add_more: ~
         removing: Fjern...
         processing: Arbeider...
         loading_image: "Laster opp..."
+        image_uploading_in_progress: "Bildeopplastning pågår..."
+        processing_takes_a_while: "Alle bilder er nå lastet opp! Å behandle dem vil ta litt tid, men det er trygt å lagre annonsen og gå videre."
         this_may_take_a_while: "(dette kan ta en stund)"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Bildeopplasting feilet"
         file_too_large: "Filen er for stor"
         accepted_formats: "Bilde-filen må enten være GIF, JPG or PNG."
+        images_not_uploaded_confirm: "Alle bildene er ikke lastet opp end. Er du sikker på at du vil gå videre?"
       location:
         location: Sted
       price:

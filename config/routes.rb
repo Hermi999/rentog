@@ -545,6 +545,8 @@ Kassi::Application.routes.draw do
   get '/webhooks/braintree' => 'braintree_webhooks#challenge'
   post '/webhooks/braintree' => 'braintree_webhooks#hooks'
   post '/webhooks/paypal_ipn' => 'paypal_ipn#ipn_hook', as: :paypal_ipn_hook
+  post '/webhooks/plans' => 'plans#create'
+  get '/webhooks/trials' => 'plans#get_trials'
 
   post '/bounces' => 'amazon_bounces#notification'
 
@@ -740,7 +742,7 @@ Kassi::Application.routes.draw do
         get :locations_json
         get :verification_required
       end
-      resources :comments
+      resources :comments, :only => [:create, :destroy]
       resources :listing_images do
         collection do
           post :add_from_file

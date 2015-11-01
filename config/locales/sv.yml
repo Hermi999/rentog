@@ -253,6 +253,7 @@ sv:
         ban_user: "Spärra användare"
         saving_user_status: Sparar...
         save_user_status_successful: Sparad
+        export_all_as_csv: ~
         save_user_status_error: "Ett fel inträffade när sidan sparades. Försök igen eller ladda om sidan."
         ban_user_confirmation: "Detta tar bort medlemmen från marknadsplatsen och förhindrar att dem ska komma åt sidan igen med deras konto. Är du säker att du vill fortsätta?"
         ban_me_error: "Du kan inte bannlysa dig själv."
@@ -291,6 +292,7 @@ sv:
         url: URL
         empty: "Du har inga ytterligare menylänkar"
       transactions:
+        export_all_as_csv: ~
         transactions: "Visa transaktioner"
         headers:
           conversation: Konversationstråd
@@ -385,6 +387,7 @@ sv:
       configure: Konfiguration
       emails_title: E-post
       support: Support
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: Ordertyper
@@ -959,7 +962,6 @@ sv:
       change_my_password: "Ändra mitt lösenord"
       reset_password_instructions: "<p>Du har angett att du antingen har glömt ditt lösenord eller användarnamn på %{service_name}.</p><p>Ditt användarnamn är: %{username}</p><p>Om du behöver återställa ditt lösenord, klicka här: %{password_reset_link}</p><br/><p>Om du inte begärde detta, vänligen ignorera detta e-postmeddelande. Ditt lösenord kommer ej att bytas om du inte klickar på länken ovan och väljer ett nytt.</p>"
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Feedbacken är offentlig och visas för alla andra användare. Baserat på feedbacken kan de andra användarna bedöma huruvida %{name} är en pålitlig person och någon de vill interagera med. Därför är det bra att alltid komma ihåg att ge feedback på händelser, och även påminna den andra parten att ge feedback till dig."
       remember_to_give_feedback_to: "Kom ihåg att lämna feedback till %{name}"
       you_have_not_given_feedback_yet: "Du har ännu inte lämnat någon feedback till %{name} angående händelsen '%{event}'. Kom ihåg att ge feedback om hur %{given_name} utfört händelsen."
     transaction_preauthorized:
@@ -1204,6 +1206,8 @@ sv:
       list_button: Lista
       all_listing_types: "Alla annonstyper"
       all_categories: "Alla kategorier"
+    errors:
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: "Vad är Sharetribe?"
@@ -1406,6 +1410,8 @@ sv:
     comment:
       wrote: skrev
       send_private_message: "Skicka privat meddelande till %{person}"
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: "Kommentera annonsen eller fråga efter mer detaljer. Alla andra användare kommer att kunna se din kommentar."
       log_in: "logga in"
@@ -1426,6 +1432,8 @@ sv:
       show_in_updates_email_loading: Laddar...
       show_in_updates_email_error: "Det gick inte att nå servern. Försök igen efter att du laddat om sidan."
       show_in_updates_email_success: "Dessa annonser kommer att visas i nästa automatiska uppdateringsmail som skickas till användarna."
+    map:
+      open_in_google_maps: ~
     error:
       something_went_wrong: "Något gick fel, felmeddelande: %{error_code}"
     follow_links:
@@ -1459,17 +1467,22 @@ sv:
         googlemap_updatemap: "Uppdatera karta"
       images:
         image: Bild
+        best_result: ~
         no_file_selected: "Ingen fil vald"
         remove_image: "Ta bort bild"
         select_file: "Välj fil"
+        add_more: ~
         removing: "Tar bort..."
         processing: Bearbetar...
         loading_image: Laddar...
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: "(detta kan ta ett tag)"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Uppladdning av bild misslyckades"
         file_too_large: "Filen är för stor"
         accepted_formats: "Bilden måste antingen vara i formatet GIF, JPG, eller PNG."
+        images_not_uploaded_confirm: ~
       location:
         location: Plats
       price:

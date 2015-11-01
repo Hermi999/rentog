@@ -178,8 +178,8 @@ da-DK:
         social_media: "At anvende sociale medier er en god måde at opbygge dit community på. Du kan %{facebook_link} for at gøre det nemmere at logge ind på din markedsplads, og %{twitter_link} for at få viral opmærksomhed når brugere tweeter om produkter på din markedsplads."
         facebook_link_text: "tilknyt din Facebook app"
         twitter_link_text: "tilføj din Twitter konto"
-        analytics: "Det er også en god ide at %{analytics_link}. På denne måde kan du let se hvad der sker på din markedsplads, hvor mange brugere du har o.s.v."
-        analytics_link_text: "tilknyt din Google Analytics konto"
+        analytics: "Det er også en god idé at %{analytics_link}. På den måde kan du let se hvad der sker på din markedsplads, hvor mange besøgende du har og så videre."
+        analytics_link_text: "tilknytte din Google Analytics-konto"
         settings: "Der er en bunke andre indstillinger du kan fifle med. For eksempel kan du indstille at alle skal have en invitation fra andre brugere, for at kunne deltage og dermed gøre markedspladsen privat, så kun registrerede brugere kan se indholdet. %{settings_link}."
         settings_link_text: "Se indstillinger for din markedsplads her"
         final_words: "Det er det hele! Hvis alt er klart, kan du starte %{invite_link} til din markedsplads. Du kan se alle brugerne som er registreret %{view_users_link}, og alle deres gennemførte transaktioner %{view_transactions_link}. Du kan også let håndtere annoncer: Gå til annonce-siden og du vil se administrator links til redigering og lukning. Har du brug for hjælp, kan du %{contact_support_link} - vi er her for dig!"
@@ -253,6 +253,7 @@ da-DK:
         ban_user: "Ban bruger"
         saving_user_status: Gemmer...
         save_user_status_successful: Gemt
+        export_all_as_csv: "Eksporter alle som CSV"
         save_user_status_error: "Der opstod en fejl da vi forsøgte at gemme dit valg. Venligst genindlæs siden og prøv igen."
         ban_user_confirmation: "Dette sletter brugeren fra markedspladsen og hindrer ham/hende i at logge ind på markedspladsen igen med denne bruger. Er du sikker på at du vil fortsætte?"
         ban_me_error: "Du kan ikke forbyde dig selv."
@@ -291,6 +292,7 @@ da-DK:
         url: URL
         empty: "Du har ikke tilføjet nogen nye links i menuen"
       transactions:
+        export_all_as_csv: "Eksporter alle som CSV"
         transactions: "Vis transaktioner"
         headers:
           conversation: Samtaletråd
@@ -385,6 +387,7 @@ da-DK:
       configure: Konfiguration
       emails_title: Emails
       support: support
+      subscription: "Dit abonnement"
     listing_shapes:
       index:
         listing_shapes: "Ordre typer"
@@ -955,7 +958,6 @@ da-DK:
       change_my_password: "Skift min adgangskode"
       reset_password_instructions: "<p> Du har angivet, at du har glemt enten din adgangskode eller dit brugernavn på %{service_name}.</ p> <p> Dit brugernavn er: %{username} </ p> <p> Hvis du har brug for at nulstille din adgangskode, klik på følgende link: %{password_reset_link} </ p> <br/> <p> Hvis du ikke har anmodet om dette, bedes du ignorere denne e-mail. Din adgangskode vil ikke ændre sig, medmindre du går ind på linket ovenfor og opretter en ny. </ P>"
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Feedback er offentlig og er vist at alle de andre brugere. Ud fra den feedback de andre brugere kan bedømme, hvorvidt %{name} er en troværdig person, og nogen, de ønsker at interagere med. Således er det godt at altid huske at give feedback på begivenheder og også minde den anden part til at give feedback til dig. Du skal også positiv feedback for at opnå de fleste af badges."
       remember_to_give_feedback_to: "Påmindelse: Husk at give feedback til %{name}"
       you_have_not_given_feedback_yet: "Du har endnu ikke givet feedback til %{name} om event '%{event}'. Husk at give feedback på, hvordan %{given_name} udført i begivenheden."
     transaction_preauthorized:
@@ -1140,7 +1142,7 @@ da-DK:
       add_listing_link_text: "Tilføj ny annonce"
       open_listing: "åben annonce"
       open_listings: "åben annoncer"
-      private_listing_notification_log_in: "log Ind"
+      private_listing_notification_log_in: "log ind"
       is: er
       are: er
       what_do_you_need: "Hvad leder du efter?"
@@ -1162,7 +1164,7 @@ da-DK:
       no_reviews: "Ingen anmeldelser"
       no_image: "Intet billede"
       filter: Filter
-      this_is_private_community: "Du skal en opret profil﻿ før du kan se dette indhold."
+      this_is_private_community: "Du skal oprette en profil før du kan se indholdet"
     invitation_form:
       email: "E-mail-adresse (r)"
       message: "En personlig meddelelse"
@@ -1198,6 +1200,8 @@ da-DK:
       list_button: Listevisning
       all_listing_types: "Alle annonce typer"
       all_categories: "Alle kategorier"
+    errors:
+      search_engine_not_responding: "Det er ikke muligt at søge på nuværende tidspunkt. Prøv venligst igen senere."
   infos:
     about:
       default_about_text_title: "Hvad er Sharetribe?"
@@ -1205,7 +1209,7 @@ da-DK:
       click_here_link_text: "Klik her"
     how_to_use:
       default_title: "Sådan virker det"
-      default_content: "Her kan du finde information om hvordan %{marketplace_name} fungere."
+      default_content: "Her kan du finde information om hvordan %{marketplace_name} fungerer."
   layouts:
     admin:
       admin: "%{service_name} administrator panel"
@@ -1217,7 +1221,7 @@ da-DK:
       join_this_community: "Slut dig til markedspladsen"
       read_more: "Læs mere"
       feedback: "Skriv gerne til os:"
-      default_feedback: "Har du spørgsmål, eller har fundet fejl på %{service_name}? Har du forslag til forbedring af vores side? Bemærket mistænkeligt indhold? Eller vil du blot gerne i kontakt med os? Skriv endelig!"
+      default_feedback: "Er du stødt på et problem med %{service_name}? Har du forslag til forbedring af servicen? Har du bemærket noget mistænkeligt? Eller vil du bare gerne i kontakt med os? Skriv endelig!"
       feedback_forum: "fællesskabets diskussionsforum"
       feedback_handle: Feedback
       give_feedback: "Kontakt os"
@@ -1391,7 +1395,7 @@ da-DK:
     settings:
       account: Konto
       notifications: Notifikationer
-      profile: "Profil info"
+      profile: Profilinfo
       settings: Indstillinger
       payments: Betalinger
   listings:
@@ -1400,6 +1404,8 @@ da-DK:
     comment:
       wrote: skrev
       send_private_message: "Send privat besked til %{person}"
+      delete: slet
+      are_you_sure: "Er du sikker på, at du vil slette kommentaren?"
     comment_form:
       ask_a_question: "Skriv en kommentar eller spørg efter flere detaljer. Alle andre brugere har mulighed for at se din kommentar."
       log_in: "Log ind"
@@ -1420,6 +1426,8 @@ da-DK:
       show_in_updates_email_loading: Venter...
       show_in_updates_email_error: "Serveren kunne ikke findes. Prøv at genindlæse siden."
       show_in_updates_email_success: ~
+    map:
+      open_in_google_maps: "Åbn i Google Maps"
     error:
       something_went_wrong: "Noget gik galt, error code: %{error_code}"
     follow_links:
@@ -1453,17 +1461,22 @@ da-DK:
         googlemap_updatemap: "Opdater Kort"
       images:
         image: Billede
+        best_result: "For det bedste resultat, upload billeder i formatet JPEG, GIF eller PNG i størrelsen %{width}x%{height} px"
         no_file_selected: "Ingen fil valgt"
         remove_image: "Fjern billede"
         select_file: "Vælg fil"
+        add_more: "+ Tilføj flere"
         removing: Sletter...
         processing: Arbejder...
         loading_image: Venter...
+        image_uploading_in_progress: "Billede upload i gang..."
+        processing_takes_a_while: "Alle billeder er nu uploadet med succes! Behandling af dem vil tage nogen tid, men det er sikkert at gemme annoncen og gå videre."
         this_may_take_a_while: "(dette kan tage et øjeblik)"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Billedeupload fejlede"
         file_too_large: "Filen er for stor"
         accepted_formats: "Billedet skal være i GIF, JPG eller PNG format."
+        images_not_uploaded_confirm: "Alle billeder er ikke uploadet endnu. Ønsker du virkelig at fortsætte?"
       location:
         location: Sted
       price:
@@ -1621,7 +1634,7 @@ da-DK:
       times_viewed: Vist
       processing_uploaded_image: "(Henter billede...)"
       price_excludes_vat: "(eksklusiv moms)"
-      listing_created_at: "Annoncen blev oprettet."
+      listing_created_at: "Annoncen blev oprettet"
       price:
         per_quantity_unit: "pr. %{quantity_unit}"
         per_day: "pr. dag"
@@ -1711,8 +1724,8 @@ da-DK:
     new:
       payout_info_you_need_to_connect: "For at acceptere betalinger skal du tilknytte din PayPal-konto til %{service_name}."
       payout_info_text: "Udfør venligt disse to steps for at tilknyttet din konto."
-      contact_admin_link_text: "kontakt administrator"
-      admin_account_not_connected: "%{service_name} er endnu ikke sat op til at håndtere betaling, så du kan ikke tilslutte din PayPal-konto endnu.  %{contact_admin_link} for mere information."
+      contact_admin_link_text: "Kontakt administrator"
+      admin_account_not_connected: "%{service_name} er ikke blevet konfigureret til betalinger, så du kan ikke tilslutte din PayPal-konto endnu. %{contact_admin_link} for mere information."
       paypal_account_email: "1. Tilknyt din PayPal-konto"
       paypal_account_email_placeholder: "Din PayPal email adresse"
       paypal_account_email_info_text: "Hvis du ikke har en paypalkonto kan du nemt oprette en  %{create_paypal_account}. Hvis du får en en bedsked om fejl, når du tilslutter din PayPal-konto, er du nødt til at opgradere til en PayPal-premier-konto (for privatpersoner) eller business konto (for virksomheder) for at acceptere betalinger. Hvis du kun har en PayPal privat konto, kan du opgradere din konto, %{upgrade_paypal_account} og find opgraderingslinket."
@@ -1786,9 +1799,9 @@ da-DK:
       username_is_invalid: "Brugernavn er ugyldig. Tilladte tegn er bogstaver, tal og understregning."
       visible_only_to_you: "kun synlige for dig og markedspladsens admin"
       visible_to_everybody: "Synlig for alle"
-      create_account_with_facebook: "Opret brugerprofil﻿med Facebook"
+      create_account_with_facebook: "Opret med Facebook"
       OR: ELLER
-      signup_with_email: "Opret profil﻿ med din e-mail adresse"
+      signup_with_email: "Opret med email"
     not_member:
       explanation_text: "Du kigger i øjeblikket %{community}. Du har forsøgt at se profilen for en bruger, der er medlem af en anden markedsplads oprettet med Sharetribe platform. Du kan ikke få adgang til denne brugers profil i %{community}."
       read_more_about_kassi_communities: "Læs mere om Sharetribe markedspladser"
@@ -1900,8 +1913,8 @@ da-DK:
       email_addresses: E-mailadresser
       new_email: "Ny e-mail adresse"
       delete_all_memberships: "Hvis du sletter din konto, vil du ikke være i stand til at bruge den på følgende markedspladser: %{marketplaces}."
-      delete_personal_information: "Hvis du sletter din konto, vil din personlige information (navn, telefonnummer, adresse, email, profilbillede o.s.v.) blive slettet permanent og kan ikke blive gendannet. Alle annoncer du har oprettet vil blive slettet. Du vil ikke kunne gendanne din konto."
-      delete_information_others_involved: "Information hvor andre medlemmer er involverede (samtaler med andre, foretagne transaktioner, anmeldelser o.s.v.) slettes ikke, når du sletter din konto. Men dit navn vil ikke længere blive vist ved siden af denne information."
+      delete_personal_information: "Hvis du sletter din konto, vil din personlige information (navn, telefonnummer, adresse, email, profilbillede osv.) blive slettet permanent og kan ikke blive gendannet. Alle annoncer du har oprettet vil blive slettet. Du vil ikke kunne gendanne din konto."
+      delete_information_others_involved: "Information hvor andre medlemmer er involverede (samtaler med andre, foretagne transaktioner, anmeldelser osv.) slettes ikke, når du sletter din konto. Men dit navn vil ikke længere blive vist ved siden af denne information."
       unfinished_transactions: "Din konto kan ikke slettes fordi du har udestående transaktioner. Gennemfør venligst alle transaktioner før du sletter din konto."
       new_password: "Ny adgangskode"
       save: Gem
@@ -1937,7 +1950,7 @@ da-DK:
       do_not_email_community_updates: "Send ingen opdaterings emails"
       email_when_conversation_accepted: "... nogen accepterer mit tilbud eller anmodning"
       email_when_conversation_rejected: "... nogen afviser mit tilbud eller anmodning"
-      email_about_completed_transactions: "...nogen har markeret dit tilbud eller anmodning som godkendt"
+      email_about_completed_transactions: "...nogen har markeret mit tilbud eller anmodning som godkendt"
       email_about_new_payments: "...jeg modtager en ny betaling"
       email_about_payment_reminders: "...jeg har glemt at betale"
       email_about_new_listings_by_followed_people: "...en som jeg følger har oprettet en ny annonce"

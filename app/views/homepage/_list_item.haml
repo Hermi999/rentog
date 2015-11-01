@@ -1,10 +1,10 @@
 - frontpage_fragment_cache("list_item", listing) do
   .home-list-item
     - if listing.listing_images.size > 0
-      = link_to listing_path(listing.id), :class => "home-list-image-container-desktop" do
+      = link_to listing_path(listing.url), :class => "home-list-image-container-desktop" do
         = image_tag listing.listing_images.first[:small_3x2], {:alt => listed_listing_title(listing), :class => "home-list-image"}
     - if listing.listing_images.size > 0
-      = link_to listing_path(listing.id), :class => "home-list-image-container-mobile" do
+      = link_to listing_path(listing.url), :class => "home-list-image-container-mobile" do
         = image_tag listing.listing_images.first[:thumb], {:alt => listed_listing_title(listing), :class => "home-list-image"}
     .home-list-details-right
       .home-list-price
@@ -26,7 +26,7 @@
 
     %div{:class => (listing.listing_images.size > 0 ? "home-list-details-with-image" : "")}
       %h2.home-list-title
-        = link_to listing_path(listing.id) do
+        = link_to listing_path(listing.url) do
           = listing.title
           - if @current_community.show_category_in_listing_list
             %a.home-share-type-link{:href => root_path(:transaction_type => shape_name_map[listing.listing_shape_id], :view => :list)}
@@ -48,7 +48,16 @@
 
     .home-list-price-mobile{:class => (listing.listing_images.size > 0 ? "home-list-price-mobile-with-listing-image" : "home-list-price-mobile-without-listing-image")}
       - if listing.price
-        = humanized_money_with_symbol(listing.price).upcase
+        .home-list-price-value-mobile
+          = humanized_money_with_symbol(listing.price).upcase
+        - price_text = nil
+        - if listing.quantity.present?
+          - price_text = t("listings.form.price.per") + " " + listing.quantity
+        - elsif listing.unit_type
+          - price_text = price_quantity_per_unit(listing)
+        - if price_text.present?
+          .home-list-price-quantity{:title => price_text}
+            = price_text
       - else
         %span.smaller
           = shape_name(listing)

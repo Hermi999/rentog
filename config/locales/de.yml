@@ -50,7 +50,7 @@ de:
     communities:
       edit_details:
         community_details: Community-Angaben
-        community_look_and_feel: "Community \"Look and Feel\""
+        community_look_and_feel: Design
         edit_community: "Bearbeite die Community-Details für %{community_name}"
         enabled_languages: ~
         enabled_languages_description: ~
@@ -260,6 +260,7 @@ de:
         ban_user: "Nutzer sperren"
         saving_user_status: Speichern...
         save_user_status_successful: Gespeichert
+        export_all_as_csv: "Exportiere Alles als CSV Datei"
         save_user_status_error: "Speichern fehlgeschlagen. Bitte erneuere die Seite und versuch es noch einmal."
         ban_user_confirmation: ~
         ban_me_error: "Du kannst dich nicht selber sperren."
@@ -298,6 +299,7 @@ de:
         url: URL
         empty: "Du hast keine zusätzlichen Menü-Links"
       transactions:
+        export_all_as_csv: "Exportiere Alles als CSV Datei"
         transactions: "Transaktionen anzeigen"
         headers:
           conversation: Unterhaltungsverlauf
@@ -392,6 +394,7 @@ de:
       configure: Konfiguration
       emails_title: E-Mails
       support: Support
+      subscription: "Mein Abonnement"
     listing_shapes:
       index:
         listing_shapes: ~
@@ -563,8 +566,14 @@ de:
     removed_user: "Entfernter Benutzer"
     paypal_fee_info:
       title: PayPal-Zahlungsbearbeitungsgebühr
-      body_text: ~
-      body_with_shipping_text: ~
+      body_text: |-
+          PayPal erhebt eine Transaktionsgebühr auf jede Zahlung. Diese Gebühr liegt in Deutschland bei maximal 1,9% + 0,35 € pro inländischer Transaktion (sie ist geringer bei höheren Umsätzen). 
+          Wenn Du Dich bei Deinem Paypal Account anmeldest, erhälst Du unter dieser Adresse %{link_to_paypal} mehr Informationen auch zu internationalen Zahlungen.
+          Nach jeder Transaktion bekommst Du einen Beleg mit der exakten Gebühr.
+      body_with_shipping_text: |-
+          PayPal erhebt eine Transaktionsgebühr auf jede Zahlung. Diese Gebühr liegt in Deutschland bei maximal 1,9% + 0,35 € pro inländischer Transaktion (sie ist geringer bei höheren Umsätzen). 
+          Wenn Du Dich bei Deinem Paypal Account anmeldest, erhälst Du unter dieser Adresse %{link_to_paypal} mehr Informationen auch zu internationalen Zahlungen.
+          Nach jeder Transaktion bekommst Du einen Beleg mit der exakten Gebühr.
       link_to_paypal_text: hier
   conversations:
     accept:
@@ -624,7 +633,7 @@ de:
       canceled_offer: "Angebot abgebrochen"
       message_from: "Nachricht von %{person}"
       about_listing: "In Bezug auf %{listing_title}"
-      free_message: "Kostenlose Nachricht"
+      free_message: Nachricht
     message:
       accepted_request: "Anfrage akzeptiert"
       accepted_offer: "Angebot akzeptieren"
@@ -721,7 +730,7 @@ de:
       request_preauthorized: "Zahlung erfolgreich"
       skip_feedback: "Keine Bewertung geben"
       waiting_for_listing_author_to_accept_offer: "Warte bis %{listing_author_name} das Angebt annimmt"
-      waiting_for_listing_author_to_accept_request: "Warten bis %{listing_author_name} die Anfrage annimmt. Sobald %{listing_author_name} akzeptiert hat, wird dein Konto belastet."
+      waiting_for_listing_author_to_accept_request: "Warten bis %{listing_author_name} die Anfrage annimmt. Sobald %{listing_author_name} akzeptiert hat, wird Dein Konto belastet."
       waiting_for_you_to_accept_request: "Wartet, dass Du die Anfrage akzeptierst"
       waiting_confirmation_from_requester: "Warten bis %{requester_name} die Anfrage als erledigt markiert"
       waiting_confirmation_from_you: "Wartet darauf, dass Du den Vorgang als abgeschlossen markierst"
@@ -871,11 +880,11 @@ de:
       or_paste_link: "Alternativ kannst Du den folgenden Link in die Adresszeile deines Browsers kopieren:"
       turning_on_confirmations_in_this_community: "Wir beginnen mit der Verwendung von E-Mail-Bestätigungen in dieser %{service_name} Community."
     common:
-      check_your_settings: "Überprüfe deine Einstellungen"
+      check_your_settings: "Überprüfe Deine Einstellungen"
       hey: "Hallo %{name},"
       kassi_team: "Das %{service_name} Team"
       thanks: "Danke,"
-      want_to_control_emails: "Willst du festlegen, welche Art von E-Mails du von %{service_name} erhältst?"
+      want_to_control_emails: "Willst du festlegen, welche Art von E-Mails Du von %{service_name} erhältst?"
       dont_want_to_receive_these_emails: "Willst du diese E-Mails nicht empfangen?"
       edit_your_email_settings_here: "Bearbeite hier deine E-Mail-Grundeinstellungen."
       message_not_displaying_correctly: "Wird diese E-Mail nicht richtig dargestellt?"
@@ -897,8 +906,8 @@ de:
       remember_to_confirm: "Wenn der Auftrag erfüllt ist, denke daran, ihn als erledigt zu markieren. Wenn der Auftrag noch nicht erfüllt ist, hast Du %{days_to_automatic_confirmation} Tage, um ihn abzubrechen. Sonst wird er automatisch als abgeschlossen markiert werden."
     invitation_to_kassi:
       hi: Hallo!
-      you_have_been_invited_to_kassi: "%{inviter} hat dich dazu eingeladen %{community} zu benutzen."
-      here_is_a_message_from: "Hier ist eine persönliche Nachricht von %{inviter}:"
+      you_have_been_invited_to_kassi: "%{inviter} hat Dich eingeladen, %{service_name} zu benutzen."
+      here_is_a_message_from: "Persönliche Nachricht von %{inviter}:"
       join_now: "Jetzt Mitglied werden"
       invitation_code: "Einladungscode %{code}"
     new_comment:
@@ -910,7 +919,7 @@ de:
     new_message:
       view_message: "Nachricht ansehen"
       has_sent_you_a_message_in_kassi: "%{sender} hat dir eine Nachricht auf %{service_name} gesendet."
-      you_have_a_new_message: "Du hast eine neue Nachricht von %{sender_name} von %{service_name}"
+      you_have_a_new_message: "Du hast eine neue Nachricht von %{sender_name} auf %{service_name}"
     new_payment:
       new_payment: "Du hast eine neue Zahlung erhalten"
       price_per_unit_type: "Preis pro %{unit_type}"
@@ -966,7 +975,6 @@ de:
       change_my_password: "Mein Passwort ändern"
       reset_password_instructions: "<p>Du hast angegeben, dein Passwort oder den Benutzernamen im %{service_name} Dienst vergessen zu haben.</p><p>Dein Benutzername ist: %{username}</p><p>Um dein Passwort zurückzusetzen, klicke auf den folgenden Link: %{password_reset_link}</p><br/><p> Falls du das Zurücksetzen des Passworts nicht angefordert hast, ignoriere diese E-Mail. Dein Passwort wird nicht zurückgesetzt, solange du den oberen Link nicht anklickst und ein neues Passwort erstellst.</p>"
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Bewertungen sind öffentlich und werden allen anderen Nutzern angezeigt. Bewertungen helfen zu zeigen, ob %{name} vertrauenswürdig ist. Deshalb ist es immer gut, Transaktionen zu bewerten und auch den Anderen daran zu erinnern, ein Feedback zu geben. Außerdem benötigst Du positive Bewertungen, um Abzeichen erlangen zu können."
       remember_to_give_feedback_to: "Zur Erinnerung: Denke daran, %{name} zu bewerten"
       you_have_not_given_feedback_yet: "Du hast %{name} noch kein Feedback zur Transaktion '%{event}' gegeben. Denke daran, ein Feedback darüber zu hinterlassen, wie %{given_name} die Transaktion durchgeführt hat."
     transaction_preauthorized:
@@ -983,8 +991,8 @@ de:
       welcome_email_subject: "Willkommen bei %{service_name}"
       welcome_to_marketplace: "Willkommen bei %{service_name}! Schön, dass du dabei bist."
       love_marketplace_crew: "Herzliche Grüße,<br /><i>das %{service_name} Team</i>"
-      welcome_email_footer_text: "Welche Art von E-Mails willst du empfangen von %{service_name}? %{settings_link}"
-      settings_link_text: "Überprüfe deine Einstellungen"
+      welcome_email_footer_text: "Welche Art von E-Mails willst Du von %{service_name} empfangen? %{settings_link}"
+      settings_link_text: "Überprüfe Deine Einstellungen"
       welcome_email_subject_for_marketplace_creator: "Willkommen bei Sharetribe"
       welcome_to_marketplace_creator: "Willkommen bei Sharetribe, %{name}!"
       congrats_for_creating_your_marketplace: "Herzlichen Glückwunsch für die Erstellung deines Marktplatzes! Das war einfach, nicht wahr?"
@@ -1229,6 +1237,8 @@ de:
       list_button: Liste
       all_listing_types: "Alle Einträge"
       all_categories: "Alle Kategorien"
+    errors:
+      search_engine_not_responding: "Die Suchfunktion ist derzeit nicht verfügbar. Bitte versuche es später noch einmal."
   infos:
     about:
       default_about_title1: "Was ist Rentog?"
@@ -1268,7 +1278,7 @@ de:
       invite_your_friends: "Freunde einladen"
       invite_your_neighbors: "Lade Nachbarn ein!"
       invite_your_friends_description: "Je mehr Leute im %{service_name} sind, desto nützlicher ist es."
-      invite_your_friends_invite_only_description: "Andere Leute können dieser Community nur beitreten, wenn sie eingeladen werden."
+      invite_your_friends_invite_only_description: "Andere Leute können %{service_name} nur beitreten, wenn sie eingeladen werden."
       join_without_facebook: ".... oder alternativ %{join_without_facebook_link}"
       join_without_facebook_link: "Melde dich an ohne Facebook Mitglied zu sein"
     conversations:
@@ -1356,7 +1366,7 @@ de:
       offer_canceled: "Angebot abgebrochen"
       listing_updated_successfully: "Eintrag wurde erfolgreich aktualisiert"
       only_kassi_administrators_can_access_this_area: "Nur  %{service_name} Administratoren können diesen Bereich aufrufen"
-      only_listing_author_can_close_a_listing: "Nur Autoren eines Eintrags können den Eintrag beenden"
+      only_listing_author_can_close_a_listing: "Nur Autoren können ein Angebot pausieren"
       only_listing_author_can_edit_a_listing: "Nur Autoren eines Eintrags können den Eintrag bearbeiten"
       payment_successful: "erfolgreiche Bezahlung"
       payment_canceled: "Zahlung abgebrochen"
@@ -1439,6 +1449,8 @@ de:
     comment:
       wrote: schrieb
       send_private_message: "Private Nachricht an %{person} senden"
+      delete: löschen
+      are_you_sure: "Möchtest Du diesen Kommentar wirklich löschen?"
     comment_form:
       ask_a_question: "Kommentiere den Eintrag und frage nach mehr Details. Alle anderen Mitglieder werden deine Kommentare sehen."
       log_in: Anmelden
@@ -1451,7 +1463,7 @@ de:
     edit:
       edit_listing: "Eintrag bearbeiten"
     edit_links:
-      close_listing: "Eintrag beenden"
+      close_listing: "Angebot pausieren"
       edit_listing: "Eintrag bearbeiten"
       reopen_listing: "Eintrag wieder aktivieren"
       move_to_top: "Auf der Homepage nach oben verschieben"
@@ -1459,6 +1471,8 @@ de:
       show_in_updates_email_loading: Lädt...
       show_in_updates_email_error: "Der Server konnte nicht erreicht werden. Lade die Seite neu und versuche es erneut."
       show_in_updates_email_success: ~
+    map:
+      open_in_google_maps: "In Google Maps öffnen"
     error:
       something_went_wrong: "Etwas ist schief gelaufen, Fehlercode: %{error_code}"
     follow_links:
@@ -1492,17 +1506,22 @@ de:
         googlemap_updatemap: "Karte aktualisieren"
       images:
         image: Bild
+        best_result: "Für eine optimale Darstellung lade Bilder im JPEG, GIF oder PNG Format mit des Maßen %{width}x%{height} Pixel hoch"
         no_file_selected: "Keine Datei ausgewählt"
         remove_image: "Bild entfernen"
         select_file: "Datei wählen"
+        add_more: "+ Weitere hinzufügen"
         removing: Entfernen...
         processing: "Wird bearbeitet..."
         loading_image: Lädt...
+        image_uploading_in_progress: "Bilder werden hochgeladen..."
+        processing_takes_a_while: "Alle Bilder wurden erfolgreich hochgeladen! Es dauert nun ein wenig, bis die Bilder verarbeitet sind, aber das Sichern des Eintrags und Weiterarbeiten ist problemlos möglich."
         this_may_take_a_while: "(dies kann eine Weile dauern)"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Bild hochladen fehlgeschlagen"
         file_too_large: "Die Datei ist zu groß."
         accepted_formats: "Die Bilddatei muss entweder im GIF-, JPG- oder PNG-Format vorliegen."
+        images_not_uploaded_confirm: "Es sind noch nicht alle Bilder hochgeladen. Möchtest Du wirklich fortfahren?"
       location:
         location: Standort
       price:
@@ -1825,9 +1844,9 @@ de:
       username_is_invalid: "Der Benutzername ist ungültig. Erlaubte Zeichen sind Buchstaben (keine Umlaute), Ziffern und Unterstriche."
       visible_only_to_you: "nur für dich und den Admin der Community sichtbar"
       visible_to_everybody: "für jeden sichtbar"
-      create_account_with_facebook: "Lege einen ccount mit Facebook an"
+      create_account_with_facebook: "Lege einen Account mit Facebook an"
       OR: ODER
-      signup_with_email: "Registriere dich mit deiner E-Mail-Adresse"
+      signup_with_email: "Registriere Dich mit Deiner E-Mail-Adresse"
     not_member:
       explanation_text: "Du befindest dich derzeit bei %{community}. Du hast versucht, das Profil eines Benutzers aus einer anderen Community anzuzeigen. Du kannst dieses Profil nicht über %{community} direkt einsehen."
       read_more_about_kassi_communities: "Lies mehr über Sharetribe-Communities"
@@ -1911,7 +1930,7 @@ de:
       cancle_facebook_connect: "Wenn du dieses Konto nicht verbinden willst, kannst du %{cancel_link}."
       facebook_cancel_link_text: abbrechen
       log_in_with_your_facebook_account: "Melde dich mit deinem Facebook-Konto an"
-      or_sign_up_with_your_username: "...oder mit deinem benutzernamen und passwort:"
+      or_sign_up_with_your_username: "...oder mit Deinem Benutzernamen und Passwort:"
       we_will_not_post_without_asking_you: "Wir werden deine Nachrichten nie auf Facebook posten ohne vorher zu fragen."
     password_forgotten:
       email: E-Mail
@@ -1981,7 +2000,7 @@ de:
       email_about_payment_reminders: "...ich vergessen habe zu zahlen"
       email_about_new_listings_by_followed_people: "... jemand dem ich folge, veröffentlicht ein neues Listing"
       unsubscribe_succesful: "Abbestellen erfolgreich"
-      unsubscribe_info_text: "Du wirst keine dieser E-Mails mehr erhalten. Überprüfe deine %{settings_link} und wähle die E-Mails aus, die du empfangen möchtest von %{service_name} oder gehe zurück zu der %{homepage_link}."
+      unsubscribe_info_text: "Du wirst keine dieser E-Mails mehr erhalten. Überprüfe Deine %{settings_link} und wähle die E-Mails aus, die Du empfangen möchtest von %{service_name} oder gehe zurück zu %{homepage_link}."
       settings_link: Einstellungen
       homepage_link: Homepage
       unsubscribe_unsuccesful: "Fehler im Abbestellen"

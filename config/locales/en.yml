@@ -395,6 +395,7 @@ en:
       configure: Configuration
       emails_title: Emails
       support: Support
+      subscription: "Your plan"
     listing_shapes:
       index:
         listing_shapes: "Order types"
@@ -985,7 +986,6 @@ en:
       change_my_password: "Change my password"
       reset_password_instructions: "<p>You have indicated that you have forgotten either your password or username in the %{service_name} service.</p><p>Your username is: %{username}</p><p>If you need to reset your password, click the following link: %{password_reset_link}</p><br/><p>If you didn't request this, please ignore this email. Your password won't change until you access the link above and create a new one.</p>"
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Feedback is public and is shown to all the other users. Based on the feedback the other users can judge, whether %{name} is a trustworthy person and somebody they want to interact with. Thus, it's good to always remember to give feedback on events, and also remind the other party to give feedback to you. You also need positive feedback in order to achieve most of the badges."
       remember_to_give_feedback_to: "Reminder: remember to give feedback to %{name}"
       you_have_not_given_feedback_yet: "You have not yet given feedback to %{name} about event '%{event}'. Remember to give feedback on how %{given_name} performed in the event."
     transaction_preauthorized:
@@ -1249,6 +1249,8 @@ en:
       list_button: List
       all_listing_types: "All listing types"
       all_categories: "All categories"
+    errors:
+      search_engine_not_responding: "Search is currently unavailable. Try searching again soon."
   infos:
     about:
       default_about_title1: "What is Rentog?"
@@ -1483,6 +1485,8 @@ en:
     comment:
       wrote: wrote
       send_private_message: "Send private message to %{person}"
+      delete: delete
+      are_you_sure: "Are you sure you want to delete the comment?"
     comment_form:
       ask_a_question: "Comment on the listing or ask for more details. All the other users will be able to see your comment."
       log_in: "sign in"
@@ -1503,6 +1507,8 @@ en:
       show_in_updates_email_loading: Loading...
       show_in_updates_email_error: "Couldn't reach server. Try again after page refresh."
       show_in_updates_email_success: "This listing will be shown in the next automatic update email sent to the users"
+    map:
+      open_in_google_maps: "Open in Google Maps"
     error:
       something_went_wrong: "Something went wrong, error code: %{error_code}"
       employees_do_not_post: "Employees are not allowed to post listings on Rentog"
@@ -1538,17 +1544,22 @@ en:
         googlemap_updatemap: "Update Map"
       images:
         image: Image
+        best_result: "For best results, use JPG, GIF or PNG images that are %{width} by %{height} pixels"
         no_file_selected: "No file selected"
         remove_image: "Remove image"
         select_file: "Select file"
+        add_more: "+ Add more"
         removing: Removing...
         processing: Processing...
         loading_image: Loading...
-        this_may_take_a_while: "(this may take a while)"
+        image_uploading_in_progress: "Image upload in progress..."
+        processing_takes_a_while: "All images uploaded! Processing them will take a bit of time, but it's ok to save the listing and move on."
+        this_may_take_a_while: "this only takes a second"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Image uploading failed"
-        file_too_large: "File is too large"
-        accepted_formats: "The image file must be either in GIF, JPG or PNG format."
+        file_too_large: "The file is too large"
+        accepted_formats: "The image format must be either GIF, JPG or PNG."
+        images_not_uploaded_confirm: "All images have not finished uploading. Do you really want to continue?"
       location:
         location: Location
       price:
@@ -1653,7 +1664,7 @@ en:
       booking_from: From
       booking_to: To
       how_paypal_works: "How PayPal Works"
-      payment_help: Payment help
+      payment_help: "Payment help"
     new:
       post_a_new_listing: "Post a new listing"
       listing: listing
@@ -2064,25 +2075,25 @@ en:
       community_updates: "Update emails"
       email_about_accept_reminders: "...I have forgotten to accept an offer or a request"
       email_about_confirm_reminders: "...I have forgotten to confirm a request as completed"
-      email_about_new_comments_to_own_listing: "...somebody comments my offer or request"
-      email_about_new_messages: "...somebody sends me a message"
-      email_about_new_received_testimonials: "...somebody gives me feedback"
+      email_about_new_comments_to_own_listing: "...someone comments on my offer or request"
+      email_about_new_messages: "...someone sends me a message"
+      email_about_new_received_testimonials: "...someone gives me feedback"
       email_about_testimonial_reminders: "...I have forgotten to give feedback on an event"
       email_daily_community_updates: "Send me an update email <b>daily</b> if there are new listings"
       email_weekly_community_updates: "Send me an update email <b>weekly</b> if there are new listings"
       do_not_email_community_updates: "Don't send me update emails"
-      email_when_conversation_accepted: "...somebody accepts my offer or request"
-      email_when_conversation_rejected: "...somebody rejects my offer or request"
+      email_when_conversation_accepted: "...someone accepts my offer or request"
+      email_when_conversation_rejected: "...someone rejects my offer or request"
       email_about_completed_transactions: "...someone marks my offer or request as completed"
       email_about_new_payments: "...I receive a new payment"
       email_about_payment_reminders: "...I have forgotten to pay"
-      email_about_new_listings_by_followed_people: "...somebody I follow posts a new listing"
+      email_about_new_listings_by_followed_people: "...someone I follow posts a new listing"
       unsubscribe_succesful: "Unsubscribe succesful"
       unsubscribe_info_text: "You will no longer receive these emails. Check your %{settings_link} to choose what kind of emails you want to receive from %{service_name}, or return to the %{homepage_link}."
       settings_link: settings
       homepage_link: "home page"
       unsubscribe_unsuccesful: "Error in unsubscribing"
-      unsuccessful_unsubscribe_info_text: "The reason might that the unsubscribe link you clicked was old or otherwise broken. Contact us via feedback button on the left and we can unsubscribe you, or sign in to change your email settings."
+      unsuccessful_unsubscribe_info_text: "The unsubscribe link has expired. Sign in to change your email subscription settings."
     profile:
       about_you: "About you"
       city: City

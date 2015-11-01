@@ -238,6 +238,7 @@ ro:
         ban_user: ~
         saving_user_status: ~
         save_user_status_successful: ~
+        export_all_as_csv: "Exportă tot in format CSV"
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
@@ -276,6 +277,7 @@ ro:
         url: ~
         empty: ~
       transactions:
+        export_all_as_csv: "Exportă tot in formatul CSV"
         transactions: ~
         headers:
           conversation: ~
@@ -370,6 +372,7 @@ ro:
       configure: ~
       emails_title: ~
       support: ~
+      subscription: "Abonamentul meu"
     listing_shapes:
       index:
         listing_shapes: ~
@@ -573,7 +576,7 @@ ro:
       loading_more_messages: "Se încarcă mai multe mesaje"
       message_partitive: mesaj
       messages_partitive: mesaje
-      no_received_messages: "Nici un mesaj primit"
+      no_received_messages: "Niciun mesaj primit"
       no_sent_messages: "Nici un mesaj trimis"
     conversation:
       accepted_request: ~
@@ -601,9 +604,9 @@ ro:
     new:
       offer_message_form_title: ~
       request_message_form_title: ~
-      favor_offer_message_form_title: "Cere o ajutor de la %{person}"
+      favor_offer_message_form_title: "Cere ajutor de la %{person}"
       favor_request_message_form_title: "Oferă ajutor lui %{person}"
-      housing_offer_message_form_title: "Oferă spatiu pentru %{person}"
+      housing_offer_message_form_title: "Oferă spațiu pentru %{person}"
       housing_request_message_form_title: ~
       item_offer_lend_message_form_title: ~
       item_offer_sell_message_form_title: ~
@@ -641,7 +644,7 @@ ro:
       message_sent_by: ~
       message_sent_to: ~
       send_reply: "Trimite raspuns"
-      write_a_reply: "Scrie un răspuns"
+      write_a_reply: "Scrie un răspuns:"
       conversation_about_listing: ~
       conversation_with_user: ~
       conversation_with: ~
@@ -681,7 +684,7 @@ ro:
       request_canceled: ~
       request_paid: ~
       request_preauthorized: ~
-      skip_feedback: ~
+      skip_feedback: "Omite feedback-ul."
       waiting_for_listing_author_to_accept_offer: ~
       waiting_for_listing_author_to_accept_request: ~
       waiting_for_you_to_accept_request: ~
@@ -698,8 +701,8 @@ ro:
           verify: ~
     status_link:
       accept_offer: "Acceptă ofertă"
-      accept_request: "Acceptă cerere"
-      reject_offer: "Respinge ofertă"
+      accept_request: "Acceptă cererea"
+      reject_offer: "Respinge oferta"
       reject_request: "Respinge cerere"
       accept_preauthorized_offer: ~
       accept_preauthorized_request: ~
@@ -774,11 +777,11 @@ ro:
   emails:
     accept_reminder:
       remember_to_accept_offer: ~
-      remember_to_accept_request: ~
-      you_can_accept_or_reject_offer_at: ~
-      you_can_accept_or_reject_request_at: ~
-      you_have_not_yet_accepted_or_rejected_offer: ~
-      you_have_not_yet_accepted_or_rejected_request: ~
+      remember_to_accept_request: "Amintește-ți să accepți sau să refuzi cererea de la %{sender_name}."
+      you_can_accept_or_reject_offer_at: "Poți accepta sau refuza oferta la"
+      you_can_accept_or_reject_request_at: "Poți accepta sau refuza oferta la"
+      you_have_not_yet_accepted_or_rejected_offer: "Nu ai acceptat sau refuzat oferta %{title} pe care ai primit-o pe %{date}."
+      you_have_not_yet_accepted_or_rejected_request: "Nu ai acceptat sau refuzat oferta %{title} pe care ai primit-o pe %{date}."
       show_thread: ~
     braintree_account_approved:
       account_ready: ~
@@ -833,11 +836,11 @@ ro:
       or_paste_link: ~
       turning_on_confirmations_in_this_community: ~
     common:
-      check_your_settings: ~
+      check_your_settings: "Verifică-ți setările."
       hey: "Salut %{name}"
       kassi_team: "Echipa %{service_name}"
       thanks: "Mulţumim,"
-      want_to_control_emails: ~
+      want_to_control_emails: "Vrei să controlezi e-mail-urile pe care le primești de la %{service_name}?"
       dont_want_to_receive_these_emails: ~
       edit_your_email_settings_here: ~
       message_not_displaying_correctly: ~
@@ -845,15 +848,15 @@ ro:
       or: ~
       unsubscribe_from_these_emails: ~
     conversation_status_changed:
-      has_accepted_your_offer: ~
-      has_accepted_your_request: ~
-      has_rejected_your_offer: ~
-      has_rejected_your_request: ~
+      has_accepted_your_offer: "%{accepter} ți-a acceptat oferta %{listing}."
+      has_accepted_your_request: "%{accepter} ți-a acceptat cererea %{listing}."
+      has_rejected_your_offer: "%{accepter} ți-a refuzat oferta %{listing}."
+      has_rejected_your_request: "%{accepter} ți-a refuzat cererea %{listing}."
       view_thread: ~
-      your_offer_was_accepted: ~
-      your_offer_was_rejected: ~
-      your_request_was_accepted: ~
-      your_request_was_rejected: ~
+      your_offer_was_accepted: "Oferta ți-a fost acceptată."
+      your_offer_was_rejected: "Oferta ți-a fost refuzată."
+      your_request_was_accepted: "Cererea ți-a fost acceptată."
+      your_request_was_rejected: "Cererea ți-a fost refuzată."
       you_can_now_pay_to: ~
       pay_now: ~
       remember_to_confirm: ~
@@ -928,7 +931,6 @@ ro:
       change_my_password: ~
       reset_password_instructions: ~
     testimonial_reminder:
-      feedback_is_public_and_is_shown: ~
       remember_to_give_feedback_to: ~
       you_have_not_given_feedback_yet: ~
     transaction_preauthorized:
@@ -1086,8 +1088,8 @@ ro:
       favors_to_request: "Ajutor: "
       item_offer_list: ~
       item_request_list: ~
-      items_to_offer: ~
-      items_to_request: ~
+      items_to_offer: "Bunuri de inchiriat: "
+      items_to_request: "Bunuri de imprumutat: "
       log_in: conecteaza-te!
       no_offers_visible_unless_logged_in: ~
       no_open_offers_currently: ~
@@ -1096,7 +1098,7 @@ ro:
       one_private_offer_exists: ~
       one_private_request_exists: ~
       ride_offer: ~
-      ride_request: ~
+      ride_request: "O cursa pana la munca"
       some_private_offers_exist: ~
       some_private_requests_exist: ~
     custom_filters:
@@ -1122,15 +1124,15 @@ ro:
       add_news_item: ~
       lend_rent_help_carpool: ~
       loading_more_content: ~
-      more_events: ~
+      more_events: "Mai multe evenimente..."
       news: Stiri
       no_news: ~
       more_news: ~
       or: sau
       or_see_what_the_others: ~
-      recent_events: ~
+      recent_events: "Evenimente recente"
       requesting: ~
-      tell_it_here: ~
+      tell_it_here: "Spune aici!"
       welcome_to_new_kassi: ~
       no_reviews: ~
       no_image: ~
@@ -1171,6 +1173,8 @@ ro:
       list_button: ~
       all_listing_types: ~
       all_categories: ~
+    errors:
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: ~
@@ -1191,11 +1195,11 @@ ro:
       read_more: ~
       feedback: ~
       default_feedback: ~
-      feedback_forum: ~
+      feedback_forum: "Forum de feedback"
       feedback_handle: ~
-      give_feedback: ~
-      or_check_our: ~
-      send_feedback_to_admin: ~
+      give_feedback: Contacteaza-ne
+      or_check_our: "...sau verifica a noastra"
+      send_feedback_to_admin: "Trimite feedback"
       to_see_what_others_have_suggested: ~
       your_email_address: ~
       connect: ~
@@ -1213,7 +1217,7 @@ ro:
     global-header:
       select_language: ~
     infos:
-      about: "Ce este Kassi?"
+      about: "Despre noi"
       how_to_use: "Cum să folosești Kassi"
       info_about_kassi: "Informații despre Kassi"
       news: ~
@@ -1265,7 +1269,7 @@ ro:
       feedback_considered_spam: ~
       feedback_not_saved: ~
       feedback_saved: ~
-      feedback_sent_to: ~
+      feedback_sent_to: "Feedback trimis lui %{target_person}"
       feedback_skipped: ~
       invitation_cannot_be_sent: ~
       invitation_limit_reached: ~
@@ -1275,18 +1279,18 @@ ro:
       login_failed: ~
       account_creation_successful: ~
       account_deleted: ~
-      login_successful: ~
+      login_successful: "Bine ai venit, %{person_name}!"
       logout_successful: ~
       news_item_created: ~
       news_item_creation_failed: ~
       news_item_update_failed: ~
       news_item_updated: ~
       news_item_deleted: ~
-      offer_accepted: ~
+      offer_accepted: "Oferta acceptata"
       offer_confirmed: ~
-      offer_closed: ~
+      offer_closed: "Oferta inchisa"
       listing_created_successfully: ~
-      offer_rejected: ~
+      offer_rejected: "Oferta respinsa"
       offer_canceled: ~
       listing_updated_successfully: ~
       only_kassi_administrators_can_access_this_area: ~
@@ -1308,10 +1312,10 @@ ro:
       poll_update_failed: ~
       poll_updated: ~
       poll_deleted: ~
-      read_more: ~
+      read_more: "Citește mai mult!"
       registration_considered_spam: ~
-      reply_cannot_be_empty: ~
-      reply_sent: ~
+      reply_cannot_be_empty: "Nu poti citi un mesaj gol"
+      reply_sent: "Raspuns trimis cu succes"
       request_accepted: ~
       request_confirmed: ~
       request_closed: ~
@@ -1373,6 +1377,8 @@ ro:
     comment:
       wrote: ~
       send_private_message: ~
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: ~
       log_in: ~
@@ -1393,6 +1399,8 @@ ro:
       show_in_updates_email_loading: ~
       show_in_updates_email_error: ~
       show_in_updates_email_success: ~
+    map:
+      open_in_google_maps: ~
     error:
       something_went_wrong: ~
     follow_links:
@@ -1426,17 +1434,22 @@ ro:
         googlemap_updatemap: ~
       images:
         image: ~
+        best_result: ~
         no_file_selected: ~
         remove_image: ~
         select_file: ~
+        add_more: ~
         removing: ~
         processing: ~
         loading_image: ~
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: ~
         percentage_loaded: ~
         uploading_failed: ~
         file_too_large: ~
         accepted_formats: ~
+        images_not_uploaded_confirm: ~
       location:
         location: ~
       price:

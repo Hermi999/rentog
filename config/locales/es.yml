@@ -238,6 +238,7 @@ es:
         ban_user: ~
         saving_user_status: ~
         save_user_status_successful: ~
+        export_all_as_csv: ~
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
@@ -276,6 +277,7 @@ es:
         url: ~
         empty: ~
       transactions:
+        export_all_as_csv: ~
         transactions: ~
         headers:
           conversation: ~
@@ -370,6 +372,7 @@ es:
       configure: ~
       emails_title: ~
       support: ~
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -933,7 +936,6 @@ es:
       change_my_password: "Cambiar mi contraseña"
       reset_password_instructions: "<p>Has indicado que has olvidado tu contraseña o tu nombre de usuario en el %{service_name} servicio.</p><p>Tu nombre de usuario es: %{username}</p><p>Si necesitas restablecer tu contraseña, haz click en el siguiente enlace: %{password_reset_link}</p><br/><p>Si no solicitaste esto, por favor ignora este e-mail. Tu contraseña no cambiará hasta que accedas al enlace de más arriba y crees una nueva.</p>"
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Los feedbacks son públicos y están a disposición de todos los usuarios. Basándose en los comentarios y feedbacks los usuarios pueden juzgar o saber si %{name} es una persona confiable y si es con quien se desean contactar. Por eso, no olvides ingresar recomendaciones o comentarios en los eventos, ya que así también recuerdas a los demás para que te den feedbacks. Ten en cuenta que es necesario recibir comentarios positivos para obtener medallas."
       remember_to_give_feedback_to: "Recordatorio: Recuerda dar feeedback a %{name}"
       you_have_not_given_feedback_yet: |-
           Aún no has enviado feedback a %{name} acerca del evento '%{event}'.
@@ -1178,6 +1180,8 @@ es:
       list_button: Lista
       all_listing_types: "Todos los tipos de listado"
       all_categories: "Todas las categorías"
+    errors:
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: "¿Qué es Sharetribe?"
@@ -1380,6 +1384,8 @@ es:
     comment:
       wrote: escrito
       send_private_message: "Enviar mensaje privado a %{person}"
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: "Comenta en el listado o pregunta por más detalles. Todos los otros usuarios podrán ver tu comentario."
       log_in: Registrarse
@@ -1400,6 +1406,8 @@ es:
       show_in_updates_email_loading: ~
       show_in_updates_email_error: ~
       show_in_updates_email_success: ~
+    map:
+      open_in_google_maps: ~
     error:
       something_went_wrong: ~
     follow_links:
@@ -1433,17 +1441,22 @@ es:
         googlemap_updatemap: "Actualizar mapa"
       images:
         image: Imagen
+        best_result: ~
         no_file_selected: "No hay archivos seleccionados"
         remove_image: "Quitar imagen"
         select_file: "Elegir Archivo"
+        add_more: ~
         removing: ~
         processing: Procesando...
         loading_image: ~
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: "(esto podría tomar un tiempo)"
         percentage_loaded: ~
         uploading_failed: ~
         file_too_large: ~
         accepted_formats: "El archivo de imagen debe estar en formato GIF, JPG o PNG."
+        images_not_uploaded_confirm: ~
       location:
         location: Lugar
       price:
@@ -1543,6 +1556,7 @@ es:
       booking_from: ~
       booking_to: ~
       how_paypal_works: ~
+      payment_help: ~
     new:
       post_a_new_listing: "Publica un nuevo listado"
       listing: listado

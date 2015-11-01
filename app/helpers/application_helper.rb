@@ -66,11 +66,14 @@ module ApplicationHelper
       "send" => "ss-send",
       "form" => "ss-form",
       "link" => "ss-link",
+      "external_link" => "ss-action",
       "social_media" => "ss-share",
       "analytics" => "ss-analytics",
       "openbook" => "ss-openbook",
       "order_types" => "ss-cart",
       "download" => "ss-download",
+      "credit_card" => "ss-creditcard",
+
 
       # Default category & share type icons
       "offer" => "ss-share",
@@ -187,6 +190,9 @@ module ApplicationHelper
       "facebook" => "icon-facebook",
       "invite" => "icon-users",
       "download" => "icon-download",
+      "link" => "icon-link",
+      "external_link" => "icon-external-link",
+      "credit_card" => "icon-credit-card",
 
       "information" => "icon-info-sign",
       "alert" => "icon-warning-sign",
@@ -598,49 +604,70 @@ module ApplicationHelper
   def admin_links_for(community)
     links = [
       {
+        :topic => :general,
         :text => t("admin.communities.getting_started.getting_started"),
         :icon_class => icon_class("openbook"),
         :path => getting_started_admin_community_path(@current_community),
         :name => "getting_started"
       },
       {
+        :topic => :general,
         :text => t("admin.left_hand_navigation.support"),
         :icon_class => icon_class("help"),
         :path => "mailto:#{APP_CONFIG.support_email}",
         :name => "support",
         :data_uv_trigger => "contact"
-      },
+      }
+    ]
+
+    if feature_enabled?(:new_plan_page) && APP_CONFIG.external_plan_service_in_use
+      links << {
+        :topic => :general,
+        :text => t("admin.left_hand_navigation.subscription"),
+        :icon_class => icon_class("credit_card"),
+        :path => "#{external_plan_service_login_url(@current_community.id)}",
+        :name => "subscription",
+      }
+    end
+
+    links += [
       {
+        :topic => :manage,
         :text => t("admin.communities.manage_members.manage_members"),
         :icon_class => icon_class("community"),
         :path => admin_community_community_memberships_path(@current_community, sort: "join_date", direction: "desc"),
         :name => "manage_members"
       },
       {
+        :topic => :manage,
         :text => t("admin.emails.new.send_email_to_members"),
         :icon_class => icon_class("send"),
         :path => new_admin_community_email_path(:community_id => @current_community.id),
         :name => "email_members"
       },
       {
+        :topic => :manage,
         :text => t("admin.communities.edit_details.invite_people"),
         :icon_class => "ss-adduser",
         :path => new_invitation_path,
         :name => "invite_people"
       },
       {
+        :topic => :manage,
         :text => t("admin.communities.transactions.transactions"),
         :icon_class => icon_class("coins"),
         :path => admin_community_transactions_path(@current_community, sort: "last_activity", direction: "desc"),
         :name => "transactions"
       },
       {
+        :topic => :configure,
         :text => t("admin.communities.edit_details.community_details"),
         :icon_class => "ss-page",
         :path => edit_details_admin_community_path(@current_community),
         :name => "tribe_details"
       },
       {
+        :topic => :configure,
         :text => t("admin.communities.edit_details.community_look_and_feel"),
         :icon_class => "ss-paintroller",
         :path => edit_look_and_feel_admin_community_path(@current_community),
@@ -648,18 +675,21 @@ module ApplicationHelper
       },
       # wah: Changed Sharetribe menu --> Please add menu link via programming
       # {
+      #   :topic => :configure,
       #   :text => t("admin.communities.menu_links.menu_links"),
       #   :icon_class => icon_class("link"),
       #   :path => menu_links_admin_community_path(@current_community),
       #   :name => "menu_links"
       # },
       {
+        :topic => :configure,
         :text => t("admin.categories.index.listing_categories"),
         :icon_class => icon_class("list"),
         :path => admin_categories_path,
         :name => "listing_categories"
       },
       {
+        :topic => :configure,
         :text => t("admin.custom_fields.index.listing_fields"),
         :icon_class => icon_class("form"),
         :path => admin_custom_fields_path,
@@ -672,6 +702,7 @@ module ApplicationHelper
     gw = PaymentGateway.where(community_id: @current_community.id).first
     #unless gw
       links << {
+        :topic => :configure,
         :text => t("admin.listing_shapes.index.listing_shapes"),
         :icon_class => icon_class("order_types"),
         :path => admin_listing_shapes_path,
@@ -681,6 +712,7 @@ module ApplicationHelper
 
     if PaypalHelper.paypal_active?(@current_community.id)
       links << {
+        :topic => :configure,
         :text => t("admin.communities.paypal_account.paypal_admin_account"),
         :icon_class => icon_class("payments"),
         :path => admin_community_paypal_preferences_path(@current_community),
@@ -690,6 +722,7 @@ module ApplicationHelper
 
     if Maybe(@current_user).is_admin?.or_else { false }
       links << {
+        :topic => :configure,
         :text => t("admin.communities.braintree_payment_gateway.braintree_payment_gateway"),
         :icon_class => icon_class("payments"),
         :path => payment_gateways_admin_community_path(@current_community),
@@ -698,6 +731,7 @@ module ApplicationHelper
     end
 
     links << {
+      :topic => :configure,
       :text => t("admin.communities.social_media.social_media"),
       :icon_class => icon_class("social_media"),
       :path => social_media_admin_community_path(@current_community),
@@ -705,6 +739,7 @@ module ApplicationHelper
     }
 
     links << {
+      :topic => :configure,
       :text => t("admin.communities.analytics.analytics"),
       :icon_class => icon_class("analytics"),
       :path => analytics_admin_community_path(@current_community),
@@ -712,18 +747,21 @@ module ApplicationHelper
     }
 
     links << {
+      :topic => :configure,
       :text => t("admin.communities.edit_text_instructions.edit_text_instructions"),
       :icon_class => icon_class("edit"),
       :path => edit_text_instructions_admin_community_path(@current_community),
       :name => "text_instructions"
     }
     links << {
+      :topic => :configure,
       :text => t("admin.left_hand_navigation.emails_title"),
       :icon_class => icon_class("mail"),
       :path => edit_welcome_email_admin_community_path(@current_community),
       :name => "welcome_email"
     }
     links << {
+      :topic => :configure,
       :text => t("admin.communities.settings.settings"),
       :icon_class => icon_class("settings"),
       :path => settings_admin_community_path(@current_community),
@@ -797,6 +835,22 @@ module ApplicationHelper
     elsif gateway_type == :paypal
       show_paypal_account_settings_payment_url(person, url_params.merge(locale: person.locale))
     end
+  end
+
+  def external_plan_service_login_url(marketplace_id)
+    if APP_CONFIG.external_plan_service_url && APP_CONFIG.external_plan_service_secret
+      payload = {user_id: marketplace_id}
+      secret = APP_CONFIG.external_plan_service_secret
+      external_plan_service_url = APP_CONFIG.external_plan_service_url + "login"
+      token = JWTUtils.encode(payload, secret)
+      URLUtils.append_query_param(external_plan_service_url, "token", token)
+    end
+  end
+
+  def display_expiration_notice?
+    APP_CONFIG.external_plan_service_in_use &&
+      Maybe(@current_user).has_admin_rights_in?(@current_community).or_else(false) &&
+      PlanUtils.expired?(@current_plan)
   end
 
   # returns either "http://" or "https://" based on configuration settings

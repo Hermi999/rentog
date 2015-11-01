@@ -253,6 +253,7 @@ fr-CA:
         ban_user: "Bannir l'utilisateur"
         saving_user_status: Sauvegarde...
         save_user_status_successful: Sauvegardé
+        export_all_as_csv: ~
         save_user_status_error: "La sauvegarde a échoué. Veuillez rafraîchir la page et essayer de nouveau."
         ban_user_confirmation: "Ceci supprime l'utilisateur de la place de marché et l'empêche d’y accéder de nouveau avec ce compte. Êtes-vous sûr de vouloir faire cela ?"
         ban_me_error: "Vous ne pouvez pas vous bannir vous-même."
@@ -291,6 +292,7 @@ fr-CA:
         url: URL
         empty: "Vous n'avez pas encore ajouté de liens au menu"
       transactions:
+        export_all_as_csv: ~
         transactions: "Voir les transactions"
         headers:
           conversation: "Fil de conversation"
@@ -385,6 +387,7 @@ fr-CA:
       configure: Configuration
       emails_title: Emails
       support: Support
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -947,7 +950,6 @@ fr-CA:
       change_my_password: "Changer mon mot de passe"
       reset_password_instructions: "<p>Vous avez déclaré avoir oublié votre nom d'utilisateur et/ou votre mot de passe pour %{service_name}.</p><p>Votre nom d'utilisateur est : %{username}</p><p>Si vous souhaitez réinitialiser votre mot de passe, cliquez ici : %{password_reset_link}</p><br/><p>Si vous n'avez fait aucune demande, ignorez simplement cet email. Votre mot de passe ne sera pas modifié tant que vous ne cliquez pas sur le lien ci-dessus et en créez un nouveau.</p>"
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Les avis sont publics et visibles à tous les autres utilisateurs. En fonction des avis reçus, les autres utilisateurs peuvent décider de faire ou pas confiance à %{name} et d'engager des transactions avec cette personne. Il est donc important de toujours donner un avis à la fin de chaque transaction et de rappeler aux autres participants de vous en donner un. C'est également grâce aux avis positifs que vous obtiendrez la plupart des badges."
       remember_to_give_feedback_to: "Rappel : n'oubliez pas de donner un avis sur %{name}"
       you_have_not_given_feedback_yet: "Vous n'avez pas encore donné d'avis sur %{name} suite à l'annonce '%{event}'. N'oubliez pas de donner un avis sur la façon dont %{given_name} a agi lors de la transaction."
     transaction_preauthorized:
@@ -1190,6 +1192,8 @@ fr-CA:
       list_button: Liste
       all_listing_types: "Tous les types d'annonces"
       all_categories: "Toutes les catégories"
+    errors:
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: "Qu'est ce que Sharetribe ?"
@@ -1392,6 +1396,8 @@ fr-CA:
     comment:
       wrote: "a écrit"
       send_private_message: "Envoyer un message à %{person}"
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: "Ajoutez un commentaire ou posez une question pour demander des détails. Tous les autres utilisateurs pourront voir votre commentaire."
       log_in: "vous connecter"
@@ -1412,6 +1418,8 @@ fr-CA:
       show_in_updates_email_loading: Chargement...
       show_in_updates_email_error: "Impossible de se connecter au serveur. Veuillez essayer de nouveau après avoir rafraîchi la page."
       show_in_updates_email_success: "Cette annonce sera diffusée dans le prochain email d'actualité, automatiquement envoyée aux utilisateurs"
+    map:
+      open_in_google_maps: ~
     error:
       something_went_wrong: ~
     follow_links:
@@ -1445,17 +1453,22 @@ fr-CA:
         googlemap_updatemap: "Mettre à jour le plan"
       images:
         image: Image
+        best_result: ~
         no_file_selected: "Aucun fichier sélectionné"
         remove_image: "Supprimer l'image"
         select_file: "Choisir une image"
+        add_more: ~
         removing: Suppression...
         processing: Traitement...
         loading_image: Chargement...
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: "(cela peut prendre un moment)"
         percentage_loaded: "%{percentage} %"
         uploading_failed: "Erreur lors de l'envoi d'image"
         file_too_large: "Le fichier est trop volumineux"
         accepted_formats: "L'image doit être au fomat GIF, JPG ou PNG."
+        images_not_uploaded_confirm: ~
       location:
         location: Lieu
       price:

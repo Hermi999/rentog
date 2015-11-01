@@ -238,6 +238,7 @@ el:
         ban_user: ~
         saving_user_status: ~
         save_user_status_successful: ~
+        export_all_as_csv: ~
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
@@ -276,6 +277,7 @@ el:
         url: ~
         empty: ~
       transactions:
+        export_all_as_csv: ~
         transactions: ~
         headers:
           conversation: ~
@@ -370,6 +372,7 @@ el:
       configure: ~
       emails_title: ~
       support: ~
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -928,7 +931,6 @@ el:
       change_my_password: "Αλλαγή του κωδικού πρόσβασής μου"
       reset_password_instructions: "<p>Δήλωσες ότι έχεις ξεχάσει το όνομα χρήστη ή τον κωδικό σου στο %{service_name}.</p><p>Το όνομα χρήστη είναι: %{username}</p><p>Αν θέλεις να επαναφέρεις τον κωδικό σου κάνε κλικ στον παρακάτω σύνδεσμο: %{password_reset_link}</p><br/><p>Αν δεν το ζήτησες εσύ αυτό, παρακαλούμε να αγνοήσεις αυτό το μήνυμα. Ο κωδικός σου δεν θα αλλάξει μέχρι να κάνεις κλικ στον παραπάνω σύνδεσμο και να δημιουργήσεις νέο κωδικό.</p>"
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Η κριτική είναι δημόσια και φαίνεται στους άλλους χρήστες. Βασιζόμενοι σε αυτή οι άλλοι χρήστες μπορούν να κρίνουν αν ο/η %{name} είναι αξιόπιστο άτομο και αν θέλουν να έχουν συναλλαγές μαζί του. Γι' αυτό, καλό είναι να θυμάσαι πάντα να κάνεις κριτική και να υπενθυμίζεις σε αυτούς με τους οποίους αλληλεπιδράς να σχολιάζουν κι αυτοί για σένα. Για να κερδίσεις τις περισσότερες κονκάρδες πρέπει να έχεις καλά σχόλια."
       remember_to_give_feedback_to: "Υπενθύμιση: θυμηθείτε να γράψετε την κριτική σας για το χρήστη %{name}"
       you_have_not_given_feedback_yet: "Δεν έχετε κάνει ακόμα κριτική στο χρήστη %{name} σχετικά με το συμβάν \"%{event}\". Θυμηθείτε να πείτε τη γνώμη σας για το πόσο καλά ανταποκρίθηκε ο/η %{given_name}."
     transaction_preauthorized:
@@ -1171,6 +1173,8 @@ el:
       list_button: Λίστα
       all_listing_types: "Όλοι τύποι καταχωρήσεων"
       all_categories: "Όλες οι κατηγορίες"
+    errors:
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: "Τι είναι το Sharetribe;"
@@ -1373,6 +1377,8 @@ el:
     comment:
       wrote: έγραψε
       send_private_message: "Στείλε προσωπικό στον/στην %{person}."
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: "Σχολίασε την καταχώρηση ή ζήτα περισσότερες πληροφορίες. Το σχόλιό σου είναι ορατό σε όλους τους χρήστες."
       log_in: συνδεθείς
@@ -1393,6 +1399,8 @@ el:
       show_in_updates_email_loading: ~
       show_in_updates_email_error: ~
       show_in_updates_email_success: ~
+    map:
+      open_in_google_maps: ~
     error:
       something_went_wrong: ~
     follow_links:
@@ -1426,17 +1434,22 @@ el:
         googlemap_updatemap: "Ενημέρωση του χάρτη"
       images:
         image: Εικόνα
+        best_result: ~
         no_file_selected: "Δεν έχει επιλεγεί αρχείο"
         remove_image: "Κατάργηση εικόνας"
         select_file: "Επιλέξτε αρχείο"
+        add_more: ~
         removing: ~
         processing: ~
         loading_image: ~
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: ~
         percentage_loaded: ~
         uploading_failed: ~
         file_too_large: ~
         accepted_formats: "Το αρχείο εικόνας πρέπει να είναι σε μορφή GIF, JPEG ή PNG."
+        images_not_uploaded_confirm: ~
       location:
         location: Τοποθεσία
       price:
@@ -1536,6 +1549,7 @@ el:
       booking_from: ~
       booking_to: ~
       how_paypal_works: ~
+      payment_help: ~
     new:
       post_a_new_listing: "Νέα καταχώρηση"
       listing: καταχώρηση

@@ -238,6 +238,7 @@ is:
         ban_user: ~
         saving_user_status: ~
         save_user_status_successful: ~
+        export_all_as_csv: ~
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
@@ -276,6 +277,7 @@ is:
         url: ~
         empty: ~
       transactions:
+        export_all_as_csv: ~
         transactions: ~
         headers:
           conversation: ~
@@ -370,6 +372,7 @@ is:
       configure: ~
       emails_title: ~
       support: ~
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -928,7 +931,6 @@ is:
       change_my_password: ~
       reset_password_instructions: ~
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Umsögn er opinber sem þýðir að allir aðrir notendur geta séð hana. Með umsögn geta aðrir notendur dæmt um það hvort %{name} er áreiðanleg manneskja og hvort þeir vilji eiga samskipti við hann/hana. Þess vegna er alltaf gott að muna að gefa umsögn og minna aðra á að gefa þér umsögn. Þú þarft jákvæða umsögn til að fá sem flest merki."
       remember_to_give_feedback_to: "Áminning: mundu að gefa %{name} umsögn"
       you_have_not_given_feedback_yet: "Þú hefur enn ekki gefið %{name} umsögn vegna '%{event}'. Mundu að gefa umsögn um það hvernig %{given_name} stóð sig."
     transaction_preauthorized:
@@ -1171,6 +1173,8 @@ is:
       list_button: ~
       all_listing_types: ~
       all_categories: ~
+    errors:
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: ~
@@ -1373,6 +1377,8 @@ is:
     comment:
       wrote: ~
       send_private_message: ~
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: ~
       log_in: innskráning
@@ -1393,6 +1399,8 @@ is:
       show_in_updates_email_loading: ~
       show_in_updates_email_error: ~
       show_in_updates_email_success: ~
+    map:
+      open_in_google_maps: ~
     error:
       something_went_wrong: ~
     follow_links:
@@ -1426,17 +1434,22 @@ is:
         googlemap_updatemap: "Uppfæra kort"
       images:
         image: Mynd
+        best_result: ~
         no_file_selected: "Engin skrá valin"
         remove_image: "Fjarlægja mynd"
         select_file: "Velja mynd"
+        add_more: ~
         removing: ~
         processing: ~
         loading_image: ~
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: ~
         percentage_loaded: ~
         uploading_failed: ~
         file_too_large: ~
         accepted_formats: ~
+        images_not_uploaded_confirm: ~
       location:
         location: Staðsetning
       price:

@@ -238,6 +238,7 @@ vi:
         ban_user: ~
         saving_user_status: ~
         save_user_status_successful: ~
+        export_all_as_csv: ~
         save_user_status_error: ~
         ban_user_confirmation: ~
         ban_me_error: ~
@@ -276,6 +277,7 @@ vi:
         url: ~
         empty: ~
       transactions:
+        export_all_as_csv: ~
         transactions: ~
         headers:
           conversation: ~
@@ -370,6 +372,7 @@ vi:
       configure: ~
       emails_title: ~
       support: ~
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -928,7 +931,6 @@ vi:
       change_my_password: "Đổi mật khẩu của tôi"
       reset_password_instructions: "<p>Bạn đã chỉ ra rằng bạn đã quên mật khẩu hoặc tên người dùng của bạn tại dịch vụ %{service_name}.</p><p>Tên người dùng của bạn là: %{username}</p><p>Nếu bạn cần phải đặt lại mật khẩu của bạn, nhấp vào liên kết sau đây: %{password_reset_link}</p><br><p>Nếu bạn không yêu cầu, xin vui lòng bỏ qua email này. Mật khẩu của bạn sẽ không thay đổi cho đến khi bạn truy cập vào liên kết ở trên và tạo ra một mật khẩu mới.</p>"
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "Thông tin phản hồi là công khai và được hiển thị cho tất cả các người dùng khác. Dựa trên thông tin phản hồi những người dùng khác có thể nhận xét, nếu %{name} là một người đáng tin cậy và một người nào đó họ muốn liên lạc. Như vậy, điều đó là tốt để luôn luôn nhớ đưa ra thông tin phản hồi về các sự kiện, và cũng nhắc nhở nhóm khác đưa ra thông tin phản hồi cho bạn. Bạn cũng cần thông tin phản hồi tích cực để đạt được nhiều huy hiệu nhất."
       remember_to_give_feedback_to: "Nhắc nhở: nhớ đưa ra thông tin phản hồi cho %{name}"
       you_have_not_given_feedback_yet: "Bạn chưa đưa ra thông tin phản hồi cho %{name} về sự kiện '%{event}'. Hãy nhớ cung cấp thông tin phản hồi về việc làm thế nào %{given_name} được thực hiện trong sự kiện này."
     transaction_preauthorized:
@@ -1171,6 +1173,8 @@ vi:
       list_button: ~
       all_listing_types: ~
       all_categories: ~
+    errors:
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: ~
@@ -1373,6 +1377,8 @@ vi:
     comment:
       wrote: "đã viết"
       send_private_message: "Gửi tin nhắn riêng tư đến %{person}"
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: ~
       log_in: "đăng nhập"
@@ -1393,6 +1399,8 @@ vi:
       show_in_updates_email_loading: ~
       show_in_updates_email_error: ~
       show_in_updates_email_success: ~
+    map:
+      open_in_google_maps: ~
     error:
       something_went_wrong: ~
     follow_links:
@@ -1426,17 +1434,22 @@ vi:
         googlemap_updatemap: "Cập nhật bản đồ"
       images:
         image: Ảnh
+        best_result: ~
         no_file_selected: "Không có tập tin được chọn"
         remove_image: "Loại bỏ ảnh"
         select_file: "Chọ tập tin"
+        add_more: ~
         removing: ~
         processing: ~
         loading_image: ~
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: ~
         percentage_loaded: ~
         uploading_failed: ~
         file_too_large: ~
         accepted_formats: "Tập tin ảnh phải là một trong các định dạng GIF, JPG hoặc PNG"
+        images_not_uploaded_confirm: ~
       location:
         location: "Địa điểm"
       price:

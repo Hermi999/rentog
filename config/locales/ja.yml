@@ -248,6 +248,7 @@ ja:
         ban_user: アカウント停止ユーザ
         saving_user_status: 保存中...
         save_user_status_successful: 保存しました
+        export_all_as_csv: ~
         save_user_status_error: 保存に失敗しました。ページを再読込してもう一度試してください
         ban_user_confirmation: これはマーケットプレイスのユーザを削除するものであり、今後二度とこのアカウントに戻れないようになります。本当にこの削除手続きを実行してもよろしいですか。
         ban_me_error: 自分自身をアカウント停止ユーザに出来ません。
@@ -286,6 +287,7 @@ ja:
         url: URL
         empty: 追加メニューリンクはありません
       transactions:
+        export_all_as_csv: ~
         transactions: お支払い履歴の表示
         headers:
           conversation: 会話のスレッド
@@ -380,6 +382,7 @@ ja:
       configure: 設定
       emails_title: メールアドレス
       support: サポート
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -942,7 +945,6 @@ ja:
       change_my_password: パスワードの変更
       reset_password_instructions: "<p>あなたは%{service_name}のサービスにおいて、パスワードかユーザ名を忘れのお手続き中です。</p><p>あなたのユーザ名：%{username}</p><p>もしパスワードのリセットが必要な場合は、こちらをクリックしてください：%{password_reset_link}</p><br><p>もしそれをしない場合は、このメールを無視してください。パスワードは上記のリンクをクリックしない限り変更されることはありません。<p>"
     testimonial_reminder:
-      feedback_is_public_and_is_shown: "レビューはすべてのユーザに表示されます。他のユーザは%{name}さんが信頼できる人かどうかそして、互いに影響を与えても良いか判断が出来ます。従ってレビューを書くことを忘れないでください。また、他の人にあなたに関してレビューを書かれることに注意してください。多くのバッチをもらうにはポジティブなレビューが必要です。"
       remember_to_give_feedback_to: "ご注意：%{name}さんにレビューを書くのを忘れないでください"
       you_have_not_given_feedback_yet: "%{name}さんに「%{event}」の件でまだレビューを書いていないようです。この際に、%{given_name}さんのレビューを是非お願いします。"
     transaction_preauthorized:
@@ -1185,6 +1187,8 @@ ja:
       list_button: リスト
       all_listing_types: 全てのリストの種類
       all_categories: すべてのカテゴリー
+    errors:
+      search_engine_not_responding: ~
   infos:
     about:
       default_about_text_title: Sharetribeとは何ですか。
@@ -1387,6 +1391,8 @@ ja:
     comment:
       wrote: 書き込む
       send_private_message: "%{person}さんにプライベートメッセージを送信する"
+      delete: ~
+      are_you_sure: ~
     comment_form:
       ask_a_question: このリストについてのコメントや、更なる詳細について情報がほしい場合に書きこみが出来ます。すべてのユーザが、あなたのコメントを閲覧出来ることになります。
       log_in: ログイン
@@ -1407,6 +1413,8 @@ ja:
       show_in_updates_email_loading: 読み込み中...
       show_in_updates_email_error: サーバに接続できませんでした。ページを読み込んだ後、再度お試しください。
       show_in_updates_email_success: このリストはユーザに送信される、次回の自動お知らせメールに掲載されます。
+    map:
+      open_in_google_maps: ~
     error:
       something_went_wrong: "何か不具合がありました。 エラーコード： %{error_code}"
     follow_links:
@@ -1440,17 +1448,22 @@ ja:
         googlemap_updatemap: 地図を更新
       images:
         image: 画像
+        best_result: ~
         no_file_selected: ファイルが選択されていません
         remove_image: 画像を削除する
         select_file: ファイルを選択
+        add_more: ~
         removing: 削除しています...
         processing: 処理中です...
         loading_image: 読み込み中...
+        image_uploading_in_progress: ~
+        processing_takes_a_while: ~
         this_may_take_a_while: （もう少々かかります）
         percentage_loaded: "%{percentage}％"
         uploading_failed: イメージ画像のアップロードに失敗しました
         file_too_large: ファイルが大きすぎます。
         accepted_formats: GIF、JPG、PNGのいずれかの画像フォーマットにしてください。
+        images_not_uploaded_confirm: ~
       location:
         location: "場所 （地区、郵便番号、市町村名...）"
       price:
