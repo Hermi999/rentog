@@ -25,7 +25,7 @@
 class Invitation < ActiveRecord::Base
 
   #include ApplicationHelper
-  INVITATION_LIMIT = 100
+  INVITATION_LIMIT = APP_CONFIG.daily_email_invitation_limit
   INVITE_ONLY_INVITATION_LIMIT = 500
 
   has_many :community_memberships #One invitation can result many users joining.

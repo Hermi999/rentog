@@ -280,8 +280,12 @@ class Person < ActiveRecord::Base
   end
 
   def self.organization_email_available?(organization_email)
-     person = Person.find_by_email(organization_email)
-     !person.nil? && person.is_organization?
+    person = Person.find_by_email(organization_email)
+    if !person.nil? && person.is_organization?
+      person
+    else
+      nil
+    end
   end
 
   # Deprecated: This is view logic (how to display name) and thus should not be in model layer
