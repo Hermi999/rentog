@@ -449,7 +449,7 @@ module ApplicationHelper
     if @current_community
       service_name = @current_community.name(I18n.locale)
     else
-      service_name = APP_CONFIG.global_service_name || "Sharetribe"
+      service_name = APP_CONFIG.global_service_name || "Rentog"
     end
     return service_name
   end
@@ -475,7 +475,7 @@ module ApplicationHelper
   end
 
   def self.store_community_service_name_to_thread_from_community(community=nil)
-    ser_name = APP_CONFIG.global_service_name || "Sharetribe"
+    ser_name = APP_CONFIG.global_service_name || "Rentog"
 
     # if community has it's own setting, dig it out here
     if community
@@ -489,7 +489,7 @@ module ApplicationHelper
   end
 
   def self.fetch_community_service_name_from_thread
-    Thread.current[:current_community_service_name] || APP_CONFIG.global_service_name || "Sharetribe"
+    Thread.current[:current_community_service_name] || APP_CONFIG.global_service_name || "Rentog"
   end
 
   # Helper method for javascript. Return "undefined"
