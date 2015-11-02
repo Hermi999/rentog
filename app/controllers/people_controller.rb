@@ -77,23 +77,27 @@ class PeopleController < Devise::RegistrationsController
     # Check if signup link is an invitation from a company admin
     company_inviter = false
     if params[:code].present? && params[:ref].present? && params[:ref] == "email"
+
       if Invitation.code_usable?(params[:code], @current_community)
         invitation = Invitation.find_by_code(params[:code].upcase)
-        if invitation.present?
-          invited_email = invitation.email
-          inviter = Person.where(id: invitation.inviter_id).first
-          if invitation.target == "employee"
-            company_invitation = true
-            if inviter.is_organization?
-              inviter_name = inviter.organization_name
-            else
-              inviter_name = inviter.company.organization_name
-            end
-          end
-        end
       else
         flash[:error] = "Invitation code invalid"
         redirect_to sign_up_path and return
+      end
+
+      if invitation && invitation.present?
+        invited_email = invitation.email
+        inviter = Person.where(id: invitation.inviter_id).first
+
+        if invitation.target == "employee"
+          company_invitation = true
+
+          if inviter.is_organization?
+            inviter_name = inviter.organization_name
+          else
+            inviter_name = inviter.company.organization_name
+          end
+        end
       end
     end
 
@@ -210,14 +214,14 @@ class PeopleController < Devise::RegistrationsController
         flash[:error] = t("people.new.organization_doesnt_exists")
         redirect_to error_redirect_path and return
       else
-        params[:person][:organization_name] = comp.organization_name
+        params[:person][:company_name] = comp.organization_name
       end
     end
 
     # Create username
     if !params[:person][:username].present?
       if signup_as == "employee"
-        params[:person][:username] = "em_" + params[:person][:organization_name].truncate(4, omission: '') + "_" + (params[:person][:given_name]).truncate(3, omission: '') + "_" + (params[:person][:family_name]).truncate(3, omission: '') + "_" + rand(0..9999).to_s
+        params[:person][:username] = "em_" + params[:person][:company_name].truncate(4, omission: '') + "_" + (params[:person][:given_name]).truncate(3, omission: '') + "_" + (params[:person][:family_name]).truncate(3, omission: '') + "_" + rand(0..9999).to_s
       else
         params[:person][:username] = "co_" + params[:person][:organization_name].truncate(11, omission: '') + "_" + rand(0..9999).to_s
       end
@@ -502,8 +506,12 @@ class PeopleController < Devise::RegistrationsController
     params[:person][:locale] =  params[:locale] || APP_CONFIG.default_locale
     params[:person][:test_group_number] = 1 + rand(4)
 
+    # Remove temporary params before creating a new person
     email = Email.new(:person => person, :address => params[:person][:email].downcase, :send_notifications => true)
     params["person"].delete(:email)
+    company_name = params[:person][:company_name]
+    params["person"].delete(:company_name)
+
 
     person = build_devise_resource_from_person(person)
 
@@ -516,7 +524,7 @@ class PeopleController < Devise::RegistrationsController
       person.is_organization = true
     elsif params[:person][:signup_as] == "employee"
       person.is_organization = false
-      person.company = Person.find_by_organization_name(params[:person][:organization_name])
+      person.company = Person.find_by_organization_name(company_name)
     end
 
     if person.save!

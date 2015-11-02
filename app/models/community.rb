@@ -438,7 +438,7 @@ class Community < ActiveRecord::Base
     if settings && settings["service_name"].present?
       settings["service_name"]
     else
-      APP_CONFIG.global_service_name || "Sharetribe"
+      APP_CONFIG.global_service_name || "Rentog"
     end
   end
 

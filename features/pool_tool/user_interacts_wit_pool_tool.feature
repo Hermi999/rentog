@@ -218,7 +218,7 @@ Feature: User interacts with Pool Tool
       And there should be a booking with starter "kassi_testperson1", start-date +0, end-date +0, length 2 and offset 1 days in the Db
     # done
 
-
+  @skip_phantomjs
   Scenario: Delete existing Booking with Employee
     Given I will confirm all following confirmation dialogs in this page if I am running PhantomJS
       And there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
@@ -237,7 +237,7 @@ Feature: User interacts with Pool Tool
       And there should not be a booking with starter "employee_testperson1" in the Db
     # done
 
-
+  @skip_phantomjs
   Scenario: Delete existing Booking with other Reason
     Given I will confirm all following confirmation dialogs in this page if I am running PhantomJS
       And there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
@@ -256,7 +256,7 @@ Feature: User interacts with Pool Tool
       And there should not be a booking with starter "kassi_testperson1" and reason "internal000" in the Db
     # done
 
-
+  @skip_phantomjs
   Scenario: Create, update and delete a booking in a row
     # Create
     Given I will confirm all following confirmation dialogs in this page if I am running PhantomJS
