@@ -30,21 +30,18 @@ Feature: User joins invite only community
     And I fill in "invitation_email" with "test@example.com"
     And I fill in "invitation_message" with "test"
     And I press "Send invitation"
-    And I wait for 1 seconds
     Then I should see "Invitation sent successfully"
     When the system processes jobs
     And "test@example.com" should receive an email
 
     When I fill in "invitation_email" with "test@example.com"
     And I press "Send invitation"
-    And I wait for 1 seconds
     Then I should see "Invitation sent successfully"
     When the system processes jobs
     And "test@example.com" should receive 2 emails
 
     When I fill in "invitation_email" with "test2@example.com, another.test@example.com,third.strange.guy@example.com"
     And I fill in "invitation_message" with "test"
-    And I wait for 1 seconds
     And I press "Send invitation"
     Then I should see "Invitation sent successfully"
 

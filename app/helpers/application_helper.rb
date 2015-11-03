@@ -451,7 +451,7 @@ module ApplicationHelper
     else
       service_name = APP_CONFIG.global_service_name || "Rentog"
     end
-    return service_name
+    return "adf"
   end
 
   def email_not_accepted_message
