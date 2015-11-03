@@ -447,7 +447,7 @@ module ApplicationHelper
 
   def service_name
     if @current_community
-      service_name = "aaa" #@current_community.name(I18n.locale)
+      service_name = @current_community.name(I18n.locale)
     else
       service_name = APP_CONFIG.global_service_name || "Rentog"
     end
