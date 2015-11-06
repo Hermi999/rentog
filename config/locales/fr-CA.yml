@@ -21,6 +21,8 @@ fr-CA:
         category_transaction_types:
           transaction_types: "Types de transaction"
           transaction_types_description: "Les types de transaction définissent quels genres de transactions sont autorisés pour les annonces dans cette catégorie. Par exemple, est-ce uniquement de la vente ou bien louer et donner gratuitement sont-ils également permis."
+          select_all: ~
+          clear_all: ~
         buttons:
           save: Sauvegarder
           cancel: Annuler
@@ -330,6 +332,7 @@ fr-CA:
       edit:
         edit_listing_field: "Modifier le champ d'annonce '%{field_name}'"
       edit_price:
+        description: ~
         edit_price_field: "Modifier le champ d'annonce 'Prix'"
         show_price_filter_homepage: "Afficher le filtre de prix sur la page d'accueil"
         price_min: "Prix minimum"
@@ -351,6 +354,8 @@ fr-CA:
         field_title: "Nom du champ"
         field_type: "Type de champ"
         categories: "Catégories d'annonces pour lequel le champ est utilisé"
+        select_all: ~
+        clear_all: ~
         options: Choix
         add_option: "+ Ajouter une option"
         saving_order: "Sauvegarder l'ordre des champs"
@@ -387,7 +392,7 @@ fr-CA:
       configure: Configuration
       emails_title: Emails
       support: Support
-      subscription: ~
+      plan: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -1713,6 +1718,8 @@ fr-CA:
     change_account: "Changer de compte"
     missing: "Vous avez des annonces actives mais n'avez pas encore connecté votre compte PayPal, vous ne pouvez donc pas recevoir de paiements. Veuillez connecter votre compte PayPal dans vos %{settings_link}."
     from_your_payment_settings_link_text: "paramètres de paiement"
+    redirect_message: ~
+    redirect_link_text: ~
     new:
       payout_info_you_need_to_connect: "Pour accepter les paiements vous devez connecter votre compte PayPal à %{service_name}"
       payout_info_text: "Veuillez réaliser les actions suivantes pour connecter votre compte."

@@ -21,6 +21,8 @@ pt-BR:
         category_transaction_types:
           transaction_types: "Tipos de transação"
           transaction_types_description: "Os tipos de transação determinam quais operações são permitidas com anúncios nesta categoria. Por exemplo, só está vendendo, alugando ou permitindo doações também."
+          select_all: "Selecionar todos"
+          clear_all: "Limpar tudo"
         buttons:
           save: Salvar
           cancel: Anular
@@ -330,6 +332,7 @@ pt-BR:
       edit:
         edit_listing_field: "Alterar anúncio '%{field_name}'"
       edit_price:
+        description: "O preço máximo e o mínimo afetam somente o filtro. Eles não limitam o preço dos anúncios."
         edit_price_field: "Editar campo 'Preço'"
         show_price_filter_homepage: "Mostrar filtro de preço na página inicial"
         price_min: "Preço mínimo"
@@ -351,6 +354,8 @@ pt-BR:
         field_title: Nome
         field_type: "Especificar tipo de campo"
         categories: "Categorias de anúncio onde o campo é usado"
+        select_all: "Selecionar todos"
+        clear_all: "Limpar tudo"
         options: Opção
         add_option: "+ Adicionar opção"
         saving_order: Salvar
@@ -387,7 +392,7 @@ pt-BR:
       configure: Configuração
       emails_title: E-mails
       support: Suporte
-      subscription: "Minha Assinatura"
+      plan: "Minha Assinatura"
     listing_shapes:
       index:
         listing_shapes: "Pedidos por tipos"
@@ -947,7 +952,7 @@ pt-BR:
       added_listing: "%{name_link} adicionou um anúncio:"
       update_mail_title: "%{title_link} Novidades"
       title_link_text: "%{community_name}"
-      intro_paragraph: "Veja algumas coisas que aconteceram no %{community_link} nos últimos %{time_since_last_update}."
+      intro_paragraph: "Veja algumas coisas que aconteceram no %{community_link} desde %{time_since_last_update}."
       intro_paragraph_link_text: "%{community_name}"
       post_a_new_listing: "Postar um novo anúncio!"
       reduce_email_footer_text: "E-mails demais ? %{settings_link} ou %{unsubscribe_link}"
@@ -1292,7 +1297,7 @@ pt-BR:
       confirmation_link_is_wrong_or_used: "O link de confirmação já está sendo usado ou está com problemas. Tente fazer o login ou entre em contado conosco se o problema persiste."
       additional_email_confirmed: "O e-mail que você entrou agora está confirmado."
       could_not_get_email_from_facebook: "Não foi possível obter endereço de e-mail do Facebook e não pode criar uma conta sem e-mail."
-      create_new_listing: "Criar uma outra lista"
+      create_new_listing: "Criar um outro anúncio"
       create_one_here: "crie um aqui"
       email_confirmation_sent_to_new_address: "E-mail de confirmação é agora enviado para o novo endereço."
       email_not_found: "O e-mail que você forneceu não existe no banco de dados do %{service_name}."
@@ -1323,7 +1328,7 @@ pt-BR:
       listing_created_successfully: "Anúncio criado com sucesso. %{new_listing_link}"
       offer_rejected: "Oferta rejeitada"
       offer_canceled: "Oferta cancelada"
-      listing_updated_successfully: "Listagem atualizada com sucesso"
+      listing_updated_successfully: "Anúncio atualizado com sucesso"
       only_kassi_administrators_can_access_this_area: "Só %{service_name} administradores podem aceder a esta área"
       only_listing_author_can_close_a_listing: "Somente o autor do anúncio pode fechar o mesmo"
       only_listing_author_can_edit_a_listing: "Somente o autor do anúncio pode editar o mesmo"
@@ -1373,15 +1378,15 @@ pt-BR:
       you_must_log_in_to_give_feedback: "Você deve conectar para escrever um 'feedback'"
       you_must_log_in_to_invite_new_users: "Você deve se conectar para convidar novos usuários a %{service_name}"
       you_must_log_in_to_send_a_comment: "Você deve conectar para enviar um novo comentário"
-      you_must_log_in_to_send_a_message: "Você deve fazer se conectar em %{service_name} para enviar uma mensagem para outro usuário."
+      you_must_log_in_to_send_a_message: "Você deve fazer entrar no %{service_name} para enviar uma mensagem para outro usuário."
       you_must_log_in_to_do_a_transaction: "Você precisa entrar no %{service_name} para realizar uma transação"
       you_must_log_in_to_view_this_content: "Você deve se conectar para visualizar este conteúdo"
       you_must_log_in_to_view_this_page: "Você deve se conectar para ver esta página"
-      you_must_log_in_to_view_your_inbox: "Você deve se conectar em %{service_name} para ver sua caixa de entrada."
-      you_must_log_in_to_view_your_settings: "Você deve se conectar em %{service_name} para exibir suas configurações."
-      you_must_log_in_to_add_news_item: "Você deve se conectar em %{service_name} para adicionar um novo artigo."
-      you_must_log_in_to_change_profile_settings: "Você deve se conectar em %{service_name} para mudar as configurações de perfil."
-      you_must_log_in_to_change_payment_settings: "Você deve se conectar em %{service_name} para alterar as configurações de pagamento"
+      you_must_log_in_to_view_your_inbox: "Você deve entrar no %{service_name} para ver a sua caixa de entrada."
+      you_must_log_in_to_view_your_settings: "Você deve entrar no %{service_name} para exibir suas configurações."
+      you_must_log_in_to_add_news_item: "Você deve entrar no %{service_name} para adicionar um novo artigo."
+      you_must_log_in_to_change_profile_settings: "Você deve entrar no %{service_name} para mudar as configurações de perfil."
+      you_must_log_in_to_change_payment_settings: "Você deve entrar no %{service_name} para alterar as configurações de pagamento"
       you_must_log_in_to_accept_or_reject: "Você deve conectar sua conta para aceitar ou rejeitar a transação"
       you_must_log_in_to_confirm_or_cancel: "Você deve conectar sua conta para cancelar ou confirmar a transação"
       you_need_to_confirm_your_account_first: "Você precisa confirmar o seu e-mail."
@@ -1727,6 +1732,8 @@ pt-BR:
     change_account: "Mudar conta"
     missing: "Você têm anúncios ativos mas não pode receber pagamentos porque sua conta no PayPal ainda não foi configurada. Por favor conecte sua conta do PayPal em %{settings_link}, você também também precisa dar permissão para que %{service_name} cobre taxa de transação."
     from_your_payment_settings_link_text: "configurações de pagamento"
+    redirect_message: ~
+    redirect_link_text: ~
     new:
       payout_info_you_need_to_connect: "Para aceitar pagamentos você deve conectar a sua conta PayPal com %{service_name}."
       payout_info_text: "Por favor, realize os dois passos seguintes para se conectar a sua conta."
@@ -1799,7 +1806,7 @@ pt-BR:
       organization_name: "Nome da organização"
       password_again: "Confirme a senha"
       show_my_name_to_others: "Mostrar o meu nome completo aos utilizadores de %{service_name}"
-      sign_up: "Cadastrar-se em %{service_name}"
+      sign_up: "Criar uma conta no %{service_name}"
       terms: "termos de uso"
       username_is_in_use: "Este nome de usuário já está em uso."
       username_is_invalid: "Nome de usuário é inválido. Os caracteres permitidos são letras, números e sublinhado."
@@ -1882,7 +1889,7 @@ pt-BR:
       create_new_account: "Criar uma nova conta"
       i_forgot_my_password: "Esqueci meu usuário ou a minha senha"
       login: Entrar
-      login_to_kassi: "Conectar em %{service_name}"
+      login_to_kassi: "Entrar no %{service_name}"
       connect_your_facebook_to_kassi: "Associar a sua conta Facebook à %{service_name}"
       facebook_account: "Conta Facebook :"
       log_in_to_link_account: "Se você já tem uma conta %{service_name}, se conecte para vinculá-la com a sua conta do Facebook."

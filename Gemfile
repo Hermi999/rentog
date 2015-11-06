@@ -21,6 +21,7 @@ gem 'compass-rails'
 gem 'jquery-rails', '3.1.3'     # JQUERY_VERSION "1.11.1", JQUERY_UJS_VERSION = "1.0.4"
 gem 'jquery-ui-rails', '5.0.5'
 gem 'gon', '~> 6.0.1'
+gem 'jquery-rails', '2.1.4'
 
 # Bundle the extra gems:
 

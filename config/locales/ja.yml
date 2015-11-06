@@ -21,6 +21,8 @@ ja:
         category_transaction_types:
           transaction_types: 課金タイプ
           transaction_types_description: カテゴリーの中のリストはどの課金タイプに該当するかを決めます。例えば、「売ります」だけにする場合、「貸します」と「あげます」「ご自由にどうぞ」にも適用する場合。
+          select_all: ~
+          clear_all: ~
         buttons:
           save: 保存する
           cancel: キャンセル
@@ -325,6 +327,7 @@ ja:
       edit:
         edit_listing_field: "「%{field_name}」項目を編集する"
       edit_price:
+        description: ~
         edit_price_field: 価格項目の編集
         show_price_filter_homepage: ホームページに価格の検索フィルターを設置
         price_min: 最低価格
@@ -346,6 +349,8 @@ ja:
         field_title: 項目のタイトル
         field_type: 項目の種類
         categories: 項目が使用されるリストのカテゴリ
+        select_all: ~
+        clear_all: ~
         options: オプション
         add_option: "+ オプションを追加する"
         saving_order: 項目の順番を保存する
@@ -382,7 +387,7 @@ ja:
       configure: 設定
       emails_title: メールアドレス
       support: サポート
-      subscription: ~
+      plan: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -1708,6 +1713,8 @@ ja:
     change_account: アカウントの変更
     missing: "公開されているリストがありますが、Paypalに接続できていないようなのでお支払いを受け取れません。%{settings_link}からPaypal口座に接続手続きをお願いします。"
     from_your_payment_settings_link_text: お支払い設定
+    redirect_message: ~
+    redirect_link_text: ~
     new:
       payout_info_you_need_to_connect: "購入者からのお支払いを受け取るには、あなたのPayPalアカウントを%{service_name}に接続する必要があります。"
       payout_info_text: あなたのアカウントを接続するために次の２つのステップを完了させてください。

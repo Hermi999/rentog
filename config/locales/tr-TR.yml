@@ -21,6 +21,8 @@ tr-TR:
         category_transaction_types:
           transaction_types: "İşlem türleri"
           transaction_types_description: "İşlem türleri bu kategorideki listelemelerde izin verilen işlemleri belirler. Örneğin, sadece satışa ya da kiralama ve hediye etme türlerine izin verilebilir."
+          select_all: ~
+          clear_all: ~
         buttons:
           save: Kaydet
           cancel: İptal
@@ -325,6 +327,7 @@ tr-TR:
       edit:
         edit_listing_field: "'%{field_name}' listeleme alanını düzenle"
       edit_price:
+        description: ~
         edit_price_field: "Fiyat alanını düzenle"
         show_price_filter_homepage: "Ana sayfada fiyat filtresi göster"
         price_min: "Minimum fiyat"
@@ -346,6 +349,8 @@ tr-TR:
         field_title: "Alan adı"
         field_type: "Alan türü"
         categories: "Alanın kullanıldığı listeleme kategorileri"
+        select_all: ~
+        clear_all: ~
         options: Tercihler
         add_option: "+ Seçenek ekle"
         saving_order: "Alan düzeni kaydediliyor"
@@ -382,7 +387,7 @@ tr-TR:
       configure: Ayarlar
       emails_title: E-postalar
       support: Destek
-      subscription: ~
+      plan: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -1710,6 +1715,8 @@ tr-TR:
     change_account: "Hesabı Değiştir"
     missing: "Aktif listeniz bulunmakta fakat PayPal hesabınızı sitemize bağlamadığınız için ödeme alamayacaksınız. Lütfen %{settings_link} kısmından PayPal hesabınızı en kısa zamanda bağlayın."
     from_your_payment_settings_link_text: "ödeme ayarları"
+    redirect_message: ~
+    redirect_link_text: ~
     new:
       payout_info_you_need_to_connect: "Ödeme kabul edebilmek için PayPal hesabınızı %{service_name}'a bağlamanız gerekmektedir."
       payout_info_text: "Lütfen, hesabınızı bağlamak için aşağıdaki iki adımı tamamlayın."

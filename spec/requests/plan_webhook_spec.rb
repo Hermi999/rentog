@@ -25,7 +25,7 @@ describe "plan provisioning" do
 
       error_log = log_target.parse_log(:error)
       expect(error_log)
-        .to eq([{tag: "external_plan_service", free: "Unauthorized", structured: {"token"=>nil}}])
+        .to eq([{tag: "external_plan_service", free: "Unauthorized", structured: {"error" => "token_missing", "token"=>nil}}])
     end
 
     it "returns 200 if authorized" do
@@ -80,7 +80,7 @@ describe "plan provisioning" do
 
       post "http://webhooks.sharetribe.com/webhooks/plans?token=#{token}", body
 
-      plan1234 = PlanService::API::Api.plans.get_current_plan(community_id: 1234).data
+      plan1234 = PlanService::API::Api.plans.get_current(community_id: 1234).data
 
       expect(plan1234.slice(:community_id, :plan_level, :expires_at)).to eq({
                                community_id: 1234,
@@ -88,7 +88,7 @@ describe "plan provisioning" do
                                expires_at: nil
                              })
 
-      plan5555 = PlanService::API::Api.plans.get_current_plan(community_id: 5555)
+      plan5555 = PlanService::API::Api.plans.get_current(community_id: 5555)
                  .data
 
       expect(plan5555.slice(:community_id, :plan_level, :expires_at)).to eq({
@@ -159,8 +159,11 @@ describe "plan provisioning" do
                             }.to_json))
 
         log_entry = log_target.parse_log(:info).first
-        expect(log_entry[:free]).to eq("Returned 2 plans that were created after 2015-10-01 00:00:00 UTC")
-        expect(log_entry[:structured]).to eq({"count" => 2, "after" => "2015-10-01T00:00:00Z"})
+        expect(log_entry[:free]).to eq("Fetching plans that are created after 2015-10-01 00:00:00 UTC")
+        expect(log_entry[:structured]).to eq({"after" => "2015-10-01T00:00:00Z", "limit" => 1000})
+        log_entry = log_target.parse_log(:info).second
+        expect(log_entry[:free]).to eq("Returned 2 plans")
+        expect(log_entry[:structured]).to eq({"count" => 2})
       end
 
       it "supports pagination" do

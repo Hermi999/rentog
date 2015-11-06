@@ -21,6 +21,8 @@ sv:
         category_transaction_types:
           transaction_types: Transaktionstyp
           transaction_types_description: "Transaktionstyper avgör vilka typ av transaktioner som tillåts med annonser i denna kategori. T ex är det bara försäljning, eller är det uthyrning och ge bort också tillåtet."
+          select_all: ~
+          clear_all: ~
         buttons:
           save: Spara
           cancel: Avbryt
@@ -330,6 +332,7 @@ sv:
       edit:
         edit_listing_field: "Redigera annonsfält %{field_name}"
       edit_price:
+        description: ~
         edit_price_field: "Redigera prisfält"
         show_price_filter_homepage: "Visa prisfilter på startsidan"
         price_min: Minimipris
@@ -351,6 +354,8 @@ sv:
         field_title: Fältnamn
         field_type: "Typ av fält"
         categories: "Annonskategorier där fältet används"
+        select_all: ~
+        clear_all: ~
         options: Val
         add_option: "+ Lägg till alternativ"
         saving_order: "Spara fältordning"
@@ -387,7 +392,7 @@ sv:
       configure: Konfiguration
       emails_title: E-post
       support: Support
-      subscription: ~
+      plan: ~
     listing_shapes:
       index:
         listing_shapes: Ordertyper
@@ -1727,6 +1732,8 @@ sv:
     change_account: "Byt konto"
     missing: "Du har öppna annonser, men ditt PayPal-konto är inte inställt för att ta emot betalningar. Koppla ditt PayPal-konto och ge %{service_name} tillåtelse at ta en transaktionsavgift från din %{settings_link}."
     from_your_payment_settings_link_text: betalningsinställningar
+    redirect_message: ~
+    redirect_link_text: ~
     new:
       payout_info_you_need_to_connect: "För att kunna ta emot betalningar så måste du koppla ditt PayPal-konto med %{service_name}."
       payout_info_text: "Vänligen slutför dessa två steg för att koppla ditt konto."

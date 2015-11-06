@@ -659,6 +659,9 @@ ActiveRecord::Schema.define(:version => 20151101214714) do
     t.datetime "updated_at",   :null => false
   end
 
+  add_index "marketplace_plans", ["community_id"], :name => "index_marketplace_plans_on_community_id"
+  add_index "marketplace_plans", ["created_at"], :name => "index_marketplace_plans_on_created_at"
+
   create_table "marketplace_sender_emails", :force => true do |t|
     t.integer  "community_id",                            :null => false
     t.string   "name"
@@ -677,6 +680,9 @@ ActiveRecord::Schema.define(:version => 20151101214714) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
+
+  add_index "marketplace_trials", ["community_id"], :name => "index_marketplace_trials_on_community_id"
+  add_index "marketplace_trials", ["created_at"], :name => "index_marketplace_trials_on_created_at"
 
   create_table "menu_link_translations", :force => true do |t|
     t.integer  "menu_link_id"

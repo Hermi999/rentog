@@ -21,6 +21,8 @@ zh-TW:
         category_transaction_types:
           transaction_types: 订单的类型
           transaction_types_description: 交易类型决定了在该类别中的发布的信息的订购流程。比如，是否只能卖，或者出租以及允许免费赠送。
+          select_all: ~
+          clear_all: ~
         buttons:
           save: 保存
           cancel: 取消
@@ -325,6 +327,7 @@ zh-TW:
       edit:
         edit_listing_field: "编辑信息字段“%{field_name}”"
       edit_price:
+        description: ~
         edit_price_field: 编辑价格字段
         show_price_filter_homepage: 在主页显示价格过滤器
         price_min: 最低价格
@@ -346,6 +349,8 @@ zh-TW:
         field_title: 字段标题
         field_type: 字段类型
         categories: 信息分类字段
+        select_all: ~
+        clear_all: ~
         options: 选项
         add_option: +添加选项
         saving_order: 保存字段顺序
@@ -382,7 +387,7 @@ zh-TW:
       configure: 配置
       emails_title: 电邮
       support: 支持
-      subscription: ~
+      plan: ~
     listing_shapes:
       index:
         listing_shapes: 交易类型
@@ -1714,6 +1719,8 @@ zh-TW:
     change_account: 更改帐户
     missing: "你有开放的信息，但是并没有连接到你的PayPal帐号来接受付款。通过你的%{settings_link}连接你的Paypal账号并且授予%{service_name}权限来收取交易费。"
     from_your_payment_settings_link_text: 付款设置
+    redirect_message: ~
+    redirect_link_text: ~
     new:
       payout_info_you_need_to_connect: "要接受付款你需要连接你的PayPal帐号和%{service_name}。"
       payout_info_text: 请完成下列两个步骤来连接你的帐号。
