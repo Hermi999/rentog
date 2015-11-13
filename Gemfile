@@ -97,6 +97,7 @@ group :staging, :production do
   gem 'newrelic_rpm', '~> 3.9.1.236'
   # Daemons gem installed because otherwise delayed worker won't work on beanstalk
   gem 'daemons', '~> 1.2.3'
+  gem 'puma', '~> 2.14'
 end
 
 group :development, :test do
