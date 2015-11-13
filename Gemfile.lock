@@ -459,6 +459,7 @@ GEM
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
     public_suffix (1.5.1)
+    puma (2.15.3)
     pusher-client (0.4.0)
       websocket (~> 1.0.0)
     quiet_assets (1.1.0)
@@ -694,6 +695,7 @@ DEPENDENCIES
   pry-rails
   pry-stack_explorer
   public_suffix
+  puma (~> 2.14)
   quiet_assets
   rabl
   rack-livereload
