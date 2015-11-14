@@ -30,10 +30,9 @@ gem 'jquery-rails', '3.1.3'     # JQUERY_VERSION "1.11.1", JQUERY_UJS_VERSION = 
 gem 'jquery-ui-rails', '5.0.5'
 gem 'gon', '~> 6.0.1'
 
-# Bundle the extra gems:
-
 # gem 'heroku' install the Heroku toolbelt (https://toolbelt.heroku.com/) instead (as gem had some problems)
-gem "passenger", "~> 5.0.18"
+# gem "passenger", "~> 5.0.18"
+gem 'puma', '~> 2.14'
 gem "rack-timeout"
 
 gem "mysql2"
@@ -97,7 +96,6 @@ group :staging, :production do
   gem 'newrelic_rpm', '~> 3.9.1.236'
   # Daemons gem installed because otherwise delayed worker won't work on beanstalk
   gem 'daemons', '~> 1.2.3'
-  gem 'puma', '~> 2.14'
 end
 
 group :development, :test do
