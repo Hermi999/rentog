@@ -32,7 +32,6 @@ gem 'gon', '~> 6.0.1'
 
 # gem 'heroku' install the Heroku toolbelt (https://toolbelt.heroku.com/) instead (as gem had some problems)
 # gem "passenger", "~> 5.0.18"
-gem 'puma', '~> 2.14'
 gem "rack-timeout"
 
 gem "mysql2"
