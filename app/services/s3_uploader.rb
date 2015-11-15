@@ -1,4 +1,4 @@
-# This implementation is base on:
+# This implementation is based on:
 # http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-UsingHTTPPOST.html
 class S3Uploader
 
