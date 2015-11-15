@@ -31,7 +31,7 @@ gem 'jquery-ui-rails', '5.0.5'
 gem 'gon', '~> 6.0.1'
 
 # gem 'heroku' install the Heroku toolbelt (https://toolbelt.heroku.com/) instead (as gem had some problems)
-# gem "passenger", "~> 5.0.18"
+gem "passenger", "~> 5.0.18"
 gem "rack-timeout"
 
 gem "mysql2"
