@@ -1,0 +1,6 @@
+staging:
+  access_key_id: 'AKIAITBY5GJX57LSYREA'
+  secret_access_key: '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'
+production:
+  access_key_id: 'AKIAITBY5GJX57LSYREA'
+  secret_access_key: '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'
