@@ -33,7 +33,7 @@ namespace :dump do
     db_config = current_db_config(env)
     system "#{mysqldump(db_config)} | gzip -c > #{file}"
 
-    # wah: transfer file from production to staging server
+    # wah: transfer file from production to staging server.
     # scp -i ~/Path-To-Key-File/AAA.pem /path/file  ec2-user@<Private IP of Machine B>:/path/file
     # Allow SSH Inbound on staging server
     # system "scp -i ~/ec2key-Frankfurt.pem /tmp/dump_production.sql.gz ec2-user@172.31.13.175:/tmp/dump_production.sql.gz"
