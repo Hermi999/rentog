@@ -40,6 +40,7 @@
 #  is_organization                    :boolean
 #  organization_name                  :string(255)
 #  deleted                            :boolean          default(FALSE)
+#  pool_tool_color_schema             :string(255)      default("theme_dark")
 #
 # Indexes
 #

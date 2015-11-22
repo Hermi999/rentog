@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151102084029) do
+ActiveRecord::Schema.define(:version => 20151122191607) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -221,6 +221,7 @@ ActiveRecord::Schema.define(:version => 20151102084029) do
     t.boolean  "employees_can_buy_listings",                               :default => false
     t.boolean  "only_pool_tool",                                           :default => false
     t.boolean  "disable_facebook_twitter",                                 :default => false
+    t.boolean  "employee_has_own_profile",                                 :default => true
   end
 
   add_index "communities", ["domain"], :name => "index_communities_on_domain"
@@ -914,7 +915,7 @@ ActiveRecord::Schema.define(:version => 20151102084029) do
   add_index "paypal_tokens", ["transaction_id"], :name => "index_paypal_tokens_on_transaction_id"
 
   create_table "people", :id => false, :force => true do |t|
-    t.string   "id",                                 :limit => 22,                    :null => false
+    t.string   "id",                                 :limit => 22,                           :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "is_admin",                                         :default => 0
@@ -926,7 +927,7 @@ ActiveRecord::Schema.define(:version => 20151102084029) do
     t.boolean  "active",                                           :default => true
     t.string   "username"
     t.string   "email"
-    t.string   "encrypted_password",                               :default => "",    :null => false
+    t.string   "encrypted_password",                               :default => "",           :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -952,6 +953,7 @@ ActiveRecord::Schema.define(:version => 20151102084029) do
     t.boolean  "is_organization"
     t.string   "organization_name"
     t.boolean  "deleted",                                          :default => false
+    t.string   "pool_tool_color_schema",                           :default => "theme_dark"
   end
 
   add_index "people", ["authentication_token"], :name => "index_people_on_authentication_token"

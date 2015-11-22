@@ -904,6 +904,9 @@ Kassi::Application.routes.draw do
         resources :employments
 
         get :poolTool, to: 'pool_tool#show'
+
+        get  :poolToolTheme, to: 'pool_tool#get_theme'
+        post :poolToolTheme, to: 'pool_tool#set_theme'
       end # people
 
     end # devise scope person

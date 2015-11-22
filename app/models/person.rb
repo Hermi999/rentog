@@ -40,6 +40,7 @@
 #  is_organization                    :boolean
 #  organization_name                  :string(255)
 #  deleted                            :boolean          default(FALSE)
+#  pool_tool_color_schema             :string(255)      default("theme_dark")
 #
 # Indexes
 #
@@ -188,7 +189,7 @@ class Person < ActiveRecord::Base
 
   serialize :preferences
 
-#  validates_uniqueness_of :username
+# Validations
   validates_length_of :phone_number, :maximum => 25, :allow_nil => true, :allow_blank => true
   validates_length_of :username, :within => 3..20
   validates_length_of :organization_name, :within => 3..30, :allow_nil => true, :allow_blank => true
@@ -200,8 +201,10 @@ class Person < ActiveRecord::Base
 
   USERNAME_BLACKLIST = YAML.load_file("#{Rails.root}/config/username_blacklist.yml")
   ORGANIZATION_NAME_BLACKLIST = YAML.load_file("#{Rails.root}/config/organizationname_blacklist.yml")
+  THEME_WHITELIST = ["theme_dark", "theme_white", "theme_red"]
 
   validates :username, :exclusion => USERNAME_BLACKLIST
+  validates :pool_tool_color_schema, :inclusion => THEME_WHITELIST
   validate :community_email_type_is_correct
 
   has_attached_file :image, :styles => {

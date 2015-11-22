@@ -912,9 +912,14 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
 
         // Decide which gantt-Class to use for drawing the new booking
         if (data.employee){
-          custom_class = "gantt_ownEmployee";
+          if (gon.current_user_id === data.renter_id){
+            custom_class = "gantt_ownEmployee_me";
+          }else{
+            // Admin create booking for employee
+            custom_class = "gantt_ownEmployee";
+          }
         }else{
-          custom_class = "gantt_otherReason";
+          custom_class = "gantt_otherReason_me";
         }
 
         // Add booking element to existing device (skip the empty dummy one)
@@ -967,7 +972,26 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         window.ST.poolTool().updateGanttChart(gon.source);
 
       }else{
-        // error occured
+        if(data.error_message !== ""){
+          $('#error_message').html(data.error_message);
+        }
+
+        $('#error_message').show();
+        $('#error_message').fadeOut(15000);
+
+        // Enable Submit button again
+        $(form_id).find(":submit").prop('disabled', false);
+        $(form_id).find(":submit").prop('value', btn_text);
+
+        // Set the first radio button checked
+        $('input:radio[name=listing_id]:first').prop('checked',true);
+        $("input:radio[name=listing_id]:first").change();
+
+        // close form
+        $('#addNewBookingForm').hide();
+        addButton.html(gon.add_booking);
+        addButton.addClass('primary-button');
+        addButton.removeClass('delete-button');
       }
     },
     error: function(){

@@ -1,7 +1,6 @@
 class PoolToolController < ApplicationController
   # Filters
-  before_filter :ensure_is_authorized_to_view, :only => [ :show ]
-  before_filter :ensure_is_authorized_to_change, :only => [:create]
+  before_filter :ensure_is_authorized_to_view, :only => [ :show]
 
   def show
     # @company_owner is the person which owns the company
@@ -58,7 +57,8 @@ class PoolToolController < ApplicationController
                                 desc: listing.availability,
                                 availability: listing.availability,
                                 listing_id: listing.id,
-                                created_at: listing.created_at }
+                                created_at: listing.created_at,
+                                image: listing.listing_images.first.small_3x2 }
     end
     # Convert all the transaction into a jquery-Gantt readable source.
     # wah: This might be shifted to the client (javascript) in future, since
@@ -72,7 +72,7 @@ class PoolToolController < ApplicationController
 
       if transaction['reason']
         renting_entity = transaction['reason']
-      elsif transaction['renting_entity_organame'] != ""
+      elsif transaction['renting_entity_organame'] != "" && transaction['renting_entity_organame'] != nil
         renting_entity = transaction['renting_entity_organame']
       else
         renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name']
@@ -121,6 +121,27 @@ class PoolToolController < ApplicationController
     render locals: { listings: listings }
   end
 
+  def get_theme
+    # User has to be logged in
+    return if !@current_user
+
+    respond_to do |format|
+      format.json { render :json => {theme: @current_user.pool_tool_color_schema} }
+    end
+  end
+
+  def set_theme
+    # User has to be logged in
+    return if !@current_user
+
+    # Save in db
+      @current_user.update_attribute :pool_tool_color_schema, params['theme']
+
+    respond_to do |format|
+      format.json { render :json => {theme: @current_user.pool_tool_color_schema} }
+    end
+  end
+
 
   private
 
@@ -137,19 +158,6 @@ class PoolToolController < ApplicationController
 
       # Otherwise return to home page
       flash[:error] = t("pool_tool.you_have_to_be_company_member")
-      redirect_to root_path and return
-    end
-
-
-    def ensure_is_authorized_to_change()
-      # # Company Admin is authorized
-      return if @current_user && @current_user.is_organization && @current_user.username == params['person_id']
-
-      # Rentog Admin is authorized
-      return if @current_user && @current_user.has_admin_rights_in?(@current_community)
-
-      # Otherwise return to home page
-      flash[:error] = t("pool_tool.you_have_to_be_company_admin")
       redirect_to root_path and return
     end
 
@@ -177,6 +185,11 @@ class PoolToolController < ApplicationController
             # Employee of another company is renting listing
             relation = "anyEmployee"
           end
+        end
+
+        # If renter is the current user
+        if renter == @current_user
+          relation = relation + "_me"
         end
 
         { renter: renter, relation: relation }
@@ -214,13 +227,16 @@ class PoolToolController < ApplicationController
 
         comp_id: @company_owner.id,
         current_user_id: @current_user.id,
+        current_user_username: @current_user.username,
         is_admin: @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community),
+        theme: @current_user.pool_tool_color_schema,
 
         utilization_header: t("pool_tool.load_popover.utilization_header"),
         utilization_desc_1: t("pool_tool.load_popover.utilization_desc_1"),
         utilization_desc_2: t("pool_tool.load_popover.utilization_desc_2"),
-        utilization_text: t("pool_tool.load_popover.utilization_text"),
-        utilization_created_at: t("pool_tool.load_popover.utilization_created_at"),
+        utilization_text_outOf: t("pool_tool.load_popover.utilization_text_outOf"),
+        utilization_text_days: t("pool_tool.load_popover.utilization_text_days"),
+        utilization_start_date: t("pool_tool.load_popover.utilization_start_date"),
         availability_desc_header_trusted: "Trusted",
         availability_desc_header_intern: "Intern",
         availability_desc_header_all: "All",

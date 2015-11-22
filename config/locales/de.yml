@@ -222,6 +222,7 @@ de:
         profile_preferences: "Profileinstellungen"
         others_can_see_employees: "Zeige die eignene Mitarbeiter anderen auf der Unternehmens-Profilseite"
         only_pool_tool: "Nur das Pool-Tool ist aktiv. Keine anderen Dienste."
+        employee_has_own_profile: "Mitarbeiter hat ein eigenes Profil."
         listing_preferences: Eintragseinstellungen
         transaction_preferences: Transaktionspräferenzen
         show_listing_publishing_date: "Datum der Veröffentlichung des Eintrags auf der Artikelseite darstellen"
@@ -572,11 +573,11 @@ de:
     paypal_fee_info:
       title: PayPal-Zahlungsbearbeitungsgebühr
       body_text: |-
-          PayPal erhebt eine Transaktionsgebühr auf jede Zahlung. Diese Gebühr liegt in Deutschland bei maximal 1,9% + 0,35 € pro inländischer Transaktion (sie ist geringer bei höheren Umsätzen). 
+          PayPal erhebt eine Transaktionsgebühr auf jede Zahlung. Diese Gebühr liegt in Deutschland bei maximal 1,9% + 0,35 € pro inländischer Transaktion (sie ist geringer bei höheren Umsätzen).
           Wenn Du Dich bei Deinem Paypal Account anmeldest, erhälst Du unter dieser Adresse %{link_to_paypal} mehr Informationen auch zu internationalen Zahlungen.
           Nach jeder Transaktion bekommst Du einen Beleg mit der exakten Gebühr.
       body_with_shipping_text: |-
-          PayPal erhebt eine Transaktionsgebühr auf jede Zahlung. Diese Gebühr liegt in Deutschland bei maximal 1,9% + 0,35 € pro inländischer Transaktion (sie ist geringer bei höheren Umsätzen). 
+          PayPal erhebt eine Transaktionsgebühr auf jede Zahlung. Diese Gebühr liegt in Deutschland bei maximal 1,9% + 0,35 € pro inländischer Transaktion (sie ist geringer bei höheren Umsätzen).
           Wenn Du Dich bei Deinem Paypal Account anmeldest, erhälst Du unter dieser Adresse %{link_to_paypal} mehr Informationen auch zu internationalen Zahlungen.
           Nach jeder Transaktion bekommst Du einen Beleg mit der exakten Gebühr.
       link_to_paypal_text: hier
@@ -1034,7 +1035,7 @@ de:
       required_error: "Du musst die Vereinbarung akzeptieren"
     paypal:
       buyer_cannot_pay_error: "Die Bezahlung wurde von Paypal abgelehnt. Bitte kontaktiere den Kundenservice für mehr Informationen: %{customer_service_link}"
-      pending_review_error: "Die Zahlung wurde eingereicht, wurde aber von PayPal als \"erfordert Bewertung' gekennzeichnet. Wenn PayPal die Überprüfung abgeschlossen hat, wird die Zahlung automatisch genehmigt werden."
+      pending_review_error: "Die Zahlung wurde eingereicht, wurde aber von PayPal als 'erfordert Bewertung' gekennzeichnet. Wenn PayPal die Überprüfung abgeschlossen hat, wird die Zahlung automatisch genehmigt werden."
       generic_error: "Während des Zahlungsvorgangs ist ein Fehler aufgetreten. Die PayPal Zahlung konnte nicht abgeschlossen werden."
       cancel_error: "Während der Stornierung ist ein Fehler aufgetreten. Der Abbruch konnte nicht abgeschlossen werden."
       accept_authorization_error: "Bei dem Versuch, eine vorab autorisierte PayPal-Zahlung zu akzeptieren, ist ein Fehler aufgetreten. Bitte versuche es erneut."
@@ -1112,6 +1113,7 @@ de:
     requests: Anfragen
     search_kassi: "Suchen %{service_name}"
     create_new_marketplace: "Entwerfe einen neuen Marktplatz"
+    company_profile: "Mein Unternehmen"
     contact_us: Kontakt
     profile: Profil
     invite: "Neue Mitglieder einladen"
@@ -2211,7 +2213,7 @@ de:
     next_month: "Nächstes Monat"
     date: "Datum:"
     headline: "Pool Management Tool"
-    add_booking: "Erstelle neue Buchung"
+    add_booking: "Erstelle Buchung"
     cancel_booking: "Abbrechen"
     event_hint: "Du kannst hier Reservierungen für Messgeräte hinzufügen."
     device_name: "Wähle eines deiner Messgeräte"
@@ -2219,9 +2221,9 @@ de:
     deleteConfirmation: "Willst du diese Buchung wirklich löschen?"
     where_is_it: "Wo befindet sich das Gerät?"
     turn_your_device: "Bitte drehen Sie ihr mobiles Gerät innerhalb des Pool Tools!"
-    invalid_booking_dates: "Ungültiger Buchungszeitraum"
+    invalid_booking_dates: "Ungültiger Buchungszeitraum: Vielleicht hat jemand anderes schon an einem der gewählten Tage das Gerät gebucht. Bitte lade die Seite neu und versuche es noch einmal."
     show:
-      could_not_create_new_booking: "Error: Action failed!"
+      could_not_create_new_booking: "Error: Aktion fehlgeschlagen! Bitte überprüfe deine Internet-Verbindung."
       booking_from: "Von"
       booking_to: "Bis"
       choose_employee_or_renter: "Entweder einen Mitarbeiter oder einen anderen Grund angeben"
@@ -2230,6 +2232,7 @@ de:
       createListingHere: "dann kannst du neue Geräte <a href='%{listing_path}'>hier</a> erstellen"
       reopen_listing: "und es gibt bereits Geräte, diese sind aber 'geschlossen', so kannst du sie <a href='%{person_path}'>hier</a> wieder öffnen"
       addNewBooking: "Erstelle Buchung"
+      addNewDevice: "Erstelle ein neues Gerät"
       or: "oder"
       choose_employee: "Wähle einen Mitarbeiter"
       please_select: "Bitte wählen..."
@@ -2249,5 +2252,6 @@ de:
       utilization_header: "Auslastung bis heute"
       utilization_desc_1: "Nur wochentags"
       utilization_desc_2: "Inkl. Wochenende"
-      utilization_text: "von"
-      utilization_created_at: "Das Geräte wurde erstellt am: "
+      utilization_text_outOf: "von"
+      utilization_text_days: "Tagen"
+      utilization_start_date: "Anfangsdatum für die Auslastungs-Berechnung: "

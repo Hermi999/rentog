@@ -1,18 +1,20 @@
+// extend Date object
 Date.prototype._addDays = function(days) {
      var dat = new Date(this.valueOf())
      dat.setDate(dat.getDate() + days);
      return dat;
- }
+}
 
- function getDatesBetweenRange(startDate, stopDate) {
-    var dateArray = new Array();
-    var currentDate = startDate;
-    while (currentDate <= stopDate) {
-      dateArray.push(currentDate)
-      currentDate = currentDate._addDays(1);
-    }
-    return dateArray;
+
+function getDatesBetweenRange(startDate, stopDate) {
+  var dateArray = new Array();
+  var currentDate = startDate;
+  while (currentDate <= stopDate) {
+    dateArray.push(currentDate)
+    currentDate = currentDate._addDays(1);
   }
+  return dateArray;
+}
 
 
 function initialize_confirmation_pending_form(locale, email_in_use_message) {

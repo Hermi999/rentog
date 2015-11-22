@@ -4,7 +4,7 @@
 
 window.ST = window.ST || {};
 
-window.ST.poolToolTheme = "theme_dark";
+window.ST.poolToolTheme = gon.theme || "theme_dark";
 window.ST.poolTool = function() {
 
   function init(){
@@ -26,6 +26,32 @@ window.ST.poolTool = function() {
   }
 
 
+  function initialize_listing_previews(){
+
+    $('#rowheader0').on('mouseover', function(){
+      if (gon.source[0].image){
+        if($('#abc').length){
+          $('#abc').show();
+        }else{
+          var img = $('<img id="abc" height="' + $(".spacer").height() + '"/>').attr('src', gon.source[0].image)
+            .on('load', function(){
+              if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                  console.log('broken image!');
+              } else {
+                  $(".spacer").append(img);
+                  img.show();
+              }
+            });
+        }
+      }
+    });
+
+    $('#rowheader0').on('mouseout', function(){
+      $('#abc').hide();
+    });
+  }
+
+
   function fullScreen(){
     $('.header-wrapper').addClass('fullscreen');
     $('.title-header-wrapper').addClass('fullscreen');
@@ -37,11 +63,11 @@ window.ST.poolTool = function() {
     var allThemes  = ["theme_dark", "theme_red", "theme_white"];
     var allClasses = ["gantt", "header_g", "row_g", "wd_g", "sa_g", "sn_g",
                       "today", "navigate", "fn-content", "legend", "dataPanel_past",
-                      "gantt_otherReason", "ganttLegend_otherReason",
-                      "gantt_ownEmployee", "ganttLegend_ownEmployee",
-                      "gantt_anyEmployee", "ganttLegend_anyEmployee",
-                      "gantt_anyCompany", "ganttLegend_anyCompany",
-                      "gantt_trustedCompany", "ganttLegend_trustedCompany",
+                      "gantt_otherReason", "ganttLegend_otherReason", "gantt_otherReason_me",
+                      "gantt_ownEmployee", "ganttLegend_ownEmployee", "gantt_ownEmployee_me",
+                      "gantt_anyEmployee", "ganttLegend_anyEmployee", "gantt_anyEmployee_me",
+                      "gantt_anyCompany", "ganttLegend_anyCompany", "gantt_anyCompany_me",
+                      "gantt_trustedCompany", "ganttLegend_trustedCompany","gantt_trustedCompany_me",
                       "nav-link", "showLegend", "load", "newBookingForm"];
 
     // Set default theme
@@ -57,6 +83,7 @@ window.ST.poolTool = function() {
       $('#theme_white').css('border', 'none');
       $('#theme_red').css('border', 'none');
       window.ST.poolToolTheme = "theme_dark";
+      saveTheme("theme_dark");
     });
     $('#theme_white').on('vclick', function(){
       changeTheme('theme_white', allThemes, allClasses);
@@ -64,6 +91,7 @@ window.ST.poolTool = function() {
       $('#theme_dark').css('border', 'none');
       $('#theme_red').css('border', 'none');
       window.ST.poolToolTheme = "theme_white";
+      saveTheme("theme_white");
     });
     $('#theme_red').on('vclick', function(){
       changeTheme('theme_red', allThemes, allClasses);
@@ -71,6 +99,7 @@ window.ST.poolTool = function() {
       $('#theme_white').css('border', 'none');
       $('#theme_dark').css('border', 'none');
       window.ST.poolToolTheme = "theme_red";
+      saveTheme("theme_red");
     });
   }
 
@@ -84,6 +113,23 @@ window.ST.poolTool = function() {
       // add new theme
       $('.' + allClasses[y]).addClass(allClasses[y] + '_' + theme);
     }
+  }
+
+  function saveTheme(theme){
+    $.ajax({
+      method: "post",
+      dataType: "json",
+      url: "/" + gon.current_user_username + "/poolToolTheme",
+      data: {theme: theme},
+    })
+    .success(function(data){
+      // Do not show any message to user
+      console.log(data);
+    })
+    .error(function(data){
+      // Do not show any message to user
+      console.log(data);
+    });
   }
 
 
@@ -170,8 +216,12 @@ window.ST.poolTool = function() {
       for (var k=0; k<source.length; k++){
         if (gon.open_listings[j].name === source[k].name){
           already_there = true;
+
+          // copy image url
+          source[k].image = gon.open_listings[j].image;
         }
       }
+
       if (!already_there){
         empty_arr.push({
           name: gon.open_listings[j].name,
@@ -179,6 +229,7 @@ window.ST.poolTool = function() {
           created_at: gon.open_listings[j].created_at,
           availability: gon.open_listings[j].availability,
           listing_id: gon.open_listings[j].listing_id,
+          image: gon.open_listings[j].image,
           values: [{
             from: "/Date(" + today_ms + ")/",
             to: "/Date(" + next_month_ms + ")/",
@@ -335,8 +386,7 @@ window.ST.poolTool = function() {
               $.ajax({
                 method: "post",   // Browser can't do delete requests
                 dataType: "json",
-                url: "/" + gon
-                .locale + "/" + gon.comp_id + "/transactions/" + transaction_id,
+                url: "/" + gon.locale + "/" + gon.comp_id + "/transactions/" + transaction_id,
                 data: {_method:'delete'},
                 beforeSend :function(){
                   // Disable Sumbmit Buttons
@@ -403,6 +453,20 @@ window.ST.poolTool = function() {
                     $('#end-on').val('');
                     $('#datepicker').datepicker('remove');
                     updateDatepicker(booked_d);
+
+                    // Update load factors without reloading --> work
+                    /*
+                    $.each(source, function (i, entry) {
+                      var load = window.ST.poolTool().calculateLoadFactor(entry);
+
+                      if(load){
+
+                      }
+                    });
+                    */
+
+                    // the other way...
+                    updateGanttChart(gon.source);
                   }
                   // Close popover
                   $.colorbox.close();
@@ -577,6 +641,8 @@ window.ST.poolTool = function() {
           $(".leftPanel").width("224px");
           $(".fn-wide").width("220px");
         }
+
+        initialize_listing_previews();
       }
     });
   }
@@ -753,8 +819,155 @@ window.ST.poolTool = function() {
     ];
   };
 
+
+  var calculateLoadFactor = function(entry){
+     // Calculate load factor
+    var created_at = new Date(entry.created_at);
+    var today = new Date();
+    today.setHours(0);
+    today.setMinutes(0);
+    today.setSeconds(0);
+
+    // count booked (week)days till now
+    var count_booked_weekdays = 0;
+    var count_booked_days = 0;
+    var oneDay = 24*60*60*1000;
+
+    if (entry.values){
+        for (var y=0; y<entry.values.length; y++){
+            // Only calculate to booked dates if this booking is not another reason (like maintainance)
+            if (entry.values[y].customClass !== "gantt_otherReason" && entry.values[y].customClass !== "ganttHidden"){
+                var _start = new Date(Number.parseInt(entry.values[y].from.substr(6,13)));
+                var _end   = new Date(Number.parseInt(entry.values[y].to.substr(6,13)));
+                _start.setHours(0);
+                _end.setHours(0);
+                _start.setMinutes(0);
+                _end.setMinutes(0);
+                _start.setSeconds(0);
+                _end.setSeconds(0);
+
+                if (_start > today){
+                    continue;
+                }
+
+                // Check if booking start is before created_at date, if yes
+                // then change the created_at date of the listing, because then
+                // the start point for the device should be the day of the first
+                // booking.
+                if (_start < created_at){
+                    created_at = new Date(_start);
+                }
+
+                // Only get booked day which are not on weekend
+                var _booked_days = getDatesBetweenRange(_start, _end);
+                for (var yy=0; yy<_booked_days.length; yy++){
+                    // Check if current day is bigger than today
+                    if(_booked_days[yy] <= today){
+                      count_booked_days++;
+
+                      if (_booked_days[yy].getDay() != 6 && _booked_days[yy].getDay() != 0){
+                          count_booked_weekdays++;
+                      }
+                    }
+                }
+            }
+        }
+    }
+
+    /*
+    // old solution. Can not distinguish between other reason and employee
+    if (entry.already_booked_dates){
+        for (var y=0; y<entry.already_booked_dates.length; y++){
+            var booked_day = new Date(entry.already_booked_dates[y]);
+            if (booked_day > today){
+                break;
+            }
+
+            // Only get booked day which are not on weekend
+            if (booked_day.getDay() != 6 &&
+                new Date(booked_day).getDay() != 0){
+                    count_booked_weekdays++;
+            }
+            count_booked_days++;
+        }
+    }
+    */
+
+    // count (week)days till now
+    var count_weekdays = 0;
+    var count_days = 0;
+    var  x = new Date(created_at);
+
+    while (x<=today){
+        count_days++;
+        // increase weekdays if not sunday or saturday
+        if (x.getDay() != 6 && x.getDay() != 0){
+            count_weekdays++;
+        }
+        x.setDate(x.getDate() + 1);
+    }
+
+
+    // Calculate percentage
+    if (entry.name){
+        // if just dummy listing
+        if(entry.dummy !== undefined){
+            if (entry.name === 'Test Device 5'){
+                weekday_load = 90.0;
+                day_load = 85.0;
+            }else if (entry.name === 'Test Device 4'){
+                weekday_load = 61.0;
+                day_load = 58.0;
+            }
+            else if (entry.name === 'Test Device 3'){
+                weekday_load = 85.0;
+                day_load = 83.0;
+            }else if (entry.name === 'Test Device 2'){
+                weekday_load = 35.0;
+                day_load = 32.0;
+            }else{
+                weekday_load = 22.0;
+                day_load = 20.0;
+            }
+        }else{
+            // Calculate load factor
+            var weekday_load = 0;
+            var day_load = 0;
+
+            if (count_weekdays > 0){
+                weekday_load = count_booked_weekdays / count_weekdays * 100;
+            }
+            if (count_days > 0){
+                day_load = count_booked_days / count_days * 100;
+            }
+
+            weekday_load = (Math.round(weekday_load * 100) / 100).toFixed(1);
+            day_load = (Math.round(day_load * 100) / 100).toFixed(1);
+        }
+
+        var load_class = "load_red";
+        if (weekday_load > 70){
+            load_class = "load_green";
+        }else if (weekday_load > 40 ){
+            load_class = "load_yellow";
+        }
+    }
+
+    return {
+        load_class: load_class,
+        count_weekdays: count_weekdays,
+        count_days: count_days,
+        count_booked_days: count_booked_days,
+        count_booked_weekdays: count_booked_weekdays,
+        weekday_load: weekday_load,
+        day_load: day_load,
+        utilization_start: created_at
+    };
+  }
+
   return {
     init: init,
-    updateGanttChart: updateGanttChart
+    updateGanttChart: updateGanttChart,
+    calculateLoadFactor: calculateLoadFactor
   };
 };

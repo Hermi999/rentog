@@ -100,8 +100,22 @@
 }
 
 #addNewBooking{
-  width:100%;
-  max-width: 275px;
+  width: 225px;
+  float:left;
+  margin-right:10px;
+  margin-bottom:0px;
+}
+
+#createNewDevice{
+  height: 34px;
+  width: 225px;
+  margin-top:12px;
+  margin-right:10px;
+  float:left;
+  margin-bottom:0px;
+  @include media(mobile){
+    height: 42px;
+  }
 }
 
 #addNewBookingWrapper{
@@ -113,15 +127,6 @@
   max-width: 275px;
 }
 
-#new-listing-link{
-  width:100%;
-  max-width: 275px;
-}
-
-#addNewDevice{
-  width:100%;
-  max-width: 275px;
-}
 
 #employee_wrapper{
   max-width: 450px;
@@ -134,7 +139,7 @@
   display: none;
   padding: 5px 20px;
   border-radius: 9px;
-  background-color: #CAD5EA;
+  background-color: #E1E8F5;
   margin-bottom: 25px;
 }
 
@@ -163,6 +168,14 @@
 #device_wrapper {
   margin-top:30px;
   max-width: 1200px;
+  margin-bottom:0px;
+
+  .home-fluid-thumbnail-grid-item{
+    margin-bottom: 15px;
+  }
+}
+#datepicker_wrapper label{
+  margin-top:0px;
 }
 
 .pooltool_grid_item_modifier_class{

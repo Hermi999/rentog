@@ -20,6 +20,10 @@ module HomepageHelper
   end
 
   def post_listing_allowed
-    @current_user.nil? || @current_user.is_organization || @current_community.employees_can_create_listings
+    # Only show button if,
+    #   - no user is logged in AND not only pool tool is configured  OR
+    #   - the logged in user is an organization  OR
+    #   - a user is logged in AND employees also can create listings
+    (@current_user.nil? && !Community.first.only_pool_tool) || @current_user.is_organization || (@current_user && @current_community.employees_can_create_listings)
   end
 end

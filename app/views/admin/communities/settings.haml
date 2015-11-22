@@ -21,6 +21,9 @@
         .checkbox-container
           = form.check_box :only_pool_tool
           = form.label :only_pool_tool, t(".only_pool_tool"), :class => "settings-checkbox-label"
+        .checkbox-container
+          = form.check_box :employee_has_own_profile
+          = form.label :employee_has_own_profile, t(".employee_has_own_profile"), :class => "settings-checkbox-label"
 
     .row
       .col-12

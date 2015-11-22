@@ -100,6 +100,7 @@
 #  employees_can_buy_listings                 :boolean          default(FALSE)
 #  only_pool_tool                             :boolean          default(FALSE)
 #  disable_facebook_twitter                   :boolean          default(FALSE)
+#  employee_has_own_profile                   :boolean          default(TRUE)
 #
 # Indexes
 #

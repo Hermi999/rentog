@@ -85,10 +85,14 @@
     .poolTool_theme#theme_dark
     .poolTool_theme#theme_red
 
-  .col-3#addNewBookingWrapper
-    / - if @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community)
+.row
+  #addNewBookingWrapper{:style=>"float:left;"}
     %button#addNewBooking.primary-button
       = t('pool_tool.show.addNewBooking')
+
+  - if post_listing_allowed
+    = link_to t('pool_tool.show.addNewDevice'), new_listing_path, :class => "new-listing-link", :id => "createNewDevice"
+
 
 .row
   .col-12
