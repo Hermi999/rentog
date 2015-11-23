@@ -4,7 +4,10 @@
 
 window.ST = window.ST || {};
 
-window.ST.poolToolTheme = gon.theme || "theme_dark";
+window.ST.poolToolTheme  = gon.theme || "theme_dark";
+window.ST.poolToolRows   = 0;
+window.ST.poolToolImages = [];
+
 window.ST.poolTool = function() {
 
   function init(){
@@ -27,28 +30,45 @@ window.ST.poolTool = function() {
 
 
   function initialize_listing_previews(){
+    for (var i = 0; i < window.ST.poolToolRows; i++) {
 
-    $('#rowheader0').on('mouseover', function(){
-      if (gon.source[0].image){
-        if($('#abc').length){
-          $('#abc').show();
-        }else{
-          var img = $('<img id="abc" height="' + $(".spacer").height() + '"/>').attr('src', gon.source[0].image)
-            .on('load', function(){
-              if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
-                  console.log('broken image!');
-              } else {
-                  $(".spacer").append(img);
-                  img.show();
-              }
-            });
+      $('#rowheader' + i).on('mouseover', function(ev){
+        var id = ev.currentTarget.id;
+        var text = ev.currentTarget.firstChild.firstChild.data;
+        var i = Number.parseInt(id.substr(9,1));
+        var alreadyThere = false;
+
+        if (gon.source[i].image && gon.source[i].name === text){
+          for(var j=0; j<window.ST.poolToolImages.length; j++){
+            if (i === window.ST.poolToolImages[j]){
+              alreadyThere = true;
+            }
+          }
+          window.ST.poolToolImages.push(i);
+
+          if(alreadyThere){
+            $('#rowheader_image' + i).show();
+          }else{
+            var img = $('<img id="rowheader_image'+ i +'" height="' + $(".spacer").height() + '"/>').attr('src', gon.source[i].image)
+              .on('load', function(){
+                if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                    console.log('broken image!');
+                } else {
+                    $(".spacer").append(img);
+                    img.show();
+                }
+              });
+          }
         }
-      }
-    });
+      });
 
-    $('#rowheader0').on('mouseout', function(){
-      $('#abc').hide();
-    });
+      $('#rowheader'+i).on('mouseout', function(ev){
+        var id = ev.currentTarget.id;
+        var i = Number.parseInt(id.substr(9,1));
+
+        $('#rowheader_image' + i).hide();
+      });
+    }
   }
 
 

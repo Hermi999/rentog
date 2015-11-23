@@ -337,6 +337,8 @@
                         entries.push('<a href="listings/' + entry.listing_id + '" class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + (entry.name || '') + '</a>');
                         entries.push('</div>');
 
+                        window.ST.poolToolRows++;
+
                         // desc = availability
                         if (entry.desc && !gon.only_pool_tool) {
                             entries.push('<div class="row_g desc row' + i + ' " id="RowdId_' + i + '" data-id="' + entry.id + '">');
