@@ -17,6 +17,7 @@ window.ST.poolTool = function() {
     initializeDatepicker();
     initialize_poolTool_createTransaction_form(gon.locale, gon.choose_employee_or_renter_msg);
     initialize_device_picker();
+    initialize_poolTool_options();
 
 
     // Initialize popover and remove buttons if employee is logged in
@@ -29,35 +30,52 @@ window.ST.poolTool = function() {
   }
 
 
+  function initialize_poolTool_options(){
+    $('.only_mine').on('click', function(){
+      if($('.only_mine').prop('checked')){
+        $('.bar').hide();
+        $('.gantt_ownEmployee_me').show();
+        $('.gantt_anyCompany_me').show();
+        $('.gantt_trustedCompany_me').show();
+        $('.gantt_otherReason_me').show();
+      }else{
+        $('.bar').show();
+      }
+    });
+  }
+
+
   function initialize_listing_previews(){
     for (var i = 0; i < window.ST.poolToolRows; i++) {
 
       $('#rowheader' + i).on('mouseover', function(ev){
-        var id = ev.currentTarget.id;
-        var text = ev.currentTarget.firstChild.firstChild.data;
-        var i = Number.parseInt(id.substr(9,1));
-        var alreadyThere = false;
+        if (ev.currentTarget.firstChild.firstChild){
+          var id = ev.currentTarget.id;
+          var text = ev.currentTarget.firstChild.firstChild.data;
+          var i = Number.parseInt(id.substr(9,1));
+          var alreadyThere = false;
 
-        if (gon.source[i].image && gon.source[i].name === text){
-          for(var j=0; j<window.ST.poolToolImages.length; j++){
-            if (i === window.ST.poolToolImages[j]){
-              alreadyThere = true;
+          if (gon.source[i].image && gon.source[i].name === text){
+            for(var j=0; j<window.ST.poolToolImages.length; j++){
+              if (i === window.ST.poolToolImages[j]){
+                alreadyThere = true;
+              }
             }
-          }
-          window.ST.poolToolImages.push(i);
+            window.ST.poolToolImages.push(i);
 
-          if(alreadyThere){
-            $('#rowheader_image' + i).show();
-          }else{
-            var img = $('<img id="rowheader_image'+ i +'" height="' + $(".spacer").height() + '"/>').attr('src', gon.source[i].image)
-              .on('load', function(){
-                if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
-                    console.log('broken image!');
-                } else {
-                    $(".spacer").append(img);
-                    img.show();
-                }
-              });
+            if(alreadyThere){
+              $('#rowheader_image' + i).show();
+            }else{
+              var img = $('<img id="rowheader_image'+ i +'" height="' + $(".spacer").height() + '"/>').attr('src', gon.source[i].image)
+                .on('load', function(){
+                  if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                      console.log('broken image!');
+                  } else {
+                      $(".spacer").append(img);
+                      img.show();
+                  }
+                });
+            }
           }
         }
       });
