@@ -225,6 +225,8 @@ en:
         employee_has_own_profile: "Employee has own profile."
         listing_preferences: "Listing preferences"
         transaction_preferences: "Transaction preferences"
+        poolTool_preferences: "Pool Tool preferences"
+        pooltool_employee_has_to_give_back_device: "Employee has to actively give back the device by clicking a button"
         show_listing_publishing_date: "Display publishing date of the listing on the listing page"
         show_category_in_listing_list: "Display listing type in list view"
         hide_expiration_date: "Do not require listings to have an expiration date"

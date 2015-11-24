@@ -224,7 +224,9 @@ de:
         only_pool_tool: "Nur das Pool-Tool ist aktiv. Keine anderen Dienste."
         employee_has_own_profile: "Mitarbeiter hat ein eigenes Profil."
         listing_preferences: Eintragseinstellungen
-        transaction_preferences: Transaktionspräferenzen
+        transaction_preferences: Transaktionseinstellungen
+        poolTool_preferences: "Pool Tool Einstellungen"
+        pooltool_employee_has_to_give_back_device: "Mitarbeiter muss ein Gerät aktiv zurückgeben indem er auf einen Button klickt"
         show_listing_publishing_date: "Datum der Veröffentlichung des Eintrags auf der Artikelseite darstellen"
         show_category_in_listing_list: "Die Art der Kategorien in der Übersicht darstellen"
         hide_expiration_date: "Einträge müssen kein Ablaufdatum haben"

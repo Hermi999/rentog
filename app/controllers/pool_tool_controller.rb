@@ -6,7 +6,7 @@ class PoolToolController < ApplicationController
     # @company_owner is the person which owns the company
     @company_owner = Person.find(params[:person_id] || params[:id])
 
-    # Get transactions (joined with listings and bookings) from database, ordered by listings.id
+    # Get all company transactions (joined with listings and bookings) from database, ordered by listings.id
     transactions = Transaction.joins(:listing, :booking, :starter).select(" transactions.id as transaction_id,
                                                                             listings.id as listing_id,
                                                                             listings.title as title,
@@ -15,6 +15,7 @@ class PoolToolController < ApplicationController
                                                                             bookings.start_on as start_on,
                                                                             bookings.end_on as end_on,
                                                                             bookings.reason as reason,
+                                                                            bookings.device_returned as device_returned,
                                                                             transactions.current_state,
                                                                             people.given_name as renter_given_name,
                                                                             people.family_name as renter_family_name,
@@ -29,6 +30,10 @@ class PoolToolController < ApplicationController
                                                                   .order("  listings.id asc")
     # Convert ActiveRecord Relation into array of hashes
     transaction_array = transactions.as_json
+
+    # Get only bookings which are booked by the user AND are currently active AND are past, but the user did not return them
+    user_bookings = transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ?) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
+    @user_bookings_array = user_bookings.as_json
 
     # Get all open Listings of the current user
     # @open_listings = Listing.currently_open.where("listings.author_id" => @company_owner)
@@ -230,6 +235,7 @@ class PoolToolController < ApplicationController
         current_user_username: @current_user.username,
         is_admin: @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community),
         theme: @current_user.pool_tool_color_schema,
+        user_active_bookings: @user_bookings_array,
 
         utilization_header: t("pool_tool.load_popover.utilization_header"),
         utilization_desc_1: t("pool_tool.load_popover.utilization_desc_1"),
@@ -243,6 +249,10 @@ class PoolToolController < ApplicationController
         availability_desc_text_trusted: "This listing is marked as trusted. So only trusted companies and company employees can book it.",
         availability_desc_text_intern: "This listing is marked as intern. So only company employees can book it.",
         availability_desc_text_all: "This listing can be booked by all registered companies and the company employees.",
+
+        pool_tool_preferences: {
+          pooltool_employee_has_to_give_back_device: @current_community.pooltool_employee_has_to_give_back_device
+        }
       })
     end
 end

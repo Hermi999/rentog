@@ -100,6 +100,13 @@
 
     .row
       .col-12
+        %h3= t(".poolTool_preferences")
+        .checkbox-container
+          = form.check_box :pooltool_employee_has_to_give_back_device
+          = form.label :pooltool_employee_has_to_give_back_device, t(".pooltool_employee_has_to_give_back_device"), :class => "settings-checkbox-label"
+
+    .row
+      .col-12
         = form.button t(".update_settings")
 
   - content_for :extra_javascript do

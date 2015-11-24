@@ -7,10 +7,37 @@ window.ST = window.ST || {};
 window.ST.poolToolTheme  = gon.theme || "theme_dark";
 window.ST.poolToolRows   = 0;
 window.ST.poolToolImages = [];
+var opts = {
+    lines: 13             // The number of lines to draw
+  , length: 0             // The length of each line
+  , width: 20             // The line thickness
+  , radius: 80            // The radius of the inner circle
+  , scale: 1.25           // Scales overall size of the spinner
+  , corners: 1            // Corner roundness (0..1)
+  , color: '#904242'      // #rgb or #rrggbb or array of colors
+  , opacity: 0.05         // Opacity of the lines
+  , rotate: 0             // The rotation offset
+  , direction: 1          // 1: clockwise, -1: counterclockwise
+  , speed: 1              // Rounds per second
+  , trail: 60             // Afterglow percentage
+  , fps: 20               // Frames per second when using setTimeout() as a fallback for CSS
+  , zIndex: 2e9           // The z-index (defaults to 2000000000)
+  , className: 'spinner'  // The CSS class to assign to the spinner
+  , top: '49%'            // Top position relative to parent
+  , left: '50%'           // Left position relative to parent
+  , shadow: false         // Whether to render a shadow
+  , hwaccel: false        // Whether to use hardware acceleration
+  , position: 'absolute'  // Element positioning
+}
+window.ST.pooToolSpinner = new Spinner(opts).spin();
+
+
+
 
 window.ST.poolTool = function() {
 
   function init(){
+    $('.page-content').append(window.ST.pooToolSpinner.el);
     fullScreen();
     initializeCheckOrientation();
     initializeGantt();
@@ -18,6 +45,11 @@ window.ST.poolTool = function() {
     initialize_poolTool_createTransaction_form(gon.locale, gon.choose_employee_or_renter_msg);
     initialize_device_picker();
     initialize_poolTool_options();
+
+    // Show devices the current logged in user has in his hands
+    if (gon.pool_tool_preferences.pooltool_employee_has_to_give_back_device === true){
+      show_my_devices();
+    }
 
 
     // Initialize popover and remove buttons if employee is logged in
@@ -29,8 +61,62 @@ window.ST.poolTool = function() {
     }
   }
 
+  function show_my_devices(){
+    remove_old_bookings(gon.user_active_bookings);
+
+    for(var i=0; i<gon.user_active_bookings.length; i++){
+      var title = gon.user_active_bookings[i].title;
+      var start_on = gon.user_active_bookings[i].start_on;
+      var end_on = gon.user_active_bookings[i].end_on;
+      var transaction_id = gon.user_active_bookings[i].transaction_id;
+
+      if (title === gon.devices[i].name){
+        var image = gon.devices[i].image;
+      }
+
+
+      $('#my_devices')
+        .append($('<div class="user_booking" />')
+          .append($('<div />')
+            .append($('<p class="user_booking_header">')
+              .html(title))
+            .append('<img src="' + image + '" class="user_booking_img" />')
+            .append($('<span class="return_on" />')
+              .html('Return on: '))
+            .append(end_on)
+          )
+          .append($('<button id="return_now_' + i + '" />')
+            .html('Return now')
+          )
+        );
+
+        // Store transaction_id with button
+        $('#return_now_' + i).data('transaction_id', transaction_id);
+
+      // On click on button
+      $('#return_now_'+ i).on('click', function(ev){
+        console.log($('#' + ev.currentTarget.id).data('transaction_id'));
+      });
+    }
+  }
+
+  function remove_old_bookings(){
+    for(var i=0; i<gon.user_active_bookings.length; i++){
+      for(var j=i+1; j<gon.user_active_bookings.length; j++){
+        if (gon.user_active_bookings[i].title === gon.user_active_bookings[j].title){
+          if (gon.user_active_bookings[i].ends_on < gon.user_active_bookings[j].ends_on){
+            gon.user_active_bookings.splice(i, 1);
+          }else{
+            gon.user_active_bookings.splice(j, 1);
+          }
+        }
+      }
+    }
+  }
+
 
   function initialize_poolTool_options(){
+    // Show only my bookings (the current user)
     $('.only_mine').on('click', function(){
       if($('.only_mine').prop('checked')){
         $('.bar').hide();
@@ -681,6 +767,12 @@ window.ST.poolTool = function() {
         }
 
         initialize_listing_previews();
+
+        // Stop spinner
+        window.ST.pooToolSpinner.stop();
+
+        // Show page content (pooltool, buttons, ...)
+        $('#poolTool_Wrapper').animate({opacity: 1.0},1500);
       }
     });
   }

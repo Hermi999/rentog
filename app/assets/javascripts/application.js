@@ -25,6 +25,7 @@
 //= require jquery.colorbox
 //= require jquery.webui-popover
 //= require jquery.mobile.custom
+//= require spin.min
 
 // require html5show.min
 

@@ -79,76 +79,86 @@
 - content_for :title_header do
   %h1= t("pool_tool.headline")
 
-.row
-  .poolTool_themes
-    .poolTool_theme#theme_white
-    .poolTool_theme#theme_dark
-    .poolTool_theme#theme_red
+#poolTool_Wrapper
+  .row
+    .poolTool_themes
+      .poolTool_theme#theme_white
+      .poolTool_theme#theme_dark
+      .poolTool_theme#theme_red
 
-.row
-  #addNewBookingWrapper{:style=>"float:left;"}
-    %button#addNewBooking.primary-button
-      = t('pool_tool.show.addNewBooking')
+  .row
+    #addNewBookingWrapper{:style=>"float:left;"}
+      %button#addNewBooking.primary-button
+        = t('pool_tool.show.addNewBooking')
 
-  - if post_listing_allowed
-    = link_to t('pool_tool.show.addNewDevice'), new_listing_path, :class => "new-listing-link", :id => "createNewDevice"
-
-
-.row
-  .col-12
-    #addNewBookingForm.newBookingForm
-      = form_tag person_transactions_path, :action => :create, url: person_transactions_path, id: "poolTool_form" do
-
-        %input{:type => 'hidden', :name => 'poolTool', :value => 'true'}
-        %input{:type => 'hidden', :name => 'message', :value => t('pool_tool.show.booked_with_poolTool')}
-
-        - if @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community)
-          .row
-            #employee_wrapper.col-5
-              = label_tag :employees, t('pool_tool.show.choose_employee')
-              = collection_select :employee, :username, @company_owner.employees, :username, :full_name, {:prompt => t('pool_tool.show.please_select')}, {id: "dd_employee"}
-
-            #poolTool_or.col-1
-              = t('pool_tool.show.or')
-
-            #renter_wrapper.col-5
-              = label_tag :renter, t('pool_tool.show.enter_other_reason')
-              = text_field_tag :renter, nil, maxlength: 15, id: "tf_device_renter", placeholder: t('pool_tool.show.example'), style: "width:100%;"
-
-        - else
-          %input{:type => 'hidden', :name => 'employee[username]', :value => @current_user.username, :id => "dd_employee"}
-          %input{:type => 'hidden', :name => 'renter', :value => "24afsdiouAFdsf123kljadf", :id => "tf_device_renter"}
+    - if post_listing_allowed
+      = link_to t('pool_tool.show.addNewDevice'), new_listing_path, :class => "new-listing-link", :id => "createNewDevice"
 
 
-        #device_wrapper.row
-          .col-12
-            .home-fluid-thumbnail-grid-pooltool
-              .home-fluid-thumbnail-grid
-                = render :partial => "radio_grid_item", :collection => listings, :as => :listing
+  .row
+    .col-12
+      #addNewBookingForm.newBookingForm
+        = form_tag person_transactions_path, :action => :create, url: person_transactions_path, id: "poolTool_form" do
+
+          %input{:type => 'hidden', :name => 'poolTool', :value => 'true'}
+          %input{:type => 'hidden', :name => 'message', :value => t('pool_tool.show.booked_with_poolTool')}
+
+          - if @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community)
+            .row
+              #employee_wrapper.col-5
+                = label_tag :employees, t('pool_tool.show.choose_employee')
+                = collection_select :employee, :username, @company_owner.employees, :username, :full_name, {:prompt => t('pool_tool.show.please_select')}, {id: "dd_employee"}
+
+              #poolTool_or.col-1
+                = t('pool_tool.show.or')
+
+              #renter_wrapper.col-5
+                = label_tag :renter, t('pool_tool.show.enter_other_reason')
+                = text_field_tag :renter, nil, maxlength: 15, id: "tf_device_renter", placeholder: t('pool_tool.show.example'), style: "width:100%;"
+
+          - else
+            %input{:type => 'hidden', :name => 'employee[username]', :value => @current_user.username, :id => "dd_employee"}
+            %input{:type => 'hidden', :name => 'renter', :value => "24afsdiouAFdsf123kljadf", :id => "tf_device_renter"}
+
+
+          #device_wrapper.row
+            .col-12
+              .home-fluid-thumbnail-grid-pooltool
+                .home-fluid-thumbnail-grid
+                  = render :partial => "radio_grid_item", :collection => listings, :as => :listing
+            .clear-floating
+
+          #datepicker_wrapper.row
+            .input-daterange.input-group.clearfix#datepicker{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
+              .datepicker-start-wrapper.col-3
+                = label_tag t(".booking_from")
+                %input.input-sm.form-control.required#start-on{:type => 'text', :name => "start_on", :placeholder => t("datepicker.format"), :data => { :output => "booking-start-output" } }
+                %input#booking-start-output{:type => 'hidden', :name => 'start_on'}
+
+              .datepicker-end-wrapper.col-3
+                = label_tag t(".booking_to")
+                %input.input-sm.form-control.required#end-on{:type => 'text', :name => "end_on", :placeholder => t("datepicker.format"), :data => { :output => "booking-end-output" }}
+                %input#booking-end-output{:type => 'hidden', :name => 'end_on'}
+
           .clear-floating
 
-        #datepicker_wrapper.row
-          .input-daterange.input-group.clearfix#datepicker{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
-            .datepicker-start-wrapper.col-3
-              = label_tag t(".booking_from")
-              %input.input-sm.form-control.required#start-on{:type => 'text', :name => "start_on", :placeholder => t("datepicker.format"), :data => { :output => "booking-start-output" } }
-              %input#booking-start-output{:type => 'hidden', :name => 'start_on'}
-
-            .datepicker-end-wrapper.col-3
-              = label_tag t(".booking_to")
-              %input.input-sm.form-control.required#end-on{:type => 'text', :name => "end_on", :placeholder => t("datepicker.format"), :data => { :output => "booking-end-output" }}
-              %input#booking-end-output{:type => 'hidden', :name => 'end_on'}
-
-        .clear-floating
-
-        #submit_wrapper.row
-          .col-3
-            = submit_tag(t('pool_tool.show.create'), id: "pooltool_submit_new_transaction", class: "primary-button pooltool_create_booking")
+          #submit_wrapper.row
+            .col-3
+              = submit_tag(t('pool_tool.show.create'), id: "pooltool_submit_new_transaction", class: "primary-button pooltool_create_booking")
 
 
-.poolTool_gantt_container
-  .gantt
+  .poolTool_gantt_container
+    .gantt
 
-.poolTool_options
-  = check_box_tag 'mine', 'yes', false, :class => 'only_mine'
-  = label_tag 'only mine'
+
+  .poolTool_options
+    = check_box_tag 'mine', 'yes', false, :class => 'only_mine'
+    = label_tag 'only mine'
+
+
+  - if @current_user.is_employee? && @current_community.pooltool_employee_has_to_give_back_device
+    .poolTool_devices_i_have
+      %p{:class=>"pool_tool_header"}
+        Devices I have at the moment
+
+      #my_devices

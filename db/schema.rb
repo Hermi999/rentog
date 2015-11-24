@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151122191607) do
+ActiveRecord::Schema.define(:version => 20151124210932) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -39,9 +39,10 @@ ActiveRecord::Schema.define(:version => 20151122191607) do
     t.integer  "transaction_id"
     t.date     "start_on"
     t.date     "end_on"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.string   "reason"
+    t.boolean  "device_returned", :default => false
   end
 
   create_table "braintree_accounts", :force => true do |t|
@@ -222,6 +223,7 @@ ActiveRecord::Schema.define(:version => 20151122191607) do
     t.boolean  "only_pool_tool",                                           :default => false
     t.boolean  "disable_facebook_twitter",                                 :default => false
     t.boolean  "employee_has_own_profile",                                 :default => true
+    t.boolean  "pooltool_employee_has_to_give_back_device",                :default => false
   end
 
   add_index "communities", ["domain"], :name => "index_communities_on_domain"
