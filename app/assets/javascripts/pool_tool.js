@@ -966,7 +966,9 @@ window.ST.poolTool = function() {
     if (entry.values){
         for (var y=0; y<entry.values.length; y++){
             // Only calculate to booked dates if this booking is not another reason (like maintainance)
-            if (entry.values[y].customClass !== "gantt_otherReason" && entry.values[y].customClass !== "ganttHidden"){
+            if (entry.values[y].customClass !== "gantt_otherReason" &&
+                entry.values[y].customClass !== "gantt_otherReason_me" &&
+                entry.values[y].customClass !== "ganttHidden"){
                 var _start = new Date(Number.parseInt(entry.values[y].from.substr(6,13)));
                 var _end   = new Date(Number.parseInt(entry.values[y].to.substr(6,13)));
                 _start.setHours(0);
