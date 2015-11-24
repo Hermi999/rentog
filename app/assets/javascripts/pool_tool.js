@@ -985,7 +985,7 @@ window.ST.poolTool = function() {
                 // Check if booking start is before created_at date, if yes
                 // then change the created_at date of the listing, because then
                 // the start point for the device should be the day of the first
-                // booking.
+                // booking
                 if (_start < created_at){
                     created_at = new Date(_start);
                 }
