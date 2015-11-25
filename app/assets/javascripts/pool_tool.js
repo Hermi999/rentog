@@ -138,7 +138,7 @@ window.ST.poolTool = function() {
         if (ev.currentTarget.firstChild.firstChild){
           var id = ev.currentTarget.id;
           var text = ev.currentTarget.firstChild.firstChild.data;
-          var i = Number.parseInt(id.substr(9,1));
+          var i = parseInt(id.substr(9,1));
           var alreadyThere = false;
 
           if (gon.source[i].image && gon.source[i].name === text){
@@ -168,7 +168,7 @@ window.ST.poolTool = function() {
 
       $('#rowheader'+i).on('mouseout', function(ev){
         var id = ev.currentTarget.id;
-        var i = Number.parseInt(id.substr(9,1));
+        var i = parseInt(id.substr(9,1));
 
         $('#rowheader_image' + i).hide();
       });
@@ -957,6 +957,9 @@ window.ST.poolTool = function() {
     today.setHours(0);
     today.setMinutes(0);
     today.setSeconds(0);
+    created_at.setHours(0);
+    created_at.setMinutes(0);
+    created_at.setSeconds(0);
 
     // count booked (week)days till now
     var count_booked_weekdays = 0;
@@ -969,8 +972,8 @@ window.ST.poolTool = function() {
             if (entry.values[y].customClass !== "gantt_otherReason" &&
                 entry.values[y].customClass !== "gantt_otherReason_me" &&
                 entry.values[y].customClass !== "ganttHidden"){
-                var _start = new Date(Number.parseInt(entry.values[y].from.substr(6,13)));
-                var _end   = new Date(Number.parseInt(entry.values[y].to.substr(6,13)));
+                var _start = new Date(parseInt(entry.values[y].from.substr(6,13)));
+                var _end   = new Date(parseInt(entry.values[y].to.substr(6,13)));
                 _start.setHours(0);
                 _end.setHours(0);
                 _start.setMinutes(0);
@@ -1005,25 +1008,6 @@ window.ST.poolTool = function() {
             }
         }
     }
-
-    /*
-    // old solution. Can not distinguish between other reason and employee
-    if (entry.already_booked_dates){
-        for (var y=0; y<entry.already_booked_dates.length; y++){
-            var booked_day = new Date(entry.already_booked_dates[y]);
-            if (booked_day > today){
-                break;
-            }
-
-            // Only get booked day which are not on weekend
-            if (booked_day.getDay() != 6 &&
-                new Date(booked_day).getDay() != 0){
-                    count_booked_weekdays++;
-            }
-            count_booked_days++;
-        }
-    }
-    */
 
     // count (week)days till now
     var count_weekdays = 0;

@@ -58,12 +58,13 @@ class PoolToolController < ApplicationController
     # Only use certain fields in JS
     open_listings_array = []
     listings.each do |listing|
+      small_image = listing.listing_images.first.small_3x2 if listing.listing_images.first
       open_listings_array << {  name: listing.title,
                                 desc: listing.availability,
                                 availability: listing.availability,
                                 listing_id: listing.id,
                                 created_at: listing.created_at,
-                                image: listing.listing_images.first.small_3x2 }
+                                image: small_image }
     end
     # Convert all the transaction into a jquery-Gantt readable source.
     # wah: This might be shifted to the client (javascript) in future, since
