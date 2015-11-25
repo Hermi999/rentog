@@ -8,27 +8,27 @@ window.ST.poolToolTheme  = gon.theme || "theme_dark";
 window.ST.poolToolRows   = 0;
 window.ST.poolToolImages = [];
 var opts = {
-    lines: 13             // The number of lines to draw
-  , length: 0             // The length of each line
-  , width: 20             // The line thickness
-  , radius: 80            // The radius of the inner circle
-  , scale: 1.25           // Scales overall size of the spinner
-  , corners: 1            // Corner roundness (0..1)
-  , color: '#904242'      // #rgb or #rrggbb or array of colors
-  , opacity: 0.05         // Opacity of the lines
-  , rotate: 0             // The rotation offset
-  , direction: 1          // 1: clockwise, -1: counterclockwise
-  , speed: 1              // Rounds per second
-  , trail: 60             // Afterglow percentage
-  , fps: 20               // Frames per second when using setTimeout() as a fallback for CSS
-  , zIndex: 2e9           // The z-index (defaults to 2000000000)
-  , className: 'spinner'  // The CSS class to assign to the spinner
-  , top: '49%'            // Top position relative to parent
-  , left: '50%'           // Left position relative to parent
-  , shadow: false         // Whether to render a shadow
-  , hwaccel: false        // Whether to use hardware acceleration
-  , position: 'absolute'  // Element positioning
-}
+  lines: 13,             // The number of lines to draw
+  length: 0,             // The length of each line
+  width: 20,             // The line thickness
+  radius: 80,            // The radius of the inner circle
+  scale: 1.25,           // Scales overall size of the spinner
+  corners: 1,            // Corner roundness (0..1)
+  color: '#904242',      // #rgb or #rrggbb or array of colors
+  opacity: 0.05,         // Opacity of the lines
+  rotate: 0,             // The rotation offset
+  direction: 1,          // 1: clockwise, -1: counterclockwise
+  speed: 1,              // Rounds per second
+  trail: 60,             // Afterglow percentage
+  fps: 20,               // Frames per second when using setTimeout() as a fallback for CSS
+  zIndex: 2e9,           // The z-index (defaults to 2000000000)
+  className: 'spinner',  // The CSS class to assign to the spinner
+  top: '49%',            // Top position relative to parent
+  left: '50%',           // Left position relative to parent
+  shadow: false,         // Whether to render a shadow
+  hwaccel: false,        // Whether to use hardware acceleration
+  position: 'absolute'  // Element positioning
+};
 window.ST.pooToolSpinner = new Spinner(opts).spin();
 
 
@@ -69,9 +69,10 @@ window.ST.poolTool = function() {
       var start_on = gon.user_active_bookings[i].start_on;
       var end_on = gon.user_active_bookings[i].end_on;
       var transaction_id = gon.user_active_bookings[i].transaction_id;
+      var image = "";
 
       if (title === gon.devices[i].name){
-        var image = gon.devices[i].image;
+        image = gon.devices[i].image;
       }
 
 
@@ -154,7 +155,7 @@ window.ST.poolTool = function() {
             }else{
               var img = $('<img id="rowheader_image'+ i +'" height="' + $(".spacer").height() + '"/>').attr('src', gon.source[i].image)
                 .on('load', function(){
-                  if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                  if (!this.complete || typeof this.naturalWidth === "undefined" || this.naturalWidth === 0) {
                       console.log('broken image!');
                   } else {
                       $(".spacer").append(img);
@@ -1000,7 +1001,7 @@ window.ST.poolTool = function() {
                     if(_booked_days[yy] <= today){
                       count_booked_days++;
 
-                      if (_booked_days[yy].getDay() != 6 && _booked_days[yy].getDay() != 0){
+                      if (_booked_days[yy].getDay() !== 6 && _booked_days[yy].getDay() !== 0){
                           count_booked_weekdays++;
                       }
                     }
@@ -1017,7 +1018,7 @@ window.ST.poolTool = function() {
     while (x<=today){
         count_days++;
         // increase weekdays if not sunday or saturday
-        if (x.getDay() != 6 && x.getDay() != 0){
+        if (x.getDay() !== 6 && x.getDay() !== 0){
             count_weekdays++;
         }
         x.setDate(x.getDate() + 1);
@@ -1026,6 +1027,9 @@ window.ST.poolTool = function() {
 
     // Calculate percentage
     if (entry.name){
+        var weekday_load = 0;
+        var day_load = 0;
+
         // if just dummy listing
         if(entry.dummy !== undefined){
             if (entry.name === 'Test Device 5'){
@@ -1047,9 +1051,6 @@ window.ST.poolTool = function() {
             }
         }else{
             // Calculate load factor
-            var weekday_load = 0;
-            var day_load = 0;
-
             if (count_weekdays > 0){
                 weekday_load = count_booked_weekdays / count_weekdays * 100;
             }
