@@ -539,8 +539,10 @@ en:
       section3_header: "on your mobile"
   common:
     edit_page: "Edit page"
-    default_community_slogan: "Rent instead of buy"
-    default_community_description: "Renting test and measurement devices between companies"
+    #default_community_slogan: "Rent instead of buy"
+    #default_community_description: "Renting test and measurement devices between companies"
+    default_community_slogan: "Manage your measurement devices"
+    default_community_description: "Resource management for test and measurement devices"
     cancel: Cancel
     fields_that_are_mandatory: "Fields marked with star (*) are mandatory."
     or: or

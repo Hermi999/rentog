@@ -517,7 +517,7 @@ de:
       section1_mainText: "Jeder Mitarbeiter hat einfachen Zugriff aufs Firmeninventar."
       section1_smallHeader1: "Füge deine Geräte hinzu"
       section1_smallHeader2: "Lasse deine Mitarbeiter buchen"
-      section1_text1: "Rentog ermöglicht das einfach erstellen von Messgeräten. Neben den Eigenschaften der Geräte kannst du auch mehrere Fotos der Geräte hochladen."
+      section1_text1: "Rentog ermöglicht das einfache erstellen von Messgeräten. Neben den Eigenschaften der Geräte kannst du auch mehrere Fotos der Geräte hochladen."
       section1_text2: "Jeder Mitarbeiter deines Unternehmens kann den Buchungskalender einsehen und per App oder im Browser selbstständig Geräte buchen."
       section1_button1: "HowTo: Messgeräte erstellen"
       section1_button2: "HowTo: Messgeräte buchen"
@@ -526,8 +526,10 @@ de:
       section3_header: "auf deinem Smartphone"
   common:
     edit_page: "Seite bearbeiten"
-    default_community_slogan: "Miete anstatt zu kaufen"
-    default_community_description: "Mieten und Vermieten von Test- und Messgeräten zwischen Unternehmen"
+    #default_community_slogan: "Miete anstatt zu kaufen"
+    #default_community_description: "Mieten und Vermieten von Test- und Messgeräten zwischen Unternehmen"
+    default_community_slogan: "Verwalte deine Messgeräte"
+    default_community_description: "Ressourcen Management für Test- und Messgeräte im Unternehmen"
     cancel: Abbrechen
     fields_that_are_mandatory: "Mit einem Stern (*) gekennzeichnete Felder sind Pflichtfelder."
     or: oder
