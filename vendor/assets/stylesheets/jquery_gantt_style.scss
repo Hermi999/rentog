@@ -892,6 +892,21 @@
     background-color: rgb(102, 112, 131);
 }
 
+.bar_hover{
+    display: none;
+    position:absolute;
+    padding: 5px;
+    background-color: rgb(31, 31, 31);
+    border-radius: 7px;
+    font-size: larger;
+    color: white;
+    top: -30px;
+}
+.fn-label:hover .bar_hover {
+    display: block;
+}
+
+
 /************** DARK THEME *****************/
 @include theme( "theme_dark", 4px solid #8794AD, none,
                 rgba(74, 81, 94, 0.39), #4A515E, #C1CFE7,

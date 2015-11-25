@@ -1109,12 +1109,16 @@
             createProgressBar: function (days, cls, desc, label, dataObj) {
                 var cellWidth = tools.getCellSize();
                 var barMarg = tools.getProgressBarMargin() || 0;
-                var bar = $('<div class="bar"><div class="fn-label">' + label + '</div></div>')
-                        .addClass(cls)
-                        .css({
-                            width: ((cellWidth * days) - barMarg) + 2
-                        })
-                        .data("dataObj", dataObj);
+                var bar = $('<div class="bar" />')
+                                .append($('<div class="fn-label" />')
+                                    .html(label)
+                                    .append($('<div class="bar_hover" />')
+                                        .html(label)))
+                            .addClass(cls)
+                            .css({
+                                width: ((cellWidth * days) - barMarg) + 2
+                            })
+                            .data("dataObj", dataObj)
 
                 if (desc) {
                     bar
