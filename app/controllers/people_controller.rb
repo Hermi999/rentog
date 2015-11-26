@@ -221,9 +221,9 @@ class PeopleController < Devise::RegistrationsController
     # Create username
     if !params[:person][:username].present?
       if signup_as == "employee"
-        params[:person][:username] = "em_" + params[:person][:company_name].truncate(4, omission: '') + "_" + (params[:person][:given_name]).truncate(3, omission: '') + "_" + (params[:person][:family_name]).truncate(3, omission: '') + "_" + rand(0..9999).to_s
+        params[:person][:username] = "em_" + params[:person][:company_name].gsub(/\s+/, "").truncate(4, omission: '') + "_" + (params[:person][:given_name]).gsub(/\s+/, "").truncate(3, omission: '') + "_" + (params[:person][:family_name]).gsub(/\s+/, "").truncate(3, omission: '') + "_" + rand(0..9999).to_s
       else
-        params[:person][:username] = "co_" + params[:person][:organization_name].truncate(11, omission: '') + "_" + rand(0..9999).to_s
+        params[:person][:username] = "co_" + params[:person][:organization_name].gsub(/\s+/, "").truncate(11, omission: '') + "_" + rand(0..9999).to_s
       end
     end
 

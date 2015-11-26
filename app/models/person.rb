@@ -279,7 +279,7 @@ class Person < ActiveRecord::Base
   end
 
   def self.organization_name_available?(organization_name)
-    orga = Person.where("organization_name = 'Bosch' And deleted = 0").first
+    orga = Person.where("organization_name = ? And deleted = 0", organization_name).first
 
     # There shouldn't be an active organization with the same name AND the organization
     # name shouldn't be on our blacklist
