@@ -1847,6 +1847,7 @@ de:
       invalid_invitation_code: "Der Einladungs-Code ist ungültig."
       invitation_code: Einladungscode
       not_required: ", nicht erforderlich"
+      organization_is_in_use: "Es existiert bereits ein Unternehmen mit dem ausgewählten Namen. Bitte melde dich als 'Mitarbeiter' bei diesem Unternehmen an"
       notification_is_mandatory: "Du musst wenigstens eine Email Adresse wählen, um Mitteilungen erhalten zu können. Wenn Du keine Emails von %{service_name} erhalten möchtest, kannst Du dies in den Einstellungen unter Benachrichtigungen anpassen."
       organization_name: "Name der Organisation"
       password_again: "Passwort bestätigen"
@@ -1908,6 +1909,7 @@ de:
       show_all_listings: "Alle Einträge anzeigen"
       show_all_open_listings: "Zeige alle offenen Einträge an"
       show_all_reviews: "Alle Bewertungen anzeigen"
+      organization_is_in_use: "The organization name you entered is already in use."
     followed_people:
       you_follow_plural: "Du folgst %{count} Personen"
       you_follow_singular: "Du folgst %{count} Person"

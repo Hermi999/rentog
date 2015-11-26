@@ -327,6 +327,12 @@ class PeopleController < Devise::RegistrationsController
   end
 
   def update
+    # Check if new company name and if, then if it already exists
+    unless Person.organization_name_available?(params[:person][:organization_name])
+      flash[:error] = t("people.show.organization_is_in_use")
+      redirect_to :back and return
+    end
+
     # If setting new location, delete old one first
     if params[:person] && params[:person][:location] && (params[:person][:location][:address].empty? || params[:person][:street_address].blank?)
       params[:person].delete("location")
