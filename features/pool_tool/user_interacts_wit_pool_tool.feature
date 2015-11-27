@@ -169,7 +169,7 @@ Feature: User interacts with Pool Tool
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
      Then I should see "internal000" within ".poolTool_gantt_container"
-     When I click on element "div" with text "internal000" and within ".gantt_otherReason"
+     When I click on element "div" with text "internal000" and within ".gantt_otherReason_me"
      Then I should see element "#cboxLoadedContent"
      When I update start-date +2 and end-date +2 days
       And I press "Update"
@@ -188,7 +188,7 @@ Feature: User interacts with Pool Tool
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
      Then I should see "internal000" within ".poolTool_gantt_container"
-     When I click on element "div" with text "internal000" and within ".gantt_otherReason"
+     When I click on element "div" with text "internal000" and within ".gantt_otherReason_me"
      Then I should see element "#cboxLoadedContent"
      When I update start-date +5 and end-date +2 days
       And I press "Update"
@@ -207,7 +207,7 @@ Feature: User interacts with Pool Tool
       And I am on my pool tool page
      Then I should see "internal000" within ".poolTool_gantt_container"
      Then I should see "internal001" within ".poolTool_gantt_container"
-     When I click on element "div" with text "internal000" and within ".gantt_otherReason"
+     When I click on element "div" with text "internal000" and within ".gantt_otherReason_me"
      Then I should see element "#cboxLoadedContent"
      When I update start-date +2 and end-date +3 days
       And I press "Update"
@@ -246,7 +246,7 @@ Feature: User interacts with Pool Tool
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
      Then I should see "internal000" within ".poolTool_gantt_container"
-     When I click on element "div" with text "internal000" and within ".gantt_otherReason"
+     When I click on element "div" with text "internal000" and within ".gantt_otherReason_me"
      Then I should see element "#cboxLoadedContent"
      When I press "Delete"
       And I confirm alert popup

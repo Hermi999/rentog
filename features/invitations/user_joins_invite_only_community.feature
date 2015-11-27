@@ -20,10 +20,10 @@ Feature: User joins invite only community
     #Then there should be an active ajax request
     When ajax requests are completed
     And I fill in "First name" with "Testmanno"
-    And I fill in "Your organization admins email address" with "kassi_testperson2@example.com"
+    And I fill in "Your company admins email address" with "kassi_testperson2@example.com"
     And I fill in "Last name" with "Namez"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "person_password1" with "testtest"
+    And I fill in "Confirm password" with "testtest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company employee"
@@ -47,11 +47,11 @@ Feature: User joins invite only community
     And I remove the focus
     #Then there should be an active ajax request
     When ajax requests are completed
-    And I fill in "Organization name" with "abcd"
+    And I fill in "Company name" with "abcd"
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "person_password1" with "testtest"
+    And I fill in "Confirm password" with "testtest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company account"
@@ -70,9 +70,9 @@ Feature: User joins invite only community
     And I am on the signup page
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
-    And I fill in "Organization name" with "abcd"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "Company name" with "abcd"
+    And I fill in "person_password1" with "testtest"
+    And I fill in "Confirm password" with "testtest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company account"
@@ -89,9 +89,9 @@ Feature: User joins invite only community
     And I follow "signup as an employee"
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
-    And I fill in "Your organization admins email address" with "kassi_testperson2@example.com"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "Your company admins email address" with "kassi_testperson2@example.com"
+    And I fill in "person_password1" with "testtest"
+    And I fill in "Confirm password" with "testtest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company employee"
@@ -110,9 +110,9 @@ Feature: User joins invite only community
     When I fill in "Invitation code" with "gh1jx8"
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
-    And I fill in "Organization name" with "abcd"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "Company name" with "abcd"
+    And I fill in "person_password1" with "testtest"
+    And I fill in "Confirm password" with "testtest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company account"
@@ -129,9 +129,9 @@ Feature: User joins invite only community
     And I follow "signup as an employee"
     And there is an invitation for community "test" with code "GH1JX8" with 0 usages left
     When I fill in "Invitation code" with "gh1jx8"
-    And I fill in "Your organization admins email address" with "kassi_testperson2@example.com"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "Your company admins email address" with "kassi_testperson2@example.com"
+    And I fill in "person_password1" with "testtest"
+    And I fill in "Confirm password" with "testtest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company employee"
@@ -160,11 +160,11 @@ Feature: User joins invite only community
     And there is an invitation for community "test" with code "GH1JX8" with 1 usages left
     And I go to the registration page with invitation code "GH1JX8"
     Then I should not see "Invitation code"
-    And I fill in "Organization name" with "Testmanno2"
+    And I fill in "Company name" with "Testmanno2"
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "person_password1" with "testtest"
+    And I fill in "Confirm password" with "testtest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company account"

@@ -13,8 +13,8 @@ Feature: User creates a new account
     And I fill in "person[organization_name]" with "Hofer"
     And I fill in "First name" with "Hermann"
     And I fill in "Last name" with "Wagner"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "person_password1" with "testtesttest"
+    And I fill in "Confirm password" with "testtesttest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company account"
@@ -75,9 +75,9 @@ Feature: User creates a new account
     When I click "#signup_employee"
     And I fill in "First name" with "Siemens"
     And I fill in "Last name" with "Namez"
-    And I fill in "Your organization admins email address" with "kassi_testperson2@example.com"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "Your company admins email address" with "kassi_testperson2@example.com"
+    And I fill in "person_password1" with "testtesttest"
+    And I fill in "Confirm password" with "testtesttest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company employee"
@@ -123,9 +123,9 @@ Feature: User creates a new account
   #   Then I should see "Username is invalid."
 
   Scenario: Trying to create company account with unavailable email
-    When I fill in "Organization name" with "Siemens"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    When I fill in "Company name" with "Siemens"
+    And I fill in "person_password1" with "testtesttest"
+    And I fill in "Confirm password" with "testtesttest"
     And I fill in "Email address" with "kassi_testperson2@example.com"
     And I press "Create company account"
     Then I should see "The email you gave is already in use."
@@ -133,8 +133,8 @@ Feature: User creates a new account
   Scenario: Trying to create an company without First name and last name
     Given I am on the signup page
     When I fill in "person[organization_name]" with "TestCompany"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "person_password1" with "testtesttest"
+    And I fill in "Confirm password" with "testtesttest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company account"
@@ -143,8 +143,8 @@ Feature: User creates a new account
     When given name and last name are not required in community "test"
     And I am on the signup page
     When I fill in "person[organization_name]" with "TestCompany1"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "person_password1" with "testtest"
+    And I fill in "Confirm password" with "testtest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company account"
@@ -160,8 +160,8 @@ Feature: User creates a new account
     Given I am on the signup page
     When I fill in "First name" with "Hermann"
     And I fill in "Last name" with "Wagner"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "person_password1" with "testtesttest"
+    And I fill in "Confirm password" with "testtesttest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company account"
@@ -173,12 +173,12 @@ Feature: User creates a new account
     When I click "#signup_employee"
     And I fill in "First name" with "Siemens"
     And I fill in "Last name" with "Namez"
-    And I fill in "person_password1" with "test"
-    And I fill in "Confirm password" with "test"
+    And I fill in "person_password1" with "testtesttest"
+    And I fill in "Confirm password" with "testtesttest"
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company employee"
-    Then I should see "The organization you've given does not exist"
+    Then I should see "The company you've given does not exist"
 
   @subdomain2
   Scenario: Seeing info of community's email restriction

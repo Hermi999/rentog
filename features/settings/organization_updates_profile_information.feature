@@ -12,14 +12,14 @@ Feature: Organization updates profile information
 
   @javascript
   Scenario: Updating profile successfully
-    When I fill in "Organization name" with "Test"
+    When I fill in "Company name" with "Test"
     And I fill in "Location" with "Broadway"
     And wait for 2 seconds
     And I fill in "Phone number" with "0700-715517"
     And I fill in "About you" with "Some random text about me"
     And I press "Save information"
     Then I should see "Information updated" within ".flash-notifications"
-    And the "Organization name" field should contain "Test"
+    And the "Company name" field should contain "Test"
     And the "Location" field should contain "Broadway"
     And I should not see my username
 

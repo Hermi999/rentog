@@ -1,4 +1,4 @@
-Feature: User joins invite only community
+Feature: User invites other user
   In order to get critical mass to Sharetribe
   As a user in a community
   I want to invite my friend in this Sharetribe community

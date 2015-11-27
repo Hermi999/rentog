@@ -153,7 +153,7 @@
 
   .poolTool_options
     = check_box_tag 'mine', 'yes', false, :class => 'only_mine'
-    = label_tag t('pool_tool.show.only_mine')
+    = label_tag t('pool_tool.show.only_mine'), nil, :id => 'only_mine_label'
 
 
   - if @current_user.is_employee? && @current_community.pooltool_employee_has_to_give_back_device

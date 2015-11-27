@@ -1,5 +1,5 @@
 /* Tell jshint that there exists a global called "gon" */
-/* globals gon, prettyPrint, initialize_poolTool_createTransaction_form, getDatesBetweenRange */
+/* globals gon, prettyPrint, initialize_poolTool_createTransaction_form, getDatesBetweenRange, Spinner, console */
 /* jshint unused: false */
 
 window.ST = window.ST || {};
@@ -97,6 +97,9 @@ window.ST.poolTool = function() {
         $('#return_now_' + i).data('transaction_id', transaction_id);
 
       // On click on button
+      // ATTENTION: Function in a loop. Do not use a reference from the outside
+      // within that loop
+      /*jshint -W083 */
       $('#return_now_'+ i).on('click', function(ev){
         console.log($('#' + ev.currentTarget.id).data('transaction_id'));
       });
@@ -120,7 +123,9 @@ window.ST.poolTool = function() {
 
   function initialize_poolTool_options(){
     // Show only my bookings (the current user)
-    $('.only_mine').on('click', function(){
+    $('.only_mine').prop('checked', false);
+
+    $('.only_mine').on('change', function(){
       if($('.only_mine').prop('checked')){
         $('.bar').hide();
         $('.gantt_ownEmployee_me').show();
@@ -131,34 +136,47 @@ window.ST.poolTool = function() {
         $('.bar').show();
       }
     });
+
+    $('#only_mine_label').on('click',function(ev){
+      if ($('.only_mine').prop('checked')){
+        $('.only_mine').prop('checked',false);
+        $('.only_mine').change();
+      }else{
+        $('.only_mine').prop('checked',true);
+        $('.only_mine').change();
+      }
+    });
   }
 
 
   function initialize_listing_previews(){
     for (var i = 0; i < window.ST.poolToolRows; i++) {
 
+      // Function in a loop. Do not use i in there!
+      /*jshint -W083 */
       $('#rowheader' + i).on('mouseover', function(ev){
         if (ev.currentTarget.firstChild.firstChild){
           var id = ev.currentTarget.id;
           var text = ev.currentTarget.firstChild.firstChild.data;
-          var i = parseInt(id.substr(9,1));
+          var ii = parseInt(id.substr(9,1));
           var alreadyThere = false;
 
-          if (gon.source[i].image && gon.source[i].name === text){
+          if (gon.source[ii].image && gon.source[ii].name === text){
             for(var j=0; j<window.ST.poolToolImages.length; j++){
-              if (i === window.ST.poolToolImages[j]){
+              if (ii === window.ST.poolToolImages[j]){
                 alreadyThere = true;
               }
             }
-            window.ST.poolToolImages.push(i);
+            window.ST.poolToolImages.push(ii);
 
             if(alreadyThere){
-              $('#rowheader_image' + i).show();
+              $('#rowheader_image' + ii).show();
             }else{
-              var img = $('<img id="rowheader_image'+ i +'" height="' + $(".spacer").height() + '"/>').attr('src', gon.source[i].image)
+              var img = $('<img id="rowheader_image'+ ii +'" height="' + $(".spacer").height() + '"/>').attr('src', gon.source[ii].image)
+                // Function in a loop. Do not use i in there!
+                /*jshint -W083 */
                 .on('load', function(){
                   if (!this.complete || typeof this.naturalWidth === "undefined" || this.naturalWidth === 0) {
-                      console.log('broken image!');
                   } else {
                       $(".spacer").append(img);
                       img.show();
@@ -169,11 +187,13 @@ window.ST.poolTool = function() {
         }
       });
 
+      // Function in a loop. Do not use i in there.
+      /*jshint -W083 */
       $('#rowheader'+i).on('mouseout', function(ev){
         var id = ev.currentTarget.id;
-        var i = parseInt(id.substr(9,1));
+        var ii = parseInt(id.substr(9,1));
 
-        $('#rowheader_image' + i).hide();
+        $('#rowheader_image' + ii).hide();
       });
     }
   }
@@ -1053,10 +1073,10 @@ window.ST.poolTool = function() {
 
 
     // Calculate percentage
+    var weekday_load = 0;
+    var day_load = 0;
+    var load_class = "load_red";
     if (entry.name){
-        var weekday_load = 0;
-        var day_load = 0;
-
         // if just dummy listing
         if(entry.dummy !== undefined){
             if (entry.name === 'Test Device 5'){
@@ -1089,7 +1109,6 @@ window.ST.poolTool = function() {
             day_load = (Math.round(day_load * 100) / 100).toFixed(1);
         }
 
-        var load_class = "load_red";
         if (weekday_load > 70){
             load_class = "load_green";
         }else if (weekday_load > 40 ){
@@ -1107,7 +1126,7 @@ window.ST.poolTool = function() {
         day_load: day_load,
         utilization_start: created_at
     };
-  }
+  };
 
   return {
     init: init,
