@@ -504,7 +504,7 @@
 
 Kassi::Application.routes.draw do
   # wah: remove this in production
-  get '/switch_pool_tool', to: 'application#switch_pool_tool'
+  # get '/switch_pool_tool', to: 'application#switch_pool_tool'
 
 
   get "employees/create"

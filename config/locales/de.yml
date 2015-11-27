@@ -1187,6 +1187,7 @@ de:
     index:
       no_listings_with_your_search_criteria: "Wir konnten keine passenden Suchergebnisse finden."
       no_listings_notification: "Keine Einträge. %{add_listing_link}."
+      no_listings_notification_employee: "Es gibt noch keine Einträge."
       add_listing_link_text: "Neuen Eintrag hinzufügen"
       open_listing: "aktiver Eintrag"
       open_listings: "aktive Einträge"
@@ -1220,8 +1221,11 @@ de:
       add_email_addresses_description: "Füge die E-Mail-Adressen der Leute, die du einladen möchtest, in das obere Feld ein. Wenn du mehrere E-Mail-Adressen hinzufügst, unterteile sie mit einem Komma."
       add_lots_of_email_addresses: "Wenn du sehr viele Einladungen verschicken möchtest, solltest du lieber ein Email-Tool verwenden. Lies %{this_article_link}, um mehr über geeignete Email-Dienste zu erfahren."
       this_article_link: "diesen Artikel"
+      label_invite_any: "Lade ein anderes Unternehmen / eine andere Person ein"
+      label_invite_employee: "Füge einen neuen Mitarbeiter deinem Unternehmen hinzu"
       invitation_emails_field_placeholder: "freund1@beispiel.com, freund2@beispiel.com, ..."
-      invitation_message_field_placeholder: "Ich bin dieser tollen Community beigetreten. Das solltest du auch tun!"
+      invitation_message_field_placeholder1: "Hi. Wir verwenden ab jetzt firmenintern Rentog um unsere Testgeräte zu verwalten. Bitte registriere dich!"
+      invitation_message_field_placeholder2: "Hi. Wir verwenden in unserem Unternehmen Rentog für die Verwaltung von Messgeräten. Vielleicht wäre das auch was für euch!"
       errors_in_emails: "Überprüfe, ob die eingegebenen E-Mail-Adressen korrekt sind. Wenn du mehrere E-Mail-Adressen eingegeben hast, trenne sie mit einem Komma."
     list_item:
       review: Bewertung
@@ -1377,7 +1381,7 @@ de:
       offer_canceled: "Angebot abgebrochen"
       listing_updated_successfully: "Eintrag wurde erfolgreich aktualisiert"
       only_kassi_administrators_can_access_this_area: "Nur  %{service_name} Administratoren können diesen Bereich aufrufen"
-      only_listing_author_can_close_a_listing: "Nur der erstellende Anbieter kann ein Angebot pausieren"
+      only_listing_author_can_close_a_listing: "Nur der erstellende Anbieter kann einen Eintrag pausieren"
       only_listing_author_can_edit_a_listing: "Nur Autoren eines Eintrags können den Eintrag bearbeiten"
       payment_successful: "erfolgreiche Bezahlung"
       payment_canceled: "Zahlung abgebrochen"
@@ -1437,6 +1441,7 @@ de:
       you_must_log_in_to_accept_or_reject: "Du musst dich einloggen, um die Transaktion zu akzeptieren oder abzubrechen"
       you_must_log_in_to_confirm_or_cancel: "Du musst dich einloggen, um die Transaktion abzubrechen oder zu bestätigen"
       you_need_to_confirm_your_account_first: "Du musst zuerst deine E-Mail bestätigen."
+      you_must_be_added_to_a_company: "Du musst nur mehr durch deinen Unternehmens-Administrator verifiziert werden. Es wurde dazu eine automatische Nachricht an ihm gesendet."
       you_must_fill_all_the_fields: "Du musst alle Felder ausfüllen"
       you_unfollowed_listing: "Du folgst diesem Eintrag nicht länger"
       joining_community_failed: "Der Beitritt dieser Community ist fehlgeschlagen"
@@ -1474,7 +1479,7 @@ de:
     edit:
       edit_listing: "Eintrag bearbeiten"
     edit_links:
-      close_listing: "Angebot pausieren"
+      close_listing: "Eintrag pausieren"
       edit_listing: "Eintrag bearbeiten"
       reopen_listing: "Eintrag wieder aktivieren"
       move_to_top: "Auf der Homepage nach oben verschieben"
@@ -1832,7 +1837,8 @@ de:
     new:
       captcha_incorrect: "ReCAPTCHA-Überprüfung fehlgeschlagen. Bitte schreibe die Wörter aus dem Bild in das Feld unten."
       captcha_was_wrong: "Captcha-Text war falsch."
-      create_new_account: "Konto erstellen"
+      create_new_account: "Unternehmens-Konto erstellen"
+      create_new_employee: "Mitarbeiter-Konto erstellen"
       email: E-Mail-Adresse
       email_is_in_use: "Die angegebene E-Mail-Adresse wird bereits genutzt."
       email_is_in_use_or_not_allowed: "Diese E-Mail-Adresse ist nicht erlaubt oder bereits in Verwendung. Wenn Du Dich nicht einloggen kannst, kontaktiere uns bitte."
@@ -1840,16 +1846,21 @@ de:
       email_restriction_instructions:
         one: "Diese Community ist nur für %{community_name}. Um beitreten zu können, brauchst du eine '%{allowed_emails}' E-Mail-Adresse. "
         other: "Diese Community ist nur für %{community_name}. Um beitreten zu können, brauchst du eine E-Mail-Adresse, die belegt, dass deine Teilnahme erlaubt ist."
+      organization_email: "Die Email-Adresse deines Unternehmens-Administrators"
+      orga_not_available: "Dieses Unternehmen ist noch nicht verfügbar."
       enter_captcha: "Ich bin ein Mensch:"
       family_name: Nachname
       given_name: Vorname
       i_accept_the: "Ich akzeptiere die"
       invalid_invitation_code: "Der Einladungs-Code ist ungültig."
       invitation_code: Einladungscode
+      invalid_form_data: "Das Formular ist ungültig. Bitte aktiviere Javascript und verwende ausschließlich die offizielle Rentog Web- bzw. mobile Applikation um dich zu registrieren"
       not_required: ", nicht erforderlich"
-      organization_is_in_use: "Es existiert bereits ein Unternehmen mit dem ausgewählten Namen. Bitte melde dich als 'Mitarbeiter' bei diesem Unternehmen an"
       notification_is_mandatory: "Du musst wenigstens eine Email Adresse wählen, um Mitteilungen erhalten zu können. Wenn Du keine Emails von %{service_name} erhalten möchtest, kannst Du dies in den Einstellungen unter Benachrichtigungen anpassen."
       organization_name: "Name der Organisation"
+      organization_is_in_use: "Es existiert bereits ein Unternehmen mit dem ausgewählten Namen. Bitte registriere dich als Mitarbeiter dieses Unternehmens."
+      organization_name_not_chosen: "Bitte wähle das Unternehmen für welches du arbeitest."
+      organization_doesnt_exists: "Das angegebene Unternehmen existiert nicht"
       password_again: "Passwort bestätigen"
       show_my_name_to_others: "Anderen %{service_name} Benutzern meinen richtigen Namen anzeigen"
       sign_up: "Ein neues Konto bei %{service_name} erstellen"
@@ -1861,6 +1872,14 @@ de:
       create_account_with_facebook: "Lege einen Account mit Facebook an"
       OR: ODER
       signup_with_email: "Registriere Dich mit Deiner E-Mail-Adresse"
+      message_to_company_owner: "(Diese Nachricht wurde von RENTOG automatisch generiert) Eine Person mit den Namen %{name} und der Email-Adresse %{email} hat soeben einen neuen Account erstellt und behaupted ein Mitarbeiter deines Unternehmens zu sein. Wenn dies der Wahrheit entspricht, so füge die Person bitte auf deiner Profilseite %{profile} zu deinen Mitarbeitern hinzu."
+      help_texts:
+        main_description: "Wenn du der Unternehmens-Eigner oder Equipment-Verantwortliche deines Unternehmens bist, so kannst du hier ein neues Unternehmen erstellen. Danach kannst du Test- und Messgeräte zu deinem Unternehmen hinzufügen und deine Mitarbeiter einladen. <br><br>Mitarbeiter können sich auch selbst zum Unternehmen hinzufügen, indem sie auf den Link unterhalb des Registrierungsformulars klicken."
+        person_email: "Bitte gib eine gültige Email-Adresse ein"
+        person_organization_name: "Bitte gib den Namen deines Unternehmens ein"
+        person_organization_email: "Bitte gib die Email-Adresse ein, die dein Unternehmens-Administrator auf Rentog verwendet"
+        person_password1: "Verwende ein starkes Passwort mit mindestens 8 Zeichen."
+        signup_employee: "Wenn du die Email-Adresse weißt, die dein Unternehmens-Administrator auf Rentog verwendet, so kannst du einen neuen Mitarbeiter hier direkt hinzufügen ..."
     not_member:
       explanation_text: "Du befindest dich derzeit bei %{community}. Du hast versucht, das Profil eines Benutzers aus einer anderen Community anzuzeigen. Du kannst dieses Profil nicht über %{community} direkt einsehen."
       read_more_about_kassi_communities: "Lies mehr über Sharetribe-Communities"
@@ -1917,10 +1936,31 @@ de:
       they_follow_singular: "%{count} gefolgte Person"
       show_all_followed_people: "Zeige alle gefolgten Personen"
       no_followed_people: "Keine gefolgten Personen"
+    trusted_companies:
+      you_trust_plural: "Du bist mit %{count} anderen befreundet"
+      you_trust_singular: "Du bist mit %{count}nem Unternehmen befreunted"
+      they_trust_plural: "%{count} befreundete Unternehmen"
+      they_trust_singular: "%{count} befreundete Unternehmen"
+      show_all_trusted_people: "Zeige alle befreundeten Unternehmen"
+      no_trusted_people: "No trusted companies"
     follow_button:
       following: Folgend
       follow: Folgen
       unfollow: "Nicht mehr folgen"
+    trust_button:
+      trusted: Befreundet
+      trust: Neue Freundschaft
+      untrust: Freundschaft aufheben
+    employ_button:
+      employee: Mitarbeiter
+      employ: Annehmen
+      unemploy: Entfernen
+      warning: "Bist du sicher, dass du %{employee} von deinen Mitarbeitern entfernen möchtest? Wenn ja, dann wird sein Account gesperrt und er kann nur noch sein Profil löschen."
+    show_employees:
+      employees_singular: " %{count} Mitarbeiter"
+      employees_plural: " %{count} Mitarbeiter"
+      no_employees: " Keine Mitarbeiter"
+      show_all_employees: "Zeige alle Mitarbeiter"
   search:
     show:
       all_results: "Alle Ergebnisse"
@@ -1959,10 +1999,18 @@ de:
       your_current_email_is: "Deine E-Mail-Adresse ist %{email}."
       change_email: Ändern
       confirm_your_email: "Bestätige deine E-Mail"
+      company_needs_to_verify: "Dein Unternehmens-Administrator muss dich verifizieren"
       account_confirmation_instructions: "Du wirst in Kürze eine E-Mail mit einem Link erhalten, den du anklicken musst, um die eingegebene E-Mail-Adresse zu bestätigen. Nach der Bestätigung deiner E-Mail kannst du der Community beitreten."
       account_confirmation_instructions_title_admin: "Willkommen auf Deinem Marktplatz!"
       your_marketplace_has_now_been_created: ~
       account_confirmation_instructions_admin: ~
+    employee_not_verified_confirmation_form:
+      new_member: "Bist du ein neues Mitglied?"
+      new_member_details: "Um Vertrauen und Sicherheit zwischen den registrierten Unternehmen auf Rentog zu gewährleisten, müssen alle neuen Mitarbeiter eines Unternehmens zuerst vom Unternehmens-Administrator manuell verifiziert werden. Durch diese Maßnahme wird sichergestellt, dass sich Niemand als Mitarbeiter eines Unternehmens ausgibt, für welches er gar nicht arbeitet.</br></br>Die Unternehmen selbst werden von den Rentog Administratoren geprüft."
+      existing_member: "Bist du ein bestehendes Mitglied?"
+      existing_member_details: "Wenn du ein bestehender Mitarbeiter eines Unternehmens bist und plötzlich diese Seite siehst, so hat dich dein Unternehmens-Administrator von seinem Unternehmen entfernt. Sollte dies ein Fehler oder Missverständnis sein, so bitte deinen Unternehmens-Administrator die Aktion rückgängig zu machen."
+      changed_email: "Du hast das Unternehmen gewechstelt und möchtest deine Email-Adresse auch beim neuen Unternehmen verwenden?"
+      changed_email_details: "Arbeitest du jetzt bei einem anderen Unternehmen, willst aber immer noch dieselbe Email-Adresse auf Rentog verwenden, so lösche diesen Account (siehe unterhalb) und erstelle danach einfach einen neuen Account mit deiner gewünschten Email-Adresse."
   settings:
     account:
       change: Ändern
@@ -2025,6 +2073,7 @@ de:
       city: Stadt
       family_name: Nachname
       given_name: Vorname
+      organization_name: Firma
       first_name_with_initial: "(anderen Benutzern wird nur der erste Buchstabe angezeigt)"
       first_name_only: "(wird anderen Benutzern nicht angezeigt)"
       location_description: "Du kannst entweder deinen exakten Standort oder nur deine Postleitzahl angeben. Bitte füge mindestens deine Postleitzahl hinzu. Du kannst auch einen Standort aus der Karte auswählen."
@@ -2172,6 +2221,11 @@ de:
         one: "%{count} Tag"
         other: "%{count} Tage"
   transactions:
+    employees_cannot_make_transactions: "Mitarbeiter können keine Buchungen durchführen. Bitte sende eine Anfrage an deinen Unternehmens-Administrator, damit dieser eine Buchung für die tätigt."
+    company_not_verified: "Nur Unternehmen die von den Rentog-Administratoren verifiziert wurden können Buchungen durchführen. Dein Unternehmen wurde bis jetzt noch nicht verifiziert. Wir werden uns um kürze darum kümmern!"
+    listing_is_intern: "Dieser Eintrag ist 'intern' und kann von anderen Unternehmen nicht betrachtet oder gebucht werden."
+    listing_is_only_for_trusted_companies: "Dieser Eintrag ist nur für 'befreundete' Unternehmen. Bitte kontaktiere das andere Unternehmen, damit dieses dich zu seinen befreundeten Unternehmen hinzufügt."
+    already_booked_for_this_date: "Entweder hast du versucht an einem Tag zu buchen an dem bereits eine Buchung besteht, oder das Anfangsdatum war hinter dem Enddatum! Bitte versuche es noch einmal."
     initiate:
       booked_days: "Gebuchte Tage:"
       price_per_day: "Preis pro Tag:"
@@ -2191,10 +2245,12 @@ de:
       person:
         zero: Benutzer
         one: Benutzer
+        few: Benutzer
         other: Benutzer
       listing_conversation:
         zero: Buchungen
         one: Buchung
+        few: Buchungen
         other: Buchungen
     previous_label: "&#8592; Zurück"
     next_label: "Vor &#8594;"
@@ -2229,6 +2285,15 @@ de:
     turn_your_device: "Bitte drehen Sie ihr mobiles Gerät innerhalb des Pool Tools!"
     invalid_booking_dates: "Ungültiger Buchungszeitraum: Vielleicht hat jemand anderes schon an einem der gewählten Tage das Gerät gebucht. Bitte lade die Seite neu und versuche es noch einmal."
     show:
+      show_legend: "Zeige Legende"
+      hide_legend: "Verberge Legende"
+      legend: "Legende"
+      trusted_company: "Befreundetes Untern."
+      any_company: "Anderes Untern."
+      own_employee: "Eigener Mitarbeiter"
+      any_employee: "Anderer Mitarbeiter"
+      other_reason: "Anderer Grund"
+      only_mine: "Zeige nur meine"
       could_not_create_new_booking: "Error: Aktion fehlgeschlagen! Bitte überprüfe deine Internet-Verbindung."
       booking_from: "Von"
       booking_to: "Bis"

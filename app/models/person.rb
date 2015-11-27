@@ -288,7 +288,7 @@ class Person < ActiveRecord::Base
 
   def self.organization_email_available?(organization_email)
     person = Person.find_by_email(organization_email)
-    if !person.nil? && person.is_organization?
+    if !person.nil? && person.is_organization? && !person.deleted
       person
     else
       nil
@@ -352,11 +352,8 @@ class Person < ActiveRecord::Base
 
   # Deprecated: This is view logic (how to display name) and thus should not be in model layer
   # Consider using PersonViewUtils
-  def given_name_or_username
-    if is_organization
-      # Quick and somewhat dirty solution. `given_name_or_username`
-      # is quite explicit method name and thus it should return the
-      # given name or username. Maybe this should be cleaned in the future.
+  def given_name_or_username(no_orga_name = false)
+    if is_organization && !no_orga_name
       return organization_name
     elsif given_name.present?
       return given_name
@@ -486,13 +483,14 @@ class Person < ActiveRecord::Base
   # Updates the user following status based on the given status
   # for the given listing
   def update_follow_status(listing, status)
-    unless id == listing.author.id
+    # if current user isn't the author of the listing
+    #unless id == listing.author.id
       if status
         follow(listing) unless is_following?(listing)
       else
         unfollow(listing) if is_following?(listing)
       end
-    end
+    #end
   end
 
   def read(conversation)

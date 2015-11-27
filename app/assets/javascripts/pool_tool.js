@@ -4,7 +4,9 @@
 
 window.ST = window.ST || {};
 
-window.ST.poolToolTheme  = gon.theme || "theme_dark";
+if (typeof gon !== 'undefined'){
+  window.ST.poolToolTheme  = gon.theme || "theme_dark";
+}
 window.ST.poolToolRows   = 0;
 window.ST.poolToolImages = [];
 var opts = {
@@ -71,7 +73,7 @@ window.ST.poolTool = function() {
       var transaction_id = gon.user_active_bookings[i].transaction_id;
       var image = "";
 
-      if (title === gon.devices[i].name){
+      if (gon.devices[i] && title === gon.devices[i].name){
         image = gon.devices[i].image;
       }
 
@@ -774,6 +776,31 @@ window.ST.poolTool = function() {
 
         // Show page content (pooltool, buttons, ...)
         $('#poolTool_Wrapper').animate({opacity: 1.0},1500);
+
+        // Event listener for Rename Legend
+        $('#showLegendId').on('click', function(){
+          if ($('#showLegendId').html() === gon.show_legend){
+            $('#showLegendId').html(gon.hide_legend);
+          }else{
+            $('#showLegendId').html(gon.show_legend);
+          }
+        });
+
+        // Disable navigation buttons
+        if($('.dataPanel').data('view') === 'days'){
+          $('.nav-zoomIn').css('opacity', 0.4);
+          $('.nav-zoomOut').css('opacity', 1);
+        }
+        if($('.dataPanel').data('view') === 'weeks'){
+          $('.nav-zoomIn').css('opacity', 1);
+          $('.nav-zoomOut').css('opacity', 1);
+        }
+        if($('.dataPanel').data('view') === 'months'){
+          $('.nav-zoomIn').css('opacity', 1);
+          $('.nav-zoomOut').css('opacity', 0.4);
+        }
+
+
       }
     });
   }

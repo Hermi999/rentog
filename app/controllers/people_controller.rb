@@ -221,9 +221,9 @@ class PeopleController < Devise::RegistrationsController
     # Create username
     if !params[:person][:username].present?
       if signup_as == "employee"
-        params[:person][:username] = "em_" + params[:person][:company_name].gsub(/\s+/, "").truncate(4, omission: '') + "_" + (params[:person][:given_name]).gsub(/\s+/, "").truncate(3, omission: '') + "_" + (params[:person][:family_name]).gsub(/\s+/, "").truncate(3, omission: '') + "_" + rand(0..9999).to_s
+        params[:person][:username] = "em_" + params[:person][:company_name].gsub(/[^0-9a-z]/i, '').truncate(4, omission: '') + "_" + (params[:person][:given_name]).gsub(/[^0-9a-z]/i, '').truncate(3, omission: '') + "_" + (params[:person][:family_name]).gsub(/[^0-9a-z]/i, '').truncate(3, omission: '') + "_" + rand(0..9999).to_s
       else
-        params[:person][:username] = "co_" + params[:person][:organization_name].gsub(/\s+/, "").truncate(11, omission: '') + "_" + rand(0..9999).to_s
+        params[:person][:username] = "co_" + params[:person][:organization_name].gsub(/[^0-9a-z]/i, '').truncate(11, omission: '') + "_" + rand(0..9999).to_s
       end
     end
 
@@ -328,9 +328,11 @@ class PeopleController < Devise::RegistrationsController
 
   def update
     # Check if new company name and if, then if it already exists
-    unless Person.organization_name_available?(params[:person][:organization_name])
-      flash[:error] = t("people.show.organization_is_in_use")
-      redirect_to :back and return
+    if params[:person][:organization_name] && (params[:person][:organization_name] != @current_user.organization_name)
+      unless Person.organization_name_available?(params[:person][:organization_name])
+        flash[:error] = t("people.show.organization_is_in_use")
+        redirect_to :back and return
+      end
     end
 
     # If setting new location, delete old one first
@@ -530,7 +532,7 @@ class PeopleController < Devise::RegistrationsController
       person.is_organization = true
     elsif params[:person][:signup_as] == "employee"
       person.is_organization = false
-      person.company = Person.find_by_organization_name(company_name)
+      person.company = Person.where('organization_name = ? And deleted = 0',company_name).first
     end
 
     if person.save!

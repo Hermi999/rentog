@@ -10,6 +10,12 @@ class InvitationsController < ApplicationController
     @selected_tribe_navi_tab = "members"
     @invitation = Invitation.new
     invitation_limit = @current_community.join_with_invite_only ? Invitation.invite_only_invitation_limit : Invitation.invitation_limit
+
+    gon.push({
+        invitation_message_field_placeholder1: t("homepage.invitation_form.invitation_message_field_placeholder1"),
+        invitation_message_field_placeholder2: t("homepage.invitation_form.invitation_message_field_placeholder2")
+    })
+
     render locals: { invitation_limit: invitation_limit, has_admin_rights: @current_user.has_admin_rights_in?(@current_community) }
   end
 

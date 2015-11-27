@@ -725,8 +725,8 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
       //"person[organization_name2]": {required_employee: true},
       "person[organization_email]": {required_employee: true, minlength: 3, email: true, remote: "/people/check_company_email"},
       "person[terms]": "required",
-      "person[password]": { required: true, minlength: 4 },
-      "person[password2]": { required: true, minlength: 4, equalTo: "#person_password1" },
+      "person[password]": { required: true, minlength: 8 },
+      "person[password2]": { required: true, minlength: 8, equalTo: "#person_password1" },
       "person[id]": {required: true},
       "recaptcha_response_field": {required: true, captcha: true },
       "invitation_code": {required: invitation_required, remote: "/people/check_invitation_code"}

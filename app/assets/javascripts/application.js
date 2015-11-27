@@ -83,5 +83,6 @@
 //= require prettify
 //= require pool_tool
 //= require faq
+//= require invitation
 //
 //= require_self

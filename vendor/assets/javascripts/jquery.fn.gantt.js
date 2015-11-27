@@ -639,10 +639,11 @@
                                 + ' style="width: ' + tools.getCellSize() * hoursInDay + 'px;"> '
                                 + ' <div class="fn-label">' + settings.dow[day.getDay()] + '</div></div>');
 
-                        var dataPanel = core.dataPanel(element, range.length * tools.getCellSize());
+                        var dataPanel = core.dataPanel(element, range.length * tools.getCellSize()+1);
 
 
                         // Append panel elements
+                        dataPanel.data("view", "hours");
                         dataPanel.append('<div class="dataPanel_past"/>');
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
@@ -723,8 +724,9 @@
                             + settings.months[month]
                             + '</div></div>');
 
-                        var dataPanel = core.dataPanel(element, range.length * tools.getCellSize());
+                        var dataPanel = core.dataPanel(element, range.length * tools.getCellSize()+1);
 
+                        dataPanel.data("view", "weeks");
                         dataPanel.append('<div class="dataPanel_past"/>');
                         dataPanel.append(yearArr.join("") + monthArr.join("") + dayArr.join("") + (dowArr.join("")));
 
@@ -779,9 +781,10 @@
                             + settings.months[month]
                             + '</div></div>');
 
-                        var dataPanel = core.dataPanel(element, range.length * tools.getCellSize());
+                        var dataPanel = core.dataPanel(element, range.length * tools.getCellSize()+1);
 
                         // Append panel elements
+                        dataPanel.data("view", "months");
                         dataPanel.append('<div class="dataPanel_past"/>');
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
@@ -877,10 +880,11 @@
                             + settings.months[month]
                             + '</div></div>');
 
-                        var dataPanel = core.dataPanel(element, range.length * tools.getCellSize());
+                        var dataPanel = core.dataPanel(element, range.length * tools.getCellSize()+1);
 
 
                         // Append panel elements
+                        dataPanel.data("view", "days");
                         dataPanel.append('<div class="dataPanel_past"/>');
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
@@ -899,7 +903,7 @@
                 var appendLegend;
 
                 if (!gon.only_pool_tool){
-                    appendLegend = '<p class="showLegend" id="showLegendId">Show Legend</p>';
+                    appendLegend = '<p class="showLegend" id="showLegendId">'+ gon.show_legend +'</p>';
                 }
 
                 // Scrolling navigation is provided by setting
@@ -998,12 +1002,16 @@
                                 .append($('<button type="button" class="nav-link nav-zoomIn"/>')
                                     .html('&#43;')
                                     .click(function () {
-                                        core.zoomInOut(element, -1);
+                                        if($('.dataPanel').data('view') !== 'days'){
+                                            core.zoomInOut(element, -1);
+                                        }
                                     }))
                                 .append($('<button type="button" class="nav-link nav-zoomOut"/>')
                                     .html('&#45;')
                                     .click(function () {
-                                        core.zoomInOut(element, 1);
+                                        if($('.dataPanel').data('view') !== 'months'){
+                                            core.zoomInOut(element, 1);
+                                        }
                                     }))
                                     )
                                 )
@@ -1082,22 +1090,22 @@
             legend: function() {
                 var legend = $('<div class="legend" />')
                     .append($('<h3 class="legend_title" />')
-                        .html('Legend'))
+                        .html(gon.legend))
                     .append($('<div class="ganttLegend_trustedCompany" />')
                         .append($('<div class="fn-label" />')
-                            .html('Trusted Company')))
+                            .html(gon.trusted_company)))
                     .append($('<div class="ganttLegend_anyCompany" />')
                         .append($('<div class="fn-label" />')
-                            .html('Any Company')))
+                            .html(gon.any_company)))
                     .append($('<div class="ganttLegend_ownEmployee" />')
                         .append($('<div class="fn-label" />')
-                            .html('Own Employee')))
+                            .html(gon.own_employee)))
                     .append($('<div class="ganttLegend_anyEmployee" />')
                         .append($('<div class="fn-label" />')
-                            .html('Any Employee')))
+                            .html(gon.any_employee)))
                     .append($('<div class="ganttLegend_otherReason" />')
                         .append($('<div class="fn-label" />')
-                            .html('Other Reason')))
+                            .html(gon.other_reason)))
                     .append($('<div class="clear-floating" />'));
 
                 return legend;
