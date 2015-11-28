@@ -29,7 +29,14 @@ class InvitationsController < ApplicationController
 
     sending_problems = nil
     invitation_emails.each do |email|
-      invitation = Invitation.new(params[:invitation].merge!({:email => email.strip, :inviter => @current_user}))
+
+      if (params[:invitation][:target] == "employee")
+        valid_until = Time.now + 5.days
+      else
+        valid_until = Time.now + 60.days
+      end
+
+      invitation = Invitation.new(params[:invitation].merge!({:email => email.strip, :inviter => @current_user, :valid_until => valid_until}))
       if invitation.save
         Delayed::Job.enqueue(InvitationCreatedJob.new(invitation.id, @current_community.id))
       else

@@ -152,8 +152,8 @@ class PeopleController < Devise::RegistrationsController
     end
 
     # Check invitation code
-    if @current_community && @current_community.join_with_invite_only? || params[:invitation_code]
-      unless Invitation.code_usable?(params[:invitation_code], @current_community)
+    if @current_community && @current_community.join_with_invite_only? || (params[:invitation_code] && signup_as == "employee")
+      unless Invitation.code_usable?(params[:invitation_code], @current_community, params[:person][:email])
         # abort user creation if invitation is not usable.
         # (This actually should not happen since the code is checked with javascript)
         session[:invitation_code] = nil # reset code from session if there was issues so that's not used again
@@ -214,7 +214,8 @@ class PeopleController < Devise::RegistrationsController
         flash[:error] = t("people.new.organization_doesnt_exists")
         redirect_to error_redirect_path and return
       else
-        params[:person][:company_name] = comp.organization_name
+        # If comp.organization_name is nil, then the inviter was an employee and we take the company of the employee
+        params[:person][:company_name] = comp.organization_name || comp.company.organization_name
       end
     end
 

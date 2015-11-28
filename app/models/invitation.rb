@@ -41,12 +41,17 @@ class Invitation < ActiveRecord::Base
   validates_length_of :message, :maximum => 5000, :allow_nil => true
 
   before_validation(:on => :create) do
-    self.code ||= ApplicationHelper.random_sting.upcase
+    self.code ||= ApplicationHelper.random_sting(12).upcase
+    self.valid_until ||= Time.now + 5.days
     self.usages_left ||= 1
   end
 
-  def usable?
-    return usages_left > 0 && (valid_until.nil? || valid_until > DateTime.now)
+  def usable?(new_email=nil)
+    if new_email.nil?
+      return usages_left > 0 && (valid_until.nil? || valid_until > DateTime.now)
+    else
+      return usages_left > 0 && (valid_until.nil? || valid_until > DateTime.now) && email == new_email
+    end
   end
 
   def use_once!
@@ -54,11 +59,11 @@ class Invitation < ActiveRecord::Base
     update_attribute(:usages_left, self.usages_left - 1)
   end
 
-  def self.code_usable?(code, community=nil)
+  def self.code_usable?(code, community=nil, new_email=nil)
     invitation = Invitation.find_by_code(code.upcase) if code.present?
     if invitation.present?
       return false if community.present? && invitation.community_id != community.id
-      return invitation.usable?
+      return invitation.usable?(new_email)
     else
       return false
     end
