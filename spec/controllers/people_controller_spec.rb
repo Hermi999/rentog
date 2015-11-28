@@ -130,12 +130,12 @@ describe PeopleController do
       username = generate_random_username
 
       # First try: Should not work, because company does not exist
-      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_email: "Siem@bosch.at"}, :community => "test"}
+      post :create, {:person => {:username => username, :password => "testtest", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_email: "Siem@bosch.at"}, :community => "test"}
       Person.find_by_username(username).should be_nil
-      flash[:error].to_s.should include("The organization you've given does not exist")
+      flash[:error].to_s.should include("The company you've given does not exist")
 
       # Second try: Should work, because we use a already created company
-      post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_email: "abc@xyz.com"}, :community => "test"}
+      post :create, {:person => {:username => username, :password => "testtest", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_email: "abc@xyz.com"}, :community => "test"}
       Person.find_by_username(username).should_not be_nil
       Person.count.should == person_count + 1
       employee = Person.find_by_username(username)

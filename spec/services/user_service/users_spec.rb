@@ -7,6 +7,13 @@ describe UserService::API::Users do
   include EmailSpec::Helpers
   include EmailSpec::Matchers
 
+  PERSON_HASH_FIRST = {
+    given_name: "Admin",
+    family_name: "Admin",
+    email: "admin@admin.com",
+    password: "test",
+    locale: "fr"
+  }
   PERSON_HASH = {
     given_name: "Raymond",
     family_name: "Xperiment",
@@ -41,6 +48,8 @@ describe UserService::API::Users do
     end
 
     it "should send the confirmation email" do
+      # Since the first user is the super admin, create two users
+      first = create_user_with_membership(PERSON_HASH_FIRST.merge({:locale => "en"}), @community.id)
       u = create_user_with_membership(PERSON_HASH.merge({:locale => "en"}), @community.id)
       expect(ActionMailer::Base.deliveries).not_to be_empty
 
@@ -52,6 +61,8 @@ describe UserService::API::Users do
     end
 
     it "should send the confirmation email in right language" do
+      # Since the first user is the super admin, create two users
+      first = create_user_with_membership(PERSON_HASH_FIRST.merge({:locale => "en"}), @community.id)
       u = create_user_with_membership(PERSON_HASH.merge({:locale => "fr"}), @community.id)
       expect(ActionMailer::Base.deliveries).not_to be_empty
 

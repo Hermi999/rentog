@@ -14,7 +14,7 @@ module UserService::API
       community = Community.find(community_id)
 
       # send email confirmation (unless disabled for testing environment)
-      if APP_CONFIG.skip_email_confirmation || user.is_admin?
+      if APP_CONFIG.skip_email_confirmation || Person.find(user[:id]).is_admin?
         email.confirm!
       else
         Email.send_confirmation(email, community)
