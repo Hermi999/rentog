@@ -2376,7 +2376,9 @@ de:
       choose_employee: "Wähle einen Mitarbeiter"
       please_select: "Bitte wählen..."
       booked_with_poolTool: 'Booked with PoolTool'
-      enter_other_reason: "Einen anderen Grund angeben"
+      enter_other_reason: "Einen anderen Grund angeben (<span id='reason_counter'>40</span> Zeichen verfügbar)"
+      description: "Beschreibung (optional, <span id='description_counter'>249</span> Zeichen verfügbar)"
+      devices: "Verfügbare Geräte"
       example: "Bsp.: Wartung"
       create: "Erstellen"
       modify_booking:

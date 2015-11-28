@@ -10,6 +10,7 @@
 #  updated_at      :datetime         not null
 #  reason          :string(255)
 #  device_returned :boolean          default(FALSE)
+#  description     :string(255)
 #
 
 require 'spec_helper'

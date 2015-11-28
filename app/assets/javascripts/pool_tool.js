@@ -146,6 +146,24 @@ window.ST.poolTool = function() {
         $('.only_mine').change();
       }
     });
+
+    // Do not allow more than 249 chars for the description
+    var maxchars = 249;
+    $('#ta_description').keyup(function () {
+        var tlength = $(this).val().length;
+        $(this).val($(this).val().substring(0, maxchars));
+        var tlength = $(this).val().length;
+        remain = maxchars - parseInt(tlength);
+        $('#description_counter').html(remain);
+    });
+
+    // Do not allow more than 40 chars for the reason
+    var maxchars = 40;
+    $('#tf_device_renter').keyup(function () {
+        var tlength = $(this).val().length;
+        remain = maxchars - parseInt(tlength);
+        $('#reason_counter').html(remain);
+    });
   }
 
 

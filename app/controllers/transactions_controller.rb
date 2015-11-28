@@ -289,7 +289,8 @@ class TransactionsController < ApplicationController
         end_on: params[:end_on],
         listing_id: params[:listing_id],
         transaction_id: Transaction.last.id,
-        renter_id: starter_id
+        renter_id: starter_id,
+        description: params[:description]
       } and return
 
 

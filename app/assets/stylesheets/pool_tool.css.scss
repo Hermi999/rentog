@@ -139,6 +139,17 @@
 #renter_wrapper{
   max-width: 450px;
 }
+#description_wrapper{
+  max-width: 980px;
+  padding: 0px;
+  margin-bottom: 10px;
+}
+#lbl_description{
+
+}
+
+#description_counter{
+}
 
 .newBookingForm{
   display: none;
@@ -153,7 +164,7 @@
 
 #poolTool_or{
   display: none;
-
+  max-width: 80px;
   @include media(tablet){
     display: block;
     text-align: center;

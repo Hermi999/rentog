@@ -113,18 +113,22 @@
                 = t('pool_tool.show.or')
 
               #renter_wrapper.col-5
-                = label_tag :renter, t('pool_tool.show.enter_other_reason')
+                = label_tag :renter, t('pool_tool.show.enter_other_reason').html_safe
                 = text_field_tag :renter, nil, maxlength: 40, id: "tf_device_renter", placeholder: t('pool_tool.show.example'), style: "width:100%;"
 
           - else
             %input{:type => 'hidden', :name => 'employee[username]', :value => @current_user.username, :id => "dd_employee"}
             %input{:type => 'hidden', :name => 'renter', :value => "24afsdiouAFdsf123kljadf", :id => "tf_device_renter"}
 
+          #description_wrapper.col-11
+            = label_tag :description, t('pool_tool.show.description').html_safe, id: "lbl_description"
+            = text_area_tag :description, nil, rows: 5, id: "ta_description"
 
           #device_wrapper.row
             .col-12
               .home-fluid-thumbnail-grid-pooltool
                 .home-fluid-thumbnail-grid
+                  = label_tag :description, t('pool_tool.show.devices')
                   = render :partial => "radio_grid_item", :collection => listings, :as => :listing
             .clear-floating
 
