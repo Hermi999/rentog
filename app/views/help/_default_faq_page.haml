@@ -1,10 +1,28 @@
-- questions_cnt = 5
+- max_loops = 20
 
 %h1= t("layouts.help.faq_default_page.header")
 
-- for i in 1..questions_cnt do
-  .question
-    %p= t("layouts.help.faq_default_page.question_" + i.to_s).html_safe
+%p.open_close= t("layouts.help.faq_default_page.show_all")
 
-  %div{:id=>"answer"+i.to_s, :class=> "hidden answer"}
-    %p=  t("layouts.help.faq_default_page.answer_" + i.to_s).html_safe
+%p
+  =t("layouts.help.faq_default_page.furtherQuestions", :how_it_works_path => how_to_use_help_index_path).html_safe
+  %b
+    =link_to t("layouts.help.faq_default_page.contact_us"), new_user_feedback_path
+
+- for i in 1..max_loops do
+  - if I18n.t('layouts.help.faq_default_page.question_' + i.to_s, :default => '', :fallback => []).empty?
+    - break
+  - else
+    .question
+      %p= t("layouts.help.faq_default_page.question_" + i.to_s).html_safe
+
+    %div{:id=>"answer"+i.to_s, :class=> "hidden answer"}
+      - if I18n.t('layouts.help.faq_default_page.answer_' + i.to_s, :default => '', :fallback => []).empty?
+        - for j in 1..max_loops do
+          - if t('layouts.help.faq_default_page.answer_' + i.to_s + "_" + j.to_s, :default => '', :fallback => []).empty?
+            - break
+          - else
+            %ul
+              %li=  t("layouts.help.faq_default_page.answer_" + i.to_s + "_" + j.to_s).html_safe
+      - else
+        %p=  t("layouts.help.faq_default_page.answer_" + i.to_s).html_safe

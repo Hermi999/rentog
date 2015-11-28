@@ -82,7 +82,7 @@
 //= require jquery.fn.gantt
 //= require prettify
 //= require pool_tool
-//= require faq
+//= require help_faq
 //= require invitation
 //
 //= require_self

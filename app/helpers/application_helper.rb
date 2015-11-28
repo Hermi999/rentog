@@ -562,13 +562,13 @@ module ApplicationHelper
   def help_links
     links = [
       {
-        :text => t('layouts.help.faq'),
-        :icon_class => icon_class("help"),
-        :path => faq_help_index_path,
-        :name => "faq"
+        :text => t('layouts.help.pool_tool'),
+        :icon_class => icon_class("calendar"),
+        :path => pool_tool_help_index_path,
+        :name => "pool_tool"
       }
     ]
-    if @community_customization && !@community_customization.how_to_use_page_content.blank?
+    if !Community.first.only_pool_tool && @community_customization && !@community_customization.how_to_use_page_content.blank?
       links << {
         :text => t('layouts.help.how_to_use'),
         :icon_class => icon_class("how_to_use"),
@@ -576,12 +576,14 @@ module ApplicationHelper
         :name => "how_to_use"
       }
     end
+
     links << {
-      :text => t('layouts.help.pool_tool'),
-      :icon_class => icon_class("calendar"),
-      :path => pool_tool_help_index_path,
-      :name => "pool_tool"
+      :text => t('layouts.help.faq'),
+      :icon_class => icon_class("help"),
+      :path => faq_help_index_path,
+      :name => "faq"
     }
+
     if !Community.first.only_pool_tool
       links << {
         :text => t('layouts.help.renter_help'),

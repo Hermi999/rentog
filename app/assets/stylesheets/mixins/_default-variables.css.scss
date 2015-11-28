@@ -4,6 +4,11 @@ $default-button-line-height: 40px;
 
 $default-page-width: lines(42);
 
-/* Height of the whole footer bar */
+/* MARKETPLACE - Height of the whole footer bar if
 $footerHeight_tablet: lines(9);
 $footerHeight: lines(9);
+*/
+
+/* POOL TOOL ONLY - Height of the whole footer bar if */
+$footerHeight_tablet: lines(7);
+$footerHeight: lines(7);

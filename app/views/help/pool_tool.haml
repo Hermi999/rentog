@@ -1,3 +1,6 @@
+- content_for :javascript do
+  window.ST.initialize_pool_tool_help();
+
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => help_links }
 
 - content_for :title, t('layouts.help.pool_tool')

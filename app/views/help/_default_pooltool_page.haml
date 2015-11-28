@@ -1,8 +1,39 @@
+- max_cats = 5
+- max_loops = 10
+- max_lines = 3
 
 %h1= t("layouts.help.pool_tool_default_page.header")
 
-/ %h2= t("common.default_community_slogan")
+%p= t("layouts.help.pool_tool_default_page.description", :feedback_path => new_user_feedback_path).html_safe
 
-/ %p= t("common.default_community_description").html_safe
+- for c in 1..max_cats do
+  - if I18n.t("layouts.help.pool_tool_default_page.cat#{c}_header", :default => '', :fallback => []).empty?
+    - break
+  - else
+    / Category wrapper
+    .pool_tool_help_cat_wrapper{:id => "pool_tool_help_cat#{c}"}
+      / Category header
+      %p.cat_header= t("layouts.help.pool_tool_default_page.cat#{c}_header")
 
-/ %p= t("infos.about.default_about_text", :click_here_link => link_to(t("infos.about.click_here_link_text"), "https://www.sharetribe.com/?ref=about_page")).html_safe
+      / All the different topics within a category
+      - for i in 1..max_loops do
+        -if I18n.t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_icon", :default => '', :fallback => []).empty?
+          - break
+        -else
+          / Topic wrapper
+          .pool_tool_help_topic_wrapper{:id => "cat#{c}_topic#{i}_wrapper"}
+            / Add topic icon
+            .help_icon{:class => t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_icon")}
+
+            / Add topic text lines
+            - for j in 1..max_lines do
+              - if I18n.t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_line#{j}", :default => '', :fallback => []).empty?
+                - break
+              - else
+                %p.cat_line= t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_line#{j}").html_safe
+
+            / Add detailed topic description (hidden)
+            .detailed_desc{:id => "cat#{c}_topic#{i}_details"}= t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_details")
+
+    .pool_tool_help_detailed_desc{:id => "pool_tool_help_cat#{c}_detailed_desc"}
+

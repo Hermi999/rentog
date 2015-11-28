@@ -19,9 +19,10 @@
           %b
             = t("footer.company.header")
           %br
-          = link_to new_user_feedback_path do
-            = t("footer.company.contact")
-          %br
+          - if show_marketplace
+            = link_to new_user_feedback_path do
+              = t("footer.company.contact")
+            %br
           = link_to about_infos_path do
             = t("footer.company.about")
           %br
@@ -36,9 +37,11 @@
           %b
             = t("footer.help.header")
           %br
-          = link_to how_to_use_help_index_path do
-            = t("footer.help.how_it_works")
-          %br
+
+          - if show_marketplace
+            = link_to how_to_use_help_index_path do
+              = t("footer.help.how_it_works")
+            %br
 
           = link_to faq_help_index_path do
             = t("footer.help.faq")
@@ -54,18 +57,26 @@
               = t("footer.help.renter_help")
             %br
 
+
           = link_to pool_tool_help_index_path do
             = t("footer.help.pool_tool")
+            %br
 
+          - if !show_marketplace
+            = link_to new_user_feedback_path do
+              = t("footer.company.contact")
 
         .col-3.footer-section.footer-getting-started
           %b
             = t("footer.getting_started.header")
           %br
-          %a{:href=>"#"}
-            = t("footer.getting_started.create_device")
-          %br
-          %a{:href=>"#"}
+
+          - if show_marketplace
+            %a{:href=>"#"}
+              = t("footer.getting_started.create_device")
+            %br
+
+          %a{:href=>"https://play.google.com/store/apps/details?id=rentog.com"}
             = t("footer.getting_started.get_app")
           %br
           %a{:href=>"#"}

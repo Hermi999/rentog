@@ -16,6 +16,10 @@ class HelpController < ApplicationController
   def faq
     @selected_tribe_navi_tab = "help"
     @selected_left_navi_link = "faq"
+    gon.push({
+      show_all: t("layouts.help.faq_default_page.show_all"),
+      hide_all: t("layouts.help.faq_default_page.hide_all")
+    })
   end
 
   def pool_tool
