@@ -15,6 +15,7 @@ class PoolToolController < ApplicationController
                                                                             bookings.start_on as start_on,
                                                                             bookings.end_on as end_on,
                                                                             bookings.reason as reason,
+                                                                            bookings.description as description,
                                                                             bookings.device_returned as device_returned,
                                                                             transactions.current_state,
                                                                             people.given_name as renter_given_name,
@@ -98,7 +99,8 @@ class PoolToolController < ApplicationController
           'label' => renting_entity,
           'customClass' =>  "gantt_" + renter[:relation],
           'transaction_id' => transaction['transaction_id'],
-          'renter_id' => transaction['renter_id']
+          'renter_id' => transaction['renter_id'],
+          'description' => transaction['description']
         }]
         # Remove unused keys from hash
         transaction.except!('title', 'start_on', 'end_on', 'renting_entity_username', 'renting_entity_organame', 'transaction_id', 'renter_family_name', 'renter_given_name', 'renter_id')
@@ -115,7 +117,8 @@ class PoolToolController < ApplicationController
           'label' => renting_entity,
           'customClass' => "gantt_" + renter[:relation],
           'transaction_id' => transaction['transaction_id'],
-          'renter_id' => transaction['renter_id']
+          'renter_id' => transaction['renter_id'],
+          'description' => transaction['description']
         }
         devices[counter]['values'] << newTrans
       end

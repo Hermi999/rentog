@@ -2363,13 +2363,13 @@ en:
       example: "fg.: Maintainance"
       create: "Create"
       modify_booking:
-        device_name: "Device name"
         renter_reason: "Renter/Reason"
         availability: "Availability"
         starts_on: "Starts on"
         ends_on: "Ends on"
         update: "Update"
         delete: "Delete Booking"
+        description: "Description"
     load_popover:
       utilization_header: "Utilization until today"
       utilization_desc_1: "Only working days"

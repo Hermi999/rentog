@@ -2376,19 +2376,19 @@ de:
       choose_employee: "Wähle einen Mitarbeiter"
       please_select: "Bitte wählen..."
       booked_with_poolTool: 'Booked with PoolTool'
-      enter_other_reason: "Einen anderen Grund angeben (<span id='reason_counter'>40</span> Zeichen verfügbar)"
+      enter_other_reason: "Anderer Grund (<span id='reason_counter'>40</span> Zeichen verfügbar)"
       description: "Beschreibung (optional, <span id='description_counter'>249</span> Zeichen verfügbar)"
       devices: "Verfügbare Geräte"
       example: "Bsp.: Wartung"
       create: "Erstellen"
       modify_booking:
-        device_name: "Gerätename"
-        renter_reason: "Mieter/Anderer Grund"
+        renter_reason: "Mieter/Grund"
         availability: "Verfügbarkeit"
         starts_on: "Von"
         ends_on: "Bis"
         update: "Ändern"
         delete: "Löschen"
+        description: "Beschreibung"
     load_popover:
       utilization_header: "Auslastung bis heute"
       utilization_desc_1: "Nur wochentags"

@@ -55,12 +55,12 @@ window.ST.poolTool = function() {
 
 
     // Initialize popover and remove buttons if employee is logged in
-    if (gon.is_admin === false){
-      $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"500px", maxHeight:"400px"});
-    }
-    else{
-      $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"600px", maxHeight:"450px"});
-    }
+    //if (gon.is_admin === false){
+      $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"500px", maxHeight:"270px"});
+    //}
+    //else{
+    //  $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"600px", maxHeight:"450px"});
+   // }
   }
 
   function show_my_devices(){
@@ -451,9 +451,11 @@ window.ST.poolTool = function() {
         var transaction_id = parseInt(info.booking.transaction_id);
 
         // Update shown information in popover
+        $('#poolTool_popover_deviceImage').attr('src', info.listing.image);
         $('#poolTool_popover_deviceName').html(info.listing.name);
         $('#poolTool_popover_renter').html(info.booking.label);
         $('#poolTool_popover_availability').html(info.listing.availability);
+        $('#ta_popover_description').val(info.booking.description);
 
         // Open Popover
         $('#modifyBookingLink').click();
@@ -476,8 +478,8 @@ window.ST.poolTool = function() {
           $('#end-on2').prop('disabled', true);
         }
         else{
-          $('#btn_update').css('display', 'block');
-          $('#btn_delete').css('display', 'block');
+          $('#btn_update').css('display', 'inline');
+          $('#btn_delete').css('display', 'inline');
           $('#start-on2').prop('disabled', false);
           $('#end-on2').prop('disabled', false);
         // Company admin
@@ -665,11 +667,12 @@ window.ST.poolTool = function() {
           $('#btn_update').on('vclick', function(){
             var s_new = new Date($('#booking-start-output2').val());
             var e_new = new Date($('#booking-end-output2').val());
+            var desc = $('#ta_popover_description').val();
 
             $.ajax({
               method: "PUT",
               url: "/" + gon.locale + "/" + gon.comp_id + "/transactions/" + transaction_id,
-              data: {from: s_new, to: e_new},
+              data: {from: s_new, to: e_new, desc: desc},
               beforeSend: function(){
                 // Disable Sumbmit Buttons
                 $("#btn_update").prop('disabled', true);
@@ -691,11 +694,12 @@ window.ST.poolTool = function() {
                       for(var x=0; x<source.length; x++){
                         if(source[x].listing_id === listing_id){
 
-                          // Update start and end date
+                          // Update start and end date & description
                           for(var y=0; y<source[x].values.length; y++){
                             if(source[x].values[y].transaction_id === transaction_id){
                               source[x].values[y].from = "/Date(" + Math.round(s_new.getTime()) + ")/";
                               source[x].values[y].to = "/Date(" + Math.round(e_new.getTime()) + ")/";
+                              source[x].values[y].description = desc;
                               break;
                             }
                           }

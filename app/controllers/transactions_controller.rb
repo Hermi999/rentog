@@ -337,8 +337,8 @@ class TransactionsController < ApplicationController
     end_day = Date.parse(params[:to])
 
     # Check if booking dates are valid
-    if !bookingDatesValid?( Date.parse(params[:from]).to_s,
-                            Date.parse(params[:to]).to_s,
+    if !bookingDatesValid?( start_day.to_s,
+                            end_day.to_s,
                             booking.transaction.listing_id,
                             booking[:start_on],
                             booking[:end_on])
@@ -353,6 +353,7 @@ class TransactionsController < ApplicationController
     # Update booking with the corresponding transaction id
     booking[:start_on] = start_day
     booking[:end_on] = end_day
+    booking[:description] = params[:desc]
     booking.save!
 
     # Render response

@@ -882,7 +882,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
           "end_on": {required: true, minlength: 1},
           "listing_id": {required: true, minlength: 1},
           "renter": {required_renter: true, minlength: 1},
-          "employee[username]": {required_employee_username: true, minlength: 1}
+          "employee[username]": {required_employee_username: true, minlength: 1},
         },
         messages:
         {
@@ -933,7 +933,8 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
               to: "/Date(" + to + ")/",
               label: data.empl_or_reason,
               transaction_id: data.transaction_id,
-              renter_id: data.renter_id
+              renter_id: data.renter_id,
+              description: data.description
             });
 
             // Add new booking dates to already booked dates

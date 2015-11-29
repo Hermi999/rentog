@@ -29,47 +29,49 @@
   %a#modifyBookingLink.inline{:href => "#modifyBookingContent"}-
 #modifyBookingWrapper
   #modifyBookingContent
-    .row{style: "margin-bottom: 0.10em;"}
-      .col-3
-        %b= t('pool_tool.show.modify_booking.device_name')
-    .row
-      .col-3#poolTool_popover_deviceName
-        DummyText_Device1
+    .row#modifyBookingContent_row1
+      #poolTool_popover_deviceImage_wrapper
+        = image_tag(nil, alt: "device image", id: "poolTool_popover_deviceImage")
+      #poolTool_popover_deviceName_wrapper
+        #poolTool_popover_deviceName= "DummyText_Device1"
+
+        - if !@current_community.only_pool_tool
+          #poolTool_popover_availability= "DummyText_Intern"
 
 
-    .row{style: "margin-bottom: 0.10em;"}
-      .col-3
-        %b= t('pool_tool.show.modify_booking.renter_reason')
-    .row
-      .col-3#poolTool_popover_renter
+    .row#modifyBookingContent_row2
+      .modifyBookingContent_lbl#lbl_renter_reason= t('pool_tool.show.modify_booking.renter_reason')
+      .modifyBookingContent_lbl#lbl_starts_on= t('pool_tool.show.modify_booking.starts_on')
+      .modifyBookingContent_lbl#lbl_ends_on= t('pool_tool.show.modify_booking.ends_on')
+
+    .row#modifyBookingContent_row3
+      #poolTool_popover_renter
         DummyText_HermannWagner
+      #datepicker_wrapper2
+        .input-daterange.input-group#datepicker2{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
+          .row{:style => "margin-bottom:0px;"}
+            .datepicker-start-wrapper#datepicker2-start-wrapper
+              %input.input-sm.form-control.required#start-on2{:type => 'text', :name => "start_on2", :placeholder => t("datepicker.format"), :data => { :output => "booking-start-output" } }
+              %input#booking-start-output2{:type => 'hidden', :name => 'start_on2'}
+
+            .datepicker-end-wrapper#datepicker2-end-wrapper
+              %input.input-sm.form-control.required#end-on2{:type => 'text', :name => "end_on2", :placeholder => t("datepicker.format"), :data => { :output => "booking-end-output" }}
+              %input#booking-end-output2{:type => 'hidden', :name => 'end_on2'}
+
+    .row#modifyBookingContent_row4
+      .modifyBookingContent_lbl#modifyBookingContent_description= t('pool_tool.show.modify_booking.description')
+
+    .row#modifyBookingContent_row5
+      #poolTool_popover_description
+        = text_area_tag :ta_popover_description, nil, rows: 4, id: "ta_popover_description"
+      #poolTool_popover_buttons
+        #btn_delete.icon-remove-circle
+        #btn_update.icon-save
+
+    /%button.primary-button#btn_update= t('pool_tool.show.modify_booking.update')
+    /%button.delete-button#btn_delete= t('pool_tool.show.modify_booking.delete')
 
 
-    - if !@current_community.only_pool_tool
-      .row{style: "margin-bottom: 0.10em;"}
-        .col-3
-          %b= t('pool_tool.show.modify_booking.availability')
-      .row
-        .col-3#poolTool_popover_availability
-          DummyText_Intern
-
-    #datepicker_wrapper2
-      .input-daterange.input-group.clearfix#datepicker2{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
-        .row
-          .col-2{style: "margin-bottom: 0.15em;"}
-            %b= t('pool_tool.show.modify_booking.starts_on')
-          .datepicker-start-wrapper.col-3
-            %input.input-sm.form-control.required#start-on2{:type => 'text', :name => "start_on2", :placeholder => t("datepicker.format"), :data => { :output => "booking-start-output" } }
-            %input#booking-start-output2{:type => 'hidden', :name => 'start_on2'}
-        .row
-          .col-2{style: "margin-bottom: 0.15em;"}
-            %b= t('pool_tool.show.modify_booking.ends_on')
-          .datepicker-end-wrapper.col-3
-            %input.input-sm.form-control.required#end-on2{:type => 'text', :name => "end_on2", :placeholder => t("datepicker.format"), :data => { :output => "booking-end-output" }}
-            %input#booking-end-output2{:type => 'hidden', :name => 'end_on2'}
-
-    %button.primary-button#btn_update= t('pool_tool.show.modify_booking.update')
-    %button.delete-button#btn_delete= t('pool_tool.show.modify_booking.delete')
 
 / Pool Tool Main code
 - content_for :extra_javascript do

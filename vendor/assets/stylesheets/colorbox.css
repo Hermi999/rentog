@@ -25,7 +25,7 @@
     #cboxContent{}
         .cboxIframe{background:#fff;}
         #cboxError{padding:50px; border:1px solid #ccc;}
-        #cboxLoadedContent{background:#DBDDDE;}
+        #cboxLoadedContent{background:rgb(247, 250, 222);}
         #cboxTitle{position:absolute; top:-20px; left:0; color:#ccc;}
         #cboxCurrent{position:absolute; top:-20px; right:0px; color:#ccc;}
         #cboxLoadingGraphic{background:url(colorbox/loading.gif) no-repeat center center;}
