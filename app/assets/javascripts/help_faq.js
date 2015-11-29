@@ -3,6 +3,17 @@ window.ST = window.ST || {};
 (function(module) {
 
   module.initialize_faq = function() {
+    // calculate the size of the videos
+    var video_classes = getVideosOnPage('faq_video_');
+    size_video(video_classes);
+
+    // resize video width if window is resized
+    $(window).resize(function(){
+      var video_classes = getVideosOnPage('faq_video_');
+      size_video(video_classes);
+    });
+
+
     $('.question').each(function(index, value){
       $(value).on('vclick', function(){
         $('#answer' + (index+1)).toggle();
@@ -19,7 +30,6 @@ window.ST = window.ST || {};
       }
     });
   };
-
 
   module.initialize_pool_tool_help = function() {
     var max_cat_loops = 5;
@@ -68,8 +78,6 @@ window.ST = window.ST || {};
                 window.open("#category="+ category + "_topic="+ topic,"_self");
                 setSelectedTopic(category,topic);
               }
-
-
             });
           }else{
             break;
@@ -80,7 +88,31 @@ window.ST = window.ST || {};
         break;
       }
     }
+
+    // calculate the size of the videos
+    var video_classes = getVideosOnPage('help_video_');
+    size_video(video_classes);
+
+    // resize video width if window is resized
+    $(window).resize(function(){
+      var video_classes = getVideosOnPage('help_video_');
+      size_video(video_classes);
+    });
   };
+
+
+  function getVideosOnPage(class_prefix){
+    var max_videos = 20;
+    var video_classes = [];
+
+    for(var i=0; i<max_videos; i++){
+      if($('.' + class_prefix + i).length){
+        video_classes.push(class_prefix + i);
+      }
+    }
+
+    return video_classes;
+  }
 
 
   function setSelectedTopic(category, topic){

@@ -93,3 +93,27 @@ p.cat_line{
   display: none;
   padding: 7px 12px;
 }
+
+
+.button.videobutton{
+  background-color: rgb(100, 179, 143);
+  padding: 0;
+  margin: 15px 0;
+  font-size: 0.8em;
+  @include media(tablet){
+    font-size: 1em;
+  }
+
+  a {
+    padding: 0.5em 1.5em;
+    color: white;
+    display: block
+  }
+}
+
+.pool_tool_help_images{
+  max-width: 95%;
+  margin: 10px;
+  display: block;
+  border: 2px solid rgb(202, 202, 202);
+}

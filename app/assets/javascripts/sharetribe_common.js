@@ -17,6 +17,31 @@ function getDatesBetweenRange(startDate, stopDate) {
 }
 
 
+var calc_video_width = function(){
+    var video_width = 1080;
+    var max_video_width = $( document ).width() - 10;
+
+    if (video_width > max_video_width){
+      return max_video_width;
+    }else{
+      return video_width;
+    }
+  };
+
+var size_video = function(video_classes){
+  // video ratio
+  var ratio = 1.6;
+
+  // calculate video with
+  var video_width = calc_video_width();
+
+  // Show videos with colorbox
+  for (var i=0; i<video_classes.length; i++){
+    $("." + video_classes[i]).colorbox({iframe:true, innerWidth:video_width, innerHeight:video_width/ratio});
+  }
+};
+
+
 function initialize_confirmation_pending_form(locale, email_in_use_message) {
   $('#mistyped_email_link').click(function() {
     $('#password_forgotten').slideToggle('fast');

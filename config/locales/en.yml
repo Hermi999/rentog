@@ -524,7 +524,7 @@ en:
   landing_page:
     only_pool_tool:
       slogan: "MANAGE YOUR MEASUREMENT DEVICES"
-      description: "Simply create and share your companies test and measurement devices with your staff."
+      description: "Rentog is a free online tool for managing and booking your companies test and measurment devices."
       how_it_works: "How it works"
       section1_header: "Access & book from everywhere!"
       section1_mainText: "Let your staff access the companies inventary easily."
@@ -1334,6 +1334,7 @@ en:
         faq_default_page:
             show_all: "Show all"
             hide_all: "Hide all"
+            play_video: "Video abspielen"
             furtherQuestions: "You have questions which neither answered here nor answered in the <a href='%{how_it_works_path}'>How it works</a> section?"
             contact_us: "Please contact us!"
             header: "Frequently asked questions (FAQ)"

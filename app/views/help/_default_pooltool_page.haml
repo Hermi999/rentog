@@ -1,6 +1,7 @@
 - max_cats = 5
 - max_loops = 10
 - max_lines = 3
+- max_detailed_levels = 10
 
 %h1= t("layouts.help.pool_tool_default_page.header")
 
@@ -33,7 +34,22 @@
                 %p.cat_line= t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_line#{j}").html_safe
 
             / Add detailed topic description (hidden)
-            .detailed_desc{:id => "cat#{c}_topic#{i}_details"}= t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_details")
+            /.detailed_desc{:id => "cat#{c}_topic#{i}_details"}= t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_details")
+            .detailed_desc{:id => "cat#{c}_topic#{i}_details"}
+              - for d in 1..max_detailed_levels do
+                - if I18n.t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_details#{d}", :default => '', :fallback => []).empty?
+                  - break
+                - else
+                  = t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_details#{d}").html_safe
+
+                  - if !I18n.t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_details#{d}_video", :default => '', :fallback => []).empty?
+                    .button.videobutton{:id => "play_video_answer_#{i}"}
+                      = link_to t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_details#{d}_video"), :class=>"help_video_#{i}" do
+                        =t("layouts.help.pool_tool_default_page.play_video")
+
+                  - if !I18n.t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_details#{d}_image", :default => '', :fallback => []).empty?
+                    = image_tag I18n.t("layouts.help.pool_tool_default_page.cat#{c}_topic#{i}_details#{d}_image"), :class => "pool_tool_help_images"
+
 
     .pool_tool_help_detailed_desc{:id => "pool_tool_help_cat#{c}_detailed_desc"}
 

@@ -7,7 +7,7 @@
   - with_big_cover_photo do
     %h1.marketplace-lander-content-title= t("landing_page.only_pool_tool.slogan")
     %p= t("landing_page.only_pool_tool.description")
-    .button.howitworks
+    .button.howitworks#scrollToVideo
       = link_to how_to_use_help_index_path do
         = t("landing_page.only_pool_tool.how_it_works")
 
@@ -17,30 +17,31 @@
     %h1.marketplace-lander-content-title= t("landing_page.only_pool_tool.slogan")
 
 .landing-page-section.main-features
-  %p.landing-page-section-header= t("landing_page.only_pool_tool.section1_header")
-  %p.landing-page-section-main-text= t("landing_page.only_pool_tool.section1_mainText")
+  %iframe{:id => "landing_page_video", :src => "https://www.youtube.com/embed/IAxeHWqSZlI?rel=0", :frameborder=>"0", :allowfullscreen => true, :height => "95%", :width => "100%"}
+  / %p.landing-page-section-header= t("landing_page.only_pool_tool.section1_header")
+  / %p.landing-page-section-main-text= t("landing_page.only_pool_tool.section1_mainText")
 
-  .row
-    .col-5.landing-page-colored-box
-      %p.landing-page-section-small-header
-        =t("landing_page.only_pool_tool.section1_smallHeader1")
-      %p.landing-page-section-text
-        =t("landing_page.only_pool_tool.section1_text1")
-        .button.create_listing
-          = link_to "https://www.youtube.com/embed/G7-X1dQTG8c", :class=>"create_listing_youtube" do
-            =t("landing_page.only_pool_tool.section1_button1")
+  / .row
+  /   .col-5.landing-page-colored-box
+  /     %p.landing-page-section-small-header
+  /       =t("landing_page.only_pool_tool.section1_smallHeader1")
+  /     %p.landing-page-section-text
+  /       =t("landing_page.only_pool_tool.section1_text1")
+  /       .button.create_listing
+  /         = link_to "https://www.youtube.com/embed/G7-X1dQTG8c", :class=>"create_listing_youtube" do
+  /           =t("landing_page.only_pool_tool.section1_button1")
 
-    .col-1
-    .col-5.landing-page-colored-box
-      %p.landing-page-section-small-header
-        =t("landing_page.only_pool_tool.section1_smallHeader2")
-      %p.landing-page-section-text
-        =t("landing_page.only_pool_tool.section1_text2")
-        .button.book-a-device
-          = link_to "http://www.youtube.com/embed/VOJyrQa_WR4?rel=0&amp;wmode=transparent", :class=>"book_a_listing_youtube" do
-            =t("landing_page.only_pool_tool.section1_button2")
+  /   .col-1
+  /   .col-5.landing-page-colored-box
+  /     %p.landing-page-section-small-header
+  /       =t("landing_page.only_pool_tool.section1_smallHeader2")
+  /     %p.landing-page-section-text
+  /       =t("landing_page.only_pool_tool.section1_text2")
+  /       .button.book-a-device
+  /         = link_to "http://www.youtube.com/embed/VOJyrQa_WR4?rel=0&amp;wmode=transparent", :class=>"book_a_listing_youtube" do
+  /           =t("landing_page.only_pool_tool.section1_button2")
 
-    .col-1
+  /   .col-1
 
 -content_for :section_1 do
   .landing-page-section.pooltool_screenshot#showBox
