@@ -260,6 +260,11 @@ class TransactionsController < ApplicationController
           booking_fields[:reason] = empl_or_reason
         end
 
+        # Add description
+        if params[:description]
+          booking_fields[:description] = params[:description]
+        end
+
         quantity = Maybe(booking_fields).map { |b| DateUtils.duration_days(b[:start_on], b[:end_on]) }.or_else(form[:quantity])
 
         TransactionService::Transaction.create(

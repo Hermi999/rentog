@@ -148,20 +148,20 @@ window.ST.poolTool = function() {
     });
 
     // Do not allow more than 249 chars for the description
-    var maxchars = 249;
+    var desc_maxchars = 249;
     $('#ta_description').keyup(function () {
         var tlength = $(this).val().length;
-        $(this).val($(this).val().substring(0, maxchars));
+        $(this).val($(this).val().substring(0, desc_maxchars));
         var tlength = $(this).val().length;
-        remain = maxchars - parseInt(tlength);
+        remain = desc_maxchars - parseInt(tlength);
         $('#description_counter').html(remain);
     });
 
     // Do not allow more than 40 chars for the reason
-    var maxchars = 40;
+    var reason_maxchars = 40;
     $('#tf_device_renter').keyup(function () {
         var tlength = $(this).val().length;
-        remain = maxchars - parseInt(tlength);
+        remain = reason_maxchars - parseInt(tlength);
         $('#reason_counter').html(remain);
     });
   }

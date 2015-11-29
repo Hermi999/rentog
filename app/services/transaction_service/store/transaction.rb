@@ -218,12 +218,15 @@ module TransactionService::Store::Transaction
       start_on = tx_data[:booking_fields][:start_on]
       end_on = tx_data[:booking_fields][:end_on]
 
-      if tx_data[:booking_fields][:reason]
-        reason = tx_data[:booking_fields][:reason]
-        tx_model.build_booking({start_on: start_on, end_on: end_on, reason: reason})
-      else
-        tx_model.build_booking({start_on: start_on, end_on: end_on})
-      end
+      data = {
+        start_on: start_on,
+        end_on: end_on
+      }
+
+      data[:reason] = tx_data[:booking_fields][:reason] if tx_data[:booking_fields][:reason]
+      data[:description] = tx_data[:booking_fields][:description] if tx_data[:booking_fields][:description]
+
+      tx_model.build_booking(data)
     end
   end
 
