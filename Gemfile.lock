@@ -678,7 +678,7 @@ DEPENDENCIES
   money-rails
   multi_json
   mysql2
-  newrelic_rpm (~> 3.9.1.236)
+  newrelic_rpm
   omniauth-facebook (~> 2.0.1)
   paperclip
   parallel_tests

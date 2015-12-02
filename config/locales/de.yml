@@ -441,12 +441,24 @@ de:
         update_success: ~
         update_failure: ~
         delete: "Auftragsart löschen"
-        can_not_delete_last: ~
+        confirm_delete_order_type:
+          one: "Es gibt %{count}nen Eintrag von dieser Auftragsart. Wenn du diese Autragsart löschst, so wird der Eintrag gechlossen. Bist du sicher, dass du diese Auftragsart löschen möchtest?"
+          other: "Es gibt %{count} Einträge von dieser Auftragsart. Wenn du diese Autragsart löschst, so werden die Einträge gechlossen. Bist du sicher, dass du diese Auftragsart löschen möchtest?"
+        can_not_delete_last: "Diese Auftragsart kann nicht gelöscht werden, da sie die letze verfügbare Auftragsart im Marktplatz ist."
         can_not_delete_only_one_in_categories: ~
       listing_shape_name: ~
       listing_shape_name_placeholder: ~
       action_button_label: ~
       action_button_placeholder: ~
+      open_listings_warning:
+        one: "Es gibt %{count}nen offenen Eintrag von dieser Auftragsart. Wenn du die Einstellungen unterhalb änderst, so wird dieses Listing dennoch die alten Einstellungen behalten. Der Eintrag kann auf die neuen Einstellungen umgestellt werden indem er manuell bearbeitet wird. Wenn du nicht willst, dass der Eintrag mit den alten Einstellungen sichtbar bleibt, dann kannst du es mit einem Klick auf den Button unterhalb schließen."
+        other: "Es gibt %{count} offene Einträge von dieser Auftragsart. Wenn du die Einstellungen unterhalb änderst, so werden alle vorhandenen Listing dennoch die alten Einstellungen behalten. Die Einträge können auf die neuen Einstellungen umgestellt werden indem sie manuell bearbeitet werden. Wenn du nicht willst, dass die Einträge mit den alten Einstellungen sichtbar bleiben, dann kannst du sie mit einem Klick auf den Button unterhalb schließen."
+      close_listings_action:
+        one: "Schließe %{count}nen Eintrag"
+        other: "Schließe %{count} Einträge"
+      confirm_close_listings_action:
+        one: "Bist du sicher, dass du %{count}nen Eintrag schließen möchtest?"
+        other: "Bist du sicher, dass du %{count} Einträge schließen möchtest?"
       successfully_closed: "Inserate erfolgreich geschlossen."
       successfully_deleted: "Auftragsart '%{order_type}' erfolgreich gelöscht"
       pricing_and_checkout_title: "Preise & Kasse"
@@ -1282,6 +1294,8 @@ de:
       read_more: "Mehr lesen"
       feedback: "Was möchtest du uns mitteilen?"
       default_feedback: "Bist du bei %{service_name} auf ein Problem gestoßen? Hast du einen Verbesserungsvorschlag, um unseren Service zu verbessern? Hast du verdächtigen Inhalt gesehen? Oder möchtest du einfach nur etwas mit uns besprechen? Lass es uns wissen!"
+      contact_per_phone: "Alternativ kontaktiere uns direkt unter folgender Nummer:"
+      phone_number: "+43 664 4576808"
       feedback_forum: Feedback-Forum
       feedback_handle: Feedback
       give_feedback: "Kontaktiere uns"
@@ -1587,9 +1601,11 @@ de:
       open_in_google_maps: "In Google Maps öffnen"
     error:
       something_went_wrong: "Etwas ist schief gelaufen, Fehlercode: %{error_code}"
+      employees_do_not_post: "Mitarbeiter sind aktuell nicht berechtigt neue Geräte auf Rentog zu erstellen."
     follow_links:
       follow: "Erhalte E-Mails bei neuen Kommentaren"
       unfollow: "Diesem Eintrag nicht mehr folgen"
+    cannot_book: "Dieses Gerät kann nur von Unternehmen gebucht werden, die mit dem Vermieter <b>befreundet</b> sind.<br> Kontaktiere den Vermieter und bitte ihn dein Unternehmen zu seinen <b>Freunden</b> hinzuzufügen."
     form:
       custom_field_partials:
         dropdown:
@@ -1687,6 +1703,11 @@ de:
         privacy: Datenschutz
         private: "Privat (nur eingeloggte Mitglieder können es sehen)"
         public: "Öffentlich (sichtbar auch für nicht-eingeloggte Nutzer)"
+      availability:
+        availability: "Verfügbarkeit (Bestimmt wer diesen Eintrag buchen kann)"
+        intern: "Nur deine Mitarbeiter"
+        trusted: "Befreundete Unternehmen und deine Mitarbeiter"
+        all: "Alle anderen Unternehmen und deine Mitarbeiter"
     help_texts:
       help_share_type_title: "Art des Angebots oder der Anfrage"
       help_tags_title: Tags
