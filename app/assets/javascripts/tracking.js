@@ -76,8 +76,6 @@ var trackingParams = getTrackingURLParameters();
     // Signup page
     if (window.location.pathname.match(/\.*(\/signup)\$/i)){
       mixpanel.track("Signup page visited");
-
-
     }
 
 
