@@ -743,6 +743,22 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
     onkeyup: false, //Only do validations when form focus changes to avoid exessive ASI calls
     submitHandler: function(form) {
       disable_and_submit(form_id, form, "false", locale);
+
+      // report to analytics and mixpanel
+      if (track()){
+        created_at = new Date();
+        mixpanel.alias(form.elements.person_email.value);
+        people.set({
+          "$first_name": form.elements.person_given_name.value,
+          "$last_name": form.elements.person_family_name.value,
+          "$email": form.elements.person_email.value,
+          "$created": created_at.toUTCString(),
+          "company_name": form.elements.person_organization_name.value,
+          "company_email": form.elements.person_organization_email.value,
+          "type": form.elements.person_signup_as.value
+        });
+      }
+
       report_analytics_event(['user', "signed up", "normal form"]);
     }
   });
@@ -1226,6 +1242,14 @@ function initialize_invitation_form(locale, email_error_message, invitation_limi
     onsubmit: true,
     submitHandler: function(form) {
       disable_and_submit("#new_invitation", form, "false", locale);
+
+      if (track()){
+        mixpanel.track("New Invitation",{
+          invitation_emails: form.elements.invitation_email.value,
+          invitation_message: form.elements.invitation_message.value,
+          invitation_type: (form.elements.invitation_target_employee.checked)?'employee':'any'
+        });
+      }
     }
   });
 }

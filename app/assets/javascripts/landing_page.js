@@ -15,7 +15,7 @@ window.ST = window.ST || {};
     // });
 
 
-    // Scroll down to video
+    // Scroll down to video on click on 'how it works'
     $("#scrollToVideo").click(function(ev) {
         // scroll to video
         $('html, body').animate({

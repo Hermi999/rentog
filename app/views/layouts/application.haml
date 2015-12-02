@@ -52,13 +52,15 @@
     = content_for(:page_content)
 
   = render :partial => "layouts/google_analytics_script"
+  = render :partial => "layouts/mixpanel_script"
 
   -# Most of the JavaScript should be for performance reasons at the end of the body
 
   = content_for(:location_search)
 
+  -# wah: Disable Facebook Login
   -# load Facebook SDK for the whole page
-  = render :partial => "layouts/facebook_sdk"
+  /= render :partial => "layouts/facebook_sdk"
 
   = javascript_include_tag 'application'
 

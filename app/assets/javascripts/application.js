@@ -84,5 +84,6 @@
 //= require pool_tool
 //= require help_faq
 //= require invitation
+//= require tracking
 //
 //= require_self
