@@ -271,8 +271,8 @@ small_loader.gif: small_loader-ecd41366530713385f639a8c7dcf1ec4.gif
 small_loader/index.gif: small_loader-ecd41366530713385f639a8c7dcf1ec4.gif
 sprite.png: sprite-deed9194a7a36dbaf693d3213769960e.png
 sprite/index.png: sprite-deed9194a7a36dbaf693d3213769960e.png
-application.js: application-e22035ef60c0c9d66059a18060d8b6f8.js
-application/index.js: application-e22035ef60c0c9d66059a18060d8b6f8.js
+application.js: application-aae48a0459043d45293aa9ca963553ca.js
+application/index.js: application-aae48a0459043d45293aa9ca963553ca.js
 locales/ab.json: locales/ab-fc70691b46a70e62f004b630425fd640.json
 locales/ab/index.json: locales/ab-fc70691b46a70e62f004b630425fd640.json
 locales/bn-BD.json: locales/bn-BD-8653f95b3e2dbb0e9d1c6e37a1b64aa1.json
