@@ -13,37 +13,37 @@
   %h2= t(".edit_community_look_and_feel", :community_name => @community.name(I18n.locale))
   = form_for @community, :url => edit_look_and_feel_admin_community_path(@community), :method => :put do |form|
     .row
-      .col-12
-        = form.label :wide_logo, t(".community_logo"), :class => "input"
-        = render :partial => "layouts/info_text", :locals => { :text =>t(".logo_instructions_text_with_dimensions", :width => 336, :height => 80)}
-        = form.file_field(:wide_logo, :class => "file_field")
+    /   .col-12
+    /     = form.label :wide_logo, t(".community_logo"), :class => "input"
+    /     = render :partial => "layouts/info_text", :locals => { :text =>t(".logo_instructions_text_with_dimensions", :width => 336, :height => 80)}
+    /     = form.file_field(:wide_logo, :class => "file_field")
 
-    .row
-      .col-12
-        = form.label :logo, t(".community_logo_icon"), :class => "input"
-        = render :partial => "layouts/info_text", :locals => { :text => t(".logo_icon_instructions_text_with_dimensions", :width => 600, :height => 600)}
-        = form.file_field(:logo, :class => "file_field")
+    / .row
+    /   .col-12
+    /     = form.label :logo, t(".community_logo_icon"), :class => "input"
+    /     = render :partial => "layouts/info_text", :locals => { :text => t(".logo_icon_instructions_text_with_dimensions", :width => 600, :height => 600)}
+    /     = form.file_field(:logo, :class => "file_field")
 
-    .row
-      .col-12
-        = form.label :cover_photo, t(".community_cover_photo"), :class => "input"
-        = render :partial => "layouts/info_text", :locals => { :text => (t(".cover_photo_visibility") + " " +  t(".cover_photo_instructions_text_with_dimensions", :width => 1920, :height => 450, :see_how_it_looks_like => link_to(t("admin.communities.edit_details.see_how_it_looks_like"), "/?big_cover_photo=true", :id => "view_cover_photo_link"))).html_safe}
-        = form.file_field(:cover_photo, :class => "file_field")
+    / .row
+    /   .col-12
+    /     = form.label :cover_photo, t(".community_cover_photo"), :class => "input"
+    /     = render :partial => "layouts/info_text", :locals => { :text => (t(".cover_photo_visibility") + " " +  t(".cover_photo_instructions_text_with_dimensions", :width => 1920, :height => 450, :see_how_it_looks_like => link_to(t("admin.communities.edit_details.see_how_it_looks_like"), "/?big_cover_photo=true", :id => "view_cover_photo_link"))).html_safe}
+    /     = form.file_field(:cover_photo, :class => "file_field")
 
-    .row
-      .col-12
-        = form.label :small_cover_photo, t(".small_community_cover_photo"), :class => "input"
-        = render :partial => "layouts/info_text", :locals => { :text => t(".small_cover_photo_visibility") + " " + t(".small_cover_photo_instructions_text_with_dimensions", :width => 1920, :height => 96) }
-        = form.file_field(:small_cover_photo, :class => "file_field")
+    / .row
+    /   .col-12
+    /     = form.label :small_cover_photo, t(".small_community_cover_photo"), :class => "input"
+    /     = render :partial => "layouts/info_text", :locals => { :text => t(".small_cover_photo_visibility") + " " + t(".small_cover_photo_instructions_text_with_dimensions", :width => 1920, :height => 96) }
+    /     = form.file_field(:small_cover_photo, :class => "file_field")
 
 
-        = render :partial => "layouts/info_text", :locals => { :text => t(".main_content_width", :main_width => 1008)}
+    /     = render :partial => "layouts/info_text", :locals => { :text => t(".main_content_width", :main_width => 1008)}
 
-    .row
-      .col-12
-        = form.label :favicon, t(".favicon"), :class => "input"
-        = render :partial => "layouts/info_text", :locals => { :text => t(".favicon_info_text") }
-        = form.file_field(:favicon, :class => "file_field")
+    / .row
+    /   .col-12
+    /     = form.label :favicon, t(".favicon"), :class => "input"
+    /     = render :partial => "layouts/info_text", :locals => { :text => t(".favicon_info_text") }
+    /     = form.file_field(:favicon, :class => "file_field")
 
     / .row
     /   .col-12
@@ -57,11 +57,12 @@
     /     = render :partial => "layouts/info_text", :locals => { :text =>  t(".custom_color2_instructions_text").html_safe }
     /     = form.text_field :custom_color2, :maxlength => "6", :class => "text_field"
 
-    .row
-      .col-12
-        = form.label :default_browse_view, t(".default_browse_view")
-        = render :partial => "layouts/info_text", :locals => { :text => t(".default_browse_view_instructions_text") }
-        = form.select :default_browse_view, [[t(".grid"), "grid"], [t(".list"), "list"], [t(".map"), "map"]]
+    - if !@current_community.only_pool_tool
+      .row
+        .col-12
+          = form.label :default_browse_view, t(".default_browse_view")
+          = render :partial => "layouts/info_text", :locals => { :text => t(".default_browse_view_instructions_text") }
+          = form.select :default_browse_view, [[t(".grid"), "grid"], [t(".list"), "list"], [t(".map"), "map"]]
 
     .row
       .col-12
@@ -69,11 +70,11 @@
         = render :partial => "layouts/info_text", :locals => { :text => t(".name_display_type_instructions_text") }
         = form.select :name_display_type, [[t(".full_name"), "full_name"], [t(".first_name_with_initial"), "first_name_with_initial"], [t(".first_name_only"), "first_name_only"]]
 
-    .row
-      .col-12
-        = form.label :custom_head_script, t(".custom_head_script")
-        = render :partial => "layouts/info_text", :locals => { :text => t(".custom_head_script_instructions_text") }
-        = form.text_area :custom_head_script, class: "text_area_code", placeholder: "<script src=\"http://example.com/customscript.js\"></script>"
+    / .row
+    /   .col-12
+    /     = form.label :custom_head_script, t(".custom_head_script")
+    /     = render :partial => "layouts/info_text", :locals => { :text => t(".custom_head_script_instructions_text") }
+    /     = form.text_area :custom_head_script, class: "text_area_code", placeholder: "<script src=\"http://example.com/customscript.js\"></script>"
 
     .row
       .col-12
