@@ -67,10 +67,15 @@ class SessionsController < ApplicationController
 
     session[:person_id] = current_person.id
 
+  # **** LOGIN SUCCESSFUL ****
+    # no community exists yet
     if not @current_community
       redirect_to new_tribe_path
+
+    # community exists
     elsif @current_user.communities.include?(@current_community) || @current_user.is_admin?
       flash[:notice] = t("layouts.notifications.login_successful", :person_name => view_context.link_to(@current_user.given_name_or_username, person_path(@current_user))).html_safe
+      # Redirect to the correct page after successful login
       if session[:return_to]
         redirect_to session[:return_to]
         session[:return_to] = nil

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Block Google Analytics Tracking (internal)</title>
+</head>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-63315141-1']);
+  _gaq.push(['_setDomainName', '.rentog.com']);
+  _gaq.push(
+  ['_addIgnoredOrganic', 'rentog'],
+  ['_addIgnoredOrganic', 'rentog.com'],
+  ['_addIgnoredOrganic', 'www.rentog.com'],
+  ['_setAllowLinker', true]
+  );
+  (function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<body onLoad="javascript: _gaq.push(['_setVar', 'Exclude']);">
+  <h1>TRACKING disabled for this browser.</h1>
+  <h3>If you surfe 'In private' or delete all your cookies at the end of each browsing session this <br>wont work.</br> In this case please use Ad blocker or any other comparable Browser extension for totally blocking Google Analytics.</h3>
+</body>
+</html>

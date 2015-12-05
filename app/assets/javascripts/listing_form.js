@@ -523,7 +523,12 @@ window.ST = window.ST || {};
         // before it's called BEFORE the submitHandler
         e.stopImmediatePropagation();
       } else {
+        // wah: Track / Report listing creation
         report_analytics_event(["listing", "created"]);
+        mixpanel.track("New listing created", {
+
+        });
+
         disable_submit_button(form_id, locale);
       }
     });

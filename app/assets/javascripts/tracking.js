@@ -52,6 +52,16 @@ var trackingParams = getTrackingURLParameters();
 
 // Handle the various pages
   if (track()){
+    // Logout
+    mixpanel.track_links("#signoutlink", "Logout");
+
+    /*
+    // Navigation bar click
+    mixpanel.track_links("#header-user-toggle-menu a", "Click on Navigation Link", {
+      // object
+    });
+    */
+
 
     // Landing page
     if (window.location.pathname === "/landingpage"){
@@ -74,15 +84,37 @@ var trackingParams = getTrackingURLParameters();
 
 
     // Signup page
-    if (window.location.pathname.match(/\.*(\/signup)\$/i)){
+    if (window.location.pathname.match(/\.*(\/signup)$/i)){
       mixpanel.track("Signup page visited");
     }
 
 
+    // PoolTool page
+    if (window.location.pathname.match(/\.*(\/poolTool)$/i)){
+      // On login
+      if(document.referrer.match(/\.*(\/login)$/i) ||
+         document.referrer.match(/\.*(\/sessions)$/i)){
+        mixpanel.identify();
+        mixpanel.track("Signin");
+
+        // Now remove referrer (because of site reload --> same referrer)
+        var meta = document.createElement('meta');
+        meta.name = "referrer";
+        meta.content = "no-referrer";
+        document.getElementsByTagName('head')[0].appendChild(meta);
+      }
+    }
+
+
     // Invite page
-    if (window.location.pathname.match(/\.*(\/invitations\/new)\$/i)){
+    if (window.location.pathname.match(/\.*(\/invitations\/new)$/i)){
       // mixpanel.track("Invite page visited");
 
+    }
+
+    // New Listing page
+    if (window.location.pathname.match(/\.*(\/listings\/new)$/i)){
+      // do nothing
     }
   }
 

@@ -246,6 +246,7 @@ class PoolToolController < ApplicationController
         comp_id: @company_owner.id,
         current_user_id: @current_user.id,
         current_user_username: @current_user.username,
+        current_user_email: @current_user.emails.first.address,
         is_admin: @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community),
         theme: @current_user.pool_tool_color_schema,
         user_active_bookings: @user_bookings_array,
