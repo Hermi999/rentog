@@ -22,7 +22,6 @@ var getTrackingURLParameters = function (){
                       'utm_source',
                       'utm_term',
                       'utm_content',
-                      'campaign_id',
                       'email'];
   var trackingParams = {
     obj: {},
@@ -67,7 +66,7 @@ var trackingParams = getTrackingURLParameters();
     if (window.location.pathname === "/landingpage"){
       // Tracking email campaigns
       if (trackingParams.obj.utm_medium === "email"){
-          mixpanel.register_once(trackingParams.obj);
+          mixpanel.register(trackingParams.obj);
           mixpanel.track("Email campaign visitor");
       }
 
@@ -94,7 +93,7 @@ var trackingParams = getTrackingURLParameters();
       // On login
       if(document.referrer.match(/\.*(\/login)$/i) ||
          document.referrer.match(/\.*(\/sessions)$/i)){
-        mixpanel.identify();
+        mixpanel.identify(gon.current_user_email);
         mixpanel.track("Signin");
 
         // Now remove referrer (because of site reload --> same referrer)

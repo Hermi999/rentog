@@ -1,3 +1,4 @@
+
 // Custom Javascript functions for Sharetribe
 // Add custom validation methods
 
@@ -747,8 +748,9 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
       // report to analytics and mixpanel
       if (track()){
         created_at = new Date();
+        mixpanel.track("Signup");
         mixpanel.alias(form.elements.person_email.value);
-        people.set({
+        mixpanel.people.set({
           "$first_name": form.elements.person_given_name.value,
           "$last_name": form.elements.person_family_name.value,
           "$email": form.elements.person_email.value,
