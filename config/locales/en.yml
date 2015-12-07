@@ -533,7 +533,7 @@ en:
       contact_me_success: "Thank you for your interest. We will get in contact with you shortly!"
       show_more: "SHOW MORE DETAILS"
       main_features_section_header: "Do you use already a professional tool?"
-      main_features_section_mainText: "Many companies manage their test and measurement devices with tools like Excel, shared calenders or self-made databases. Rentog is a professional and modern web application and offers all the features you need online. We constantly improve Rentog on basis of our customers needs and give them the opportunity to request for new features and requirements. <b><a href='/de/user_feedbacks/new'>Contact us now!</a></b>"	
+      main_features_section_mainText: "Many companies manage their test and measurement devices with tools like Excel, shared calenders or self-made databases. Rentog is a professional and modern web application and offers all the features you need online. We constantly improve Rentog on basis of our customers needs and give them the opportunity to request for new features and requirements. <b><a href='/de/user_feedbacks/new'>Contact us now!</a></b>"
       main_features_image_header_1: "Intuitive"
       main_features_image_header_2: "Access from everywhere"
       main_features_image_header_3: "Management"
@@ -1392,6 +1392,8 @@ en:
         answer_8: "We do not offer a Rentog iOS App at the moment, but there is a viable alternative per Icon on your home screen:<br/><ul><li>Open our website (<a href='http://rentog.com'>rentog.com</a>) with the Safari Browser on your iPhone.</li><li>Now click on the 'Share'-Icon (see Video).</li><li>Choose 'To home screen' and give the bookmark a name.</li><li>Now click on 'Add' to add the Icon to your homescreen.</li></ul>"
         question_9: "What other features are planned?"
         answer_9: "That depends on our customers feedback. Therefore, please tell us what you would like to have on new features <a href='http://rentog.lvh.me:3000/de/user_feedbacks/new'>(Feedback-Dialog)</a>. We collect and prioritize all the requests. But also we have already plenty of ideas. Here a few: <ul><li>Marktplatz: Share the devices not only within your company, but also with other partner companies.</li><li>More reporting functionalities for the „Pool-Tool Administrator“</li><li>Live GPS tracking of all devices</li></ul>"
+        question_10: "Is my data secure on Rentog?"
+        answer_10: "Security has top priority for us. Therefore we use HTTPS (TLS-Encryption) on every single page, only save the hash values of passwords (instead of the passwords) and perform periodically 'penetration tests' where the side is penetrated with attacks like hackers would do it, to detect potential security problems. But also during development we use different measures to ensure Security (OWASP Top 10). If you still have questions or concerns please <a href='mailto: service@rentog.com'>contact us directly</a>."
       pool_tool_default_page:
         header: "Pool Tool Help"
         description: "On this page you'll find descriptions and instructions for the PoolTool. While the FAQ answer general questions the details can be found here. <br />Please <b><a href='%{feedback_path}'>let us know</a></b> if something is not quite clear or missing."
