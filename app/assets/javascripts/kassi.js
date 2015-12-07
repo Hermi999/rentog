@@ -599,6 +599,92 @@ function style_action_selectors() {
   });
 }
 
+
+function initialize_contact_me_form() {
+  var form_id = "#contact_me_form";
+  $(form_id)
+    .submit(function(e){
+      e.preventDefault();
+    })
+    .validate({
+      errorPlacement: function(error, element) {
+        error.insertAfter(element);
+      },
+      rules: {
+        "contact_me[email]": {required: true, email: true},
+        "contact_me[phone]": {required: false}
+      },
+      submitHandler: function(form) {
+        // Only if not filled out (by spam bot)
+        if (form.elements.contact_me_name.value === ""){
+          mixpanel.track("Contact me", {
+            email: form.elements.contact_me_email.value,
+            phone: form.elements.contact_me_phone.value
+          });
+          $('#contact_me_form').hide();
+          $('#contact_me_success').animate({width: 'toggle'});
+          $('#contact_me_success').fadeOut(7000);
+        }
+      }
+    });
+}
+
+function initialize_newsletter_subscribe_form() {
+  var form_id = "#newsletter-subscribe-form";
+  $(form_id)
+    .submit(function(e){
+      e.preventDefault();
+    })
+    .validate({
+      errorPlacement: function(error, element) {
+        // Insert after button
+        error.insertAfter(element.next().next());
+      },
+      rules: {
+        "newsletter-subscribe[email]": {required: true, email: true},
+      },
+      submitHandler: function(form) {
+        // Only if not filled out (by spam bot)
+        if (form.elements['newsletter-subscribe-name'].value === ""){
+          mixpanel.track("Newsletter Subscribe", {
+            email: form.elements['newsletter-subscribe-email'].value
+          });
+          $('#newsletter-subscribe-form').hide();
+          $('#newsletter-subscribe-success-wrapper').slideDown();
+        }
+      }
+    });
+}
+
+function initialize_voucher_subscribe_form() {
+  var form_id = "#voucher-subscribe-form";
+  $(form_id)
+    .submit(function(e){
+      e.preventDefault();
+    })
+    .validate({
+      errorPlacement: function(error, element) {
+        // Insert after button
+        error.insertAfter(element);
+      },
+      rules: {
+        "voucher-subscribe[email]": {required: true, email: true},
+      },
+      submitHandler: function(form) {
+        // Only if not filled out (by spam bot)
+        if (form.elements['voucher-subscribe-name'].value === ""){
+          mixpanel.track("Voucher Subscribe", {
+            email: form.elements['voucher-subscribe-email'].value
+          });
+
+          $('#voucher-subscribe-form').hide();
+          $('#voucher-subscribe-success-wrapper').fadeIn();
+        }
+      }
+    });
+}
+
+
 function initialize_give_feedback_form(locale, grade_error_message, text_error_message) {
   auto_resize_text_areas("text_area");
   $('textarea').focus();

@@ -6,58 +6,161 @@
   / if big cover photo
   - with_big_cover_photo do
     %h1.marketplace-lander-content-title= t("landing_page.only_pool_tool.slogan")
-    %p= t("landing_page.only_pool_tool.description")
-    .button.howitworks#scrollToVideo
-      = link_to how_to_use_help_index_path do
-        = t("landing_page.only_pool_tool.how_it_works")
 
+    %p.marketplace-lander-headline= t("landing_page.only_pool_tool.headline").html_safe
+
+    %p.marketplace-lander-description= t("landing_page.only_pool_tool.description").html_safe
+    .button.lander-header-buttons.contactme
+      = link_to "" do
+        = t("landing_page.only_pool_tool.contact_me").html_safe
+    .button.lander-header-buttons.showmore
+      = link_to faq_help_index_path do
+        = t("landing_page.only_pool_tool.show_more").html_safe
+
+    %a.circle.lander-play-button.how_it_works_video{:href => "https://www.youtube.com/embed/IAxeHWqSZlI"}
+      .triangle.lander-play-triangle
+
+    #contact_me_success= t("landing_page.only_pool_tool.contact_me_success")
+
+
+    %form#contact_me_form
+      %input{:id => "contact_me_email", :name => "contact_me[email]", :type => "text", :placeholder => t("landing_page.only_pool_tool.contact_me_email")}
+      %input{:id => "contact_me_phone", :name => "contact_me[phone]", :type => "text", :placeholder => t("landing_page.only_pool_tool.contact_me_phone")}
+      -# ANTI-SPAM
+      %input{:id => "contact_me_name", :name => "contact_me[name]", :type => "text", :placeholder => "Your name"}
+      = button_tag t("landing_page.only_pool_tool.contact_me_btn"), :id => "contact_me_btn"
 
   / if small cover photo
   - with_small_cover_photo do
-    %h1.marketplace-lander-content-title= t("landing_page.only_pool_tool.slogan")
+    %h1.marketplace-lander-content-title= t("landing_page.only_pool_tool.slogan").html_safe
 
+
+/ *** MAIN FEATURES SECTION ***
 .landing-page-section.main-features
-  %iframe{:id => "landing_page_video", :src => "https://www.youtube.com/embed/IAxeHWqSZlI?rel=0", :frameborder=>"0", :allowfullscreen => true, :height => "95%", :width => "100%"}
-  / %p.landing-page-section-header= t("landing_page.only_pool_tool.section1_header")
-  / %p.landing-page-section-main-text= t("landing_page.only_pool_tool.section1_mainText")
+  %p.landing-page-section-header= t("landing_page.only_pool_tool.main_features_section_header").html_safe
+  %p.landing-page-section-main-text= t("landing_page.only_pool_tool.main_features_section_mainText").html_safe
 
-  / .row
-  /   .col-5.landing-page-colored-box
-  /     %p.landing-page-section-small-header
-  /       =t("landing_page.only_pool_tool.section1_smallHeader1")
-  /     %p.landing-page-section-text
-  /       =t("landing_page.only_pool_tool.section1_text1")
-  /       .button.create_listing
-  /         = link_to "https://www.youtube.com/embed/G7-X1dQTG8c", :class=>"create_listing_youtube" do
-  /           =t("landing_page.only_pool_tool.section1_button1")
+  .row
+    .col-4.image-circles
+      .row.circle.main-features-image
+        = image_tag "landingpage/intiutiv.png", id: "main_features_image1"
+      .row.main-features-image-header= t("landing_page.only_pool_tool.main_features_image_header_1").html_safe
+      .row.main-features-image-description= t("landing_page.only_pool_tool.main_features_image_description_1").html_safe
+    .col-4.image-circles
+      .row.circle.main-features-image
+        = image_tag "landingpage/access_everywhere.png", id: "main_features_image2"
+      .row.main-features-image-header= t("landing_page.only_pool_tool.main_features_image_header_2").html_safe
+      .row.main-features-image-description= t("landing_page.only_pool_tool.main_features_image_description_2").html_safe
+    .col-4.image-circles
+      .row.circle.main-features-image
+        = image_tag "landingpage/management.png", id: "main_features_image3"
+      .row.main-features-image-header= t("landing_page.only_pool_tool.main_features_image_header_3").html_safe
+      .row.main-features-image-description= t("landing_page.only_pool_tool.main_features_image_description_3").html_safe
 
-  /   .col-1
-  /   .col-5.landing-page-colored-box
-  /     %p.landing-page-section-small-header
-  /       =t("landing_page.only_pool_tool.section1_smallHeader2")
-  /     %p.landing-page-section-text
-  /       =t("landing_page.only_pool_tool.section1_text2")
-  /       .button.book-a-device
-  /         = link_to "http://www.youtube.com/embed/VOJyrQa_WR4?rel=0&amp;wmode=transparent", :class=>"book_a_listing_youtube" do
-  /           =t("landing_page.only_pool_tool.section1_button2")
+  .row
+    .col-2
+    .col-8
+      .landing-page-newsletter
+        %p= t("landing_page.only_pool_tool.newsletter_text").html_safe
+        %a#landing-page-newsletter-link.newsletter-popover{:href=>"#newsletter-content"}= t("landing_page.only_pool_tool.newsletter_link_text").html_safe
 
-  /   .col-1
 
+/*** VIDEO AND VOUCHER SECTION ***/
 -content_for :section_1 do
-  .landing-page-section.pooltool_screenshot#showBox
+  .landing-page-section.pooltool_video
+    .landing-page-content.row
+      .col-6.pooltool_video_column
+        .row
+          %p#pooltool_video_header= t("landing_page.only_pool_tool.pooltool_video_header").html_safe
+        .row
+          = image_tag "landingpage/how_it_works_video_image.jpg", id: "how_it_works_video_image"
+          %a.circle.how_it_works_play_button.how_it_works_video.how_it_works_play_button{:href => "https://www.youtube.com/embed/IAxeHWqSZlI"}
+            .triangle.lander-play-triangle
+      .col-6.pooltool_voucher_column
+        .row
+          = image_tag "landingpage/voucher1.png", id:"voucher1"
+          %p#pooltool_voucher_header= t("landing_page.only_pool_tool.pooltool_voucher_header").html_safe
+        .row
+          %p#pooltool_voucher_text= t("landing_page.only_pool_tool.pooltool_voucher_text").html_safe
+        .row
+          %form#voucher-subscribe-form
+            %input{:id => "voucher-subscribe-email", :name => "voucher-subscribe[email]", :type => "text", :placeholder => t("landing_page.only_pool_tool.voucher_subscribe_email")}
+            -# ANTI-SPAM
+            %input{:id => "voucher-subscribe-name", :name => "voucher-subscribe[name]", :type => "text", :placeholder => "Your name"}
+            = button_tag t("landing_page.only_pool_tool.voucher_subscribe_btn"), :id => "voucher-subscribe-btn"
+
+          #voucher-subscribe-success-wrapper
+            %p#voucher-subscribe-success= t("landing_page.only_pool_tool.voucher_subscribe_success")
+
+          #voucher_present_wrapper
+            = image_tag "landingpage/voucher2.png", id:"voucher2"
+
+
+
+/*** HOW IT WORKS SECTION ***
+-content_for :section_2 do
+  .landing-page-section.pooltool_how_it_works
+    .landing-page-content
+      %p.landing-page-section-header= t("landing_page.only_pool_tool.how_it_works_section_header").html_safe
+      %p.landing-page-section-main-text= t("landing_page.only_pool_tool.how_it_works_section_mainText").html_safe
+
+      .row
+        .col-4.image-circles
+          .row.circle.main-features-image
+            = image_tag "landingpage/register.png", id: "how_it_works_image1"
+          .row.main-features-image-header= t("landing_page.only_pool_tool.how_it_works_image_header_1").html_safe
+          .row.main-features-image-description= t("landing_page.only_pool_tool.how_it_works_image_description_1").html_safe
+          = button_tag :id => "how_it_works-register-btn" do
+            = link_to t("landing_page.only_pool_tool.how_it_works-register-btn"), sign_up_path
+        .col-4.image-circles
+          .row.circle.main-features-image
+            = image_tag "landingpage/create_devices.png", id: "how_it_works_image2"
+          .row.main-features-image-header= t("landing_page.only_pool_tool.how_it_works_image_header_2").html_safe
+          .row.main-features-image-description= t("landing_page.only_pool_tool.how_it_works_image_description_2").html_safe
+        .col-4.image-circles
+          .row.circle.main-features-image
+            = image_tag "landingpage/invite_employees.png", id: "how_it_works_image3"
+          .row.main-features-image-header= t("landing_page.only_pool_tool.how_it_works_image_header_3").html_safe
+          .row.main-features-image-description= t("landing_page.only_pool_tool.how_it_works_image_description_3").html_safe
+
+
+/*** POOL TOOL SCREENSHOT SECTION ***
+-content_for :section_3 do
+  .landing-page-section.pooltool_screenshot
     .landing-page-content.page
-      %p.landing-page-colored-section-header= t("landing_page.only_pool_tool.section2_header")
-      %p.landing-page-colored-section-main-text= t("landing_page.only_pool_tool.section2_mainText")
+      %p.landing-page-colored-section-header= t("landing_page.only_pool_tool.pooltool_screenshot_header").html_safe
+      %p.landing-page-colored-section-main-text= t("landing_page.only_pool_tool.pooltool_screenshot_mainText").html_safe
       = image_tag "landingpage/pool_tool.PNG", class: "pool_tool_screenshot"
 
--content_for :section_2 do
+
+/*** MOBILE APP SECTION ***
+-content_for :section_4 do
   .landing-page-section.rentog_on_mobile
     .landing-page-content
-      = image_tag "landingpage/mobile_rentog.png", class: "mobile_rentog_screenshot"
+      = image_tag "landingpage/mobile_rentog.jpg", class: "mobile_rentog_screenshot"
       .landing-page-mobile-wrapper
-        %p.landing-page-section-header
-          %b Rentog
-          %br
-          = t("landing_page.only_pool_tool.section3_header")
-        /= link_to image_tag("landingpage/Download_on_the_App_Store_Badge_US-UK_135x40.svg"), "#", :class => "landingpage-apple-store-icon"
+        %p.landing-page-mobile-section-header
+          = t("landing_page.only_pool_tool.mobile_section_header")
+
         = link_to image_tag("landingpage/android_en_badge.png"), "https://play.google.com/store/apps/details?id=rentog.com", :class => "landingpage-android-store-icon"
+        = link_to image_tag("landingpage/Download_on_the_App_Store_Badge_US-UK_135x40.svg"), faq_help_index_path, :class => "landingpage-apple-store-icon"
+
+
+/*** NEWSLETTER
+.newsletter-wrapper
+  #newsletter-content
+    #newsletter-header
+      #newsletter-header-image.circle
+        = image_tag "landingpage/newsletter.png", id: "newsletter-header-image1"
+      %p#newsletter-header-text= t("landing_page.only_pool_tool.newsletter_header").html_safe
+      %p#newsletter-note-text= t("landing_page.only_pool_tool.newsletter_note").html_safe
+
+    #newsletter-subscribe
+      %form#newsletter-subscribe-form
+        %input{:id => "newsletter-subscribe-email", :name => "newsletter-subscribe[email]", :type => "text", :placeholder => t("landing_page.only_pool_tool.newsletter_subscribe_email")}
+        -# ANTI-SPAM
+        %input{:id => "newsletter-subscribe-name", :name => "newsletter-subscribe[name]", :type => "text", :placeholder => "Your name"}
+        = button_tag t("landing_page.only_pool_tool.newsletter_subscribe_btn"), :id => "newsletter-subscribe-btn"
+
+      #newsletter-subscribe-success-wrapper
+        %p#newsletter-subscribe-success= t("landing_page.only_pool_tool.newsletter_subscribe_success")

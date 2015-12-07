@@ -45,7 +45,7 @@ function getDatesBetweenRange(startDate, stopDate) {
 
 var calc_video_width = function(){
     var video_width = 1080;
-    var max_video_width = $( document ).width() - 10;
+    var max_video_width = $( window ).width() - 10;
 
     if (video_width > max_video_width){
       return max_video_width;

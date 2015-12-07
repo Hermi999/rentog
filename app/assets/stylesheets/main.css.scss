@@ -2061,18 +2061,33 @@ figure.fluidratio {
   }
 
   .marketplace-lander-content-title {
+    text-align: left;
     margin-bottom: 0;
     margin-top: 0;
     position: relative;
     padding: 0;
     color: $background;
-    @include larger-type;
+    @include large-type;
     line-height: em(18);
-    @include media(tablet) {
-      padding: 0 lines(1);
-      @include huge-type;
-      line-height: em(15);
-    }
+  }
+
+  .marketplace-lander-headline{
+    display: none;
+    font-size: 1.775em;
+    font-weight: 600;
+    color: white;
+    margin-left: 0;
+    padding: 0;
+    text-align: left;
+    max-width: 550px;
+  }
+
+  .marketplace-lander-description{
+    text-align: left;
+    margin: lines(1) 0;
+    font-weight: normal;
+    font-size: 1.1em;
+    max-width: 540px;
   }
 
   .title-container {
@@ -2206,6 +2221,14 @@ figure.fluidratio {
       line-height: em(13);
     }
 
+    .marketplace-lander-headline{
+      display: block;
+    }
+
+    .marketplace-lander-description{
+      font-size: 1.3em;
+    }
+
     p {
       @include large-type;
       margin: lines(0.5) auto;
@@ -2251,6 +2274,7 @@ figure.fluidratio {
 
   @include media(desktop) {
     .marketplace-lander-content-title {
+      text-align: left;
       margin-bottom: 0;
       margin-top: 0;
       @include huge-type;

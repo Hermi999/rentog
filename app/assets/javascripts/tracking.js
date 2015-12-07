@@ -74,11 +74,6 @@ var trackingParams = getTrackingURLParameters();
       $('.landingpage-android-store-icon').on('click', function(){
         mixpanel.track("Landingpage: Get Android App");
       });
-
-      // How it works button clicked
-      $("#scrollToVideo").click(function(ev) {
-        mixpanel.track("Landingpage: How it works Button clicked");
-      });
     }
 
 
