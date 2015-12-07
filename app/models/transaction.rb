@@ -31,6 +31,7 @@
 #  shipping_price_cents              :integer
 #  deleted                           :boolean          default(FALSE)
 #  condition                         :string(255)
+#  transaction_type                  :string(255)      default("intern")
 #
 # Indexes
 #
@@ -63,7 +64,8 @@ class Transaction < ActiveRecord::Base
     :unit_tr_key,
     :unit_selector_tr_key,
     :shipping_price,
-    :delivery_method
+    :delivery_method,
+    :transaction_type
   )
 
   attr_accessor :contract_agreed, :color

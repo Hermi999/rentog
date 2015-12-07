@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151128222520) do
+ActiveRecord::Schema.define(:version => 20151207212907) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -1080,13 +1080,13 @@ ActiveRecord::Schema.define(:version => 20151128222520) do
   add_index "transaction_transitions", ["transaction_id"], :name => "index_transaction_transitions_on_conversation_id"
 
   create_table "transactions", :force => true do |t|
-    t.string   "starter_id",                                                          :null => false
-    t.integer  "listing_id",                                                          :null => false
+    t.string   "starter_id",                                                            :null => false
+    t.integer  "listing_id",                                                            :null => false
     t.integer  "conversation_id"
-    t.integer  "automatic_confirmation_after_days",                                   :null => false
-    t.integer  "community_id",                                                        :null => false
-    t.datetime "created_at",                                                          :null => false
-    t.datetime "updated_at",                                                          :null => false
+    t.integer  "automatic_confirmation_after_days",                                     :null => false
+    t.integer  "community_id",                                                          :null => false
+    t.datetime "created_at",                                                            :null => false
+    t.datetime "updated_at",                                                            :null => false
     t.boolean  "starter_skipped_feedback",                        :default => false
     t.boolean  "author_skipped_feedback",                         :default => false
     t.datetime "last_transition_at"
@@ -1094,7 +1094,7 @@ ActiveRecord::Schema.define(:version => 20151128222520) do
     t.integer  "commission_from_seller"
     t.integer  "minimum_commission_cents",                        :default => 0
     t.string   "minimum_commission_currency"
-    t.string   "payment_gateway",                                 :default => "none", :null => false
+    t.string   "payment_gateway",                                 :default => "none",   :null => false
     t.integer  "listing_quantity",                                :default => 1
     t.string   "listing_author_id"
     t.string   "listing_title"
@@ -1108,6 +1108,7 @@ ActiveRecord::Schema.define(:version => 20151128222520) do
     t.integer  "shipping_price_cents"
     t.boolean  "deleted",                                         :default => false
     t.string   "condition"
+    t.string   "transaction_type",                                :default => "intern"
   end
 
   add_index "transactions", ["community_id", "deleted"], :name => "transactions_on_cid_and_deleted"

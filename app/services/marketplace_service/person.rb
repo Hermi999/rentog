@@ -15,14 +15,18 @@ module MarketplaceService
       module_function
 
       def person(person_model, community_id)
-        Person[
-          id: person_model.id,
-          username: person_model.username,
-          first_name: person_model.given_name,
-          last_name: person_model.family_name,
-          avatar: person_model.image.url(:thumb),
-          is_deleted: person_model.deleted?
-        ]
+        if person_model
+          Person[
+            id: person_model.id,
+            username: person_model.username,
+            first_name: person_model.given_name,
+            last_name: person_model.family_name,
+            avatar: person_model.image.url(:thumb),
+            is_deleted: person_model.deleted?
+          ]
+        else
+          nil
+        end
       end
     end
 

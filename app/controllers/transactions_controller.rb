@@ -185,7 +185,8 @@ class TransactionsController < ApplicationController
                 content: form[:message],
                 booking_fields: booking_fields,
                 payment_gateway: process[:process] == :none ? :none : gateway, # TODO This is a bit awkward
-                payment_process: process[:process]}
+                payment_process: process[:process],
+                transaction_type: "extern"}
             })
         }
       ).on_success { |(_, (_, _, _, process), _, _, tx)|
@@ -278,8 +279,9 @@ class TransactionsController < ApplicationController
               listing_quantity: quantity,
               content: form[:message],
               booking_fields: booking_fields,
-              payment_gateway: :none, # TODO This is a bit awkward
-              payment_process: :none}
+              payment_gateway: :none,
+              payment_process: :none,
+              transaction_type: "intern"}
           })
       }
     ).on_success { |(_, (_, _, _, process), _, tx)|
