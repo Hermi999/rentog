@@ -849,6 +849,9 @@ de:
     feedback_body: "%{author_name_and_email} hat Dir die folgende Nachricht auf %{service_name} gesendet"
     unlogged_user: "Nicht angemeldeter Nutzer"
     anonymous_user: "Anonymer Benutzer"
+  landing_page_signup:
+    subject: "Neue Nachricht von %{service_name}"
+    body: "Ein Besucher der Landing Page hat die Aktion <b>'%{service_action}'</b> ausgeführt und folgende Daten hinterlassen: <b><br/><br/><span style='text-decoration:underline'>Email:</span> <a href='mailto: %{service_email}'>%{service_email}</a><br/><span style='text-decoration:underline'>Telefonnummer:</span> %{service_phone}</b>"
   preauthorize_payments:
     edit:
       confirm_payment: "Zahlung bestätigen"

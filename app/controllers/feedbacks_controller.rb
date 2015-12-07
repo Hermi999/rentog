@@ -17,14 +17,20 @@ class FeedbacksController < ApplicationController
   end
 
   def create
-    # Contact me request
-    if params[:type] == "contact_me"
+    # Contact me, Newsletter, Voucher request
+    if params[:type]
 
-    # Newsletter request
-    elsif params[:type] == "newsletter"
+      signupdata = {
+        action: params[:type],
+        email: params[:email],
+        phone: params[:phone]
+      }
 
-    # Voucher request
-    elsif params[:type] == "voucher"
+      PersonMailer.new_landingpage_email_signup(signupdata, @current_community).deliver
+
+      respond_to do |format|
+        format.json { render :json => {response: "success"} }
+      end
 
     else
       # User Feedback from Feedback formular

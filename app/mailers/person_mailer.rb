@@ -339,6 +339,28 @@ class PersonMailer < ActionMailer::Base
     end
   end
 
+
+  # Used to send notification to marketplace admins when somebody
+  # signs up on the landing page
+  def new_landingpage_email_signup(signupdata, community)
+    subject = t("landing_page_signup.subject")
+
+    premailer_mail(
+      :to => mail_feedback_to(community, APP_CONFIG.feedback_mailer_recipients),
+      :from => community_specific_sender(community),
+      :subject => subject,
+      :reply_to => signupdata[:email]) do |format|
+        format.html {
+          render locals: {
+                   action: signupdata[:action],
+                   email: signupdata[:email],
+                   phone: signupdata[:phone]
+                 }
+      }
+    end
+  end
+
+
   def mail_feedback_to(community, platform_admin_email)
     if community.feedback_to_admin? && community.admin_emails.any?
       community.admin_emails.join(",")

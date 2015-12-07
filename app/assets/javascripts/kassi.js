@@ -599,6 +599,34 @@ function style_action_selectors() {
   });
 }
 
+// Send to server so that the Rentog admins get an email
+function sendLandingPageSignupToServer(type, email, phone, success_callback){
+  $.post("/de/user_feedbacks", {
+    type: type,
+    email: email,
+    phone: phone
+  }, function (data){
+    // Network success
+      // Server success
+      if (data.response === "success"){
+        success_callback();
+      }
+      // Server error
+      else{
+        $('body').append("<div id='error_message'>Something went wrong on the server. Please reload the page and try again!</div>");
+        $('#error_message').stop(true,true);
+        $('#error_message').show();
+        $('#error_message').fadeOut(14000);
+      }
+  })
+  .fail(function (){
+    $('body').append("<div id='error_message'>Something went wrong. Please check your internet connection, reload the page and try again!</div>");
+    $('#error_message').stop(true,true);
+    $('#error_message').show();
+    $('#error_message').fadeOut(14000);
+  });
+}
+
 
 function initialize_contact_me_form() {
   var form_id = "#contact_me_form";
@@ -621,9 +649,15 @@ function initialize_contact_me_form() {
             email: form.elements.contact_me_email.value,
             phone: form.elements.contact_me_phone.value
           });
+
           $('#contact_me_form').hide();
-          $('#contact_me_success').animate({width: 'toggle'});
-          $('#contact_me_success').fadeOut(7000);
+
+          // Send to server so that the Rentog admins get an email
+          sendLandingPageSignupToServer("Contact me!", form.elements.contact_me_email.value, form.elements.contact_me_phone.value, function(){
+            // Show user that everything is fine
+            $('#contact_me_success').animate({width: 'toggle'});
+            $('#contact_me_success').fadeOut(7000);
+          });
         }
       }
     });
@@ -649,8 +683,13 @@ function initialize_newsletter_subscribe_form() {
           mixpanel.track("Newsletter Subscribe", {
             email: form.elements['newsletter-subscribe-email'].value
           });
-          $('#newsletter-subscribe-form').hide();
-          $('#newsletter-subscribe-success-wrapper').slideDown();
+
+          // Send to server so that the Rentog admins get an email
+          sendLandingPageSignupToServer("Newsletter!", form.elements['newsletter-subscribe-email'].value, null, function(){
+            // Show user that everything is fine
+            $('#newsletter-subscribe-form').hide();
+            $('#newsletter-subscribe-success-wrapper').slideDown();
+          });
         }
       }
     });
@@ -677,8 +716,14 @@ function initialize_voucher_subscribe_form() {
             email: form.elements['voucher-subscribe-email'].value
           });
 
-          $('#voucher-subscribe-form').hide();
-          $('#voucher-subscribe-success-wrapper').fadeIn();
+
+
+          // Send to server so that the Rentog admins get an email
+          sendLandingPageSignupToServer("Pool Tool Gutschein Anmeldung!", form.elements['voucher-subscribe-email'].value, null, function(){
+            // Show user that everything is fine
+            $('#voucher-subscribe-form').hide();
+            $('#voucher-subscribe-success-wrapper').fadeIn();
+          });
         }
       }
     });

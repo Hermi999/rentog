@@ -1,3 +1,5 @@
+
+// Get environment, production or development
 var getEnvironment = function(){
   if (window.location.hostname === "rentog.com"){
     return "production";
@@ -8,6 +10,8 @@ var getEnvironment = function(){
 };
 var rentog_environment = getEnvironment();
 
+
+// Get URL Parameters
 var getUrlParameter = function(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),
