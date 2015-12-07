@@ -5,6 +5,7 @@ window.ST = window.ST || {};
   /* global disable_submit_button */
   /* global set_textarea_maxlength */
   /* global auto_resize_text_areas */
+  /* global mixpanel */
   /* jshint eqeqeq: false */ // Some parts of the code in this file actually compares number that is string to a number
 
   // Update the state of the new listing form based on current status

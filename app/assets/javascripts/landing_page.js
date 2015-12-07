@@ -1,3 +1,7 @@
+/* Tell jshint that there exist globals */
+/* globals gon, size_video, initialize_contact_me_form, initialize_newsletter_subscribe_form, initialize_voucher_subscribe_form */
+/* jshint unused: false */
+
 window.ST = window.ST || {};
 
 (function(module) {

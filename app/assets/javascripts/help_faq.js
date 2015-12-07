@@ -1,3 +1,7 @@
+/* Tell jshint that there exists a global called "gon" */
+/* globals gon, size_video */
+/* jshint unused: false */
+
 window.ST = window.ST || {};
 
 (function(module) {
@@ -20,7 +24,7 @@ window.ST = window.ST || {};
       });
     });
 
-    $('.open_close').on('click', function(ev){
+    $('.open_close').on('click', function(){
       if($('.open_close').html() === gon.show_all){
         $('.open_close').html(gon.hide_all);
         $('.answer').show();
@@ -39,6 +43,10 @@ window.ST = window.ST || {};
       if ($('#pool_tool_help_cat'+ c).length){
         for(var t=1; t<=max_topic_loops; t++){
           if ($('#cat'+ c +'_topic'+ t +'_wrapper').length){
+
+            // ATTENTION: Function in a loop. Do not use a reference from the outside
+            // within that loop
+            /*jshint -W083 */
             $('#cat'+ c +'_topic'+ t +'_wrapper').on('click', function(ev){
               // Get category and topic
               var id = ev.currentTarget.id;

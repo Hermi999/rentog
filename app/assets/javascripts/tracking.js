@@ -6,6 +6,11 @@
 // validate() function (most times within kassi.js).
 
 
+/* Tell jshint that there exists a global called "gon" */
+/* globals getUrlParameter, mixpanel, gon */
+/* jshint unused: false */
+
+
 // Track only in production - we do not want to falsify our data with development data
 var track = function(){
   if(typeof mixpanel !== 'undefined'){
@@ -43,7 +48,7 @@ var getTrackingURLParameters = function (){
   }
 
   return trackingParams;
-}
+};
 
 // Get url parameters for tracking
 var trackingParams = getTrackingURLParameters();
@@ -62,14 +67,14 @@ var trackingParams = getTrackingURLParameters();
     */
 
 
+    // Tracking email campaigns
+    if (trackingParams.obj.utm_medium === "email"){
+        mixpanel.register(trackingParams.obj);
+        mixpanel.track("Email campaign visitor");
+    }
+
     // Landing page
     if (window.location.pathname === "/landingpage"){
-      // Tracking email campaigns
-      if (trackingParams.obj.utm_medium === "email"){
-          mixpanel.register(trackingParams.obj);
-          mixpanel.track("Email campaign visitor");
-      }
-
       // Get Android App
       $('.landingpage-android-store-icon').on('click', function(){
         mixpanel.track("Landingpage: Get Android App");

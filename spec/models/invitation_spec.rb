@@ -29,7 +29,7 @@ describe Invitation do
     it "generates a code automatically" do
       i = Invitation.create
       i.code.should_not be_nil
-      i.code.length.should == 6
+      i.code.length.should == 12
     end
 
   end
