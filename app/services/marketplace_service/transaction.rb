@@ -269,7 +269,7 @@ module MarketplaceService
 
       def transactions_for_community_sorted_by_column(community_id, sort_column, sort_direction, limit, offset)
         transactions = TransactionModel
-          .where(community_id: community_id, deleted: false)
+          .where("community_id = #{community_id} AND deleted = false AND transaction_type != 'intern'")
           .includes(:listing)
           .limit(limit)
           .offset(offset)
@@ -289,8 +289,12 @@ module MarketplaceService
         }
       end
 
-      def transactions_count_for_community(community_id)
-        TransactionModel.where(community_id: community_id, deleted: false).count
+      def transactions_count_for_community(community_id, also_only_intern = true)
+        if also_only_intern
+          TransactionModel.where(community_id: community_id, deleted: false).count
+        else
+          TransactionModel.where("community_id = #{community_id} AND deleted = false AND transaction_type != 'intern'").count
+        end
       end
 
       def can_transition_to?(transaction_id, new_status)
@@ -309,7 +313,7 @@ module MarketplaceService
           # Get 'last_transition_at'
           # (this is done by joining the transitions table to itself where created_at < created_at OR sort_key < sort_key, if created_at equals)
           LEFT JOIN conversations ON transactions.conversation_id = conversations.id
-          WHERE transactions.community_id = #{community_id} AND transactions.deleted = 0
+          WHERE transactions.community_id = #{community_id} AND transactions.deleted = 0 AND transactions.transaction_type != 'intern'
           ORDER BY
             GREATEST(COALESCE(transactions.last_transition_at, 0),
               COALESCE(conversations.last_message_at, 0)) #{sort_direction}

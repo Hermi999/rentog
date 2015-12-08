@@ -305,7 +305,7 @@ de:
         empty: "Du hast keine zusätzlichen Menü-Links"
       transactions:
         export_all_as_csv: "Exportiere Alles als CSV Datei"
-        transactions: "Transaktionen anzeigen"
+        transactions: "Externe Transaktionen anzeigen"
         headers:
           conversation: Unterhaltungsverlauf
           listing: Listing

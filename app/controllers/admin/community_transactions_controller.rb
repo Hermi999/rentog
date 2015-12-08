@@ -23,7 +23,7 @@ class Admin::CommunityTransactionsController < ApplicationController
         pagination_opts[:offset])
     end
 
-    count = TransactionQuery.transactions_count_for_community(@current_community.id)
+    count = TransactionQuery.transactions_count_for_community(@current_community.id, false)
 
     # TODO THIS IS COPY-PASTE
     conversations = conversations.map do |transaction|

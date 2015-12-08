@@ -306,7 +306,7 @@ en:
         empty: "You don't have any additional menu links"
       transactions:
         export_all_as_csv: "Export all as CSV"
-        transactions: "View transactions"
+        transactions: "View external transactions"
         headers:
           conversation: "Conversation thread"
           listing: Listing
