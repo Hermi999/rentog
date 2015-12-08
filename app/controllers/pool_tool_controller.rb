@@ -1,6 +1,6 @@
 class PoolToolController < ApplicationController
   # Filters
-  before_filter :ensure_is_authorized_to_view, :only => [ :show]
+  before_filter :ensure_is_authorized_to_view, :only => [ :show, :get_theme, :set_theme, :return_device]
 
   def show
     # @company_owner is the person which owns the company
@@ -32,7 +32,7 @@ class PoolToolController < ApplicationController
     # Convert ActiveRecord Relation into array of hashes
     transaction_array = transactions.as_json
 
-    # Get only bookings which are booked by the user AND are currently active AND are past, but the user did not return them
+    # Get only bookings which are booked by the user AND are currently in state active (that means the user hadn't give them back) AND are past, but the user did not return them
     user_bookings = transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ?) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
     @user_bookings_array = user_bookings.as_json
 
@@ -130,21 +130,16 @@ class PoolToolController < ApplicationController
     render locals: { listings: listings }
   end
 
-  def get_theme
-    # User has to be logged in
-    return if !@current_user
 
+  def get_theme
     respond_to do |format|
       format.json { render :json => {theme: @current_user.pool_tool_color_schema} }
     end
   end
 
   def set_theme
-    # User has to be logged in
-    return if !@current_user
-
     # Save in db
-      @current_user.update_attribute :pool_tool_color_schema, params['theme']
+    @current_user.update_attribute :pool_tool_color_schema, params['theme']
 
     respond_to do |format|
       format.json { render :json => {theme: @current_user.pool_tool_color_schema} }

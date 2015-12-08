@@ -436,13 +436,16 @@
 
 
 .poolTool_devices_i_have{
-  margin-top: 50px;
+  margin-top: 30px;
   padding-top: 20px;
-  border-top: dashed rgb(113, 113, 113) 1px;
 }
 
 .pool_tool_header{
   @include big-type;
+  background-color: rgb(224, 223, 223);
+  padding: 8px 5px;
+  border-radius: 5px;
+  border-bottom: 3px solid rgb(160, 159, 159);
 }
 
 #my_devices{
@@ -453,16 +456,38 @@
 .user_booking{
   border-bottom: 1px dotted black;
   border-left: 1px dotted black;
-  padding: 3px 10px;
-  width: 30%;
+  padding: 3px 10px!important;
   min-width: 350px;
   margin-bottom: 30px;
   background: linear-gradient(45deg, #F5EDC3 0%, #F5EDC3 5%, #ffffff 100%);
+
+  p.user_booking_header{
+    font-weight:bold;
+    margin-bottom: 0.6em;
+  }
+
+  span.user_booking_header_title{
+    display: inline-block;
+    max-width: 60%;
+    height: 21px;
+    overflow: hidden;
+  }
+
+  p.user_booking_overdue {
+    margin-bottom: 0px;
+  }
 }
 
-.user_booking p.user_booking_header{
-  font-weight:bold;
-  margin-bottom: 0.6em;
+
+.user_booking_overdue{
+  display: inline-block;
+  margin-left: 10px;
+  color: white;
+  font-weight: bold;
+  background-color: #FF0000;
+  padding: 0px 5px;
+  border-radius: 7px;
+  font-size: 0.9em;
 }
 
 .user_booking_img{
@@ -478,4 +503,9 @@
 
 #only_mine_label{
   display:inline;
+}
+
+.no-open-bookings {
+  color: rgb(49, 144, 23);
+  @include big-type;
 }

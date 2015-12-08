@@ -46,6 +46,14 @@ function getDatesBetweenRange(startDate, stopDate) {
   return dateArray;
 }
 
+function getDaysBetweenDates(startDate, endDate){
+  var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+  var firstDate = endDate;
+  var secondDate = startDate;
+
+  return Math.floor(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+}
+
 
 var calc_video_width = function(){
     var video_width = 1080;

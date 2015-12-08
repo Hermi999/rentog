@@ -53,18 +53,23 @@ window.ST.poolTool = function() {
       show_my_devices();
     }
 
-
-    // Initialize popover and remove buttons if employee is logged in
-    //if (gon.is_admin === false){
-      $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"500px", maxHeight:"270px"});
-    //}
-    //else{
-    //  $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"600px", maxHeight:"450px"});
-   // }
+    $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"500px", maxHeight:"270px"});
   }
 
   function show_my_devices(){
+    // gon.user_active_bookings = only bookings which are booked by the user AND
+    // are currently in state active (that means the user hadn't give them back) AND
+    // are past
+
+    // If two bookings belong to the same listing, remove the older one
     remove_old_bookings(gon.user_active_bookings);
+
+    // No open bookings
+    if (gon.user_active_bookings.length === 0){
+      $('#my_devices')
+        .append($('<div class="no-open-bookings" />')
+          .html("You haven't borrowed any devices at the moment!"));
+    }
 
     for(var i=0; i<gon.user_active_bookings.length; i++){
       var title = gon.user_active_bookings[i].title;
@@ -72,6 +77,7 @@ window.ST.poolTool = function() {
       var end_on = gon.user_active_bookings[i].end_on;
       var transaction_id = gon.user_active_bookings[i].transaction_id;
       var image = "";
+      var overdue = getDaysBetweenDates(new Date(), new Date(end_on));
 
       if (gon.devices[i] && title === gon.devices[i].name){
         image = gon.devices[i].image;
@@ -79,10 +85,13 @@ window.ST.poolTool = function() {
 
 
       $('#my_devices')
-        .append($('<div class="user_booking" />')
-          .append($('<div />')
+        .append($('<div class="col-4 user_booking" id="open_booking_'+ transaction_id +'" />')
+          .append($('<div class="user_booking_data"/>')
             .append($('<p class="user_booking_header">')
-              .html(title))
+              .append($('<span class="user_booking_header_title">')
+                .html(title))
+              .append($('<p class="user_booking_overdue">')
+                .html("Overdue: " + overdue + " days")))
             .append('<img src="' + image + '" class="user_booking_img" />')
             .append($('<span class="return_on" />')
               .html('Return on: '))
@@ -101,19 +110,51 @@ window.ST.poolTool = function() {
       // within that loop
       /*jshint -W083 */
       $('#return_now_'+ i).on('click', function(ev){
-        console.log($('#' + ev.currentTarget.id).data('transaction_id'));
+        transaction_id = $('#' + ev.currentTarget.id).data('transaction_id');
+
+        $.ajax({
+          type: "PUT",
+          url: '/update_device_returned',
+          data: {transaction_id: transaction_id, device_returned: true},
+        })
+          .done(function(data){
+            // Hide open booking card
+            $('#open_booking_' + data.transaction_id).fadeOut();
+
+            // Update gon.user_active_bookings Array
+            for (var x=0; x<gon.user_active_bookings.length; x++){
+              if (gon.user_active_bookings[x].transaction_id === transaction_id){
+                gon.user_active_bookings.splice(x, 1);
+                break;
+              }
+            }
+
+            // Check if ther are still active bookings, if not show message
+            if (gon.user_active_bookings.length === 0){
+              $('#my_devices')
+                .append($('<div class="no-open-bookings" />')
+                  .html("You haven't borrowed any devices at the moment!"));
+            }
+
+          })
+          .fail(function(){
+
+          });
       });
     }
   }
 
+  // If two bookings belong to the same listing, remove the older one
   function remove_old_bookings(){
     for(var i=0; i<gon.user_active_bookings.length; i++){
       for(var j=i+1; j<gon.user_active_bookings.length; j++){
-        if (gon.user_active_bookings[i].title === gon.user_active_bookings[j].title){
-          if (gon.user_active_bookings[i].ends_on < gon.user_active_bookings[j].ends_on){
+        if (gon.user_active_bookings[i].listing_id === gon.user_active_bookings[j].listing_id){
+          if (new Date(gon.user_active_bookings[i].end_on) < new Date(gon.user_active_bookings[j].end_on)){
             gon.user_active_bookings.splice(i, 1);
+            j--;
           }else{
             gon.user_active_bookings.splice(j, 1);
+            j--;
           }
         }
       }
@@ -1033,7 +1074,6 @@ window.ST.poolTool = function() {
     // count booked (week)days till now
     var count_booked_weekdays = 0;
     var count_booked_days = 0;
-    var oneDay = 24*60*60*1000;
 
     if (entry.values){
         for (var y=0; y<entry.values.length; y++){

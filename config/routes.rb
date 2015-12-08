@@ -503,6 +503,8 @@
 # http://guides.rubyonrails.org/routing.html
 
 Kassi::Application.routes.draw do
+  get "bookings/update"
+
   # wah: remove this in production
   # get '/switch_pool_tool', to: 'application#switch_pool_tool'
 
@@ -796,6 +798,10 @@ Kassi::Application.routes.draw do
       get :message_arrived
     end
 
+    put :update_device_returned, to: 'bookings#update_device_returned'
+
+
+
     devise_for :people, :controllers => { :confirmations => "confirmations", :registrations => "people", :omniauth_callbacks => "sessions"}, :path_names => { :sign_in => 'login'}
     devise_scope :person do
       # these matches need to be before the general resources to have more priority
@@ -905,8 +911,10 @@ Kassi::Application.routes.draw do
 
         get :poolTool, to: 'pool_tool#show'
 
+        # change pool tool theme for user
         get  :poolToolTheme, to: 'pool_tool#get_theme'
         post :poolToolTheme, to: 'pool_tool#set_theme'
+
       end # people
 
     end # devise scope person

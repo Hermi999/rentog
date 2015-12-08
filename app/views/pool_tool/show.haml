@@ -82,12 +82,15 @@
   %h1= t("pool_tool.headline")
 
 #poolTool_Wrapper
+  / Pool Tool 'Choose theme'
   .row
     .poolTool_themes
       .poolTool_theme#theme_white
       .poolTool_theme#theme_dark
       .poolTool_theme#theme_red
 
+
+  / Pool Tool Top level buttons (Add new Booking, Add new device)
   .row
     #addNewBookingWrapper{:style=>"float:left;"}
       %button#addNewBooking.primary-button
@@ -97,6 +100,7 @@
       = link_to t('pool_tool.show.addNewDevice'), new_listing_path, :class => "new-listing-link", :id => "createNewDevice"
 
 
+  / Pool Tool 'Add new booking form'
   .row
     .col-12
       #addNewBookingForm.newBookingForm
@@ -153,18 +157,22 @@
               = submit_tag(t('pool_tool.show.create'), id: "pooltool_submit_new_transaction", class: "primary-button pooltool_create_booking")
 
 
+  / Pool Tool Gantt Calendar
   .poolTool_gantt_container
     .gantt
 
 
+  / Pool Tool Options
   .poolTool_options
     = check_box_tag 'mine', 'yes', false, :class => 'only_mine'
     = label_tag t('pool_tool.show.only_mine'), nil, :id => 'only_mine_label'
 
 
+  / Devices I have at the moment
   - if @current_user.is_employee? && @current_community.pooltool_employee_has_to_give_back_device
     .poolTool_devices_i_have
       %p{:class=>"pool_tool_header"}
-        Devices I have at the moment
+        Devices I've borrowed at the moment
 
-      #my_devices
+      / Div wrapper. The rest is javascript magic
+      #my_devices.row

@@ -17,7 +17,7 @@
       = link_to faq_help_index_path do
         = t("landing_page.only_pool_tool.show_more").html_safe
 
-    %a.circle.lander-play-button.how_it_works_video{:href => "https://www.youtube.com/embed/IAxeHWqSZlI"}
+    %a.circle.lander-play-button.how_it_works_video{:href => "#{t("landing_page.only_pool_tool.what_is_rentog_video")}"}
       .triangle.lander-play-triangle
 
     #contact_me_success= t("landing_page.only_pool_tool.contact_me_success")
@@ -74,7 +74,7 @@
           %p#pooltool_video_header= t("landing_page.only_pool_tool.pooltool_video_header").html_safe
         .row
           = image_tag "landingpage/how_it_works_video_image.jpg", id: "how_it_works_video_image"
-          %a.circle.how_it_works_play_button.how_it_works_video.how_it_works_play_button{:href => "https://www.youtube.com/embed/IAxeHWqSZlI"}
+          %a.circle.how_it_works_play_button.how_it_works_video.how_it_works_play_button{:href => "#{t("landing_page.only_pool_tool.what_is_rentog_video")}"}
             .triangle.lander-play-triangle
       .col-6.pooltool_voucher_column
         .row
