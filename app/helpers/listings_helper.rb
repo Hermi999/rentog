@@ -137,10 +137,16 @@ module ListingsHelper
   end
 
   def action_button_label(listing)
-    if @current_user && !@current_user.is_organization && !@current_community.employees_can_buy_listings && !@current_user.has_admin_rights_in?(@current_community)
-          t("listings.show.request_by_company")
+    # Employees can just send a message to their Company in which they request for renting the listing.
+    # If the listing is a company intern listing, the employees can book it via the pool tool
+    if listing.person_belongs_to_same_company?(@current_user)
+      t("listings.show.book_via_pooltool")
     else
-      t(listing.action_button_tr_key)
+      if @current_user && !@current_user.is_organization && !@current_community.employees_can_buy_listings
+        t("listings.show.request_by_company")
+      else
+        t(listing.action_button_tr_key)
+      end
     end
   end
 

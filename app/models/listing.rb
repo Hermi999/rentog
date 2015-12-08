@@ -248,4 +248,7 @@ class Listing < ActiveRecord::Base
     Maybe(read_attribute(:unit_type)).to_sym.or_else(nil)
   end
 
+  def person_belongs_to_same_company?(person)
+    person && (person.is_employee_of?(author.id) || author.id == person.id)
+  end
 end

@@ -1850,6 +1850,8 @@ de:
       price:
         per_quantity_unit: "pro %{quantity_unit}"
         per_day: "pro Tag"
+      request_by_company: "Anfrage bei Unternehmens-Admin"
+      book_via_pooltool: "Buche mittels Pool Tool"
       delivery: Lieferart
       shipping: "Versand (+%{price})"
       shipping_no_price: Versand

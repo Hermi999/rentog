@@ -30,6 +30,9 @@
 .ajax-update-notice {
   background: $lila;
   color: white;
+  a {
+    color: yellow;
+  }
 }
 
 .ajax-warning, .flash-warning{

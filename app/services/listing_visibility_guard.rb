@@ -17,10 +17,14 @@ class ListingVisibilityGuard
   def authorized_to_view?
     return false unless listing_belongs_to_community?
 
-    if user_logged_in? && user_member_of_community?
+    if user_logged_in? && user_member_of_community? && public_listing?
       true
     else
-      public_community?
+      if public_listing?
+        public_community?
+      else
+        user_and_listing_belong_to_same_company?
+      end
     end
   end
 
@@ -48,5 +52,13 @@ class ListingVisibilityGuard
 
   def is_author?
     @user == @listing.author
+  end
+
+  def public_listing?
+    @listing.availability != "intern"
+  end
+
+  def user_and_listing_belong_to_same_company?
+    @listing.person_belongs_to_same_company?(@user)
   end
 end

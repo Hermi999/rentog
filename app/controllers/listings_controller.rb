@@ -174,10 +174,15 @@ class ListingsController < ApplicationController
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: @listing.transaction_process_id)
 
     # Employees can just send a message to their Company in which they request for renting the listing.
-    if @current_user && !@current_user.is_organization && !@current_community.employees_can_buy_listings && !@current_user.has_admin_rights_in?(@current_community)
-      form_path = new_person_person_message_path(@current_user.company)
+    # If the listing is a company intern listing, the employees can book it via the pool tool
+    if @listing.person_belongs_to_same_company?(@current_user)
+      form_path = person_poolTool_path(@current_user)
     else
-      form_path = new_transaction_path(listing_id: @listing.id)
+      if @current_user && @current_user.is_employee? && !@current_community.employees_can_buy_listings
+        form_path = new_person_person_message_path(@current_user.company)
+      else
+        form_path = new_transaction_path(listing_id: @listing.id)
+      end
     end
 
     if @current_user &&

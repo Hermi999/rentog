@@ -1846,6 +1846,7 @@ en:
         per_quantity_unit: "per %{quantity_unit}"
         per_day: "per day"
       request_by_company: "Rent via your company"
+      book_via_pooltool: "Book via Pool Tool"
       delivery: "Delivery method"
       shipping: "Shipping (+%{price})"
       shipping_no_price: Shipping
