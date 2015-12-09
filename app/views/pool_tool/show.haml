@@ -68,9 +68,6 @@
         #btn_delete.icon-remove-circle
         #btn_update.icon-save
 
-    /%button.primary-button#btn_update= t('pool_tool.show.modify_booking.update')
-    /%button.delete-button#btn_delete= t('pool_tool.show.modify_booking.delete')
-
 
 
 / Pool Tool Main code
@@ -172,7 +169,7 @@
   - if @current_user.is_employee? && @current_community.pooltool_employee_has_to_give_back_device
     .poolTool_devices_i_have
       %p{:class=>"pool_tool_header"}
-        Devices I've borrowed at the moment
+        = t('pool_tool.show.devices_i_have_borrowed')
 
       / Div wrapper. The rest is javascript magic
       #my_devices.row

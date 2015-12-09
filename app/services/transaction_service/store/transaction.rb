@@ -22,7 +22,7 @@ module TransactionService::Store::Transaction
     [:automatic_confirmation_after_days, :fixnum, :mandatory],
     [:minimum_commission, :money, :mandatory],
     [:content, :string],
-    [:booking_fields, :hash], # start_on, end_on, reason
+    [:booking_fields, :hash], # start_on, end_on, reason, device_returned
     [:transaction_type, :string])
 
   Transaction = EntityUtils.define_builder(
@@ -227,6 +227,7 @@ module TransactionService::Store::Transaction
 
       data[:reason] = tx_data[:booking_fields][:reason] if tx_data[:booking_fields][:reason]
       data[:description] = tx_data[:booking_fields][:description] if tx_data[:booking_fields][:description]
+      data[:device_returned] = tx_data[:booking_fields][:device_returned] if tx_data[:booking_fields][:device_returned]
 
       tx_model.build_booking(data)
     end

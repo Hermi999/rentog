@@ -2467,6 +2467,11 @@ de:
       devices: "Verfügbare Geräte"
       example: "Bsp.: Wartung"
       create: "Erstellen"
+      devices_i_have_borrowed: "Geräte, welche ich aktuell ausgeborgt habe"
+      no_devices_borrowed: "Du hast dir im Moment keine Geräte ausgeborgt!"
+      overdue: "Überfällig: "
+      return_on: 'Fällig am: '
+      return_now: 'Jetzt zurückgeben'
       modify_booking:
         renter_reason: "Mieter/Grund"
         availability: "Verfügbarkeit"

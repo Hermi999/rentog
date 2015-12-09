@@ -266,6 +266,11 @@ class TransactionsController < ApplicationController
           booking_fields[:description] = params[:description]
         end
 
+        # if booking is in the past set 'device_returned' to false
+        if booking_fields[:end_on] < DateTime.now.to_date
+          booking_fields[:device_returned] = true
+        end
+
         quantity = Maybe(booking_fields).map { |b| DateUtils.duration_days(b[:start_on], b[:end_on]) }.or_else(form[:quantity])
 
         TransactionService::Transaction.create(

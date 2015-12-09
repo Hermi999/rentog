@@ -38,25 +38,34 @@ window.ST.pooToolSpinner = new Spinner(opts).spin();
 
 window.ST.poolTool = function() {
 
+  // Initialize the whole pool tool (jquery gantt chart, date pickers, add new booking form, ...)
   function init(){
     $('.page-content').append(window.ST.pooToolSpinner.el);
     fullScreen();
     initializeCheckOrientation();
     initializeGantt();
-    initializeDatepicker();
+    initializeDatepickers();
     initialize_poolTool_createTransaction_form(gon.locale, gon.choose_employee_or_renter_msg);
     initialize_device_picker();
     initialize_poolTool_options();
 
     // Show devices the current logged in user has in his hands
     if (gon.pool_tool_preferences.pooltool_employee_has_to_give_back_device === true){
-      show_my_devices();
+      show_borrowed_devices();
     }
 
     $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"500px", maxHeight:"270px"});
   }
 
-  function show_my_devices(){
+  // Removes all borrowed booking cards (divs) and then calls the method for showing the borrowed devices
+  // This is used for updating the view, for example after a booking has been deleted, changed or created
+  function update_borrowed_devices(){
+    $('.user_booking').remove();
+    show_borrowed_devices();
+  }
+
+  // Show devices the current logged in user has in his hands at this moment
+  function show_borrowed_devices(){
     // gon.user_active_bookings = only bookings which are booked by the user AND
     // are currently in state active (that means the user hadn't give them back) AND
     // are past
@@ -64,87 +73,97 @@ window.ST.poolTool = function() {
     // If two bookings belong to the same listing, remove the older one
     remove_old_bookings(gon.user_active_bookings);
 
-    // No open bookings
+    // No open bookings - only show a message
     if (gon.user_active_bookings.length === 0){
       $('#my_devices')
         .append($('<div class="no-open-bookings" />')
-          .html("You haven't borrowed any devices at the moment!"));
+          .html(gon.no_devices_borrowed));
     }
+    // Otherwise show the device cards
+    else{
+      for(var i=0; i<gon.user_active_bookings.length; i++){
+        var title = gon.user_active_bookings[i].title;
+        var start_on = gon.user_active_bookings[i].start_on;
+        var end_on = gon.user_active_bookings[i].end_on;
+        var transaction_id = gon.user_active_bookings[i].transaction_id;
+        var image = "";
+        var overdue = getDaysBetweenDates(new Date(), new Date(end_on));
 
-    for(var i=0; i<gon.user_active_bookings.length; i++){
-      var title = gon.user_active_bookings[i].title;
-      var start_on = gon.user_active_bookings[i].start_on;
-      var end_on = gon.user_active_bookings[i].end_on;
-      var transaction_id = gon.user_active_bookings[i].transaction_id;
-      var image = "";
-      var overdue = getDaysBetweenDates(new Date(), new Date(end_on));
+        if (gon.devices[i] && title === gon.devices[i].name){
+          image = gon.devices[i].image;
+        }
 
-      if (gon.devices[i] && title === gon.devices[i].name){
-        image = gon.devices[i].image;
-      }
+        // Create the device cards by adding element to the DOM with jquery
+        $('#my_devices')
+          .append($('<div class="col-4 user_booking" id="open_booking_'+ transaction_id +'" />')
+            .append($('<div class="user_booking_data"/>')
+              .append($('<p class="user_booking_header">')
+                .append($('<span class="user_booking_header_title">')
+                  .html(title))
+                .append($('<p class="user_booking_overdue" id="overdue_'+ i +'">')
+                  .html(gon.overdue + overdue + " days")))
+              .append('<img src="' + image + '" class="user_booking_img" />')
+              .append($('<span class="return_on" />')
+                .html(gon.return_on))
+              .append(end_on)
+            )
+            .append($('<button id="return_now_' + i + '" />')
+              .html(gon.return_now)
+            )
+          );
 
+        // Remove overdue element if it's < 1 days
+        if(overdue < 1){
+          $('#overdue_' + i).remove();
+        }
 
-      $('#my_devices')
-        .append($('<div class="col-4 user_booking" id="open_booking_'+ transaction_id +'" />')
-          .append($('<div class="user_booking_data"/>')
-            .append($('<p class="user_booking_header">')
-              .append($('<span class="user_booking_header_title">')
-                .html(title))
-              .append($('<p class="user_booking_overdue">')
-                .html("Overdue: " + overdue + " days")))
-            .append('<img src="' + image + '" class="user_booking_img" />')
-            .append($('<span class="return_on" />')
-              .html('Return on: '))
-            .append(end_on)
-          )
-          .append($('<button id="return_now_' + i + '" />')
-            .html('Return now')
-          )
-        );
-
-        // Store transaction_id with button
+        // Store transaction_id with the 'return now' button
         $('#return_now_' + i).data('transaction_id', transaction_id);
 
-      // On click on button
-      // ATTENTION: Function in a loop. Do not use a reference from the outside
-      // within that loop
-      /*jshint -W083 */
-      $('#return_now_'+ i).on('click', function(ev){
-        transaction_id = $('#' + ev.currentTarget.id).data('transaction_id');
 
-        $.ajax({
-          type: "PUT",
-          url: '/update_device_returned',
-          data: {transaction_id: transaction_id, device_returned: true},
-        })
-          .done(function(data){
-            // Hide open booking card
-            $('#open_booking_' + data.transaction_id).fadeOut();
+        // On click on button
+        // ATTENTION: Function in a loop. Do not use a reference from the outside
+        // within that loop
+        /*jshint -W083 */
+        $('#return_now_'+ i).on('click', function(ev){
+          transaction_id = $('#' + ev.currentTarget.id).data('transaction_id');
 
-            // Update gon.user_active_bookings Array
-            for (var x=0; x<gon.user_active_bookings.length; x++){
-              if (gon.user_active_bookings[x].transaction_id === transaction_id){
-                gon.user_active_bookings.splice(x, 1);
-                break;
-              }
-            }
-
-            // Check if ther are still active bookings, if not show message
-            if (gon.user_active_bookings.length === 0){
-              $('#my_devices')
-                .append($('<div class="no-open-bookings" />')
-                  .html("You haven't borrowed any devices at the moment!"));
-            }
-
+          // Update database on server
+          $.ajax({
+            type: "PUT",
+            url: '/update_device_returned',
+            data: {transaction_id: transaction_id, device_returned: true},
           })
-          .fail(function(){
+            .done(function(data){
+              // Hide open booking card
+              $('#open_booking_' + data.transaction_id).fadeOut();
 
-          });
-      });
+              // Update gon.user_active_bookings Array
+              for (var x=0; x<gon.user_active_bookings.length; x++){
+                if (gon.user_active_bookings[x].transaction_id === transaction_id){
+                  gon.user_active_bookings.splice(x, 1);
+                  break;
+                }
+              }
+
+              // Check if ther are still active bookings, if not show message
+              if (gon.user_active_bookings.length === 0){
+                $('#my_devices')
+                  .append($('<div class="no-open-bookings" />')
+                    .html(gon.no_devices_borrowed));
+              }
+
+            })
+            .fail(function(){
+
+            });
+        });
+      }
     }
   }
 
-  // If two bookings belong to the same listing, remove the older one
+  // If two open bookings of the user belong to the same listing, remove the older one
+  // This function is used for showing the current borrowed devices
   function remove_old_bookings(){
     for(var i=0; i<gon.user_active_bookings.length; i++){
       for(var j=i+1; j<gon.user_active_bookings.length; j++){
@@ -161,21 +180,26 @@ window.ST.poolTool = function() {
     }
   }
 
+  // Only show bookings in the gantt chart who belong to the user
+  function show_only_mine(){
+    if($('.only_mine').prop('checked')){
+      $('.bar').hide();
+      $('.gantt_ownEmployee_me').show();
+      $('.gantt_anyCompany_me').show();
+      $('.gantt_trustedCompany_me').show();
+      $('.gantt_otherReason_me').show();
+    }else{
+      $('.bar').show();
+    }
+  }
 
+  // Initialize the pool tool options, like "Show only mine", ...
   function initialize_poolTool_options(){
     // Show only my bookings (the current user)
     $('.only_mine').prop('checked', false);
 
     $('.only_mine').on('change', function(){
-      if($('.only_mine').prop('checked')){
-        $('.bar').hide();
-        $('.gantt_ownEmployee_me').show();
-        $('.gantt_anyCompany_me').show();
-        $('.gantt_trustedCompany_me').show();
-        $('.gantt_otherReason_me').show();
-      }else{
-        $('.bar').show();
-      }
+      show_only_mine();
     });
 
     $('#only_mine_label').on('click',function(ev){
@@ -206,7 +230,8 @@ window.ST.poolTool = function() {
     });
   }
 
-
+  // Initialize the listings picture preview. The listings picture should be
+  // shown if the user hovers a listing in the gantt chart
   function initialize_listing_previews(){
     for (var i = 0; i < window.ST.poolToolRows; i++) {
 
@@ -256,7 +281,8 @@ window.ST.poolTool = function() {
     }
   }
 
-
+  // Within the pool tool we need a wider screen. This functions adds the
+  // necessary classes to the wrapper-divs
   function fullScreen(){
     $('.header-wrapper').addClass('fullscreen');
     $('.title-header-wrapper').addClass('fullscreen');
@@ -264,6 +290,7 @@ window.ST.poolTool = function() {
   }
 
 
+  // Initialize the different themes and the checkbox callbacks & set the default theme
   function initializeThemes(){
     var allThemes  = ["theme_dark", "theme_red", "theme_white"];
     var allClasses = ["gantt", "header_g", "row_g", "wd_g", "sa_g", "sn_g",
@@ -308,6 +335,7 @@ window.ST.poolTool = function() {
     });
   }
 
+  // Actually changes the theme by removing and adding classes to the DOM objects
   function changeTheme(theme, allThemes, allClasses){
     for (var y=0; y<allClasses.length; y++){
       // remove old themes
@@ -320,6 +348,7 @@ window.ST.poolTool = function() {
     }
   }
 
+  // Saves which themes the users has selected into the database
   function saveTheme(theme){
     $.ajax({
       method: "post",
@@ -329,16 +358,16 @@ window.ST.poolTool = function() {
     })
     .success(function(data){
       // Do not show any message to user
-      console.log(data);
     })
     .error(function(data){
       // Do not show any message to user
-      console.log(data);
     });
   }
 
-
-  function initializeDatepicker(){
+  // Initialize the Datepickers (add new booking & edit existing booking).
+  // Also add an eventlistener for updating the datepicker if the user changes
+  // the listing in the 'add new booking form'
+  function initializeDatepickers(){
     if (gon.locale !== 'en') {
       $.fn.datepicker.dates[gon.locale] = {
         days: gon.translated_days,
@@ -370,7 +399,9 @@ window.ST.poolTool = function() {
     window.ST.initializeFromToDatePicker('#datepicker', booked_dates, '#start-on', '#end-on', "#booking-start-output", "#booking-end-output");
     window.ST.initializeFromToDatePicker('#datepicker2', booked_dates, '#start-on2', '#end-on2', "#booking-start-output2", "#booking-end-output2");
 
-    // If listing changes, then also update the booked dates in the datepicker
+
+    // EVENT LISTENER: If the user changes the listing selected listing in the
+    // "add new booking" form, then also update the booked dates in the datepicker
     $("input[name=listing_id]:radio").change(function (ev) {
       var booked_dates = [];
       var listing_id = parseInt($('input[name=listing_id]:checked', '#poolTool_form').val());
@@ -395,15 +426,23 @@ window.ST.poolTool = function() {
     });
   }
 
+  // Initializes the first Datebicker with the 'booked_dates' array
   function updateDatepicker(booked_dates){
     window.ST.initializeFromToDatePicker('#datepicker', booked_dates, '#start-on', '#end-on', "#booking-start-output", "#booking-end-output");
     $('#datepicker').datepicker('update');
   }
+
+  // Initializes the second Datebicker with the 'booked_dates' array
   function updateDatepicker2(booked_dates){
     window.ST.initializeFromToDatePicker('#datepicker2', booked_dates, '#start-on2', '#end-on2', "#booking-start-output2", "#booking-end-output2");
     $('#datepicker2').datepicker('update');
   }
 
+
+  // Initializes the jquery gantt plugin with the listings and their transactions.
+  // Since gon.devices only hold the devices with transactions & gon.open_listings
+  // only hold all open listings, but no transactions, those two arrays are merged and
+  // then taken as source for initializing the gantt chart.
   function initializeGantt(){
 
     var source = gon.devices;
@@ -469,6 +508,14 @@ window.ST.poolTool = function() {
     prettyPrint();
   }
 
+  // This function actually initializes and updates the jquery gantt chart. It
+  // also defines the actions for the event listeners "onItemClick", "onAddClick" and
+  // "onRender".
+  // The "onItemClick" Event-Handler handles the whole functionality of the update
+  // dialog.
+  // The "onRender" Event-Handler handles all the stuff which can only be done
+  // after the jquery gantt plugin has been rendered, like stopping the spinner,
+  // adding event listeners for the legend, disable jquery gantt navigation buttons, ...
   function updateGanttChart(source){
     $(".gantt").gantt({
       dow: gon.translated_days_min,
@@ -499,8 +546,8 @@ window.ST.poolTool = function() {
 
         // Open Popover
         $('#modifyBookingLink').click();
-        // Employee - Remove buttons if user is not company admin or rentog admin
-        // and this is not a booking of the user
+        // Employee - Remove buttons and disable textfields if user is not
+        // company admin or rentog admin and this is not a booking of the user
         if (gon.is_admin === false && info.booking.renter_id !== gon.current_user_id){
           $('#btn_update').css('display', 'none');
           $('#btn_delete').css('display', 'none');
@@ -510,82 +557,72 @@ window.ST.poolTool = function() {
           $('#start-on2').datepicker('setDate', s);
           $('#end-on2').datepicker('setDate', e);
 
-          // Remove datepicker if employee is showing booking
-          //$('#datepicker2').datepicker('remove');
-
           // Disable datepickers
           $('#start-on2').prop('disabled', true);
           $('#end-on2').prop('disabled', true);
+          $('#ta_popover_description').prop('disabled', true);
         }
+
+        // If user is company admin or owner of the booking
+        // Re-initialize Datepickers with booked dates
         else{
+          // Activate all the buttons and textfields
           $('#btn_update').css('display', 'inline');
           $('#btn_delete').css('display', 'inline');
           $('#start-on2').prop('disabled', false);
           $('#end-on2').prop('disabled', false);
-        // Company admin
-        // Re-initialize Datepickers with booked dates
-          for(var y=0; y<source.length; y++){
-            if(source[y].listing_id === listing_id){
-              // Copy array, because we do not want to get our source changed
-              if (source[y].already_booked_dates){
-                booked_dates = source[y].already_booked_dates.slice();
-              }
-              break;
-            }
-          }
+          $('#ta_popover_description').prop('disabled', false);
 
-          // Remove booked_dates from this transaction
-          for(var yy=0; yy<booked_dates.length; yy++){
-            var dateArray = getDatesBetweenRange(s, e);
-
-            for (var ii = 0; ii < dateArray.length; ii ++ ) {
-              var yyyy = dateArray[ii].getFullYear();
-              var mm = dateArray[ii].getMonth() + 1;
-              var dd = dateArray[ii].getDate();
-              if (mm < 10){ mm = "0" + mm; }
-              if (dd < 10){ dd = "0" + dd; }
-              dateArray[ii] = yyyy + "-" + mm + "-" + dd;
-
-              if (booked_dates[yy] === dateArray[ii]){
-                booked_dates.splice(yy, 1);
+          // Initialize the two datepickers
+            // Get all the booked dates of the listing this booking is for
+            for(var y=0; y<source.length; y++){
+              if(source[y].listing_id === listing_id){
+                // Copy array, because we do not want to get our source changed
+                if (source[y].already_booked_dates){
+                  booked_dates = source[y].already_booked_dates.slice();
+                }
+                break;
               }
             }
-          }
 
-          $('#start-on2').val('');
-          $('#end-on2').val('');
-          $('#datepicker2').datepicker('remove');
-          updateDatepicker2(booked_dates);
+            // Remove the days from this current booking from the booked_dates array
+            // The user can choose those days again
+            for(var yy=0; yy<booked_dates.length; yy++){
+              var dateArray = getDatesBetweenRange(s, e);
 
-          // Set datepicker dates to those from db
-          $('#start-on2').datepicker('setDate', s);
-          $('#end-on2').datepicker('setDate', e);
+              for (var ii = 0; ii < dateArray.length; ii ++ ) {
+                var yyyy = dateArray[ii].getFullYear();
+                var mm = dateArray[ii].getMonth() + 1;
+                var dd = dateArray[ii].getDate();
+                if (mm < 10){ mm = "0" + mm; }
+                if (dd < 10){ dd = "0" + dd; }
+                dateArray[ii] = yyyy + "-" + mm + "-" + dd;
 
-          // Disable buttons if booking is external
-          if (info.booking.customClass === "gantt_anyCompany" ||
-              info.booking.customClass === "gantt_anyEmployee" ||
-              info.booking.customClass === "gantt_trustedCompany"){
-            $('#btn_update').prop('disabled', true);
-            $('#btn_delete').prop('disabled', true);
-            $('#btn_update').css('opacity', 0.6);
-            $('#btn_delete').css('opacity', 0.6);
-          }else{
-            $('#btn_update').prop('disabled', false);
-            $('#btn_delete').prop('disabled', false);
-            $('#btn_update').css('opacity', 1);
-            $('#btn_delete').css('opacity', 1);
-          }
+                if (booked_dates[yy] === dateArray[ii]){
+                  booked_dates.splice(yy, 1);
+                }
+              }
+            }
 
-          // Store button text
-          var btn_update_text = $('#btn_update').html();
-          var btn_delete_text = $('#btn_delete').html();
+            // initialize the datepicker with the booked_dates array
+            $('#start-on2').val('');
+            $('#end-on2').val('');
+            $('#datepicker2').datepicker('remove');
+            updateDatepicker2(booked_dates);
 
-          // Remove old event listeners
+            // Set datepicker dates to those from db
+            $('#start-on2').datepicker('setDate', s);
+            $('#end-on2').datepicker('setDate', e);
+
+
+          // Remove old event listeners from the buttons
           $('#btn_update').unbind();
           $('#btn_delete').unbind();
 
-          // Remove booking from pool tool & db
+
+          // EVENT LISTENER: Remove booking in gantt chart and db
           $('#btn_delete').on('vclick', function(){
+            // User has to confirm the deletion first
             var result = window.confirm(gon.deleteConfirmation);
 
             if (result){
@@ -596,23 +633,23 @@ window.ST.poolTool = function() {
                 url: "/" + gon.locale + "/" + gon.comp_id + "/transactions/" + transaction_id,
                 data: {_method:'delete'},
                 beforeSend :function(){
-                  // Disable Sumbmit Buttons
+                  // Disable Sumbmit Buttons until we get an response from the server
+                  // In this way the the user cannot click twice on the button and
+                  // create multiple updates to the server
                   $("#btn_update").prop('disabled', true);
                   $("#btn_delete").prop('disabled', true);
                   $('#btn_update').css('opacity', 0.6);
                   $('#btn_delete').css('opacity', 0.6);
-                  var _jqxhr = jQuery.getJSON('https://s3.eu-central-1.amazonaws.com/rentog/assets/locales/' + gon.locale + '.json', function(json) {
-                    $("#btn_update").html(json.please_wait);
-                    $("#btn_delete").html(json.please_wait);
-                  });
                 }
               })
                 .success(function(ev){
+                  // If the server code was also successful
                   if (ev.status === "success"){
-                    // Remove from pool tool
+
+                    // Remove visual element from gantt chart
                     data.remove();
 
-                    // Update source
+                    // Update source for gantt chart
                     var booked_d = [];
                     for(var x=0; x<source.length; x++){
                       if(source[x].listing_id === listing_id){
@@ -634,7 +671,6 @@ window.ST.poolTool = function() {
                               if (dd < 10){ dd = "0" + dd; }
                               var new_date = yyyy + "-" + mm + "-" + dd;
 
-
                               // New reference
                               booked_d = source[x].already_booked_dates;
 
@@ -646,7 +682,7 @@ window.ST.poolTool = function() {
                               }
                             }
 
-                            // Leave loops
+                            // Terminate the loops
                             x = source.length;
                             break;
                           }
@@ -655,39 +691,39 @@ window.ST.poolTool = function() {
                     }
                     gon.source = source;
 
-                    // update datepicker
+                    // update the datepickers
                     $('#start-on').val('');
                     $('#end-on').val('');
                     $('#datepicker').datepicker('remove');
                     updateDatepicker(booked_d);
 
-                    // Update load factors without reloading --> work
-                    /*
-                    $.each(source, function (i, entry) {
-                      var load = window.ST.poolTool().calculateLoadFactor(entry);
-
-                      if(load){
-
-                      }
-                    });
-                    */
-
-                    // the other way...
+                    // Update the gantt chart with the new source
                     updateGanttChart(gon.source);
+
+                    // Update the 'borrowed devices' by also removing the current
+                    // booking from the active bookings array and calling the
+                    // borrowed_devices function
+                    for (var aa=0; aa<gon.user_active_bookings.length; aa++){
+                      if (gon.user_active_bookings[aa].transaction_id === transaction_id){
+                        gon.user_active_bookings.splice(aa, 1);
+                        break;
+                      }
+                    }
+                    update_borrowed_devices();
                   }
+
                   // Close popover
                   $.colorbox.close();
 
-                  // Enable Submit button again
+                  // Enable Submit button again (wait a little, so that popover is closed)
                   setTimeout(function(){
                     $("#btn_update").prop('disabled', false);
-                    $("#btn_update").html(btn_update_text);
                     $("#btn_delete").prop('disabled', false);
-                    $("#btn_delete").html(btn_delete_text);
                     $('#btn_update').css('opacity', 1);
                     $('#btn_delete').css('opacity', 1);
                   }, 200);
                 })
+
                 .error(function(){
                   // Show error message and fade it out after some time
                   $('#error_message').show();
@@ -695,15 +731,15 @@ window.ST.poolTool = function() {
 
                   // Enable Submit button again
                   $("#btn_update").prop('disabled', false);
-                  $("#btn_update").html(btn_update_text);
                   $("#btn_delete").prop('disabled', false);
-                  $("#btn_delete").html(btn_delete_text);
                   $('#btn_update').css('opacity', 1);
                   $('#btn_delete').css('opacity', 1);
                 });
             }
           });
 
+
+          // EVENT LISTENER: Ubdate booking in gantt chart and db
           $('#btn_update').on('vclick', function(){
             var s_new = new Date($('#booking-start-output2').val());
             var e_new = new Date($('#booking-end-output2').val());
@@ -714,15 +750,13 @@ window.ST.poolTool = function() {
               url: "/" + gon.locale + "/" + gon.comp_id + "/transactions/" + transaction_id,
               data: {from: s_new, to: e_new, desc: desc},
               beforeSend: function(){
-                // Disable Sumbmit Buttons
+                // Disable Sumbmit Buttons until we get an response from the server
+                // In this way the the user cannot click twice on the button and
+                // create multiple updates to the server
                 $("#btn_update").prop('disabled', true);
                 $("#btn_delete").prop('disabled', true);
                 $('#btn_update').css('opacity', 0.6);
                 $('#btn_delete').css('opacity', 0.6);
-                var _jqxhr = jQuery.getJSON('https://s3.eu-central-1.amazonaws.com/rentog/assets/locales/' + gon.locale + '.json', function(json) {
-                  $("#btn_update").html(json.please_wait);
-                  $("#btn_delete").html(json.please_wait);
-                });
               }
             })
               .success(function(data){
@@ -730,7 +764,7 @@ window.ST.poolTool = function() {
                   // update gantt view & source
                   // Update datepicker
                       var booked_d;
-
+                      var updated_listing;
                       for(var x=0; x<source.length; x++){
                         if(source[x].listing_id === listing_id){
 
@@ -740,6 +774,7 @@ window.ST.poolTool = function() {
                               source[x].values[y].from = "/Date(" + Math.round(s_new.getTime()) + ")/";
                               source[x].values[y].to = "/Date(" + Math.round(e_new.getTime()) + ")/";
                               source[x].values[y].description = desc;
+                              updated_listing = source[x];
                               break;
                             }
                           }
@@ -792,8 +827,26 @@ window.ST.poolTool = function() {
                       $('#datepicker').datepicker('remove');
                       updateDatepicker(booked_d);
 
+                      // Update gantt chart
                       gon.source = source;
                       updateGanttChart(gon.source);
+
+                      // Update the 'borrowed devices' by checking if the start date
+                      // is before today and the end date is after today.
+                      // If yes, then update the active bookings array and calling the
+                      // borrowed_devices function
+                      var now = new Date();
+                      if (s_new < now && e_new > now){
+                        gon.user_active_bookings.push({
+                          transaction_id: transaction_id,
+                          listing_id: updated_listing.listing_id,
+                          title: updated_listing.name,
+                          image: updated_listing.image,
+                          start_on: s_new.getFullYear() + "-" + (s_new.getMonth()+1) + "-" + s_new.getDate(),
+                          end_on: e_new.getFullYear() + "-" + (e_new.getMonth()+1) + "-" + e_new.getDate(),
+                        });
+                        update_borrowed_devices();
+                      }
                 }
                 else{
                   // Show error message and fade it out after some time
@@ -814,9 +867,7 @@ window.ST.poolTool = function() {
                 // Enable Submit button again
                 setTimeout(function(){
                   $("#btn_update").prop('disabled', false);
-                  $("#btn_update").html(btn_update_text);
                   $("#btn_delete").prop('disabled', false);
-                  $("#btn_delete").html(btn_delete_text);
                   $('#btn_update').css('opacity', 1);
                   $('#btn_delete').css('opacity', 1);
                 }, 200);
@@ -828,9 +879,7 @@ window.ST.poolTool = function() {
 
                 // Enable Submit button again
                 $("#btn_update").prop('disabled', false);
-                $("#btn_update").html(btn_update_text);
                 $("#btn_delete").prop('disabled', false);
-                $("#btn_delete").html(btn_delete_text);
                 $('#btn_update').css('opacity', 1);
                 $('#btn_delete').css('opacity', 1);
               });
@@ -882,31 +931,37 @@ window.ST.poolTool = function() {
           $('.nav-zoomOut').css('opacity', 0.4);
         }
 
+        // update gantt chart bookings depending on the 'Show only mine' checkbox
+        show_only_mine();
 
       }
     });
   }
 
+  // Initializes the radio button listing device picker by defining an onclick
+  // event handler
   function initialize_device_picker(){
     $('.pooltool_grid_item_modifier_class').on('vclick', function(ev){
       ev.preventDefault();
       if(ev.currentTarget.nextElementSibling && ev.currentTarget.nextElementSibling.className === "radiobutton_griditem"){
         ev.currentTarget.nextElementSibling.firstElementChild.checked = true;
         $('#' + ev.currentTarget.nextElementSibling.firstElementChild.id).change();
-        // Add styling to selected radio-image-element
-        //$('.testabc').removeClass('testabc');
-        //ev.currentTarget.firstChild.classList.add('testabc');
       }
     });
   }
 
+  // Calls check orientation function and adds eventlistener to window for
+  // orientationchange event.
   function initializeCheckOrientation(){
     window.addEventListener("orientationchange", function() {
-        check_orientation();
+        setTimeout(function(){
+          check_orientation();
+        }, 150);
     });
     check_orientation();
   }
 
+  // Show "change orientation" on small devices, like smartphones
   var check_orientation = function() {
       if(typeof window.orientation === 'undefined' || (gon.devices.length + gon.open_listings.length) === 0 ) {
           //not a mobile or no open listings
@@ -926,6 +981,8 @@ window.ST.poolTool = function() {
       }
   };
 
+  // Create dummy listings for the gantt chart
+  // This is used when there are not listing yet
   var addDummyListings = function(){
     var today = new Date();
 
@@ -1059,7 +1116,8 @@ window.ST.poolTool = function() {
     ];
   };
 
-
+  // Calculates the load factor of all entries given as parameter
+  // This is used be the jquery gantt plugin code to show the load factor
   var calculateLoadFactor = function(entry){
      // Calculate load factor
     var created_at = new Date(entry.created_at);
@@ -1189,6 +1247,7 @@ window.ST.poolTool = function() {
     };
   };
 
+  // Return functions which should be callable from the outside
   return {
     init: init,
     updateGanttChart: updateGanttChart,

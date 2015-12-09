@@ -237,6 +237,10 @@ class PoolToolController < ApplicationController
         any_employee: t("pool_tool.show.any_employee"),
         other_reason: t("pool_tool.show.other_reason"),
         only_mine: t("pool_tool.show.only_mine"),
+        no_devices_borrowed: t("pool_tool.show.no_devices_borrowed"),
+        overdue: t("pool_tool.show.overdue"),
+        return_on: t("pool_tool.show.return_on"),
+        return_now: t("pool_tool.show.return_now"),
 
         comp_id: @company_owner.id,
         current_user_id: @current_user.id,
