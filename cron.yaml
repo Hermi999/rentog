@@ -1,5 +1,5 @@
 version: 1
 cron:
- — name: "schedule"
-   url: "/schedule"
+ - name: "schedule_open_device_returnes"
+   url: "/schedule_open_device_returnes"
    schedule: "*/5 * * * *"
