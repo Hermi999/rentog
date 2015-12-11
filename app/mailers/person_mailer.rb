@@ -341,7 +341,7 @@ class PersonMailer < ActionMailer::Base
 
 
   def new_test_email(community)
-    subject = "Scheduler Test"
+    subject = "Scheduler Test 1"
 
     premailer_mail(
       :to => "hermann.wagner01@gmx.at",
