@@ -23,10 +23,11 @@ class BookingsController < ApplicationController
   end
 
   def schedule_open_device_returnes
-    # Get all open bookings
+    # Get all open bookings and send emails with a delayed job
+    Delayed::Job.enqueue(ReturnBookingReminderJob.new(@current_community.id))
 
     # Send emails
-    PersonMailer.new_test_email(@current_community).deliver
+    #PersonMailer.new_test_email(@current_community).deliver
 
     # Respond to post request
     respond_to do |format|
