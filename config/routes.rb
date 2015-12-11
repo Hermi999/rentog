@@ -799,7 +799,7 @@ Kassi::Application.routes.draw do
     end
 
     put :update_device_returned, to: 'bookings#update_device_returned'
-
+    post :schedule_open_device_returnes, to: 'bookings#schedule_open_device_returnes'
 
 
     devise_for :people, :controllers => { :confirmations => "confirmations", :registrations => "people", :omniauth_callbacks => "sessions"}, :path_names => { :sign_in => 'login'}

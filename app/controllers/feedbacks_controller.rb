@@ -23,7 +23,8 @@ class FeedbacksController < ApplicationController
       signupdata = {
         action: params[:type],
         email: params[:email],
-        phone: params[:phone]
+        phone: params[:phone],
+        name: params[:name]
       }
 
       PersonMailer.new_landingpage_email_signup(signupdata, @current_community).deliver

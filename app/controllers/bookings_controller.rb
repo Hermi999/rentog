@@ -22,6 +22,19 @@ class BookingsController < ApplicationController
     end
   end
 
+  def schedule_open_device_returnes
+    # Get all open bookings
+
+    # Send emails
+    PersonMailer.new_test_email(@current_community).deliver
+
+    # Respond to post request
+    respond_to do |format|
+      format.json { render :json => {status: "success"} }
+    end
+  end
+
+
 
   private
 

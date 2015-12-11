@@ -600,10 +600,11 @@ function style_action_selectors() {
 }
 
 // Send to server so that the Rentog admins get an email
-function sendLandingPageSignupToServer(type, email, phone, success_callback){
+function sendLandingPageSignupToServer(type, email, phone, name, success_callback){
   $.post("/de/user_feedbacks", {
     type: type,
     email: email,
+    name: name,
     phone: phone
   }, function (data){
     // Network success
@@ -640,23 +641,31 @@ function initialize_contact_me_form() {
       },
       rules: {
         "contact_me[email]": {required: true, email: true},
+        "contact_me[name]": {required: true},
         "contact_me[phone]": {required: false}
       },
       submitHandler: function(form) {
         // Only if not filled out (by spam bot)
-        if (form.elements.contact_me_name.value === ""){
-          mixpanel.track("Contact me", {
-            email: form.elements.contact_me_email.value,
-            phone: form.elements.contact_me_phone.value
-          });
-
+        if (form.elements.contact_me_lastname.value === ""){
           $('#contact_me_form').hide();
 
           // Send to server so that the Rentog admins get an email
-          sendLandingPageSignupToServer("Contact me!", form.elements.contact_me_email.value, form.elements.contact_me_phone.value, function(){
+          sendLandingPageSignupToServer("Contact me!", form.elements.contact_me_email.value,
+                                                       form.elements.contact_me_phone.value,
+                                                       form.elements.contact_me_name.value,
+                                                       function(){
             // Show user that everything is fine
             $('#contact_me_success').animate({width: 'toggle'});
             $('#contact_me_success').fadeOut(7000);
+
+            // track with mixpanel
+            if(track()){
+              mixpanel.track("Contact me", {
+                email: form.elements.contact_me_email.value,
+                phone: form.elements.contact_me_phone.value,
+                name: form.elements.contact_me_name.value,
+              });
+            }
           });
         }
       }
@@ -680,16 +689,19 @@ function initialize_newsletter_subscribe_form() {
       submitHandler: function(form) {
         // Only if not filled out (by spam bot)
         if (form.elements['newsletter-subscribe-name'].value === ""){
-          mixpanel.track("Newsletter Subscribe", {
-            email: form.elements['newsletter-subscribe-email'].value
-          });
-
           // Send to server so that the Rentog admins get an email
-          sendLandingPageSignupToServer("Newsletter!", form.elements['newsletter-subscribe-email'].value, null, function(){
+          sendLandingPageSignupToServer("Newsletter!", form.elements['newsletter-subscribe-email'].value, null, null, function(){
             // Show user that everything is fine
             $('#newsletter-subscribe-form').hide();
             $('#newsletter-subscribe-success-wrapper').slideDown();
           });
+
+          // track with mixpanel
+          if (track()){
+            mixpanel.track("Newsletter Subscribe", {
+              email: form.elements['newsletter-subscribe-email'].value
+            });
+          }
         }
       }
     });
@@ -712,18 +724,19 @@ function initialize_voucher_subscribe_form() {
       submitHandler: function(form) {
         // Only if not filled out (by spam bot)
         if (form.elements['voucher-subscribe-name'].value === ""){
-          mixpanel.track("Voucher Subscribe", {
-            email: form.elements['voucher-subscribe-email'].value
-          });
-
-
-
           // Send to server so that the Rentog admins get an email
-          sendLandingPageSignupToServer("Pool Tool Gutschein Anmeldung!", form.elements['voucher-subscribe-email'].value, null, function(){
+          sendLandingPageSignupToServer("Pool Tool Gutschein Anmeldung!", form.elements['voucher-subscribe-email'].value, null, null, function(){
             // Show user that everything is fine
             $('#voucher-subscribe-form').hide();
             $('#voucher-subscribe-success-wrapper').fadeIn();
           });
+
+          // Track with mixpanel
+          if(track()){
+            mixpanel.track("Voucher Subscribe", {
+              email: form.elements['voucher-subscribe-email'].value
+            });
+          }
         }
       }
     });

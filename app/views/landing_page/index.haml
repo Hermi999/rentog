@@ -26,8 +26,9 @@
     %form#contact_me_form
       %input{:id => "contact_me_email", :name => "contact_me[email]", :type => "text", :placeholder => t("landing_page.only_pool_tool.contact_me_email")}
       %input{:id => "contact_me_phone", :name => "contact_me[phone]", :type => "text", :placeholder => t("landing_page.only_pool_tool.contact_me_phone")}
+      %input{:id => "contact_me_name", :name => "contact_me[name]", :type => "text", :placeholder => t("landing_page.only_pool_tool.contact_me_name")}
       -# ANTI-SPAM
-      %input{:id => "contact_me_name", :name => "contact_me[name]", :type => "text", :placeholder => "Your name"}
+      %input{:id => "contact_me_lastname", :name => "contact_me[lastname]", :type => "text", :placeholder => "Last name"}
       = button_tag t("landing_page.only_pool_tool.contact_me_btn"), :id => "contact_me_btn"
 
   / if small cover photo

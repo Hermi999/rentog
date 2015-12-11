@@ -528,6 +528,7 @@ de:
       contact_me: "KONTAKTIERT MICH"
       contact_me_email: "Email-Adresse"
       contact_me_phone: "Telefonnummer (optional)"
+      contact_me_name: "Name"
       contact_me_btn: "Absenden"
       contact_me_success: "Vielen Dank für Ihr Interesse an Rentog. Wir werden uns in Kürze bei Ihnen melden!"
       show_more: "ERFAHRE MEHR"
@@ -852,7 +853,7 @@ de:
     anonymous_user: "Anonymer Benutzer"
   landing_page_signup:
     subject: "Neue Nachricht von %{service_name}"
-    body: "Ein Besucher der Landing Page hat die Aktion <b>'%{service_action}'</b> ausgeführt und folgende Daten hinterlassen: <b><br/><br/><span style='text-decoration:underline'>Email:</span> <a href='mailto: %{service_email}'>%{service_email}</a><br/><span style='text-decoration:underline'>Telefonnummer:</span> %{service_phone}</b>"
+    body: "Ein Besucher der Landing Page hat die Aktion <b>'%{service_action}'</b> ausgeführt und folgende Daten hinterlassen: <b><br/><br/><span style='text-decoration:underline'>Email:</span> <a href='mailto: %{service_email}'>%{service_email}</a><br/><span style='text-decoration:underline'>Telefonnummer:</span> %{service_phone}<br/><span style='text-decoration:underline'>Name:</span> %{service_name}</b>"
   preauthorize_payments:
     edit:
       confirm_payment: "Zahlung bestätigen"

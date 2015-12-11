@@ -529,6 +529,7 @@ en:
       contact_me: "CONTACT ME"
       contact_me_email: "Email-Address"
       contact_me_phone: "Phone number (optional)"
+      contact_me_name: "Name"
       contact_me_btn: "Submit"
       contact_me_success: "Thank you for your interest. We will get in contact with you shortly!"
       show_more: "SHOW MORE DETAILS"

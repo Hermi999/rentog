@@ -475,20 +475,18 @@
 
   p.user_booking_overdue {
     margin-bottom: 0px;
+    display: inline-block;
+    margin-left: 10px;
+    color: white;
+    font-weight: bold;
+    background-color: #FF0000;
+    padding: 0px 5px;
+    border-radius: 7px;
+    font-size: 0.9em;
+    max-height: 23px;
   }
 }
 
-
-.user_booking_overdue{
-  display: inline-block;
-  margin-left: 10px;
-  color: white;
-  font-weight: bold;
-  background-color: #FF0000;
-  padding: 0px 5px;
-  border-radius: 7px;
-  font-size: 0.9em;
-}
 
 .user_booking_img{
   height: 80px;

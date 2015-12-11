@@ -85,9 +85,15 @@ window.ST.poolTool = function() {
         var title = gon.user_active_bookings[i].title;
         var start_on = gon.user_active_bookings[i].start_on;
         var end_on = gon.user_active_bookings[i].end_on;
+        var end_on_date = new Date(end_on);
         var transaction_id = gon.user_active_bookings[i].transaction_id;
         var image = "";
-        var overdue = getDaysBetweenDates(new Date(), new Date(end_on));
+        var today = new Date(new Date().setHours(1,0,0,0));
+        var overdue = 0;
+
+        if (today > end_on_date){
+          overdue = getDaysBetweenDates(today, end_on_date);
+        }
 
         if (gon.devices[i] && title === gon.devices[i].name){
           image = gon.devices[i].image;
@@ -168,6 +174,20 @@ window.ST.poolTool = function() {
     for(var i=0; i<gon.user_active_bookings.length; i++){
       for(var j=i+1; j<gon.user_active_bookings.length; j++){
         if (gon.user_active_bookings[i].listing_id === gon.user_active_bookings[j].listing_id){
+          // If transaction id is the same, then the booknig was updated via the gantt chart
+          if (gon.user_active_bookings[i].transaction_id === gon.user_active_bookings[j].transaction_id){
+            if (gon.user_active_bookings[i].update){
+              gon.user_active_bookings[j].end_on = gon.user_active_bookings[i].end_on;
+              gon.user_active_bookings[j].start_on = gon.user_active_bookings[i].start_on;
+              gon.user_active_bookings[j].description = gon.user_active_bookings[i].description;
+            }else{
+              gon.user_active_bookings[i].end_on = gon.user_active_bookings[j].end_on;
+              gon.user_active_bookings[i].start_on = gon.user_active_bookings[j].start_on;
+              gon.user_active_bookings[i].description = gon.user_active_bookings[j].description;
+            }
+          }
+
+          // Remove the booking, which has the earlier return date
           if (new Date(gon.user_active_bookings[i].end_on) < new Date(gon.user_active_bookings[j].end_on)){
             gon.user_active_bookings.splice(i, 1);
             j--;
@@ -831,22 +851,20 @@ window.ST.poolTool = function() {
                       gon.source = source;
                       updateGanttChart(gon.source);
 
-                      // Update the 'borrowed devices' by checking if the start date
-                      // is before today and the end date is after today.
-                      // If yes, then update the active bookings array and calling the
-                      // borrowed_devices function
-                      var now = new Date();
-                      if (s_new < now && e_new > now){
-                        gon.user_active_bookings.push({
-                          transaction_id: transaction_id,
-                          listing_id: updated_listing.listing_id,
-                          title: updated_listing.name,
-                          image: updated_listing.image,
-                          start_on: s_new.getFullYear() + "-" + (s_new.getMonth()+1) + "-" + s_new.getDate(),
-                          end_on: e_new.getFullYear() + "-" + (e_new.getMonth()+1) + "-" + e_new.getDate(),
-                        });
-                        update_borrowed_devices();
-                      }
+                      // Update the 'borrowed devices' by adding the changed
+                      // transaction as new booking. This change booking is
+                      // marked as update, so that it can be deleted in the
+                      // update_borrowed_device() function
+                      var now = new Date(new Date().setHours(1,0,0,0));
+                      gon.user_active_bookings.push({
+                        update: true,
+                        transaction_id: transaction_id,
+                        listing_id: updated_listing.listing_id,
+                        start_on: s_new.getFullYear() + "-" + (s_new.getMonth()+1) + "-" + s_new.getDate(),
+                        end_on: e_new.getFullYear() + "-" + (e_new.getMonth()+1) + "-" + e_new.getDate(),
+
+                      });
+                      update_borrowed_devices();
                 }
                 else{
                   // Show error message and fade it out after some time

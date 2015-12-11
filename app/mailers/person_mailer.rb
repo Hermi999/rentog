@@ -340,6 +340,16 @@ class PersonMailer < ActionMailer::Base
   end
 
 
+  def new_test_email(community)
+    subject = "Scheduler Test"
+
+    premailer_mail(
+      :to => "hermann.wagner01@gmx.at",
+      :from => community_specific_sender(community),
+      :subject => subject,
+      :reply_to => community_specific_sender(community))
+  end
+
   # Used to send notification to marketplace admins when somebody
   # signs up on the landing page
   def new_landingpage_email_signup(signupdata, community)
@@ -354,7 +364,8 @@ class PersonMailer < ActionMailer::Base
           render locals: {
                    action: signupdata[:action],
                    email: signupdata[:email],
-                   phone: signupdata[:phone]
+                   phone: signupdata[:phone],
+                   name: signupdata[:name]
                  }
       }
     end
