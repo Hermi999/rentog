@@ -267,7 +267,7 @@ class TransactionsController < ApplicationController
         end
 
         # if booking is in the past set 'device_returned' to false
-        if booking_fields[:end_on] < DateTime.now.to_date
+        if booking_fields[:end_on] < Date.today
           booking_fields[:device_returned] = true
         end
 
@@ -362,6 +362,12 @@ class TransactionsController < ApplicationController
     booking[:end_on] = end_day
     booking[:description] = params[:desc]
     booking.save!
+
+    # Check if booking is active or in future, if yes, then set device_returned
+    # to false, because the user couldn't already give back the device
+    if booking.is_active? || booking.is_in_future?
+      booking.update_attribute :device_returned, false
+    end
 
     # Render response
     render :json => {

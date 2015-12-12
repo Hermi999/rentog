@@ -70,23 +70,36 @@ window.ST.poolTool = function() {
     // are currently in state active (that means the user hadn't give them back) AND
     // are past
 
+    // Update the array with the original bookings from the db, if the user
+    // changed the bookings with the gantt chart
+    update_bookings_after_gantt_chart_update();
+
+    // Deep copy the user_active_bookings into a new object
+    var _user_active_bookings = $.extend(true, [], gon.user_active_bookings);
+
+    // Remove all bookings which are neither active nor open and store them in
+    // an new array
+    _user_active_bookings = remove_future_bookings(_user_active_bookings);
+
     // If two bookings belong to the same listing, remove the older one
-    remove_old_bookings(gon.user_active_bookings);
+    _user_active_bookings = remove_old_bookings(_user_active_bookings);
 
     // No open bookings - only show a message
-    if (gon.user_active_bookings.length === 0){
+    if (_user_active_bookings.length === 0){
       $('#my_devices')
         .append($('<div class="no-open-bookings" />')
           .html(gon.no_devices_borrowed));
     }
-    // Otherwise show the device cards
+    // Otherwise remove message and show the device cards
     else{
-      for(var i=0; i<gon.user_active_bookings.length; i++){
-        var title = gon.user_active_bookings[i].title;
-        var start_on = gon.user_active_bookings[i].start_on;
-        var end_on = gon.user_active_bookings[i].end_on;
+      $('.no-open-bookings').remove();
+
+      for(var i=0; i<_user_active_bookings.length; i++){
+        var title = _user_active_bookings[i].title;
+        var start_on = _user_active_bookings[i].start_on;
+        var end_on = _user_active_bookings[i].end_on;
         var end_on_date = new Date(end_on);
-        var transaction_id = gon.user_active_bookings[i].transaction_id;
+        var transaction_id = _user_active_bookings[i].transaction_id;
         var image = "";
         var today = new Date(new Date().setHours(1,0,0,0));
         var overdue = 0;
@@ -144,7 +157,7 @@ window.ST.poolTool = function() {
               // Hide open booking card
               $('#open_booking_' + data.transaction_id).fadeOut();
 
-              // Update gon.user_active_bookings Array
+              // Update the original gon.user_active_bookings Array
               for (var x=0; x<gon.user_active_bookings.length; x++){
                 if (gon.user_active_bookings[x].transaction_id === transaction_id){
                   gon.user_active_bookings.splice(x, 1);
@@ -152,11 +165,21 @@ window.ST.poolTool = function() {
                 }
               }
 
+              // Update the bookings copy _user_active_bookings Array
+              for (var x=0; x<_user_active_bookings.length; x++){
+                if (_user_active_bookings[x].transaction_id === transaction_id){
+                  _user_active_bookings.splice(x, 1);
+                  break;
+                }
+              }
+
               // Check if ther are still active bookings, if not show message
-              if (gon.user_active_bookings.length === 0){
+              if (_user_active_bookings.length === 0){
                 $('#my_devices')
                   .append($('<div class="no-open-bookings" />')
                     .html(gon.no_devices_borrowed));
+              }else{
+                $('.no-open-bookings').remove();
               }
 
             })
@@ -168,37 +191,79 @@ window.ST.poolTool = function() {
     }
   }
 
-  // If two open bookings of the user belong to the same listing, remove the older one
-  // This function is used for showing the current borrowed devices
-  function remove_old_bookings(){
+  // Update the active bookings array with the values from the db.
+  function update_bookings_after_gantt_chart_update(){
     for(var i=0; i<gon.user_active_bookings.length; i++){
       for(var j=i+1; j<gon.user_active_bookings.length; j++){
         if (gon.user_active_bookings[i].listing_id === gon.user_active_bookings[j].listing_id){
-          // If transaction id is the same, then the booknig was updated via the gantt chart
+
+          // If transaction id is the same, then the booking was updated via the gantt chart
           if (gon.user_active_bookings[i].transaction_id === gon.user_active_bookings[j].transaction_id){
-            if (gon.user_active_bookings[i].update){
+            if (gon.user_active_bookings[i].update === true){
+              // Take over attributes from gantt change & remove the object created
+              // with the gantt change
               gon.user_active_bookings[j].end_on = gon.user_active_bookings[i].end_on;
               gon.user_active_bookings[j].start_on = gon.user_active_bookings[i].start_on;
               gon.user_active_bookings[j].description = gon.user_active_bookings[i].description;
+              gon.user_active_bookings.splice(i, 1);
             }else{
+              // Take over attributes from gantt change & remove the object created
+              // with the gantt change
               gon.user_active_bookings[i].end_on = gon.user_active_bookings[j].end_on;
               gon.user_active_bookings[i].start_on = gon.user_active_bookings[j].start_on;
               gon.user_active_bookings[i].description = gon.user_active_bookings[j].description;
+              gon.user_active_bookings.splice(j, 1);
             }
           }
+        }
+      }
+    }
 
+    // Set 'update' to false if there is a booking left which is an update.
+    // This only happens if there was no booking there of this listing before
+    for(var k=0; k<gon.user_active_bookings.length; k++){
+      if (gon.user_active_bookings[k].update === true){
+        gon.user_active_bookings[k].update = false;
+      }
+    }
+  }
+
+  // If two open bookings of the user belong to the same listing, remove the older one
+  // This function is used for showing the current borrowed devices
+  function remove_old_bookings(bookings){
+    for(var i=0; i<bookings.length; i++){
+      for(var j=i+1; j<bookings.length; j++){
+        if (bookings[i].listing_id === bookings[j].listing_id){
           // Remove the booking, which has the earlier return date
-          if (new Date(gon.user_active_bookings[i].end_on) < new Date(gon.user_active_bookings[j].end_on)){
-            gon.user_active_bookings.splice(i, 1);
+          if (new Date(bookings[i].end_on) < new Date(bookings[j].end_on)){
+            bookings.splice(i, 1);
             j--;
           }else{
-            gon.user_active_bookings.splice(j, 1);
+            bookings.splice(j, 1);
             j--;
           }
         }
       }
     }
+
+    return bookings;
   }
+
+  // Check if start date is greater than today and remove booking if thats
+  // the case. This can happen if a booking is updated via the gantt chart
+  function remove_future_bookings(bookings){
+    var today = new Date(new Date().setHours(1,0,0,0));
+
+    for(var i=0; i<bookings.length; i++){
+      if(new Date(bookings[i].start_on) > today){
+        bookings.splice(i, 1);
+        i--;
+      }
+    }
+
+    return bookings;
+  }
+
 
   // Only show bookings in the gantt chart who belong to the user
   function show_only_mine(){
@@ -556,6 +621,7 @@ window.ST.poolTool = function() {
         var booked_dates = [];
         var listing_id = parseInt(info.listing.listing_id);
         var transaction_id = parseInt(info.booking.transaction_id);
+        var title = info.listing.name;
 
         // Update shown information in popover
         $('#poolTool_popover_deviceImage').attr('src', info.listing.image);
@@ -862,7 +928,7 @@ window.ST.poolTool = function() {
                         listing_id: updated_listing.listing_id,
                         start_on: s_new.getFullYear() + "-" + (s_new.getMonth()+1) + "-" + s_new.getDate(),
                         end_on: e_new.getFullYear() + "-" + (e_new.getMonth()+1) + "-" + e_new.getDate(),
-
+                        title: title
                       });
                       update_borrowed_devices();
                 }
@@ -905,8 +971,8 @@ window.ST.poolTool = function() {
         }
       },
       onAddClick: function(dt, rowId) {
-        //console.log(dt);
-        //console.log(rowId);
+        console.log(dt);
+        console.log(rowId);
       },
       onRender: function() {
         initializeThemes();

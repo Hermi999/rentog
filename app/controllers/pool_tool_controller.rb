@@ -130,13 +130,14 @@ class PoolToolController < ApplicationController
     render locals: { listings: listings }
   end
 
-
+  # get the current theme of the user from the db
   def get_theme
     respond_to do |format|
       format.json { render :json => {theme: @current_user.pool_tool_color_schema} }
     end
   end
 
+  # sets the choosen theme of the user in the db
   def set_theme
     # Save in db
     @current_user.update_attribute :pool_tool_color_schema, params['theme']
@@ -166,6 +167,7 @@ class PoolToolController < ApplicationController
     end
 
 
+    # returns what relation a specific transaction has to the company
     def get_renter_and_relation(transaction)
       # How is the relation between the company & the renter of this one listing?
         renter = Person.where(id: transaction["renter_id"]).first
@@ -199,7 +201,7 @@ class PoolToolController < ApplicationController
         { renter: renter, relation: relation }
     end
 
-
+    # sets all variables which are needed in Javascript on the client side
     def poolTool_gon_vars(devices, open_listings_array)
       # Variables which should be send to JavaScript
       days =    [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday]
