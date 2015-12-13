@@ -266,8 +266,10 @@ class TransactionsController < ApplicationController
           booking_fields[:description] = params[:description]
         end
 
-        # if booking is in the past set 'device_returned' to false
-        if booking_fields[:end_on] < Date.today
+        # If booking is in the past or the user does not have to actively give back
+        # his booked devices, then set 'device_returned' to true
+        if booking_fields[:end_on] < Date.today ||
+          !@current_user.has_to_give_back_device?(@current_community)
           booking_fields[:device_returned] = true
         end
 

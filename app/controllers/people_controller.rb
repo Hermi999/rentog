@@ -249,7 +249,9 @@ class PeopleController < Devise::RegistrationsController
     # If invite was used, reduce usages left
     invitation.use_once! if invitation.present?
 
+    # New member notification to admins
     Delayed::Job.enqueue(CommunityJoinedJob.new(@person.id, @current_community.id)) if @current_community
+
 
     # send email confirmation
     # (unless disabled for testing environment)
@@ -263,6 +265,7 @@ class PeopleController < Devise::RegistrationsController
       flash[:notice] = t("layouts.notifications.account_creation_succesful_you_still_need_to_confirm_your_email")
       redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation"
     end
+
 
     # If employee ...
     if signup_as == "employee"
@@ -541,6 +544,11 @@ class PeopleController < Devise::RegistrationsController
     end
 
     person.set_default_preferences
+
+    # if organization, then also create a new company_option object in db
+    if person.is_organization?
+      CompanyOption.create(:company_id => person.id)
+    end
 
     [person, email]
   end

@@ -27,6 +27,7 @@ class ListingImage < ActiveRecord::Base
   belongs_to :author, :class_name => "Person"
 
   # see paperclip (for image_processing column)
+  # access listing image with ListingImage.image.url(:thumb)
   has_attached_file :image, :styles => {
         :small_3x2 => "240x160#",
         :medium => "360x270#",

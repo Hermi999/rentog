@@ -42,6 +42,10 @@ class Booking < ActiveRecord::Base
     start_on > Date.today
   end
 
+  def return!
+    update_attributes :device_returned => true, :end_on => Date.today
+  end
+
   # Returns all open bookings [of a specific listing] which should be returned
   # by now, because the return date is in the past
   def self.getOverdueBookings(listing_id=nil)
@@ -74,7 +78,7 @@ class Booking < ActiveRecord::Base
   # Returns all open bookings of a user [and a specific listing] which should be
   # returned by now, because the return date is in the past
   def self.getOverdueBookingsOfUser(user_id, listing_id=nil)
-    if listing.nil?
+    if listing_id.nil?
       Booking.joins(:transaction).where('starter_id = ? AND device_returned = false AND end_on < ?', user_id, Date.today)
     else
       Booking.joins(:transaction).where('listing_id = ? AND starter_id = ? AND device_returned = false AND end_on < ?', listing_id, user_id, Date.today)

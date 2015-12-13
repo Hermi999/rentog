@@ -9,6 +9,7 @@ class CommunityMailer < ActionMailer::Base
 
   require "truncate_html"
 
+
   # This task is expected to be run with daily or hourly scheduling
   # It looks through all users and send email to those who want it now
   def deliver_community_updates
@@ -47,6 +48,8 @@ class CommunityMailer < ActionMailer::Base
 
       @time_since_last_update = t("timestamps.days_since",
                                   :count => time_difference_in_days(@recipient.last_community_updates_at))
+
+      # Set url params for all the links in the emails
       @url_params = {}
       @url_params[:host] = "#{@community.full_domain}"
       @url_params[:locale] = @recipient.locale

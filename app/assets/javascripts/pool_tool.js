@@ -50,9 +50,7 @@ window.ST.poolTool = function() {
     initialize_poolTool_options();
 
     // Show devices the current logged in user has in his hands
-    if (gon.pool_tool_preferences.pooltool_employee_has_to_give_back_device === true){
-      show_borrowed_devices();
-    }
+    show_borrowed_devices();
 
     $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"500px", maxHeight:"270px"});
   }
@@ -61,6 +59,7 @@ window.ST.poolTool = function() {
   // This is used for updating the view, for example after a booking has been deleted, changed or created
   function update_borrowed_devices(){
     $('.user_booking').remove();
+    $('.no-open-bookings').remove();
     show_borrowed_devices();
   }
 
@@ -69,6 +68,10 @@ window.ST.poolTool = function() {
     // gon.user_active_bookings = only bookings which are booked by the user AND
     // are currently in state active (that means the user hadn't give them back) AND
     // are past
+
+    if (gon.pool_tool_preferences.pooltool_user_has_to_give_back_device !== true){
+      return false;
+    }
 
     // Update the array with the original bookings from the db, if the user
     // changed the bookings with the gantt chart
@@ -96,9 +99,12 @@ window.ST.poolTool = function() {
 
       for(var i=0; i<_user_active_bookings.length; i++){
         var title = _user_active_bookings[i].title;
+        var desc = _user_active_bookings[i].description;
         var start_on = _user_active_bookings[i].start_on;
+        var start_on_date = new Date(start_on);
         var end_on = _user_active_bookings[i].end_on;
         var end_on_date = new Date(end_on);
+        var listing_id = _user_active_bookings[i].listing_id;
         var transaction_id = _user_active_bookings[i].transaction_id;
         var image = "";
         var today = new Date(new Date().setHours(1,0,0,0));
@@ -108,8 +114,11 @@ window.ST.poolTool = function() {
           overdue = getDaysBetweenDates(today, end_on_date);
         }
 
-        if (gon.devices[i] && title === gon.devices[i].name){
-          image = gon.devices[i].image;
+        for (var ii=0; ii<gon.open_listings.length; ii++){
+          if (listing_id === gon.open_listings[ii].listing_id){
+            image = gon.open_listings[ii].image;
+            break;
+          }
         }
 
         // Create the device cards by adding element to the DOM with jquery
@@ -154,9 +163,6 @@ window.ST.poolTool = function() {
             data: {transaction_id: transaction_id, device_returned: true},
           })
             .done(function(data){
-              // Hide open booking card
-              $('#open_booking_' + data.transaction_id).fadeOut();
-
               // Update the original gon.user_active_bookings Array
               for (var x=0; x<gon.user_active_bookings.length; x++){
                 if (gon.user_active_bookings[x].transaction_id === transaction_id){
@@ -173,14 +179,12 @@ window.ST.poolTool = function() {
                 }
               }
 
-              // Check if ther are still active bookings, if not show message
-              if (_user_active_bookings.length === 0){
-                $('#my_devices')
-                  .append($('<div class="no-open-bookings" />')
-                    .html(gon.no_devices_borrowed));
-              }else{
-                $('.no-open-bookings').remove();
-              }
+              update_borrowed_devices();
+
+              var e_new = new Date(new Date().setHours(1,0,0,0));
+
+              // Update the gantt chart (with the new source)
+              updateGanttDatepickerBorrowedDevices(transaction_id, listing_id, start_on_date, e_new, start_on_date, end_on_date, title, desc, false)
 
             })
             .fail(function(){
@@ -530,7 +534,7 @@ window.ST.poolTool = function() {
   // then taken as source for initializing the gantt chart.
   function initializeGantt(){
 
-    var source = gon.devices;
+    var source = jQuery.extend(true, [], gon.devices);  // deep copy - we don't change the gon.devices array
     var today = new Date();
     var today_ms = Math.round(today.getTime());
     var today_minus_3 = new Date(new Date(today).setMonth(today.getMonth()-3));
@@ -588,7 +592,8 @@ window.ST.poolTool = function() {
     // Create gon.source, so that we can access the source when adding an element to one device
     gon.source = source;
 
-    updateGanttChart(source);
+    // update gantt chart (with the new gon.source)
+    updateGanttChart();
 
     prettyPrint();
   }
@@ -601,7 +606,7 @@ window.ST.poolTool = function() {
   // The "onRender" Event-Handler handles all the stuff which can only be done
   // after the jquery gantt plugin has been rendered, like stopping the spinner,
   // adding event listeners for the legend, disable jquery gantt navigation buttons, ...
-  function updateGanttChart(source){
+  function updateGanttChart(){
     $(".gantt").gantt({
       dow: gon.translated_days_min,
       months: gon.translated_months,
@@ -612,7 +617,7 @@ window.ST.poolTool = function() {
       holidays: ["/Date(1334872800000)/","/Date(1335823200000)/"],
       // wah todo: Add Holidays
       // Get them from here: http://kayaposoft.com/enrico/json/
-      source: source,
+      source: gon.source,
       onItemClick: function(data) {
         var info = data.data("dataObj");
         var regEx = /\d+/;
@@ -660,12 +665,13 @@ window.ST.poolTool = function() {
           $('#ta_popover_description').prop('disabled', false);
 
           // Initialize the two datepickers
-            // Get all the booked dates of the listing this booking is for
-            for(var y=0; y<source.length; y++){
-              if(source[y].listing_id === listing_id){
-                // Copy array, because we do not want to get our source changed
-                if (source[y].already_booked_dates){
-                  booked_dates = source[y].already_booked_dates.slice();
+            // Get all the booked dates of the listing this booking is for by
+            // copying the array into 'booked_dates', because we do not want to
+            // get our source changed
+            for(var y=0; y<gon.source.length; y++){
+              if(gon.source[y].listing_id === listing_id){
+                if (gon.source[y].already_booked_dates){
+                  booked_dates = gon.source[y].already_booked_dates.slice();
                 }
                 break;
               }
@@ -737,12 +743,12 @@ window.ST.poolTool = function() {
 
                     // Update source for gantt chart
                     var booked_d = [];
-                    for(var x=0; x<source.length; x++){
-                      if(source[x].listing_id === listing_id){
-                        for(var y=0; y<source[x].values.length; y++){
-                          if(source[x].values[y].transaction_id === transaction_id){
+                    for(var x=0; x<gon.source.length; x++){
+                      if(gon.source[x].listing_id === listing_id){
+                        for(var y=0; y<gon.source[x].values.length; y++){
+                          if(gon.source[x].values[y].transaction_id === transaction_id){
                             // Remove element from array
-                            source[x].values.splice(y, 1);
+                            gon.source[x].values.splice(y, 1);
 
                             // Remove also days from already booked dates
                             var dateArray = getDatesBetweenRange(s, e);
@@ -758,7 +764,7 @@ window.ST.poolTool = function() {
                               var new_date = yyyy + "-" + mm + "-" + dd;
 
                               // New reference
-                              booked_d = source[x].already_booked_dates;
+                              booked_d = gon.source[x].already_booked_dates;
 
                               // Compare and remove
                               for (var yy =0; yy < booked_d.length; yy++){
@@ -769,13 +775,12 @@ window.ST.poolTool = function() {
                             }
 
                             // Terminate the loops
-                            x = source.length;
+                            x = gon.source.length;
                             break;
                           }
                         }
                       }
                     }
-                    gon.source = source;
 
                     // update the datepickers
                     $('#start-on').val('');
@@ -783,8 +788,8 @@ window.ST.poolTool = function() {
                     $('#datepicker').datepicker('remove');
                     updateDatepicker(booked_d);
 
-                    // Update the gantt chart with the new source
-                    updateGanttChart(gon.source);
+                    // Update the gantt chart (with the new source)
+                    updateGanttChart();
 
                     // Update the 'borrowed devices' by also removing the current
                     // booking from the active bookings array and calling the
@@ -849,88 +854,8 @@ window.ST.poolTool = function() {
                 if (data.status === "success"){
                   // update gantt view & source
                   // Update datepicker
-                      var booked_d;
-                      var updated_listing;
-                      for(var x=0; x<source.length; x++){
-                        if(source[x].listing_id === listing_id){
+                  updateGanttDatepickerBorrowedDevices(transaction_id, listing_id, s_new, e_new, s, e, title, desc, true);
 
-                          // Update start and end date & description
-                          for(var y=0; y<source[x].values.length; y++){
-                            if(source[x].values[y].transaction_id === transaction_id){
-                              source[x].values[y].from = "/Date(" + Math.round(s_new.getTime()) + ")/";
-                              source[x].values[y].to = "/Date(" + Math.round(e_new.getTime()) + ")/";
-                              source[x].values[y].description = desc;
-                              updated_listing = source[x];
-                              break;
-                            }
-                          }
-
-                          // New reference
-                          booked_d = source[x].already_booked_dates;
-
-                          // Get each booked day of current booking (transaction)
-                          var dateArray_old = getDatesBetweenRange(s, e);
-                          var dateArray_new = getDatesBetweenRange(s_new, e_new);
-
-                          // Go through each booked day and remove it from
-                          // the already booked dates
-                          for (var ii = 0; ii < dateArray_old.length; ii ++ ) {
-                            // Format for compare
-                            var yyyy = dateArray_old[ii].getFullYear();
-                            var mm = dateArray_old[ii].getMonth() + 1;
-                            var dd = dateArray_old[ii].getDate();
-                            if (mm < 10){ mm = "0" + mm; }
-                            if (dd < 10){ dd = "0" + dd; }
-                            var formated_date = yyyy + "-" + mm + "-" + dd;
-
-                            // Remove old dates
-                            for (var yy =0; yy < booked_d.length; yy++){
-                              if (booked_d[yy] === formated_date){
-                                booked_d.splice(yy, 1);
-                              }
-                            }
-                          }
-
-                          // Go through each new booked day and it to array
-                          for (var jj = 0; jj < dateArray_new.length; jj ++ ) {
-                            var _yyyy = dateArray_new[jj].getFullYear();
-                            var _mm = dateArray_new[jj].getMonth() + 1;
-                            var _dd = dateArray_new[jj].getDate();
-                            if (_mm < 10){ _mm = "0" + _mm; }
-                            if (_dd < 10){ _dd = "0" + _dd; }
-                            dateArray_new[jj] = _yyyy + "-" + _mm + "-" + _dd;
-                          }
-                          // Add new dates
-                          booked_d = booked_d.concat(dateArray_new);
-                          gon.source[x].already_booked_dates = booked_d;
-                          break;
-                        }
-                      }
-
-                      // update datepicker
-                      $('#start-on').val('');
-                      $('#end-on').val('');
-                      $('#datepicker').datepicker('remove');
-                      updateDatepicker(booked_d);
-
-                      // Update gantt chart
-                      gon.source = source;
-                      updateGanttChart(gon.source);
-
-                      // Update the 'borrowed devices' by adding the changed
-                      // transaction as new booking. This change booking is
-                      // marked as update, so that it can be deleted in the
-                      // update_borrowed_device() function
-                      var now = new Date(new Date().setHours(1,0,0,0));
-                      gon.user_active_bookings.push({
-                        update: true,
-                        transaction_id: transaction_id,
-                        listing_id: updated_listing.listing_id,
-                        start_on: s_new.getFullYear() + "-" + (s_new.getMonth()+1) + "-" + s_new.getDate(),
-                        end_on: e_new.getFullYear() + "-" + (e_new.getMonth()+1) + "-" + e_new.getDate(),
-                        title: title
-                      });
-                      update_borrowed_devices();
                 }
                 else{
                   // Show error message and fade it out after some time
@@ -1021,6 +946,101 @@ window.ST.poolTool = function() {
       }
     });
   }
+
+  function updateGanttDatepickerBorrowedDevices(transaction_id, listing_id, s_new, e_new, s, e, title, desc, showinborroweddevices){
+    var booked_d;
+    for(var x=0; x<gon.source.length; x++){
+      if(gon.source[x].listing_id === listing_id){
+
+        // Update start and end date & description
+        for(var y=0; y<gon.source[x].values.length; y++){
+          if(gon.source[x].values[y].transaction_id === transaction_id){
+            gon.source[x].values[y].from = "/Date(" + Math.round(s_new.getTime()) + ")/";
+            gon.source[x].values[y].to = "/Date(" + Math.round(e_new.getTime()) + ")/";
+            gon.source[x].values[y].description = desc;
+            break;
+          }
+        }
+
+        // New reference
+        booked_d = gon.source[x].already_booked_dates;
+
+        // Get each booked day of current booking (transaction)
+        var dateArray_old = getDatesBetweenRange(s, e);
+        var dateArray_new = getDatesBetweenRange(s_new, e_new);
+
+        // Go through each booked day and remove it from
+        // the already booked dates
+        for (var ii = 0; ii < dateArray_old.length; ii ++ ) {
+          // Format for compare
+          var yyyy = dateArray_old[ii].getFullYear();
+          var mm = dateArray_old[ii].getMonth() + 1;
+          var dd = dateArray_old[ii].getDate();
+          if (mm < 10){ mm = "0" + mm; }
+          if (dd < 10){ dd = "0" + dd; }
+          var formated_date = yyyy + "-" + mm + "-" + dd;
+
+          // Remove old dates
+          for (var yy =0; yy < booked_d.length; yy++){
+            if (booked_d[yy] === formated_date){
+              booked_d.splice(yy, 1);
+            }
+          }
+        }
+
+        // Go through each new booked day and it to array
+        for (var jj = 0; jj < dateArray_new.length; jj ++ ) {
+          var _yyyy = dateArray_new[jj].getFullYear();
+          var _mm = dateArray_new[jj].getMonth() + 1;
+          var _dd = dateArray_new[jj].getDate();
+          if (_mm < 10){ _mm = "0" + _mm; }
+          if (_dd < 10){ _dd = "0" + _dd; }
+          dateArray_new[jj] = _yyyy + "-" + _mm + "-" + _dd;
+        }
+        // Add new dates
+        booked_d = booked_d.concat(dateArray_new);
+        gon.source[x].already_booked_dates = booked_d;
+        break;
+      }
+    }
+
+    // update datepicker
+    $('#start-on').val('');
+    $('#end-on').val('');
+    $('#datepicker').datepicker('remove');
+    updateDatepicker(booked_d);
+
+    // Update gantt chart
+    updateGanttChart();
+
+    if (showinborroweddevices){
+      // Update the 'borrowed devices' by adding the changed
+      // transaction as new booking. This change booking is
+      // marked as update, so that the changes can be taken over and this entry
+      // can be deleted in the update_borrowed_device() function
+      var now = new Date(new Date().setHours(1,0,0,0));
+      gon.user_active_bookings.push({
+        update: true,
+        transaction_id: transaction_id,
+        listing_id: listing_id,
+        start_on: s_new.getFullYear() + "-" + (s_new.getMonth()+1) + "-" + s_new.getDate(),
+        end_on: e_new.getFullYear() + "-" + (e_new.getMonth()+1) + "-" + e_new.getDate(),
+        title: title
+      });
+    }else{
+      // Update the 'borrowed devices' by removing the current
+      // booking from the active bookings array
+      for (var aa=0; aa<gon.user_active_bookings.length; aa++){
+        if (gon.user_active_bookings[aa].transaction_id === transaction_id){
+          gon.user_active_bookings.splice(aa, 1);
+          break;
+        }
+      }
+    }
+
+    update_borrowed_devices();
+  }
+
 
   // Initializes the radio button listing device picker by defining an onclick
   // event handler
@@ -1335,6 +1355,7 @@ window.ST.poolTool = function() {
   return {
     init: init,
     updateGanttChart: updateGanttChart,
-    calculateLoadFactor: calculateLoadFactor
+    calculateLoadFactor: calculateLoadFactor,
+    update_borrowed_devices: update_borrowed_devices
   };
 };

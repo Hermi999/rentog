@@ -1064,9 +1064,12 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
     },
     success: function(data, status, xhr){
       if (data.status === "success"){
-        var from = Math.round(new Date(data.start_on).getTime());
-        var to = Math.round(new Date(data.end_on).getTime());
+        var from_date = new Date(data.start_on);
+        var to_date = new Date(data.end_on);
+        var from = Math.round(from_date.getTime());
+        var to = Math.round(to_date.getTime());
         var custom_class = "";
+        var title = "";
 
         // Enable Submit button again
         $(form_id).find(":submit").prop('disabled', false);
@@ -1089,6 +1092,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
 
         for(var x=0; x<gon.source.length-1; x++){
           if(gon.source[x].listing_id.toString() === data.listing_id){
+            // update gantt source
             gon.source[x].values.push({
               customClass: custom_class,
               from: "/Date(" + from + ")/",
@@ -1098,6 +1102,9 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
               renter_id: data.renter_id,
               description: data.description
             });
+
+            // save listing title for updating borrowed devices
+            title = gon.source[x].name;
 
             // Add new booking dates to already booked dates
               // Format new dates
@@ -1132,7 +1139,24 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         addButton.removeClass('delete-button');
 
         // Update gantt chart
-        window.ST.poolTool().updateGanttChart(gon.source);
+        window.ST.poolTool().updateGanttChart();
+
+        // Update the 'borrowed devices' by adding the changed
+        // transaction as new booking. This change booking is
+        // marked as update, so that it can be deleted in the
+        // update_borrowed_device() function
+        var today = new Date(new Date().setHours(1,0,0,0));
+        if (to_date >= today){
+          gon.user_active_bookings.push({
+            update: true,
+            transaction_id: data.transaction_id,
+            listing_id: data.listing_id.to_i,
+            start_on: from_date.getFullYear() + "-" + (from_date.getMonth()+1) + "-" + from_date.getDate(),
+            end_on: to_date.getFullYear() + "-" + (to_date.getMonth()+1) + "-" + to_date.getDate(),
+            title: title
+          });
+          window.ST.poolTool().update_borrowed_devices();
+        }
 
       }else{
         if(data.error_message !== ""){

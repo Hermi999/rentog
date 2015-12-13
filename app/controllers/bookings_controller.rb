@@ -3,8 +3,13 @@ class BookingsController < ApplicationController
 
 
   def update_device_returned
+    # update device returned of this listing and this user
     Booking.setDeviceReturnedOfOverdueBookingsOfUser(true, @current_user.id, @act_transaction.listing_id)
 
+    # update end date of the booking which was latest active
+    @act_transaction.booking.return!
+
+    # return success
     respond_to do |format|
       format.json { render :json => {transaction_id: params[:transaction_id], device_returned: @act_transaction.booking.device_returned} }
     end
@@ -14,9 +19,6 @@ class BookingsController < ApplicationController
   def schedule_open_device_returnes
     # Get all open bookings and send emails with a delayed job
     Delayed::Job.enqueue(ReturnBookingReminderJob.new(@current_community.id))
-
-    # Send emails
-    #PersonMailer.new_test_email(@current_community).deliver
 
     # Respond to post request
     respond_to do |format|

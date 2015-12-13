@@ -33,7 +33,7 @@ class PoolToolController < ApplicationController
     transaction_array = transactions.as_json
 
     # Get only bookings which are booked by the user AND are currently in state active (that means the user hadn't give them back) AND are past, but the user did not return them
-    user_bookings = transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ?) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
+    user_bookings = transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
     @user_bookings_array = user_bookings.as_json
 
     # Get all open Listings of the current user
@@ -208,9 +208,11 @@ class PoolToolController < ApplicationController
       months =  [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
 
       gon.push({
+        devices: devices,                             # holds listings with transactions (values) for gantt chart and also the already_booked_dates for the calendar
+        open_listings: open_listings_array,           # holds all listings (even those with no transactions)
+        user_active_bookings: @user_bookings_array,   # holds the currently open bookings of the user
+
         only_pool_tool: @current_community.only_pool_tool,
-        devices: devices,
-        open_listings: open_listings_array,
         locale: I18n.locale,
         days: days,
         months: months,
@@ -219,11 +221,17 @@ class PoolToolController < ApplicationController
         translated_days_min: days.map { |day_symbol| t("datepicker.days_min.#{day_symbol}") },
         translated_months: months.map { |day_symbol| t("datepicker.months.#{day_symbol}") },
         translated_months_short: months.map { |day_symbol| t("datepicker.months_short.#{day_symbol}") },
+        comp_id: @company_owner.id,
+        current_user_id: @current_user.id,
+        current_user_username: @current_user.username,
+        current_user_email: @current_user.emails.first.address,
+        is_admin: @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community),
+        theme: @current_user.pool_tool_color_schema,
+
         today: t("datepicker.today"),
         week_start: t("datepicker.week_start", default: 0),
         clear: t("datepicker.clear"),
         format: t("datepicker.format"),
-
         add_booking: t("pool_tool.add_booking"),
         cancel_booking: t("pool_tool.cancel_booking"),
         device_name: t("pool_tool.device_name"),
@@ -243,15 +251,6 @@ class PoolToolController < ApplicationController
         overdue: t("pool_tool.show.overdue"),
         return_on: t("pool_tool.show.return_on"),
         return_now: t("pool_tool.show.return_now"),
-
-        comp_id: @company_owner.id,
-        current_user_id: @current_user.id,
-        current_user_username: @current_user.username,
-        current_user_email: @current_user.emails.first.address,
-        is_admin: @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community),
-        theme: @current_user.pool_tool_color_schema,
-        user_active_bookings: @user_bookings_array,
-
         utilization_header: t("pool_tool.load_popover.utilization_header"),
         utilization_desc_1: t("pool_tool.load_popover.utilization_desc_1"),
         utilization_desc_2: t("pool_tool.load_popover.utilization_desc_2"),
@@ -266,7 +265,7 @@ class PoolToolController < ApplicationController
         availability_desc_text_all: "This listing can be booked by all registered companies and the company employees.",
 
         pool_tool_preferences: {
-          pooltool_employee_has_to_give_back_device: @current_community.pooltool_employee_has_to_give_back_device
+          pooltool_user_has_to_give_back_device: @current_user.has_to_give_back_device?(@current_community)
         }
       })
     end

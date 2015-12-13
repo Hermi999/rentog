@@ -1021,6 +1021,8 @@ de:
       reduce_email_footer_text: "Zu viele E-Mails? %{settings_link} oder %{unsubscribe_link}"
       settings_link_text: "Bearbeite hier deine E-Mail-Grundeinstellungen."
       unsubscribe_link_text: "bestelle die E-Mails ab."
+    device_return_notifications:
+      create_new_booking: "Erstelle eine neue Buchung"
     newsletter:
       hi: "Hallo %{name}"
       newest_offers: "Was Leute derzeit anderen anbieten"

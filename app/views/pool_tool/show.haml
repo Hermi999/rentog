@@ -166,7 +166,7 @@
 
 
   / Devices I have at the moment
-  - if @current_user.is_employee? && @current_community.pooltool_employee_has_to_give_back_device
+  - if @current_user.has_to_give_back_device?(@current_community)
     .poolTool_devices_i_have
       %p{:class=>"pool_tool_header"}
         = t('pool_tool.show.devices_i_have_borrowed')

@@ -85,7 +85,6 @@ class Person < ActiveRecord::Base
 
   # attr_accessor is use for variables that we don't want to store in the
   # database and will only exist for the life of the object.
-
   attr_accessor :guid, :password2, :form_login,
                 :form_given_name, :form_family_name, :form_password,
                 :form_password2, :form_email, :consent,
@@ -131,6 +130,7 @@ class Person < ActiveRecord::Base
   has_one :location, :conditions => ['location_type = ?', 'person'], :dependent => :destroy
   has_one :braintree_account, :dependent => :destroy
   has_one :checkout_account, dependent: :destroy
+  has_one :company_option, :dependent => :destroy, :foreign_key => "company_id"
 
   has_many :participations, :dependent => :destroy
   has_many :conversations, :through => :participations, :dependent => :destroy
@@ -714,6 +714,18 @@ class Person < ActiveRecord::Base
 
   def is_employee?()
     !is_organization
+  end
+
+  def has_to_give_back_device?(community)
+    if community.pooltool_employee_has_to_give_back_device
+      if is_employee?
+        company.company_option.employee_has_to_give_back_listing
+      else
+        company_option.employee_has_to_give_back_listing
+      end
+    else
+      false
+    end
   end
 
 end
