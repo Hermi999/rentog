@@ -157,6 +157,7 @@ class Admin::CommunitiesController < ApplicationController
     render :braintree_payment_gateway
   end
 
+  # Only accessable for superadmins
   def update_payment_gateway
     # Redirect if payment gateway in use but it's not braintree
     redirect_to edit_details_admin_community_path(@current_community) if @current_community.payment_gateway && !@current_community.braintree_in_use?
@@ -175,6 +176,7 @@ class Admin::CommunitiesController < ApplicationController
       :payment_gateways)
   end
 
+  # Only accessable for superadmins
   def create_payment_gateway
     @current_community.payment_gateway = BraintreePaymentGateway.create(params[:payment_gateway].merge(community: @current_community))
     update_payment_gateway

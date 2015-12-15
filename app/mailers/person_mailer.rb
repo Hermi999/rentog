@@ -23,82 +23,29 @@ class PersonMailer < ActionMailer::Base
   # user notifications. The overdue bookings are also stored into the overdue
   # bookings table in the db.
   def deliver_device_return_notifications
+    users_to_pre_notify_0day = []
+    users_to_pre_notify_2days = []
 
     # Go through all the overdue bookings to store only the latest overdue booking
     # of one user for one specific listing into the users_to_notify_of_overdue array.
-      overdueBookings = Booking.getOverdueBookings
-      users_to_notify_of_overdue = []
+    users_to_notify_of_overdue = getLatestOverdueBookingsWithUsers()
 
-      overdueBookings.each do |booking|
-        current_user = booking.transaction.starter
-        user_already_there = false
-
-        # Iterate through all existing users_to_notify_of_overdue
-        users_to_notify_of_overdue.each do |user_to_notify|
-
-          # If the user is already whithin the array
-          if current_user.id == user_to_notify[:user].id
-
-            # Go through all the already attached listings (with an overdue booking)
-            # If the listing to the current booking already exists, then just adapt
-            # the listings properties. Otherwise attach the listing to the array
-            listing_already_there = false
-            user_to_notify[:listings].each do |listing|
-
-              # If the listing of this current booking already exists within the array
-              if listing[:listing].id == booking.transaction.listing_id
-
-                # If the current booking ends later, then take over it's attributes
-                if listing[:return_on] < booking.end_on
-                  listing[:transaction_id] = booking.transaction_id
-                  listing[:return_on] = booking.end_on
-                end
-
-                listing_already_there = true
-                break
-              end
-            end
-
-            # If the listing was not within the array yet
-            unless listing_already_there
-              user_to_notify[:listings] << {
-                listing: booking.transaction.listing,
-                transaction_id: booking.transaction_id,
-                return_on: booking.end_on,
-              }
-            end
-
-            user_already_there = true
-            break
-          end
-        end
-
-        # If the user was not in the array yet, then create a new user with a new
-        # listing
-        unless user_already_there
-          new_listing = {
-            listing: booking.transaction.listing,
-            transaction_id: booking.transaction_id,
-            return_on: booking.end_on
-          }
-          users_to_notify_of_overdue << {
-            user: current_user,
-            listings: [new_listing]
-          }
-        end
-      end
 
     # Store overdue bookings into db
-    # ...
+    # wah: todo ...
+
 
     # Get all currently active bookings
     activeBookings = Booking.getActiveBookings
 
-    # Go through all active bookings and remove all listings of each user
-    # from the users_to_notify_of_overdue array, where there is an active booking. This is
-    # because users who have active Bookings will get an extra notification
-    # for this listing. They do not have to give back the device yet.
+    # Go through all active bookings
     activeBookings.each do |activeBooking|
+      current_user = activeBooking.transaction.starter
+
+      # Remove all listings of each user from the users_to_notify_of_overdue
+      # array, where there is an active booking. This is
+      # because users who have active Bookings will get an extra notification
+      # for this listing. They do not have to give back the device yet.
       users_to_notify_of_overdue.each do |user_to_notify|
         if user_to_notify[:user].id == activeBooking.transaction.starter_id
           user_to_notify[:listings].each do |listing|
@@ -112,6 +59,46 @@ class PersonMailer < ActionMailer::Base
           end
         end
       end
+
+
+      # Get users for same day pre-notification
+      user_already_there = false
+      if activeBooking.end_on = Date.today
+        users_to_pre_notify_0day.each do |pre_notify_user|
+            # If user already exists, just add the listing to the listing-array
+            if pre_notify_user[:user].id == current_user.id
+              pre_notify_user[:listings] << {
+                listing: activeBooking.transaction.listing,
+                transaction_id: activeBooking.transaction_id,
+                return_on: activeBooking.end_on
+              }
+              user_already_there = true
+              break
+            end
+        end
+
+        # Create new user-booking-pre-notification entry
+        unless user_already_there
+          new_listing = {
+            listing: activeBooking.transaction.listing,
+            transaction_id: activeBooking.transaction_id,
+            return_on: activeBooking.end_on
+          }
+          users_to_pre_notify_0day << {
+            user: current_user,
+            listings: [new_listing]
+          }
+        end
+      end
+
+
+
+
+      # Get users for 2 days pre-notification
+      if activeBooking.end_on = Date.today + 2
+        users_to_pre_notify_2days << activeBooking
+      end
+
     end
 
     # Send emails to users with overdue bookings
@@ -119,6 +106,83 @@ class PersonMailer < ActionMailer::Base
       PersonMailer.device_return_notifications(user_to_notify).deliver
     end
 
+    # Send emails to users where the booking lasts longer than one day and they
+    # have to give back the device today
+    pre_device_return_notification(users_to_pre_notify_0day).deliver
+
+
+    # Send emails to users where the booking lasts longer than 5 days and they
+    # have to give back the device the day after tomorrow
+    pre_device_return_notification(users_to_pre_notify_2days).deliver
+
+  end
+
+  # Go through all the overdue bookings to store only the latest overdue booking
+  # of one user for one specific listing into the users_to_notify_of_overdue array.
+  def getLatestOverdueBookingsWithUsers
+    overdueBookings = Booking.getOverdueBookings
+    users_to_notify_of_overdue = []
+
+    overdueBookings.each do |booking|
+      current_user = booking.transaction.starter
+      user_already_there = false
+
+      # Iterate through all existing users_to_notify_of_overdue
+      users_to_notify_of_overdue.each do |user_to_notify|
+
+        # If the user is already whithin the array
+        if current_user.id == user_to_notify[:user].id
+
+          # Go through all the already attached listings (with an overdue booking)
+          # If the listing to the current booking already exists, then just adapt
+          # the listings properties. Otherwise attach the listing to the array
+          listing_already_there = false
+          user_to_notify[:listings].each do |listing|
+
+            # If the listing of this current booking already exists within the array
+            if listing[:listing].id == booking.transaction.listing_id
+
+              # If the current booking ends later, then take over it's attributes
+              if listing[:return_on] < booking.end_on
+                listing[:transaction_id] = booking.transaction_id
+                listing[:return_on] = booking.end_on
+              end
+
+              listing_already_there = true
+              break
+            end
+          end
+
+          # If the listing was not within the array yet
+          unless listing_already_there
+            user_to_notify[:listings] << {
+              listing: booking.transaction.listing,
+              transaction_id: booking.transaction_id,
+              return_on: booking.end_on,
+            }
+          end
+
+          user_already_there = true
+          break
+        end
+      end
+
+      # If the user was not in the array yet, then create a new user with a new
+      # listing
+      unless user_already_there
+        new_listing = {
+          listing: booking.transaction.listing,
+          transaction_id: booking.transaction_id,
+          return_on: booking.end_on
+        }
+        users_to_notify_of_overdue << {
+          user: current_user,
+          listings: [new_listing]
+        }
+      end
+    end
+
+    users_to_notify_of_overdue
   end
 
   def device_return_notifications(user_to_notify)
@@ -139,7 +203,45 @@ class PersonMailer < ActionMailer::Base
       @title_link_text = t("emails.community_updates.title_link_text",
                            :community_name => @community.full_name(@recipient.locale))
 
-      subject = "Das ist ein Device return notification test"
+      subject = "Reminder für Geräterückgabe"
+
+      # mail delivery method
+      if APP_CONFIG.mail_delivery_method == "postmark"
+        # Postmark doesn't support bulk emails, so use Sendmail for this
+        delivery_method = :sendmail
+      else
+        delivery_method = APP_CONFIG.mail_delivery_method.to_sym unless Rails.env.test?
+      end
+
+      # Send email
+      premailer_mail(:to => @recipient.confirmed_notification_emails_to,
+                     :from => community_specific_sender(@community),
+                     :subject => subject,
+                     :delivery_method => delivery_method) do |format|
+        format.html { render :layout => 'email_blank_layout' }
+      end
+    end
+  end
+
+  def pre_device_return_notification(users_to_pre_notify)
+    @recipient = users_to_pre_notify[:user]
+    @listings = users_to_pre_notify[:listings]
+    @community = Community.first
+
+    with_locale(@recipient.locale, @community.locales.map(&:to_sym), @community.id) do
+
+      # Set url params for all the links in the emails
+      @url_params = {}
+      @url_params[:host] = "#{@community.full_domain}"
+      @url_params[:locale] = @recipient.locale
+      @url_params[:ref] = "device_return_pre_notification"
+      @url_params.freeze # to avoid accidental modifications later
+
+      # Community name link
+      @title_link_text = t("emails.community_updates.title_link_text",
+                           :community_name => @community.full_name(@recipient.locale))
+
+      subject = "Vorab Reminder für Geräterückgabe"
 
       # mail delivery method
       if APP_CONFIG.mail_delivery_method == "postmark"

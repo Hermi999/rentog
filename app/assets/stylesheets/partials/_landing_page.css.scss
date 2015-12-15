@@ -207,7 +207,6 @@
   }
 }
 .rentog_on_mobile{
-  margin-bottom: -49px;
   height: 440px;
 }
 .mobile_rentog_screenshot{
@@ -242,6 +241,138 @@
   margin-bottom:8px;
 }
 
+.pricing{
+  margin-bottom: -49px;
+  background-color: rgb(148, 42, 42);
+  padding-top: 15px;
+}
+.pricing_wrapper{
+  width: 47%;
+  margin-right: 2%;
+  display: inline-block;
+
+  @include media(tablet){
+    width: 22%;
+  }
+
+  p {
+    color: black;
+  }
+}
+.pricing_header{
+  border: 3px solid white;
+  border-radius: 25px 0 0 0;
+  background-color: #232323;
+  padding: 15px;
+  p {
+    color: white;
+  }
+}
+.pricing_header_feedback_program{
+  background-color: #4C7A34;
+}
+.pricing_title{
+  font-size: 1.2em;
+  text-align: center;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+}
+.pricing_title_feedback_program{
+  font-size: 1.1em;
+}
+.pricing_price_wrapper{
+  text-align: center;
+  margin: 20px 0 5px 0;
+}
+.pricing_price{
+  font-size: 2.9em;
+  display: inline;
+}
+.pricing_perMonth{
+  display: inline;
+}
+.pricing_quantity_limitations{
+  /*border-width: 0px 3px 3px 3px;
+  border-color: white;
+  border-style: solid;*/
+  background-color: white;
+  padding: 15px;
+}
+.pricing_quantity_limitations_feedback_program{
+  background-color: #CBE8BA;
+}
+.up_to_users{
+
+}
+.up_to_devices{
+  margin-top: 6px;
+}
+.pricing_features{
+  /*border-width: 0px 3px 3px 3px;
+  border-color: white;
+  border-style: solid;*/
+  background-color: white;
+  margin-top: 3px;
+  padding: 15px;
+  margin-bottom: 40px;
+  border-radius: 0 0 25px 0;
+
+  p {
+    margin-bottom: 6px;
+  }
+}
+.pricing_features_limitations_feedback_program{
+  background-color: #CBE8BA;
+}
+#feature_free_1{
+  color: black;
+}
+#feature_free_2{
+  color: grey;
+}
+#feature_free_3{
+  color: grey;
+}
+#feature_free_4{
+  color: grey;
+}
+#feature_premium_1{
+  color: black;
+}
+#feature_premium_2{
+  color: black;
+}
+#feature_premium_3{
+  color: grey;
+}
+#feature_premium_4{
+  color: grey;
+}
+#feature_ultimate_1{
+  color: black;
+}
+#feature_ultimate_2{
+  color: black;
+}
+#feature_ultimate_3{
+  color: black;
+}
+#feature_ultimate_4{
+  color: black;
+}
+#limited_label{
+  background-color: #006E8C;
+  text-align: center;
+  border: 2px solid white;
+  border-radius: 40px / 25px;
+  width: 80px;
+  color: white;
+  right: 0px;
+  height: 50px;
+  padding-top: 9px;
+  margin-top: -40px;
+  margin-left: 85%;
+}
 
 .landing-page-colored-section-header{
   color: white;

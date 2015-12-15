@@ -82,8 +82,8 @@
       .col-2
       .col-8
         %a{ :href => "#", id: "signup_employee", class: "signupType" }
-          .content= "or signup as an employee of a company"
+          .content= t(".or_signup_as_employee")
         %a{ :href => "#", id: "signup_company", class: "signupType" }
-          .content= "or create a new company"
+          .content= t(".or_create_a_new_company")
 
 = render :partial => "help_texts", :collection => ["terms", "help_invitation_code"], :as => :field

@@ -146,6 +146,77 @@
         = link_to image_tag("landingpage/android_en_badge.png"), "https://play.google.com/store/apps/details?id=rentog.com", :class => "landingpage-android-store-icon"
         = link_to image_tag("landingpage/Download_on_the_App_Store_Badge_US-UK_135x40.svg"), faq_help_index_path, :class => "landingpage-apple-store-icon"
 
+/*** PRICING ***
+-content_for :section_5 do
+  .landing-page-section.pricing
+    .landing-page-content
+      .pricing_wrapper#pricing1
+        .pricing_header
+          %p.pricing_title= t("landing_page.only_pool_tool.pricing_title1")
+          .pricing_price_wrapper
+            %p.pricing_price= t("landing_page.only_pool_tool.pricing_price1")
+            %p.pricing_perMonth
+              = "/mo"
+        .pricing_quantity_limitations
+          %p.up_to_users= t("landing_page.only_pool_tool.up_to_users1")
+          %p.up_to_devices= t("landing_page.only_pool_tool.up_to_devices1")
+        .pricing_features
+          %p#feature_free_1= t("landing_page.only_pool_tool.feature_1")
+          %p#feature_free_2= t("landing_page.only_pool_tool.feature_2")
+          %p#feature_free_3= t("landing_page.only_pool_tool.feature_3")
+          %p#feature_free_4= t("landing_page.only_pool_tool.feature_4")
+
+      .pricing_wrapper#pricing2
+        .pricing_header
+          %p.pricing_title= t("landing_page.only_pool_tool.pricing_title2")
+          .pricing_price_wrapper
+            %p.pricing_price= t("landing_page.only_pool_tool.pricing_price2")
+            %p.pricing_perMonth
+              = "/mo"
+        .pricing_quantity_limitations
+          %p.up_to_users= t("landing_page.only_pool_tool.up_to_users2")
+          %p.up_to_devices= t("landing_page.only_pool_tool.up_to_devices2")
+        .pricing_features
+          %p#feature_premium_1= t("landing_page.only_pool_tool.feature_1")
+          %p#feature_premium_2= t("landing_page.only_pool_tool.feature_2")
+          %p#feature_premium_3= t("landing_page.only_pool_tool.feature_3")
+          %p#feature_premium_4= t("landing_page.only_pool_tool.feature_4")
+
+      .pricing_wrapper#pricing3
+        .pricing_header
+          %p.pricing_title= t("landing_page.only_pool_tool.pricing_title3")
+          .pricing_price_wrapper
+            %p.pricing_price= t("landing_page.only_pool_tool.pricing_price3")
+            %p.pricing_perMonth
+              = "/mo"
+        .pricing_quantity_limitations
+          %p.up_to_users= t("landing_page.only_pool_tool.up_to_users3")
+          %p.up_to_devices= t("landing_page.only_pool_tool.up_to_devices3")
+        .pricing_features
+          %p#feature_ultimate_1= t("landing_page.only_pool_tool.feature_1")
+          %p#feature_ultimate_2= t("landing_page.only_pool_tool.feature_2")
+          %p#feature_ultimate_3= t("landing_page.only_pool_tool.feature_3")
+          %p#feature_ultimate_4= t("landing_page.only_pool_tool.feature_4")
+
+      .pricing_wrapper#pricing4
+        .pricing_header.pricing_header_feedback_program
+          #limited_label= t("landing_page.only_pool_tool.limited")
+          %p.pricing_title.pricing_title_feedback_program= t("landing_page.only_pool_tool.pricing_title4")
+          .pricing_price_wrapper
+            %p.pricing_price= t("landing_page.only_pool_tool.pricing_price4")
+            %p.pricing_perMonth
+              = "/mo"
+        .pricing_quantity_limitations.pricing_quantity_limitations_feedback_program
+          %p.up_to_users= t("landing_page.only_pool_tool.up_to_users4")
+          %p.up_to_devices= t("landing_page.only_pool_tool.up_to_devices4")
+        .pricing_features.pricing_features_limitations_feedback_program
+          %p#feature_ultimate_1= t("landing_page.only_pool_tool.feature_1")
+          %p#feature_ultimate_2= t("landing_page.only_pool_tool.feature_2")
+          %p#feature_ultimate_3= t("landing_page.only_pool_tool.feature_3")
+          %p#feature_ultimate_4= t("landing_page.only_pool_tool.feature_4")
+
+
+
 
 /*** NEWSLETTER
 .newsletter-wrapper

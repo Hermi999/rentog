@@ -33,7 +33,7 @@
         / Fällig am
         %p
           = "Fällig am:"
-          %span{:style => "background-color: rgb(231, 24, 24); padding: 2px 5px; color: white; font-weight: bold; border-radius: 4px; margin-left: 5px;"}= listing[:return_on]
+          %span{:style => "background-color: rgb(231, 24, 24); padding: 2px 5px; color: white; font-weight: bold; border-radius: 4px; margin-left: 5px;"}= I18n.l(listing[:return_on])
       %td{:style => "padding-right:10px; border-right: 1px solid black; border-bottom:1px solid black;"}
         / Return button
         = link_to "Gerät zurückgeben", "#", :target => "_blank", :style => "background: rgb(35, 121, 173); border: 2px solid rgb(5, 65, 102); color: white; cursor: pointer; display: block; text-decoration: none; text-align: center; width: 150px; float: right; height: 23px; border-radius: 4px; padding-top: 7px; font-weight: bold;"
