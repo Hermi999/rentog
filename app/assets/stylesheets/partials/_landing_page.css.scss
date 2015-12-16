@@ -244,12 +244,12 @@
 .pricing{
   margin-bottom: -49px;
   background-color: rgb(148, 42, 42);
-  padding-top: 15px;
 }
 .pricing_wrapper{
   width: 47%;
   margin-right: 2%;
   display: inline-block;
+  margin-top: 30px;
 
   @include media(tablet){
     width: 22%;
@@ -370,7 +370,7 @@
   right: 0px;
   height: 50px;
   padding-top: 9px;
-  margin-top: -40px;
+  margin-top: -50px;
   margin-left: 85%;
 }
 
