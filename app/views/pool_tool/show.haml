@@ -161,11 +161,11 @@
 
   / Pool Tool Options
   .poolTool_options
-    = check_box_tag 'mine', 'yes', false, :class => 'only_mine'
-    = label_tag t('pool_tool.show.only_mine'), nil, :id => 'only_mine_label'
+    = check_box_tag 'mine', 'yes', false, :class => 'pooltool_options only_mine'
+    = label_tag t('pool_tool.show.only_mine'), nil, :id => 'only_mine_label', :class => 'pooltool_options_label'
 
-    = check_box_tag 'give_back_listing', 'yes', @current_user.has_to_give_back_device?(@current_community), :class => 'give_back_listing'
-    = label_tag t('pool_tool.show.give_back_listing'), nil, :id => 'give_back_listing_label'
+    = check_box_tag 'give_back_listing', 'yes', @current_user.has_to_give_back_device?(@current_community), :class => 'pooltool_options give_back_listing'
+    = label_tag t('pool_tool.show.give_back_listing'), nil, :id => 'give_back_listing_label', :class => 'pooltool_options_label'
 
 
   / Devices I have at the moment

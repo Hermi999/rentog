@@ -282,6 +282,7 @@ window.ST.poolTool = function() {
     }
   }
 
+
   // Initialize the pool tool options, like "Show only mine", ...
   function initialize_poolTool_options(){
     // Show only my bookings (the current user)
@@ -299,6 +300,23 @@ window.ST.poolTool = function() {
         $('.only_mine').prop('checked',true);
         $('.only_mine').change();
       }
+    });
+
+    $('.give_back_listing').on('change', function(){
+      //wah: todo
+
+      // Update server
+
+      // render device_return section
+    });
+
+    $('#give_back_listing_label').on('click',function(ev){
+      if ($('.only_mine').prop('checked')){
+        $('.only_mine').prop('checked',false);
+      }else{
+        $('.only_mine').prop('checked',true);
+      }
+      $('.only_mine').change();
     });
 
     // Do not allow more than 249 chars for the description

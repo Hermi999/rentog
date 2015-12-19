@@ -425,15 +425,6 @@
   color: #3B6B23;
 }
 
-.only_mine{
-  float: left;
-  margin-right: 5px;
-  margin-left: 10px;
-  margin-top: 0.2em;
-  width: 20px;
-  height: 20px;
-}
-
 
 .poolTool_devices_i_have{
   margin-top: 30px;
@@ -499,8 +490,23 @@
   font-weight:bold;
 }
 
-#only_mine_label{
+.only_mine{
+  float: left;
+}
+.pooltool_options{
+  margin-right: 5px;
+  margin-left: 10px;
+  margin-top: 0.2em;
+  width: 20px;
+  height: 20px;
+}
+.pooltool_options_label{
+  margin-right: 10px;
   display:inline;
+}
+#only_mine_label{
+}
+#give_back_listing_label{
 }
 
 .no-open-bookings {
