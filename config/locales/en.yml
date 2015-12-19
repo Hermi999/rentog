@@ -2487,6 +2487,7 @@ en:
       any_employee: "Other employee"
       other_reason: "Other reason"
       only_mine: "Show only mine"
+      give_back_listing: "Users have to give back devices"
       could_not_create_new_booking: "Error: Action failed! Please check your if you still have an internet connection and refresh the page."
       booking_from: "From"
       booking_to: "To"

@@ -2490,6 +2490,7 @@ de:
       any_employee: "Anderer Mitarbeiter"
       other_reason: "Anderer Grund"
       only_mine: "Zeige nur meine"
+      give_back_listing: "Benutzer müssen Geräte aktiv zurückgeben"
       could_not_create_new_booking: "Error: Aktion fehlgeschlagen! Bitte überprüfe deine Internet-Verbindung."
       booking_from: "Von"
       booking_to: "Bis"
@@ -2509,7 +2510,7 @@ de:
       devices: "Verfügbare Geräte"
       example: "Bsp.: Wartung"
       create: "Erstellen"
-      devices_i_have_borrowed: "Geräte, welche ich aktuell ausgeborgt habe"
+      devices_i_have_borrowed: "Aktuell von mir ausgeborgte Geräte"
       no_devices_borrowed: "Du hast dir im Moment keine Geräte ausgeborgt!"
       overdue: "Überfällig: "
       return_on: 'Fällig am: '
