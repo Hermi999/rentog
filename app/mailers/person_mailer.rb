@@ -23,48 +23,84 @@ class PersonMailer < ActionMailer::Base
   # user notifications. The overdue bookings are also stored into the overdue
   # bookings table in the db.
   def deliver_device_return_notifications
-    users_to_pre_notify_0day = []
-    users_to_pre_notify_2days = []
-
     # Go through all the overdue bookings to store only the latest overdue booking
     # of one user for one specific listing into the users_to_notify_of_overdue array.
-    users_to_notify_of_overdue = getLatestOverdueBookingsWithUsers()
+    latestOverdueBookingsWithUsers = getLatestOverdueBookingsWithUsers()
 
 
-    # Store overdue bookings into db
+    # Store the latest overdue bookings into db
     # wah: todo ...
 
 
     # Get all currently active bookings
     activeBookings = Booking.getActiveBookings
 
+    # Get users to notify because of an overdue
+    users_to_notify_of_overdue = getUsersToNotifyOfOverdue(latestOverdueBookingsWithUsers, activeBookings)
+
+    # Get users for same day pre-notification
+    users_to_pre_notify_0day = getUsersToPreNotify(Date.today, activeBookings)
+
+    # Get users for 2 days pre-notification
+    users_to_pre_notify_2days = getUsersToPreNotify(Date.today + 2, activeBookings)
+
+    # Send emails to users with overdue bookings
+    users_to_notify_of_overdue.each do |user_to_notify|
+      PersonMailer.device_return_notifications(user_to_notify).deliver
+    end
+
+    # Send emails to users where the booking lasts longer than one day and they
+    # have to give back the device today
+    users_to_pre_notify_0day.each do |user_to_pre_notify_0day|
+      PersonMailer.pre_device_return_notification(user_to_pre_notify_0day).deliver
+    end
+
+
+    # Send emails to users where the booking lasts longer than 5 days and they
+    # have to give back the device the day after tomorrow
+    users_to_pre_notify_2days.each do |user_to_pre_notify_2days|
+      PersonMailer.pre_device_return_notification(user_to_pre_notify_2days).deliver
+    end
+
+  end
+
+  def getUsersToNotifyOfOverdue(latestOverdueBookingsWithUsers, activeBookings)
     # Go through all active bookings
     activeBookings.each do |activeBooking|
       current_user = activeBooking.transaction.starter
 
-      # Remove all listings of each user from the users_to_notify_of_overdue
+      # Remove all listings of each user from the latestOverdueBookingsWithUsers
       # array, where there is an active booking. This is
       # because users who have active Bookings will get an extra notification
       # for this listing. They do not have to give back the device yet.
-      users_to_notify_of_overdue.each do |user_to_notify|
+      latestOverdueBookingsWithUsers.each do |user_to_notify|
         if user_to_notify[:user].id == activeBooking.transaction.starter_id
           user_to_notify[:listings].each do |listing|
             if listing[:listing].id == activeBooking.transaction.listing_id
               user_to_notify[:listings].delete(listing)
 
               if user_to_notify[:listings] == []
-                users_to_notify_of_overdue.delete(user_to_notify)
+                latestOverdueBookingsWithUsers.delete(user_to_notify)
               end
             end
           end
         end
       end
+    end
 
+    latestOverdueBookingsWithUsers
+  end
 
-      # Get users for same day pre-notification
+  def getUsersToPreNotify(return_date, activeBookings)
+    users_to_pre_notify = []
+
+    # Go through all active bookings
+    activeBookings.each do |activeBooking|
+      current_user = activeBooking.transaction.starter
+
       user_already_there = false
-      if activeBooking.end_on = Date.today
-        users_to_pre_notify_0day.each do |pre_notify_user|
+      if activeBooking.end_on == return_date
+        users_to_pre_notify.each do |pre_notify_user|
             # If user already exists, just add the listing to the listing-array
             if pre_notify_user[:user].id == current_user.id
               pre_notify_user[:listings] << {
@@ -84,38 +120,17 @@ class PersonMailer < ActionMailer::Base
             transaction_id: activeBooking.transaction_id,
             return_on: activeBooking.end_on
           }
-          users_to_pre_notify_0day << {
+          users_to_pre_notify << {
             user: current_user,
             listings: [new_listing]
           }
         end
       end
-
-
-
-
-      # Get users for 2 days pre-notification
-      if activeBooking.end_on = Date.today + 2
-        users_to_pre_notify_2days << activeBooking
-      end
-
     end
 
-    # Send emails to users with overdue bookings
-    users_to_notify_of_overdue.each do |user_to_notify|
-      PersonMailer.device_return_notifications(user_to_notify).deliver
-    end
-
-    # Send emails to users where the booking lasts longer than one day and they
-    # have to give back the device today
-    pre_device_return_notification(users_to_pre_notify_0day).deliver
-
-
-    # Send emails to users where the booking lasts longer than 5 days and they
-    # have to give back the device the day after tomorrow
-    pre_device_return_notification(users_to_pre_notify_2days).deliver
-
+    users_to_pre_notify
   end
+
 
   # Go through all the overdue bookings to store only the latest overdue booking
   # of one user for one specific listing into the users_to_notify_of_overdue array.
@@ -223,9 +238,9 @@ class PersonMailer < ActionMailer::Base
     end
   end
 
-  def pre_device_return_notification(users_to_pre_notify)
-    @recipient = users_to_pre_notify[:user]
-    @listings = users_to_pre_notify[:listings]
+  def pre_device_return_notification(user_to_pre_notify)
+    @recipient = user_to_pre_notify[:user]
+    @listings = user_to_pre_notify[:listings]
     @community = Community.first
 
     with_locale(@recipient.locale, @community.locales.map(&:to_sym), @community.id) do

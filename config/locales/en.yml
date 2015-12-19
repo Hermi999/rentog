@@ -1039,6 +1039,22 @@ en:
       reduce_email_footer_text: "Too much email? %{settings_link} or %{unsubscribe_link}."
       settings_link_text: "Edit your email settings here"
       unsubscribe_link_text: unsubscribe
+    device_return_notifications:
+      mail_title: "%{title_link} Device return reminder"
+      email_text: "The folling bookings are overdue and you have not returned the device:"
+      description: "Description"
+      no_description_available: "No description available."
+      due_on: "Due on:"
+      return_device: "Return device"
+      create_new_booking: "Create new booking"
+    pre_device_return_notification:
+      mail_title: "%{title_link} Pre device return reminder"
+      email_text: "You have to return the following devicecs on %{return_day}, %{return_date}:"
+      description: "Description"
+      no_description_available: "No description available"
+      due_on: "Due on:"
+      return_device: "Return device"
+      create_new_booking: "Create new booking"
     newsletter:
       hi: "Hi %{name},"
       newest_offers: "What people currently offer to others"

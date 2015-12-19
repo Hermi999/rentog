@@ -1044,6 +1044,20 @@ de:
       settings_link_text: "Bearbeite hier deine E-Mail-Grundeinstellungen."
       unsubscribe_link_text: "bestelle die E-Mails ab."
     device_return_notifications:
+      mail_title: "%{title_link} Reminder für Geräterückgabe"
+      email_text: "Bei folgenden Testgeräten ist der Buchungszeitraum abgelaufen und du hast das Gerät noch nicht zurückgegeben:"
+      description: "Beschreibung"
+      no_description_available: "Keine Beschreibung verfügbar"
+      due_on: "Fällig am:"
+      return_device: "Gerät zurückgeben"
+      create_new_booking: "Erstelle eine neue Buchung"
+    pre_device_return_notification:
+      mail_title: "%{title_link} Erinnerung zur Geräterückführung"
+      email_text: "Folgende Geräte sind am <b>%{return_day}, dem %{return_date}</b> zurückzugeben:"
+      description: "Beschreibung"
+      no_description_available: "Keine Beschreibung verfügbar"
+      due_on: "Fällig am:"
+      return_device: "Gerät zurückgeben"
       create_new_booking: "Erstelle eine neue Buchung"
     newsletter:
       hi: "Hallo %{name}"

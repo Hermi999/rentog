@@ -1146,14 +1146,15 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         // marked as update, so that it can be deleted in the
         // update_borrowed_device() function
         var today = new Date(new Date().setHours(1,0,0,0));
-        if (to_date >= today){
+        if (to_date >= today && gon.current_user_id === data.renter_id){
           gon.user_active_bookings.push({
             update: true,
             transaction_id: data.transaction_id,
             listing_id: data.listing_id.to_i,
             start_on: from_date.getFullYear() + "-" + (from_date.getMonth()+1) + "-" + from_date.getDate(),
             end_on: to_date.getFullYear() + "-" + (to_date.getMonth()+1) + "-" + to_date.getDate(),
-            title: title
+            title: title,
+            renter_id: data.renter_id
           });
           window.ST.poolTool().update_borrowed_devices();
         }
