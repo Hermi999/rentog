@@ -1,7 +1,7 @@
-%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "border-bottom:1px solid #ededed;padding-bottom:5px;padding-top: 20px;", :width => "100%"}
+%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "padding-bottom:5px;padding-top: 20px;", :width => "100%"}
   %tbody
     %tr
-      %td{:valign => "top", :style => "margin-bottom: 0; padding: 6px 0 1px 10px; border-left: 1px solid black; border-bottom:1px dashed grey; border-top: 1px solid black"}
+      %td{:valign => "top", :style => "margin-bottom: 0; padding: 6px 0 1px 10px;"}
         / Listing title
         %h2{:style => "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-weight: normal; font-size: 22px; margin-bottom: 8px; margin-top: 2px; padding:0; text-justify: none; line-height:26px;"}
           = link_to listing_url(@url_params.merge({:id => listing[:listing].id})), :target => "_blank" do
@@ -9,10 +9,10 @@
               = shape_name(listing[:listing]) + ":"
             = listing[:listing].title
 
-      %td{:style => "padding-right: 10px; border-right: 1px solid black; border-bottom:1px dashed grey; border-top: 1px solid black"}
+      %td{:style => "padding-right: 10px;"}
 
     %tr
-      %td{:valign => "top", :style => "margin-bottom: 0; padding: 10px 0 0 10px; border-left: 1px solid black; border-bottom:1px dashed grey;"}
+      %td{:valign => "top", :style => "margin-bottom: 0; padding: 10px 0 0 10px;"}
         / Listing description
         %p{:style => "margin-top:5px;"}
           =t("emails.device_return_notifications.description").html_safe
@@ -24,19 +24,19 @@
         - else
           =t("emails.device_return_notifications.no_description_available")
 
-      %td{:style => "padding: 10px 10px 5px 0; border-right: 1px solid black; border-bottom:1px dashed grey;"}
+      %td{:style => "padding: 10px 10px 5px 0;"}
         / Listing image
         - unless listing[:listing].listing_images.empty?
           = link_to(image_tag(listing[:listing].listing_images.first.image.url(:email), :class => "listing_main_image", :alt => listing[:listing].title, :height => "100", :width => "150", :style => "display:block;margin-left:30px;margin-bottom:5px;margin-top:4px;border:0", :align => "right"), listing_url(@url_params.merge({:id => listing[:listing].id})))
 
     %tr
-      %td{:style => "padding-left:10px; border-left: 1px solid black; border-bottom:1px solid black;"}
+      %td{:style => "padding-left:10px;"}
         / Fällig am
         %p
           = t("emails.device_return_notifications.due_on")
-          %span{:style => "background-color: rgb(231, 24, 24); padding: 2px 5px; color: white; font-weight: bold; border-radius: 4px; margin-left: 5px;"}= I18n.l(listing[:return_on])
-      %td{:style => "padding-right:10px; border-right: 1px solid black; border-bottom:1px solid black;"}
+          %span{:style => "background-color: rgb(231, 24, 24); padding: 2px 5px; color: white; font-weight: bold; margin-left: 5px;"}= I18n.l(listing[:return_on])
+      %td{:style => "padding-right:10px;"}
         / Return button
-        = link_to t("emails.device_return_notifications.return_device"), "#", :target => "_blank", :style => "background: rgb(35, 121, 173); border: 2px solid rgb(5, 65, 102); color: white; cursor: pointer; display: block; text-decoration: none; text-align: center; width: 150px; float: right; height: 23px; border-radius: 4px; padding-top: 7px; font-weight: bold;"
+        = link_to t("emails.device_return_notifications.return_device"), "#", :target => "_blank", :style => "background: rgb(35, 121, 173); color: white; cursor: pointer; display: block; text-decoration: none; text-align: center; width: 150px; float: right; height: 23px; padding-top: 7px; font-weight: bold;"
 
 

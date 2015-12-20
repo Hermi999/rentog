@@ -1150,7 +1150,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
           gon.user_active_bookings.push({
             update: true,
             transaction_id: data.transaction_id,
-            listing_id: data.listing_id.to_i,
+            listing_id: parseInt(data.listing_id),
             start_on: from_date.getFullYear() + "-" + (from_date.getMonth()+1) + "-" + from_date.getDate(),
             end_on: to_date.getFullYear() + "-" + (to_date.getMonth()+1) + "-" + to_date.getDate(),
             title: title,

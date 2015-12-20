@@ -114,9 +114,9 @@ window.ST.poolTool = function() {
           overdue = getDaysBetweenDates(today, end_on_date);
         }
 
-        for (var ii=0; ii<gon.open_listings.length; ii++){
-          if (listing_id === gon.open_listings[ii].listing_id){
-            image = gon.open_listings[ii].image;
+        for (var ii=0; ii<gon.source.length; ii++){
+          if (listing_id === gon.source[ii].listing_id){
+            image = gon.source[ii].image;
             break;
           }
         }
