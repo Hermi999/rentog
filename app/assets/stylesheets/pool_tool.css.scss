@@ -509,10 +509,18 @@
 }
 #only_mine_label{
 }
-#give_back_listing_label{
-}
 
 .no-open-bookings {
   color: rgb(49, 144, 23);
   @include big-type;
+}
+
+#pooltool_options_link{
+  display: inline-block;
+  float: right;
+  margin-top: -5px;
+  margin-right: 3px;
+}
+#pooltool_options_image{
+  height: 25px;
 }

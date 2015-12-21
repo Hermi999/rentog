@@ -23,5 +23,10 @@ class CompanyOption < ActiveRecord::Base
 
   validates_length_of :company_id, :within => 1..22, :allow_nil => false
 
-
+  COMPANY_OPTIONS = [
+    "employee_has_to_give_back_listing",
+    #"pool_tool_modify_past",
+    #"employee_can_see_statistics",
+    #"pool_tool_group_booking_enabled"
+  ]
 end

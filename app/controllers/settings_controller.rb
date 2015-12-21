@@ -33,6 +33,14 @@ class SettingsController < ApplicationController
     @selected_left_navi_link = "payments"
   end
 
+  def pooltool
+    if @current_user && @current_user.is_organization?
+      @selected_left_navi_link = "pooltool"
+    else
+      redirect_to root and return
+    end
+  end
+
   def unsubscribe
     @person_to_unsubscribe = find_person_to_unsubscribe(@current_user, params[:auth])
 

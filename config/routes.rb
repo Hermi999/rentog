@@ -1,5 +1,44 @@
 # == Route Map
 #
+# "show_indexes"
+# "simple_indexes"
+# "include_version"
+# "exclude_tests"
+# "exclude_fixtures"
+# "exclude_factories"
+# "ignore_model_sub_dir"
+# "format_bare"
+# "format_rdoc"
+# "format_markdown"
+# "sort"
+# "force"
+# "trace"
+# "show_indexes"
+# "simple_indexes"
+# "include_version"
+# "exclude_tests"
+# "exclude_fixtures"
+# "exclude_factories"
+# "ignore_model_sub_dir"
+# "format_bare"
+# "format_rdoc"
+# "format_markdown"
+# "sort"
+# "force"
+# "trace"
+# "show_indexes"
+# "simple_indexes"
+# "include_version"
+# "exclude_tests"
+# "exclude_fixtures"
+# "exclude_factories"
+# "ignore_model_sub_dir"
+# "format_bare"
+# "format_rdoc"
+# "format_markdown"
+# "sort"
+# "force"
+# "trace"
 # INFO Connecting to database specified by database.yml
 #
 # AssetSync enabled: false
@@ -20,7 +59,7 @@
 # fog_provider:          Not available
 #
 #                                                         GET      /channel.html(.:format)                                                                      FbChannelFileApp
-#                                        switch_pool_tool GET      /switch_pool_tool(.:format)                                                                  application#switch_pool_tool
+#                                         bookings_update GET      /bookings/update(.:format)                                                                   bookings#update
 #                                        employees_create GET      /employees/create(.:format)                                                                  employees#create
 #                                       employees_destroy GET      /employees/destroy(.:format)                                                                 employees#destroy
 #                                          mercury_images GET      /mercury/images(.:format)                                                                    mercury/images#index
@@ -38,6 +77,8 @@
 #                                      webhooks_braintree GET      /webhooks/braintree(.:format)                                                                braintree_webhooks#challenge
 #                                                         POST     /webhooks/braintree(.:format)                                                                braintree_webhooks#hooks
 #                                         paypal_ipn_hook POST     /webhooks/paypal_ipn(.:format)                                                               paypal_ipn#ipn_hook
+#                                          webhooks_plans POST     /webhooks/plans(.:format)                                                                    plans#create
+#                                         webhooks_trials GET      /webhooks/trials(.:format)                                                                   plans#get_trials
 #                                                 bounces POST     /bounces(.:format)                                                                           amazon_bounces#notification
 #                                                                  /people/:person_id/inbox/:id(.:format)                                                       :controller#:action
 #                              new_request_without_locale          /listings/new/:type(.:format)                                                                listings#new
@@ -94,6 +135,7 @@
 #                                                         PUT      (/:locale)/paypal_service/checkout_orders/:id(.:format)                                      paypal_service/checkout_orders#update {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                         DELETE   (/:locale)/paypal_service/checkout_orders/:id(.:format)                                      paypal_service/checkout_orders#destroy {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                         getting_started_admin_community GET      (/:locale)/admin/communities/:id/getting_started(.:format)                                   admin/communities#getting_started {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                                    plan_admin_community GET      (/:locale)/admin/communities/:id/plan(.:format)                                              admin/communities#plan {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                            edit_details_admin_community GET      (/:locale)/admin/communities/:id/edit_details(.:format)                                      admin/community_customizations#edit_details {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                          update_details_admin_community PUT      (/:locale)/admin/communities/:id/update_details(.:format)                                    admin/community_customizations#update_details {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                      edit_look_and_feel_admin_community GET      (/:locale)/admin/communities/:id/edit_look_and_feel(.:format)                                admin/communities#edit_look_and_feel {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
@@ -217,13 +259,8 @@
 #                                         browse_listings GET      (/:locale)/listings/browse(.:format)                                                         listings#browse {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                 locations_json_listings GET      (/:locale)/listings/locations_json(.:format)                                                 listings#locations_json {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                          verification_required_listings GET      (/:locale)/listings/verification_required(.:format)                                          listings#verification_required {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
-#                                        listing_comments GET      (/:locale)/listings/:listing_id/comments(.:format)                                           comments#index {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
-#                                                         POST     (/:locale)/listings/:listing_id/comments(.:format)                                           comments#create {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
-#                                     new_listing_comment GET      (/:locale)/listings/:listing_id/comments/new(.:format)                                       comments#new {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
-#                                    edit_listing_comment GET      (/:locale)/listings/:listing_id/comments/:id/edit(.:format)                                  comments#edit {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
-#                                         listing_comment GET      (/:locale)/listings/:listing_id/comments/:id(.:format)                                       comments#show {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
-#                                                         PUT      (/:locale)/listings/:listing_id/comments/:id(.:format)                                       comments#update {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
-#                                                         DELETE   (/:locale)/listings/:listing_id/comments/:id(.:format)                                       comments#destroy {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                                        listing_comments POST     (/:locale)/listings/:listing_id/comments(.:format)                                           comments#create {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                                         listing_comment DELETE   (/:locale)/listings/:listing_id/comments/:id(.:format)                                       comments#destroy {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                    add_from_file_listing_listing_images POST     (/:locale)/listings/:listing_id/listing_images/add_from_file(.:format)                       listing_images#add_from_file {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                     add_from_url_listing_listing_images PUT      (/:locale)/listings/:listing_id/listing_images/add_from_url(.:format)                        listing_images#add_from_url {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                  listing_listing_images GET      (/:locale)/listings/:listing_id/listing_images(.:format)                                     listing_images#index {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
@@ -303,6 +340,8 @@
 #                                                         GET      (/:locale)/sms(.:format)                                                                     sms#show {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                         PUT      (/:locale)/sms(.:format)                                                                     sms#update {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                         DELETE   (/:locale)/sms(.:format)                                                                     sms#destroy {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                                  update_device_returned PUT      (/:locale)/update_device_returned(.:format)                                                  bookings#update_device_returned {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                           schedule_open_device_returnes POST     (/:locale)/schedule_open_device_returnes(.:format)                                           bookings#schedule_open_device_returnes {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                      new_person_session GET      (/:locale)/people/login(.:format)                                                            devise/sessions#new {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                          person_session POST     (/:locale)/people/login(.:format)                                                            devise/sessions#create {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                  destroy_person_session DELETE   (/:locale)/people/sign_out(.:format)                                                         devise/sessions#destroy {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
@@ -430,12 +469,14 @@
 #                           notifications_person_settings GET      (/:locale)/:person_id/settings/notifications(.:format)                                       settings#notifications {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                payments_person_settings GET      (/:locale)/:person_id/settings/payments(.:format)                                            settings#payments {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                             unsubscribe_person_settings GET      (/:locale)/:person_id/settings/unsubscribe(.:format)                                         settings#unsubscribe {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                                pooltool_person_settings GET      (/:locale)/:person_id/settings/pooltool(.:format)                                            settings#pooltool {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                         person_settings POST     (/:locale)/:person_id/settings(.:format)                                                     settings#create {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                     new_person_settings GET      (/:locale)/:person_id/settings/new(.:format)                                                 settings#new {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                    edit_person_settings GET      (/:locale)/:person_id/settings/edit(.:format)                                                settings#edit {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                         GET      (/:locale)/:person_id/settings(.:format)                                                     settings#show {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                         PUT      (/:locale)/:person_id/settings(.:format)                                                     settings#update {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                         DELETE   (/:locale)/:person_id/settings(.:format)                                                     settings#destroy {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                                  person_company_options PUT      (/:locale)/:person_id/company_options(.:format)                                              company_options#update {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                     person_testimonials GET      (/:locale)/:person_id/testimonials(.:format)                                                 testimonials#index {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                         POST     (/:locale)/:person_id/testimonials(.:format)                                                 testimonials#create {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                  new_person_testimonial GET      (/:locale)/:person_id/testimonials/new(.:format)                                             testimonials#new {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
@@ -480,6 +521,8 @@
 #                                                         PUT      (/:locale)/:person_id/employments/:id(.:format)                                              employments#update {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                         DELETE   (/:locale)/:person_id/employments/:id(.:format)                                              employments#destroy {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                         person_poolTool GET      (/:locale)/:person_id/poolTool(.:format)                                                     pool_tool#show {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                                    person_poolToolTheme GET      (/:locale)/:person_id/poolToolTheme(.:format)                                                pool_tool#get_theme {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
+#                                                         POST     (/:locale)/:person_id/poolToolTheme(.:format)                                                pool_tool#set_theme {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                         GET      /(/:locale)(.:format)                                                                        people#index {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                         POST     /(/:locale)(.:format)                                                                        people#create {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
 #                                                         GET      (/:locale)/new(.:format)                                                                     people#new {:locale=>/da-DK|de|el|en|en-AU|en-GB|es-ES|es|fi|fr|fr-CA|it|ja|nb|nl|pt-BR|ru|sv|tr-TR|zh|ca|en-NZ|et|hr|id|is|km-KH|ms-MY|pl|ro|sw|vi|hu|cs|de-bl|de-rc|en-bd|en-bf|en-bl|en-cf|en-rc|en-sb|en-ul|en-un|en-vg|es-rc|fr-bd|fr-rc|en-qr|en-at|fr-at/}
@@ -896,8 +939,10 @@ Kassi::Application.routes.draw do
             get :notifications
             get :payments
             get :unsubscribe
+            get :pooltool
           end
         end
+        resource :company_options, only: [:update]
         resources :testimonials
         resources :emails do
           member do

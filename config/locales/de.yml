@@ -1644,6 +1644,7 @@ de:
       profile: Profil-Info
       settings: Einstellungen
       payments: Zahlungen
+      pooltool: "Pool Tool"
   listings:
     bubble_listing_not_visible:
       listing_not_visible: "Du hast keine Berechtigung, diesen Eintrag anzuschauen."
@@ -2285,6 +2286,11 @@ de:
       default_in_listing: "(wird nur beim Erstellen eines neuen Eintrags als Standardeinstellung benutzt)"
       invisible: "(wird anderen Benutzern nicht angezeigt)"
       image_is_processing: "Dein Profilbild wird verarbeitet. Bitte lade die Seite nach einer Weile neu."
+    pooltool:
+      employee_has_to_give_back_listing: "Mitarbeiter muss Gerät aktiv im Pool Tool zurückgeben"
+      employee_can_see_statistics: "Mitarbeiter kann Statistiken sehen"
+      pool_tool_modify_past: "Benutzer können im Pool Tool Einträge in der Vergangenheit machen"
+      pool_tool_group_booking_enabled: "Benutzer können im Pool Tool mehrere Geräte in einer Buchung buchen"
     save_information: "Informationen speichern"
   shipping_address:
     shipping_address: Lieferadresse
@@ -2490,7 +2496,7 @@ de:
       any_employee: "Anderer Mitarbeiter"
       other_reason: "Anderer Grund"
       only_mine: "Zeige nur meine"
-      give_back_listing: "Benutzer müssen Geräte aktiv zurückgeben"
+      options: "Pool Tool Optionen"
       could_not_create_new_booking: "Error: Aktion fehlgeschlagen! Bitte überprüfe deine Internet-Verbindung."
       booking_from: "Von"
       booking_to: "Bis"

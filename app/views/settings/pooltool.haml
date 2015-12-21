@@ -1,0 +1,18 @@
+- content_for :javascript do
+  / initialize_update_notification_settings_form("#{I18n.locale}","#{@person.id.to_s}");
+  /initialize_update_company_settings_form("#{I18n.locale}","#{@person.id.to_s}")
+
+- content_for :title_header do
+  %h1= t("layouts.no_tribe.settings")
+
+= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(@current_user, @current_community) }
+
+#person_settings_form.left-navi-section.settings-section.pooltool-settings
+  - c_o = @person.company_option
+  = form_for c_o, url: person_company_options_path(@person) do |form|
+
+    = render :partial => "pooltool_checkbox", :collection => CompanyOption::COMPANY_OPTIONS, :as => :pooltool_option_type
+
+    = form.hidden_field "preferences[temp]", :value => "temp"
+
+    = form.button t("settings.save_information"), :class => "send_button_pooltool", :style => "margin-top: 30px"

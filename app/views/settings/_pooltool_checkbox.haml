@@ -1,0 +1,3 @@
+.checkbox-container
+  = check_box_tag "company_option[#{pooltool_option_type}]", "true", @person.company_option[pooltool_option_type] ? true : false, :id => pooltool_option_type
+  = label_tag pooltool_option_type, t("settings.pooltool.#{pooltool_option_type}")

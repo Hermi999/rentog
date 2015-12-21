@@ -800,6 +800,17 @@ module ApplicationHelper
       }
     ]
 
+    if person.is_organization?
+      links << {
+        :id => "settings-tab-pootool",
+        :text => t("layouts.settings.pooltool"),
+        :icon_class => icon_class("pooltool_settings"),
+        :path => pooltool_person_settings_path(person),
+        :name => "pooltool"
+      }
+    end
+
+
     payment_type = MarketplaceService::Community::Query.payment_type(@current_community.id)
 
     if payment_type.present?
