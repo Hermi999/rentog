@@ -728,4 +728,12 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def is_allowed_to_book_in_past?
+    if is_employee?
+      company.company_option.pool_tool_modify_past
+    else
+      company_option.pool_tool_modify_past
+    end
+  end
+
 end

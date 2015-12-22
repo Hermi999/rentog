@@ -2482,7 +2482,7 @@ en:
     deleteConfirmation: "Do you really want to delete this transaction?"
     where_is_it: "Where is the device?"
     turn_your_device: "Please turn your device within the Pool Tool!"
-    invalid_booking_dates: "Invalid booking dates: Maybe someone else already reserved a device on one of those days. Please refresh the page and try again!"
+    invalid_booking_dates: "Invalid booking dates: Maybe someone else already reserved a device on one of those days or your booking is in the past. Please refresh the page and try again!"
     show:
       show_legend: "Show legend"
       hide_legend: "Hide legend"

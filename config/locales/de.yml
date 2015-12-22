@@ -2485,7 +2485,7 @@ de:
     deleteConfirmation: "Willst du diese Buchung wirklich löschen?"
     where_is_it: "Wo befindet sich das Gerät?"
     turn_your_device: "Bitte drehen Sie ihr mobiles Gerät innerhalb des Pool Tools!"
-    invalid_booking_dates: "Ungültiger Buchungszeitraum: Vielleicht hat jemand anderes schon an einem der gewählten Tage das Gerät gebucht. Bitte lade die Seite neu und versuche es noch einmal."
+    invalid_booking_dates: "Ungültiger Buchungszeitraum: Vielleicht hat jemand anderes schon an einem der gewählten Tage das Gerät gebucht oder deine Buchung liegt in der Vergangenheit. Bitte lade die Seite neu und versuche es noch einmal."
     show:
       show_legend: "Zeige Legende"
       hide_legend: "Verberge Legende"

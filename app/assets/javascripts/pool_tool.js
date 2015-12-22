@@ -861,9 +861,9 @@ window.ST.poolTool = function() {
                 }
                 else{
                   // Show error message and fade it out after some time
-                  var received_msg = data.message || "";
                   var msg = $('#error_message').html();
-                  $('#error_message').html(msg + " " + received_msg);
+                  var received_msg = data.message || msg;
+                  $('#error_message').html(received_msg);
                   $('#error_message').show();
                   $('#error_message').fadeOut(8000);
                   // Reset shown error message

@@ -355,7 +355,7 @@ class TransactionsController < ApplicationController
       render :json => {
         action: "update",
         status: "error",
-        message: "Either the start date is greater than end date or this booking collidates with another existing booking"
+        message: error_message
       } and return
     end
 
@@ -506,6 +506,7 @@ class TransactionsController < ApplicationController
 
   private
 
+
   def bookingDatesValid?(start_on=nil, end_on=nil, listing_id=nil, start_on_old=nil, end_on_old=nil)
     start_on ||= params[:start_on]
     end_on ||= params[:end_on]
@@ -518,13 +519,35 @@ class TransactionsController < ApplicationController
       end
     end
 
-    # Only check if start and end date are given
+    # Only check the following things if start and end date are given
     if start_on && end_on && start_on != "" && end_on != ""
-      # Check if start date is smaller end date
+    # CHECK IF DATES ARE PLAUSIBLE
       if Date.parse(start_on) > Date.parse(end_on)
         return false
       end
 
+    # PREVENT USER FROM CHANGING BOOKINGS IN THE PAST
+      unless params[:poolTool] == true && @current_user.is_allowed_to_book_in_past?
+        # if this is an update and the booking is already in past
+        if end_on_old && end_on_old < Date.today
+          # User is not allowed to change anything (no description, date, ...)
+          return false
+        # if this is an update and the end date is in the future and the user tried to change the start date
+        elsif start_on_old && start_on_old != Date.parse(start_on)
+          # if start date is smaller than today
+          if Date.parse(start_on) < Date.today
+            return false
+          end
+        # if this is not an update
+        elsif start_on_old == nil
+          # if user tried to book in the past
+          if Date.parse(start_on) < Date.today
+            return false
+          end
+        end
+      end
+
+    # CHECK INTERSECTIONS WITH EXISTING BOOKING
       # Get all days of new booking
       if (start_on != end_on)
         new_booked_dates = (start_on..end_on).map(&:to_s)
@@ -552,6 +575,7 @@ class TransactionsController < ApplicationController
 
     return true
   end
+
 
   def ensure_can_start_transactions(listing_model:, current_user:, current_community:, poolTool: false)
     error =
