@@ -2289,7 +2289,7 @@ de:
     pooltool:
       employee_has_to_give_back_listing: "Mitarbeiter muss Gerät aktiv im Pool Tool zurückgeben"
       employee_can_see_statistics: "Mitarbeiter kann Statistiken sehen"
-      pool_tool_modify_past: "Benutzer können im Pool Tool Einträge in der Vergangenheit machen"
+      pool_tool_modify_past: "Benutzer können im Pool Tool Einträge in der Vergangenheit anlegen/ändern"
       pool_tool_group_booking_enabled: "Benutzer können im Pool Tool mehrere Geräte in einer Buchung buchen"
     save_information: "Informationen speichern"
   shipping_address:

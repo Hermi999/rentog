@@ -547,7 +547,9 @@ class PeopleController < Devise::RegistrationsController
 
     # if organization, then also create a new company_option object in db
     if person.is_organization?
-      CompanyOption.create(:company_id => person.id)
+      compOpt = CompanyOption.new
+      compOpt.company_id = person.id
+      compOpt.save
     end
 
     [person, email]
