@@ -87,7 +87,7 @@ class Booking < ActiveRecord::Base
 
   # Returns all bookings of a user [and a specific listing] which are currently active
   def self.getActiveBookingsOfUser(user_id, listing_id=nil)
-    if listing.nil?
+    if listing_id.nil?
       Booking.joins(:transaction).where('starter_id = ? AND end_on >= ? AND start_on <= ?', user_id, Date.today, Date.today)
     else
       Booking.joins(:transaction).where('listing_id = ? AND starter_id = ? AND end_on >= ? AND start_on <= ?', listing_id, user_id, Date.today, Date.today)
@@ -97,7 +97,7 @@ class Booking < ActiveRecord::Base
   # Returns all open bookings of a user [and a specific listing], no matter if
   # they are in the future or in the  past (overdue)
   def self.getOpenBookingsOfUser(user_id, listing_id=nil)
-    if listing.nil?
+    if listing_id.nil?
       Booking.joins(:transaction).where("starter_id = ? AND device_returned = false", user_id)
     else
       Booking.joins(:transaction).where("listing_id = ? AND starter_id = ? AND device_returned = false", listing_id, user_id)

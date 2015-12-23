@@ -1,42 +1,36 @@
 %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "padding-bottom:5px;padding-top: 20px;", :width => "100%"}
   %tbody
     %tr
-      %td{:valign => "top", :style => "margin-bottom: 0; padding: 6px 0 1px 10px;"}
-        / Listing title
-        %h2{:style => "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-weight: normal; font-size: 22px; margin-bottom: 8px; margin-top: 2px; padding:0; text-justify: none; line-height:26px;"}
+      %td{:valign => "top"}
+        -# Listing title
+        %h2{:style => "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-weight: normal; font-size: 22px; text-justify: none; line-height:26px;"}
           = link_to listing_url(@url_params.merge({:id => listing[:listing].id})), :target => "_blank" do
             - if @show_listing_shape_label
               = shape_name(listing[:listing]) + ":"
             = listing[:listing].title
 
-      %td{:style => "padding-right: 10px;"}
-
     %tr
-      %td{:valign => "top", :style => "margin-bottom: 0; padding: 10px 0 0 10px;"}
-        / Listing description
-        %p{:style => "margin-top:5px;"}
-          =t("emails.device_return_notifications.description").html_safe
-
-        - unless listing[:listing].description.blank?
-          %p{:style => "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px;font-weight:100px; color:#898989; font-style: italic; line-height:22px; margin-top:0; margin-bottom:8px;"}
-            - text_with_line_breaks_for_email do
-              = truncate_html(listing[:listing].description, :length => 200, :omission => "...")
-        - else
-          =t("emails.device_return_notifications.no_description_available")
-
-      %td{:style => "padding: 10px 10px 5px 0;"}
-        / Listing image
+      %td
+        -# Listing image
         - unless listing[:listing].listing_images.empty?
-          = link_to(image_tag(listing[:listing].listing_images.first.image.url(:email), :class => "listing_main_image", :alt => listing[:listing].title, :height => "100", :width => "150", :style => "display:block;margin-left:30px;margin-bottom:5px;margin-top:4px;border:0", :align => "right"), listing_url(@url_params.merge({:id => listing[:listing].id})))
+          = link_to(image_tag(listing[:listing].listing_images.first.image.url(:email), :class => "listing_main_image", :alt => listing[:listing].title, :height => "100", :width => "150"), listing_url(@url_params.merge({:id => listing[:listing].id})))
 
     %tr
-      %td{:style => "padding-left:10px;"}
-        / Fällig am
+      %td
+        -# Fällig am
         %p
           = t("emails.device_return_notifications.due_on")
-          %span{:style => "background-color: rgb(231, 24, 24); padding: 2px 5px; color: white; font-weight: bold; margin-left: 5px;"}= I18n.l(listing[:return_on])
-      %td{:style => "padding-right:10px;"}
-        / Return button
-        = link_to t("emails.device_return_notifications.return_device"), "#", :target => "_blank", :style => "background: rgb(35, 121, 173); color: white; cursor: pointer; display: block; text-decoration: none; text-align: center; width: 150px; float: right; height: 23px; padding-top: 7px; font-weight: bold;"
+          %span{:style => "color: rgb(231, 24, 24); padding: 2px 5px; font-weight: bold; margin-left: 5px; text-decoration: underline"}= I18n.l(listing[:return_on])
+    %tr
+      %td
+        -# Return button
+        = link_to t("emails.device_return_notifications.return_device"), "#", :target => "_blank", :style => "background: rgb(35, 121, 173); color: white; cursor: pointer; display: block; text-decoration: none; text-align: center; padding: 7px 7px; font-weight: bold;"
+    %tr
+      %td
+        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "padding: 0px;", :width => "50%"}
+          %tbody{:style => "background: rgb(35, 121, 173);"}
+            %tr
+              %td
+                = link_to t("emails.device_return_notifications.return_device"), "#", :target => "_blank", :style => "color: white; cursor: pointer; display: block; text-decoration: none; text-align: center; padding: 7px 7px; font-weight: bold;"
 
 

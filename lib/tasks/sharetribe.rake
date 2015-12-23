@@ -265,6 +265,14 @@ namespace :sharetribe do
     task :deliver => :environment do |t, args|
       PersonMailer.deliver_device_return_notifications
     end
+
+    desc "Test the device return notifiaction emails"
+    task :test => :environment do |t, args|
+      # Test the device return notifications
+      # The admin needs to have active and open bookings for this to work
+      admin = Person.where(:organization_name => "Administrator").first
+      PersonMailer.deliver_device_return_notifications(admin.id)
+    end
   end
 
   def random_location_around(coordinate_string, location_type)

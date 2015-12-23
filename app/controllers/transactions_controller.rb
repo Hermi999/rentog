@@ -513,7 +513,7 @@ class TransactionsController < ApplicationController
     listing_id ||= params[:listing_id]
 
     # If poolTool, then booking dates have to be present
-    if params[:poolTool] == true
+    if params[:poolTool] == true || params[:action] == "update"
       if start_on == "" or end_on == ""
         return false
       end
@@ -527,7 +527,7 @@ class TransactionsController < ApplicationController
       end
 
     # PREVENT USER FROM CHANGING BOOKINGS IN THE PAST
-      unless params[:poolTool] == true && @current_user.is_allowed_to_book_in_past?
+      if (params[:poolTool] == true || params[:action] == "update") && !@current_user.is_allowed_to_book_in_past?
         # if this is an update and the booking is already in past
         if end_on_old && end_on_old < Date.today
           # User is not allowed to change anything (no description, date, ...)

@@ -641,7 +641,7 @@ window.ST.poolTool = function() {
         var listing_id = parseInt(info.listing.listing_id);
         var transaction_id = parseInt(info.booking.transaction_id);
         var title = info.listing.name;
-        var today = new Date(new Date().setHours(1,0,0,0));
+        var today = new Date(new Date().setHours(0,0,0,0));
 
         // Update shown information in popover
         $('#poolTool_popover_deviceImage').attr('src', info.listing.image);
@@ -695,6 +695,7 @@ window.ST.poolTool = function() {
             // Disable start-on2 datepicker if start-on is in the past
             if (s < today){
               $('#start-on2').prop('disabled', true);
+              $('#btn_delete').css('display', 'none');
               start_is_in_past = true;
             }
           }
