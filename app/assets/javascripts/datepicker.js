@@ -2,19 +2,15 @@ window.ST = window.ST || {};
 
 (function(module) {
 
-  module.initializeFromToDatePicker = function(rangeCongainerId, booked_dates, tf_start_on, tf_end_on, booking_start_output, booking_end_output, start_today) {
+  module.initializeFromToDatePicker = function(rangeCongainerId, booked_dates, tf_start_on, tf_end_on, booking_start_output, booking_end_output, datepicker_start_date) {
     var now = new Date();
     var dateRage = $(rangeCongainerId);
     var dateLocale = dateRage.data('locale');
-    var today = null;
-
-    if (start_today){
-      today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
-    }
+    var start_date = datepicker_start_date || null;
 
     var options = {
       calendarWeeks: true,
-      startDate: today,
+      startDate: start_date,
       autoclose: true,
       todayHighlight: true,
       inputs: [$(tf_start_on), $(tf_end_on)],
@@ -30,7 +26,7 @@ window.ST = window.ST || {};
         }
 
         // Hide past dates
-        if (date < today){
+        if (date < start_date){
           return "hidden_date";
         }
 

@@ -265,7 +265,8 @@ class PoolToolController < ApplicationController
         availability_desc_text_all: "This listing can be booked by all registered companies and the company employees.",
 
         pool_tool_preferences: {
-          pooltool_user_has_to_give_back_device: @current_user.has_to_give_back_device?(@current_community)
+          pooltool_user_has_to_give_back_device: @current_user.has_to_give_back_device?(@current_community),
+          pool_tool_modify_past: @current_user.is_allowed_to_book_in_past?
         }
       })
     end

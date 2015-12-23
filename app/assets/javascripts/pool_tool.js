@@ -487,8 +487,14 @@ window.ST.poolTool = function() {
       }
     }
 
-    window.ST.initializeFromToDatePicker('#datepicker', booked_dates, '#start-on', '#end-on', "#booking-start-output", "#booking-end-output");
-    window.ST.initializeFromToDatePicker('#datepicker2', booked_dates, '#start-on2', '#end-on2', "#booking-start-output2", "#booking-end-output2");
+    // If modifying the past is not allowed, then ensure this in the datepicker
+    var start_date;
+    if (!gon.pool_tool_preferences.pool_tool_modify_past){
+      start_date = new Date(new Date().setHours(0,0,0,0));
+    }
+
+    window.ST.initializeFromToDatePicker('#datepicker', booked_dates, '#start-on', '#end-on', "#booking-start-output", "#booking-end-output", start_date);
+    window.ST.initializeFromToDatePicker('#datepicker2', booked_dates, '#start-on2', '#end-on2', "#booking-start-output2", "#booking-end-output2");   // don't use start today, because the datepicker will remove the old dates
 
 
     // EVENT LISTENER: If the user changes the listing selected listing in the
@@ -519,13 +525,19 @@ window.ST.poolTool = function() {
 
   // Initializes the first Datebicker with the 'booked_dates' array
   function updateDatepicker(booked_dates){
-    window.ST.initializeFromToDatePicker('#datepicker', booked_dates, '#start-on', '#end-on', "#booking-start-output", "#booking-end-output");
+    // If modifying the past is not allowed, then ensure this in the datepicker
+    var start_date;
+    if (!gon.pool_tool_preferences.pool_tool_modify_past){
+      start_date = new Date(new Date().setHours(0,0,0,0));
+    }
+
+    window.ST.initializeFromToDatePicker('#datepicker', booked_dates, '#start-on', '#end-on', "#booking-start-output", "#booking-end-output", start_date);
     $('#datepicker').datepicker('update');
   }
 
   // Initializes the second Datebicker with the 'booked_dates' array
-  function updateDatepicker2(booked_dates){
-    window.ST.initializeFromToDatePicker('#datepicker2', booked_dates, '#start-on2', '#end-on2', "#booking-start-output2", "#booking-end-output2");
+  function updateDatepicker2(booked_dates, start_date){
+    window.ST.initializeFromToDatePicker('#datepicker2', booked_dates, '#start-on2', '#end-on2', "#booking-start-output2", "#booking-end-output2", start_date);
     $('#datepicker2').datepicker('update');
   }
 
@@ -629,6 +641,7 @@ window.ST.poolTool = function() {
         var listing_id = parseInt(info.listing.listing_id);
         var transaction_id = parseInt(info.booking.transaction_id);
         var title = info.listing.name;
+        var today = new Date(new Date().setHours(1,0,0,0));
 
         // Update shown information in popover
         $('#poolTool_popover_deviceImage').attr('src', info.listing.image);
@@ -639,16 +652,25 @@ window.ST.poolTool = function() {
 
         // Open Popover
         $('#modifyBookingLink').click();
-        // Employee - Remove buttons and disable textfields if user is not
-        // company admin or rentog admin and this is not a booking of the user
-        if (gon.is_admin === false && info.booking.renter_id !== gon.current_user_id){
+
+        // Remove buttons and disable textfields if
+        // - user is not a company admin or rentog admin and this is not a booking of the user OR
+        // - it's not allowed to change the past and the booking is already in the past
+        if (gon.is_admin === false && info.booking.renter_id !== gon.current_user_id ||
+            !gon.pool_tool_preferences.pool_tool_modify_past && e < today){
           $('#btn_update').css('display', 'none');
           $('#btn_delete').css('display', 'none');
 
+          // initialize the datepicker with the booked_dates array
+          $('#start-on2').val('');
+          $('#end-on2').val('');
+          $('#datepicker2').datepicker('remove');
+          updateDatepicker2([]);
+
           // Set dates with datepicker, because then we have the correct
           // format for the current language
-          $('#start-on2').datepicker('setDate', s);
           $('#end-on2').datepicker('setDate', e);
+          $('#start-on2').datepicker('setDate', s);
 
           // Disable datepickers
           $('#start-on2').prop('disabled', true);
@@ -659,12 +681,23 @@ window.ST.poolTool = function() {
         // If user is company admin or owner of the booking
         // Re-initialize Datepickers with booked dates
         else{
+          var start_is_in_past = false;
+
           // Activate all the buttons and textfields
           $('#btn_update').css('display', 'inline');
           $('#btn_delete').css('display', 'inline');
           $('#start-on2').prop('disabled', false);
           $('#end-on2').prop('disabled', false);
           $('#ta_popover_description').prop('disabled', false);
+
+          // If modifying the past is not allowed, then ensure this in the datepicker
+          if (!gon.pool_tool_preferences.pool_tool_modify_past){
+            // Disable start-on2 datepicker if start-on is in the past
+            if (s < today){
+              $('#start-on2').prop('disabled', true);
+              start_is_in_past = true;
+            }
+          }
 
           // Initialize the two datepickers
             // Get all the booked dates of the listing this booking is for by
@@ -702,7 +735,18 @@ window.ST.poolTool = function() {
             $('#start-on2').val('');
             $('#end-on2').val('');
             $('#datepicker2').datepicker('remove');
-            updateDatepicker2(booked_dates);
+
+            // If modifying the past is not allowed, then ensure this in the datepicker
+            if (!gon.pool_tool_preferences.pool_tool_modify_past){
+              if (start_is_in_past){
+                updateDatepicker2(booked_dates, s);
+              }else{
+                var start_date = new Date(new Date().setHours(0,0,0,0));
+                updateDatepicker2(booked_dates, start_date);
+              }
+            }else{
+              updateDatepicker2(booked_dates);
+            }
 
             // Set datepicker dates to those from db
             $('#start-on2').datepicker('setDate', s);
@@ -1227,10 +1271,7 @@ window.ST.poolTool = function() {
   var calculateLoadFactor = function(entry){
      // Calculate load factor
     var created_at = new Date(entry.created_at);
-    var today = new Date();
-    today.setHours(0);
-    today.setMinutes(0);
-    today.setSeconds(0);
+    var today = new Date(new Date().setHours(0,0,0,0));
     created_at.setHours(0);
     created_at.setMinutes(0);
     created_at.setSeconds(0);
