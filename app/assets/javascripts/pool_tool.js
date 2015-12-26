@@ -181,10 +181,11 @@ window.ST.poolTool = function() {
 
               update_borrowed_devices();
 
-              var e_new = new Date(new Date().setHours(1,0,0,0));
-
-              // Update the gantt chart (with the new source)
-              updateGanttDatepickerBorrowedDevices(transaction_id, listing_id, start_on_date, e_new, start_on_date, end_on_date, title, desc, false)
+              if (end_on_date > today){
+                var e_new = today;
+                // Update the gantt chart (with the new source)
+                updateGanttDatepickerBorrowedDevices(transaction_id, listing_id, start_on_date, e_new, start_on_date, end_on_date, title, desc, false)
+              }
 
             })
             .fail(function(){

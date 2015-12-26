@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151212171332) do
+ActiveRecord::Schema.define(:version => 20151223223503) do
 
   create_table "auth_tokens", :force => true do |t|
     t.string   "token"
@@ -39,11 +39,12 @@ ActiveRecord::Schema.define(:version => 20151212171332) do
     t.integer  "transaction_id"
     t.date     "start_on"
     t.date     "end_on"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
+    t.datetime "created_at",                                              :null => false
+    t.datetime "updated_at",                                              :null => false
     t.string   "reason"
-    t.boolean  "device_returned", :default => false
+    t.boolean  "device_returned",     :default => false
     t.string   "description"
+    t.string   "device_return_token", :default => "33881b4582b5cfc17967"
   end
 
   create_table "braintree_accounts", :force => true do |t|

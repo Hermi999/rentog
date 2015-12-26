@@ -112,7 +112,8 @@ class PersonMailer < ActionMailer::Base
               pre_notify_user[:listings] << {
                 listing: activeBooking.transaction.listing,
                 transaction_id: activeBooking.transaction_id,
-                return_on: activeBooking.end_on
+                return_on: activeBooking.end_on,
+                return_token: activeBooking.device_return_token
               }
               user_already_there = true
               break
@@ -124,7 +125,8 @@ class PersonMailer < ActionMailer::Base
           new_listing = {
             listing: activeBooking.transaction.listing,
             transaction_id: activeBooking.transaction_id,
-            return_on: activeBooking.end_on
+            return_on: activeBooking.end_on,
+            return_token: activeBooking.device_return_token
           }
           users_to_pre_notify << {
             user: current_user,
@@ -171,7 +173,8 @@ class PersonMailer < ActionMailer::Base
               # If the current booking ends later, then take over it's attributes
               if listing[:return_on] < booking.end_on
                 listing[:transaction_id] = booking.transaction_id
-                listing[:return_on] = booking.end_on
+                listing[:return_on] = booking.end_on,
+                listing[:return_token] = booking.device_return_token
               end
 
               listing_already_there = true
@@ -185,6 +188,7 @@ class PersonMailer < ActionMailer::Base
               listing: booking.transaction.listing,
               transaction_id: booking.transaction_id,
               return_on: booking.end_on,
+              return_token: booking.device_return_token
             }
           end
 
@@ -199,7 +203,8 @@ class PersonMailer < ActionMailer::Base
         new_listing = {
           listing: booking.transaction.listing,
           transaction_id: booking.transaction_id,
-          return_on: booking.end_on
+          return_on: booking.end_on,
+          return_token: booking.device_return_token
         }
         users_to_notify_of_overdue << {
           user: current_user,
@@ -229,7 +234,7 @@ class PersonMailer < ActionMailer::Base
       @title_link_text = t("emails.community_updates.title_link_text",
                            :community_name => @community.full_name(@recipient.locale))
 
-      subject = "Reminder für Geräterückgabe"
+      subject = t("emails.device_return_notifications.subject")
 
       # mail delivery method
       if APP_CONFIG.mail_delivery_method == "postmark"
@@ -267,7 +272,7 @@ class PersonMailer < ActionMailer::Base
       @title_link_text = t("emails.community_updates.title_link_text",
                            :community_name => @community.full_name(@recipient.locale))
 
-      subject = "Vorab Reminder für Geräterückgabe"
+      subject = t("emails.pre_device_return_notification.subject")
 
       # mail delivery method
       if APP_CONFIG.mail_delivery_method == "postmark"

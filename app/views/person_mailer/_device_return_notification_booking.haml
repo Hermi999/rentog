@@ -1,36 +1,34 @@
 %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "padding-bottom:5px;padding-top: 20px;", :width => "100%"}
   %tbody
+    -# Listing title
     %tr
       %td{:valign => "top"}
-        -# Listing title
-        %h2{:style => "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-weight: normal; font-size: 22px; text-justify: none; line-height:26px;"}
+        %h2{:style => "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-weight: normal; font-size: 22px; text-justify: none; line-height:26px;, margin:0px; padding:0px"}
           = link_to listing_url(@url_params.merge({:id => listing[:listing].id})), :target => "_blank" do
             - if @show_listing_shape_label
               = shape_name(listing[:listing]) + ":"
             = listing[:listing].title
 
+    -# Listing image
     %tr
       %td
-        -# Listing image
         - unless listing[:listing].listing_images.empty?
           = link_to(image_tag(listing[:listing].listing_images.first.image.url(:email), :class => "listing_main_image", :alt => listing[:listing].title, :height => "100", :width => "150"), listing_url(@url_params.merge({:id => listing[:listing].id})))
 
+    -# Fällig am
     %tr
       %td
-        -# Fällig am
         %p
           = t("emails.device_return_notifications.due_on")
           %span{:style => "color: rgb(231, 24, 24); padding: 2px 5px; font-weight: bold; margin-left: 5px; text-decoration: underline"}= I18n.l(listing[:return_on])
+
+    -# Return device button
     %tr
       %td
-        -# Return button
-        = link_to t("emails.device_return_notifications.return_device"), "#", :target => "_blank", :style => "background: rgb(35, 121, 173); color: white; cursor: pointer; display: block; text-decoration: none; text-align: center; padding: 7px 7px; font-weight: bold;"
-    %tr
-      %td
-        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "padding: 0px;", :width => "50%"}
+        %table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "padding: 5px 0px;", :width => "50%"}
           %tbody{:style => "background: rgb(35, 121, 173);"}
-            %tr
-              %td
-                = link_to t("emails.device_return_notifications.return_device"), "#", :target => "_blank", :style => "color: white; cursor: pointer; display: block; text-decoration: none; text-align: center; padding: 7px 7px; font-weight: bold;"
+            %tr{:style => "background: rgb(35, 121, 173);"}
+              %td{align: "center", :style => "background: rgb(35, 121, 173); border: 2px solid black; border-radius:7px"}
+                = link_to t("emails.device_return_notifications.return_device"), update_device_returned_url(host: @url_params[:host]) + "?transaction_id=" + listing[:transaction_id].to_s + "&token=" + listing[:return_token] + "&referrer=email&uid=" + @recipient.id, :target => "_blank", :style => "background: rgb(35, 121, 173); color: white; cursor: pointer; display: block; text-decoration: none; text-align: center; padding: 7px 0px; font-weight: bold;"
 
 

@@ -1041,6 +1041,7 @@ en:
       unsubscribe_link_text: unsubscribe
     device_return_notifications:
       mail_title: "%{title_link} Device return reminder"
+      subject: "Device return reminder"
       email_text: "The folling bookings are overdue and you have not returned the device:"
       description: "Description"
       no_description_available: "No description available."
@@ -1049,6 +1050,7 @@ en:
       create_new_booking: "Create new booking"
     pre_device_return_notification:
       mail_title: "%{title_link} Pre device return reminder"
+      subject: "Pre device return reminder"
       email_text: "You have to return the following devicecs on %{return_day}, %{return_date}:"
       description: "Description"
       no_description_available: "No description available"
@@ -2527,6 +2529,8 @@ en:
         update: "Update"
         delete: "Delete Booking"
         description: "Description"
+      device_return_successful_email_flash: "You've returned the device <b>%{title}</b> successfully."
+      device_return_fail_email_flash: "The device <b>%{title}</b> has already been returned."
     load_popover:
       utilization_header: "Utilization until today"
       utilization_desc_1: "Only working days"
