@@ -50,21 +50,21 @@ window.ST.poolTool = function() {
     initialize_poolTool_options();
 
     // Show devices the current logged in user has in his hands
-    show_borrowed_devices();
+    show_my_borrowed_devices();
 
     $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"500px", maxHeight:"270px"});
   }
 
   // Removes all borrowed booking cards (divs) and then calls the method for showing the borrowed devices
   // This is used for updating the view, for example after a booking has been deleted, changed or created
-  function update_borrowed_devices(){
+  function update_my_borrowed_devices(){
     $('.user_booking').remove();
     $('.no-open-bookings').remove();
-    show_borrowed_devices();
+    show_my_borrowed_devices();
   }
 
   // Show devices the current logged in user has in his hands at this moment
-  function show_borrowed_devices(){
+  function show_my_borrowed_devices(){
     // gon.user_active_bookings = only bookings which are booked by the user AND
     // are currently in state active (that means the user hadn't give them back) AND
     // are past
@@ -179,7 +179,7 @@ window.ST.poolTool = function() {
                 }
               }
 
-              update_borrowed_devices();
+              update_my_borrowed_devices();
 
               if (end_on_date > today){
                 var e_new = today;
@@ -848,7 +848,7 @@ window.ST.poolTool = function() {
                         break;
                       }
                     }
-                    update_borrowed_devices();
+                    update_my_borrowed_devices();
                   }
 
                   // Close popover
@@ -1086,7 +1086,7 @@ window.ST.poolTool = function() {
       }
     }
 
-    update_borrowed_devices();
+    update_my_borrowed_devices();
   }
 
 
@@ -1401,6 +1401,6 @@ window.ST.poolTool = function() {
     init: init,
     updateGanttChart: updateGanttChart,
     calculateLoadFactor: calculateLoadFactor,
-    update_borrowed_devices: update_borrowed_devices
+    update_my_borrowed_devices: update_my_borrowed_devices
   };
 };

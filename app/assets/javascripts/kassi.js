@@ -1156,7 +1156,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
             title: title,
             renter_id: data.renter_id
           });
-          window.ST.poolTool().update_borrowed_devices();
+          window.ST.poolTool().update_my_borrowed_devices();
         }
 
       }else{

@@ -168,6 +168,7 @@
       = link_to pooltool_person_settings_path(@current_user), :id => "pooltool_options_link" do
         = image_tag "pooltool/pooltool_options.png", :alt => t("pool_tool.show.options"), :title => t("pool_tool.show.options"), :id => "pooltool_options_image"
 
+
   / Devices I have at the moment
   - if @current_user.has_to_give_back_device?(@current_community)
     .poolTool_devices_i_have
@@ -176,3 +177,13 @@
 
       / Div wrapper. The rest is javascript magic
       #my_devices.row
+
+
+  / Devices others have at the moment
+  - if @current_user.is_organization?
+    .poolTool_devices_others_have
+      %p{:class=>"pool_tool_header"}
+        = t('pool_tool.show.devices_others_borrowed')
+
+      / Div wrapper. The rest is javascript magic
+      #other_devices.row
