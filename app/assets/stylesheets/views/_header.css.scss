@@ -20,6 +20,7 @@ $elementSpacing: lines(0.5);
 .header {
   height: $headerHeight;
   width: 100%;
+  background-color: #212121;
 }
 
 .header-wrapper {
@@ -50,11 +51,15 @@ $elementSpacing: lines(0.5);
 
 .header-hover {
   &:hover {
-    background-color: $highlight;
+    //background-color: $highlight;
   }
 
   &.toggled {
-    background-color: $light-body;
+    background-color: #212121;
+
+    .header-text-link{
+      color:#3C3C3C;
+    }
   }
 }
 
@@ -69,7 +74,7 @@ $elementSpacing: lines(0.5);
   padding-right: $elementSpacing;
   padding-left: $elementSpacing;
   display: block;
-  color: $body;
+  color: #D0D0D0;
 
   &:hover {
     color: $body;
@@ -89,7 +94,7 @@ $elementSpacing: lines(0.5);
 }
 
 .new-listing-link {
-  @include header-menu-button($link2);
+  @include header-menu-button(#EA806F);
 }
 
 .header-menu-container {
@@ -151,7 +156,7 @@ $elementSpacing: lines(0.5);
 }
 
 .header-inbox-link {
-  color: $body;
+  color: #D0D0D0;
 
   position: relative;
 }

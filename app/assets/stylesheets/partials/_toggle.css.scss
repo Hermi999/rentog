@@ -1,7 +1,7 @@
 @import "mixins/all";
 
 .toggle-menu {
-  background: $light-body;
+  background: #212121;
   border-color: $light-body !important;
   position: relative;
   z-index: 99999;
@@ -36,8 +36,8 @@
 
   a, .toggle-menu-link {
     &:hover {
-      background: $link;
-      color: $background;
+      //background: $link;
+      color: #E76C59;
 
       &:after {
         color: $background;
