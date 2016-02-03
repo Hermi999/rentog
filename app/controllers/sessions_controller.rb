@@ -5,6 +5,8 @@ class SessionsController < ApplicationController
   skip_filter :check_confirmations_and_verifications
   skip_filter :cannot_access_without_joining, :only => [ :destroy, :confirmation_pending ]
 
+  before_filter :redirect_if_already_logged_in, :only => [:new]
+
   # For security purposes, Devise just authenticates an user
   # from the params hash if we explicitly allow it to. That's
   # why we need to call the before filter below.
@@ -166,4 +168,13 @@ class SessionsController < ApplicationController
       redirect_to root
     end
   end
+
+
+  private
+
+    def redirect_if_already_logged_in
+      if @current_user
+        redirect_to person_poolTool_path(@current_user) and return
+      end
+    end
 end

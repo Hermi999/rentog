@@ -616,13 +616,13 @@ Kassi::Application.routes.draw do
   locale_matcher = Regexp.new(Sharetribe::AVAILABLE_LOCALES.map { |l| l[:ident] }.concat(REMOVED_LOCALES).join("|"))
 
   # Inside this constraits are the routes that are used when request has subdomain other than www
-  match '/:locale/' => 'homepage#index', :constraints => { :locale => locale_matcher }, as: :homepage_with_locale
-  match '/' => 'homepage#index', as: :homepage_without_locale
-  root :to => 'homepage#index'
+  #match '/:locale/' => 'homepage#index', :constraints => { :locale => locale_matcher }, as: :homepage_with_locale
+  #match '/' => 'homepage#index', as: :homepage_without_locale
+  #root :to => 'homepage#index'
 
-  match '/:locale/landingpage' => 'landing_page#index', :constraints => { :locale => locale_matcher }
-  match '/landingpage' => 'landing_page#index'
-
+  match '/:locale/' => 'sessions#new', :constraints => { :locale => locale_matcher }, as: :homepage_with_locale
+  match '/' => 'sessions#new', as: :homepage_without_locale
+  root :to => 'sessions#new'
 
   # error handling: 3$: http://blog.plataformatec.com.br/2012/01/my-five-favorite-hidden-features-in-rails-3-2/
   match '/500' => 'errors#server_error'
