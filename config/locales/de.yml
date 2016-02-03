@@ -2073,7 +2073,6 @@ de:
       signup_with_email: "Registriere Dich mit Deiner E-Mail-Adresse"
       message_to_company_owner: "(Diese Nachricht wurde von RENTOG automatisch generiert) Eine Person mit den Namen %{name} und der Email-Adresse %{email} hat soeben einen neuen Account erstellt und behaupted ein Mitarbeiter deines Unternehmens zu sein. Wenn dies der Wahrheit entspricht, so füge die Person bitte auf deiner Profilseite %{profile} zu deinen Mitarbeitern hinzu."
       help_texts:
-        main_description: "Wenn du der Unternehmens-Eigner oder Equipment-Verantwortliche deines Unternehmens bist, so kannst du hier ein neues Unternehmen erstellen. Danach kannst du Test- und Messgeräte zu deinem Unternehmen hinzufügen und deine Mitarbeiter einladen. <br><br>Mitarbeiter können sich auch selbst zum Unternehmen hinzufügen, indem sie auf den Link unterhalb des Registrierungsformulars klicken."
         person_email: "Bitte gib eine gültige Email-Adresse ein"
         person_organization_name: "Bitte gib den Namen deines Unternehmens ein"
         person_organization_email: "Bitte gib die Email-Adresse ein, die dein Unternehmens-Administrator auf Rentog verwendet"

@@ -825,11 +825,6 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
   }
   else{
     $('#signup_employee').show();
-
-    // Add main popover
-    $('.marketplace-title-header').webuiPopover({content: gon.main_description, animation: 'pop', closeable: true, trigger:'manual', dismissible: false, width: form_width});
-    $('.marketplace-title-header').webuiPopover('show');
-    $('#webuiPopover0').addClass('signup_helper_0');
   }
 
   // Add other popovers
