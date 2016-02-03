@@ -52,7 +52,6 @@
 //= require googlemaps
 //= require map_label
 //= require homepage
-//= require landing_page
 //= require order_manager
 //= require ajax_status
 //= require admin/expiration_notice
@@ -82,7 +81,6 @@
 //= require jquery.fn.gantt
 //= require prettify
 //= require pool_tool
-//= require help_faq
 //= require invitation
 //= require tracking
 //

@@ -17,59 +17,41 @@ class FeedbacksController < ApplicationController
   end
 
   def create
-    # Contact me, Newsletter, Voucher request
-    if params[:type]
+    # User Feedback from Feedback formular
+    feedback_form = FeedbackForm.new(params[:feedback])
+    return if ensure_not_spam!(params[:feedback], feedback_form)
 
-      signupdata = {
-        action: params[:type],
-        email: params[:email],
-        phone: params[:phone],
-        name: params[:name]
-      }
+    unless feedback_form.valid?
+      flash[:error] = t("layouts.notifications.feedback_not_saved") # feedback_form.errors.full_messages.join(", ")
+      return render_form(feedback_form)
+    end
 
-      PersonMailer.new_landingpage_email_signup(signupdata, @current_community).deliver
+    author_id = Maybe(@current_user).id.or_else("Anonymous")
+    email = current_user_email || feedback_form.email
 
-      respond_to do |format|
-        format.json { render :json => {response: "success"} }
-      end
+    feedback = Feedback.create(
+      feedback_form.to_hash.merge({
+                                    community_id: @current_community.id,
+                                    author_id: author_id,
+                                    email: email
+                                  }))
 
-    else
-      # User Feedback from Feedback formular
-      feedback_form = FeedbackForm.new(params[:feedback])
-      return if ensure_not_spam!(params[:feedback], feedback_form)
+    PersonMailer.new_feedback(feedback, @current_community).deliver
 
-      unless feedback_form.valid?
-        flash[:error] = t("layouts.notifications.feedback_not_saved") # feedback_form.errors.full_messages.join(", ")
-        return render_form(feedback_form)
-      end
+    flash[:notice] = t("layouts.notifications.feedback_saved")
 
-      author_id = Maybe(@current_user).id.or_else("Anonymous")
-      email = current_user_email || feedback_form.email
-
-      feedback = Feedback.create(
-        feedback_form.to_hash.merge({
-                                      community_id: @current_community.id,
-                                      author_id: author_id,
-                                      email: email
-                                    }))
-
-      PersonMailer.new_feedback(feedback, @current_community).deliver
-
-      flash[:notice] = t("layouts.notifications.feedback_saved")
-
-      if Community.first.only_pool_tool
-        if @current_user
-          if @current_user.is_organization
-            redirect_to person_poolTool_path(:person_id => @current_user.username) and return
-          else
-            redirect_to person_poolTool_path(:person_id => @current_user.company.username) and return
-          end
+    if Community.first.only_pool_tool
+      if @current_user
+        if @current_user.is_organization
+          redirect_to person_poolTool_path(:person_id => @current_user.username) and return
         else
-          redirect_to landingpage_path and return
+          redirect_to person_poolTool_path(:person_id => @current_user.company.username) and return
         end
       else
-        redirect_to root and return
+        redirect_to landingpage_path and return
       end
+    else
+      redirect_to root and return
     end
   end
 
