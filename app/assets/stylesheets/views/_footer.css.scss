@@ -26,7 +26,7 @@ $elementSpacing: lines(0.5);
   position: absolute;
   width: 100%;
   bottom: 0px;
-  background-color: #242424;
+  background-color: #0A0A0A;
 
   min-height: $footerHeight_tablet;
   @include media(tablet){
@@ -88,17 +88,17 @@ $elementSpacing: lines(0.5);
   color: white;
 
   &:hover {
-    color: $body;
+    color: #044053;
   }
 
   .toggled & {
-    color: $background;
+    color: #044053;
   }
 }
 
 #footer-locales-menu{
   height: $elementHeight;
-  background-color: rgb(166, 76, 93);
+  background-color: #4D868C;
 }
 
 @mixin footer-toggle-menu {
@@ -136,6 +136,18 @@ $elementSpacing: lines(0.5);
 
   @include media(tablet){
     width: 25%
+  }
+
+  a{
+    color: #C4C4C4;
+
+    &:hover{
+      color: #3C3C3C;
+    }
+  }
+
+  .footer-section-header{
+    color: rgb(125, 200, 207);
   }
 }
 

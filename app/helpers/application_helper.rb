@@ -986,4 +986,15 @@ module ApplicationHelper
       content_for :extra_javascript do js end
     end
   end
+
+  def get_wp_url(path)
+    temp_locale = ""
+
+    if I18n.locale.to_s != "en"
+      temp_locale = I18n.locale.to_s + "/"
+    end
+
+    "http://rentog.com/" + temp_locale + path
+  end
+
 end

@@ -1213,7 +1213,7 @@ de:
     company:
         header: Unternehmen
         contact: Kontakt
-        about: "Über uns / Impressum"
+        about: Impressum
         terms: AGB
         privacy: Datenschutz
     help:
