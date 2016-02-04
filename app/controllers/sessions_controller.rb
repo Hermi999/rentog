@@ -69,6 +69,9 @@ class SessionsController < ApplicationController
 
     session[:person_id] = current_person.id
 
+    # Set cookie, so that we know in wordpress if the user is logged in
+    cookies[:session_active] = true;
+
   # **** LOGIN SUCCESSFUL ****
     # no community exists yet
     if not @current_community
@@ -94,6 +97,7 @@ class SessionsController < ApplicationController
 
   def destroy
     sign_out
+    cookies.delete :session_active
     session[:person_id] = nil
     flash[:notice] = t("layouts.notifications.logout_successful")
     redirect_to root
