@@ -1,7 +1,7 @@
 
 // Get environment, production or development
 var getEnvironment = function(){
-  if (window.location.hostname === "rentog.com"){
+  if (window.location.hostname === "tools.rentog.com"){
     return "production";
   }
   else{

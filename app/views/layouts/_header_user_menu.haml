@@ -6,7 +6,7 @@
       = icon_tag("admin", ["icon-with-text"])
       = t("layouts.logged_in.admin")
 
-    = link_to "*** Disable tracking ***", "https://rentog.com/notracking.html"
+    = link_to "*** Disable tracking ***", "https://tools.rentog.com/notracking.html"
 
   - if @current_user.is_organization
     = link_to person_poolTool_path(user) do
