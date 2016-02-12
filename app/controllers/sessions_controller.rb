@@ -98,7 +98,7 @@ class SessionsController < ApplicationController
 
   def destroy
     sign_out
-    cookies.delete :session_active
+    cookies.delete :session_active, :domain => '.rentog.com'
     session[:person_id] = nil
     flash[:notice] = t("layouts.notifications.logout_successful")
     redirect_to root
