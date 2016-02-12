@@ -20,7 +20,12 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    invitation_emails = params[:invitation][:email].split(",")
+    invitation_params = params.require(:invitation).permit(
+      :email,
+      :message
+    )
+
+    invitation_emails = invitation_params[:email].split(",").map(&:strip)
 
     # Check if invitation limit is reached
     unless validate_daily_limit(@current_user.id, invitation_emails.size, @current_community)
@@ -36,7 +41,14 @@ class InvitationsController < ApplicationController
         valid_until = Time.now + 60.days
       end
 
-      invitation = Invitation.new(params[:invitation].merge!({:email => email.strip, :inviter => @current_user, :valid_until => valid_until}))
+      invitation = Invitation.new(
+        message: invitation_params[:message],
+        email: email,
+        inviter: @current_user,
+        community_id: @current_community.id,
+        :valid_until => valid_until
+      )
+
       if invitation.save
         Delayed::Job.enqueue(InvitationCreatedJob.new(invitation.id, @current_community.id))
       else

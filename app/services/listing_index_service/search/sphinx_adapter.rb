@@ -15,6 +15,9 @@ module ListingIndexService::Search
     def search(community_id:, search:, includes:)
       included_models = includes.map { |m| INCLUDE_MAP[m] }
 
+      # rename listing_shape_ids to singular so that Sphinx understands it
+      search = HashUtils.rename_keys({:listing_shape_ids => :listing_shape_id}, search)
+
       if needs_db_query?(search) && needs_search?(search)
         Result::Error.new(ArgumentError.new("Both DB query and search engine would be needed to fulfill the search"))
       end
@@ -49,6 +52,7 @@ module ListingIndexService::Search
           community_id: community_id,
           author_id: search[:author_id],
           availability: search[:availability]  # wah_new
+          deleted: 0
         })
 
       query = Listing
@@ -83,8 +87,8 @@ module ListingIndexService::Search
 
       if perform_numeric_search && numeric_search_match_listing_ids.empty?
         # No matches found with the numeric search
-        # Do a short circuit and return emtpy paginated collection of listings
-        {count: 0, listings: []}
+        # Do a short circuit and return emtpy paginated collection of listings wrapped into a success result
+        success_result(0, [], nil)
       else
         with = HashUtils.compact(
           {
@@ -172,7 +176,7 @@ module ListingIndexService::Search
               organization_name: l.author.organization_name,
               is_organization: l.author.is_organization,
               avatar: {
-                thumb: l.author.image(:thumb)
+                thumb: l.author.image.present? ? l.author.image.url(:thumb) : nil
               },
               is_deleted: l.author.deleted?,
             }.merge(num_of_reviews_hash(l, includes))

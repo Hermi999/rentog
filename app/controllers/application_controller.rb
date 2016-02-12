@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :check_auth_token,
     :fetch_community,
+    :fetch_community_plan_expiration_status,
     :perform_redirect,
     :fetch_logged_in_user,
     :save_current_host_with_port,
@@ -27,9 +28,7 @@ class ApplicationController < ActionController::Base
     :redirect_locale_param,
     :generate_event_id,
     :set_default_url_for_mailer,
-    :fetch_chargebee_plan_data,
     :fetch_community_admin_status,
-    :fetch_community_plan_expiration_status,
     :warn_about_missing_payment_info,
     :set_homepage_path,
     :report_queue_size
@@ -248,7 +247,8 @@ class ApplicationController < ActionController::Base
         domain: c.domain,
         deleted: c.deleted?,
         use_domain: c.use_domain?,
-        domain_verification_file: c.dv_test_file_name
+        domain_verification_file: c.dv_test_file_name,
+        closed: Maybe(@current_plan)[:closed].or_else(false)
       }
     }.or_else(nil)
 
@@ -415,17 +415,11 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  def fetch_chargebee_plan_data
-    @pro_biannual_link = APP_CONFIG.chargebee_pro_biannual_link
-    @pro_biannual_price = APP_CONFIG.chargebee_pro_biannual_price
-    @pro_monthly_link = APP_CONFIG.chargebee_pro_monthly_link
-    @pro_monthly_price = APP_CONFIG.chargebee_pro_monthly_price
-  end
-
   # Before filter for PayPal, shows notification if user is not ready for payments
   def warn_about_missing_payment_info
     if @current_user && PaypalHelper.open_listings_with_missing_payment_info?(@current_user.id, @current_community.id)
-      settings_link = view_context.link_to(t("paypal_accounts.from_your_payment_settings_link_text"), payment_settings_path(:paypal, @current_user))
+      settings_link = view_context.link_to(t("paypal_accounts.from_your_payment_settings_link_text"),
+        payment_settings_path(:paypal, @current_user), target: "_blank")
       warning = t("paypal_accounts.missing", settings_link: settings_link)
       flash.now[:warning] = warning.html_safe
     end

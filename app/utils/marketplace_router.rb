@@ -1,17 +1,26 @@
 module MarketplaceRouter
   module DataTypes
 
+    LIKE_HASH = ->(v) {
+      return if v.nil?
+
+      unless v.respond_to?(:[])
+        {code: :must_be_hash_like, msg: "Value must be like hash (i.e. responds to :[])"}
+      end
+    }
+
     Request = EntityUtils.define_builder(
       [:host, :string, :mandatory],
       [:protocol, :string, one_of: ["http://", "https://"]],
       [:fullpath, :string, :mandatory],
       [:port_string, :string, :optional, default: ""],
-      [:headers, :hash, :mandatory]
+      [:headers, :mandatory, validate_with: LIKE_HASH]
     )
 
     Community = EntityUtils.define_builder(
       [:use_domain, :bool, :mandatory],
       [:deleted, :bool, :mandatory],
+      [:closed, :bool, :mandatory],
       [:domain, :string, :optional],
       [:domain_verification_file, :optional],
       [:ident, :string, :mandatory]
@@ -109,7 +118,7 @@ module MarketplaceRouter
         # -> Redirect to not found
         paths[:community_not_found].merge(status: :found, protocol: protocol)
 
-      elsif community && community[:deleted]
+      elsif community && (community[:deleted] || community[:closed])
         # Community deleted
         # -> Redirect to not found
         paths[:community_not_found].merge(status: :moved_permanently, protocol: protocol)

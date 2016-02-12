@@ -192,6 +192,7 @@ zh:
         fr-CA: 法文(加拿大)
         es: 西班牙文(智利)
         es-ES: 西班牙文
+        pt-PT: ~
         pt-BR: 葡萄牙文（巴西）
         nb: 挪威博克马尔文
         sv: 瑞典语
@@ -387,7 +388,7 @@ zh:
       configure: 配置
       emails_title: 电邮
       support: 支持
-      plan: ~
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: 交易类型
@@ -404,7 +405,7 @@ zh:
         order:
           saving_order: 保存交易类型
           save_order_successful: 成功保存交易类型
-          save_order_error: ""
+          save_order_error: ~
       templates:
         selling_products: 出售产品
         renting_products: 出租产品
@@ -472,17 +473,22 @@ zh:
     paypal_accounts:
       marketplace_paypal_integration: 支付偏好
       preferences_updated: 支付偏好设置更新
+      marketplace_currency_used: ~
+      contact_support_link_text: ~
       integration_info_text: Sharetribe的支付系统由PayPal提供支持。如果你想使用你的用户名在你的集市上付款，你必须连接你的PayPal帐号及决定最小交易规模以及对每个交易收取的费用。
-      read_more_about_paypal: 了解更多关于Sharetribe的支付系统
       paypal_account_email: "1. 连接你的PayPal帐号"
+      link_paypal_personal_account_label: ~
       paypal_account_email_completed: 已完成！
-      set_minimum_price_and_fee: "2. 设置最低价格和交易费用"
+      link_paypal_personal_account: ~
+      personal_payment_preferences_link_text: ~
       set_minimum_price_and_fee_completed: 已完成！
+      read_more_about_paypal: 了解更多关于Sharetribe的支付系统
+      set_minimum_price_and_fee: "2. 设置最低价格和交易费用"
       minimum_listing_price_label: 最小交易规模：
       transaction_fee_label: 交易费用：
       minimum_transaction_fee_label: 最低交易费用：
-      save_settings: 保存设置
       note_about_transaction_fee: "注意：交易费用包括PayPal的费用都依赖于你的货币种类和卖家的销售量。因此，费用至少是%{min_paypal_commission}。当费用从卖家收取时，PayPal会先取费用，然后剩余的费用将被汇入你的PayPal帐号。"
+      save_settings: 保存设置
       minimum_listing_price_below_tx_fee: "最少的交易额至少等于最低交易费用%{minimum_transaction_fee}。"
       minimum_listing_price_below_min: "最少的交易额必须高于最低佣金%{minimum_commission}。"
     transaction_types:
@@ -615,6 +621,7 @@ zh:
       message_from: "来自%{person}的消息"
       about_listing: "关于%{listing_title}"
       free_message: 站内短信
+      message_content_not_available: ~
     message:
       accepted_request: 已接受请求
       accepted_offer: 已接受的宝贝
@@ -1011,6 +1018,7 @@ zh:
     paypal:
       buyer_cannot_pay_error: " 该支付被Paypal拒绝。请联系他们的客服获得更多信息：%{customer_service_link}"
       pending_review_error: 支付已经提交，但是被Paypal标记为‘需要检查’。当Paypal完成检查后，该支付将会被自动授权。
+      seller_express_checkout_disabled: ~
       generic_error: 付款过程中出现错误。无法完成你的PayPal付款。
       cancel_error: 取消时发生错误。不能完成取消操作。
       accept_authorization_error: 尝试接受预授权的PayPal付款时出错。请重试。
@@ -1472,6 +1480,7 @@ zh:
         this_may_take_a_while: 这只需要一小会
         percentage_loaded: "%{percentage}%"
         uploading_failed: 图片加载出错
+        image_processing_failed: ~
         file_too_large: 文件太大
         accepted_formats: "图片必须是GIF,JPG或PNG格式。"
         images_not_uploaded_confirm: 图片还没有上传完成。你真的想要跳过吗?
@@ -1712,15 +1721,19 @@ zh:
   paypal_accounts:
     payout_info_title: 支付信息
     paypal_account_email_connected: "<del>连接PayPal 帐号</del> 完成！"
+    payout_info_paypal: ~
     paypal_billing_agreement_made: "<del>授权%{service_name}收取交易费</del> 完成！"
+    commission_permission_needed: ~
+    create_paypal_account_link_text: ~
+    connected_account: "PayPal帐号“%{email}”连接成功。"
+    paypal_receive_funds_info_label_australia_only: ~
+    paypal_receive_funds_info_label: ~
+    paypal_receive_funds_info: ~
+    upgrade_paypal_account_link_text: ~
+    admin_account_not_connected: ~
+    contact_admin_link_text: ~
     you_are_ready_to_accept_payments: 你已准备好接受付款！
     commission: "%{commission}%"
-    connected_account: "PayPal帐号“%{email}”连接成功。"
-    change_account: 更改帐户
-    missing: "你有开放的信息，但是并没有连接到你的PayPal帐号来接受付款。通过你的%{settings_link}连接你的Paypal账号并且授予%{service_name}权限来收取交易费。"
-    from_your_payment_settings_link_text: 付款设置
-    redirect_message: ~
-    redirect_link_text: ~
     new:
       payout_info_you_need_to_connect: "要接受付款你需要连接你的PayPal帐号和%{service_name}。"
       payout_info_text: 请完成下列两个步骤来连接你的帐号。
@@ -1731,11 +1744,17 @@ zh:
       paypal_account_email_info_text: "如果你没有PayPal帐号，你可以用%{create_paypal_account}创建一个。如果你在连接PayPal帐号时的到错误信息，那你需要升级到商业帐号。升级是免费而快捷的。如果你是个人用户，你应该只需要在PayPal询问”商业名称“时填入姓名。要升级帐号，通过%{upgrade_paypal_account}查找升级链接。"
       create_paypal_account: 点击这里
       upgrade_paypal_account: 登录你的PayPal帐号
-      connect_paypal_account: 连接PayPal帐号
       paypal_account_billing_agreement: "授权%{service_name}收取交易费"
+      follow_steps: ~
+      connect_paypal_account_title: ~
+      connect_paypal_account_title_with_step: ~
+      connect_paypal_account_instructions: ~
+      connect_paypal_account: 连接PayPal帐号
+      paypal_account_billing_agreement_with_step: ~
       paypal_account_billing_agreement_info_both: "当你在%{service_name}完成一个销售后，服务费（%{commission_from_seller}的商品总价，不包括运费，最少的费用%{minimum_commission}）将从你的Paypal账号中扣除。要在%{service_name}中接受付款，你必须允许收取此费用。该费用不包括%{paypal_info_link}"
       paypal_account_billing_agreement_info_fixed: "当你在%{service_name}完成的一个销售后，服务费%{minimum_commission}将从你的PayPal帐号中扣除。要在%{service_name}中接受付款，你必须允许收取此费用。该费用不包括%{paypal_info_link}"
       paypal_account_billing_agreement_info_relative: "当你在%{service_name}完成一个销售后，服务费（%{commission_from_seller}的商品总价，不包括运费）将从你的Paypal账号中扣除。要在%{service_name}中接受付款，你必须允许收取此费用。该费用不包括%{paypal_info_link}"
+      paypal_account_billing_agreement_info_none: ~
       paypal_info_link_text: PayPal的支付处理费
       billing_agreement_description: "授权%{service_name}收取交易费。"
       billing_agreement: 授权
@@ -1748,6 +1767,17 @@ zh:
       something_went_wrong: 出错了。请再试一次。如果这个问题仍旧存在，请联系网站管理员。
       account_not_verified: 你还没有验证你的PayPal帐号。要继续请先登录paypal.com并确认你的帐号。
       account_restricted: 你的PayPal帐号受到限制且不能被连接。请登录paypal.com以了解更多或联系PayPal的客户服务解决这个问题。
+    paypal_account_connected_title: ~
+    paypal_account_connected: ~
+    change_account: 更改帐户
+    missing: "你有开放的信息，但是并没有连接到你的PayPal帐号来接受付款。通过你的%{settings_link}连接你的Paypal账号并且授予%{service_name}权限来收取交易费。"
+    from_your_payment_settings_link_text: 付款设置
+    redirect_message: ~
+    redirect_link_text: ~
+    paypal_account_all_set_up: ~
+    can_receive_payments: ~
+    paypal_account_connected_summary: ~
+    paypal_permission_granted_summary: ~
   paypal:
     pay_with_paypal: 进行支付
     checkout_with_paypal: 用PayPal结帐
@@ -1763,7 +1793,6 @@ zh:
       deactivate: 停用
     help_texts:
       feedback_description_title: 反馈
-      help_captcha_title: 你是人类么？
       help_invitation_code_title: 你需要被邀请才能加入
       terms_title: "%{service_name}的使用条款"
       invite_only_help_text: 如果你希望新用户通过被已有用户邀请的方式加入，请选择这个选项。
@@ -1772,8 +1801,6 @@ zh:
       this_person_is_not_active_in_kassi: "此用户在%{service_name}网站上处于冻结状态"
       inactive_description: "该用户已停用%{service_name}。你不能联系此用户，给予反馈或者评价他们的发布的信息。"
     new:
-      captcha_incorrect: 验证码错误。请输入下图中显示的单词
-      captcha_was_wrong: 验证码错误
       create_new_account: 创建新用户
       email: 电子邮件地址
       email_is_in_use: 此邮箱已使用。
@@ -1781,7 +1808,6 @@ zh:
       email_not_allowed: "该电子邮件不允许在%{service_name}中使用。请使用允许的电子邮件地址。如果你还是不能进入，发送反馈给我们。"
       email_restriction_instructions:
         other: "访问%{service_name}受限。你需要一个电子邮件地址来加入。"
-      enter_captcha: 我是一个人类：
       family_name: 姓
       given_name: 名
       i_accept_the: 我接受
@@ -2081,7 +2107,6 @@ zh:
       short: "%e %b %Y  %H:%M"
       shorter: "%e %b %H:%M"
       short_date: "%Y年%b%e日"
-      sms: "%e %b %H:%M"
   timestamps:
     day_ago: "%{count} 天前"
     days_ago: "%{count} 天前"

@@ -97,7 +97,7 @@ fr:
         community_custom_color2: "Couleur secondaire"
         logo_instructions_text_with_dimensions: "Le logo large doit avoir des dimensions de %{width}x%{height} pixels. Il sera affiché sur les grands écrans."
         logo_icon_instructions_text_with_dimensions: "Ce logo carré sera utilisé lorsque des gens partageront votre site sur Facebook, quand ils navigueront sur votre site depuis un appareil mobile ou en tant qu'image lorsqu'ils mettront le site en favori. Les dimensions doivent être d'au moins %{width}x%{height} pixels."
-        cover_photo_visibility: "La photo de couverture est affichée aux utilisateurs non connectés sur la page d'accueil."
+        cover_photo_visibility: "La photo de couverture est affichée sur la page d'accueil aux utilisateurs non connectés."
         cover_photo_instructions_text_with_dimensions: "La photo sera redimensionnée en %{width}x%{height} pixels et les images trop grandes seront coupées au centre. %{see_how_it_looks_like}."
         small_cover_photo_visibility: "La photo de couverture réduite est affichée sur toute les pages excepté sur la page d'accueil pour les visiteurs non connectés."
         small_cover_photo_instructions_text_with_dimensions: "La photo sera redimensionnée en %{width}x%{height} pixels et les images trop grandes seront coupées au centre."
@@ -197,6 +197,7 @@ fr:
         fr-CA: "Français (Canada)"
         es: "Espagnol (Chili)"
         es-ES: Espagnol
+        pt-PT: Portugais
         pt-BR: "Portuguais (Brésil)"
         nb: "Norvégien Bokmål"
         sv: Suédois
@@ -224,7 +225,7 @@ fr:
         show_listing_publishing_date: "Afficher la date de publication de l'annonce sur la page de l'annonce"
         show_category_in_listing_list: "Afficher les types de transaction dans la vue liste"
         hide_expiration_date: "Ne pas demander de date d'expiration pour les annonces"
-        listing_comments_in_use: "Autoriser les utilisateurs à commenter les annonces (visibles par tous les utilisateurs)"
+        listing_comments_in_use: "Permettre aux utilisateurs de commenter les annonces (visibles par tous les utilisateurs)"
         email_preferences: "Paramètres d'email"
         automatic_newsletters: "Envoyer l'email quotidien/hebdomadaire automatique à tous les utilisateurs (sauf s'ils se désabonnent)"
         email_admins_about_new_members: "Envoyer aux administrateurs un email à chaque fois qu'un nouvel utilisateur s'inscrit"
@@ -392,11 +393,11 @@ fr:
       configure: Configuration
       emails_title: Emails
       support: Support
-      plan: "Votre abonnement"
+      subscription: Abonnement
     listing_shapes:
       index:
         listing_shapes: "Types de transaction"
-        description: "Les types de transaction déterminent comment le processus de transaction fonctionne sur votre site. Vous pouvez choisir de permettre à vos utilisateurs  de louer ou vendre, ou même de simplement publier des informations et de communiquer sans paiement."
+        description: "Les types de transaction déterminent comment le processus de transaction fonctionne sur votre site. Vous pouvez choisir de permettre à vos utilisateurs de louer ou vendre, ou même de simplement publier des informations et de communiquer sans paiement."
         read_more_about_order_types: "En apprendre plus sur les types de transaction"
         add_new_shape: "Ajouter un nouveau type de transaction : "
         select_template: "Sélectionner un modèle..."
@@ -409,7 +410,7 @@ fr:
         order:
           saving_order: "Sauvegarder l'ordre"
           save_order_successful: "Ordre des types de transaction sauvegardé avec succès"
-          save_order_error: "Une erreur s'est produite  lors de la sauvegarde de l'ordre. Veuillez actualiser la page et essayer de nouveau."
+          save_order_error: "Une erreur s'est produite lors de la sauvegarde de l'ordre. Veuillez actualiser la page et essayer de nouveau."
       templates:
         selling_products: "Vendre des produits"
         renting_products: "Louer des produits"
@@ -452,9 +453,9 @@ fr:
       successfully_closed: "Les annonces ont été closes avec succès"
       successfully_deleted: "Type de transaction '%{order_type}' supprimé avec succès"
       pricing_and_checkout_title: "Prix et transaction"
-      online_payments_label: "Autoriser les vendeurs à utiliser le système de paiement en ligne"
-      shipping_label: "Autoriser les vendeurs à définir des frais de livraison"
-      price_label: "Autoriser les vendeurs à définir un prix dans leurs annonces"
+      online_payments_label: "Permettre aux vendeurs d'utiliser le système de paiement en ligne"
+      shipping_label: "Permettre aux vendeurs de définir des frais de livraison"
+      price_label: "Permettre aux vendeurs de définir un prix dans leurs annonces"
       units_title: "Unités de prix"
       units_desc: "Si vous choisissez des unités de prix, le prix de l'annonce sera affiché avec le format \"prix par unité de prix\". Par exemple : \"39€ par heure\"."
       units:
@@ -481,17 +482,22 @@ fr:
     paypal_accounts:
       marketplace_paypal_integration: "Paramètres de paiement"
       preferences_updated: "Préférences de paiement mises à jour"
-      integration_info_text: "Le système de paiement de Sharetribe est propulsé par PayPal. Si vous souhaitez permettre à vos utilisateurs de réaliser des paiements au sein de votre place de marché, vous devez connecter votre compte PayPal, choisir un montant minimal pour les transactions et éventuellement vos frais de service."
-      read_more_about_paypal: "En savoir plus sur le système de paiement avec Sharetribe."
+      marketplace_currency_used: "Cette place de marché utilise %{currency} comme devise. Pour changer la devise, %{contact_support_link}."
+      contact_support_link_text: "contactez le support Sharetribe"
+      integration_info_text: "Le système de paiement de Sharetribe est propulsé par PayPal. Pour permettre à vos utilisateurs de réaliser des paiements au sein de votre place de marché, vous devez connecter votre compte PayPal. Une fois connecté, vous pourrez choisir un montant minimal pour les transactions et éventuellement vos frais de service."
       paypal_account_email: "1. Connecter votre compte PayPal"
+      link_paypal_personal_account_label: "Proposez-vous vous aussi vos produits ou services ?"
       paypal_account_email_completed: "Terminé !"
-      set_minimum_price_and_fee: "2. Définir un montant minimum et les frais de service"
+      link_paypal_personal_account: "Dans ce cas, vous devez également connecter votre compte PayPal depuis %{personal_payment_preferences_link}."
+      personal_payment_preferences_link_text: "votre compte personnel"
       set_minimum_price_and_fee_completed: "Terminé !"
+      read_more_about_paypal: "En savoir plus sur le système de paiement avec Sharetribe."
+      set_minimum_price_and_fee: "Définir un montant minimum et les frais de service"
       minimum_listing_price_label: "Montant minimal de transaction : "
       transaction_fee_label: "Frais de service : "
       minimum_transaction_fee_label: "Frais minimaux de transaction : "
-      save_settings: "Sauvegarder les paramètres"
       note_about_transaction_fee: "Note : les frais de service incluent les frais PayPal qui dépendent de la monnaie et du volume des ventes du vendeur. Pour cette raison, les frais de service sont d'au minimum %{min_paypal_commission}. Lorsque les frais de service sont facturés au vendeur, PayPal prélève d'abord ses frais puis le restant est viré sur votre propre compte PayPal."
+      save_settings: "Sauvegarder les paramètres"
       minimum_listing_price_below_tx_fee: "Le montant minimal de transaction doit être au moins égal aux frais minimaux de transaction %{minimum_transaction_fee}."
       minimum_listing_price_below_min: "Le montant minimal de transaction doit être supérieur aux frais de service minimaux %{minimum_commission}."
     transaction_types:
@@ -626,6 +632,7 @@ fr:
       message_from: "Message de %{person}"
       about_listing: "A propos de l'annonce %{listing_title}"
       free_message: "Message libre"
+      message_content_not_available: "Le contenu du message n'est pas disponible"
     message:
       accepted_request: "a accepté la demande"
       accepted_offer: "a accepté l'offre"
@@ -865,7 +872,7 @@ fr:
       if_this_was_error: "Si vous pensez que c'était une erreur, %{please_contant_admin_link}."
       please_contant_admin_link: "veuillez contacter l'administrateur"
     confirmation_instructions:
-      confirmation_instructions_signature: "Cordialement, <br/> L'équipe de %{service_name}"
+      confirmation_instructions_signature: "Cordialement, <br/> L'équipe %{service_name}"
       welcome_to_kassi: "Bienvenue sur %{service_name} !"
       need_to_confirm: "Vous devez confirmer votre adresse email."
       confirmation_link_text: "Confirmer mon email"
@@ -874,7 +881,7 @@ fr:
     common:
       check_your_settings: "Vérifiez vos paramètres"
       hey: "Bonjour %{name},"
-      kassi_team: "L'équipe de %{service_name}"
+      kassi_team: "L'équipe %{service_name}"
       thanks: "Merci,"
       want_to_control_emails: "Vous souhaitez contrôler les emails que vous recevez de %{service_name} ?"
       dont_want_to_receive_these_emails: "Souhaitez-vous recevoir ces emails ?"
@@ -998,7 +1005,7 @@ fr:
       have_questions: "Vous avez des questions ?"
       our_happiness_team_is_here_to_help: "L'équipe chargée de votre bonheur est là pour vous ! Vous pouvez %{knowledge_base_link} ou contacter notre support depuis le %{admin_panel_link}."
       love: "Love,"
-      sharetribe_crew: "l'équipe Sharetribe"
+      sharetribe_crew: "L'équipe Sharetribe"
       knowledge_base_link_text: "parcourir notre base de connaissance"
       contact_support_link_text: "contacter notre support"
       admin_panel_link_text: "panneau d'administration"
@@ -1022,6 +1029,7 @@ fr:
     paypal:
       buyer_cannot_pay_error: "Le paiement a été refusé par PayPal. Veuillez contacter leur support client pour obtenir plus d'informations : %{customer_service_link}"
       pending_review_error: "Le paiement a été soumis mais a été marqué par PayPal comme 'nécessitant une validation'. Quand cette validation sera confirmée par PayPal, le paiement sera automatiquement autorisé."
+      seller_express_checkout_disabled: "PayPal Express Checkout a été désactivé pour le compte PayPal de l'auteur de cette annonce. Veuillez contacter l'auteur pour lui signaler qu'il y a un problème avec son compte PayPal et lui conseiller de contacter le service client PayPal."
       generic_error: "Une erreur s'est produite durant le processus de paiement. Le paiement PayPal n'a pas pu être réalisé."
       cancel_error: "Une erreur s'est produite durant l'annulation. Celle-ci n'a pas pu être réalisée."
       accept_authorization_error: "Une erreur s'est produite lors de la validation de la pré-autorisation du paiement PayPal. Merci d'essayer de nouveau."
@@ -1031,7 +1039,7 @@ fr:
     error_404:
       if_you_believe: "Si vous pensez que l'adresse est correcte et qu'elle devrait fonctionner, veuillez nous aider à localiser l'erreur en indiquant notamment l'adresse ayant causé le problème et ce qui aurait dû s'afficher (utiliser formulaire ci-dessous)."
       page_can_not_be_found: "Page introuvable !"
-      page_you_requested_can_not_be_found: "La page que vous avez demandé n'a pas pu être trouvée. Avez-vous saisi l'adresse correctement ?"
+      page_you_requested_can_not_be_found: "La page que vous avez demandé n'a pas pu être trouvée. Avez-vous saisi la bonne adresse ?"
     error_404_title: "page introuvable"
     error_410:
       page_removed: "Page supprimée"
@@ -1263,7 +1271,7 @@ fr:
       admin: Admin
       go_to_your_profile_page: Profil
       hi: Bonjour
-      login: "Se connecter"
+      login: Connexion
       logout: Déconnexion
       notifications: Notifications
       requests: "Demandes d'amis"
@@ -1311,7 +1319,7 @@ fr:
       invitation_limit_reached: "Vous avez essayé d'envoyer trop d'invitations. La limite journalière a été atteinte."
       invitation_sent: "L' (les) invitation(s) a (ont) été envoyée(s)"
       inviting_new_users_is_not_allowed_in_this_community: "Inviter de nouveaux utilisateurs n'est pas autorisé."
-      login_again: "Merci de vous reconnecter."
+      login_again: "Veuillez vous reconnecter de nouveau."
       login_failed: "La connexion a échoué. Veuillez saisir vos identifiants."
       account_creation_successful: "Bienvenue sur %{service_name}, %{person_name} !"
       account_deleted: "Votre compte a été supprimé."
@@ -1377,11 +1385,11 @@ fr:
       additional_email_confirmed_dashboard: "Votre adresse email est confirmée."
       you_must_log_in_to_give_feedback: "Vous devez vous connecter pour donner un avis"
       you_must_log_in_to_invite_new_users: "Vous devez vous connecter pour pouvoir inviter de nouveaux utilisateurs sur %{service_name}"
-      you_must_log_in_to_send_a_comment: "Vous devez vous connecter pour envoyer un nouveau commentaire"
+      you_must_log_in_to_send_a_comment: "Vous devez vous connecter pour déposer un nouveau commentaire"
       you_must_log_in_to_send_a_message: "Vous devez vous connecter à %{service_name} pour envoyer un message à un autre utilisateur."
       you_must_log_in_to_do_a_transaction: "Vous devez vous connecter à %{service_name} pour réaliser une transaction."
       you_must_log_in_to_view_this_content: "Vous devez vous connecter pour voir ce contenu"
-      you_must_log_in_to_view_this_page: "Connectez vous pour voir cette page"
+      you_must_log_in_to_view_this_page: "Vous devez vous connecter pour voir cette page"
       you_must_log_in_to_view_your_inbox: "Vous devez vous connecter à %{service_name} pour consulter votre boîte de réception."
       you_must_log_in_to_view_your_settings: "Vous devez vous connecter à %{service_name} pour afficher vos paramètres."
       you_must_log_in_to_add_news_item: "Vous devez vous connecter à %{service_name} pour ajouter un nouvel article."
@@ -1483,6 +1491,7 @@ fr:
         this_may_take_a_while: "cela ne prend qu'un instant"
         percentage_loaded: "%{percentage} %"
         uploading_failed: "Erreur lors de l'envoi d'image"
+        image_processing_failed: "Échec du traitement de l'image"
         file_too_large: "Le fichier est trop volumineux"
         accepted_formats: "L'image doit être un fichier au format GIF, JPG ou PNG."
         images_not_uploaded_confirm: "Toutes les images ne sont pas encore envoyées. Voulez-vous vraiment continuer ?"
@@ -1721,17 +1730,21 @@ fr:
         braintree_terms_also_included: "REMARQUE : Braintree est utilisé comme intermédiaire pour le paiement et en utilisant ce site vous acceptez les %{terms_link_text}, en complément des conditions ci-dessous."
         terms_link_text: "Conditions d'utilisation de Braintree"
   paypal_accounts:
-    payout_info_title: "Information de paiement"
+    payout_info_title: "Recevoir des paiements"
     paypal_account_email_connected: "<del>Connecter votre compte PayPal</del> Connecté !"
+    payout_info_paypal: "%{service_name} utilise PayPal comme solution de paiement. Un %{create_paypal_account_link} est nécessaire pour recevoir des paiements pour vos annonces et il doit être connecté à %{service_name}."
     paypal_billing_agreement_made: "<del>Autoriser %{service_name} à prélever des frais de service sur chaque transaction.</del> Autorisé !"
+    commission_permission_needed: "Vous devez également autoriser %{service_name} à prélever des frais de service."
+    create_paypal_account_link_text: "compte PayPal"
+    connected_account: "Le compte PayPal '%{email}' est désormais connecté."
+    paypal_receive_funds_info_label_australia_only: "Votre compte PayPal doit permettre de recevoir des paiements. Cela peut nécessiter un compte Premier ou Business."
+    paypal_receive_funds_info_label: "Votre compte PayPal doit permettre la réception de paiements. Cela nécessite un compte Business."
+    paypal_receive_funds_info: "Si vous voyez une erreur en essayant de connecter votre compte à %{service_name}, surclassez votre compte PayPal en %{upgrade_paypal_account_link}. C'est simple et gratuit. Si vous êtes un particulier, PayPal recommande d'utiliser votre nom comme nom Business ou Entreprise."
+    upgrade_paypal_account_link_text: "vous connectant et cliquant sur le lien de surclassement"
+    admin_account_not_connected: "Utiliser le système de paiement de %{service_name} pour recevoir des paiements est impossible tant que celui-ci n'a pas été activé. Veuillez %{contact_admin_link} pour en savoir plus."
+    contact_admin_link_text: "contacter l'administrateur de la place de marché"
     you_are_ready_to_accept_payments: "Vous pouvez désormais recevoir des paiements !"
     commission: "%{commission} %"
-    connected_account: "Le compte PayPal '%{email}' est désormais connecté."
-    change_account: "Changer de compte"
-    missing: "Vous avez des annonces actives mais votre compte PayPal n'est pas encore configuré pour recevoir des paiements. Veuillez connecter votre compte PayPal depuis vos %{settings_link} et y autoriser %{service_name} à prélever une commission."
-    from_your_payment_settings_link_text: "paramètres de paiement"
-    redirect_message: "Redirection vers PayPal. Si rien ne se produit, veuillez cliquer %{redirect_link}."
-    redirect_link_text: ici
     new:
       payout_info_you_need_to_connect: "Pour accepter les paiements vous devez connecter votre compte PayPal à %{service_name}."
       payout_info_text: "Pour connecter votre compte, veuillez suivre ces étapes."
@@ -1742,11 +1755,17 @@ fr:
       paypal_account_email_info_text: "Si vous n'avez pas de compte PayPal, vous pouvez en créer un en %{create_paypal_account}. Si vous obtenez un message d'erreur en connectant votre compte PayPal, surclassez le en un compte Business. Surclasser un compte est simple et gratuit. Si vous êtes un particulier, vous pouvez utiliser votre nom et prénom comme \"Nom de société\". Pour surclasser votre compte, %{upgrade_paypal_account} et cherchez le lien de surclassement."
       create_paypal_account: "cliquant ici"
       upgrade_paypal_account: "connectez-vous à votre compte PayPal"
-      connect_paypal_account: "Connecter votre compte PayPal"
       paypal_account_billing_agreement: "Autoriser %{service_name} à prélever des frais de service"
-      paypal_account_billing_agreement_info_both: "Après avoir réalisé une vente sur %{service_name}, des frais (%{commission_from_seller} du montant total, hors frais de livraison, frais minimaux de %{minimum_commission}) seront prélevés sur votre compte PayPal. Pour accepter les paiements sur %{service_name}, autorisez %{service_name} à prélever ces frais. Ces frais n'incluent pas %{paypal_info_link}."
-      paypal_account_billing_agreement_info_fixed: "Après avoir réalisé une vente sur %{service_name}, des frais de %{minimum_commission} seront prélevés sur votre compte PayPal. Pour accepter les paiements sur %{service_name}, autorisez %{service_name} à prélever ces frais. Ces frais n'incluent pas %{paypal_info_link}."
-      paypal_account_billing_agreement_info_relative: "Après avoir réalisé une vente sur %{service_name}, des frais (%{commission_from_seller} du montant total, hors frais de livraison) seront prélevés sur votre compte PayPal. Pour accepter les paiements sur %{service_name}, autorisez %{service_name} à prélever ces frais. Ces frais n'incluent pas %{paypal_info_link}."
+      follow_steps: "Suivez les étapes ci-dessous pour pouvoir recevoir des paiements : "
+      connect_paypal_account_title: "Connecter votre compte PayPal"
+      connect_paypal_account_title_with_step: "Etape %{current_step}/%{total_steps} : connecter votre compte PayPal"
+      connect_paypal_account_instructions: "Cliquez sur le bouton ci-dessous pour vous connecter à PayPal et lier votre compte PayPal avec %{service_name}."
+      connect_paypal_account: "Connecter votre compte PayPal"
+      paypal_account_billing_agreement_with_step: "Etape %{current_step}/%{total_steps} : autoriser les frais de service"
+      paypal_account_billing_agreement_info_both: "Après avoir réalisé une vente sur %{service_name}, des frais (%{commission_from_seller} du montant total, hors frais de livraison, frais minimaux de %{minimum_commission}) seront prélevés sur votre compte PayPal. Vous devez autoriser ceci pour recevoir des paiements sur %{service_name}. Ces frais n'inclus pas %{paypal_info_link}."
+      paypal_account_billing_agreement_info_fixed: "Après avoir réalisé une vente sur %{service_name}, des frais de %{minimum_commission} seront prélevés sur votre compte PayPal. Vous devez autoriser ceci pour recevoir des paiements sur %{service_name}. Ces frais n'inclus pas %{paypal_info_link}."
+      paypal_account_billing_agreement_info_relative: "Après avoir réalisé une vente sur %{service_name}, des frais (%{commission_from_seller} du montant total, hors frais de livraison) seront prélevés sur votre compte PayPal. Vous devez autoriser ceci pour recevoir des paiements sur %{service_name}. Ces frais n'inclus pas %{paypal_info_link}."
+      paypal_account_billing_agreement_info_none: "%{service_name} ne prélève actuellement aucun frais de service. Si les frais de service sont activés, vous devrez autoriser %{service_name} à prélever des frais de services pour recevoir des paiements. Ces frais n'inclus pas %{paypal_info_link}."
       paypal_info_link_text: "les frais de transaction PayPal"
       billing_agreement_description: "Autoriser %{service_name} à prélever des frais de service."
       billing_agreement: Autoriser
@@ -1759,6 +1778,17 @@ fr:
       something_went_wrong: "Quelque chose s'est mal passé. Veuillez essayer de nouveau. Si le problème persiste, veuillez contacter l'administrateur du site."
       account_not_verified: "Vous n'avez pas vérifié votre compte PayPal. Vous devez vous connecter sur paypal.com et vérifier votre compte avant de pouvoir poursuivre."
       account_restricted: "Votre compte PayPal est restreint et ne peut être connecté. Veuillez vous connecter sur paypal.com pour en savoir plus ou contactez le support PayPal pour résoudre le problème."
+    paypal_account_connected_title: "Compte PayPal connecté"
+    paypal_account_connected: "The compte PayPal <%{email}> a été connecté à %{service_name}."
+    change_account: "Changer de compte PayPal"
+    missing: "Vous avez des annonces actives mais votre compte PayPal n'est pas encore configuré pour recevoir des paiements. Veuillez connecter votre compte PayPal depuis vos %{settings_link} et y autoriser %{service_name} à prélever une commission."
+    from_your_payment_settings_link_text: "paramètres de paiement"
+    redirect_message: "Redirection vers PayPal. Si rien ne se produit, veuillez cliquer %{redirect_link}."
+    redirect_link_text: ici
+    paypal_account_all_set_up: "Bravo, tout est configuré correctement !"
+    can_receive_payments: "Vous pouvez désormais recevoir des paiements pour vos annonces."
+    paypal_account_connected_summary: "Compte PayPal <%{email}> connecté avec succès"
+    paypal_permission_granted_summary: "Frais de service autorisés"
   paypal:
     pay_with_paypal: "Procéder au paiement"
     checkout_with_paypal: "Payer avec PayPal"
@@ -1774,7 +1804,6 @@ fr:
       deactivate: Désactiver
     help_texts:
       feedback_description_title: Avis
-      help_captcha_title: "Etes-vous humain ?"
       help_invitation_code_title: "Il vous faut une invitation pour participer"
       terms_title: "Conditions d'utilisation de %{service_name}"
       invite_only_help_text: "Choisissez cette option si vous souhaitez que les nouveaux membres ne puissent rejoindre la place de marché que s'ils ont été invités par un utilisateur déjà membre."
@@ -1783,8 +1812,6 @@ fr:
       this_person_is_not_active_in_kassi: "Cet utilisateur n'est plus actif sur %{service_name}"
       inactive_description: "Cet utilisateur a arrêté d'utiliser %{service_name}. Vous ne pouvez plus le contacter, l'évaluer ni commenter ses annonces."
     new:
-      captcha_incorrect: "Vérification reCAPTCHA échouée. Veuillez saisir les mots de l'image dans la case dessous."
-      captcha_was_wrong: "Texte Captcha incorrecte."
       create_new_account: "Créer un compte"
       email: "Adresse email"
       email_is_in_use: "L'adresse email que vous avez saisi est déjà utilisée."
@@ -1793,7 +1820,6 @@ fr:
       email_restriction_instructions:
         one: "L'accès à %{service_name} est limité. Pour en être membre, vous devez avoir une adresse email du type %{allowed_emails}."
         other: "L'accès à %{service_name} est limité. Pour en être membre, vous devez avoir une adresse email autorisée."
-      enter_captcha: "Je suis un être humain :"
       family_name: Nom
       given_name: Prénom
       i_accept_the: "J'accepte les"
@@ -1886,8 +1912,8 @@ fr:
     new:
       create_new_account: "Créer un nouveau compte"
       i_forgot_my_password: "Identifiant ou mot de passe oublié"
-      login: "Se connecter"
-      login_to_kassi: "Se connecter à %{service_name}"
+      login: Connexion
+      login_to_kassi: "Connexion à %{service_name}"
       connect_your_facebook_to_kassi: "Lier votre compte Facebook à %{service_name}"
       facebook_account: "Compte Facebook :"
       log_in_to_link_account: "Si vous avez déjà un compte %{service_name}, connectez vous pour le lier à votre compte Facebook."
@@ -1910,10 +1936,10 @@ fr:
       your_current_email_is: "Votre email est : %{email}."
       change_email: Modifier
       confirm_your_email: "Veuillez confirmer votre adresse email"
-      account_confirmation_instructions: "Vous allez bientôt recevoir un email contenant un lien que vous devrez suivre pour confirmer votre adresse email. Dès que vous l'aurez confirmée, vous pourrez rejoindre %{service_name}."
+      account_confirmation_instructions: "Vous allez bientôt recevoir un email contenant un lien que vous devrez suivre pour confirmer votre adresse email. N'oubliez pas de vérifier votre dossier \"Spam\" ou \"Indésirables\" ! Dès que vous l'aurez confirmée, vous pourrez rejoindre %{service_name}."
       account_confirmation_instructions_title_admin: "Bienvenue sur votre place de marché !"
       your_marketplace_has_now_been_created: "Votre place de marché a été créée. C'était simple, non ? Il ne reste qu'une étape pour que vous puissiez y accéder : vous devez confirmer votre adresse email."
-      account_confirmation_instructions_admin: "Vous allez bientôt recevoir un email contenant un lien que vous devrez suivre pour confirmer l'adresse email que vous avez saisie. Après cette confirmation vous pourrez commencer à configurer votre place de marché."
+      account_confirmation_instructions_admin: "Vous allez bientôt recevoir un email contenant un lien que vous devrez suivre pour confirmer l'adresse email que vous avez saisie. N'oubliez pas de vérifier votre dossier \"Spam\" ou \"Indésirables\" ! Après cette confirmation vous pourrez commencer à configurer votre place de marché."
   settings:
     account:
       change: Changer
@@ -1970,7 +1996,7 @@ fr:
       settings_link: paramètres
       homepage_link: "page d'accueil"
       unsubscribe_unsuccesful: "Erreur lors de la désinscription"
-      unsuccessful_unsubscribe_info_text: "Le lien de désinscription a expiré. Connectez-vous pour gérer vos paramètres de notifications."
+      unsuccessful_unsubscribe_info_text: "Le lien de désinscription a expiré. Veuillez vous connecter pour gérer vos paramètres de notifications."
     profile:
       about_you: "A propos de vous"
       city: Ville
@@ -2093,7 +2119,6 @@ fr:
       short: "%e. %b %Y heure %H:%M"
       shorter: "%e. %b h %H:%M"
       short_date: "%e %b %Y"
-      sms: "%e.%m. h %H:%M"
   timestamps:
     day_ago: "il y a %{count} jour"
     days_ago: "il y a %{count} jours"

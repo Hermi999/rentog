@@ -52,9 +52,10 @@ class ListingsController < ApplicationController
           end
 
           # Returns the listings for one person formatted for profile page view
-          per_page = params[:per_page] || 200 # the point is to show all here by default
+          per_page = params[:per_page] || 1000 # the point is to show all here by default
           includes = [:author, :listing_images]
-          include_closed = @current_user == @person && params[:show_closed]
+          include_closed = @person == @current_user && params[:show_closed]
+
           search = {
             author_id: @person.id,
             include_closed: include_closed,
@@ -89,17 +90,15 @@ class ListingsController < ApplicationController
 
         if params[:share_type].present?
           direction = params[:share_type]
-
-          params[:listing_shapes] = {
-            id: all_shapes.select { |shape|
+          params[:listing_shapes] =
+            all_shapes.select { |shape|
               direction_map[shape[:id]] == direction
             }.map { |shape| shape[:id] }
-          }
         end
         search_res = @current_community.private ? Result::Success.new({count: 0, listings: []}) : ListingIndexService::API::Api.listings.search(
                      community_id: @current_community.id,
                      search: {
-                       listing_shapes: params[:listing_shapes],
+                       listing_shape_ids: params[:listing_shapes],
                        page: page,
                        per_page: per_page
                      },
@@ -262,10 +261,9 @@ class ListingsController < ApplicationController
 
     if (@current_user.location != nil)
       temp = @current_user.location
-      temp.location_type = "origin_loc"
       @listing.build_origin_loc(temp.attributes)
     else
-      @listing.build_origin_loc(:location_type => "origin_loc")
+      @listing.build_origin_loc()
     end
 
     form_content
@@ -276,7 +274,7 @@ class ListingsController < ApplicationController
     return redirect_to action: :edit unless request.xhr?
 
     if !@listing.origin_loc
-        @listing.build_origin_loc(:location_type => "origin_loc")
+        @listing.build_origin_loc()
     end
 
     form_content
@@ -351,10 +349,10 @@ class ListingsController < ApplicationController
   def edit
     @selected_tribe_navi_tab = "home"
     if !@listing.origin_loc
-        @listing.build_origin_loc(:location_type => "origin_loc")
+        @listing.build_origin_loc()
     end
 
-    @custom_field_questions = @listing.category.custom_fields.find_all_by_community_id(@current_community.id)
+    @custom_field_questions = @listing.category.custom_fields.where(community_id: @current_community.id)
     @numeric_field_ids = numeric_field_ids(@custom_field_questions)
 
     shape = select_shape(get_shapes, @listing.listing_shape_id)
@@ -532,7 +530,7 @@ class ListingsController < ApplicationController
         pickup_enabled: @listing.pickup_enabled?,
         shipping_price_additional: shipping_price_additional,
         always_show_additional_shipping_price: shape[:units].length == 1 && shape[:units].first[:kind] == :quantity,
-        paypal_fees_url: PaypalHelper.fee_link(community_country_code)
+        paypal_fees_url: PaypalCountryHelper.fee_link(community_country_code)
       })
     else
       nil
@@ -820,7 +818,7 @@ class ListingsController < ApplicationController
           t("listings.new.community_not_configured_for_payments_admin",
             payment_settings_link: view_context.link_to(
               t("listings.new.payment_settings_link"),
-              admin_community_paypal_preferences_path(community_id: community.id)))
+              admin_paypal_preferences_path()))
             .html_safe
         else
           t("listings.new.community_not_configured_for_payments",
@@ -851,15 +849,36 @@ class ListingsController < ApplicationController
     end
   end
 
-  def create_listing_params(listing_params)
-    listing_params.except(:delivery_methods).merge(
-      require_shipping_address: Maybe(listing_params[:delivery_methods]).map { |d| d.include?("shipping") }.or_else(false),
-      pickup_enabled: Maybe(listing_params[:delivery_methods]).map { |d| d.include?("pickup") }.or_else(false),
-      price_cents: listing_params[:price_cents],
-      shipping_price_cents: listing_params[:shipping_price_cents],
-      shipping_price_additional_cents: listing_params[:shipping_price_additional_cents],
-      currency: listing_params[:currency]
+  def create_listing_params(params)
+    listing_params = params.except(:delivery_methods).merge(
+      require_shipping_address: Maybe(params[:delivery_methods]).map { |d| d.include?("shipping") }.or_else(false),
+      pickup_enabled: Maybe(params[:delivery_methods]).map { |d| d.include?("pickup") }.or_else(false),
+      price_cents: params[:price_cents],
+      shipping_price_cents: params[:shipping_price_cents],
+      shipping_price_additional_cents: params[:shipping_price_additional_cents],
+      currency: params[:currency]
     )
+
+    add_location_params(listing_params, params)
+  end
+
+  def add_location_params(listing_params, params)
+    if params[:origin_loc_attributes].nil?
+      listing_params
+    else
+      location_params = params[:origin_loc_attributes].permit(
+        :address,
+        :google_address,
+        :latitude,
+        :longitude
+      ).merge(
+        location_type: :origin_loc
+      )
+
+      listing_params.merge(
+        origin_loc_attributes: location_params
+      )
+    end
   end
 
   def get_transaction_process(community_id:, transaction_process_id:)
@@ -872,7 +891,7 @@ class ListingsController < ApplicationController
       .maybe[:process]
       .or_else(nil)
       .tap { |process|
-        raise ArgumentError.new("Can not find transaction process: #{opts}") if process.nil?
+        raise ArgumentError.new("Cannot find transaction process: #{opts}") if process.nil?
       }
   end
 
@@ -894,13 +913,13 @@ class ListingsController < ApplicationController
 
   def get_shapes
     @shapes ||= listings_api.shapes.get(community_id: @current_community.id).maybe.or_else(nil).tap { |shapes|
-      raise ArgumentError.new("Can not find any listing shape for community #{@current_community.id}") if shapes.nil?
+      raise ArgumentError.new("Cannot find any listing shape for community #{@current_community.id}") if shapes.nil?
     }
   end
 
   def get_processes
     @processes ||= transactions_api.processes.get(community_id: @current_community.id).maybe.or_else(nil).tap { |processes|
-      raise ArgumentError.new("Can not find any transaction process for community #{@current_community.id}") if processes.nil?
+      raise ArgumentError.new("Cannot find any transaction process for community #{@current_community.id}") if processes.nil?
     }
   end
 

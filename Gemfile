@@ -7,16 +7,11 @@ gem 'rails', '3.2.22'
 # To use debugger
 #gem 'ruby-debug'
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'coffee-rails', "~> 3.2.2"
-  gem 'uglifier'
-  gem 'asset_sync'
-end
+gem 'coffee-rails', "~> 3.2.2"
+gem 'uglifier'
 
 gem 'sass-rails'
-gem 'compass-rails'
+gem 'compass-rails', '~> 1.1'
 
 # Requiring 'compass' gem directly is not normally needed,
 # 'compass-rails' already does that.
@@ -32,13 +27,12 @@ gem 'gon', '~> 6.0.1'
 
 # gem 'heroku' install the Heroku toolbelt (https://toolbelt.heroku.com/) instead (as gem had some problems)
 gem "passenger", "~> 5.0.18"
-gem "rack-timeout"
 
 gem "mysql2"
 gem 'haml'
 gem 'sass', "  ~> 3.2.9"
 gem 'rest-client', '>= 1.6.0'
-gem 'paperclip'
+gem 'paperclip', '~> 3.5.1'
 gem 'delayed_paperclip'
 gem 'aws-sdk-v1'
 gem 'aws-sdk', '~> 2'
@@ -52,35 +46,44 @@ gem 'flying-sphinx', "~>1.2.0"
 # Fixes issues: Create a new delayed delta job if there is an existing delta job which has failed
 gem 'ts-delayed-delta', '~> 2.0.2'
 gem 'possibly', '~> 0.2.0'
-gem 'recaptcha'
-gem 'delayed_job', "~>3.0.5"
-gem 'delayed_job_active_record'
+
+# Can not use version 4.0.3, since it stucks the rails server loading. The issue which caused this
+# has been fixed for 4.0.4 https://github.com/collectiveidea/delayed_job/issues/697
+# However, some tests break for 4.0.4, so keeping 4.0.2 for now
+gem 'delayed_job', "~> 4.0.0", "<= 4.0.2"
+gem 'delayed_job_active_record' # , "~> 4.0.0"
 gem 'json', "~>1.8.0"
 gem 'multi_json' # 1.8.0 caused "invalid byte sequence in UTF-8" at heroku
 gem 'web_translate_it'
-#gem 'postmark-rails' # could be removed as not currently used
 gem 'rails-i18n'
-gem 'devise', "~>2.2.4"  #3.0rc requires bit bigger changes
+gem 'devise', "~>3.0.0"
 gem "devise-encryptable"
 gem "omniauth-facebook", "~> 2.0.1"
 gem 'spreadsheet'
-gem 'rabl'
+gem 'rabl', '~> 0.7.10'
 gem 'rake'
 gem 'xpath'
 gem 'dynamic_form'
 gem "truncate_html"
 gem 'money-rails'
-gem 'mercury-rails'
+
+# The latest release (0.9.0) is not Rails 4 compatible
+gem 'mercury-rails',
+  git: 'git://github.com/jejacks0n/mercury.git',
+  branch: 'master',
+  ref: '1cc637b0bccea19085f824d2881c6513ed5ee8ae'
+
 gem 'fb-channel-file'
-gem 'country_select', '> 1.2.0'
+gem 'country_select', '~> 1.3.1'
 gem 'braintree'
 gem "mail_view", "~> 1.0.3"
 gem 'statesman', '~> 0.5.0'
 gem "premailer"
 gem 'stringex', '~> 2.5.2'
-gem 'validates_timeliness', '~> 3.0'
-#gem 'paypal-sdk-permissions', '1.96.3'
-gem 'paypal-sdk-permissions', '1.96.4'
+gem 'paypal-sdk-permissions',
+  :git    => 'git://github.com/paypal/permissions-sdk-ruby.git',
+  :branch => 'master',
+  :ref    => 'c0240bee9f94fe6338d67b4f754e1a11ce81619a'
 gem 'paypal-sdk-merchant', '~> 1.116.0'
 gem 'airbrake', '~>4.1.0'
 gem 'cache_digests'
@@ -91,11 +94,11 @@ gem 'lograge'
 gem 'public_suffix' # Needed currently to set GA hostname right, probably not
                     # needed anymore when GA script updated.
 
-gem 'newrelic_rpm'
-
 group :staging, :production do
   # Daemons gem installed because otherwise delayed worker won't work on beanstalk
   gem 'daemons', '~> 1.2.3'
+  gem 'newrelic_rpm', '~> 3.9.1.236'
+  gem 'rails_12factor', '~> 0.0.3'
 end
 
 group :development, :test do
@@ -104,7 +107,7 @@ group :development, :test do
 end
 
 group :development, :staging do
-  gem 'meta_request'
+  gem 'meta_request', '~> 0.3'
 end
 
 group :development do
@@ -126,19 +129,18 @@ end
 
 group :test do
   gem "rspec-rails", "~>2.99.0"
-  gem 'capybara'
-  gem 'cucumber-rails', :require => false
+  gem 'capybara', "~> 2.2.1"
+  gem 'cucumber-rails', '~> 1.4.0', :require => false
   gem 'cucumber'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '~> 2.45.0'
   gem 'launchy'
   gem 'ruby-prof'
   gem "pickle"
-  gem 'email_spec'
-  gem 'action_mailer_cache_delivery'
+  gem 'email_spec', '~> 1.6.0'
   gem "parallel_tests", :group => :development
   gem 'timecop'
   gem 'rack-test'
-  gem 'database_cleaner'
+  gem 'database_cleaner', '~> 1.1'
   gem 'connection_pool'
   gem 'coveralls', require: false
 end

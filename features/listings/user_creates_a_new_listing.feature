@@ -46,7 +46,7 @@ Feature: User creates a new listing
     Given I am not logged in
     And I am on the home page
     When I follow "new-listing-link"
-    And I should see "Sign in to Rentog" within "h1"
+    And I should see "Log in to Rentog" within "h1"
 
   @javascript
   @skip_phantomjs
@@ -198,7 +198,7 @@ Scenario: Company creates a new listing with date field
   And I fill in "listing_title" with "My house"
   And I fill select custom date "building_date_test" with day="19", month="April" and year="2014"
   And I press "Save listing"
-  Then I should see "building_date_test: 19 Apr 2014"
+  Then I should see "building_date_test: Apr 19, 2014"
 
   @javascript @sphinx @no-transaction
   Scenario: Company creates a new listing with checkbox field

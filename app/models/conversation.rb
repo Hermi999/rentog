@@ -19,9 +19,12 @@
 
 class Conversation < ActiveRecord::Base
 
+  # TODO Rails 4, Remove
+  include ActiveModel::ForbiddenAttributesProtection
+
   has_many :messages, :dependent => :destroy
 
-  has_many :participations, :dependent => :destroy
+  has_many :participations
   has_many :participants, :through => :participations, :source => :person
   belongs_to :listing
   has_one :transaction

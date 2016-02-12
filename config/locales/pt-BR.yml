@@ -197,6 +197,7 @@ pt-BR:
         fr-CA: "Francês (Canadá)"
         es: "Espanhol (Chile)"
         es-ES: Espanhol
+        pt-PT: Português
         pt-BR: Português
         nb: Norueguês
         sv: Sueco
@@ -228,7 +229,7 @@ pt-BR:
         email_preferences: "Preferências de e-mail"
         automatic_newsletters: "Enviar automáticamente boletins diários / semanais para todos os usuários (a menos que optar por sair)"
         email_admins_about_new_members: "Envie um e-mail sempre para adminstrador quando um novo usuário se cadastrar"
-        google_analytics_key: "ID de acompanhamento do \"Google Analytics\""
+        google_analytics_key: "Google Analytics tracking ID"
         twitter_handle: "Twitter handle (usado com o botão de tweet na página de anúncio)"
         update_settings: "Salvar configurações"
         automatically_confirmed: "Os anúncios serão automaticamente confirmados %{days_dropdown} dias após o pagamento. Se o sistema de depósito for utilizado, o dinheiro sera transmitido ao vendedor nesse momento."
@@ -277,8 +278,8 @@ pt-BR:
         invalid_facebook_connect_secret: "Segredo do cliente deve conter apenas números e letras de A a F."
         save: "Salvar definições"
       analytics:
-        analytics: "Google Analytics"
-        google_analytics_key: "ID de acompanhamento do \"Google Analytics\""
+        analytics: Analytics
+        google_analytics_key: "Google Analytics tracking ID"
         google_analytics_key_info_text: "ID de rastreamento da sua conta do \"Google Analytics\"."
         google_analytics_key_info_text_with_instructions: "ID de acompanhamento da sua conta do \"Google Analytics\". %{instructions_link}."
         google_analytics_instructions_link_text: "Leia mais sobre como conectar com o \"Google Analytics\""
@@ -392,7 +393,7 @@ pt-BR:
       configure: Configuração
       emails_title: E-mails
       support: Suporte
-      plan: "Minha Assinatura"
+      subscription: Assinatura
     listing_shapes:
       index:
         listing_shapes: "Pedidos por tipos"
@@ -481,17 +482,22 @@ pt-BR:
     paypal_accounts:
       marketplace_paypal_integration: "Preferências de pagamento"
       preferences_updated: "Preferências de pagamento atualizadas."
+      marketplace_currency_used: "Este mercado usa %{currency} como moeda. Para mudar a moeda, %{contact_support_link}."
+      contact_support_link_text: "Entre em contato com o suporte da Sharetribe"
       integration_info_text: "O sistema de pagamento de Sharetribe é gerenciado pelo PayPal. Se você quiser permitir que os seus usuários façam pagamentos através de seu mercado virtual, você deve se conectar a sua conta PayPal e decidir o tamanho mínimo da transação e a taxa que você quer ganhar de cada transação."
-      read_more_about_paypal: "Leia mais sobre o sistema de pagamento do Sharetribe"
       paypal_account_email: "1. Conecte sua conta PayPal"
+      link_paypal_personal_account_label: "Você também vende produtos?"
       paypal_account_email_completed: Concluído!
-      set_minimum_price_and_fee: "2. Definir preço mínimo e taxa de transação"
+      link_paypal_personal_account: "Se vender, você precisa conectar sua conta PayPal a %{personal_payment_preferences_link}."
+      personal_payment_preferences_link_text: "Sua conta pessoal no mercado"
       set_minimum_price_and_fee_completed: Concluído!
+      read_more_about_paypal: "Leia mais sobre o sistema de pagamento do Sharetribe"
+      set_minimum_price_and_fee: "2. Definir preço mínimo e taxa de transação"
       minimum_listing_price_label: "Preço mínimo de anúncio:"
       transaction_fee_label: "Taxa de transação:"
       minimum_transaction_fee_label: "Taxa mínima de transação:"
-      save_settings: "Salvar definições"
       note_about_transaction_fee: "Nota: a taxa de transação inclui taxas do PayPal que dependem de sua moeda e o volume de vendas do vendedor. Por esta razão, a taxa é sempre pelo menos %{min_paypal_commission}. Quando a taxa é cobrada do vendedor, o PayPal cobrará as suas taxas em primeiro lugar, e o restante será transferido para sua conta PayPal."
+      save_settings: "Salvar definições"
       minimum_listing_price_below_tx_fee: "tem que ser, pelo menos, o mesmo que a taxa de transação mínima de %{minimum_transaction_fee}."
       minimum_listing_price_below_min: "tem de ser maior do que o mínimo de comissão que é %{minimum_commission}."
     transaction_types:
@@ -626,6 +632,7 @@ pt-BR:
       message_from: "Mensagem de %{person}"
       about_listing: "Sobre o anúncio %{listing_title}"
       free_message: "Mensagem livre"
+      message_content_not_available: "O conteúdo da mensagem não está disponível"
     message:
       accepted_request: "aceitou o pedido"
       accepted_offer: "aceitou a oferta"
@@ -910,7 +917,7 @@ pt-BR:
       has_commented_listing_you_follow_in_kassi: "%{author} comentou o anúncio '%{listing}' que você segue no %{service_name}."
     new_message:
       view_message: "Ver mensagem"
-      has_sent_you_a_message_in_kassi: "%{sender} te enviou uma mensagem em %{service_name}."
+      has_sent_you_a_message_in_kassi: "%{sender} te enviou uma mensagem no %{service_name}."
       you_have_a_new_message: "Uma nova mensagem em %{service_name} de %{sender_name}"
     new_payment:
       new_payment: "Você recebeu um novo pagamento"
@@ -997,7 +1004,7 @@ pt-BR:
       are_you_new_to_online_marketplaces: "Precisa de ajuda com o seu mercado virtual? Não se preocupe, estamos aqui para ajudá-lo! Enviaremos para você uma série de e-mails que o ajudarão a obter o máximo da Sharetribe e a construir um mercado bem sucedido. Enviaremos a Parte 1 para você em breve."
       have_questions: "Tem dúvidas?"
       our_happiness_team_is_here_to_help: "Nossa equipe da felicidade está aqui para você! %{knowledge_base_link} ou entre em contato com o nosso suporte através %{admin_panel_link}."
-      love: "Amor,"
+      love: "Com carinho,"
       sharetribe_crew: "Equipe Sharetribe"
       knowledge_base_link_text: "verifique nossa base de conhecimento"
       contact_support_link_text: "entre em contato com o nosso suporte"
@@ -1022,6 +1029,7 @@ pt-BR:
     paypal:
       buyer_cannot_pay_error: "O pagamento foi rejeitado pelo PayPal. Por favor contate o atendimento a cliente deles para maiores informações: %{customer_service_link}"
       pending_review_error: "O pagamento foi enviado mas foi marcado como \"requerendo verificação\" pelo PayPal. Quando o PayPal complete essa verificação o pagamento será automaticamente autorizado."
+      seller_express_checkout_disabled: "O PayPal Express Checkout foi desabilitado para a conta PayPal do autor deste anúncio. Por favor contate o autor e informe-o que há um problema com sua conta PayPal e aconselhe-o a entrar em contato com o atendimento ao cliente do PayPal."
       generic_error: "Ocorreu um erro durante o processo de pagamento. Não foi possível finalizar o seu pagamento PayPal."
       cancel_error: "Um erro ocorreu durante o cancelamento. Não foi possível finalizar."
       accept_authorization_error: "Ocorreu um erro durante a tentativa de aceitar pagamento pré-autorizado pelo Paypal. Por favor, tente novamente."
@@ -1139,8 +1147,8 @@ pt-BR:
       some_private_requests_exist: "Existem <b>%{number_of_listings} requisições</b>"
     custom_filters:
       update_view: Atualizar
-      min: "Mínimo:"
-      max: "Maximo:"
+      min: "Mín:"
+      max: "Máx:"
     event_feed:
       latest_events: "O que está acontecendo"
     grid_item:
@@ -1298,7 +1306,7 @@ pt-BR:
       additional_email_confirmed: "O e-mail que você entrou agora está confirmado."
       could_not_get_email_from_facebook: "Não foi possível obter endereço de e-mail do Facebook e não pode criar uma conta sem e-mail."
       create_new_listing: "Criar um outro anúncio"
-      create_one_here: "crie um aqui"
+      create_one_here: "criar uma aqui"
       email_confirmation_sent_to_new_address: "E-mail de confirmação é agora enviado para o novo endereço."
       email_not_found: "O e-mail que você forneceu não existe no banco de dados do %{service_name}."
       error_with_session: "Erro na sessão."
@@ -1483,6 +1491,7 @@ pt-BR:
         this_may_take_a_while: "(pode demorar um pouco)"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Upload da imagem falhou"
+        image_processing_failed: "O processamento da imagem falhou"
         file_too_large: "O arquivo é muito grande"
         accepted_formats: "A imagem deve ser em formato GIF, JPG ou PNG."
         images_not_uploaded_confirm: "Faltam carregar algumas imagens. Você realmente quer continuar?"
@@ -1723,17 +1732,21 @@ pt-BR:
         braintree_terms_also_included: "NOTA: Braintree é usado como um serviço de gateway de pagamento e por utilizar este site você também aceita %{terms_link_text}, além dos termos abaixo."
         terms_link_text: "Termos de uso Braintree"
   paypal_accounts:
-    payout_info_title: "Informação de pagametno"
+    payout_info_title: "Receber pagamentos"
     paypal_account_email_connected: "<del>1. Conectar-se a conta PayPal</del> Concluído!"
+    payout_info_paypal: "O %{service_name} usa o PayPal para processar seus pagamentos. Uma %{create_paypal_account_link} é necessária para poder aceitar pagamentos pelos seus produtos e ela precisa ser conectada ao  %{service_name}."
     paypal_billing_agreement_made: "<del>2. Conceder permissão a %{service_name} para cobrar taxa de transação</del> Concluída!"
+    commission_permission_needed: "Você também precisa dar ao %{service_name} permissão para que cobre  uma taxa sobre a venda."
+    create_paypal_account_link_text: "conta PayPal"
+    connected_account: "Conta PayPal '%{email}' connectada com sucesso."
+    paypal_receive_funds_info_label_australia_only: "Sua conta PayPal deve poder aceitar pagamentos. Talvez você precise de uma conta especifica para receber pagamentos."
+    paypal_receive_funds_info_label: "Sua conta PayPal deve ser capaz de aceitar pagamentos. Por isso ela deve ser uma conta para \"Receber pagamentos com PayPal\"."
+    paypal_receive_funds_info: "Se você receber um erro quando tentar conectar sua conta com o %{service_name}, faça um upgrade da sua conta PayPal clicando em %{upgrade_paypal_account_link}. É fácil e rápido. Se você for pessoa física o PayPal recomenda que você use seu nome como nome da companhia."
+    upgrade_paypal_account_link_text: "entrando e clicando no link de upgrade"
+    admin_account_not_connected: "Não é possível receber pagamentos pelo %{service_name}  porque o sistema ainda não foi configurado. Por favor %{contact_admin_link} para mais informações."
+    contact_admin_link_text: "Entre em contato com o administrador do mercado"
     you_are_ready_to_accept_payments: "Você está pronto para aceitar pagamentos!"
     commission: "%{commission} %"
-    connected_account: "Conta PayPal '%{email}' connectada com sucesso."
-    change_account: "Mudar conta"
-    missing: "Você têm anúncios ativos mas não pode receber pagamentos porque sua conta no PayPal ainda não foi configurada. Por favor conecte sua conta do PayPal em %{settings_link}, você também também precisa dar permissão para que %{service_name} cobre taxa de transação."
-    from_your_payment_settings_link_text: "configurações de pagamento"
-    redirect_message: ~
-    redirect_link_text: ~
     new:
       payout_info_you_need_to_connect: "Para aceitar pagamentos você deve conectar a sua conta PayPal com %{service_name}."
       payout_info_text: "Por favor, realize os dois passos seguintes para se conectar a sua conta."
@@ -1744,11 +1757,17 @@ pt-BR:
       paypal_account_email_info_text: "Atenção: Você precisa de uma conta individual no PayPal ou empresarial para aceitar pagamentos. Se você já possui sua conta pessoal, você poderá fazer o upgrade da mesma. É grátis e você só leva alguns minutos. %{upgrade_paypal_account} Se você não tem uma conta PayPal ainda, você pode criar esta nova conta %{create_paypal_account}. Sua conta PayPal deve estar configurada para receber %{currency}."
       create_paypal_account: aqui
       upgrade_paypal_account: "Entre na sua conta no PayPal"
-      connect_paypal_account: "Conecte-se a uma conta PayPal"
       paypal_account_billing_agreement: "2. Conceder permissão a %{service_name} para cobrar taxa de transação"
+      follow_steps: "Siga os passo abaixo para começar a receber pagamentos:"
+      connect_paypal_account_title: "Conecte sua conta PayPal"
+      connect_paypal_account_title_with_step: "Passo %{current_step}/%{total_steps}: Conecte sua conta PayPal"
+      connect_paypal_account_instructions: "Clique no botão abaixo para entrar no PayPal e conectar a sua conta PayPal com o %{service_name}."
+      connect_paypal_account: "Conecte-se a uma conta PayPal"
+      paypal_account_billing_agreement_with_step: "Passo %{current_step}/%{total_steps}: Permita a cobrança de taxa de transação"
       paypal_account_billing_agreement_info_both: "Depois de realizar uma venda no %{service_name}, uma taxa de (%{commission_from_seller} do valor total, excluindo custos de envio, de no mínimo %{minimum_commission}) será cobrada através de sua conta no PayPal. Para aceitar pagamentos no %{service_name}, você deve permitir essa cobrança automática. Esta taxa não inclui a %{paypal_info_link}."
       paypal_account_billing_agreement_info_fixed: "Depois de realizar uma venda no %{service_name}, uma taxa de %{minimum_commission} será cobrada através de sua conta no PayPal. Para aceitar pagamentos no %{service_name}, você deve permitir essa cobrança automática. Esta taxa não inclui a %{paypal_info_link}."
       paypal_account_billing_agreement_info_relative: "Depois de realizar uma venda no %{service_name} uma taxa de %{commission_from_seller} do valor total, excluindo custo de envio, será cobrada através de sua conta no PayPal. Para aceitar pagamentos no %{service_name} você deve permitir essa cobrança automática. Esta taxa não inclui a %{paypal_info_link}."
+      paypal_account_billing_agreement_info_none: "Atualmente o %{service_name} não cobra taxa de serviço. Se essa opção for habilitada você precisará autorizar o %{service_name} a cobrar a taxa de serviço para poder receber seus pagamentos A taxa cobrada não inclui %{paypal_info_link}."
       paypal_info_link_text: "taxa de processamento do pagamento do PayPal"
       billing_agreement_description: "Conceder permissão a %{service_name} para cobrar uma taxa de transação."
       billing_agreement: "Conceder permissão"
@@ -1761,6 +1780,17 @@ pt-BR:
       something_went_wrong: "Algo deu errado. Por favor, tente novamente. Se o problema persistir, entre em contato com os administradores do site."
       account_not_verified: "Você não verificou a sua conta PayPal. Você precisa ir para paypal.com e verificar a sua conta antes de continuar."
       account_restricted: "A sua conta do PayPal é restrita e não pode ser conectada. Por favor, conecte via paypal.com para saber mais o que isso significa ou entre em contato com o suporte ao cliente do PayPal para resolver o problema."
+    paypal_account_connected_title: "Conta PayPal conectada"
+    paypal_account_connected: "A conta PayPal <%{email}> foi conectada com o %{service_name}."
+    change_account: "Mudar conta"
+    missing: "Você têm anúncios ativos mas não pode receber pagamentos porque sua conta no PayPal ainda não foi configurada. Por favor conecte sua conta do PayPal em %{settings_link}, você também também precisa dar permissão para que %{service_name} cobre taxa de transação."
+    from_your_payment_settings_link_text: "configurações de pagamento"
+    redirect_message: "Estamos redirecionando você para o PayPal. Se nada acontecer, clique %{redirect_link}"
+    redirect_link_text: aqui
+    paypal_account_all_set_up: "Ótimo, tudo foi configurado!"
+    can_receive_payments: "Agora você já pode receber pagamentos pelos seus produtos."
+    paypal_account_connected_summary: "A conta PayPal <%{email}> foi conectada com sucesso"
+    paypal_permission_granted_summary: "Autorizada a cobrança de taxa por transação"
   paypal:
     pay_with_paypal: "Proceder ao pagamento"
     checkout_with_paypal: "Pagar com PayPal"
@@ -1776,7 +1806,6 @@ pt-BR:
       deactivate: Desativar
     help_texts:
       feedback_description_title: Reposta
-      help_captcha_title: "Você é um humano?"
       help_invitation_code_title: "Você precisa de um convite para se juntar a"
       terms_title: "%{service_name} termos de uso"
       invite_only_help_text: "Selecione esta opção se você quiser que novos membros só possam entrar se forem convidados por um membro existente."
@@ -1785,8 +1814,6 @@ pt-BR:
       this_person_is_not_active_in_kassi: "Esse usuário está inativo no %{service_name}"
       inactive_description: "Esse usuário parou de usar %{service_name}. Você pode não pode entrar em contato, nem avaliar, nem comentar seus anúncios."
     new:
-      captcha_incorrect: "verificação reCAPTCHA falhou. Por favor, escreva as palavras que a imagem na caixa abaixo."
-      captcha_was_wrong: "Texto da imagem estava incorreta."
       create_new_account: "Criar conta"
       email: "Endereço de e-mail"
       email_is_in_use: "O e-mail já está em uso."
@@ -1795,7 +1822,6 @@ pt-BR:
       email_restriction_instructions:
         one: "O acesso a %{service_name} é restrito. Para entrar, você deve ter '%{allowed_emails}' endereço de e-mail."
         other: "O acesso a %{service_name} é restrito. Para entrar, você deve ter um e-mail autorizado."
-      enter_captcha: "Eu sou humano:"
       family_name: Sobrenome
       given_name: Nome
       i_accept_the: "Eu aceito os"
@@ -2095,7 +2121,6 @@ pt-BR:
       short: "%e. %b %Y hora %H:%M"
       shorter: "%e %b as %H:%M"
       short_date: "%b %e  %Y"
-      sms: "%e %b as %H:%M"
   timestamps:
     day_ago: "%{count} dia atrás"
     days_ago: "%{count} dias atrás"

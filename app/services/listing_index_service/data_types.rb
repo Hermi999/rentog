@@ -17,7 +17,7 @@ module ListingIndexService::DataTypes
     [:per_page, :to_integer, :mandatory, gte: 1],
     [:keywords, :string, :optional],
     [:categories, :array, :optional],
-    [:listing_shape_id, :fixnum, :optional],
+    [:listing_shape_ids, :array, :optional],
     [:price_cents, :range, :optional],
     [:fields, :array, default: []],
     [:author_id, :string],
@@ -51,7 +51,10 @@ module ListingIndexService::DataTypes
   Listing = EntityUtils.define_builder(
     [:id, :fixnum, :mandatory],
     [:url, :string, :mandatory],
-    [:title, :string, :mandatory],
+    # This is an ugly fix. Title should be mandatory, but if the title contains only unsupported characters
+    # it may happen that the title is empty and exception will be thrown.
+    # This can be removed when we properly support wider range of characters, e.g. after Rails 4 update.
+    [:title, :string, :optional],
     [:description, :string],
     [:category_id, :fixnum, :mandatory],
     [:author, entity: Author],

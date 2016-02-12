@@ -50,8 +50,8 @@
 #
 # Indexes
 #
-#  homepage_query                      (community_id,open,sort_date)
-#  homepage_query_valid_until          (community_id,open,valid_until,sort_date)
+#  homepage_query                      (community_id,open,sort_date,deleted)
+#  homepage_query_valid_until          (community_id,open,valid_until,sort_date,deleted)
 #  index_listings_on_category_id       (old_category_id)
 #  index_listings_on_community_id      (community_id)
 #  index_listings_on_listing_shape_id  (listing_shape_id)
@@ -69,7 +69,7 @@ class Listing < ActiveRecord::Base
 
   belongs_to :author, :class_name => "Person", :foreign_key => "author_id"
 
-  has_many :listing_images, :dependent => :destroy
+  has_many :listing_images, :dependent => :destroy, conditions: ["error IS NULL"]
 
   has_many :conversations
   has_many :comments, :dependent => :destroy
@@ -95,7 +95,7 @@ class Listing < ActiveRecord::Base
   #
   # When moving to Rails 4.0, remove this and use Model.none
   # http://stackoverflow.com/questions/4877931/how-to-return-an-empty-activerecord-relation
-  scope :none, where('1 = 0')
+  scope :none, -> { where('1 = 0') }
 
   VALID_AVAILABILITY_OPTIONS = ["intern", "trusted", "all"]
 

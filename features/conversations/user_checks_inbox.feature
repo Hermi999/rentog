@@ -96,5 +96,5 @@ Feature: User checks inbox
   Scenario: Trying to view inbox without logging in
     And I am not logged in
     When I try to go to inbox of "kassi_testperson1"
-    Then I should see "You must sign in to Rentog to view your inbox." within ".flash-notifications"
-    And I should see "Sign in to Rentog" within "h1"
+    Then I should see "You must log in to Rentog to view your inbox." within ".flash-notifications"
+    And I should see "Log in to Rentog" within "h1"

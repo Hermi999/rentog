@@ -9,12 +9,9 @@ require File.expand_path('../config_loader', __FILE__)
 
 require File.expand_path('../available_locales', __FILE__)
 
-if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  Bundler.require *Rails.groups(:assets => %w(development test))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
-end
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
 
 module Kassi
   class Application < Rails::Application
@@ -31,6 +28,7 @@ module Kassi
     config.autoload_paths += Dir[Rails.root.join('app', 'utils')]
     config.autoload_paths += Dir[Rails.root.join('app', 'view_utils')]
     config.autoload_paths += Dir[Rails.root.join('app', 'forms')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'validators')]
 
     # Enable the asset pipeline
     config.assets.enabled = true
@@ -116,11 +114,6 @@ module Kassi
 
     # ActiveRecord should be in UTC timezone.
     config.time_zone = 'UTC'
-
-    if APP_CONFIG.use_recaptcha
-      ENV['RECAPTCHA_PUBLIC_KEY']  = APP_CONFIG.recaptcha_public_key
-      ENV['RECAPTCHA_PRIVATE_KEY'] = APP_CONFIG.recaptcha_private_key
-    end
 
     # Configure Paperclip
     paperclip_options = {

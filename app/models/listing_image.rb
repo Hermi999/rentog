@@ -12,6 +12,7 @@
 #  image_updated_at   :datetime
 #  image_processing   :boolean
 #  image_downloaded   :boolean          default(FALSE)
+#  error              :string(255)
 #  width              :integer
 #  height             :integer
 #  author_id          :string(255)
@@ -22,6 +23,9 @@
 #
 
 class ListingImage < ActiveRecord::Base
+
+  # TODO Rails 4, Remove
+  include ActiveModel::ForbiddenAttributesProtection
 
   belongs_to :listing, touch: true
   belongs_to :author, :class_name => "Person"
@@ -129,11 +133,6 @@ class ListingImage < ActiveRecord::Base
 
   def self.too_wide?(width, height, aspect_ratio)
     width.to_f / height.to_f > aspect_ratio.to_f
-  end
-
-  def download_from_url(url)
-    self.image = URI.parse(url)
-    self.update_attribute(:image_downloaded, true)
   end
 
   def image_ready?

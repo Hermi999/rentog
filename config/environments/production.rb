@@ -1,3 +1,5 @@
+require_relative './common.rb'
+
 Kassi::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
@@ -60,13 +62,6 @@ Kassi::Application.configure do
     compress: true
   }
 
-  # Disable Rails's static asset server
-  # In production, Apache or nginx will already do this
-  config.serve_static_assets = APP_CONFIG.serve_static_assets_in_production || false
-
-  # Enable serving of images, stylesheets, and javascripts from an asset server
-  # config.action_controller.asset_host = "http://assets.example.com"
-
   # Compress JavaScript and CSS
   #
   # Notice: To GZIP assets on production (with S3) you also need to setup
@@ -100,9 +95,8 @@ Kassi::Application.configure do
   mail_delivery_method = (APP_CONFIG.mail_delivery_method.present? ? APP_CONFIG.mail_delivery_method.to_sym : :sendmail)
 
   config.action_mailer.delivery_method = mail_delivery_method
-  if mail_delivery_method == :postmark
-    config.action_mailer.postmark_settings = { :api_key => APP_CONFIG.postmark_api_key }
-  elsif mail_delivery_method == :smtp
+
+  if mail_delivery_method == :smtp
     ActionMailer::Base.smtp_settings = {
       :address              => APP_CONFIG.smtp_email_address,
       :port                 => APP_CONFIG.smtp_email_port,
@@ -114,7 +108,7 @@ Kassi::Application.configure do
     }
   end
 
-  # Sendmail is used for some mails (e.g. Newsletter) so configure it even when postmark is the main method
+  # Sendmail is used for some mails (e.g. Newsletter) so configure it even when smtp is the main method
   ActionMailer::Base.sendmail_settings = {
     :location       => '/usr/sbin/sendmail',
     :arguments      => '-i -t'

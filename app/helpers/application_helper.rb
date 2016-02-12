@@ -354,16 +354,36 @@ module ApplicationHelper
 
   def avatar_thumb(size, person, avatar_html_options={})
     return "" if person.nil?
-    link_to_unless(person.deleted?, image_tag(person.image.url(size), avatar_html_options), person)
+
+    image_url = person.image.present? ? person.image.url(size) : missing_avatar(size)
+
+    link_to_unless(person.deleted?, image_tag(image_url, avatar_html_options), person)
   end
 
   def large_avatar_thumb(person, options={})
-    image_tag person.image.url(:medium), { :alt => person.name(@current_community) }.merge(options)
+    image_url = person.image.present? ? person.image.url(:medium) : missing_avatar(:medium)
+
+    image_tag image_url, { :alt => person.name(@current_community) }.merge(options)
   end
 
   def huge_avatar_thumb(person, options={})
     # FIXME! Need a new picture size: :large
-    image_tag person.image.url(:medium), { :alt => person.name(@current_community) }.merge(options)
+
+    image_url = person.image.present? ? person.image.url(:medium) : missing_avatar(:medium)
+
+    image_tag image_url, { :alt => person.name(@current_community) }.merge(options)
+  end
+
+  def missing_avatar(size = :medium)
+    case size.to_sym
+    when :small
+      image_path("profile_image/small/missing.png")
+    when :thumb
+      image_path("profile_image/thumb/missing.png")
+    else
+      # default to medium size
+      image_path("profile_image/medium/missing.png")
+    end
   end
 
   def pageless(total_pages, target_id, url=nil, loader_message='Loading more results')
@@ -556,12 +576,12 @@ module ApplicationHelper
       }
     ]
 
-    if feature_enabled?(:new_plan_page) && APP_CONFIG.external_plan_service_in_use
+    if APP_CONFIG.external_plan_service_in_use
       links << {
         :topic => :general,
-        :text => t("admin.left_hand_navigation.plan"),
+        :text => t("admin.left_hand_navigation.subscription"),
         :icon_class => icon_class("credit_card"),
-        :path => plan_admin_community_path(@current_community),
+        :path => admin_plan_path,
         :name => "plan",
       }
     end
@@ -651,7 +671,7 @@ module ApplicationHelper
         :topic => :configure,
         :text => t("admin.communities.paypal_account.paypal_admin_account"),
         :icon_class => icon_class("payments"),
-        :path => admin_community_paypal_preferences_path(@current_community),
+        :path => admin_paypal_preferences_path(),
         :name => "paypal_account"
       }
     end
@@ -770,7 +790,7 @@ module ApplicationHelper
     elsif gateway_type == :checkout
       person_checkout_account_path(person)
     elsif gateway_type == :paypal
-      show_paypal_account_settings_payment_path(person)
+      paypal_account_settings_payment_path(person)
     end
   end
 
@@ -780,14 +800,16 @@ module ApplicationHelper
     elsif gateway_type == :checkout
       person_checkout_account_url(person, url_params.merge(locale: person.locale))
     elsif gateway_type == :paypal
-      show_paypal_account_settings_payment_url(person, url_params.merge(locale: person.locale))
+      paypal_account_settings_payment_url(person, url_params.merge(locale: person.locale))
     end
   end
 
   def display_expiration_notice?
-    APP_CONFIG.external_plan_service_in_use &&
-      Maybe(@current_user).has_admin_rights_in?(@current_community).or_else(false) &&
-      PlanUtils.expired?(@current_plan)
+    ext_service_active = PlanService::API::Api.plans.active?
+    is_admin = Maybe(@current_user).has_admin_rights_in?(@current_community).or_else(false)
+    is_expired = Maybe(@current_plan)[:expired].or_else(false)
+
+    ext_service_active && is_admin && is_expired
   end
 
   # returns either "http://" or "https://" based on configuration settings
@@ -842,13 +864,11 @@ module ApplicationHelper
 
   def community_description(truncate=true)
     if @community_customization && !@community_customization.description.blank?
-      truncate ? truncate(@community_customization.description, :length => 140, :omission => "...").html_safe : @community_customization.description.html_safe
+      truncate ? truncate_html(@community_customization.description, length: 140, omission: "...") : @community_customization.description
+    elsif @current_community.description && !@current_community.description.blank?
+      truncate ? truncate_html(@current_community.description, length: 140, omission: "...") : @current_community.description
     else
-      if @current_community.description && !@current_community.description.blank?
-        truncate ? truncate(@current_community.description, :length => 140, :omission => "...") : @current_community.description
-      else
-        truncate ? truncate(t("common.default_community_description"), :length => 125, :omission => "...").html_safe : t("common.default_community_description").html_safe
-      end
+      truncate ? truncate_html(t("common.default_community_description"), length: 125, omission: "...") : t("common.default_community_description")
     end
   end
 

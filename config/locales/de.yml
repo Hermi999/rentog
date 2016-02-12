@@ -197,6 +197,7 @@ de:
         fr-CA: ~
         es: ~
         es-ES: ~
+        pt-PT: ~
         pt-BR: ~
         nb: ~
         sv: ~
@@ -402,7 +403,7 @@ de:
       configure: Konfiguration
       emails_title: E-Mails
       support: Support
-      plan: "Mein Abonnement"
+      subscription: Abonnement
     listing_shapes:
       index:
         listing_shapes: ~
@@ -491,17 +492,22 @@ de:
     paypal_accounts:
       marketplace_paypal_integration: Zahlungseinstellungen
       preferences_updated: "Zahlungseinstellungen aktualisiert"
+      marketplace_currency_used: "Dieser Marktplatz nutzt %{currency} als Währung. Um die Währungseinstellung zu ändern, %{contact_support_link}"
+      contact_support_link_text: "kontaktiere den Sharetribe Support"
       integration_info_text: ~
-      read_more_about_paypal: "Mehr über das Shartetribe Zahlungssystem hier lesen."
       paypal_account_email: "1. Verbinde dein PayPal Konto"
+      link_paypal_personal_account_label: "Verkaufst Du selbst Produkte?"
       paypal_account_email_completed: Abgeschlossen!
-      set_minimum_price_and_fee: "2. Setze Mindestpreis und Transaktionsgebühr fest"
+      link_paypal_personal_account: "Wenn ja, dann musst Du auch Dein PayPal Konto mit %{personal_payment_preferences_link} verbinden."
+      personal_payment_preferences_link_text: "Deinem Konto"
       set_minimum_price_and_fee_completed: Abgeschlossen!
+      read_more_about_paypal: "Mehr über das Shartetribe Zahlungssystem hier lesen."
+      set_minimum_price_and_fee: "2. Setze Mindestpreis und Transaktionsgebühr fest"
       minimum_listing_price_label: "Minimaler Listing Preis:"
       transaction_fee_label: "Transaktionsgebühr:"
       minimum_transaction_fee_label: ~
-      save_settings: "Einstellungen speichern"
       note_about_transaction_fee: ~
+      save_settings: "Einstellungen speichern"
       minimum_listing_price_below_tx_fee: ~
       minimum_listing_price_below_min: ~
     transaction_types:
@@ -640,6 +646,7 @@ de:
       message_from: "Nachricht von %{person}"
       about_listing: "In Bezug auf %{listing_title}"
       free_message: Nachricht
+      message_content_not_available: ~
     message:
       accepted_request: "Anfrage akzeptiert"
       accepted_offer: "Angebot akzeptieren"
@@ -736,7 +743,7 @@ de:
       request_preauthorized: "Zahlung erfolgreich"
       skip_feedback: "Keine Bewertung geben"
       waiting_for_listing_author_to_accept_offer: "Warte bis %{listing_author_name} das Angebt annimmt"
-      waiting_for_listing_author_to_accept_request: "Warten bis %{listing_author_name} die Anfrage annimmt. Sobald %{listing_author_name} akzeptiert hat, wird Dein Konto belastet."
+      waiting_for_listing_author_to_accept_request: "Warten auf Annahme der Anfrage durch %{listing_author_name}. Erst wenn %{listing_author_name} akzeptiert hat, wird Dein Konto belastet."
       waiting_for_you_to_accept_request: "Wartet, dass Du die Anfrage akzeptierst"
       waiting_confirmation_from_requester: "Warten bis %{requester_name} die Anfrage als erledigt markiert"
       waiting_confirmation_from_you: "Wartet darauf, dass Du den Vorgang als abgeschlossen markierst"
@@ -883,13 +890,13 @@ de:
       welcome_to_kassi: "Willkommen bei %{service_name},"
       need_to_confirm: "Du musst Deine E-Mail-Adresse bestätigen."
       confirmation_link_text: "Meine E-Mail-Adresse bestätigen"
-      or_paste_link: "Alternativ kannst Du den folgenden Link in die Adresszeile deines Browsers kopieren:"
+      or_paste_link: "Alternativ kannst Du den folgenden Link in die Adresszeile Deines Browsers kopieren:"
       turning_on_confirmations_in_this_community: "Wir beginnen mit der Verwendung von E-Mail-Bestätigungen in dieser %{service_name} Community."
     common:
       check_your_settings: "Überprüfe Deine Einstellungen"
       hey: "Hallo %{name},"
       kassi_team: "Das %{service_name} Team"
-      thanks: "Danke,"
+      thanks: "Vielen Dank,"
       want_to_control_emails: "Willst du festlegen, welche Art von E-Mails Du von %{service_name} erhältst?"
       dont_want_to_receive_these_emails: "Willst du diese E-Mails nicht empfangen?"
       edit_your_email_settings_here: "Bearbeite hier deine E-Mail-Grundeinstellungen."
@@ -1054,6 +1061,7 @@ de:
     paypal:
       buyer_cannot_pay_error: "Die Bezahlung wurde von Paypal abgelehnt. Bitte kontaktiere den Kundenservice für mehr Informationen: %{customer_service_link}"
       pending_review_error: "Die Zahlung wurde eingereicht, wurde aber von PayPal als 'erfordert Bewertung' gekennzeichnet. Wenn PayPal die Überprüfung abgeschlossen hat, wird die Zahlung automatisch genehmigt werden."
+      seller_express_checkout_disabled: ~
       generic_error: "Während des Zahlungsvorgangs ist ein Fehler aufgetreten. Die PayPal Zahlung konnte nicht abgeschlossen werden."
       cancel_error: "Während der Stornierung ist ein Fehler aufgetreten. Der Abbruch konnte nicht abgeschlossen werden."
       accept_authorization_error: "Bei dem Versuch, eine vorab autorisierte PayPal-Zahlung zu akzeptieren, ist ein Fehler aufgetreten. Bitte versuche es erneut."
@@ -1375,7 +1383,7 @@ de:
       offer_canceled: "Angebot abgebrochen"
       listing_updated_successfully: "Eintrag wurde erfolgreich aktualisiert"
       only_kassi_administrators_can_access_this_area: "Nur  %{service_name} Administratoren können diesen Bereich aufrufen"
-      only_listing_author_can_close_a_listing: "Nur der erstellende Anbieter kann einen Eintrag pausieren"
+      only_listing_author_can_close_a_listing: "Nur der erstellende Anbieter kann ein Angebot deaktivieren"
       only_listing_author_can_edit_a_listing: "Nur Autoren eines Eintrags können den Eintrag bearbeiten"
       payment_successful: "erfolgreiche Bezahlung"
       payment_canceled: "Zahlung abgebrochen"
@@ -1474,7 +1482,7 @@ de:
     edit:
       edit_listing: "Eintrag bearbeiten"
     edit_links:
-      close_listing: "Eintrag pausieren"
+      close_listing: "Eintrag deaktivieren"
       edit_listing: "Eintrag bearbeiten"
       reopen_listing: "Eintrag wieder aktivieren"
       move_to_top: "Auf der Homepage nach oben verschieben"
@@ -1532,6 +1540,7 @@ de:
         this_may_take_a_while: "(dies kann eine Weile dauern)"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Bild hochladen fehlgeschlagen"
+        image_processing_failed: ~
         file_too_large: "Die Datei ist zu groß."
         accepted_formats: "Die Bilddatei muss entweder im GIF-, JPG- oder PNG-Format vorliegen."
         images_not_uploaded_confirm: "Es sind noch nicht alle Bilder hochgeladen. Möchtest Du wirklich fortfahren?"
@@ -1779,15 +1788,19 @@ de:
   paypal_accounts:
     payout_info_title: Auszahlungsinformationen
     paypal_account_email_connected: "<del>Verknüpfung PayPal Konto</del> Abgeschlossen!"
+    payout_info_paypal: "%{service_name} nutzt PayPal als Zahlungsdienstleister. Ein %{create_paypal_account_link} ist nötig, um Zahlungen für Deine Angebote annehmen zu können. Dieser muss mit %{service_name} verbunden sein."
     paypal_billing_agreement_made: "<del>Gewähre %{service_name} die Erlaubnis, eine Transaktionsgebühr zu berechnen</del> Abgeschlossen!"
+    commission_permission_needed: "Du musst %{service_name} außerdem die Erlaubnis erteilen, eine Buchungsgebühr zu erheben."
+    create_paypal_account_link_text: "PayPal Konto"
+    connected_account: "PayPal Konto '%{email}' erfolgreich verknüpft."
+    paypal_receive_funds_info_label_australia_only: "Dein PayPal Konto muss Zahlungen empfangen können. Dafür ist u.U. ein PayPal Geschäftskonto erforderlich."
+    paypal_receive_funds_info_label: "Dein PayPal Konto muss Zahlungen empfangen können. Dafür ist u.U. ein PayPal Geschäftskonto erforderlich."
+    paypal_receive_funds_info: "Wenn Du einen Fehler beim Versuch siehst, Dein PayPal Konto mit %{service_name} zu verbinden, solltest Du %{upgrade_paypal_account_link}. Das ist kostenlos und einfach. Wenn Du ein Einzelunternehmer bist, empfiehlt PayPal einfach Deinen Namen als Geschäftsnamen zu verwenden."
+    upgrade_paypal_account_link_text: "Dich anmelden und auf ein Geschäftskonto umstellen"
+    admin_account_not_connected: "Die Nutzung des Zahlungssystem von %{service_name} zum Empfang von Zahlungen ist nicht möglich, da es noch nicht konfiguriert wurde. Bitte %{contact_admin_link} für Details."
+    contact_admin_link_text: "kontaktiere den Administrator"
     you_are_ready_to_accept_payments: "Du bist bereit, Zahlungen entgegenzunehmen!"
     commission: "%{commission} %"
-    connected_account: "PayPal Konto '%{email}' erfolgreich verknüpft."
-    change_account: "Konto ändern"
-    missing: "Du hast offene Angebote, aber weil du dein PayPal-Konto nicht eingebunden hast, kannst du keine Zahlungen erhalten. Bitte verknüpfe Dein PayPal Konto in deinen %{settings_link}"
-    from_your_payment_settings_link_text: Zahlungseinstellungen
-    redirect_message: "Weiterleitung zu Paypal. Wenn nichts passiert, bitte diesen Link anklicken: %{redirect_link}"
-    redirect_link_text: hier
     new:
       payout_info_you_need_to_connect: "Um Zahlungen entgegenzunehmen musst du dein PayPal-Konto mit %{service_name} verbinden."
       payout_info_text: "Bitte führe die folgenden Schritte aus, um dein Konto zu verbinden."
@@ -1798,11 +1811,17 @@ de:
       paypal_account_email_info_text: "Wenn du kein PayPal-Konto hast, kannst du %{create_paypal_account} eines erstellen. Sofern du eine Fehlermeldung erhältst, wenn du dein PayPal-Konto verknüpfst, musst du auf ein Geschäftskonto upgraden. Ein Upgrade ist schnell und einfach und kostet dich nichts. Wenn Du eine Privatperson bist, solltest du deinen Vor- und Nachnamen ins Feld \"Firma\" eintragen, wenn PayPal danach fragt. Den Link für ein Upgrade deine Kontos findest du hier %{upgrade_paypal_account}."
       create_paypal_account: hier
       upgrade_paypal_account: "Upgrade deinen PayPal Konto hier."
-      connect_paypal_account: "Verbinde deinen PayPal Account"
       paypal_account_billing_agreement: "Erteile dem Webservice %{service_name} die Erlaubnis eine Transaktionsgebühr zu berechnen."
-      paypal_account_billing_agreement_info_both: "Nachdem Sie etwas auf %{service_name} verkauft haben, wird eine Servicegebühr (%{commission_from_seller} des Gesamtpreises, ohne Versandkosten, Mindestgebühr %{minimum_commission}) von Ihrem PayPal-Konto abgebucht. Um Zahlungen in %{service_name} zu akzeptieren, musst Du die Erlaubnis gewähren, diese Gebühr zu erheben. Die Gebühr umfasst nicht die %{paypal_info_link}."
-      paypal_account_billing_agreement_info_fixed: "Nachdem Sie etwas auf %{service_name} verkauft haben, wird eine Servicegebühr von %{minimum_commission} des Gesamtpreises von Ihrem PayPal-Konto abgebucht. Um Zahlungen in %{service_name} zu akzeptieren, musst Du die Erlaubnis gewähren, diese Gebühr zu erheben. Die Gebühr umfasst nicht die %{paypal_info_link}."
-      paypal_account_billing_agreement_info_relative: "Nachdem Sie etwas auf %{service_name} verkauft haben, wird eine Servicegebühr (%{commission_from_seller} des Gesamtpreises, ohne Versandkosten) von Ihrem PayPal-Konto abgebucht. Um Zahlungen in %{service_name} zu akzeptieren, musst Du die Erlaubnis gewähren, diese Gebühr zu erheben. Die Gebühr umfasst nicht die %{paypal_info_link}"
+      follow_steps: "Folge den unten stehenden Schritten, um Geld einnehmen zu können:"
+      connect_paypal_account_title: "Verbinde Dein PayPal Konto"
+      connect_paypal_account_title_with_step: "Schritt %{current_step}/%{total_steps}: Verbinde Dein PayPal Konto"
+      connect_paypal_account_instructions: "Klicke auf die Schaltfläche unten, um Dich bei Paypal einzuloggen und Dein PayPal Konto mit %{service_name} zu verbinden."
+      connect_paypal_account: "Verbinde deinen PayPal Account"
+      paypal_account_billing_agreement_with_step: "Schritt %{current_step}/%{total_steps}: Erteile die Erlaubnis, eine Buchungsgebühr zu erheben"
+      paypal_account_billing_agreement_info_both: "Nachdem Du etwas auf %{service_name} verkauft hast, wird eine Servicegebühr (%{commission_from_seller} des Gesamtpreises, ohne Versandkosten, Mindestgebühr %{minimum_commission}) von Deinem PayPal-Konto abgebucht. Um Zahlungen auf %{service_name} zu akzeptieren, musst Du die Erlaubnis gewähren, diese Gebühr zu erheben. Die Gebühr umfasst nicht die %{paypal_info_link}."
+      paypal_account_billing_agreement_info_fixed: "Nachdem Du etwas auf %{service_name} verkauft hast, wird eine Servicegebühr in Höhe von %{minimum_commission} des Gesamtpreises von Deinem PayPal-Konto abgebucht. Um Zahlungen auf %{service_name} zu akzeptieren, musst Du die Erlaubnis gewähren, diese Gebühr zu erheben. Die Gebühr umfasst nicht die %{paypal_info_link}."
+      paypal_account_billing_agreement_info_relative: "Nachdem Du etwas auf %{service_name} verkauft hast, wird eine Servicegebühr (%{commission_from_seller} des Gesamtpreises, ohne Versandkosten) von Deinem PayPal-Konto abgebucht. Um Zahlungen auf %{service_name} zu akzeptieren, musst Du die Erlaubnis gewähren, diese Gebühr zu erheben. Die Gebühr umfasst nicht die %{paypal_info_link}"
+      paypal_account_billing_agreement_info_none: "%{service_name} erhebt derzeit keine Buchungsgebühr. Wenn Buchungsgebühren aktiviert werden sollten, wird es nötig sein, dass Du %{service_name} die Erlaubnis zur Erhebung einer solchen Gebühr erteilst, um Zahlungen empfangen zu können. Die Buchungsgebühr enthält nicht %{paypal_info_link}."
       paypal_info_link_text: "PayPal's payment processing fee"
       billing_agreement_description: "Gewähre %{service_name} die Erlaubnis, eine Transaktionsgebühr zu berechnen."
       billing_agreement: "Erteile die Erlaubnis"
@@ -1815,6 +1834,17 @@ de:
       something_went_wrong: "Da lief was falsch. Bitte versuche es erneut. Wenn das Problem weiterhin besteht, kontaktiere bitte den Website-Administrator."
       account_not_verified: "Du hast Dein PayPal-Konto nicht verifiziert. Du musst Dein Konto bei paypal.com überprüfen und betätigen, bevor Du fortfahren kannst."
       account_restricted: "Dein PayPal-Konto ist eingeschränkt und kann nicht verbunden werden. Bitte logge Dich bei paypal.com ein, um mehr darüber zu erfahren, was das bedeutet oder nimm Kontakt mit dem PayPal Kundendienstauf, um das Problem zu lösen."
+    paypal_account_connected_title: "PayPal Konto verbunden"
+    paypal_account_connected: "Das PayPal Konto <%{email}> wurde mit %{service_name} verbunden."
+    change_account: "Konto ändern"
+    missing: "Du hast offene Angebote, aber weil du dein PayPal-Konto nicht eingebunden hast, kannst du keine Zahlungen erhalten. Bitte verknüpfe Dein PayPal Konto in deinen %{settings_link}"
+    from_your_payment_settings_link_text: Zahlungseinstellungen
+    redirect_message: "Weiterleitung zu Paypal. Wenn nichts passiert, bitte diesen Link anklicken: %{redirect_link}"
+    redirect_link_text: hier
+    paypal_account_all_set_up: "Super! Alles ist fertig eingerichtet!"
+    can_receive_payments: "Du kannst jetzt Zahlungen für Deine Angebote empfangen."
+    paypal_account_connected_summary: "PayPal Konto <%{email}> erfolgreich verbunden"
+    paypal_permission_granted_summary: "Erlaubnis für Buchungsgebühren erteilt"
   paypal:
     pay_with_paypal: "Weiter zur Zahlung"
     checkout_with_paypal: "Mit PayPal bezahlen"
@@ -1830,7 +1860,6 @@ de:
       deactivate: Deaktivieren
     help_texts:
       feedback_description_title: Feedback
-      help_captcha_title: "Bist du ein Mensch?"
       help_invitation_code_title: "Du benötigst eine Einladung, um beitreten zu können."
       terms_title: "%{service_name}Nutzungsbedingungen"
       invite_only_help_text: "Wähle diese Option aus, wenn du willst, dass neue Mitglieder von einem bestehenden Mitglied des Stammes aufgenommen werden können durch eine Einladung."
@@ -1839,8 +1868,6 @@ de:
       this_person_is_not_active_in_kassi: "Der Benutzer ist nicht mehr aktiv in %{service_name}"
       inactive_description: "Der Benutzer hat aufgehört, %{service_name} zu verwenden. Du kannst diesen Benutzer weder kontaktieren, noch kannst Du ihn bewerten oder Kommentare hinterlassen."
     new:
-      captcha_incorrect: "ReCAPTCHA-Überprüfung fehlgeschlagen. Bitte schreibe die Wörter aus dem Bild in das Feld unten."
-      captcha_was_wrong: "Captcha-Text war falsch."
       create_new_account: "Unternehmens-Konto erstellen"
       create_new_employee: "Mitarbeiter-Konto erstellen"
       or_signup_as_employee: "oder als Mitarbeiter registrieren"
@@ -1854,7 +1881,6 @@ de:
         other: "Diese Community ist nur für %{community_name}. Um beitreten zu können, brauchst du eine E-Mail-Adresse, die belegt, dass deine Teilnahme erlaubt ist."
       organization_email: "Die Email-Adresse deines Unternehmens-Administrators"
       orga_not_available: "Dieses Unternehmen ist noch nicht verfügbar."
-      enter_captcha: "Ich bin ein Mensch:"
       family_name: Nachname
       given_name: Vorname
       i_accept_the: "Ich akzeptiere die"
@@ -1899,7 +1925,7 @@ de:
       slightly_less_than_expected: "Etwas schlechter als erwartet"
     profile_listings:
       show_also_closed: "Auch pausierte Angebote anzeigen"
-      show_only_open: "Nur offene anzeigen"
+      show_only_open: "Nur aktive Angebote anzeigen"
       no_image: "Kein Bild"
     show:
       contact: "%{person} kontaktieren"
@@ -2005,7 +2031,7 @@ de:
       change_email: Ändern
       confirm_your_email: "Bestätige deine E-Mail"
       company_needs_to_verify: "Dein Unternehmens-Administrator muss dich verifizieren"
-      account_confirmation_instructions: "Du wirst in Kürze eine E-Mail mit einem Link erhalten, den du anklicken musst, um die eingegebene E-Mail-Adresse zu bestätigen. Nach der Bestätigung deiner E-Mail kannst du der Community beitreten."
+      account_confirmation_instructions: "Du wirst in Kürze eine E-Mail mit einem Link erhalten, den Du anklicken musst, um die angegebene E-Mail-Adresse zu bestätigen. Nach der Bestätigung Deiner E-Mail ist die Registrierung bei %{service_name} abgeschlossen."
       account_confirmation_instructions_title_admin: "Willkommen auf Deinem Marktplatz!"
       your_marketplace_has_now_been_created: ~
       account_confirmation_instructions_admin: ~
@@ -2201,7 +2227,6 @@ de:
       short: "%e %b %Y at %H:%M"
       shorter: "%e %b at %H:%M"
       short_date: "%e %b %Y"
-      sms: "%e %b at %H:%M"
   timestamps:
     day_ago: "Vor %{count} Tag"
     days_ago: "Vor %{count} Tagen"

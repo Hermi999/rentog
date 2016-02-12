@@ -1,3 +1,5 @@
+require_relative './common.rb'
+
 Kassi::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
@@ -27,8 +29,7 @@ Kassi::Application.configure do
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
-  config.action_mailer.delivery_method = :cache
-  config.action_mailer.cache_settings = { :location => "#{Rails.root}/tmp/cache/action_mailer_cache_delivery#{ENV['TEST_ENV_NUMBER']}.cache" }
+  config.action_mailer.delivery_method = :test
 
   config.active_support.deprecation = :stderr
 

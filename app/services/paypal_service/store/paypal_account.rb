@@ -267,7 +267,7 @@ module PaypalService::Store::PaypalAccount
 
       from_model(Maybe(account_model))
     else
-      msg = "Can not find Paypal account #{find_params}"
+      msg = "Cannot find Paypal account #{find_params}"
 
       raise ArgumentError.new(msg) unless account_model
     end
@@ -314,7 +314,9 @@ module PaypalService::Store::PaypalAccount
         {
           billing_agreement_id: billing_agreement_id,
           paypal_accounts: {payer_id: payer_id}
-        }).first
+        })
+      .readonly(false)
+      .first
     )
   end
 
@@ -360,11 +362,12 @@ module PaypalService::Store::PaypalAccount
     when matches([nil, :verified])
       # verified community account
       :verified
-    when matches([__, :verified, :not_verified])
-      :connected
     when matches([__, :verified, :verified])
       # verified personal account
       :verified
+    when matches([__, :verified, __])
+      # billing agreement might be pending or not set
+      :connected
     else
       :not_connected
     end

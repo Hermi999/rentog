@@ -135,17 +135,16 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.datetime "updated_at"
     t.text     "settings"
     t.string   "consent"
-    t.boolean  "transaction_agreement_in_use",                             :default => false
-    t.boolean  "email_admins_about_new_members",                           :default => false
-    t.boolean  "use_fb_like",                                              :default => false
-    t.boolean  "real_name_required",                                       :default => true
-    t.boolean  "feedback_to_admin",                                        :default => true
-    t.boolean  "automatic_newsletters",                                    :default => true
-    t.boolean  "join_with_invite_only",                                    :default => false
-    t.boolean  "use_captcha",                                              :default => false
+    t.boolean  "transaction_agreement_in_use",                                   :default => false
+    t.boolean  "email_admins_about_new_members",                                 :default => false
+    t.boolean  "use_fb_like",                                                    :default => false
+    t.boolean  "real_name_required",                                             :default => true
+    t.boolean  "feedback_to_admin",                                              :default => true
+    t.boolean  "automatic_newsletters",                                          :default => true
+    t.boolean  "join_with_invite_only",                                          :default => false
     t.text     "allowed_emails"
-    t.boolean  "users_can_invite_new_users",                               :default => true
-    t.boolean  "private",                                                  :default => false
+    t.boolean  "users_can_invite_new_users",                                     :default => true
+    t.boolean  "private",                                                        :default => false
     t.string   "label"
     t.boolean  "show_date_in_listings_list",                               :default => false
     t.boolean  "all_users_can_add_news",                                   :default => true
@@ -271,16 +270,6 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
 
   add_index "community_memberships", ["community_id"], :name => "index_community_memberships_on_community_id"
   add_index "community_memberships", ["person_id", "community_id"], :name => "memberships"
-
-  create_table "community_plans", :force => true do |t|
-    t.integer  "community_id",                :null => false
-    t.integer  "plan_level",   :default => 0, :null => false
-    t.datetime "expires_at"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
-  end
-
-  add_index "community_plans", ["community_id"], :name => "index_community_plans_on_community_id"
 
   create_table "community_translations", :force => true do |t|
     t.integer  "community_id",                  :null => false
@@ -555,6 +544,7 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.datetime "image_updated_at"
     t.boolean  "image_processing"
     t.boolean  "image_downloaded",   :default => false
+    t.string   "error"
     t.integer  "width"
     t.integer  "height"
     t.string   "author_id"
@@ -641,9 +631,9 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
 
   add_index "listings", ["category_id"], :name => "index_listings_on_new_category_id"
   add_index "listings", ["community_id", "author_id"], :name => "person_listings"
-  add_index "listings", ["community_id", "open", "sort_date"], :name => "homepage_query"
+  add_index "listings", ["community_id", "open", "sort_date", "deleted"], :name => "homepage_query"
   add_index "listings", ["community_id", "open", "updates_email_at"], :name => "updates_email_listings"
-  add_index "listings", ["community_id", "open", "valid_until", "sort_date"], :name => "homepage_query_valid_until"
+  add_index "listings", ["community_id", "open", "valid_until", "sort_date", "deleted"], :name => "homepage_query_valid_until"
   add_index "listings", ["community_id"], :name => "index_listings_on_community_id"
   add_index "listings", ["listing_shape_id"], :name => "index_listings_on_listing_shape_id"
   add_index "listings", ["old_category_id"], :name => "index_listings_on_category_id"

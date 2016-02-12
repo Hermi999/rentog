@@ -17,7 +17,6 @@
 #  feedback_to_admin                          :boolean          default(TRUE)
 #  automatic_newsletters                      :boolean          default(TRUE)
 #  join_with_invite_only                      :boolean          default(FALSE)
-#  use_captcha                                :boolean          default(FALSE)
 #  allowed_emails                             :text
 #  users_can_invite_new_users                 :boolean          default(TRUE)
 #  private                                    :boolean          default(FALSE)
@@ -109,6 +108,10 @@
 #
 
 class Community < ActiveRecord::Base
+
+  # TODO Rails 4, Remove
+  include ActiveModel::ForbiddenAttributesProtection
+
   require 'compass'
   require 'sass/plugin'
 
@@ -151,10 +154,10 @@ class Community < ActiveRecord::Base
   validates_format_of :custom_color1, :with => /\A[A-F0-9_-]{6}\z/i, :allow_nil => true
   validates_format_of :custom_color2, :with => /\A[A-F0-9_-]{6}\z/i, :allow_nil => true
 
-  VALID_BROWSE_TYPES = %{grid map list}
+  VALID_BROWSE_TYPES = %w{grid map list}
   validates_inclusion_of :default_browse_view, :in => VALID_BROWSE_TYPES
 
-  VALID_NAME_DISPLAY_TYPES = %{first_name_only first_name_with_initial full_name}
+  VALID_NAME_DISPLAY_TYPES = %w{first_name_only first_name_with_initial full_name}
   validates_inclusion_of :name_display_type, :in => VALID_NAME_DISPLAY_TYPES
 
   # The settings hash contains some community specific settings:
@@ -294,7 +297,7 @@ class Community < ActiveRecord::Base
     if customization
       customization.name
     else
-      raise ArgumentError.new("Can not find translation for marketplace name community_id: #{id}, locale: #{locale}")
+      raise ArgumentError.new("Cannot find translation for marketplace name community_id: #{id}, locale: #{locale}")
     end
   end
 

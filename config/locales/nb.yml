@@ -197,6 +197,7 @@ nb:
         fr-CA: "Fransk (Canada)"
         es: "Spansk (Chile)"
         es-ES: Spansk
+        pt-PT: ~
         pt-BR: Portugisisk
         nb: Norsk
         sv: Svensk
@@ -392,7 +393,7 @@ nb:
       configure: Innstillinger
       emails_title: E-poster
       support: Support
-      plan: ~
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: Annonsetype
@@ -481,17 +482,22 @@ nb:
     paypal_accounts:
       marketplace_paypal_integration: Betalingsinnstillinger
       preferences_updated: "Betalingsinnstillinger oppdatert"
+      marketplace_currency_used: ~
+      contact_support_link_text: ~
       integration_info_text: "Betalingssystemet i Sharetribe er laget av PayPal. Hvis du vil gjøre det mulig for brukere å ta betalt i din markedsplass må du koble til din PayPal-konto og velge minimumsstørrelse på transaksjonene samt din tjenestekostnad for hver transaksjon."
-      read_more_about_paypal: "Les mer om Sharetribe`s betalingssystem"
       paypal_account_email: "Koble til din PayPal konto"
+      link_paypal_personal_account_label: ~
       paypal_account_email_completed: fullført!
-      set_minimum_price_and_fee: "2. Sett minimums pris & transaksjonsgebyr"
+      link_paypal_personal_account: ~
+      personal_payment_preferences_link_text: ~
       set_minimum_price_and_fee_completed: fullført!
+      read_more_about_paypal: "Les mer om Sharetribe`s betalingssystem"
+      set_minimum_price_and_fee: "2. Sett minimums pris & transaksjonsgebyr"
       minimum_listing_price_label: "Minimum transaksjonsstørrelse:"
       transaction_fee_label: "Transaksjonskostnad:"
       minimum_transaction_fee_label: "Minimum transaksjonskostnad:"
-      save_settings: "Lagre innstillinger"
       note_about_transaction_fee: "Transaksjonskostnad inkluderer PayPal-kostnad som varierer fra valuta til valuta og ditt salgsvolum. Derfor vil kostnaden alltid være minst %{min_paypal_commission}. Når kostnaden er trukket fra selger vil PayPal ta sin provisjon først og resten vil bli flyttet til din PayPal-konto."
+      save_settings: "Lagre innstillinger"
       minimum_listing_price_below_tx_fee: "må være minst det samme som minimum transaksjonskostnad %{minimum_transaction_fee}."
       minimum_listing_price_below_min: "må være mer enn minimum transaksjonsprovisjon %{minimum_commission}."
     transaction_types:
@@ -624,6 +630,7 @@ nb:
       message_from: "Melding fra %{person}"
       about_listing: "Vedrørende annonse %{listing_title}"
       free_message: "Gratis melding"
+      message_content_not_available: ~
     message:
       accepted_request: "godtok forespørselen"
       accepted_offer: "Tilbud godtatt"
@@ -1024,6 +1031,7 @@ nb:
     paypal:
       buyer_cannot_pay_error: "Betalingen ble avslått av PayPal. Vennligst kontakt PayPal Kundeservice for mer informasjon: %{customer_service_link}"
       pending_review_error: "Betalingen ble sendt men ble flagget av PayPal som \"må sjekkes\". Når PayPal får sjekket betalingen vil den automatisk bli godkjent."
+      seller_express_checkout_disabled: ~
       generic_error: "En feil oppstod i betalingsprosessen. Din PayPal-betaling kunne ikke gjennomføres."
       cancel_error: "En feil oppstod ved kansrelering. Kunne ikke sluttføre kansrelering."
       accept_authorization_error: "En feil oppstod med PayPal-betalingen. Vennligst prøv igjen."
@@ -1485,6 +1493,7 @@ nb:
         this_may_take_a_while: "(dette kan ta en stund)"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Bildeopplasting feilet"
+        image_processing_failed: ~
         file_too_large: "Filen er for stor"
         accepted_formats: "Bilde-filen må enten være GIF, JPG or PNG."
         images_not_uploaded_confirm: "Alle bildene er ikke lastet opp end. Er du sikker på at du vil gå videre?"
@@ -1725,15 +1734,19 @@ nb:
   paypal_accounts:
     payout_info_title: Utbetalingsinformasjon
     paypal_account_email_connected: "1. <del>Koble til PayPal-konto</del> Fullført!"
+    payout_info_paypal: "%{service_name} bruker PayPal som betalingsleverandør. Du må ha en %{create_paypal_account_link} for å kunne ta imot betalinger for bestillinger av dine reklameplasser, som så kobles til %{service_name}."
     paypal_billing_agreement_made: "2. <del>Tillat %{service_name} å ta betalt for sine tjenester</del> Fullført!"
+    commission_permission_needed: "Du vil også måtte gi %{service_name} tillatelse til å belaste en transaksjonskostnad."
+    create_paypal_account_link_text: PayPal-konto
+    connected_account: "PayPal-konto '%{email}' tilkoblet."
+    paypal_receive_funds_info_label_australia_only: ~
+    paypal_receive_funds_info_label: "Din PayPal-konto må konfigureres til å ta imot betalinger. Du må opprette en Bedriftskonto."
+    paypal_receive_funds_info: ~
+    upgrade_paypal_account_link_text: ~
+    admin_account_not_connected: ~
+    contact_admin_link_text: ~
     you_are_ready_to_accept_payments: "Du er klar til å motta betaling!"
     commission: "%{commission} %"
-    connected_account: "PayPal-konto '%{email}' tilkoblet."
-    change_account: "Endre konto"
-    missing: "Du har åpne annonser men har ikke koblet til en PayPal-konto så du vil ikke kunne motta betalinger. Vennligst koble til din PayPal-konto i dine %{settings_link}."
-    from_your_payment_settings_link_text: betalingsinnstillinger
-    redirect_message: ~
-    redirect_link_text: ~
     new:
       payout_info_you_need_to_connect: "For å motta betaling må du knytte din PayPal-konto sammen med %{service_name}"
       payout_info_text: "Vennligst fullfør følgende steg for koble opp din konto."
@@ -1744,11 +1757,17 @@ nb:
       paypal_account_email_info_text: "Hvis du ikke har en PayPal-konto kan du raskt og enkelt opprette en konto ved å %{create_paypal_account}. Hvis du får feilmelding ved tilkobling av kontoen må du oppgradere kontoen til en bedriftskonto. Dette gjøres ved noen ekstra klikk og koster ingenting. Hvis du er privatperson skriver du ditt fulle navn under \"bedriftsnavn\". For å oppgradere kontoen din finner du klikker du her for å %{upgrade_paypal_account}."
       create_paypal_account: "klikke her"
       upgrade_paypal_account: "logge inn på din PayPal-konto"
-      connect_paypal_account: "1. Koble til PayPal-konto"
       paypal_account_billing_agreement: "2. Tillat %{service_name} å ta et transaksjonsgebyr"
+      follow_steps: ~
+      connect_paypal_account_title: ~
+      connect_paypal_account_title_with_step: "Steg %{current_step}/%{total_steps}: Koble til din PayPal-konto"
+      connect_paypal_account_instructions: ~
+      connect_paypal_account: "1. Koble til PayPal-konto"
+      paypal_account_billing_agreement_with_step: "Steg %{current_step}/%{total_steps}: Gi tillatelse til å belaste transaksjonsgebyr"
       paypal_account_billing_agreement_info_both: "Etter at du gjør et salg på %{service_name} vil en tjenestekostnad (%{commission_from_seller} av totalsum, minus frakt, minimumkostnad %{minimum_commission}) bli trukket fra din PayPal-konto. For å godta betalinger gjennom %{service_name} må du tillate tjenesten å ta betalt. Tjenestekostnaden inkluderer ikke %{paypal_info_link}."
       paypal_account_billing_agreement_info_fixed: "Etter at du gjør et salg på %{service_name} vil en tjenestekostnad på %{minimum_commission} bli trukket fra din PayPal-konto. For å godta betalinger gjennom %{service_name} må du tillate tjenesten å ta betalt. Tjenestekostnaden inkluderer ikke %{paypal_info_link}."
       paypal_account_billing_agreement_info_relative: "Etter at du gjør et salg på %{service_name} vil en tjenestekostnad (%{commission_from_seller} av totalsum, minus frakt) bli trukket fra din PayPal-konto. For å godta betalinger gjennom %{service_name} må du tillate tjenesten å ta betalt. Tjenestekostnaden inkluderer ikke %{paypal_info_link}."
+      paypal_account_billing_agreement_info_none: ~
       paypal_info_link_text: "PayPal transaksjonskostnad"
       billing_agreement_description: "Gi %{service_name} tilgang til å ta betalt for sine tjenester."
       billing_agreement: "Gi tillatelse"
@@ -1761,6 +1780,17 @@ nb:
       something_went_wrong: "Noe gikk galt. Vennligst prøv igjen. Dersom problemet fortsetter, vennligst kontakt administrator."
       account_not_verified: "Du har ikke verifisert din PayPal-konto. Du må gå til paypal.com og verifisere kontoen før du kan fortsette."
       account_restricted: "Din PayPal-konto er begrenset og kan ikke bli koblet til. Vennligst logg på paypal.com for å finne ut mer hva dette betyr og ta kontakt med PayPal-support for å løse saken."
+    paypal_account_connected_title: ~
+    paypal_account_connected: ~
+    change_account: "Endre konto"
+    missing: "Du har åpne annonser men har ikke koblet til en PayPal-konto så du vil ikke kunne motta betalinger. Vennligst koble til din PayPal-konto i dine %{settings_link}."
+    from_your_payment_settings_link_text: betalingsinnstillinger
+    redirect_message: "Omdirigerer deg til PayPal. Hvis ingenting skjer, klikk %{redirect_link}."
+    redirect_link_text: her
+    paypal_account_all_set_up: ~
+    can_receive_payments: ~
+    paypal_account_connected_summary: ~
+    paypal_permission_granted_summary: ~
   paypal:
     pay_with_paypal: "Gå til betaling"
     checkout_with_paypal: "Betal med PayPal"
@@ -1776,7 +1806,6 @@ nb:
       deactivate: Deaktiver
     help_texts:
       feedback_description_title: Tilbakemelding
-      help_captcha_title: "Er du et menneske?"
       help_invitation_code_title: "Du trenger en invitasjon for å bli med"
       terms_title: "%{service_name} vilkår"
       invite_only_help_text: "Velg dette alternativet dersom du ønsker at nye medlemmer kun kan bli medlem via invitasjon fra eksisterende medlemmer."
@@ -1785,8 +1814,6 @@ nb:
       this_person_is_not_active_in_kassi: "Denne brukeren er ikke lenger aktiv på %{service_name}"
       inactive_description: "Denne brukeren benytter ikke lenger %{service_name}. Du kan hverken kontakte brukeren, gi vurdering eller kommentere denne brukerens annonser."
     new:
-      captcha_incorrect: "reCAPTCHA-sjekk feilet. Vennligst skriv inn ordene du ser i bildet i feltet nedenfor."
-      captcha_was_wrong: "Captcha-tekst var ikke riktig."
       create_new_account: "Opprett brukerkonto"
       email: E-post
       email_is_in_use: "E-posten du oppga er allerede i bruk."
@@ -1795,7 +1822,6 @@ nb:
       email_restriction_instructions:
         one: " %{service_name} har restriksjoner. For å bli medlem trenger du en  '%{allowed_emails}' e-postaddresse."
         other: "%{service_name} har restriksjoner. Du trenger en e-postadresse som viser at du er godkjent for å bli medlem."
-      enter_captcha: "Jeg er et menneske:"
       family_name: Etternavn
       given_name: Fornavn
       i_accept_the: "Jeg aksepterer"
@@ -2095,7 +2121,6 @@ nb:
       short: "%e %b %Y klokken %H:%M"
       shorter: "%e %b klokken %H:%M"
       short_date: "%e %b %Y"
-      sms: "%e %b klokken %H:%M"
   timestamps:
     day_ago: "%{count} dag siden"
     days_ago: "%{count} dager siden"

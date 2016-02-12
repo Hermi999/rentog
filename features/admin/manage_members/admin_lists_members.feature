@@ -75,7 +75,6 @@ Feature: Admin lists members
       | xxxx yyy      | test0@example.com   | 1 Mar 2011 |       |             |
       | vvvv www      | test3@example.com   | 1 Mar 2010 |       |             |
 
-
   Scenario: Admin views member count
     Given there are 50 companies with organization_name prefix "Company"
     And I go to the manage members admin page

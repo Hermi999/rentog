@@ -199,6 +199,7 @@ es-ES:
         fr-CA: "Francés (Canadá)"
         es: "Español (Chile)"
         es-ES: Español
+        pt-PT: ~
         pt-BR: Portugués
         nb: "Noruego Bokmål"
         sv: Sueco
@@ -396,7 +397,7 @@ es-ES:
       configure: Configuración
       emails_title: Emails
       support: Soporte
-      plan: "Mi suscripción"
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: "Tipos de Orden"
@@ -485,17 +486,22 @@ es-ES:
     paypal_accounts:
       marketplace_paypal_integration: "Preferencias de pago"
       preferences_updated: "Preferencias de pago actualizadas"
+      marketplace_currency_used: "Este marketplace usa %{currency} como su moneda. Para cambiar de moneda, %{contact_support_link}."
+      contact_support_link_text: "Contactar al soporte de Sharetribe"
       integration_info_text: "El sistema de pago de %{service_name} se basa en PayPal. Si quieres permitir a tus usuarios hacer pagos a través del marketplace, debes conectar tu cuenta de PayPal y decidir el precio mínimo para cada anuncio así como la comisión por transacción que quieres recibir."
-      read_more_about_paypal: "Leer más sobre el sistema de pagos de Sharetribe."
       paypal_account_email: "Conecta tu cuenta de PayPal"
+      link_paypal_personal_account_label: "Venderá productos usted mismo?"
       paypal_account_email_completed: ¡Completado!
-      set_minimum_price_and_fee: "Configura un precio mínimo y una comisión por transacción"
+      link_paypal_personal_account: "Si es así, también necesitará conectar su cuenta PayPal en %{personal_payment_preferences_link}."
+      personal_payment_preferences_link_text: "su cuenta personal del marketplace"
       set_minimum_price_and_fee_completed: ¡Completado!
+      read_more_about_paypal: "Leer más sobre el sistema de pagos de Sharetribe."
+      set_minimum_price_and_fee: "Configura un precio mínimo y una comisión por transacción"
       minimum_listing_price_label: "Precio mínimo para anuncio:"
       transaction_fee_label: "Comisión por transacción:"
       minimum_transaction_fee_label: "Fee mínimo por transacción"
-      save_settings: "Guardar configuración"
       note_about_transaction_fee: "Nota: la comisión por transacción incluye las tasas de PayPal que dependen de tu moneda y del volumen de ventas del vendedor. Por esta razón, la comisión siempre es al menos %{min_paypal_commission}. Cuando se carga la comisión al vendedor, Paypal cobra su comisión primero y el resto del dinero se moverá a tu cuenta de PayPal."
+      save_settings: "Guardar configuración"
       minimum_listing_price_below_tx_fee: "Tiene que ser al menos igual al fee mínimo por transacción %{minimum_transaction_fee}"
       minimum_listing_price_below_min: "Debe ser superior a la comisión mínima %{minimum_commission}"
     transaction_types:
@@ -626,6 +632,7 @@ es-ES:
       message_from: "Mensaje de %{person}"
       about_listing: "sobre el anuncio %{listing_title}"
       free_message: "Mensaje gratuito"
+      message_content_not_available: ~
     message:
       accepted_request: "aceptó la solicitud"
       accepted_offer: "aceptó la oferta"
@@ -1024,6 +1031,7 @@ es-ES:
     paypal:
       buyer_cannot_pay_error: "El pago fue rechazado por PayPal. Por favor contacta al servicio al cliente de PayPal para más información: %{customer_service_link}"
       pending_review_error: "El pago se realizó pero fue marcado por PayPal como 'pendiente de revisión'. Cuando PayPal complete esta revisión, el pago será autorizado automáticamente."
+      seller_express_checkout_disabled: ~
       generic_error: "Ha ocurrido un error durante el proceso de pago. No se pudo finalizar el pago a través de PayPal."
       cancel_error: "Ha ocurrido un error durante la cancelación. No se ha podido finalizar la cancelación"
       accept_authorization_error: "Ha ocurrido un error mientras intentábamos aceptar el pago preautorizado con PayPal. Por favor, inténtalo de nuevo."
@@ -1485,6 +1493,7 @@ es-ES:
         this_may_take_a_while: "(puede que tarde un poco...)"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Ha habido un error al subir la imagen"
+        image_processing_failed: ~
         file_too_large: "El archivo es demasiado grande"
         accepted_formats: "El archivo de imagen debe estar en formato GIF, JPG o PNG."
         images_not_uploaded_confirm: ~
@@ -1725,15 +1734,19 @@ es-ES:
   paypal_accounts:
     payout_info_title: "Información de pago"
     paypal_account_email_connected: "<del>Conectar cuenta PayPal</del> Completado!"
+    payout_info_paypal: "%{service_name} usa PayPal como su proveedor de pagos. %{create_paypal_account_link} y conectarla a %{service_name} es necesario para aceptar pagos por sus ofertas."
     paypal_billing_agreement_made: "<del>Otorgar permiso a %{service_name} para cobrar la comisión de servicio</del> Completado!"
+    commission_permission_needed: "También es necesario que otorgue permiso a %{service_name} para cobrar la comisión de servicio"
+    create_paypal_account_link_text: "cuenta PayPal"
+    connected_account: "La cuenta de PayPal '%{email}' se ha conectado con éxito."
+    paypal_receive_funds_info_label_australia_only: "Es necesario que tu cuenta PayPal esté habilitada para aceptar pagos. Esto puede requerir una cuenta Premium o de Empresa."
+    paypal_receive_funds_info_label: "Es necesario que tu cuenta PayPal pueda aceptar pagos. Esto puede requerir que tengas una cuenta empresarial (Business account)."
+    paypal_receive_funds_info: "Si ves un error al intentar conectar tu cuenta a %{service_name}, actualiza tu cuenta PayPal %{upgrade_paypal_account_link}. Es gratis y fácil. Si eres un individuo, PayPal recomienda que utilices tu nombre como el nombre de la empresa."
+    upgrade_paypal_account_link_text: "iniciando sesión y haciendo clic en el enlace de actualización"
+    admin_account_not_connected: "No es posible usar el sistema de pagos de %{service_name} para recibir pagos, ya que los pagos no se han configurado. Por favor %{contact_admin_link} para más información."
+    contact_admin_link_text: "contacta al administrador del marketplace"
     you_are_ready_to_accept_payments: "¡Estás listo para aceptar pagos!"
     commission: "%{commission} %"
-    connected_account: "La cuenta de PayPal '%{email}' se ha conectado con éxito."
-    change_account: "Cambiar cuenta"
-    missing: "Tienes publicaciones abiertas, pero no has conectado tu cuenta de Paypal, por lo que no podrás recibir pagos. Por favor conecta tu cuenta de Paypal en tu %{settings_link}."
-    from_your_payment_settings_link_text: "Configuración de los pagos"
-    redirect_message: "Redirigiendo a PayPal. Si no sucede nada, haz clic %{redirect_link}."
-    redirect_link_text: aquí
     new:
       payout_info_you_need_to_connect: "Para aceptar pagos necesitar conectar tu cuenta de PayPal con %{service_name}."
       payout_info_text: "Por favor, completa estos dos pasos para conectar tu cuenta."
@@ -1744,8 +1757,13 @@ es-ES:
       paypal_account_email_info_text: "Si no tiene suna cuenta PayPal, puedes crear una yendo a %{create_paypal_account}. Si el sistema arroja un error al conectar tu cuenta, necesitas actualizar tu cuenta a una cuenta empresarial (business). Actualizar es fácil y rápido y no te costará nada.  Si eres una persona natural (un indviduo), deberás poner tu nombre y apellido en el campo del \"nombre de la empresa\" cuando PayPal te lo solicite.  Para actualizar tu cuenta, %{upgrade_paypal_account} y busca el enlace de actualización."
       create_paypal_account: aquí
       upgrade_paypal_account: "Actualiza tu cuenta aquí."
-      connect_paypal_account: "Conecta tu cuenta de Paypal"
       paypal_account_billing_agreement: "Concede permisos a %{service_name} para cargar la comisión por transferencia"
+      follow_steps: "sigue los pasos siguientes para empezar a recibir fondos:"
+      connect_paypal_account_title: "Conecta tu cuenta de Paypal"
+      connect_paypal_account_title_with_step: "Paso %{current_step}/%{total_steps}: Conecta tu cuenta de PayPal"
+      connect_paypal_account_instructions: "Haz clic en el botón de abajo para iniciar sesión en tu cuenta de PayPal y conectarla con %{service_name}."
+      connect_paypal_account: "Conecta tu cuenta de Paypal"
+      paypal_account_billing_agreement_with_step: "Paso %{current_step}/%{total_steps}: otorga permiso para cobrar la comisión de transacción."
       paypal_account_billing_agreement_info_both: |-
           Después de realizar una venta en %{service_name}, se le cobrará de su cuenta de PayPal la tarifa de servicio (%{commission_from_seller} del precio total del ítem, excluyendo los costos de envío, tarifa mínima de %{minimum_commission}).
           Para poder aceptar pagos en %{service_name} debe aceptar y dar permiso a %{service_name} para que cobre esta tarifa de servicio.  La tarifa de servicio excluye %{paypal_info_link}.
@@ -1755,6 +1773,7 @@ es-ES:
       paypal_account_billing_agreement_info_relative: |-
           Después de realizar una venta en %{service_name}, se le cobrará de su cuenta de PayPal la tarifa de servicio (%{commission_from_seller} del precio total del ítem, excluyendo los costos de envío).
           Para poder aceptar pagos en %{service_name} debe aceptar y dar permiso a %{service_name} para que cobre esta tarifa de servicio.  La tarifa de servicio excluye %{paypal_info_link}.
+      paypal_account_billing_agreement_info_none: "Actualmente %{service_name} no cobra una comisión de servicio. Si el administrador habilita la comisión de servicio, para poder aceptar pagos en este marketplace tendrás que otorgar permiso a %{service_name} para que cobre una comisión de servicio.  Esta comisión no incluye %{paypal_info_link}."
       paypal_info_link_text: "Comisión de procesamiento de pago de PayPal"
       billing_agreement_description: "Concede permisos a %{service_name} para cargar una comisión por transferencia."
       billing_agreement: "Concede permiso"
@@ -1767,6 +1786,17 @@ es-ES:
       something_went_wrong: "Ocurrió algún error. Por favor, prueba de nuevo. Si el problema persiste, ponte en contacto con los administradores."
       account_not_verified: "No has verificado tu cuenta de PayPal. Necesitas ir a paypal.com y verificar tu cuenta antes de continuar."
       account_restricted: "Tu cuenta de Paypal está restringida y no se puede conectar. Por favor inicia sesión en paypal.com para más información de lo que esto significa o ponte en contacto con Atención al Cliente de Paypal para resolver este problema."
+    paypal_account_connected_title: "Cuenta PayPal conectada"
+    paypal_account_connected: "La cuenta PayPal <%{email}> se ha conectado con %{service_name}."
+    change_account: "Cambiar cuenta"
+    missing: "Tienes publicaciones abiertas, pero no has conectado tu cuenta de Paypal, por lo que no podrás recibir pagos. Por favor conecta tu cuenta de Paypal en tu %{settings_link}."
+    from_your_payment_settings_link_text: "Configuración de los pagos"
+    redirect_message: "Redirigiendo a PayPal. Si no sucede nada, haz clic %{redirect_link}."
+    redirect_link_text: aquí
+    paypal_account_all_set_up: "Muy bien! todo está listo!"
+    can_receive_payments: "Ahora puedes empezar a recibir pagos por tus ofertas."
+    paypal_account_connected_summary: "Cuenta PayPal <%{email}> conectada con éxito"
+    paypal_permission_granted_summary: "permiso otorgado para cobrar las comisiones de transacción"
   paypal:
     pay_with_paypal: "Revisar la solicitud y proceder a la Pasarela de Pagos"
     checkout_with_paypal: "Pago con PayPal"
@@ -1782,7 +1812,6 @@ es-ES:
       deactivate: Desactivar
     help_texts:
       feedback_description_title: Sugerencia
-      help_captcha_title: "¿Eres humano?"
       help_invitation_code_title: "Necesitas una invitación para unirte a"
       terms_title: "Términos de uso de %{service_name}"
       invite_only_help_text: "Selecciona esta opción si quieres que los nuevos miembros sólo puedan unirse si son invitados por un miembro de esta tribu."
@@ -1791,8 +1820,6 @@ es-ES:
       this_person_is_not_active_in_kassi: "Este usuario ya no está activo en %{service_name}"
       inactive_description: "Este usuario ha dejado de utilizar %{service_name}. No puedes ponerte en contacto con él, hacerle sugerencias o comentar sus peticiones."
     new:
-      captcha_incorrect: "Error de comprobación de reCAPTCHA. Por favor escriba las palabras que aparecen en el recuadro siguiente."
-      captcha_was_wrong: "Texto captcha incorrecto."
       create_new_account: "Crear una cuenta"
       email: "Dirección de correo electrónico:"
       email_is_in_use: "El mail ingresado ya se encuentra registrado."
@@ -1801,7 +1828,6 @@ es-ES:
       email_restriction_instructions:
         one: "Esta comunidad es sólo para %{community_name}. Para unirte necesitas una dirección de email %{allowed_emails}."
         other: "Esta comunidad es sólo para %{community_name}. Para unirte necesitas un email que tenga una de los siguientes direcciones: %{allowed_emails}."
-      enter_captcha: "Soy un ser humano:"
       family_name: "Apellido:"
       given_name: "Nombre:"
       i_accept_the: "Acepto los"
@@ -2101,7 +2127,6 @@ es-ES:
       short: "%e %b %Y a las %H:%M"
       shorter: "%e %b a las %H:%M"
       short_date: "%e %b  %Y"
-      sms: "%e %b a las %H:%M"
   timestamps:
     day_ago: "un día atrás"
     days_ago: "%{count} días atrás"

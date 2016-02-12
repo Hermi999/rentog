@@ -131,28 +131,6 @@ function add_validator_methods() {
     );
 
   $.validator.
-    addMethod( "captcha",
-      function(value, element, param) {
-        challengeField = $("input#recaptcha_challenge_field").val();
-        responseField = $("input#recaptcha_response_field").val();
-
-        var resp = $.ajax({
-              type: "GET",
-              url: "signup/check_captcha",
-              data: "recaptcha_challenge_field=" + challengeField + "&amp;recaptcha_response_field=" + responseField,
-              async: false
-        }).responseText;
-
-        if (resp == "success") {
-          return true;
-        } else {
-          Recaptcha.reload();
-          return false;
-        }
-      }
-    );
-
-  $.validator.
     addMethod("required_when_not_neutral_feedback",
       function(value, element, param) {
         if (value == "") {
@@ -787,7 +765,6 @@ function style_grade_selectors() {
   });
 }
 
-
 function showPopoverOnFocus(id){
   // Add events for showing the popovers
   $(id).focus(function(){
@@ -798,7 +775,8 @@ function showPopoverOnFocus(id){
   });
 }
 
-function initialize_signup_form(locale, username_in_use_message, invalid_username_message, email_in_use_message, captcha_message, invalid_invitation_code_message, name_required, invitation_required, organization_name_in_use_message, organization_name_not_chosen, orga_not_available) {
+
+function initialize_signup_form(locale, username_in_use_message, invalid_username_message, email_in_use_message, invalid_invitation_code_message, name_required, invitation_required, organization_name_in_use_message, organization_name_not_chosen, orga_not_available) {
   translate_validation_messages(locale);
 
   var form_width = $('.signup-form').width();
@@ -850,8 +828,6 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
     errorPlacement: function(error, element) {
       if (element.attr("name") == "person[terms]") {
         error.appendTo(element.parent().parent());
-      } else if (element.attr("name") == "recaptcha_response_field") {
-        error.appendTo(element.parent().parent().parent().parent().parent().parent().parent().parent().parent());
       } else {
         error.insertAfter(element);
       }
@@ -862,21 +838,17 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
       "person[family_name]": {required: name_required, maxlength: 30},
       "person[email]": {required: true, minlength: 3, email: true, remote: "/people/check_email_availability_and_validity"},
       "person[organization_name]": {required_organization: true, minlength: 3, maxlength: 30, remote: "/people/check_organization_name_availability"},
-      //"person[organization_name2]": {required_employee: true},
       "person[organization_email]": {required_employee: true, minlength: 3, email: true, remote: "/people/check_company_email"},
       "person[terms]": "required",
       "person[password]": { required: true, minlength: 8 },
       "person[password2]": { required: true, minlength: 8, equalTo: "#person_password1" },
       "person[id]": {required: true},
-      "recaptcha_response_field": {required: true, captcha: true },
       "invitation_code": {required: invitation_required, remote: "/people/check_invitation_code"}
     },
     messages: {
-      "recaptcha_response_field": { captcha: captcha_message },
       "person[username]": { valid_username: invalid_username_message, remote: username_in_use_message },
       "person[email]": { remote: email_in_use_message },
       "person[organization_name]": { remote: organization_name_in_use_message },
-      //"person[organization_name2]": { required_employee: organization_name_not_chosen },
       "person[organization_email]": { remote: orga_not_available },
       "invitation_code": { remote: invalid_invitation_code_message }
     },

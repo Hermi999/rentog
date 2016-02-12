@@ -29,6 +29,7 @@ module Sharetribe
     {ident: "sv", name: "Svenska", language: "sv", region: "SE", fallback: nil}, # Swedish (Sweden)
     {ident: "tr-TR", name: "Turkish", language: "tr", region: "TR", fallback: nil}, # Turkish (Turkey)
     {ident: "zh", name: "中文", language: "zh", region: "CN", fallback: nil}, # Chinese (China)
+    {ident: "pt-PT", name: "Português", language: "pt", region: "PT", fallback: "pt-BR"}, # Portuguese (Portugal)
   ]
 
   # List of locales that are incomplete
@@ -46,7 +47,10 @@ module Sharetribe
     {ident: "sw", name: "Kiswahili", language: "sw", region: "KE", fallback: nil}, # Swahili (Kenya)
     {ident: "vi", name: "Tiếng Việt", language: "vi", region: "VN", fallback: nil}, # Vietnamese (Vietnam)
     {ident: "hu", name: "Magyar", language: "hu", region: "HU", fallback: nil}, # Hungarian
-    {ident: "cs", name: "Čeština", language: "cs", region: "CS", fallback: nil} # Czech
+    {ident: "cs", name: "Čeština", language: "cs", region: "CS", fallback: nil}, # Czech
+    {ident: "th-TH", name: "Thai", language: "th", region: "TH", fallback: nil}, # Thai (Thailand)
+    {ident: "bg", name: "български", language: "bg", reqion: "BG", fallback: nil}, # Bulgarian
+    {ident: "mn", name: "Mongolian", language: "mn", reqion: "MN", fallback: nil}, # Mongolian
   ]
 
   AVAILABLE_LOCALES = SUPPORTED_LOCALES + UNSUPPORTED_LOCALES

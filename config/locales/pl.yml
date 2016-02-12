@@ -182,6 +182,7 @@ pl:
         fr-CA: ~
         es: ~
         es-ES: ~
+        pt-PT: ~
         pt-BR: ~
         nb: ~
         sv: ~
@@ -377,7 +378,7 @@ pl:
       configure: ~
       emails_title: ~
       support: ~
-      plan: ~
+      subscription: ~
     listing_shapes:
       index:
         listing_shapes: ~
@@ -385,7 +386,7 @@ pl:
         read_more_about_order_types: ~
         add_new_shape: ~
         select_template: ~
-        all_categories: ~
+        all_categories: "Wszystkie kategorie"
         no_categories: ~
         category_count: ~
         header:
@@ -431,12 +432,12 @@ pl:
       units_title: ~
       units_desc: ~
       units:
-        piece: ~
-        hour: ~
-        day: ~
-        night: ~
-        week: ~
-        month: ~
+        piece: "Za sztukę"
+        hour: "Za godzinę"
+        day: Dziennie
+        night: "Za noc"
+        week: Tygodniowo
+        month: Miesięcznie
       can_not_find: ~
       add_custom_unit: ~
       delete_custom_unit: ~
@@ -444,9 +445,9 @@ pl:
         title: ~
         label_heading: ~
         selector_label_heading: ~
-        label_placeholder: ~
+        label_placeholder: "np. \"kg\", \"30 minut\", \"osobę\", \"zajęcia\""
         selector_placeholder: ~
-        per: ~
+        per: Za
         unit_type:
           heading: ~
           quantity_label: ~
@@ -454,17 +455,22 @@ pl:
     paypal_accounts:
       marketplace_paypal_integration: ~
       preferences_updated: ~
+      marketplace_currency_used: ~
+      contact_support_link_text: ~
       integration_info_text: ~
-      read_more_about_paypal: ~
       paypal_account_email: ~
+      link_paypal_personal_account_label: ~
       paypal_account_email_completed: ~
-      set_minimum_price_and_fee: ~
+      link_paypal_personal_account: ~
+      personal_payment_preferences_link_text: ~
       set_minimum_price_and_fee_completed: ~
+      read_more_about_paypal: ~
+      set_minimum_price_and_fee: ~
       minimum_listing_price_label: ~
       transaction_fee_label: ~
       minimum_transaction_fee_label: ~
-      save_settings: ~
       note_about_transaction_fee: ~
+      save_settings: ~
       minimum_listing_price_below_tx_fee: ~
       minimum_listing_price_below_min: ~
     transaction_types:
@@ -595,6 +601,7 @@ pl:
       message_from: ~
       about_listing: ~
       free_message: ~
+      message_content_not_available: ~
     message:
       accepted_request: ~
       accepted_offer: ~
@@ -656,7 +663,7 @@ pl:
       last_message_at: ~
       price: ~
       sum: ~
-      price_excludes_vat: ~
+      price_excludes_vat: "(bez podatku VAT)"
       total: ~
     status:
       payment_errored: ~
@@ -883,7 +890,7 @@ pl:
       you_have_a_new_message: ~
     new_payment:
       new_payment: ~
-      price_per_unit_type: ~
+      price_per_unit_type: "Price per %{unit_type}"
       quantity: ~
       you_have_received_new_payment: ~
     paypal_new_payment:
@@ -899,12 +906,12 @@ pl:
       receipt_of_payment: ~
       you_have_made_new_payment: ~
       product: ~
-      price_per_unit_type: ~
+      price_per_unit_type: "Price per %{unit_type}"
       duration: ~
       quantity: ~
       subtotal: ~
       total: ~
-      price: ~
+      price: Cena
       service_fee: ~
       money_will_be_transferred: ~
     new_testimonial:
@@ -923,7 +930,7 @@ pl:
       title_link_text: ~
       intro_paragraph: ~
       intro_paragraph_link_text: ~
-      post_a_new_listing: ~
+      post_a_new_listing: "Wystaw swoją ofertę!"
       reduce_email_footer_text: ~
       settings_link_text: ~
       unsubscribe_link_text: ~
@@ -991,6 +998,7 @@ pl:
     paypal:
       buyer_cannot_pay_error: ~
       pending_review_error: ~
+      seller_express_checkout_disabled: ~
       generic_error: ~
       cancel_error: ~
       accept_authorization_error: ~
@@ -1071,7 +1079,7 @@ pl:
     contact_us: ~
     profile: ~
     invite: ~
-    login: ~
+    login: "Zaloguj się"
     signup: ~
     menu: ~
   homepage:
@@ -1124,7 +1132,7 @@ pl:
       is: ~
       are: ~
       what_do_you_need: ~
-      post_new_listing: ~
+      post_new_listing: "Wystaw swoją ofertę"
       are_offering: ~
       add_news_item: ~
       lend_rent_help_carpool: ~
@@ -1173,11 +1181,11 @@ pl:
       search: ~
       map: ~
       list: ~
-      map_button: ~
-      grid_button: ~
-      list_button: ~
-      all_listing_types: ~
-      all_categories: ~
+      map_button: Mapa
+      grid_button: Miniaturki
+      list_button: Lista
+      all_listing_types: "Wszystkie typy ofert"
+      all_categories: "Wszystkie kategorie"
     errors:
       search_engine_not_responding: ~
   infos:
@@ -1207,7 +1215,7 @@ pl:
       send_feedback_to_admin: ~
       to_see_what_others_have_suggested: ~
       your_email_address: ~
-      connect: ~
+      connect: Rejestracja
       invite_your_friends: ~
       invite_your_neighbors: ~
       invite_your_friends_description: ~
@@ -1232,7 +1240,7 @@ pl:
       admin: ~
       go_to_your_profile_page: ~
       hi: ~
-      login: ~
+      login: "Zaloguj się"
       logout: ~
       notifications: ~
       requests: ~
@@ -1246,12 +1254,12 @@ pl:
       admin: ~
       go_to_your_profile_page: ~
       hi: ~
-      login: ~
+      login: "Zaloguj się"
       logout: ~
       notifications: ~
       requests: ~
       settings: ~
-      sign_up: ~
+      sign_up: Rejestracja
     notifications:
       listing_could_not_be_saved: ~
       contact_admin_link_text: ~
@@ -1346,7 +1354,7 @@ pl:
       additional_email_confirmed_dashboard: ~
       you_must_log_in_to_give_feedback: ~
       you_must_log_in_to_invite_new_users: ~
-      you_must_log_in_to_send_a_comment: ~
+      you_must_log_in_to_send_a_comment: "Musiz się zalogować, aby dodać nowy komentarz"
       you_must_log_in_to_send_a_message: ~
       you_must_log_in_to_do_a_transaction: ~
       you_must_log_in_to_view_this_content: ~
@@ -1385,32 +1393,32 @@ pl:
       delete: ~
       are_you_sure: ~
     comment_form:
-      ask_a_question: ~
+      ask_a_question: "Skomentuj tą ofertę lub zapytaj o więcej szczegółów. Wszyscy inni użytkownicy będą mogli zobaczyć Twój komentarz."
       log_in: ~
-      send_comment: ~
+      send_comment: "Wyślij komentarz"
       to_send_a_comment: ~
       write_comment: ~
       you_cannot_send_a_new_comment_because_listing_is_closed: ~
       you_must: ~
-      subscribe_to_comments: ~
+      subscribe_to_comments: "Powiadamiaj mnie o nowych komentarzach i uaktualnieniach"
     edit:
       edit_listing: ~
     edit_links:
-      close_listing: ~
-      edit_listing: ~
+      close_listing: "Usuń ofertę"
+      edit_listing: "Edytuj ofertę"
       reopen_listing: ~
-      move_to_top: ~
-      show_in_updates_email: ~
+      move_to_top: "Przesuń na górę strony"
+      show_in_updates_email: "Pokaż w najbliższym automatycznym emailu"
       show_in_updates_email_loading: ~
       show_in_updates_email_error: ~
       show_in_updates_email_success: ~
     map:
-      open_in_google_maps: ~
+      open_in_google_maps: "Otwórz w Google Maps"
     error:
       something_went_wrong: ~
     follow_links:
-      follow: ~
-      unfollow: ~
+      follow: "Powiadom mnie emailem, gdy pojawią się nowe komentarze"
+      unfollow: "Nie powiadamiaj mnie emailem, gdy pojawią się nowe komentarze"
     form:
       custom_field_partials:
         dropdown:
@@ -1421,7 +1429,7 @@ pl:
       departure_time_radio_buttons:
         repeated: ~
       description:
-        detailed_description: ~
+        detailed_description: "Szczegółowy opis"
       destination:
         destination: ~
       form_content:
@@ -1438,11 +1446,11 @@ pl:
         googlemap_description: ~
         googlemap_updatemap: ~
       images:
-        image: ~
-        best_result: ~
+        image: Zdjęcie
+        best_result: "Dla najlepszych rezultatów użyj plików JPG, GIF lub PNG, które mają rozdzielczość %{width} na %{height} pikseli"
         no_file_selected: ~
         remove_image: ~
-        select_file: ~
+        select_file: "Wybierz plik"
         add_more: ~
         removing: ~
         processing: ~
@@ -1452,34 +1460,35 @@ pl:
         this_may_take_a_while: ~
         percentage_loaded: ~
         uploading_failed: ~
+        image_processing_failed: "Błąd przetwarzania obrazu"
         file_too_large: ~
         accepted_formats: ~
         images_not_uploaded_confirm: ~
       location:
-        location: ~
+        location: Lokalizacja
       price:
-        price: ~
-        per: ~
-        per_day: ~
+        price: Cena
+        per: za
+        per_day: "za dzień"
         mass: ~
-        time: ~
+        time: "godzina, dzień, miesiąc, ..."
         long_time: ~
         after_service_fee_you_will_get: ~
         no_service_fee_you_will_get_paypal_text: ~
         after_service_fee_you_will_get_paypal_text: ~
         paypal_fee_info_link_text: ~
         after_service_fee_you_will_get_vat: ~
-        price_excludes_vat: ~
+        price_excludes_vat: "Cena nie zawiera podatku VAT"
         delivery: ~
         shipping: ~
         shipping_price: ~
         shipping_price_additional: ~
         pickup: ~
       origin:
-        location: ~
+        location: Lokalizacja
         origin: ~
       send_button:
-        save_listing: ~
+        save_listing: "Zapisz ofertę"
       share_type:
         select: ~
         borrow: ~
@@ -1499,7 +1508,7 @@ pl:
         comma_separate: ~
         tags: ~
       title:
-        listing_title: ~
+        listing_title: "Tytuł oferty"
       valid_until:
         valid_until: ~
       valid_until_radio_buttons:
@@ -1513,7 +1522,7 @@ pl:
       help_tags_title: ~
       help_valid_until_title: ~
     index:
-      all_categories: ~
+      all_categories: "Wszystkie kategorie"
       all_offer_types: ~
       all_request_types: ~
       category: ~
@@ -1556,7 +1565,7 @@ pl:
       how_paypal_works: ~
       payment_help: ~
     new:
-      post_a_new_listing: ~
+      post_a_new_listing: "Wystaw swoją ofertę"
       listing: ~
       selected_category: ~
       selected_subcategory: ~
@@ -1583,7 +1592,7 @@ pl:
     show:
       add_your_phone_number: ~
       add_profile_picture: ~
-      comments: ~
+      comments: Komentarze
       contact_by_phone: ~
       contact: ~
       favor_offer: ~
@@ -1611,11 +1620,11 @@ pl:
       times: ~
       times_viewed: ~
       processing_uploaded_image: ~
-      price_excludes_vat: ~
+      price_excludes_vat: "(bez podatku VAT)"
       listing_created_at: ~
       price:
-        per_quantity_unit: ~
-        per_day: ~
+        per_quantity_unit: "za %{quantity_unit}"
+        per_day: "za dzień"
       delivery: ~
       shipping: ~
       shipping_no_price: ~
@@ -1644,7 +1653,7 @@ pl:
       read_more: ~
   mapview:
     index:
-      all_categories: ~
+      all_categories: "Wszystkie kategorie"
       all_offer_types: ~
       all_request_types: ~
       category: ~
@@ -1692,15 +1701,19 @@ pl:
   paypal_accounts:
     payout_info_title: ~
     paypal_account_email_connected: ~
+    payout_info_paypal: ~
     paypal_billing_agreement_made: ~
+    commission_permission_needed: ~
+    create_paypal_account_link_text: ~
+    connected_account: ~
+    paypal_receive_funds_info_label_australia_only: ~
+    paypal_receive_funds_info_label: ~
+    paypal_receive_funds_info: ~
+    upgrade_paypal_account_link_text: ~
+    admin_account_not_connected: ~
+    contact_admin_link_text: ~
     you_are_ready_to_accept_payments: ~
     commission: ~
-    connected_account: ~
-    change_account: ~
-    missing: ~
-    from_your_payment_settings_link_text: ~
-    redirect_message: ~
-    redirect_link_text: ~
     new:
       payout_info_you_need_to_connect: ~
       payout_info_text: ~
@@ -1711,11 +1724,17 @@ pl:
       paypal_account_email_info_text: ~
       create_paypal_account: ~
       upgrade_paypal_account: ~
-      connect_paypal_account: ~
       paypal_account_billing_agreement: ~
+      follow_steps: ~
+      connect_paypal_account_title: ~
+      connect_paypal_account_title_with_step: ~
+      connect_paypal_account_instructions: ~
+      connect_paypal_account: ~
+      paypal_account_billing_agreement_with_step: ~
       paypal_account_billing_agreement_info_both: ~
       paypal_account_billing_agreement_info_fixed: ~
       paypal_account_billing_agreement_info_relative: ~
+      paypal_account_billing_agreement_info_none: ~
       paypal_info_link_text: ~
       billing_agreement_description: ~
       billing_agreement: ~
@@ -1728,6 +1747,17 @@ pl:
       something_went_wrong: ~
       account_not_verified: ~
       account_restricted: ~
+    paypal_account_connected_title: ~
+    paypal_account_connected: ~
+    change_account: ~
+    missing: ~
+    from_your_payment_settings_link_text: ~
+    redirect_message: ~
+    redirect_link_text: ~
+    paypal_account_all_set_up: ~
+    can_receive_payments: ~
+    paypal_account_connected_summary: ~
+    paypal_permission_granted_summary: ~
   paypal:
     pay_with_paypal: ~
     checkout_with_paypal: ~
@@ -1743,7 +1773,6 @@ pl:
       deactivate: ~
     help_texts:
       feedback_description_title: ~
-      help_captcha_title: ~
       help_invitation_code_title: ~
       terms_title: ~
       invite_only_help_text: ~
@@ -1752,14 +1781,11 @@ pl:
       this_person_is_not_active_in_kassi: ~
       inactive_description: ~
     new:
-      captcha_incorrect: ~
-      captcha_was_wrong: ~
       create_new_account: ~
       email: ~
       email_is_in_use: ~
       email_is_in_use_or_not_allowed: ~
       email_not_allowed: ~
-      enter_captcha: ~
       family_name: ~
       given_name: ~
       i_accept_the: ~
@@ -2059,7 +2085,6 @@ pl:
       short: ~
       shorter: ~
       short_date: ~
-      sms: ~
   timestamps:
     day_ago: ~
     days_ago: ~
@@ -2075,11 +2100,11 @@ pl:
   transactions:
     initiate:
       booked_days: ~
-      price_per_day: ~
+      price_per_day: "Cena za dzień:"
       quantity: ~
       subtotal: ~
       shipping-price: ~
-    price_per_quantity: ~
+    price_per_quantity: "Cena za %{unit_type}:"
     price: ~
     quantity: ~
     unit_price: ~

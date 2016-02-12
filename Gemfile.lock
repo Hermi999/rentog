@@ -1,11 +1,37 @@
+GIT
+  remote: git://github.com/jejacks0n/mercury.git
+  revision: 1cc637b0bccea19085f824d2881c6513ed5ee8ae
+  ref: 1cc637b0bccea19085f824d2881c6513ed5ee8ae
+  branch: master
+  specs:
+    mercury-rails (0.9.0)
+      coffee-rails (>= 3.2.2)
+      railties (>= 3.0)
+
+GIT
+  remote: git://github.com/pat/ts-delayed-delta.git
+  revision: 839284f2f28b3f4caf3a3bf5ccde9a6d222c7f4d
+  ref: 839284f2f28b3f4caf3a3bf5ccde9a6d222c7f4d
+  branch: master
+  specs:
+    ts-delayed-delta (2.0.2)
+      delayed_job
+      thinking-sphinx (>= 1.5.0)
+
+GIT
+  remote: git://github.com/paypal/permissions-sdk-ruby.git
+  revision: c0240bee9f94fe6338d67b4f754e1a11ce81619a
+  ref: c0240bee9f94fe6338d67b4f754e1a11ce81619a
+  branch: master
+  specs:
+    paypal-sdk-permissions (1.96.3)
+      paypal-sdk-core (~> 0.3.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
-    CFPropertyList (2.3.1)
-    action_mailer_cache_delivery (0.3.7)
-      actionmailer (>= 3.0)
-    actionmailer (3.2.22)
-      actionpack (= 3.2.22)
+    actionmailer (3.2.21)
+      actionpack (= 3.2.21)
       mail (~> 2.5.4)
     actionpack (3.2.22)
       activemodel (= 3.2.22)
@@ -31,7 +57,7 @@ GEM
     activesupport (3.2.22)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
-    addressable (2.3.8)
+    addressable (2.4.0)
     aggregate (0.2.2)
     airbrake (4.1.0)
       builder
@@ -40,10 +66,6 @@ GEM
       activerecord (>= 3.2, <= 4.3)
       rake (~> 10.4)
     arel (3.0.3)
-    asset_sync (1.1.0)
-      activemodel
-      fog (>= 1.8.0)
-      unf
     ast (2.0.0)
     aws-sdk (2.1.22)
       aws-sdk-resources (= 2.1.22)
@@ -54,7 +76,9 @@ GEM
     aws-sdk-v1 (1.66.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
-    bcrypt-ruby (3.1.2)
+    bcrypt (3.1.10)
+    bcrypt-ruby (3.1.5)
+      bcrypt (>= 3.1.3)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -96,8 +120,9 @@ GEM
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.2.0.alpha.93)
-    compass-rails (1.0.3)
-      compass (>= 0.12.2, < 0.14)
+    compass-rails (1.1.7)
+      compass (>= 0.12.2)
+      sprockets (<= 2.11.0)
     connection_pool (0.9.3)
     countries (0.9.3)
       currencies (~> 0.4.2)
@@ -125,20 +150,20 @@ GEM
     currencies (0.4.2)
     daemons (1.2.3)
     dalli (2.6.4)
-    database_cleaner (1.4.1)
+    database_cleaner (1.5.1)
     debug_inspector (0.0.2)
-    delayed_job (3.0.5)
-      activesupport (~> 3.0)
-    delayed_job_active_record (0.3.3)
-      activerecord (>= 2.1.0, < 4)
-      delayed_job (~> 3.0)
+    delayed_job (4.0.2)
+      activesupport (>= 3.0, < 4.2)
+    delayed_job_active_record (4.0.3)
+      activerecord (>= 3.0, < 5.0)
+      delayed_job (>= 3.0, < 4.1)
     delayed_paperclip (2.6.1)
       paperclip (>= 3.3.0)
-    devise (2.2.7)
+    devise (3.0.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
-      railties (~> 3.1)
-      warden (~> 1.2.1)
+      railties (>= 3.2.6, < 5)
+      warden (~> 1.2.3)
     devise-encryptable (0.1.1)
       devise (>= 2.1.0.rc)
     diff-lcs (1.2.5)
@@ -178,100 +203,6 @@ GEM
       pusher-client (~> 0.3)
       riddle (>= 1.5.6)
       thinking-sphinx
-    fog (1.32.0)
-      fog-atmos
-      fog-aws (>= 0.6.0)
-      fog-brightbox (~> 0.4)
-      fog-core (~> 1.32)
-      fog-ecloud (= 0.1.1)
-      fog-google (>= 0.0.2)
-      fog-json
-      fog-local
-      fog-powerdns (>= 0.1.1)
-      fog-profitbricks
-      fog-radosgw (>= 0.0.2)
-      fog-riakcs
-      fog-sakuracloud (>= 0.0.4)
-      fog-serverlove
-      fog-softlayer
-      fog-storm_on_demand
-      fog-terremark
-      fog-vmfusion
-      fog-voxel
-      fog-xml (~> 0.1.1)
-      ipaddress (~> 0.5)
-      nokogiri (~> 1.5, >= 1.5.11)
-    fog-atmos (0.1.0)
-      fog-core
-      fog-xml
-    fog-aws (0.7.3)
-      fog-core (~> 1.27)
-      fog-json (~> 1.0)
-      fog-xml (~> 0.1)
-      ipaddress (~> 0.8)
-    fog-brightbox (0.8.0)
-      fog-core (~> 1.22)
-      fog-json
-      inflecto (~> 0.0.2)
-    fog-core (1.32.0)
-      builder
-      excon (~> 0.45)
-      formatador (~> 0.2)
-      mime-types
-      net-scp (~> 1.1)
-      net-ssh (>= 2.1.3)
-    fog-ecloud (0.1.1)
-      fog-core
-      fog-xml
-    fog-google (0.0.7)
-      fog-core
-      fog-json
-      fog-xml
-    fog-json (1.0.1)
-      fog-core (~> 1.0)
-      multi_json (~> 1.0)
-    fog-local (0.2.1)
-      fog-core (~> 1.27)
-    fog-powerdns (0.1.1)
-      fog-core (~> 1.27)
-      fog-json (~> 1.0)
-      fog-xml (~> 0.1)
-    fog-profitbricks (0.0.3)
-      fog-core
-      fog-xml
-      nokogiri
-    fog-radosgw (0.0.4)
-      fog-core (>= 1.21.0)
-      fog-json
-      fog-xml (>= 0.0.1)
-    fog-riakcs (0.1.0)
-      fog-core
-      fog-json
-      fog-xml
-    fog-sakuracloud (1.0.1)
-      fog-core
-      fog-json
-    fog-serverlove (0.1.2)
-      fog-core
-      fog-json
-    fog-softlayer (0.4.7)
-      fog-core
-      fog-json
-    fog-storm_on_demand (0.1.1)
-      fog-core
-      fog-json
-    fog-terremark (0.1.0)
-      fog-core
-      fog-xml
-    fog-vmfusion (0.1.0)
-      fission
-      fog-core
-    fog-voxel (0.1.0)
-      fog-core
-      fog-xml
-    fog-xml (0.1.2)
-      fog-core
-      nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
     fssm (0.2.10)
     gherkin (2.12.2)
@@ -357,9 +288,6 @@ GEM
     mail_view (1.0.3)
       tilt
     memcachier (0.0.2)
-    mercury-rails (0.9.0)
-      coffee-rails
-      railties (~> 3.2)
     meta_request (0.3.4)
       callsite (~> 0.0, >= 0.0.11)
       rack-contrib (~> 1.1)
@@ -384,9 +312,6 @@ GEM
     multipart-post (1.2.0)
     mysql2 (0.3.14)
     nenv (0.2.0)
-    net-scp (1.2.1)
-      net-ssh (>= 2.6.5)
-    net-ssh (2.9.2)
     netrc (0.11.0)
     newrelic_rpm (3.9.1.236)
     nokogiri (1.6.7.2)
@@ -408,7 +333,7 @@ GEM
     omniauth-oauth2 (1.3.1)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
-    orm_adapter (0.4.0)
+    orm_adapter (0.5.0)
     paperclip (4.3.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -456,11 +381,11 @@ GEM
       websocket (~> 1.0.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
-    rabl (0.7.9)
+    rabl (0.7.10)
       activesupport (>= 2.3.14)
       multi_json (~> 1.0)
     rack (1.4.7)
-    rack-cache (1.2)
+    rack-cache (1.5.1)
       rack (>= 0.4)
     rack-contrib (1.2.0)
       rack (>= 0.9.1)
@@ -470,7 +395,6 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rack-timeout (0.1.1)
     rails (3.2.22)
       actionmailer (= 3.2.22)
       actionpack (= 3.2.22)
@@ -489,6 +413,11 @@ GEM
     railties (3.2.22)
       actionpack (= 3.2.22)
       activesupport (= 3.2.22)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.4)
+    rails_stdout_logging (0.0.4)
       rack-ssl (~> 1.3.2)
       rake (>= 0.8.7)
       rdoc (~> 3.4)
@@ -582,7 +511,6 @@ GEM
     thread_safe (0.3.5)
     tilt (1.4.1)
     timecop (0.8.0)
-    timeliness (0.3.7)
     timers (1.1.0)
     tins (1.7.0)
     treetop (1.4.15)
@@ -600,9 +528,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
-    validates_timeliness (3.0.14)
-      timeliness (~> 0.3.6)
-    warden (1.2.3)
+    warden (1.2.4)
       rack (>= 1.0)
     web_translate_it (2.1.8)
       multi_json
@@ -620,34 +546,32 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  action_mailer_cache_delivery
   airbrake (~> 4.1.0)
   annotate
-  asset_sync
   aws-sdk (~> 2)
   aws-sdk-v1
   better_errors
   braintree
   cache_digests
-  capybara
+  capybara (~> 2.2.1)
   coffee-rails (~> 3.2.2)
   compass (~> 0.13.alpha)
-  compass-rails
+  compass-rails (~> 1.1)
   connection_pool
-  country_select (> 1.2.0)
+  country_select (~> 1.3.1)
   coveralls
   cucumber
-  cucumber-rails
+  cucumber-rails (~> 1.4.0)
   daemons (~> 1.2.3)
   dalli
-  database_cleaner
-  delayed_job (~> 3.0.5)
+  database_cleaner (~> 1.1)
+  delayed_job (~> 4.0.0, <= 4.0.2)
   delayed_job_active_record
   delayed_paperclip
-  devise (~> 2.2.4)
+  devise (~> 3.0.0)
   devise-encryptable
   dynamic_form
-  email_spec
+  email_spec (~> 1.6.0)
   factory_girl_rails
   fb-channel-file
   flying-sphinx (~> 1.2.0)
@@ -666,14 +590,14 @@ DEPENDENCIES
   lograge
   mail_view (~> 1.0.3)
   memcachier
-  mercury-rails
-  meta_request
+  mercury-rails!
+  meta_request (~> 0.3)
   money-rails
   multi_json
   mysql2
   newrelic_rpm
   omniauth-facebook (~> 2.0.1)
-  paperclip
+  paperclip (~> 3.5.1)
   parallel_tests
   passenger (~> 5.0.18)
   paypal-sdk-merchant (~> 1.116.0)
@@ -687,23 +611,22 @@ DEPENDENCIES
   pry-stack_explorer
   public_suffix
   quiet_assets
-  rabl
+  rabl (~> 0.7.10)
   rack-livereload
   rack-test
-  rack-timeout
   rails (= 3.2.22)
   rails-erd
   rails-i18n
+  rails_12factor (~> 0.0.3)
   rake
   rb-fsevent
-  recaptcha
   rest-client (>= 1.6.0)
   rspec-rails (~> 2.99.0)
   rubocop
   ruby-prof
   sass (~> 3.2.9)
   sass-rails
-  selenium-webdriver
+  selenium-webdriver (~> 2.45.0)
   spreadsheet
   statesman (~> 0.5.0)
   stringex (~> 2.5.2)
@@ -713,7 +636,6 @@ DEPENDENCIES
   truncate_html
   ts-delayed-delta (~> 2.0.2)
   uglifier
-  validates_timeliness (~> 3.0)
   web_translate_it
   will_paginate
   xpath

@@ -282,14 +282,12 @@ class PeopleController < Devise::RegistrationsController
 
   end
 
-  def build_devise_resource_from_person(person)
-    params["person"].delete(:terms) #remove terms part which confuses Devise
+  def build_devise_resource_from_person(person_params)
+    person_params.delete(:terms) #remove terms part which confuses Devise
 
     # This part is copied from Devise's regstration_controller#create
-    build_resource
-    person = resource
-
-    person
+    build_resource(person_params)
+    resource
   end
 
   def create_facebook_based
@@ -355,7 +353,7 @@ class PeopleController < Devise::RegistrationsController
     @person.set_emails_that_receive_notifications(params[:person][:send_notifications])
 
     begin
-      person_params = params[:person].slice(
+      person_params = params.require(:person).permit(
         :given_name,
         :family_name,
         :organization_name,
@@ -363,14 +361,32 @@ class PeopleController < Devise::RegistrationsController
         :phone_number,
         :image,
         :description,
-        :location,
+        { location: [:address, :google_address, :latitude, :longitude] },
         :password,
         :password2,
-        :send_notifications,
-        :email_attributes,
+        { send_notifications: [] },
+        { email_attributes: [:address] },
         :min_days_between_community_updates,
-        :preferences,
+        { preferences: [
+          :email_from_admins,
+          :email_about_new_messages,
+          :email_about_new_comments_to_own_listing,
+          :email_when_conversation_accepted,
+          :email_when_conversation_rejected,
+          :email_about_new_received_testimonials,
+          :email_about_accept_reminders,
+          :email_about_confirm_reminders,
+          :email_about_testimonial_reminders,
+          :email_about_completed_transactions,
+          :email_about_new_payments,
+          :email_about_payment_reminders,
+          :email_about_new_listings_by_followed_people,
+        ] }
       )
+
+      Maybe(person_params)[:location].each { |loc|
+        person_params[:location] = loc.merge(location_type: :person)
+      }
 
       if @person.update_attributes(person_params)
         if params[:person][:password]
@@ -477,14 +493,6 @@ class PeopleController < Devise::RegistrationsController
     params[:closed] && params[:closed].eql?("true")
   end
 
-  def check_captcha
-    if verify_recaptcha_unless_already_accepted
-      render :json => "success" and return
-    else
-      render :json => "failed" and return
-    end
-  end
-
   # Showed when somebody tries to view a profile of
   # a person that is not a member of that community
   def not_member
@@ -503,16 +511,6 @@ class PeopleController < Devise::RegistrationsController
   # Create a new person by params and current community
   def new_person(params, current_community)
     person = Person.new
-    if APP_CONFIG.use_recaptcha && current_community && current_community.use_captcha && !verify_recaptcha_unless_already_accepted(:model => person, :message => t('people.new.captcha_incorrect'))
-
-      # This should not actually ever happen if all the checks work at Sharetribe's end.
-      # Anyway if Captha responses with error, show message to user
-      # Also notify admins that this kind of error happened.
-      # TODO: if this ever happens, should change the message to something else than "unknown error"
-      flash[:error] = t("layouts.notifications.unknown_error")
-      ApplicationHelper.send_error_notification("New user Sign up failed because Captha check failed, when it shouldn't.", "Captcha error")
-      redirect_to error_redirect_path and return false
-    end
 
     params[:person][:locale] =  params[:locale] || APP_CONFIG.default_locale
     params[:person][:test_group_number] = 1 + rand(4)
@@ -524,7 +522,7 @@ class PeopleController < Devise::RegistrationsController
     params["person"].delete(:company_name)
 
 
-    person = build_devise_resource_from_person(person)
+    person = build_devise_resource_from_person(params[:person])
 
     person.emails << email
 
@@ -562,6 +560,7 @@ class PeopleController < Devise::RegistrationsController
     end
   end
 
+
   def company_email_availability(email)
     available = Email.company_email_available?(email)
 
@@ -570,18 +569,6 @@ class PeopleController < Devise::RegistrationsController
     end
   end
 
-  def verify_recaptcha_unless_already_accepted(options={})
-    # Check if this captcha is already accepted, because ReCAPTCHA API will return false for further queries
-    if session[:last_accepted_captha] == "#{params["recaptcha_challenge_field"]}#{params["recaptcha_response_field"]}"
-      return true
-    else
-      accepted = verify_recaptcha(options)
-      if accepted
-        session[:last_accepted_captha] = "#{params["recaptcha_challenge_field"]}#{params["recaptcha_response_field"]}"
-      end
-      return accepted
-    end
-  end
 
   def change_active_status(status)
     @person = Person.find(params[:id])

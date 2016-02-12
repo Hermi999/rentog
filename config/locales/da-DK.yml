@@ -197,6 +197,7 @@ da-DK:
         fr-CA: "Fransk (Canada)"
         es: "Spansk (Chile)"
         es-ES: Spansk
+        pt-PT: ~
         pt-BR: Portugisisk
         nb: "Norsk Bokmål"
         sv: Svensk
@@ -392,7 +393,7 @@ da-DK:
       configure: Konfiguration
       emails_title: Emails
       support: support
-      plan: "Dit abonnement"
+      subscription: Abonnement
     listing_shapes:
       index:
         listing_shapes: "Ordre typer"
@@ -481,17 +482,22 @@ da-DK:
     paypal_accounts:
       marketplace_paypal_integration: Betalingsindstillinger
       preferences_updated: "Betalings indstillinger blev opdateret"
+      marketplace_currency_used: "Denne markedsplads bruger %{currency} som sin valuta. For at ændre valuta, %{contact_support_link}."
+      contact_support_link_text: "kontakt Sharetribe support"
       integration_info_text: "Betalingssystemet på %{service_name} kører gennem PayPal. Hvis du vil have mulighed for at tage imod betalinger på din markedsplads, skal du tilknytte din PayPal-konto, og vælge en minimumspris pr. annonce og størrelsen på dit servicegebyr."
-      read_more_about_paypal: "Læs mere om Sharetribe's betalingssystem"
       paypal_account_email: "1. Tilknyt din PayPal-konto"
+      link_paypal_personal_account_label: "Sælger du selv produkter?"
       paypal_account_email_completed: Gennemført!
-      set_minimum_price_and_fee: "2. Vælg en minimumspris og servicegebyr"
+      link_paypal_personal_account: "Hvis ja, vil du også være nødt til at tilslutte din PayPa konto til %{personal_payment_preferences_link}."
+      personal_payment_preferences_link_text: "din personlige markedsplads konto"
       set_minimum_price_and_fee_completed: Gennemført!
+      read_more_about_paypal: "Læs mere om Sharetribe's betalingssystem"
+      set_minimum_price_and_fee: "2. Vælg en minimumspris og servicegebyr"
       minimum_listing_price_label: "Minimums pris:"
       transaction_fee_label: "Servicegebyr:"
       minimum_transaction_fee_label: "Mindste transaktionsafgift:"
-      save_settings: Gem
       note_about_transaction_fee: "Note: the transaction fee includes PayPal's fees that depend on your currency and the sales volume of the seller. For this reason, the fee is always at least %{min_paypal_commission}. When the fee is charged from the seller, PayPal will take its fees first, and the remainder will be moved to your PayPal account."
+      save_settings: Gem
       minimum_listing_price_below_tx_fee: "skal mindst være det samme som mindste transaktionsafgift %{minimum_transaction_fee}."
       minimum_listing_price_below_min: "skal være større end mindste provision %{minimum_commission}."
     transaction_types:
@@ -621,7 +627,8 @@ da-DK:
       canceled_offer: "Tilbud annulleret."
       message_from: "Besked fra %{person}"
       about_listing: "Omhandlende annoncen: %{listing_title}"
-      free_message: "Gratis besked"
+      free_message: "Fri tråd"
+      message_content_not_available: ~
     message:
       accepted_request: "accepter anmodningen"
       accepted_offer: "accepter tilbudet"
@@ -906,8 +913,8 @@ da-DK:
       has_commented_listing_you_follow_in_kassi: "%{author} har kommenteret på annoncen '%{listing}' som du følger på %{service_name}."
     new_message:
       view_message: "Se besked"
-      has_sent_you_a_message_in_kassi: "%{sender} har sendt dig en besked i %{service_name}"
-      you_have_a_new_message: "En ny besked i %{sender_name} fra %{service_name}"
+      has_sent_you_a_message_in_kassi: "%{sender} har sendt dig en besked på %{service_name}"
+      you_have_a_new_message: "En ny besked fra %{sender_name} på %{service_name}"
     new_payment:
       new_payment: "Du har modtaget en ny betaling"
       price_per_unit_type: "Pris pr. %{unit_type}"
@@ -1018,6 +1025,7 @@ da-DK:
     paypal:
       buyer_cannot_pay_error: "Betalingen er blevet afvist af PayPal. Kontakt venligst deres Kundeservice for yderligere information: %{customer_service_link}"
       pending_review_error: "Betalingen er sendt afsted, men PayPal har markeret den som 'behøver gennemgang'. Når gennemgangen har fundet sted, vil betalingen automatisk blive autoriseret."
+      seller_express_checkout_disabled: "PayPal Express Checkout er blevet deaktiveret for visning af leverandørens PayPal-konto. Kontakt venligst leverandøren og lad dem vide, at der er et problem med deres PayPal konto og opfordre dem til at kontakte PayPal kundeservice."
       generic_error: "Der skete en teknisk fejl under betalingsprocessen."
       cancel_error: "Der skete en fejl. Vi kunne ikke annullere."
       accept_authorization_error: "Der skete en fejl da vi prøvede at gennemføre din PayPal betaling. Prøv venligst igen."
@@ -1479,6 +1487,7 @@ da-DK:
         this_may_take_a_while: "(dette kan tage et øjeblik)"
         percentage_loaded: "%{percentage}%"
         uploading_failed: "Billedeupload fejlede"
+        image_processing_failed: ~
         file_too_large: "Filen er for stor"
         accepted_formats: "Billedet skal være i GIF, JPG eller PNG format."
         images_not_uploaded_confirm: "Alle billeder er ikke uploadet endnu. Ønsker du virkelig at fortsætte?"
@@ -1719,15 +1728,19 @@ da-DK:
   paypal_accounts:
     payout_info_title: Betalingsoplysninger
     paypal_account_email_connected: "<del>1. Tilknyt din PayPal-konto</del> Godkendt!"
+    payout_info_paypal: "%{service_name} bruger PayPal som dens betalingsudbyder. En %{create_paypal_account_link} er nødvendig for at modtage betalinger for dine annoncer, og skal tilsluttes %{service_name}."
     paypal_billing_agreement_made: "<del>2. Tillad %{service_name} at tage et servicegebyr</del> Godkendt!"
+    commission_permission_needed: "Du er også nødt til at give %{service_name} tilladelse til at opkræve et gebyr."
+    create_paypal_account_link_text: "PayPal konto"
+    connected_account: "Din PayPal-konto '%{email}' er nu tilknyttet."
+    paypal_receive_funds_info_label_australia_only: ~
+    paypal_receive_funds_info_label: "Din PayPal konto skal være i stand til at modtage betalinger. Dette kan kræve en Firma konto."
+    paypal_receive_funds_info: "Hvis du ser en fejl, når du forsøger at forbinde din konto til %{service_name}, opgradere din PayPal konto ved %{upgrade_paypal_account_link}. Det er gratis og nemt. Hvis du er en privat person, anbefaler PayPal at bruge dit navn som Firma navn."
+    upgrade_paypal_account_link_text: "logge ind og klikke på linket opgradering"
+    admin_account_not_connected: "Brug af %{service_name}s betalingssystem, til brug for modtagelse af betalinger, er ikke muligt, da betalinger ikke er sat op. Venligst %{contact_admin_link} for detaljer."
+    contact_admin_link_text: "kontakt markedspladsens administrator"
     you_are_ready_to_accept_payments: "Du er nu klar til at modtage betalinger!"
     commission: "%{commission}%"
-    connected_account: "Din PayPal-konto '%{email}' er nu tilknyttet."
-    change_account: "Ændre konto"
-    missing: "Du har åbne annoncer, men du har ikke tilknyttet din PayPal-konto, så du er ikke i stand til at modtage betalinger. Tilknyt venligst din PayPal-konto i din %{settings_link}."
-    from_your_payment_settings_link_text: betalingsindstillinger
-    redirect_message: ~
-    redirect_link_text: ~
     new:
       payout_info_you_need_to_connect: "For at acceptere betalinger skal du tilknytte din PayPal-konto til %{service_name}."
       payout_info_text: "Udfør venligt disse to steps for at tilknyttet din konto."
@@ -1738,11 +1751,17 @@ da-DK:
       paypal_account_email_info_text: "Hvis du ikke har en paypalkonto kan du nemt oprette en  %{create_paypal_account}. Hvis du får en en bedsked om fejl, når du tilslutter din PayPal-konto, er du nødt til at opgradere til en PayPal-premier-konto (for privatpersoner) eller business konto (for virksomheder) for at acceptere betalinger. Hvis du kun har en PayPal privat konto, kan du opgradere din konto, %{upgrade_paypal_account} og find opgraderingslinket."
       create_paypal_account: her
       upgrade_paypal_account: "Opgrader din konto her."
-      connect_paypal_account: "Tilknyt PayPal-konto"
       paypal_account_billing_agreement: "2. Tillad %{service_name} at tage et servicegebyr"
+      follow_steps: "Følg trinene nedenfor for at begynde modtagelsen af midler:"
+      connect_paypal_account_title: "Forbind din PayPal konto"
+      connect_paypal_account_title_with_step: "Trin %{current_step}/%{total_steps}: Tilslut din PayPal konto"
+      connect_paypal_account_instructions: "PayPal konto med %{service_name}."
+      connect_paypal_account: "Tilknyt PayPal-konto"
+      paypal_account_billing_agreement_with_step: "Trin %{current_step}/%{total_steps}: Giv tilladelse til at opkræve et transaktionsgebyr"
       paypal_account_billing_agreement_info_both: "Efter du har gennemført et salg på %{service_name} vil et servicegebyr (%{commission_from_seller} af produktprisen, undtaget leveringsomkostninger, minimumsgebyr %{minimum_commission}) blive trukket fra din PayPal-konto. For at acceptere betalinger på %{service_name}, skal du give tilladelse til at dette gebyr må trækkes. Dette gebyr omfatter ikke %{paypal_info_link}."
       paypal_account_billing_agreement_info_fixed: "Efter du har gennemført et salg på %{service_name} vil et servicegebyr %{minimum_commission} af produktprisen blive trukket fra din PayPal-konto. For at acceptere betalinger på %{service_name}, skal du give tilladelse til at dette gebyr må trækkes. Dette gebyr omfatter ikke %{paypal_info_link}."
       paypal_account_billing_agreement_info_relative: "Efter du har gennemført et salg på %{service_name} vil et servicegebyr (%{commission_from_seller} af produktprisen, undtaget leveringsomkostninger blive trukket fra din PayPal-konto. For at acceptere betalinger på %{service_name}, skal du give tilladelse til at dette gebyr må trækkes. Dette gebyr omfatter ikke %{paypal_info_link}."
+      paypal_account_billing_agreement_info_none: "%{service_name} opkræver i øjeblikket ikke et servicegebyr. Hvis servicegebyr er aktiveret, skal du give %{service_name} tilladelse til at opkræve et servicegebyr for at kunne modtage betalinger. Gebyret omfatter ikke %{paypal_info_link}."
       paypal_info_link_text: "PayPal's ekspeditionsgebyr"
       billing_agreement_description: "Tillad %{service_name} at tage et servicegebyr."
       billing_agreement: "Tillad adgang"
@@ -1755,6 +1774,17 @@ da-DK:
       something_went_wrong: "Noget gik galt. Prøv venligst igen. Hvis problemer fortsætter, så kontakt os gerne."
       account_not_verified: "Du har ikke bekræftet din PayPal-konto. Du skal gå til paypal.com og bekræfte din konto før du kan fortsætte."
       account_restricted: "Din PayPal-konto er begrænset og kan ikke tilknyttes. Venligst log ind på paypal.com for at få yderligere information om, hvad det betyder, eller kontakt PayPal kundesupport for at få løst dette."
+    paypal_account_connected_title: "PayPal konto forbundet"
+    paypal_account_connected: "PayPal kontoen <%{email}> er tilsluttet med %{service_name}."
+    change_account: "Ændre konto"
+    missing: "Du har åbne annoncer, men du har ikke tilknyttet din PayPal-konto, så du er ikke i stand til at modtage betalinger. Tilknyt venligst din PayPal-konto i din %{settings_link}."
+    from_your_payment_settings_link_text: betalingsindstillinger
+    redirect_message: "Omdirigere dig til PayPal. Hvis der ikke sker noget, skal du klikke %{redirect_link}."
+    redirect_link_text: her
+    paypal_account_all_set_up: "Hurraaa! alt er sat op!"
+    can_receive_payments: "Du kan nu modtage betalinger for dine annoncer."
+    paypal_account_connected_summary: "PayPal konto %{email} forbundet med succes"
+    paypal_permission_granted_summary: "Tilladelse til transaktionsgebyrer bevilget"
   paypal:
     pay_with_paypal: "Fortsæt til betaling"
     checkout_with_paypal: "Betal med PayPal"
@@ -1770,7 +1800,6 @@ da-DK:
       deactivate: Deaktiver
     help_texts:
       feedback_description_title: Feedback
-      help_captcha_title: "Er du et menneske?"
       help_invitation_code_title: "Du har brug for en invitation til at deltage"
       terms_title: "%{service_name} brugsvilkår"
       invite_only_help_text: "Vælg denne mulighed hvis du vil have at nye medlemmer kun kan være med, hvis de er blevet inviteret af en eksisterende bruger."
@@ -1779,8 +1808,6 @@ da-DK:
       this_person_is_not_active_in_kassi: "Denne bruger er ikke længere aktiv i %{service_name}"
       inactive_description: "Denne bruger har stoppet med at bruge %{service_name}. Du kan ikke kontakte denne bruger, give feedback til dem eller kommentere deres programoversigter."
     new:
-      captcha_incorrect: "reCAPTCHA mislykkedes. Skriv venligst ordene i billedet til feltet nedenfor."
-      captcha_was_wrong: "Captcha tekst var forkert."
       create_new_account: "Opret konto"
       email: Email-adresse
       email_is_in_use: "Den e-mail, du gav, er allerede i brug."
@@ -1789,7 +1816,6 @@ da-DK:
       email_restriction_instructions:
         one: "Du har ikke adgang til serveren %{service_name}. For at få adgang skal du bruge en %{allowed_emails} email adresse."
         other: "Du har ikke adgang til serveren %{service_name}. For at få adgang skal du bruge en godkendt emailadresse."
-      enter_captcha: "Jeg er et menneske:"
       family_name: Efternavn
       given_name: Fornavn
       i_accept_the: "Jeg accepterer"
@@ -2083,13 +2109,12 @@ da-DK:
       december: Dec
     today: "I Dag"
     clear: Nulstil
-    format: dd/mm/åååå
+    format: dd/mm/yyyy
   time:
     formats:
       short: "%e %b %Y på %H:%M"
       shorter: "%e %b %Y på %H:%M"
       short_date: "%e %b %Y"
-      sms: "%e %b %Y på %H:%M"
   timestamps:
     day_ago: "%{count} dag siden"
     days_ago: "%{count} dage siden"

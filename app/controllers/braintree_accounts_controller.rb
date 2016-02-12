@@ -94,12 +94,29 @@ class BraintreeAccountsController < ApplicationController
 
   def create
     @list_of_states = LIST_OF_STATES
-    braintree_params = params[:braintree_account]
+    braintree_params = params.require(:braintree_account).permit(
+      :person_id,
+      :first_name,
+      :last_name,
+      :email,
+      :phone,
+      :address_street_address,
+      :address_postal_code,
+      :address_locality,
+      :address_region,
+      :"date_of_birth(1i)",
+      :"date_of_birth(2i)",
+      :"date_of_birth(3i)",
+      :routing_number,
+      :account_number
+    )
+
+    model_attributes = braintree_params
       .merge(person: @current_user)
       .merge(community_id: @current_community.id)
       .merge(hidden_account_number: StringUtils.trim_and_hide(params[:braintree_account][:account_number]))
 
-    @braintree_account = BraintreeAccount.new(braintree_params)
+    @braintree_account = BraintreeAccount.new(model_attributes)
     if @braintree_account.valid?
       # Save Braintree account before calling the Braintree API
       # Braintree may trigger the webhook very, very fast (at least in sandbox)
@@ -144,7 +161,7 @@ class BraintreeAccountsController < ApplicationController
     braintree_account = BraintreeAccount.find_by_person_id(@current_user.id)
 
     unless braintree_account.blank?
-      flash[:error] = "Can not create a new Braintree account. You already have one"
+      flash[:error] = "Cannot create a new Braintree account. You already have one"
       redirect_to @show_path
     end
   end
@@ -160,7 +177,7 @@ class BraintreeAccountsController < ApplicationController
       if @braintree_account.community_id.present? && @braintree_account.community_id != @current_community.id
         # ...but is associated to different community
         account_community = Community.find(@braintree_account.community_id)
-        flash[:error] = "You have payment account for community #{account_community.name(I18n.locale)}. Unfortunately, you can not have payment accounts for multiple communities. You are unable to receive money from transactions in community #{@current_community.name(I18n.locale)}. Please contact administrators."
+        flash[:error] = "You have payment account for community #{account_community.name(I18n.locale)}. Unfortunately, you cannot have payment accounts for multiple communities. You are unable to receive money from transactions in community #{@current_community.name(I18n.locale)}. Please contact administrators."
 
         error_msg = "User #{@current_user.id} tried to create a Braintree payment account for community #{@current_community.name(I18n.locale)} even though she has existing account for #{account_community.name(I18n.locale)}"
         BTLog.error(error_msg)
