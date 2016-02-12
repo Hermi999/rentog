@@ -521,6 +521,10 @@
 # http://guides.rubyonrails.org/routing.html
 
 Kassi::Application.routes.draw do
+  # Route for Lets encrypt TLS Verification
+  get '/.well-known/acme-challenge/:id' => 'application#letsencrypt'
+
+
   get "bookings/update"
 
   # wah: remove this in production

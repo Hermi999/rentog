@@ -70,7 +70,8 @@ class SessionsController < ApplicationController
     session[:person_id] = current_person.id
 
     # Set cookie, so that we know in wordpress if the user is logged in
-    cookies[:session_active] = true;
+    cookies[:session_active] = { value: true, domain: ".rentog.com" }
+
 
   # **** LOGIN SUCCESSFUL ****
     # no community exists yet

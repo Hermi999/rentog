@@ -441,6 +441,11 @@ class ApplicationController < ActionController::Base
     MonitoringService::Monitoring.report_queue_size
   end
 
+  # Method for Let's encrypt TLS Verification
+  def letsencrypt
+    # use your code here, not mine
+    render text: "ya6k1edW38z-your-value-here"
+  end
 
   private
 
