@@ -928,7 +928,15 @@ module ApplicationHelper
       temp_locale = I18n.locale.to_s + "/"
     end
 
-    "http://rentog.com/" + temp_locale + path
+    "https://rentog.com/" + temp_locale + path
+  end
+
+  def get_header_logo_link
+    if @current_user
+      "/"
+    else
+      get_wp_url("")
+    end
   end
 
 end

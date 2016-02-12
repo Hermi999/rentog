@@ -73,14 +73,6 @@ var trackingParams = getTrackingURLParameters();
         mixpanel.track("Email campaign visitor");
     }
 
-    // Landing page
-    if (window.location.pathname === "/landingpage"){
-      // Get Android App
-      $('.landingpage-android-store-icon').on('click', function(){
-        mixpanel.track("Landingpage: Get Android App");
-      });
-    }
-
 
     // Signup page
     if (window.location.pathname.match(/\.*(\/signup)$/i)){
