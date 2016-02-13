@@ -7,7 +7,7 @@ Feature: User changes language
   Scenario: User changes language without logging in
     Given I am on the marketplace page
     When I follow "new-listing-link"
-    And I click the community logo
+    And I go to the home page
     And I open language menu
     And I select "Suomi" from the language menu
     Then I should see "Lisää uusi ilmoitus!" within "#new-listing-link"
@@ -15,6 +15,7 @@ Feature: User changes language
   @javascript
   Scenario: User changes language when logged in
     Given I am logged in
+    And I am on the marketplace page
     And I open language menu
     And I select "Suomi" from the language menu
     Then I should see "Lisää uusi ilmoitus!" within "#new-listing-link"

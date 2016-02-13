@@ -18,7 +18,7 @@ Feature: User joins another marketplace
     Then I should see "This field is required"
     When I check "community_membership_consent"
     And I press "Join Rentog"
-    Then I should see "Welcome to Rentog!"
+    Then I should see "Bosch"
     And I should see "Post a new listing"
 
   # @move_to_subdomain2
@@ -111,7 +111,7 @@ Feature: User joins another marketplace
     # confirm
     When I open the email
     And I follow "confirmation" in the email
-    Then I should see "The email you entered is now confirmed"
+    Then I should see "TestOrga"
     And user "kassi_testperson3" should have confirmed email "other.email@example.com"
     And I should not see "Email address"
     Then I should see "TestOrga"

@@ -10,7 +10,7 @@ Feature: User accepts new terms
     When I log in as "kassi_testperson2"
     Then I should see "Terms of use have changed"
     When I press "I accept the new terms"
-    Then I should see "Welcome"
+    Then I should see "Siemens"
     And I should not see "Log in"
 
   @javascript
@@ -19,5 +19,5 @@ Feature: User accepts new terms
     And the terms of community "test" are changed to "KASSI_FI2.0"
     When I log in as "kassi_testperson2"
     Then I should see "Terms of use have changed"
-    When I click the community logo
+    When I go to the home page
     Then I should see "Log in"
