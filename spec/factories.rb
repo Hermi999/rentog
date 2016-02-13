@@ -125,6 +125,7 @@ FactoryGirl.define do
     commission_from_seller 0
     automatic_confirmation_after_days 14
     listing_quantity 1
+    transaction_type "extern"
   end
 
   factory :conversation do

@@ -1,4 +1,4 @@
-= link_to({:sort => column, :direction => direction, :page => (params[:page] || 1)}, {:class => "sort-link"}) do
+= link_to({:sort => column, :direction => direction, :page => (params[:page] || 1)}, {:class => "sort-link", :id => "sort_" + column + "_id"}) do
   .sort-text-wrapper
     .sort-text= title
   - if params[:sort].eql?(column)

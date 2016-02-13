@@ -269,7 +269,7 @@ module MarketplaceService
 
       def transactions_for_community_sorted_by_column(community_id, sort_column, sort_direction, limit, offset)
         transactions = TransactionModel
-          .where("community_id = #{community_id} AND deleted = false AND transaction_type != 'intern'")
+          .where("transactions.community_id = #{community_id} AND transactions.deleted = false AND transactions.transaction_type != 'intern'")
           .includes(:listing)
           .limit(limit)
           .offset(offset)
