@@ -51,7 +51,7 @@ module ListingIndexService::Search
         {
           community_id: community_id,
           author_id: search[:author_id],
-          availability: search[:availability]  # wah_new
+          availability: search[:availability],  # wah_new
           deleted: 0
         })
 

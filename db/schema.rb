@@ -135,16 +135,16 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.datetime "updated_at"
     t.text     "settings"
     t.string   "consent"
-    t.boolean  "transaction_agreement_in_use",                                   :default => false
-    t.boolean  "email_admins_about_new_members",                                 :default => false
-    t.boolean  "use_fb_like",                                                    :default => false
-    t.boolean  "real_name_required",                                             :default => true
-    t.boolean  "feedback_to_admin",                                              :default => true
-    t.boolean  "automatic_newsletters",                                          :default => true
-    t.boolean  "join_with_invite_only",                                          :default => false
+    t.boolean  "transaction_agreement_in_use",                             :default => false
+    t.boolean  "email_admins_about_new_members",                           :default => false
+    t.boolean  "use_fb_like",                                              :default => false
+    t.boolean  "real_name_required",                                       :default => true
+    t.boolean  "feedback_to_admin",                                        :default => true
+    t.boolean  "automatic_newsletters",                                    :default => true
+    t.boolean  "join_with_invite_only",                                    :default => false
     t.text     "allowed_emails"
-    t.boolean  "users_can_invite_new_users",                                     :default => true
-    t.boolean  "private",                                                        :default => false
+    t.boolean  "users_can_invite_new_users",                               :default => true
+    t.boolean  "private",                                                  :default => false
     t.string   "label"
     t.boolean  "show_date_in_listings_list",                               :default => false
     t.boolean  "all_users_can_add_news",                                   :default => true
