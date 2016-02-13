@@ -20,7 +20,7 @@ Feature: Admin edits community look-and-feel
   Scenario: Admin can change the default listing view to list
     Given community "test" has default browse view "grid"
     When I change the default browse view to "List"
-    And I go to the homepage
+    And I go to the marketplace
     Then I should see the browse view selected as "List"
 
   Scenario: Admin can change the name display type of employee to full name (First Last)

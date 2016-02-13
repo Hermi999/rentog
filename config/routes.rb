@@ -598,8 +598,8 @@ Kassi::Application.routes.draw do
   locale_matcher = Regexp.new(Sharetribe::AVAILABLE_LOCALES.map { |l| l[:ident] }.concat(REMOVED_LOCALES).join("|"))
 
   # Inside this constraits are the routes that are used when request has subdomain other than www
-  #get '/:locale/' => 'homepage#index', :constraints => { :locale => locale_matcher }, as: :homepage_with_locale
-  #get '/' => 'homepage#index', as: :homepage_without_locale
+  get '/:locale/marketplace/' => 'homepage#index', :constraints => { :locale => locale_matcher }, as: :homepage_with_locale
+  get '/marketplace/' => 'homepage#index', as: :homepage_without_locale
   #root :to => 'homepage#index'
 
   get '/:locale/' => 'sessions#new', :constraints => { :locale => locale_matcher }, as: :homepage_with_locale
