@@ -2353,6 +2353,7 @@ en:
       example: "fg.: Maintainance"
       create: "Create"
       devices_i_have_borrowed: "Devices I've borrowed at the moment"
+      devices_others_borrowed: "Devices others have borrowed at the moment"
       no_devices_borrowed: "You haven't borrowed any devices at the moment!"
       return_on: 'Return on: '
       return_now: 'Return now'

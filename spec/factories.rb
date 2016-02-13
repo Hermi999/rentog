@@ -95,6 +95,10 @@ FactoryGirl.define do
     has_many :emails do |person|
       FactoryGirl.build(:email, person: person)
     end
+    build_association :company_option
+  end
+
+  factory :company_option do
   end
 
   factory :listing do

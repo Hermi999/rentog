@@ -10,6 +10,8 @@ module NavigationHelpers
 
     when /the home\s?page/
       '/'
+    when /the marketplace/
+      '/en/marketplace'
     when /the signup page/
       '/en/signup'
     when /the private community sign in page/

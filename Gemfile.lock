@@ -14,6 +14,8 @@ GIT
   ref: c0240bee9f94fe6338d67b4f754e1a11ce81619a
   branch: master
   specs:
+    paypal-sdk-permissions (1.96.3)
+      paypal-sdk-core (~> 0.3.0)
 
 GEM
   remote: http://rubygems.org/
@@ -88,7 +90,7 @@ GEM
       xpath (~> 2.0)
     celluloid (0.15.2)
       timers (~> 1.1.0)
-    childprocess (0.5.6)
+    childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
     chunky_png (1.2.6)
@@ -337,8 +339,6 @@ GEM
       xml-simple
     paypal-sdk-merchant (1.116.0)
       paypal-sdk-core (~> 0.3.0)
-    paypal-sdk-permissions (1.96.4)
-      paypal-sdk-core (~> 0.3.0)
     pickle (0.4.11)
       cucumber (>= 0.8)
       rake
@@ -453,7 +453,7 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    selenium-webdriver (2.47.1)
+    selenium-webdriver (2.52.0)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
@@ -608,7 +608,7 @@ DEPENDENCIES
   ruby-prof
   sass (~> 3.2.9)
   sass-rails
-  selenium-webdriver (~> 2.47.1)
+  selenium-webdriver (~> 2.52.0)
   spreadsheet
   statesman (~> 0.5.0)
   stringex (~> 2.5.2)

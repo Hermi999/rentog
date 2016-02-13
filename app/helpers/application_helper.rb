@@ -561,30 +561,42 @@ module ApplicationHelper
     links = [
       {
         :topic => :general,
-        :text => t("admin.communities.getting_started.getting_started"),
+        :text => "Empty...",
         :icon_class => icon_class("openbook"),
-        :path => getting_started_admin_community_path(@current_community),
-        :name => "getting_started"
-      },
-      {
-        :topic => :general,
-        :text => t("admin.left_hand_navigation.support"),
-        :icon_class => icon_class("help"),
-        :path => "mailto:#{APP_CONFIG.support_email}",
-        :name => "support",
-        :data_uv_trigger => "contact"
+        :path => "#",
+        :name => "empty"
       }
     ]
 
-    if APP_CONFIG.external_plan_service_in_use
-      links << {
-        :topic => :general,
-        :text => t("admin.left_hand_navigation.subscription"),
-        :icon_class => icon_class("credit_card"),
-        :path => admin_plan_path,
-        :name => "plan",
-      }
-    end
+    # wah: Disable, because we don't need the getting started guide or support
+    # links = [
+    #   {
+    #     :topic => :general,
+    #     :text => t("admin.communities.getting_started.getting_started"),
+    #     :icon_class => icon_class("openbook"),
+    #     :path => getting_started_admin_community_path(@current_community),
+    #     :name => "getting_started"
+    #   },
+    #   {
+    #     :topic => :general,
+    #     :text => t("admin.left_hand_navigation.support"),
+    #     :icon_class => icon_class("help"),
+    #     :path => "mailto:#{APP_CONFIG.support_email}",
+    #     :name => "support",
+    #     :data_uv_trigger => "contact"
+    #   }
+    # ]
+
+    # wah: Disable, because we do not use sharetribe plan service
+    # if APP_CONFIG.external_plan_service_in_use
+    #   links << {
+    #     :topic => :general,
+    #     :text => t("admin.left_hand_navigation.subscription"),
+    #     :icon_class => icon_class("credit_card"),
+    #     :path => admin_plan_path,
+    #     :name => "plan",
+    #   }
+    # end
 
     links += [
       {
@@ -694,28 +706,32 @@ module ApplicationHelper
       :name => "social_media"
     }
 
-    links << {
-      :topic => :configure,
-      :text => t("admin.communities.analytics.analytics"),
-      :icon_class => icon_class("analytics"),
-      :path => analytics_admin_community_path(@current_community),
-      :name => "analytics"
-    }
+    # wah: Disable, because we configure analytics in config.yml
+    # links << {
+    #   :topic => :configure,
+    #   :text => t("admin.communities.analytics.analytics"),
+    #   :icon_class => icon_class("analytics"),
+    #   :path => analytics_admin_community_path(@current_community),
+    #   :name => "analytics"
+    # }
 
-    links << {
-      :topic => :configure,
-      :text => t("admin.communities.edit_text_instructions.edit_text_instructions"),
-      :icon_class => icon_class("edit"),
-      :path => edit_text_instructions_admin_community_path(@current_community),
-      :name => "text_instructions"
-    }
-    links << {
-      :topic => :configure,
-      :text => t("admin.left_hand_navigation.emails_title"),
-      :icon_class => icon_class("mail"),
-      :path => edit_welcome_email_admin_community_path(@current_community),
-      :name => "welcome_email"
-    }
+    # wah: Disable, because we do not edit the homepage with the WYSIWYG Editor at the moment
+    # links << {
+    #   :topic => :configure,
+    #   :text => t("admin.communities.edit_text_instructions.edit_text_instructions"),
+    #   :icon_class => icon_class("edit"),
+    #   :path => edit_text_instructions_admin_community_path(@current_community),
+    #   :name => "text_instructions"
+    # }
+    #
+    # wah: Disable, because we do not edit the welcome email and the sender email address with the WYSIWYG Editor at the moment
+    # links << {
+    #   :topic => :configure,
+    #   :text => t("admin.left_hand_navigation.emails_title"),
+    #   :icon_class => icon_class("mail"),
+    #   :path => edit_welcome_email_admin_community_path(@current_community),
+    #   :name => "welcome_email"
+    # }
     links << {
       :topic => :configure,
       :text => t("admin.communities.settings.settings"),

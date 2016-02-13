@@ -275,6 +275,8 @@ module TestHelpers
                                   is_organization: 0,
                                   organization_name: "")
 
+    FactoryGirl.create(:company_option, :company => person1)
+    FactoryGirl.create(:company_option, :company => person2)
 
     FactoryGirl.create(:community_membership, :person => person1,
                         :community => community1,
