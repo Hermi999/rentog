@@ -35,7 +35,7 @@ Feature: Organization logging in and out
   Scenario: Organization seeing its organization name on header after login
     Given I am logged in as organization "Bosch"
     And my organization name is "Bosch"
-    When I am on the home page
+    When I am on the marketplace page
     Then I should see "Bosch"
 
   Scenario: Organization logs in with his primary email

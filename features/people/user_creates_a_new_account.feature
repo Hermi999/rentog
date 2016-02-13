@@ -35,7 +35,7 @@ Feature: User creates a new account
 
     Given the community has payments in use via BraintreePaymentGateway
     And there is a listing with title "Omicron" from "kassi_testperson2" with category "Services" and with listing shape "Renting"
-    When I am on the home page
+    When I am on the marketplace page
     And I follow "Omicron"
     Then I should see "Rent"
     And I should not see "Only companies verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
@@ -47,7 +47,7 @@ Feature: User creates a new account
     And I should see "Rentog requires people to be verified manually by admin before they can post listings."
     And I should see "You have not yet been verified."
 
-    When I am on the home page
+    When I am on the marketplace page
     And I follow "Omicron"
     And I should see "Only companies verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
 
@@ -63,7 +63,7 @@ Feature: User creates a new account
     When I follow "Post a new listing"
     Then I should see "Select category"
     And I should not see "Rentog requires people to be verified manually by admin before they can post listings."
-    When I am on the home page
+    When I am on the marketplace page
     And I follow "Omicron"
     Then I should see "Rent"
     And I should not see "Only companies verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
@@ -96,10 +96,10 @@ Feature: User creates a new account
     # company admin verification
     Then I should see "You have to be verified by your company admin."
     And I should see "Your company administrator needs to verify you"
-    And I go to the home page
+    And I go to the marketplace page
     Then I should see "Your company administrator needs to verify you"
     When the company-admin verifies employee
-    And I go to the home page
+    And I go to the marketplace page
     Then I should not see "Your company administrator needs to verify you"
 
     #Rentog requires people to be verified manually by admin before they can post listings. You have not yet been verified. Please contact the admin to be verified.

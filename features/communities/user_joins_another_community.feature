@@ -9,9 +9,9 @@ Feature: User joins another marketplace
     Given there are following users:
       | person |
       | kassi_testperson3 |
-    And I am on the home page
+    And I am on the marketplace page
     And I move to community "test2"
-    And I am on the home page
+    And I am on the marketplace page
     And I log in as "kassi_testperson3"
     Then I should see "Join Rentog"
     When I press "Join Rentog"
@@ -27,11 +27,11 @@ Feature: User joins another marketplace
   #   Given there are following users:
   #     | person            | email    |
   #     | kassi_testperson3 | abc@a.at |
-  #   And I am on the home page
+  #   And I am on the marketplace page
   #   And I move to community "test2"
   #   And community "test2" requires invite to join
   #   And there is an invitation for community "test2" with code "GH1JX8"
-  #   And I am on the home page
+  #   And I am on the marketplace page
   #   And I am logged in as "kassi_testperson3"
   #   Then Invitation with code "GH1JX8" should have 1 usages_left
   #   And I should see "Invitation code"
@@ -59,7 +59,7 @@ Feature: User joins another marketplace
     And I am logged in as "kassi_testperson3"
     And community "test2" requires users to have an email address of type "@example.com"
     When I move to community "test2"
-    And I am on the home page
+    And I am on the marketplace page
     Then I should see "Join Rentog"
     And I should see "Email address"
     When I check "community_membership_consent"

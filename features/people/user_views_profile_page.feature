@@ -87,7 +87,7 @@ Feature: User views profile page
     And "Bosch" employs "employee_testperson2"
 
     And I am not logged in
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "car spare parts"
     When I follow "listing-author-link"
     Then I should see "car spare parts"
@@ -112,7 +112,7 @@ Feature: User views profile page
 
     # Logged in user can see employees
     Given I am logged in as "kassi_testperson2"
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "car spare parts"
     And I follow "listing-author-link"
     Then I should see "3 employees"

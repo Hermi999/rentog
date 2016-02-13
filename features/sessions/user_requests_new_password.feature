@@ -8,7 +8,7 @@ Feature: User requests new password
 
   @javascript
   Scenario: User requests new password successfully
-    Given I am on the home page
+    Given I am on the marketplace page
     When I follow log in link
     And I follow "Forgot password"
     And I fill in "Email" with "kassi_testperson2@example.com"
@@ -18,7 +18,7 @@ Feature: User requests new password
 
   @javascript
   Scenario: User requests new password with email that doesn't exist
-    Given I am on the home page
+    Given I am on the marketplace page
     When I follow log in link
     And I follow "Forgot password"
     And I fill in "Email" with "some random string"

@@ -9,7 +9,7 @@ Feature: User sees available locales
       | locale |
       | en |
       | fi |
-    When I am on the home page
+    When I am on the marketplace page
     And I open language menu
     Then I should see "English" on the language menu
     Then I should see "Suomi" on the language menu
@@ -23,7 +23,7 @@ Feature: User sees available locales
     Given the test community has following available locales:
       | locale |
       | en |
-    When I am on the home page
+    When I am on the marketplace page
     Then I should not see selector "#locale_select_padding"
     And I should see "Post a new listing" within "#new-listing-link"
 
@@ -31,7 +31,7 @@ Feature: User sees available locales
   Scenario: There are no locales in community settings
     Given the test community has following available locales:
       | locale |
-    When I am on the home page
+    When I am on the marketplace page
     And I open language menu
     And I select "Suomi" from the language menu
     Then I should see "Lisää uusi ilmoitus!" within "#new-listing-link"

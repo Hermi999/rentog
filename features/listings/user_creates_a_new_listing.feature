@@ -6,7 +6,7 @@ Feature: User creates a new listing
   @javascript
   Scenario: Creating a new item request without image successfully
     Given I am logged in
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "new-listing-link"
     And I select "Items" from listing type menu
     And I select "Tools" from listing type menu
@@ -19,7 +19,7 @@ Feature: User creates a new listing
   @javascript
   Scenario: Creating a new item offer successfully
     Given I am logged in
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "new-listing-link"
     And I select "Items" from listing type menu
     And I select "Tools" from listing type menu
@@ -32,7 +32,7 @@ Feature: User creates a new listing
   @javascript
   Scenario: Creating a new service request successfully
     Given I am logged in
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "new-listing-link"
     And I select "Services" from listing type menu
     And I select "Requesting" from listing type menu
@@ -44,7 +44,7 @@ Feature: User creates a new listing
   @javascript
   Scenario: Trying to create a new request without being logged in
     Given I am not logged in
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "new-listing-link"
     And I should see "Log in to Rentog" within "h1"
 
@@ -52,7 +52,7 @@ Feature: User creates a new listing
   @skip_phantomjs
   Scenario: Trying to create a new item request with insufficient information
     Given I am logged in
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "new-listing-link"
     And I select "Items" from listing type menu
     And I select "Books" from listing type menu
@@ -71,22 +71,22 @@ Feature: User creates a new listing
       | person |
       | kassi_testperson3 |
     And there is a listing with title "Hammer" from "kassi_testperson3" with category "Items" and with listing shape "Requesting"
-    And I am on the homepage
+    And I am on the marketplace
     Then I should see "Hammer"
     When I move to community "test2"
-    And I am on the homepage
+    And I am on the marketplace
     Then I should not see "Hammer"
     And I log in as "kassi_testperson3"
     And I check "community_membership_consent"
     And I press "Join Rentog"
     And the system processes jobs
-    And I am on the homepage
+    And I am on the marketplace
     Then I should not see "Hammer"
 
   @javascript
   Scenario: Create a new listing successfully after going back and forth in the listing form
     Given I am logged in
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "new-listing-link"
     And I select "Items" from listing type menu
     Then I should see "Category: Item"
@@ -134,7 +134,7 @@ Feature: User creates a new listing
       | en             | fi                   |
       | Cleaning       | Siivous              |
       | Delivery       | Kuljetus             |
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "new-listing-link"
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
@@ -145,7 +145,7 @@ Feature: User creates a new listing
     And I press "Save listing"
     Then I should see 2 validation errors
     When custom field "Balcony type" is not required
-    And I am on the home page
+    And I am on the marketplace page
     And I follow "new-listing-link"
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
@@ -168,7 +168,7 @@ Feature: User creates a new listing
     And I select "All other companies and your employees" from "listing_availability"
     And I press "Save listing"
     And the Listing indexes are processed
-    When I go to the home page
+    When I go to the marketplace page
     And I fill in "q" with "Test details"
     And I press "search-button"
     Then I should see "My house"
@@ -231,7 +231,7 @@ Scenario: Company creates a new listing with date field
   Scenario: Company creates a new listing in private community
     Given I am logged in
     And community "test" is private
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "new-listing-link"
     And I select "Items" from listing type menu
     And I select "Tools" from listing type menu
@@ -242,17 +242,17 @@ Scenario: Company creates a new listing with date field
     And I select "All other companies and your employees" from "listing_availability"
     And I press "Save listing"
     Then I should see "Sledgehammer" within "#listing-title"
-    When I go to the home page
+    When I go to the marketplace page
     Then I should see "Sledgehammer"
     When I log out
-    And I go to the home page
+    And I go to the marketplace page
     Then I should not see "Sledgehammer"
 
 
   @javascript
   Scenario: Employee cannot create a listing
     Given I am not logged in
-    And I am on the home page
+    And I am on the marketplace page
     And I follow "Post a new listing"
     Then I am on the login page
     When I fill in "main_person_login" with "employee_testperson1"
@@ -264,13 +264,13 @@ Scenario: Company creates a new listing with date field
 
     When I go to the new listing page
     Then I should see "not allowed to post"
-    And I should be on the home page
+    And I should be on the marketplace page
 
   @javascript
   Scenario: Employee can create a listing
     Given the community allows employees to create listings
     And I am not logged in
-    And I am on the home page
+    And I am on the marketplace page
     And I follow "Post a new listing"
     Then I am on the login page
     When I fill in "main_person_login" with "employee_testperson1"

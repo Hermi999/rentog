@@ -5,7 +5,7 @@ Feature: User sends feedback to admins
 
   @javascript
   Scenario: Giving feedback successfully when not logged in
-    Given I am on the home page
+    Given I am on the marketplace page
     When I follow "Contact" within the footer
     And I fill in "Your email address" with "test@example.com"
     And I fill in "What would you like to tell us?" with "Feedback"
@@ -23,7 +23,7 @@ Feature: User sends feedback to admins
 
   @javascript
   Scenario: Trying to give invalid feedback
-    Given I am on the home page
+    Given I am on the marketplace page
     When I follow "Contact" within the footer
     And I fill in "Your email address" with "test"
     And I press "Send feedback"

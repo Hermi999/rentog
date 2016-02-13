@@ -11,7 +11,7 @@
 #       | facebooker | Mircos     | markus@example.com |
 #     And community and its users are not organizations-only
 #     Then user "facebooker" should have "image_file_size" with value "nil"
-#     Given I am on the home page
+#     Given I am on the marketplace page
 #     When I follow log in link
 #     And I follow "fb-login"
 #     Then I should see "Successfully authorized from Facebook account"
@@ -25,7 +25,7 @@
 #       | facebooker | Marcos |
 #     And community and its users are not organizations-only
 #     Then user "facebooker" should have "image_file_size" with value "nil"
-#     Given I am on the home page
+#     Given I am on the marketplace page
 #     When I follow log in link
 #     And I follow "fb-login"
 #     Then I should see "Welcome to Rentog, Markus! There's one more step to join"
@@ -42,7 +42,7 @@
 #   @javascript
 #   Scenario: Facebook connect first time, without existing account in Rentog
 #     Given community and its users are not organizations-only
-#     And I am on the home page
+#     And I am on the marketplace page
 #     When I follow log in link
 #     And I follow "fb-login"
 #     Then I should see "Welcome to Rentog, Markus! There's one more step to join"
@@ -62,7 +62,7 @@
 #       | person | facebook_id | given_name |
 #       | marko | 597013691 | Marko |
 #     And community and its users are not organizations-only
-#     And I am on the home page
+#     And I am on the marketplace page
 #     When I follow log in link
 #     And I follow "fb-login"
 #     Then I should see "Successfully authorized from Facebook account"
@@ -79,7 +79,7 @@
 #     And community "testcommunity" and its users are not organizations-only
 
 #     Given I move to community "testcommunity"
-#       And I am on the home page
+#       And I am on the marketplace page
 
 #      When I follow sign up link
 #       And I follow "signup as an employee"
@@ -111,7 +111,7 @@
 
 #   @javascript
 #   Scenario: The facebook login doesnt succeed
-#     Given I am on the home page
+#     Given I am on the marketplace page
 #     And there will be and error in my Facebook login
 #     When I follow log in link
 #     And I follow "fb-login"
@@ -119,7 +119,7 @@
 
 #   @javascript
 #   Scenario: The facebook login doesnt return any email address
-#     Given I am on the home page
+#     Given I am on the marketplace page
 #     And there will be no email returned in my Facebook login
 #     When I follow log in link
 #     And I follow "fb-login"

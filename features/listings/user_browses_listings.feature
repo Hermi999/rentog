@@ -18,7 +18,7 @@ Feature: User browses listings
     And there is a listing with title "axe" from "kassi_testperson2" with category "Items" and with listing shape "Lending"
     And that listing is closed
     And there is a listing with title "toolbox" from "kassi_testperson2" with category "Items" and with listing shape "Requesting"
-    And I am on the home page
+    And I am on the marketplace page
     And the Listing indexes are processed
     When I choose to view only listing shape "Lending"
     And I should not see "car spare parts"
@@ -69,7 +69,7 @@ Feature: User browses listings
     And there is a listing with title "toolbox" from "kassi_testperson2" with category "Items" and with listing shape "Selling"
     And the Listing indexes are processed
 
-    When I am on the home page
+    When I am on the marketplace page
     When I choose to view only listing shape "Request"
     Then I should see "car spare parts"
     And I should see "massage"
@@ -129,7 +129,7 @@ Feature: User browses listings
     And there is a listing with title "spaces_all_selling" from "kassi_testperson2" with category "Spaces" and with listing shape "Selling"
     And the Listing indexes are processed
 
-    When I am on the home page
+    When I am on the marketplace page
     When I choose to view only listing shape "All listing types"
 
     Then I should see "items_all_requesting"

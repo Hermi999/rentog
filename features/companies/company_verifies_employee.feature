@@ -39,5 +39,5 @@ Feature: Company verifies employee
     # Check if employees profile is locked
     Given I am logged in as "employee_1"
     Then I should see "You have to be verified by your company admin."
-    And I go to the home page
+    And I go to the marketplace page
     Then I should see "Your company administrator needs to verify you"

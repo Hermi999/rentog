@@ -15,7 +15,7 @@ Feature: User tries to access the pool tool
 
   Scenario: Access own Pool Tool as company admin
     Given I am logged in as "kassi_testperson1"
-    And I am on the home page
+    And I am on the marketplace page
     When I click "#header-user-display-name"
     When I follow "Pool Tool"
     Then I should see "Pool Management Tool"
@@ -26,7 +26,7 @@ Feature: User tries to access the pool tool
 
   Scenario: Access own companies Pool Tool as employee
     Given I am logged in as "kassi_testperson1"
-    And I am on the home page
+    And I am on the marketplace page
     When I click "#header-user-display-name"
     When I follow "Pool Tool"
     Then I should see "Pool Management Tool"
@@ -35,7 +35,7 @@ Feature: User tries to access the pool tool
 
   Scenario: Access own companies Pool Tool without open listings
     Given I am logged in as "kassi_testperson2"
-    And I am on the home page
+    And I am on the marketplace page
     When I click "#header-user-display-name"
     When I follow "Pool Tool"
     Then I should see "Pool Management Tool"
@@ -47,7 +47,7 @@ Feature: User tries to access the pool tool
   Scenario: Access any Pool Tool as Rentog admin
     Given I am logged in as "kassi_testperson2"
     And "kassi_testperson2" has admin rights in community "test"
-    And I am on the home page
+    And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson1"
     Then I should see "Pool Management Tool"
     And I should see "Add new booking"
@@ -57,21 +57,21 @@ Feature: User tries to access the pool tool
 
   Scenario: Access any companies Pool Tool without logging in
     Given I am not logged in
-    And I am on the home page
+    And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson1"
-    Then I should be on the home page
+    Then I should be on the marketplace page
     And I should see "You must be a company member"
 
   Scenario: Access another companies Pool Tool as employee
     Given I am logged in as "employee_testperson2"
-    And I am on the home page
+    And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson1"
-    Then I should be on the home page
+    Then I should be on the marketplace page
     And I should see "You must be a company member"
 
   Scenario: Access another companies Pool Tool as company admin
     Given I am logged in as "kassi_testperson2"
-    And I am on the home page
+    And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson1"
-    Then I should be on the home page
+    Then I should be on the marketplace page
     And I should see "You must be a company member"

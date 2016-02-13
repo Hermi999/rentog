@@ -30,7 +30,7 @@ Feature: User comments a listing
     When I log out
     And I log in as "kassi_testperson2"
     And the system processes jobs
-    And I go to the home page
+    And I go to the marketplace page
     And I follow "Massage"
     And I fill in "comment_content" with "Test comment 2"
     And I uncheck "comment_author_follow_status"
@@ -85,7 +85,7 @@ Feature: User comments a listing
     And there is a listing with title "Massage" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
     And listing comments are in use in community "test"
     And I am not logged in
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "Massage"
     Then I should see "You must log in to send a new comment."
     And I should not see "Write a new comment:"

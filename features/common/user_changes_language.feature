@@ -5,7 +5,7 @@ Feature: User changes language
 
   @javascript
   Scenario: User changes language without logging in
-    Given I am on the home page
+    Given I am on the marketplace page
     When I follow "new-listing-link"
     And I click the community logo
     And I open language menu

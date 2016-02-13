@@ -31,7 +31,7 @@ Feature: Search
     And the Listing indexes are processed
     And the CustomFieldValue indexes are processed
 
-    And I am on the home page
+    And I am on the marketplace page
 
     # Reset previous searches
     When I fill in "q" with ""

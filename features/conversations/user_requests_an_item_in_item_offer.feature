@@ -13,7 +13,7 @@ Feature: User requests an item in item offer
     And there is a listing with title "Hammer" from "kassi_testperson1" with category "Items" and with listing shape "Renting"
     And the price of that listing is 20.00 USD
     And I am logged in as "kassi_testperson2"
-    And I am on the homepage
+    And I am on the marketplace
     When I follow "Hammer"
     And I fill rent time for 7 days
     And I press "Rent this item"
@@ -55,7 +55,7 @@ Feature: User requests an item in item offer
       | kassi_testperson2 |
     And there is a listing with title "Hammer" from "kassi_testperson1" with category "Items" and with listing shape "Lending"
     And I am logged in as "kassi_testperson2"
-    And I am on the homepage
+    And I am on the marketplace
     When I follow "Hammer"
     And I press "Borrow this item"
     And I press "Send message"
@@ -68,7 +68,7 @@ Feature: User requests an item in item offer
       | kassi_testperson1 |
       | kassi_testperson2 |
     Given there is a listing with title "Hammer" from "kassi_testperson1" with category "Items" and with listing shape "Lending"
-    And I am on the homepage
+    And I am on the marketplace
     When I follow "Hammer"
     And I press "Borrow this item"
     Then I should see "You must log in to Rentog to do a transaction." within ".flash-notifications"
@@ -82,7 +82,7 @@ Feature: User requests an item in item offer
       | kassi_testperson1 |
       | kassi_testperson2 |
     Given there is a listing with title "Hammer" from "kassi_testperson1" with category "Items" and with listing shape "Lending"
-    And I am on the homepage
+    And I am on the marketplace
     When I follow "Hammer"
     And I press "Borrow this item"
     Then I should see "You must log in to Rentog to do a transaction." within ".flash-notifications"

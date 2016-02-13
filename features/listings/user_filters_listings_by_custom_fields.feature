@@ -24,8 +24,8 @@ Feature: Custom field filters
 		And that listing has custom field "House type" with value "house"
     And that listing has custom field "Balcony type" with value "open"
     And there is a listing with title "Tent" from "kassi_testperson2" with category "Spaces" and with listing shape "Selling services"
-    
-    And I am on the home page
+
+    And I am on the marketplace page
     And the Listing indexes are processed
 
   @javascript
@@ -41,14 +41,14 @@ Feature: Custom field filters
   	And I press "Update view"
 		Then I should see "Apartment"
     And I should see "Country house"
-  	And I should see "Small house"  	
+  	And I should see "Small house"
   	And I should not see "Tent"
 
   	When I uncheck "condo"
   	And I press "Update view"
 		Then I should not see "Apartment"
     And I should see "Country house"
-  	And I should see "Small house"  	
+  	And I should see "Small house"
   	And I should not see "Tent"
 
   	And I check "open"
@@ -92,7 +92,7 @@ Feature: Custom field filters
 Scenario: User combines custom filters with search and category
 	Given there is a listing with title "country and house music cd" from "kassi_testperson2" with category "Items" and with listing shape "Selling services"
   And the Listing indexes are processed
-  
+
   When I fill in "q" with "country"
   And I press "search-button"
 
@@ -114,7 +114,7 @@ Scenario: User combines custom filters with search and category
 	When I follow "All categories"
 	Then I should see "Country house"
   And I should see "country and house music cd"
-	And I should see "Small house" 
+	And I should see "Small house"
 
 	When I check "open"
 	And I press "Update view"
@@ -137,10 +137,10 @@ Scenario: User combines custom filters with search and category
 	And I should see "Apartment"
 	And I should see "Tent"
 
-	
 
 
-  
+
+
 
 
 

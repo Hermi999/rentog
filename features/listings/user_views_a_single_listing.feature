@@ -15,12 +15,12 @@ Feature: User views a single listing
 
   @only_without_asi
   Scenario: Company views a listing that it is allowed to see
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "services_public_requesting"
     Then I should see "services_public_requesting"
     When I am logged in as "kassi_testperson1"
     And I have "2" testimonials with grade "1"
-    And I am on the home page
+    And I am on the marketplace page
     And I follow "services_public_requesting"
     Then I should see "Feedback"
     And I should see "100%"
@@ -35,7 +35,7 @@ Feature: User views a single listing
     And I am on the profile page of "kassi_testperson1"
     Then I should see "Siemens" within "#profile-followed-people-list"
 
-    When I am on the home page
+    When I am on the marketplace page
     Then I should not see "services_intern_requesting"
 
     When I go to the listing page
@@ -51,7 +51,7 @@ Feature: User views a single listing
     And I am on the profile page of "kassi_testperson1"
     Then I should not see "Siemens" within ".page-content"
 
-    When I am on the home page
+    When I am on the marketplace page
     Then I should not see "services_intern_requesting"
 
     When I go to the listing page
@@ -68,7 +68,7 @@ Feature: User views a single listing
     And I am on the profile page of "kassi_testperson1"
     Then I should see "Siemens" within "#profile-followed-people-list"
 
-    When I am on the home page
+    When I am on the marketplace page
     Then I should see "services_trusted_requesting"
 
     When I go to the listing page
@@ -83,7 +83,7 @@ Feature: User views a single listing
     And I am on the profile page of "kassi_testperson1"
     Then I should not see "Siemens" within ".page-content"
 
-    When I am on the home page
+    When I am on the marketplace page
     Then I should see "services_trusted_requesting"
 
     When I go to the listing page
@@ -93,7 +93,7 @@ Feature: User views a single listing
 
   @only_without_asi
   Scenario: Employee views a listing but cant rent it
-    Given I am on the home page
+    Given I am on the marketplace page
     And there is a listing with title "Omicron" from "kassi_testperson2" with category "Services" and with listing shape "Renting"
     When I am logged in as "employee_testperson1"
     And I follow "Omicron"
@@ -120,13 +120,13 @@ Feature: User views a single listing
   @only_without_asi
   Scenario: Company views a listing with price
     And the price of that listing is 20.55 USD
-    And I am on the home page
+    And I am on the marketplace page
     When I follow "services_public_requesting"
     Then I should see "services_public_requesting"
     And I should see "$20.55"
     When I am logged in as "kassi_testperson1"
     And I have "2" testimonials with grade "1"
-    And I am on the home page
+    And I am on the marketplace page
     And I follow "services_public_requesting"
     Then I should see "Feedback"
     And I should see "100%"
@@ -139,14 +139,14 @@ Feature: User views a single listing
     When I follow "Settings"
     And I attach a valid image file to "avatar_file"
     And I press "Save information"
-    And I go to the home page
+    And I go to the marketplace page
     And I follow "services_public_requesting"
     Then I should not see "Add profile picture"
 
   Scenario: Company tries to view a listing restricted viewable to community members without logging in
     Given I am not logged in
     And this community is private
-    And I am on the home page
+    And I am on the marketplace page
     When I go to the listing page
     Then I should see "You must log in to view this content"
 
