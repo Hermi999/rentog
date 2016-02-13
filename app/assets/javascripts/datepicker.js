@@ -3,7 +3,6 @@ window.ST = window.ST || {};
 (function(module) {
 
   module.initializeFromToDatePicker = function(rangeCongainerId, booked_dates, tf_start_on, tf_end_on, booking_start_output, booking_end_output, datepicker_start_date) {
-    var now = new Date();
     var dateRage = $(rangeCongainerId);
     var dateLocale = dateRage.data('locale');
     var start_date = datepicker_start_date || null;

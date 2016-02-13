@@ -1,5 +1,5 @@
 /* Tell jshint that there exists a global called "gon" */
-/* globals gon, prettyPrint, initialize_poolTool_createTransaction_form, getDatesBetweenRange, Spinner, console */
+/* globals gon, prettyPrint, initialize_poolTool_createTransaction_form, getDatesBetweenRange, getDaysBetweenDates, Spinner, console */
 /* jshint unused: false */
 
 window.ST = window.ST || {};
@@ -172,7 +172,7 @@ window.ST.poolTool = function() {
               }
 
               // Update the bookings copy _user_active_bookings Array
-              for (var x=0; x<_user_active_bookings.length; x++){
+              for (x=0; x<_user_active_bookings.length; x++){
                 if (_user_active_bookings[x].transaction_id === transaction_id){
                   _user_active_bookings.splice(x, 1);
                   break;
@@ -184,7 +184,7 @@ window.ST.poolTool = function() {
               if (end_on_date > today){
                 var e_new = today;
                 // Update the gantt chart (with the new source)
-                updateGanttDatepickerBorrowedDevices(transaction_id, listing_id, start_on_date, e_new, start_on_date, end_on_date, title, desc, false)
+                updateGanttDatepickerBorrowedDevices(transaction_id, listing_id, start_on_date, e_new, start_on_date, end_on_date, title, desc, false);
               }
 
             })
