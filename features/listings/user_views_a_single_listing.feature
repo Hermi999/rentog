@@ -40,7 +40,7 @@ Feature: User views a single listing
 
     When I go to the listing page
     Then I should not see "services_intern_requesting"
-    And I should see "The listing is intern and can't be viewed or booked by other companies"
+    And I should see "You are not authorized to view this content"
     And I should see "All listing types"
 
   @only_without_asi
@@ -56,7 +56,7 @@ Feature: User views a single listing
 
     When I go to the listing page
     Then I should not see "services_intern_requesting"
-    And I should see "The listing is intern and can't be viewed or booked by other companies"
+    And I should see "You are not authorized to view this content"
     And I should see "All listing types"
 
   @only_without_asi
@@ -95,7 +95,7 @@ Feature: User views a single listing
   Scenario: Employee views a listing but cant rent it
     Given I am on the marketplace page
     And there is a listing with title "Omicron" from "kassi_testperson2" with category "Services" and with listing shape "Renting"
-    When I am logged in as "employee_testperson1"
+    When I log in as "employee_testperson1"
     And I follow "Omicron"
     Then I should see "Omicron"
     And I should see "Rent via your company"
@@ -108,7 +108,8 @@ Feature: User views a single listing
   Scenario: Employee views a listing and can rent it
     Given the community allows employees to buy listings
     And there is a listing with title "Omicron" from "kassi_testperson2" with category "Services" and with listing shape "Renting"
-    When I am logged in as "employee_testperson1"
+    And I am on the marketplace
+    When I log in as "employee_testperson1"
     And I follow "Omicron"
     Then I should see "Omicron"
     And I should see "Rent"
@@ -124,7 +125,7 @@ Feature: User views a single listing
     When I follow "services_public_requesting"
     Then I should see "services_public_requesting"
     And I should see "$20.55"
-    When I am logged in as "kassi_testperson1"
+    When I log in as "kassi_testperson1"
     And I have "2" testimonials with grade "1"
     And I am on the marketplace page
     And I follow "services_public_requesting"

@@ -669,7 +669,7 @@ class ListingsController < ApplicationController
         else
           flash[:error] = t("layouts.notifications.you_are_not_authorized_to_view_this_content")
         end
-        redirect_to root and return
+        redirect_to marketplace_path and return
       else
         session[:return_to] = request.fullpath
         flash[:warning] = t("layouts.notifications.you_must_log_in_to_view_this_content")

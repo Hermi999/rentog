@@ -93,7 +93,10 @@ When /^(?:|I )click element with text "([^"]*)"(?: within "([^"]*)")?$/ do |link
 end
 
 When /^(?:|I )click on element "([^"]*)" with text "([^"]*)"(?: and within "([^"]*)")?$/ do |element, text, selector|
-  first(selector).first(element, :text => text).click
+  #first(selector).first(element, :text => text).click
+
+  searchstring = "//div[contains(text(), '#{text}')]"
+  first(selector).find(:xpath, searchstring).click
 end
 
 When /^I remove the focus"?$/ do

@@ -24,7 +24,7 @@ Feature: Organization logging in and out
     When I fill in "main_person_login" with "whatever"
     And I fill in "main_person_password" with "certainly_not_the_correct_password"
     And I click "#main_log_in_button"
-    Then I should see "Sign in failed."
+    Then I should see "Rentog Login failed. Please enter the correct credentials"
     Then I should not be logged in
 
   Scenario: organization logging out

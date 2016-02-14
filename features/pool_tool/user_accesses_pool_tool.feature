@@ -8,8 +8,8 @@ Feature: User tries to access the pool tool
       | person               | organization_name |
       | kassi_testperson1    | Bosch             |
       | kassi_testperson2    | Siemens           |
-      | employee_testperson1 |                   |
-      | employee_testperson2 |                   |
+      | employee_testperson1 | " "               |
+      | employee_testperson2 | " "               |
     And there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" and with listing shape "Renting"
     And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" and with listing shape "Renting"
 
@@ -59,19 +59,19 @@ Feature: User tries to access the pool tool
     Given I am not logged in
     And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson1"
-    Then I should be on the marketplace page
+    Then I should be on the login page
     And I should see "You must be a company member"
 
   Scenario: Access another companies Pool Tool as employee
     Given I am logged in as "employee_testperson2"
     And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson1"
-    Then I should be on the marketplace page
+    Then I should be on my companies pool tool page
     And I should see "You must be a company member"
 
   Scenario: Access another companies Pool Tool as company admin
     Given I am logged in as "kassi_testperson2"
     And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson1"
-    Then I should be on the marketplace page
+    Then I should be on my pool tool page
     And I should see "You must be a company member"

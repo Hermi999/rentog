@@ -151,26 +151,49 @@ class PoolToolController < ApplicationController
   private
 
     def ensure_is_authorized_to_view
-      # Company Admin is authorized
-      return if @current_user && @current_user.is_organization && @current_user.username == params['person_id']
-
       # Rentog Admin is authorized
       return if @current_user && @current_user.has_admin_rights_in?(@current_community)
 
-      # Company employee is authorized
-      if @current_user && params['person_id'] == @current_user.username
-        # employee tries to access own pool tool via employee id
-        # that's not possible -> Redirect him to company pool tool page
-        redirect_to person_poolTool_path(@current_user.company) and return
-      elsif @current_user
-        # employee tries to access own pool tool via company id
-        comp = Person.where(:username => params['person_id']).first
-        return if comp && @current_user.is_employee_of?(comp.id)
-      end
+      # if organization
+      if @current_user and @current_user.is_organization
+        # ALLOWED: Company Admin is authorized to view own pool tool
+        if @current_user.username == params['person_id']
+          return
 
-      # Otherwise return to own companies pool tool path with an error message
-      flash[:error] = t("pool_tool.you_have_to_be_company_member")
-      redirect_to person_poolTool_path(@current_user.company) and return
+        # NOT ALLOWED: View another companies pool tool --> Redirect
+        else
+          flash[:error] = t("pool_tool.you_have_to_be_company_member")
+          redirect_to person_poolTool_path(@current_user) and return false
+        end
+
+
+      # if employee
+      elsif @current_user and @current_user.is_employee?
+        # Get company who's pool tool page should be accessed
+        comp = Person.where(:username => params['person_id']).first
+
+        # NOT ALLOWED (but no error):
+        # employee tries to access own pool tool via employee id. That's not
+        # possible -> Redirect to company pool tool page without error message
+        if @current_user.username == params['person_id']
+          redirect_to person_poolTool_path(@current_user.company) and return
+
+        # ALLOWED: Company employee is authorized to view his companies pool tool page
+        elsif comp && @current_user.is_employee_of?(comp.id)
+          return
+
+        # NOT ALLOWED: Employee accessing another companies pool tool --> Redirect to own pool tool
+        else
+          flash[:error] = t("pool_tool.you_have_to_be_company_member")
+          redirect_to person_poolTool_path(@current_user.company) and return false
+        end
+
+      # If not logged in
+      else
+        # NOT ALLOWED: Signed out user tries to access any pool tool page --> Redirect to login
+        flash[:error] = t("pool_tool.you_have_to_be_company_member")
+        redirect_to login_path and return false
+      end
     end
 
 

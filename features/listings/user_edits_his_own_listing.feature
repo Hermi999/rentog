@@ -80,6 +80,7 @@ Feature: User edits his own listing
       | kassi_testperson2 |
     And there is a listing with title "Hammer" from "kassi_testperson1" with category "Tools" and with listing shape "Requesting"
     And I am logged in as "kassi_testperson2"
+    And I am on the marketplace
     When I go to the edit listing page
     Then I should see "Only listing author can edit a listing"
 
@@ -92,6 +93,7 @@ Feature: User edits his own listing
     And there is a listing with title "Hammer" from "kassi_testperson1" with category "Tools" and with listing shape "Requesting"
     And I am logged in as "kassi_testperson2"
     And "kassi_testperson2" is superadmin
+    And I am on the marketplace
     When I follow "Hammer"
     And I follow "Edit listing"
     Then I should see "Listing title*"
@@ -109,6 +111,7 @@ Feature: User edits his own listing
     And there is a listing with title "Hammer" from "kassi_testperson1" with category "Tools" and with listing shape "Requesting"
     And I am logged in as "kassi_testperson2"
     And "kassi_testperson2" has admin rights in community "Test"
+    And I am on the marketplace
     When I follow "Hammer"
     And I follow "Edit listing"
     Then I should see "Listing title*"

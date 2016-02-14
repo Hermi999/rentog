@@ -102,8 +102,8 @@ Feature: User creates a new account
     And I go to the marketplace page
     Then I should not see "Your company administrator needs to verify you"
 
-    #Rentog requires people to be verified manually by admin before they can post listings. You have not yet been verified. Please contact the admin to be verified.
-
+  # wah: Rentog does not use usernames at the moment
+  #
   # Scenario: Trying to create company account with unavailable username
   #   When I fill in "person[username]" with "kassi_testperson2"
   #   And I fill in "Organization name" with "Siemens"

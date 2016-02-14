@@ -64,7 +64,7 @@ class ConfirmationsController < Devise::ConfirmationsController
       if @current_user && @current_user.has_admin_rights_in?(@current_community) #admins
         redirect_to getting_started_admin_community_path(:id => @current_community.id) and return
       elsif @current_user # normal logged in user
-        redirect_to root and return
+        redirect_to person_poolTool_path(@current_user) and return
       else # no logged in session
         redirect_to login_path and return
       end
@@ -72,9 +72,9 @@ class ConfirmationsController < Devise::ConfirmationsController
 
     flash[:error] = t("layouts.notifications.confirmation_link_is_wrong_or_used")
     if @current_user
-      redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation"
+      redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation" and return
     else
-      redirect_to :root
+      redirect_to login_path and return
     end
   end
 end
