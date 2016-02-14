@@ -82,6 +82,16 @@ When(/^I follow the first "(.*?)"$/) do |link|
   first(:link, link).click
 end
 
+When /^(?:|I )click element "([^"]*)"?$/ do |selector|
+  find(selector).click
+end
+
+# wah: The selector has to be either the element-type (fg: div) or a class or an id.
+#      The text has to be in the html of the element with the given Classes or ID
+When /^(?:|I )click element with text "([^"]*)"(?: within "([^"]*)")?$/ do |link, selector|
+  find(selector, :text => link).click
+end
+
 When /^(?:|I )click on element "([^"]*)" with text "([^"]*)"(?: and within "([^"]*)")?$/ do |element, text, selector|
   first(selector).first(element, :text => text).click
 end

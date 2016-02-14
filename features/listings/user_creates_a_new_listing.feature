@@ -58,11 +58,11 @@ Feature: User creates a new listing
     And I select "Books" from listing type menu
     And I select "Requesting" from listing type menu
     And I set the expiration date to 7 months from now
-    And I attach an image with invalid extension to "listing_image[image]"
+    And I attach an image with invalid extension
     And I press "Save listing"
     Then I should see "This field is required."
     And I should see "This date must be between current time and 6 months from now."
-    And I should see "The image file must be either in GIF, JPG or PNG format."
+    And I should see "The image format must be either GIF, JPG or PNG"
 
   @move_to_subdomain2
   @javascript

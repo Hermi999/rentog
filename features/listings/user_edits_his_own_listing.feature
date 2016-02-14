@@ -13,6 +13,7 @@ Feature: User edits his own listing
       | kassi_testperson1 |
     And there is a listing with title "Hammer" from "kassi_testperson1" with category "Tools" and with listing shape "Requesting"
     And I am logged in as "kassi_testperson2"
+    And I am on the marketplace
     And I follow "Hammer"
     When I log out
     And I log in as "kassi_testperson1"
@@ -23,7 +24,7 @@ Feature: User edits his own listing
     And the "description" field should contain "test"
     And I fill in "listing_title" with "Sledgehammer"
     And I fill in "listing_description" with "My description"
-    And I attach a valid listing image file to "listing_image[image]"
+    And I attach a valid listing image
     When I press "Save listing"
     And the system processes jobs
     Then I should see "Sledgehammer" within "#listing-title"

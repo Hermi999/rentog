@@ -4,9 +4,9 @@ Feature: User creates a new listing with photos
   Background:
     Given I am logged in
     And I am on the new listing page
-    And I follow "Items" within "#new_listing_form"
-    And I follow "Tools" within "#option-groups"
-    And I follow "Requesting"
+    And I click element with text "Items" within ".link-text"
+    And I click element with text "Tools" within ".link-text"
+    And I click element with text "Requesting" within ".link-text"
     And I fill in "listing_title" with "Sledgehammer"
     And I fill in "listing_description" with "My description"
 

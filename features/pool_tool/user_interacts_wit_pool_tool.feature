@@ -113,7 +113,7 @@ Feature: User interacts with Pool Tool
 
      When I fill in "tf_device_renter" with ""
       And I press "Create"
-     Then I should see 4 validation errors
+     Then I should see 3 validation errors
 
      When I select "Kassi Testperson3" from "dd_employee"
       And I press "Create"
@@ -154,7 +154,7 @@ Feature: User interacts with Pool Tool
      When I click on element "div" with text "Testperson3 Kassi" and within ".gantt_ownEmployee"
      Then I should see element "#cboxLoadedContent"
      When I update start-date +2 and end-date +2 days
-      And I press "Update"
+      And I click element "#btn_update"
      Then I should see "Please wait"
       And I wait for 1 second
       And I should not see element "#error_message"
@@ -172,7 +172,7 @@ Feature: User interacts with Pool Tool
      When I click on element "div" with text "internal000" and within ".gantt_otherReason_me"
      Then I should see element "#cboxLoadedContent"
      When I update start-date +2 and end-date +2 days
-      And I press "Update"
+      And I click element "#btn_update"
      Then I should see "Please wait"
       And I wait for 1 second
       And I should not see element "#error_message"
@@ -191,7 +191,7 @@ Feature: User interacts with Pool Tool
      When I click on element "div" with text "internal000" and within ".gantt_otherReason_me"
      Then I should see element "#cboxLoadedContent"
      When I update start-date +5 and end-date +2 days
-      And I press "Update"
+      And I click element "#btn_update"
      Then I should see element "#error_message"
       And I should see "internal000" within ".poolTool_gantt_container"
       And there should be a booking with starter "kassi_testperson1", start-date +0, end-date +0, length 2 and offset 1 days in the Db
@@ -210,9 +210,8 @@ Feature: User interacts with Pool Tool
      When I click on element "div" with text "internal000" and within ".gantt_otherReason_me"
      Then I should see element "#cboxLoadedContent"
      When I update start-date +2 and end-date +3 days
-      And I press "Update"
-     Then I should see "Please wait"
-      And I should see element "#error_message"
+      And I click element "#btn_update"
+     Then I should see element "#error_message"
       And I should see "internal000" within ".poolTool_gantt_container"
       And I should see "internal001" within ".poolTool_gantt_container"
       And there should be a booking with starter "kassi_testperson1", start-date +0, end-date +0, length 2 and offset 1 days in the Db
@@ -229,7 +228,7 @@ Feature: User interacts with Pool Tool
      Then I should see "Testperson3 Kassi" within ".poolTool_gantt_container"
      When I click on element "div" with text "Testperson3 Kassi" and within ".gantt_ownEmployee"
      Then I should see element "#cboxLoadedContent"
-     When I press "Delete"
+     When I click element "#btn_delete"
       And I confirm alert popup
       And I wait for 1 seconds
      Then I should not see element "#error_message"
@@ -248,7 +247,7 @@ Feature: User interacts with Pool Tool
      Then I should see "internal000" within ".poolTool_gantt_container"
      When I click on element "div" with text "internal000" and within ".gantt_otherReason_me"
      Then I should see element "#cboxLoadedContent"
-     When I press "Delete"
+     When I click element "#btn_delete"
       And I confirm alert popup
       And I wait for 1 seconds
      Then I should not see element "#error_message"
@@ -275,7 +274,7 @@ Feature: User interacts with Pool Tool
     # Update
      When I click on element "div" with text "Testperson3 Kassi" and within ".gantt_ownEmployee"
       And I update start-date +2 and end-date +2 days
-      And I press "Update"
+      And I click element "#btn_update"
      Then I should see "Please wait"
       And I wait for 1 second
       And I should not see element "#error_message"
@@ -284,7 +283,7 @@ Feature: User interacts with Pool Tool
 
     # Delete
      When I click on element "div" with text "Testperson3 Kassi" and within ".gantt_ownEmployee"
-      And I press "Delete"
+      And I click element "#btn_delete"
       And I confirm alert popup
       And I wait for 1 seconds
      Then I should not see element "#error_message"
