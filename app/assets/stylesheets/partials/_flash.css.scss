@@ -28,15 +28,16 @@
 
 .ajax-notice, .flash-notice,
 .ajax-update-notice {
-  background: $lila;
+  background: #FF8F00;
   color: white;
-  a {
-    color: yellow;
+
+  a{
+    color: #B92323;
   }
 }
 
 .ajax-warning, .flash-warning{
-  background: $yellow;
+  background: #F5C2A7;
 }
 
 .ajax-success,

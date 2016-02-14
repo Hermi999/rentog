@@ -150,7 +150,7 @@ class PoolToolController < ApplicationController
 
   private
 
-    def ensure_is_authorized_to_view()
+    def ensure_is_authorized_to_view
       # Company Admin is authorized
       return if @current_user && @current_user.is_organization && @current_user.username == params['person_id']
 
@@ -158,12 +158,19 @@ class PoolToolController < ApplicationController
       return if @current_user && @current_user.has_admin_rights_in?(@current_community)
 
       # Company employee is authorized
-      comp = Person.where(:username => params['person_id']).first
-      return if @current_user && @current_user.is_employee_of?(comp.id)
+      if @current_user && params['person_id'] == @current_user.username
+        # employee tries to access own pool tool via employee id
+        # that's not possible -> Redirect him to company pool tool page
+        redirect_to person_poolTool_path(@current_user.company) and return
+      elsif @current_user
+        # employee tries to access own pool tool via company id
+        comp = Person.where(:username => params['person_id']).first
+        return if comp && @current_user.is_employee_of?(comp.id)
+      end
 
-      # Otherwise return to home page
+      # Otherwise return to own companies pool tool path with an error message
       flash[:error] = t("pool_tool.you_have_to_be_company_member")
-      redirect_to root_path and return
+      redirect_to person_poolTool_path(@current_user.company) and return
     end
 
 

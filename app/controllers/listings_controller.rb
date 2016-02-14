@@ -763,7 +763,7 @@ class ListingsController < ApplicationController
       if !@current_community.employees_can_create_listings
         unless @current_user.has_admin_rights_in?(@current_community)
           flash[:error] = t("listings.error.employees_do_not_post")
-          redirect_to root_path and return
+          redirect_to marketplace_path and return
         end
       end
     end

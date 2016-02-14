@@ -146,6 +146,12 @@ Given /^there is an invitation for community "([^"]*)" with code "([^"]*)"(?: wi
   inv.save
 end
 
+Given /^there is an employee invitation for community "([^"]*)" and email "([^"]*)" with code "([^"]*)"(?: with (\d+) usages left)?$/ do |community, email, code, usages_left|
+  inv = Invitation.new(:community => Community.where(ident: community).first, :email => email,:code => code, :inviter_id => @people.first[1].id, :target => "employee")
+  inv.usages_left = usages_left if usages_left.present?
+  inv.save
+end
+
 Then /^Invitation with code "([^"]*)" should have (\d+) usages_left$/ do |code, usages|
   Invitation.find_by_code(code).usages_left.should == usages.to_i
 end

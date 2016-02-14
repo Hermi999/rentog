@@ -151,8 +151,11 @@ class PeopleController < Devise::RegistrationsController
     end
 
     # Check invitation code
-    if @current_community && @current_community.join_with_invite_only? || (params[:invitation_code] && signup_as == "employee")
-      unless Invitation.code_usable?(params[:invitation_code], @current_community, params[:person][:email])
+    if @current_community && @current_community.join_with_invite_only? || (params[:invitation_code])
+      # Employee can only use invitation codes where the email is already stored Invitation-Model in the DB
+      temp_email = params[:person][:email] if signup_as == "employee"
+
+      unless Invitation.code_usable?(params[:invitation_code], @current_community, temp_email)
         # abort user creation if invitation is not usable.
         # (This actually should not happen since the code is checked with javascript)
         session[:invitation_code] = nil # reset code from session if there was issues so that's not used again

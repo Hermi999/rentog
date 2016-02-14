@@ -12,6 +12,7 @@ Feature: User comments a listing
     And there is a listing with title "Massage" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
     And listing comments are in use in community "test"
     And I am logged in as "kassi_testperson2"
+    And I am on the marketplace
     When I follow "Massage"
     And I should see "Get emails about new comments"
     And I should not see "Don't get emails about new comments"
@@ -50,6 +51,7 @@ Feature: User comments a listing
   And there is a listing with title "Massage" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
   And listing comments are in use in community "test"
   And I am logged in as "kassi_testperson2"
+  And I am on the marketplace
   When I follow "Massage"
   And I fill in "comment_content" with "Test comment"
   And I press "Send comment"
@@ -72,6 +74,7 @@ Feature: User comments a listing
     And listing comments are in use in community "test"
     And there is a listing with title "Massage" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
     And I am logged in as "kassi_testperson2"
+    And I am on the marketplace
     When I follow "Massage"
     And I press "Send comment"
     Then I should see "This field is required."
@@ -102,6 +105,7 @@ Feature: User comments a listing
     And there is a listing with title "Walking dogs" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
     And listing comments are in use in community "test"
     And I am logged in as "employee_testperson1"
+    And I am on the marketplace
     When I follow "Walking dogs"
     Then I should see "Notify me of new comments and updates"
     When I fill in "comment_content" with "Test comment 1"
@@ -136,6 +140,7 @@ Feature: User comments a listing
     And there is a listing with title "Walking dogs" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
     And listing comments are in use in community "test"
     And I am logged in as "kassi_testperson2"
+    And I am on the marketplace
     When I follow "Walking dogs"
     Then I should see "Notify me of new comments and updates"
     When I fill in "comment_content" with "Test comment 1"

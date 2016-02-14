@@ -83,7 +83,11 @@ class TestimonialsController < ApplicationController
 
     if @transaction.nil?
       flash[:error] = t("layouts.notifications.you_are_not_allowed_to_give_feedback_on_this_transaction")
-      redirect_to root and return
+      if @current_user
+        redirect_to person_poolTool_path(@current_user) and return
+      else
+        redirect_to root and return
+      end
     end
   end
 

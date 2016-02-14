@@ -1,4 +1,4 @@
-Feature: User joins invite only community
+Feature: User joins with invitation
   In order to maintain trust in closed community
   As a community administrator
   I want that new users can join only if they have valid invite code
@@ -14,7 +14,7 @@ Feature: User joins invite only community
     And I am not logged in
     And I am on the signup page
     And I follow "signup as an employee"
-    And there is an invitation for community "test" with code "GH1JX8"
+    And there is an employee invitation for community "test" and email "123@abcd.at" with code "GH1JX8"
     When I fill in "Invitation code" with "GH1JX8"
     And I remove the focus
     #Then there should be an active ajax request
@@ -24,7 +24,7 @@ Feature: User joins invite only community
     And I fill in "Last name" with "Namez"
     And I fill in "person_password1" with "testtest"
     And I fill in "Confirm password" with "testtest"
-    And I fill in "Email address" with random email
+    And I fill in "Email address" with "123@abcd.at"
     And I check "person_terms"
     And I press "Create company employee"
     Then I should not see "The invitation code is not valid."
@@ -174,7 +174,6 @@ Feature: User joins invite only community
     And I should receive 1 email
     When I open the email
     And I follow "confirmation" in the email
-    Then I should see "The email you entered is now confirmed"
-    And I should have 2 emails
+    Then I should have 2 emails
     And Most recently created user should be member of "test" community with its latest consent accepted with invitation code "GH1JX8"
     And Invitation with code "GH1JX8" should have 0 usages_left

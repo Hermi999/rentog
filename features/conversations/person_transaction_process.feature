@@ -11,6 +11,7 @@ Feature: Transaction process between two users
     And there is a listing with title "Hammer" from "kassi_testperson1" with category "Items" and with listing shape "Selling"
     And the price of that listing is 20.00 EUR
     And I am logged in as "kassi_testperson2"
+    And I am on the I am on the marketplace
 
     # Starting the conversation
     When I follow "Hammer"
@@ -48,6 +49,7 @@ Feature: Transaction process between two users
       | kassi_testperson2 |
     And there is a listing with title "Hammer" from "kassi_testperson1" with category "Items" and with listing shape "Requesting"
     And I am logged in as "kassi_testperson2"
+    And I am on the marketplace
 
     # Starting the conversation
     When I follow "Hammer"

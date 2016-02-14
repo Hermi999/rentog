@@ -14,6 +14,7 @@ Feature: Inquiry
       | main           | Free message      | Vapaa viesti   |
     And there is a listing with title "Test message" from "kassi_testperson1" with category "Free message" and with listing shape "Inquiry"
     And I am logged in as "kassi_testperson2"
+    And I am on the marketplace
     When I follow "Test message"
     Then I should see "Contact"
     When I press "Inquire"

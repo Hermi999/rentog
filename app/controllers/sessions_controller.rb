@@ -72,7 +72,6 @@ class SessionsController < ApplicationController
     # Set cookie, so that we know in wordpress if the user is logged in
     cookies[:session_active] = { value: true, domain: ".rentog.com" }
 
-
   # **** LOGIN SUCCESSFUL ****
     # no community exists yet
     if not @current_community
@@ -89,7 +88,8 @@ class SessionsController < ApplicationController
         redirect_to session[:return_to_content]
         session[:return_to_content] = nil
       else
-        redirect_to root_path
+        redirect_to person_poolTool_path(@current_user) and return if @current_user.is_organization?
+        redirect_to person_poolTool_path(@current_user.company) and return
       end
     else
       redirect_to new_tribe_membership_path

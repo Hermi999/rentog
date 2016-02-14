@@ -52,6 +52,7 @@ class Invitation < ActiveRecord::Base
     if new_email.nil?
       return usages_left > 0 && (valid_until.nil? || valid_until > DateTime.now)
     else
+      # Employee can only use invitation codes where the email is already stored Invitation-Model in the DB
       return usages_left > 0 && (valid_until.nil? || valid_until > DateTime.now) && email == new_email
     end
   end

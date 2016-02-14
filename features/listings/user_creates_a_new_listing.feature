@@ -264,7 +264,6 @@ Scenario: Company creates a new listing with date field
 
     When I go to the new listing page
     Then I should see "not allowed to post"
-    And I should be on the marketplace page
 
   @javascript
   Scenario: Employee can create a listing

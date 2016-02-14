@@ -214,6 +214,7 @@ FactoryGirl.define do
 
   factory :invitation do
     community_id 1
+    target "company"
   end
 
   factory :location do
