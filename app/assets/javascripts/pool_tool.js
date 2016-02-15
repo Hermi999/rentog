@@ -1,4 +1,4 @@
-/* Tell jshint that there exists a global called "gon" */
+/* Tell jshint that there exists a global called gon */
 /* globals gon, prettyPrint, initialize_poolTool_createTransaction_form, getDatesBetweenRange, getDaysBetweenDates, Spinner, console */
 /* jshint unused: false */
 
