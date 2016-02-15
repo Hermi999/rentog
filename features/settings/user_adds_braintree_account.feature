@@ -2,10 +2,10 @@ Feature: User adds Braintree account
   In order to receive payments
   As a seller
   I want to be able to fill in my payout details
-  
+
   Background:
     Given there are following users:
-      | person                | id |
+      | person                | id        |
       | bt_test_person        | 123abcdef |
     Given community "test" has payments in use via BraintreePaymentGateway
     And I am logged in as "bt_test_person"

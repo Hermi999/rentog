@@ -113,7 +113,7 @@ Feature: User interacts with Pool Tool
 
      When I fill in "tf_device_renter" with ""
       And I press "Create"
-     Then I should see 3 validation errors
+     Then I should see more than 2 validation errors
 
      When I select "Kassi Testperson3" from "dd_employee"
       And I press "Create"

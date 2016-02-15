@@ -42,6 +42,7 @@ Feature: User edits his own listing
       | kassi_testperson1 |
     And there is a listing with title "Hammer" from "kassi_testperson1" with category "Tools" and with listing shape "Requesting"
     And I am logged in as "kassi_testperson2"
+    And I am on the marketplace
     And I follow "Hammer"
     When I log out
     And I log in as "kassi_testperson1"

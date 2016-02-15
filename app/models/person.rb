@@ -719,9 +719,9 @@ class Person < ActiveRecord::Base
   def has_to_give_back_device?(community)
     if community.pooltool_employee_has_to_give_back_device
       if is_employee?
-        company.company_option.employee_has_to_give_back_listing
+        company.company_option && company.company_option.employee_has_to_give_back_listing
       else
-        company_option.employee_has_to_give_back_listing
+        company_option && company_option.employee_has_to_give_back_listing
       end
     else
       false
@@ -730,9 +730,9 @@ class Person < ActiveRecord::Base
 
   def is_allowed_to_book_in_past?
     if is_employee?
-      company.company_option.pool_tool_modify_past
+      company.company_option && company.company_option.pool_tool_modify_past
     else
-      company_option.pool_tool_modify_past
+      company_option && company_option.pool_tool_modify_past
     end
   end
 

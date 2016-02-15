@@ -362,6 +362,12 @@ Then /^I should see (\d+) validation errors$/ do |errors_count|
   all("label.error").each { |error| error.should be_visible }
 end
 
+Then /^I should see more than (\d+) validation errors$/ do |errors_count|
+  errors = all("label.error");
+  errors.size.should be > (errors_count.to_i)
+  all("label.error").each { |error| error.should be_visible }
+end
+
 Then /^take a screenshot$/ do
   save_screenshot('screenshot.png')
 end
