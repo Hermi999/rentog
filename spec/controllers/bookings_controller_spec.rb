@@ -2,11 +2,20 @@ require 'spec_helper'
 
 describe BookingsController do
 
-  describe "GET 'update'" do
-    it "returns http success" do
-      get 'update'
-      response.should be_success
-    end
-  end
+  # wah: Todo - write unit test for update_device_returned (PUT & GET)
+  #
+  # describe "PUT 'update_device_returned'" do
+  #   it "returns http success" do
+  #     get 'update'
+  #     response.should be_success
+  #   end
+  # end
+  #
+  # # describe "GET 'update_device_returned'" do
+  #   it "returns http success" do
+  #     get 'update'
+  #     response.should be_success
+  #   end
+  # end
 
 end

@@ -2,6 +2,7 @@ class BookingsController < ApplicationController
   before_filter :ensure_is_authorized_to_update_booking, :only => [ :update_device_returned]
   before_filter :check_if_device_is_not_returned_yet, :only => [:update_device_returned]
 
+  # wah: Handles at the moment PUT & GET requests
   def update_device_returned
     # update device returned for all past bookings of this listing and this user
     Booking.setDeviceReturnedOfOverdueBookingsOfUser(true, @current_user.id, @act_transaction.listing_id)

@@ -60,9 +60,10 @@ describe TransactionsController do
                         message: "Booked with Pool Tool",
                         employee: {username: @employee.username},
                         listing_id: @listing_all.id,
-                        start_on: "2015-01-01",
-                        end_on: "2015-01-05",
-                        commit: "Create"
+                        start_on: "2025-01-01",
+                        end_on: "2025-01-05",
+                        commit: "Create",
+                        description: "abc"
                       }
 
         # Check database entries
@@ -81,11 +82,12 @@ describe TransactionsController do
           "status" => "success",
           "employee" => true,
           "empl_or_reason" => display_name,
-          "start_on" => "2015-01-01",
-          "end_on" => "2015-01-05",
+          "start_on" => "2025-01-01",
+          "end_on" => "2025-01-05",
           "listing_id" => @listing_all.id.to_s,
           "transaction_id" => last_trans.id,
-          "renter_id" => @employee.id
+          "renter_id" => @employee.id,
+          "description" => "abc"
           }
       end
 
@@ -101,9 +103,10 @@ describe TransactionsController do
                         message: "Booked with Pool Tool",
                         employee: {username: @employee.username},
                         listing_id: @listing_all.id,
-                        start_on: "2015-01-01",
-                        end_on: "2015-01-05",
-                        commit: "Create"
+                        start_on: "2025-01-01",
+                        end_on: "2025-01-05",
+                        commit: "Create",
+                        description: "abc"
                       }
 
         # Check database entries
@@ -122,11 +125,12 @@ describe TransactionsController do
           "status" => "success",
           "employee" => true,
           "empl_or_reason" => display_name,
-          "start_on" => "2015-01-01",
-          "end_on" => "2015-01-05",
+          "start_on" => "2025-01-01",
+          "end_on" => "2025-01-05",
           "listing_id" => @listing_all.id.to_s,
           "transaction_id" => last_trans.id,
-          "renter_id" => @employee.id
+          "renter_id" => @employee.id,
+          "description" => "abc"
           }
       end
 
@@ -142,9 +146,10 @@ describe TransactionsController do
                         message: "Booked with Pool Tool",
                         renter: "Maintainance",
                         listing_id: @listing_all.id,
-                        start_on: "2015-01-01",
-                        end_on: "2015-01-05",
-                        commit: "Create"
+                        start_on: "2025-01-01",
+                        end_on: "2025-01-05",
+                        commit: "Create",
+                        description: "abc"
                       }
 
         # Check database entries
@@ -162,11 +167,12 @@ describe TransactionsController do
           "status" => "success",
           "employee" => false,
           "empl_or_reason" => "Maintainance",
-          "start_on" => "2015-01-01",
-          "end_on" => "2015-01-05",
+          "start_on" => "2025-01-01",
+          "end_on" => "2025-01-05",
           "listing_id" => @listing_all.id.to_s,
           "transaction_id" => last_trans.id,
-          "renter_id" => @company.id
+          "renter_id" => @company.id,
+          "description" => "abc"
           }
       end
 
@@ -179,9 +185,10 @@ describe TransactionsController do
                         message: "Booked with Pool Tool",
                         employee: {username: @employee.username},
                         listing_id: @listing_all.id,
-                        start_on: "2015-05-01",
-                        end_on: "2015-01-01",
-                        commit: "Create"
+                        start_on: "2025-05-01",
+                        end_on: "2025-01-01",
+                        commit: "Create",
+                        description: "abc"
                       }
 
         # No redirect but also no new transaction
@@ -199,9 +206,10 @@ describe TransactionsController do
                         message: "Booked with Pool Tool",
                         employee: {username: @employee.username},
                         listing_id: @listing_all.id,
-                        start_on: "2015-01-01",
-                        end_on: "2015-01-05",
-                        commit: "Create"
+                        start_on: "2025-01-01",
+                        end_on: "2025-01-05",
+                        commit: "Create",
+                        description: "abc"
                       }
 
         # Redirect & no new transaction
@@ -218,9 +226,10 @@ describe TransactionsController do
                         message: "Booked with Pool Tool",
                         employee: {username: @employee.username},
                         listing_id: @listing_all.id,
-                        start_on: "2015-01-01",
-                        end_on: "2015-01-05",
-                        commit: "Create"
+                        start_on: "2025-01-01",
+                        end_on: "2025-01-05",
+                        commit: "Create",
+                        description: "abc"
                       }
         # Redirect & no new transaction
         response.status.should == 302
@@ -235,9 +244,10 @@ describe TransactionsController do
                         message: "Booked with Pool Tool",
                         employee: {username: @employee.username},
                         listing_id: @listing_all.id,
-                        start_on: "2015-01-01",
-                        end_on: "2015-01-05",
-                        commit: "Create"
+                        start_on: "2025-01-01",
+                        end_on: "2025-01-05",
+                        commit: "Create",
+                        description: "abc"
                       }
         # Redirect & no new transaction
         response.status.should == 302
@@ -252,9 +262,10 @@ describe TransactionsController do
                         message: "Booked with Pool Tool",
                         employee: {username: @employee2.username},
                         listing_id: @listing_all.id,
-                        start_on: "2015-01-01",
-                        end_on: "2015-01-05",
-                        commit: "Create"
+                        start_on: "2025-01-01",
+                        end_on: "2025-01-05",
+                        commit: "Create",
+                        description: "abc"
                       }
         # Redirect & no new transaction
         response.status.should == 302
@@ -284,9 +295,10 @@ describe TransactionsController do
                           message: "Booked with Pool Tool",
                           employee: {username: @employee.username},
                           listing_id: @listing_all.id,
-                          start_on: "2015-01-01",
-                          end_on: "2015-01-05",
-                          commit: "Create"
+                          start_on: "2025-01-01",
+                          end_on: "2025-01-05",
+                          commit: "Create",
+                          description: "abc"
                         }
 
           @transaction_id = Transaction.last.id
@@ -359,9 +371,10 @@ describe TransactionsController do
                           message: "Booked with Pool Tool",
                           employee: {username: @employee.username},
                           listing_id: @listing_all.id,
-                          start_on: "2015-01-01",
-                          end_on: "2015-01-05",
-                          commit: "Create"
+                          start_on: "2025-01-01",
+                          end_on: "2025-01-05",
+                          commit: "Create",
+                          description: "abc"
                         }
 
           @transaction_id = Transaction.last.id
@@ -371,8 +384,8 @@ describe TransactionsController do
           tr_count = Transaction.all.count
           post :update, { person_id: @company.username,
                           id: @transaction_id,
-                          from: "Wed Sep 30 2015 02:00:00 GMT+0200 (CEST)",
-                          to: "Wed Sep 30 2015 02:00:00 GMT+0200 (CEST)"
+                          from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
+                          to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
                         }
           response.status.should == 200
           resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
@@ -384,8 +397,8 @@ describe TransactionsController do
           tr_count = Transaction.all.count
           post :update, { person_id: @company.username,
                           id: @transaction_id,
-                          from: "Wed Sep 30 2015 02:00:00 GMT+0200 (CEST)",
-                          to: "Wed Sep 30 2015 02:00:00 GMT+0200 (CEST)"
+                          from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
+                          to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
                          }
           response.status.should == 200
           resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
@@ -397,8 +410,8 @@ describe TransactionsController do
           tr_count = Transaction.all.count
           post :update, { person_id: @company.username,
                           id: @transaction_id,
-                          from: "Wed Sep 30 2015 02:00:00 GMT+0200 (CEST)",
-                          to: "Tue Sep 29 2015 02:00:00 GMT+0200 (CEST)"
+                          from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
+                          to: "Tue Sep 29 2025 02:00:00 GMT+0200 (CEST)"
                          }
           response.status.should == 200
           resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
@@ -410,8 +423,8 @@ describe TransactionsController do
           tr_count = Transaction.all.count
           post :update, { person_id: @company.username,
                           id: @transaction_id,
-                          from: "Wed Sep 30 2015 02:00:00 GMT+0200 (CEST)",
-                          to: "Wed Sep 30 2015 02:00:00 GMT+0200 (CEST)"
+                          from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
+                          to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
                          }
           response.status.should == 302
         end
@@ -421,8 +434,8 @@ describe TransactionsController do
           tr_count = Transaction.all.count
           post :update,  {  person_id: @company.username,
                             id: @transaction_id,
-                            from: "Wed Sep 30 2015 02:00:00 GMT+0200 (CEST)",
-                            to: "Wed Sep 30 2015 02:00:00 GMT+0200 (CEST)"
+                            from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
+                            to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
                           }
           response.status.should == 302
         end
@@ -432,8 +445,8 @@ describe TransactionsController do
           tr_count = Transaction.all.count
           post :update, { person_id: @company.username,
                           id: @transaction_id,
-                          from: "Wed Sep 30 2015 02:00:00 GMT+0200 (CEST)",
-                          to: "Wed Sep 30 2015 02:00:00 GMT+0200 (CEST)"
+                          from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
+                          to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
                           }
           response.status.should == 302
         end

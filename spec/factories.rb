@@ -99,6 +99,7 @@ FactoryGirl.define do
   end
 
   factory :company_option do
+    company_id 999
     employee_has_to_give_back_listing true
     employee_can_see_statistics true
   end
