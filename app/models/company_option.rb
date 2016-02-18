@@ -13,10 +13,8 @@
 #
 
 class CompanyOption < ActiveRecord::Base
-  attr_accessible :employee_can_see_statistics,
-                  :employee_has_to_give_back_listing,
-                  :pool_tool_group_booking_enabled,
-                  :pool_tool_modify_past
+  # TODO Rails 4, Remove
+  include ActiveModel::ForbiddenAttributesProtection
 
   belongs_to :company, :class_name => "Person"
 

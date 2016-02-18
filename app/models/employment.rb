@@ -16,7 +16,10 @@
 #
 
 class Employment < ActiveRecord::Base
-  attr_accessible :company_id, :employee_id, :active
+  # TODO Rails 4, Remove
+  include ActiveModel::ForbiddenAttributesProtection
+
+  #attr_accessible :company_id, :employee_id, :active
 
   belongs_to :company, :class_name => "Person"
   belongs_to :employee, :class_name => "Person"

@@ -77,12 +77,6 @@ class Person < ActiveRecord::Base
     devise :encryptable # to be able to use similar encrypt method as ASI
   end
 
-  # Setup accessible attributes for your model (the rest are protected)
-  # Specifies a white list of model attributes that can be set via mass-assignment,
-  # such as new(attributes), update_attributes(attributes), or attributes=(attributes)
-  attr_accessible :username, :password, :password2, :password_confirmation,
-                  :remember_me, :consent, :login
-
   # attr_accessor is use for variables that we don't want to store in the
   # database and will only exist for the life of the object.
   attr_accessor :guid, :password2, :form_login,
