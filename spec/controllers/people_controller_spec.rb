@@ -91,7 +91,7 @@ describe PeopleController do
       sign_in_for_spec(member)
 
       request.env["HTTP_REFERER"] = "http://test.host/en/people/#{member.id}"
-      put :update, {:person => {:email => "something@el.se"}, :person_id => member.id}
+      put :update, {:person => {:email_attributes => {:address => "something@el.se"}}, :person_id => member.id}
 
       # remove "signed in" stubs
       request.env['warden'].unstub :authenticate!
