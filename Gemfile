@@ -68,10 +68,12 @@ gem "truncate_html"
 gem 'money-rails'
 
 # The latest release (0.9.0) is not Rails 4 compatible
-gem 'mercury-rails',
-  git: 'git://github.com/jejacks0n/mercury.git',
-  branch: 'master',
-  ref: '1cc637b0bccea19085f824d2881c6513ed5ee8ae'
+#gem 'mercury-rails',
+#  git: 'git://github.com/jejacks0n/mercury.git',
+#  branch: 'master',
+#  ref: '1cc637b0bccea19085f824d2881c6513ed5ee8ae'
+
+gem 'mercury-rails', '~> 0.9.0'
 
 gem 'fb-channel-file'
 gem 'country_select', '~> 1.3.1'
@@ -80,10 +82,11 @@ gem "mail_view", "~> 1.0.3"
 gem 'statesman', '~> 0.5.0'
 gem "premailer"
 gem 'stringex', '~> 2.5.2'
-gem 'paypal-sdk-permissions',
-  :git    => 'git://github.com/paypal/permissions-sdk-ruby.git',
-  :branch => 'master',
-  :ref    => 'c0240bee9f94fe6338d67b4f754e1a11ce81619a'
+gem 'paypal-sdk-permissions'
+#gem 'paypal-sdk-permissions',
+#  :git    => 'git://github.com/paypal/permissions-sdk-ruby.git',
+#  :branch => 'master',
+#  :ref    => 'c0240bee9f94fe6338d67b4f754e1a11ce81619a'
 gem 'paypal-sdk-merchant', '~> 1.116.0'
 gem 'airbrake', '~>4.1.0'
 gem 'cache_digests'
