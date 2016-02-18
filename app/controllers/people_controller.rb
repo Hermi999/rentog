@@ -347,7 +347,7 @@ class PeopleController < Devise::RegistrationsController
       end
     end
 
-    #Check that people don't exploit changing email to be confirmed to join an email restricted community
+    # Check that people don't exploit changing email to be confirmed to join an email restricted community
     if params["request_new_email_confirmation"] && @current_community && ! @current_community.email_allowed?(params[:person][:email])
       flash[:error] = t("people.new.email_not_allowed")
       redirect_to :back and return
