@@ -22,7 +22,8 @@ class InvitationsController < ApplicationController
   def create
     invitation_params = params.require(:invitation).permit(
       :email,
-      :message
+      :message,
+      :target
     )
 
     invitation_emails = invitation_params[:email].split(",").map(&:strip)
@@ -35,6 +36,7 @@ class InvitationsController < ApplicationController
     sending_problems = nil
     invitation_emails.each do |email|
 
+      # Invitations for employees last much shorter
       if (params[:invitation][:target] == "employee")
         valid_until = Time.now + 5.days
       else
