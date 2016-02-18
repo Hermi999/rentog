@@ -10,15 +10,15 @@ module AdminCustomFieldSteps
   end
 
   def find_remove_link_for_custom_field(title)
-    find_row_for_custom_field(title).find(REMOVE_SELECTOR)
+    find_row_for_custom_field(title).first(REMOVE_SELECTOR)
   end
 
   def find_edit_link_for_custom_field(title)
-    find_row_for_custom_field(title).find(EDIT_SELECTOR)
+    find_row_for_custom_field(title).first(EDIT_SELECTOR)
   end
 
   def find_up_link_for_custom_field(title)
-    find_row_for_custom_field(title).find(UP_SELECTOR)
+    find_row_for_custom_field(title).first(UP_SELECTOR)
   end
 
   def find_custom_field_by_name(field_name)

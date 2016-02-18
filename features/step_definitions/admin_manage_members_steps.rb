@@ -9,15 +9,15 @@ module AdminManageMembersSteps
   end
 
   def find_posting_allowed_checkbox_for_person(full_name)
-    find_row_for_person(full_name).find(POSTING_ALLOWED_CHECKBOX_SELECTOR)
+    find_row_for_person(full_name).first(POSTING_ALLOWED_CHECKBOX_SELECTOR)
   end
 
   def find_admin_checkbox_for_person(full_name)
-    find_row_for_person(full_name).find(IS_ADMIN_CHECKBOX_SELECTOR)
+    find_row_for_person(full_name).first(IS_ADMIN_CHECKBOX_SELECTOR)
   end
 
   def find_remove_link_for_person(full_name)
-    find_row_for_person(full_name).find(REMOVE_USER_CHECKBOX_SELECTOR)
+    find_row_for_person(full_name).first(REMOVE_USER_CHECKBOX_SELECTOR)
   end
 
 end
