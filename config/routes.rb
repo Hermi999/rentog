@@ -520,16 +520,16 @@ Kassi::Application.routes.draw do
   # Namespaces are for grouping controllers. This one will create the following
   # routes:
   # GET/POST/PUT/DELETE/PATCH  /mercury/images[/:id/edit]   mercury/images#[action]
-  namespace :mercury do
-    resources :images
-  end
+  #namespace :mercury do
+  #  resources :images
+  #end
 
   # mount within the rails routes does the equivalent of a unix mount.
   # It actually tells the app that another application (usually a rack
   # application) exists on that location.
   # It is used mostly for Rails Engines.
   # Find here more on engines: http://guides.rubyonrails.org/engines.html
-  mount Mercury::Engine => '/'
+  # mount Mercury::Engine => '/'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -595,7 +595,7 @@ Kassi::Application.routes.draw do
   # Adds locale to every url right after the root path
   scope "(/:locale)", :constraints => { :locale => locale_matcher } do
 
-    put '/mercury_update' => "mercury_update#update", :as => :mercury_update
+    #put '/mercury_update' => "mercury_update#update", :as => :mercury_update
 
     get "/transactions/op_status/:process_token" => "transactions#op_status", :as => :transaction_op_status
 
