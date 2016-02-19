@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151223223503) do
+ActiveRecord::Schema.define(version: 20151230095128) do
 
   create_table "auth_tokens", force: true do |t|
     t.string   "token"
@@ -39,12 +39,12 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.integer  "transaction_id"
     t.date     "start_on"
     t.date     "end_on"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
     t.string   "reason"
-    t.boolean  "device_returned",     :default => false
+    t.boolean  "device_returned",     default: false
     t.string   "description"
-    t.string   "device_return_token", :default => "33881b4582b5cfc17967"
+    t.string   "device_return_token", default: "33881b4582b5cfc17967"
   end
 
   add_index "bookings", ["transaction_id"], name: "index_bookings_on_transaction_id", using: :btree
@@ -196,7 +196,7 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.string   "wide_logo_content_type"
     t.integer  "wide_logo_file_size"
     t.datetime "wide_logo_updated_at"
-    t.boolean  "only_organizations"
+    t.boolean  "only_organizations",                                    default: true,                      null: false
     t.boolean  "listing_comments_in_use",                               default: false
     t.boolean  "show_listing_publishing_date",                          default: false
     t.boolean  "require_verification_to_post_listings",                 default: false
@@ -220,13 +220,13 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.string   "dv_test_file_name",                          limit: 64
     t.string   "dv_test_file",                               limit: 64
     t.boolean  "deleted"
-    t.boolean  "others_can_see_employees",                                 :default => false
-    t.boolean  "employees_can_create_listings",                            :default => false
-    t.boolean  "employees_can_buy_listings",                               :default => false
-    t.boolean  "only_pool_tool",                                           :default => false
-    t.boolean  "disable_facebook_twitter",                                 :default => false
-    t.boolean  "employee_has_own_profile",                                 :default => true
-    t.boolean  "pooltool_employee_has_to_give_back_device",                :default => false
+    t.boolean  "others_can_see_employees",                              default: false
+    t.boolean  "employees_can_create_listings",                         default: false
+    t.boolean  "employees_can_buy_listings",                            default: false
+    t.boolean  "only_pool_tool",                                        default: false
+    t.boolean  "disable_facebook_twitter",                              default: false
+    t.boolean  "employee_has_own_profile",                              default: true
+    t.boolean  "pooltool_employee_has_to_give_back_device",             default: false
   end
 
   add_index "communities", ["domain"], name: "index_communities_on_domain", using: :btree
@@ -289,8 +289,8 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.boolean  "employee_can_see_statistics",       default: true
     t.boolean  "pool_tool_modify_past",             default: false
     t.boolean  "pool_tool_group_booking_enabled",   default: false
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.string   "company_id"
   end
 
@@ -386,10 +386,10 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
   add_index "custom_fields", ["community_id"], name: "index_custom_fields_on_community_id", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
-    t.integer  "priority",                    default: 0
-    t.integer  "attempts",                    default: 0
+    t.integer  "priority",   default: 0
+    t.integer  "attempts",   default: 0
     t.text     "handler"
-    t.text     "last_error", limit: 16777215
+    t.text     "last_error"
     t.datetime "run_at"
     t.datetime "locked_at"
     t.datetime "failed_at"
@@ -417,25 +417,25 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
   add_index "emails", ["address"], name: "index_emails_on_address", unique: true, using: :btree
   add_index "emails", ["person_id"], name: "index_emails_on_person_id", using: :btree
 
-  create_table "employments",   force: true do |t|
+  create_table "employments", force: true do |t|
     t.string   "company_id"
     t.string   "employee_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.boolean  "active",        default: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "active",      default: false
   end
 
-  add_index "employments", ["company_id"], name: "index_employments_on_company_id"
-  add_index "employments", ["employee_id"], name: "index_employments_on_employee_id"
+  add_index "employments", ["company_id"], name: "index_employments_on_company_id", using: :btree
+  add_index "employments", ["employee_id"], name: "index_employments_on_employee_id", using: :btree
 
-  create_table "favors", :force => true do |t|
+  create_table "favors", force: true do |t|
     t.string   "owner_id"
     t.string   "title"
     t.text     "description"
     t.integer  "payment"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
-    t.string   "status",      :default => "enabled"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "status",      default: "enabled"
   end
 
   create_table "feature_flags", force: true do |t|
@@ -489,19 +489,19 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.string   "inviter_id"
     t.text     "message"
     t.string   "email"
-    t.string   "target",       :default => "employee"
+    t.string   "target",       default: "employee"
   end
 
   add_index "invitations", ["code"], name: "index_invitations_on_code", using: :btree
   add_index "invitations", ["inviter_id"], name: "index_invitations_on_inviter_id", using: :btree
 
-  create_table "items",         force: true do |t|
+  create_table "items", force: true do |t|
     t.string   "owner_id"
     t.string   "title"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "payment"
-    t.string   "status",        default: "enabled"
+    t.string   "status",      default: "enabled"
     t.text     "description"
   end
 
@@ -510,22 +510,22 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.string   "realizer_id"
     t.integer  "eventable_id"
     t.string   "eventable_type"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
-  create_table "kassi_events_people", :id => false, :force => true do |t|
+  create_table "kassi_events_people", id: false, force: true do |t|
     t.string "person_id"
     t.string "kassi_event_id"
   end
 
-  create_table "listing_comments", :force => true do |t|
+  create_table "listing_comments", force: true do |t|
     t.string   "author_id"
     t.integer  "listing_id"
     t.text     "content"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
-    t.integer  "is_read",    :default => 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "is_read",    default: 0
   end
 
   create_table "listing_followers", id: false, force: true do |t|
@@ -628,7 +628,7 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.boolean  "pickup_enabled",                             default: false
     t.integer  "shipping_price_cents"
     t.integer  "shipping_price_additional_cents"
-    t.string   "availability",                                  :default => "intern"
+    t.string   "availability",                               default: "intern"
   end
 
   add_index "listings", ["category_id"], name: "index_listings_on_new_category_id", using: :btree
@@ -922,9 +922,8 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
   add_index "paypal_tokens", ["token"], name: "index_paypal_tokens_on_token", unique: true, using: :btree
   add_index "paypal_tokens", ["transaction_id"], name: "index_paypal_tokens_on_transaction_id", using: :btree
 
-
   create_table "people", id: false, force: true do |t|
-    t.string   "id",                                 limit: 22,                 null: false
+    t.string   "id",                                 limit: 22,                        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "is_admin",                                      default: 0
@@ -936,7 +935,7 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.boolean  "active",                                        default: true
     t.string   "username"
     t.string   "email"
-    t.string   "encrypted_password",                            default: "",    null: false
+    t.string   "encrypted_password",                            default: "",           null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -987,9 +986,9 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
   create_table "person_conversations", force: true do |t|
     t.string   "person_id"
     t.integer  "conversation_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-    t.integer  "is_read",              default: 0
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "is_read",          default: 0
     t.datetime "last_sent_at"
     t.datetime "last_received_at"
   end
@@ -1027,8 +1026,8 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
   create_table "settings", force: true do |t|
     t.integer  "email_when_new_message", default: 1
     t.integer  "email_when_new_comment", default: 1
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.string   "person_id"
   end
 
@@ -1086,13 +1085,13 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
   add_index "transaction_transitions", ["transaction_id"], name: "index_transaction_transitions_on_conversation_id", using: :btree
 
   create_table "transactions", force: true do |t|
-    t.string   "starter_id",                                                    null: false
-    t.integer  "listing_id",                                                    null: false
+    t.string   "starter_id",                                                      null: false
+    t.integer  "listing_id",                                                      null: false
     t.integer  "conversation_id"
-    t.integer  "automatic_confirmation_after_days",                             null: false
-    t.integer  "community_id",                                                  null: false
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
+    t.integer  "automatic_confirmation_after_days",                               null: false
+    t.integer  "community_id",                                                    null: false
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
     t.boolean  "starter_skipped_feedback",                     default: false
     t.boolean  "author_skipped_feedback",                      default: false
     t.datetime "last_transition_at"
@@ -1100,7 +1099,7 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.integer  "commission_from_seller"
     t.integer  "minimum_commission_cents",                     default: 0
     t.string   "minimum_commission_currency"
-    t.string   "payment_gateway",                              default: "none", null: false
+    t.string   "payment_gateway",                              default: "none",   null: false
     t.integer  "listing_quantity",                             default: 1
     t.string   "listing_author_id"
     t.string   "listing_title"
@@ -1112,9 +1111,9 @@ ActiveRecord::Schema.define(:version => 20151223223503) do
     t.string   "payment_process",                   limit: 31, default: "none"
     t.string   "delivery_method",                   limit: 31, default: "none"
     t.integer  "shipping_price_cents"
-    t.boolean  "deleted",                           default: false
+    t.boolean  "deleted",                                      default: false
     t.string   "condition"
-    t.string   "transaction_type",                  default: "intern"
+    t.string   "transaction_type",                             default: "intern"
   end
 
   add_index "transactions", ["community_id", "deleted"], name: "transactions_on_cid_and_deleted", using: :btree
