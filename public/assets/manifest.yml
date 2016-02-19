@@ -331,12 +331,12 @@ locales/zh.json: locales/zh-c3dfeb8d1840144589bab8a5da82c3db.json
 locales/zh/index.json: locales/zh-c3dfeb8d1840144589bab8a5da82c3db.json
 markerclusterer.js: markerclusterer-7f48f5bd153c418c95354d5266be8b62.js
 markerclusterer/index.js: markerclusterer-7f48f5bd153c418c95354d5266be8b62.js
-mercury.js: mercury-148ac100dcf46713bdc3b8acd88b95c8.js
-mercury/index.js: mercury-148ac100dcf46713bdc3b8acd88b95c8.js
+mercury.js: mercury-7c3df51a6c579dba85dcb6ed0b629870.js
+mercury/index.js: mercury-7c3df51a6c579dba85dcb6ed0b629870.js
 application.css: application-b1dc507ce497375e1aa92a41ae0c1160.css
 application/index.css: application-b1dc507ce497375e1aa92a41ae0c1160.css
-mercury.css: mercury-1cc361b36a8805f462be1311d9cc8e8c.css
-mercury/index.css: mercury-1cc361b36a8805f462be1311d9cc8e8c.css
+mercury.css: mercury-4c60c9e95b0e4871c6692a48d16ce236.css
+mercury/index.css: mercury-4c60c9e95b0e4871c6692a48d16ce236.css
 ss-pika.css: ss-pika-4f41c05ec8287c261b27e4c60f034df2.css
 ss-pika/index.css: ss-pika-4f41c05ec8287c261b27e4c60f034df2.css
 ss-social.css: ss-social-c13131a373791ba4bdd664091a057cb5.css
