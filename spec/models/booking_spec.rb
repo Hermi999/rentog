@@ -13,6 +13,10 @@
 #  description         :string(255)
 #  device_return_token :string(255)      default("33881b4582b5cfc17967")
 #
+# Indexes
+#
+#  index_bookings_on_transaction_id  (transaction_id)
+#
 
 require 'spec_helper'
 
