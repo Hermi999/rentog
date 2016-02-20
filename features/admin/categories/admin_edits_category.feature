@@ -18,6 +18,7 @@ Feature: Admin edits a category
     And I am on the categories admin page
 
   @javascript
+  @skip_phantomjs
   Scenario: Admin changes category name
     When I change category "Furniture" name to "Tables"
     Then I should see that there is a top level category "Tables"
