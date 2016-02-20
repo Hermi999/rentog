@@ -220,6 +220,10 @@ fi:
         users_can_invite_new_users: "Käyttäjillä on oikeus kutsua muita käyttäjiä palveluun."
         private: "Yksityinen kauppapaikka (vain kirjautuneet käyttäjät näkevät sisällön)"
         require_verification_to_post_listings: "Vain ylläpitäjän erikseen hyväksymät käyttäjät voivat lisätä ilmoituksia"
+        search_preferences: ~
+        default_search_type: ~
+        keyword_search: ~
+        location_search: ~
         listing_preferences: Ilmoitusasetukset
         transaction_preferences: "Transaktioprosessin asetukset"
         show_listing_publishing_date: "Näytä ilmoituksen julkaisuajankohta ilmoituksen sivulla"
@@ -345,6 +349,10 @@ fi:
         field_required:
           this_field_is_required: "Tämä on pakollinen kenttä"
           this_field_is_required_checkbox: "Tämä on pakollinen kenttä (käyttäjän pitää valita ainakin yksi vaihtoehdoista)"
+        search_filter:
+          search_filter: ~
+          date_cant_be_filtered: ~
+          text_cant_be_filtered: ~
       index:
         listing_fields: Ilmoituskentät
         listing_fields_help: "Voit muokata kenttiä, jotka käyttäjän pitää täyttää listausta luodessa. Osa kentistä on ennaltamäärättyjä eikä niitä voi muokata."
@@ -623,6 +631,7 @@ fi:
       message_content_not_available: ~
     message:
       accepted_request: "hyväksyi pyynnön"
+      received_payment: ~
       accepted_offer: "hyväksyi tarjouksen"
       rejected_request: "hylkäsi pyynnön"
       rejected_offer: "hylkäsi tarjouksen"
@@ -867,11 +876,9 @@ fi:
       or_paste_link: "Vaihtoehtoisesti voit kopioida seuraavan linkin selaimesi osoitepalkkiin:"
       turning_on_confirmations_in_this_community: "Otamme käyttöön sähköpostivarmistukset %{service_name}-palvelussa."
     common:
-      check_your_settings: "Tarkista asetuksesi"
       hey: "Hei %{name},"
       kassi_team: "%{service_name}-tiimi"
       thanks: "Terveisin,"
-      want_to_control_emails: "Mistä kaikesta haluat %{service_name}-palvelun lähettävän sinulle sähköpostimuistutuksen?"
       dont_want_to_receive_these_emails: "Etkö halua saada jatkossa näitä viestejä?"
       edit_your_email_settings_here: "Muokkaa sähköpostiasetuksiasi tästä"
       message_not_displaying_correctly: "Eikö tämä viesti näy oikein sähköpostissa?"
@@ -1097,6 +1104,7 @@ fi:
     create_new_marketplace: "Luo uusi verkkotori"
     contact_us: "Ota yhteyttä"
     profile: "Oma profiili"
+    manage_listings: ~
     invite: "Kutsu uusia jäseniä"
     login: "Kirjaudu sisään"
     signup: Rekisteröidy
@@ -1350,7 +1358,6 @@ fi:
       reply_sent: "Vastaus lähetetty"
       request_accepted: "Pyyntö hyväksytty"
       request_confirmed: "Pyyntö merkitty toteutuneeksi"
-      request_closed: "Pyyntö suljettu"
       request_rejected: "Pyyntö hylätty"
       request_canceled: "Pyyntö peruttu"
       message_sent: "Viesti lähetetty"
@@ -1363,7 +1370,6 @@ fi:
       listing_closed: ~
       send_instructions: "Saat hetken kuluttua sähköpostiisi ohjeet salasanan vaihtoon."
       you_cannot_reply_to_a_closed_offer: "Et voi vastata suljettuun tarjoukseen"
-      you_cannot_reply_to_a_closed_request: "Et voi vastata suljettuun pyyntöön"
       you_cannot_send_message_to_yourself: "Et voi lähettää viestiä itsellesi"
       you_followed_listing: "Aloit seurata ilmoitusta"
       you_have_already_given_feedback_about_this_event: "Olet jo antanut palautetta tästä tapahtumasta"
@@ -1832,13 +1838,8 @@ fi:
       read_more_about_kassi_communities: "Lue lisää %{service_name}-palvelusta"
       this_user_does_not_belong_to_this_community: "Tämä käyttäjä ei ole %{service_name}-palvelun jäsen"
     profile_feedback:
-      as_expected: "Vastasi odotuksia"
-      exceeded_expectations: "Ylitti täysin odotukset"
       grade: "arvio:"
       and_gave_following_feedback: "ja antoi seuraavan palautteen"
-      less_than_expected: "Ei vastannut lainkaan odotuksia"
-      slightly_better_than_expected: "Ylitti jossain määrin odotukset"
-      slightly_less_than_expected: "Ei täysin vastannut odotuksia"
     profile_listings:
       show_also_closed: "Näytä myös suljetut"
       show_only_open: "Näytä vain avoimet"

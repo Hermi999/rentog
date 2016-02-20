@@ -222,6 +222,10 @@ es-ES:
         users_can_invite_new_users: "Todos los usuarios pueden invitar nuevos usuarios a este marketplace."
         private: "Este marketplace es privado (sólo los usuarios registrados pueden ver su contenido)."
         require_verification_to_post_listings: "Sólo los usuarios que han sido verificados por el administrador pueden publicar nuevos anuncios"
+        search_preferences: ~
+        default_search_type: ~
+        keyword_search: ~
+        location_search: ~
         listing_preferences: "Preferencias de los anuncios"
         transaction_preferences: "Preferencias de transacciones"
         show_listing_publishing_date: "Mostrar fecha de publicación del anuncio en la lista de resultados"
@@ -349,6 +353,10 @@ es-ES:
         field_required:
           this_field_is_required: "Campo obligatorio"
           this_field_is_required_checkbox: "El campo es obligatorio (selecciona una opción)"
+        search_filter:
+          search_filter: ~
+          date_cant_be_filtered: ~
+          text_cant_be_filtered: ~
       index:
         listing_fields: "Campos & Filtros de los anuncios"
         listing_fields_help: "Aquí puedes elegir los campos que los usuarios han de completar al publicar un nuevo anuncio. Por favor, recuerda que los campos son predefinidos y no pueden ser editados."
@@ -635,6 +643,7 @@ es-ES:
       message_content_not_available: ~
     message:
       accepted_request: "aceptó la solicitud"
+      received_payment: ~
       accepted_offer: "aceptó la oferta"
       rejected_request: "rechazó el pedido"
       rejected_offer: "rechazó la oferta"
@@ -879,11 +888,9 @@ es-ES:
       or_paste_link: "Si no funciona, puedes copiar el siguiente enlace y pegarlo directamente en la barra de tu navegador web."
       turning_on_confirmations_in_this_community: "Comenzamos a utilizar e-mails de confirmación en la comunidad %{service_name}."
     common:
-      check_your_settings: "Revisa tu configuración"
       hey: "Hola %{name},"
       kassi_team: "El equipo de %{service_name}"
       thanks: "Muchas gracias por tu confianza,"
-      want_to_control_emails: "¿Quieres controlar qué correos recibes de %{service_name}?"
       dont_want_to_receive_these_emails: "¿Quieres recibir estos emails?"
       edit_your_email_settings_here: "Edita tu configuración de email aquí"
       message_not_displaying_correctly: "¿Tienes problemas para ver este correo?"
@@ -1111,6 +1118,7 @@ es-ES:
     create_new_marketplace: "Crear un nuevo mercado"
     contact_us: Contáctanos
     profile: Perfil
+    manage_listings: "Administrar anuncios"
     invite: "Invitar a nuevos miembros"
     login: "Iniciar sesión"
     signup: Registrarse
@@ -1364,7 +1372,6 @@ es-ES:
       reply_sent: "Respuesta enviada satisfactoriamente"
       request_accepted: "Solicitud aceptada"
       request_confirmed: "Pedido completado"
-      request_closed: "Solicitud cerrada"
       request_rejected: "Solicitud rechazada"
       request_canceled: "Solicitud cancelada"
       message_sent: "Mensaje enviado"
@@ -1377,7 +1384,6 @@ es-ES:
       listing_closed: "Se ha cerrado esta publicación"
       send_instructions: "Recibirás un e-mail con las instrucciones para cambiar tu contraseña en unos pocos minutos."
       you_cannot_reply_to_a_closed_offer: "No puedes responder a una oferta cerrada"
-      you_cannot_reply_to_a_closed_request: "No puedes responder a una solicitud cerrada"
       you_cannot_send_message_to_yourself: "No puedes enviar un mensaje a ti mismo"
       you_followed_listing: "Ahora estás siguiendo este anuncio"
       you_have_already_given_feedback_about_this_event: "Ya has enviado una sugerencia sobre este evento"
@@ -1852,13 +1858,8 @@ es-ES:
       read_more_about_kassi_communities: "Lee más sobre las comunidades de %{service_name}"
       this_user_does_not_belong_to_this_community: "El usuario no pertenece a la comunidad de %{community}"
     profile_feedback:
-      as_expected: "Lo esperado"
-      exceeded_expectations: "Mucho mejor de lo esperado"
       grade: "puntaje:"
       and_gave_following_feedback: "y dio los siguientes comentarios"
-      less_than_expected: "Peor de lo esperado"
-      slightly_better_than_expected: "Un poco mejor de lo esperado"
-      slightly_less_than_expected: "Un poco peor de lo esperado"
     profile_listings:
       show_also_closed: "Mostrar anuncios desactivados"
       show_only_open: "Mostrar anuncios activados"

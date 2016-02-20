@@ -220,6 +220,10 @@ pt-BR:
         users_can_invite_new_users: "Todos os usuários podem convidar novos usuários para este mercado virtual"
         private: "Este mercado virtual é privado (apenas usuários cadastrados podem ver o conteúdo)"
         require_verification_to_post_listings: "Somente usuários verificados por administrador pode postar novos anúncios"
+        search_preferences: ~
+        default_search_type: ~
+        keyword_search: ~
+        location_search: ~
         listing_preferences: "Preferências de anúncios"
         transaction_preferences: "Transação - preferências"
         show_listing_publishing_date: "Data de publicação de exibição da lista na página de anúncio"
@@ -345,6 +349,10 @@ pt-BR:
         field_required:
           this_field_is_required: "Este campo é obrigatório"
           this_field_is_required_checkbox: "Este campo é obrigatório (o usuário deve selecionar pelo menos uma opção)"
+        search_filter:
+          search_filter: "Mostrar um filtro baseado neste campo na homepage"
+          date_cant_be_filtered: "Não há filtro disponível para campo de data"
+          text_cant_be_filtered: "Não há filtros para campo de texto. A busca já inclui os campos de texto."
       index:
         listing_fields: "Campos de anúncios & filtros"
         listing_fields_help: "Aqui você pode editar os campos que os usuários têm de preencher ao criar um novo anúncio. Por favor, note que alguns campos são predefinidos e não podem ser editados."
@@ -635,6 +643,7 @@ pt-BR:
       message_content_not_available: "O conteúdo da mensagem não está disponível"
     message:
       accepted_request: "aceitou o pedido"
+      received_payment: "O pedido foi aceitado, pagamento recebido para %{sum}"
       accepted_offer: "aceitou a oferta"
       rejected_request: "rejeitou o pedido"
       rejected_offer: "rejeitou a oferta"
@@ -729,7 +738,7 @@ pt-BR:
       request_preauthorized: "Pagamento autorizado"
       skip_feedback: "Não deixar opinião"
       waiting_for_listing_author_to_accept_offer: "Aguardando %{listing_author_name} aceitar a oferta"
-      waiting_for_listing_author_to_accept_request: "Aguardando que %{listing_author_name} aceite seu pedido. Você somente será cobrado quando %{listing_author_name} aceite o pedido."
+      waiting_for_listing_author_to_accept_request: "Aguardando que %{listing_author_name} aceite seu pedido. Você somente será cobrado quando %{listing_author_name} aceitar o pedido."
       waiting_for_you_to_accept_request: "Esperando por você para aceitar o pedido"
       waiting_confirmation_from_requester: "Aguardando %{requester_name} marcar o pedido como concluido"
       waiting_confirmation_from_you: "Esperando você marcar se a solicitação foi concluída"
@@ -879,11 +888,9 @@ pt-BR:
       or_paste_link: "Alternativamente, você pode copiar o seguinte link para a barra de endereços do seu navegador:"
       turning_on_confirmations_in_this_community: "Nós utilizamos um e-mail de confirmação nesse mercado virtual da %{service_name}."
     common:
-      check_your_settings: "Verifique suas configurações"
       hey: "Olá %{name}"
       kassi_team: "Equipe %{service_name}"
       thanks: "Obrigado,"
-      want_to_control_emails: "Quer controlar quais e-mails receber de %{service_name}?"
       dont_want_to_receive_these_emails: "Você deseja receber e-mails?"
       edit_your_email_settings_here: "Edite suas configurações de e-mail aqui"
       message_not_displaying_correctly: "Este e-mail não está sendo exibido corretamente?"
@@ -1109,6 +1116,7 @@ pt-BR:
     create_new_marketplace: "Criar um novo mercado virtual"
     contact_us: Contato
     profile: Perfil
+    manage_listings: "Gerenciar anúncios"
     invite: "Convidar novos membros"
     login: Entrar
     signup: "Criar conta"
@@ -1362,7 +1370,6 @@ pt-BR:
       reply_sent: "Resposta enviada com sucesso!"
       request_accepted: "Pedido aceito"
       request_confirmed: "Pedido concluído"
-      request_closed: "Requisição fechada"
       request_rejected: "Pedido rejeitado"
       request_canceled: "Pedido cancelado"
       message_sent: "Mensagem enviada"
@@ -1375,7 +1382,6 @@ pt-BR:
       listing_closed: "O anúncio foi encerrado"
       send_instructions: "Você receberá um e-mail com instruções sobre como redefinir sua senha em alguns minutos."
       you_cannot_reply_to_a_closed_offer: "Você não pode responder a uma oferta fechada"
-      you_cannot_reply_to_a_closed_request: "Você não pode responder a um pedido fechado"
       you_cannot_send_message_to_yourself: "Você não pode enviar uma mensagem para si mesmo"
       you_followed_listing: "Você está agora seguindo este anúncio"
       you_have_already_given_feedback_about_this_event: "Você já deixou sua opinião sobre este evento"
@@ -1514,7 +1520,7 @@ pt-BR:
         shipping: Envio
         shipping_price: "Taxa de envio"
         shipping_price_additional: "Itens adicionais"
-        pickup: Pegar
+        pickup: "Retirar no local"
       origin:
         location: Local
         origin: Origem
@@ -1660,8 +1666,8 @@ pt-BR:
       shipping: "Envio (+%{price})"
       shipping_no_price: Envio
       shipping_price_additional: "Envio (+ %{price}, itens adicionais: + %{shipping_price_additional})"
-      pickup: Pegar
-      pickup_no_price: Pegar
+      pickup: "Retirar no local"
+      pickup_no_price: "Retirar no local"
     unit_types:
       piece: pedaço
       hour: hora
@@ -1846,13 +1852,8 @@ pt-BR:
       read_more_about_kassi_communities: "Leia mais sobre os mercados virtuais da Sharetribe"
       this_user_does_not_belong_to_this_community: "Este usuário não pertence a %{community}."
     profile_feedback:
-      as_expected: "Como esperado"
-      exceeded_expectations: "Muito melhor do que o esperado"
       grade: "nota :"
       and_gave_following_feedback: "deu a opinião seguinte"
-      less_than_expected: "Pior do que o esperado"
-      slightly_better_than_expected: "Ligeiramente melhor do que o esperado"
-      slightly_less_than_expected: "Um pouco pior do que o esperado"
     profile_listings:
       show_also_closed: "Mostar também anúncios invisíveis"
       show_only_open: "Exibir apenas os abertos"

@@ -31,7 +31,7 @@
 #  country                                    :string(255)
 #  members_count                              :integer          default(0)
 #  user_limit                                 :integer
-#  monthly_price_in_euros                     :float
+#  monthly_price_in_euros                     :float(24)
 #  logo_file_name                             :string(255)
 #  logo_content_type                          :string(255)
 #  logo_file_size                             :integer
@@ -261,6 +261,8 @@ class Community < ActiveRecord::Base
                                                       "image/x-icon",
                                                       "image/vnd.microsoft.icon"]
 
+  # process_in_background definitions have to be after
+  # after all attachments: https://github.com/jrgifford/delayed_paperclip/issues/129
   process_in_background :logo
   process_in_background :wide_logo
   process_in_background :cover_photo

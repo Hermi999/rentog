@@ -215,6 +215,10 @@ tr-TR:
         users_can_invite_new_users: "Tüm kullanıcılar yeni kullanıcıları bu pazara davet edebilir"
         private: "Bu pazar özeldir (içeriği sadece kayıtlı kullanıcılar görüntüleyebilir)"
         require_verification_to_post_listings: "Sadece yönetici onaylı kullanıcılar yeni listeleme ekleyebilir"
+        search_preferences: ~
+        default_search_type: ~
+        keyword_search: ~
+        location_search: ~
         listing_preferences: "Listeleme tercihleri"
         transaction_preferences: "İşlem tercihleri"
         show_listing_publishing_date: "Listeleme sayfasında listelemenin gönderilme tarihini göster"
@@ -340,6 +344,10 @@ tr-TR:
         field_required:
           this_field_is_required: "Bu alanı doldurmak zorunludur"
           this_field_is_required_checkbox: "Bu alanı doldurmak zorunludur (Kullanıcı en az birini tercih etmelidir)"
+        search_filter:
+          search_filter: ~
+          date_cant_be_filtered: ~
+          text_cant_be_filtered: ~
       index:
         listing_fields: "Listelenen alan & filtreleri"
         listing_fields_help: "Buradan kullanıcıların yeni listeleme oluştururken doldurmaları gereken alanları düzenleyebilirsiniz. Lütfen bazı alanların önceden belirlenmiş ve değiştirilemez olduğunu unutmayın."
@@ -620,6 +628,7 @@ tr-TR:
       message_content_not_available: ~
     message:
       accepted_request: "talebi kabul etti"
+      received_payment: ~
       accepted_offer: "teklifi kabul etti"
       rejected_request: "talebi reddetti"
       rejected_offer: "teklifi reddetti"
@@ -864,11 +873,9 @@ tr-TR:
       or_paste_link: "Ya da aşağıdaki linki tarayıcınızın adres çubuğuna kopyalayabilirsiniz."
       turning_on_confirmations_in_this_community: "%{service_name} pazarında e-posta doğrulama uygulamaya başladık."
     common:
-      check_your_settings: "Ayarlarınızı kontrol ediniz"
       hey: "Merhaba %{name}"
       kassi_team: "%{service_name} Takımı"
       thanks: "Teşekkürler,"
-      want_to_control_emails: "%{service_name}'den gelen e-postaları kontrol etmek ister misiniz?"
       dont_want_to_receive_these_emails: "Bu e-postaları almak istemiyor musunuz?"
       edit_your_email_settings_here: "E-posta ayarlarınızı buradan düzenleyin"
       message_not_displaying_correctly: "Bu e-posta düzgün şekilde görüntülenemedi mi?"
@@ -1094,6 +1101,7 @@ tr-TR:
     create_new_marketplace: "Yeni pazar oluştur"
     contact_us: "Bize ulaşın"
     profile: Profil
+    manage_listings: "Listelemeyi yönet"
     invite: "Yeni üye davet edin"
     login: "Giriş yap"
     signup: "Kayıt ol"
@@ -1347,7 +1355,6 @@ tr-TR:
       reply_sent: "Cevap başarıyla gönderildi"
       request_accepted: "Teklif kabul edildi"
       request_confirmed: "Talep tamamlandı"
-      request_closed: "Teklif kapandı"
       request_rejected: "Teklif reddedildi"
       request_canceled: "Talep iptal edildi"
       message_sent: "Mesaj gönderildi"
@@ -1360,7 +1367,6 @@ tr-TR:
       listing_closed: ~
       send_instructions: "Birkaç dakika içinde parolanızı tekrar nasıl oluşturacağınıza ilişkin talimatlar içeren bir e-posta alacaksınız."
       you_cannot_reply_to_a_closed_offer: "Kapanmış bir teklife cevap veremezsiniz"
-      you_cannot_reply_to_a_closed_request: "Kapanmış bir talebe cevap veremezsiniz"
       you_cannot_send_message_to_yourself: "Kendinize mesaj gönderemezsiniz"
       you_followed_listing: "Bu listelemeyi takip etmeye başladınız"
       you_have_already_given_feedback_about_this_event: "Bu etkinlik hakkında geri bildirim vermişsiniz."
@@ -1828,13 +1834,8 @@ tr-TR:
       read_more_about_kassi_communities: "Sharetribe pazarları hakkında daha fazla bilgi edinin"
       this_user_does_not_belong_to_this_community: "Bu kullanıcı %{community} üyesi değil."
     profile_feedback:
-      as_expected: "Beklendiği gibi"
-      exceeded_expectations: "Beklenenden çok daha iyi"
       grade: "değerlendirme:"
       and_gave_following_feedback: "ve aşağıdaki geri bildirimi bıraktı"
-      less_than_expected: "Beklenenden kötü"
-      slightly_better_than_expected: "Beklenenden biraz daha iyi"
-      slightly_less_than_expected: "Beklenenden biraz daha kötü"
     profile_listings:
       show_also_closed: "Kapananları da göster"
       show_only_open: "Açıkları göster"

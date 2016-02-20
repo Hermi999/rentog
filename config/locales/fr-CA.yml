@@ -220,6 +220,10 @@ fr-CA:
         users_can_invite_new_users: "Tous les utilisateurs peuvent inviter des nouveaux utilisateurs dans cette place de marché"
         private: "Cette place de marché est privée (seuls les utilisateurs connectés peuvent en voir le contenu)"
         require_verification_to_post_listings: "Seuls les utilisateurs validés par un administrateur peuvent poster de nouvelles annonces"
+        search_preferences: ~
+        default_search_type: ~
+        keyword_search: ~
+        location_search: ~
         listing_preferences: "Paramètres d'annonces"
         transaction_preferences: "Paramètres de transactions"
         show_listing_publishing_date: "Afficher la date de publication de l'annonce sur la page de l'annonce"
@@ -345,6 +349,10 @@ fr-CA:
         field_required:
           this_field_is_required: "Ce champ est obligatoire"
           this_field_is_required_checkbox: "Ce champ est obligatoire (l'utilisateur doit sélectionner au moins un choix)"
+        search_filter:
+          search_filter: ~
+          date_cant_be_filtered: ~
+          text_cant_be_filtered: ~
       index:
         listing_fields: "Champs d'annonces & filtres"
         listing_fields_help: "Vous pouvez ici modifier les champs qu'un utilisateur doit compléter lors de la création d'une annonce. Notez que certains champs sont prédéfinis et ne peuvent être modifiés."
@@ -623,6 +631,7 @@ fr-CA:
       message_content_not_available: ~
     message:
       accepted_request: "a accepté la demande"
+      received_payment: ~
       accepted_offer: "a accepté l'offre"
       rejected_request: "a refusé la demande"
       rejected_offer: "a refusé l'offre"
@@ -867,11 +876,9 @@ fr-CA:
       or_paste_link: "Vous pouvez également copier le lien suivant dans la barre d'adresse de votre navigateur : "
       turning_on_confirmations_in_this_community: "Nous commençons à utiliser les email de confirmation dans cette place de marché %{service_name}."
     common:
-      check_your_settings: "Vérifiez vos paramètres"
       hey: "Bonjour %{name},"
       kassi_team: "L'équipe de %{service_name}"
       thanks: "Merci,"
-      want_to_control_emails: "Vous souhaitez contrôler les emails que vous recevez de %{service_name} ?"
       dont_want_to_receive_these_emails: "Souhaitez-vous recevoir ces emails ?"
       edit_your_email_settings_here: "Gérer vos paramètres d'email ici"
       message_not_displaying_correctly: "Cet email ne s'affiche pas correctement ?"
@@ -1097,6 +1104,7 @@ fr-CA:
     create_new_marketplace: "Créer une nouvelle place de marché"
     contact_us: "Nous contacter"
     profile: Profil
+    manage_listings: ~
     invite: "Inviter des nouveaux membres"
     login: "Se connecter"
     signup: S'inscrire
@@ -1350,7 +1358,6 @@ fr-CA:
       reply_sent: "Réponse envoyée avec succès"
       request_accepted: "Demande acceptée"
       request_confirmed: "Demande réalisée"
-      request_closed: "Demande fermée"
       request_rejected: "Demande refusée"
       request_canceled: "Demande annulée"
       message_sent: "Message envoyé"
@@ -1363,7 +1370,6 @@ fr-CA:
       listing_closed: ~
       send_instructions: "Vous allez recevoir un email vous expliquant comment ré-initialiser votre mot de passe dans quelques minutes."
       you_cannot_reply_to_a_closed_offer: "Vous ne pouvez pas répondre à une offre fermée"
-      you_cannot_reply_to_a_closed_request: "Vous ne pouvez pas répondre à une demande fermée"
       you_cannot_send_message_to_yourself: "Vous ne pouvez pas vous envoyer un message à vous-même"
       you_followed_listing: "Vous suivez désormais cette annonce"
       you_have_already_given_feedback_about_this_event: "Vous avez déjà donné un avis sur cet événement"
@@ -1832,13 +1838,8 @@ fr-CA:
       read_more_about_kassi_communities: "En savoir plus sur les places de marché Sharetribe"
       this_user_does_not_belong_to_this_community: "Cet utilisateur ne fait pas partie de %{community}"
     profile_feedback:
-      as_expected: "Correspondait à mes attentes"
-      exceeded_expectations: "Dépassait complètement mes attentes"
       grade: "note :"
       and_gave_following_feedback: "et a donné l'avis suivant"
-      less_than_expected: "Ne correspondait pas à mes attentes"
-      slightly_better_than_expected: "Mieux qu'attendu"
-      slightly_less_than_expected: "Moins bien qu'attendu"
     profile_listings:
       show_also_closed: "Voir également les offres et demandes closes"
       show_only_open: "Voir uniquement les offres et demandes en cours"

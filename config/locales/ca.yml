@@ -205,6 +205,10 @@ ca:
         users_can_invite_new_users: ~
         private: ~
         require_verification_to_post_listings: ~
+        search_preferences: ~
+        default_search_type: ~
+        keyword_search: ~
+        location_search: ~
         listing_preferences: ~
         transaction_preferences: ~
         show_listing_publishing_date: ~
@@ -330,6 +334,10 @@ ca:
         field_required:
           this_field_is_required: ~
           this_field_is_required_checkbox: ~
+        search_filter:
+          search_filter: ~
+          date_cant_be_filtered: ~
+          text_cant_be_filtered: ~
       index:
         listing_fields: ~
         listing_fields_help: ~
@@ -604,6 +612,7 @@ ca:
       message_content_not_available: ~
     message:
       accepted_request: ~
+      received_payment: ~
       accepted_offer: ~
       rejected_request: ~
       rejected_offer: ~
@@ -848,11 +857,9 @@ ca:
       or_paste_link: ~
       turning_on_confirmations_in_this_community: ~
     common:
-      check_your_settings: "Revisa la teva configuració"
       hey: "Hola %{name},"
       kassi_team: "L'equip de %{service_name}"
       thanks: "Gràcies,"
-      want_to_control_emails: "Vol controlar els correus electrònics que reps de %{service_name}?"
       dont_want_to_receive_these_emails: ~
       edit_your_email_settings_here: ~
       message_not_displaying_correctly: ~
@@ -1080,6 +1087,7 @@ ca:
     create_new_marketplace: ~
     contact_us: ~
     profile: ~
+    manage_listings: ~
     invite: ~
     login: ~
     signup: ~
@@ -1333,7 +1341,6 @@ ca:
       reply_sent: "Resposta enviada amb èxit"
       request_accepted: "Sol·licitud acceptada"
       request_confirmed: ~
-      request_closed: "Sol·licitud finalitzada"
       request_rejected: "Sol·licitud rebutjada"
       request_canceled: ~
       message_sent: ~
@@ -1346,7 +1353,6 @@ ca:
       listing_closed: ~
       send_instructions: ~
       you_cannot_reply_to_a_closed_offer: "No pots respondre a una oferta finalitzada"
-      you_cannot_reply_to_a_closed_request: "No pots respondre a una sol·licitud tancada"
       you_cannot_send_message_to_yourself: ~
       you_followed_listing: "Ara està seguint aquesta llista"
       you_have_already_given_feedback_about_this_event: "Ja has enviat un suggeriment sobre aquest esdeveniment"
@@ -1812,13 +1818,8 @@ ca:
       read_more_about_kassi_communities: "Llegir més sobre les comunitats Kassi"
       this_user_does_not_belong_to_this_community: "L'usuari no pertany a la comunitat %{community}"
     profile_feedback:
-      as_expected: L'esperat
-      exceeded_expectations: "Molt més de l'esperat"
       grade: "puntuació:"
       and_gave_following_feedback: ~
-      less_than_expected: "Pitjor de l'esperat"
-      slightly_better_than_expected: "Una mica millor de l'esperat"
-      slightly_less_than_expected: "Una mica pitjor de l'esperat"
     profile_listings:
       show_also_closed: "Mostra com tancada"
       show_only_open: "Mostra com oberta"

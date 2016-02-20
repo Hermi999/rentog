@@ -2,8 +2,6 @@
 class ListingsController < ApplicationController
   class ListingDeleted < StandardError; end
 
-  include PeopleHelper
-
   # Skip auth token check as current jQuery doesn't provide it automatically
   skip_before_filter :verify_authenticity_token, :only => [:close, :update, :follow, :unfollow]
 
@@ -226,6 +224,10 @@ class ListingsController < ApplicationController
 
     delivery_opts = delivery_config(@listing.require_shipping_address, @listing.pickup_enabled, @listing.shipping_price, @listing.shipping_price_additional, @listing.currency)
 
+    received_testimonials = TestimonialViewUtils.received_testimonials_in_community(@listing.author, @current_community)
+    received_positive_testimonials = TestimonialViewUtils.received_positive_testimonials_in_community(@listing.author, @current_community)
+    feedback_positive_percentage = @listing.author.feedback_positive_percentage_in_community(@current_community)
+
     render locals: {
              form_path: form_path,
              payment_gateway: payment_gateway,
@@ -234,7 +236,10 @@ class ListingsController < ApplicationController
              delivery_opts: delivery_opts,
              listing_unit_type: @listing.unit_type,
              show_rent_button: show_rent_button,
-             country_code: community_country_code
+             country_code: community_country_code,
+             received_testimonials: received_testimonials,
+             received_positive_testimonials: received_positive_testimonials,
+             feedback_positive_percentage: feedback_positive_percentage
            }
   end
 

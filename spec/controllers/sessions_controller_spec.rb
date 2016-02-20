@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SessionsController, "POST create" do
+describe SessionsController, "POST create", type: :controller do
 
   before(:each) do
     community1 = FactoryGirl.create(:community, :consent => "test_consent0.1", :settings => {"locales" => ["en", "fi"]}, :real_name_required => true)
@@ -19,6 +19,6 @@ describe SessionsController, "POST create" do
   it "redirects back to Pool Tool" do
     post :create, {:person  => {:login => "testpersonusername", :password => "testi"}}
     temp_url = "http://#{@request.host}" + person_poolTool_path(@person1)
-    response.should redirect_to temp_url
+    expect(response).to redirect_to temp_url
   end
 end

@@ -145,7 +145,7 @@ FactoryGirl.define do
   end
 
   factory :booking do
-    build_association(:transaction)
+    build_association(:transaction, as: :tx)
     start_on 1.day.from_now
     end_on 2.days.from_now
   end
@@ -166,7 +166,7 @@ FactoryGirl.define do
   factory :testimonial do
     build_association(:author)
     build_association(:receiver)
-    build_association(:transaction)
+    build_association(:transaction, as: :tx)
     grade 0.5
     text "Test text"
   end
@@ -262,6 +262,8 @@ FactoryGirl.define do
     end
 
     factory :custom_dropdown_field, class: 'DropdownField' do
+      search_filter true
+
       has_many :options do |custom_field|
         [FactoryGirl.build(:custom_field_option), FactoryGirl.build(:custom_field_option)]
       end
@@ -273,9 +275,12 @@ FactoryGirl.define do
     factory :custom_numeric_field, class: 'NumericField' do
       min 0
       max 100
+      search_filter true
     end
 
     factory :custom_checkbox_field, class: 'CheckboxField' do
+      search_filter true
+
       has_many :options do |custom_field|
         [FactoryGirl.build(:custom_field_option), FactoryGirl.build(:custom_field_option)]
       end
@@ -336,12 +341,12 @@ FactoryGirl.define do
 
   factory :transaction_transition do
     to_state "not_started"
-    build_association(:transaction)
+    build_association(:transaction, as: :tx)
   end
 
   factory :payment do
     build_association(:community)
-    build_association(:transaction)
+    build_association(:transaction, as: :tx)
 
     factory :braintree_payment, class: 'BraintreePayment' do
       build_association(:payer)

@@ -110,8 +110,8 @@ class SessionsController < ApplicationController
 
   def request_new_password
     if person = Person.find_by_email(params[:email])
-      person.reset_password_token_if_needed
-      PersonMailer.reset_password_instructions(person,params[:email], @current_community).deliver
+      token = person.reset_password_token_if_needed
+      PersonMailer.reset_password_instructions(person, params[:email], token, @current_community).deliver
       flash[:notice] = t("layouts.notifications.password_recovery_sent")
     else
       flash[:error] = t("layouts.notifications.email_not_found")
@@ -155,7 +155,7 @@ class SessionsController < ApplicationController
     request.env["omniauth.strategy"].options[:scope] = "public_profile,email"
     request.env["omniauth.strategy"].options[:info_fields] = "name,email,last_name,first_name"
 
-    render :text => "Setup complete.", :status => 404 #This notifies the ominauth to continue
+    render :plain => "Setup complete.", :status => 404 #This notifies the ominauth to continue
   end
 
   # Callback from Omniauth failures

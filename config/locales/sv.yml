@@ -220,6 +220,10 @@ sv:
         users_can_invite_new_users: "Alla användare kan bjuda in nya användare till denna marknadsplats"
         private: "Denna marknadsplats är privat (bara registrerade medlemmar kan se innehållet)"
         require_verification_to_post_listings: "Bara användare som är verifierade av admin kan skapa nya annonser"
+        search_preferences: ~
+        default_search_type: ~
+        keyword_search: ~
+        location_search: ~
         listing_preferences: Annonsinställningar
         transaction_preferences: Transaktionsinställningar
         show_listing_publishing_date: "Visa publiceringsdatum på annonsen på annonssidan"
@@ -345,6 +349,10 @@ sv:
         field_required:
           this_field_is_required: "Detta fält måste fyllas i"
           this_field_is_required_checkbox: "Detta fält krävs (användaren måste välja minst ett alternativ)"
+        search_filter:
+          search_filter: ~
+          date_cant_be_filtered: ~
+          text_cant_be_filtered: ~
       index:
         listing_fields: "Annonsfält och filter"
         listing_fields_help: "Här kan du redigera fälten som användarna behöver fylla i när de skapar en ny annons. Notera att det är några fält som är fördefinierade och inte går att ändra."
@@ -635,6 +643,7 @@ sv:
       message_content_not_available: ~
     message:
       accepted_request: "Acceptera förfrågan"
+      received_payment: ~
       accepted_offer: "acceptera erbjudandet"
       rejected_request: "avslagit förfrågan"
       rejected_offer: "avslagit erbjudandet"
@@ -879,11 +888,9 @@ sv:
       or_paste_link: "Alternativt så kan du kopiera följande länk till adressfältet i din webbläsare:"
       turning_on_confirmations_in_this_community: "Vi har börjat med att använda e-postverifiering på denna %{service_name} marknadsplats."
     common:
-      check_your_settings: "Kontrollera dina inställningar"
       hey: "Hej %{name},"
       kassi_team: "%{service_name}gänget"
       thanks: "Tack,"
-      want_to_control_emails: "Vill du kontrollera vilka mejl du har fått från %{service_name}?"
       dont_want_to_receive_these_emails: "Vill du inte ta emot dessa mail?"
       edit_your_email_settings_here: "Ändra dina e-postinställningar här"
       message_not_displaying_correctly: "Syns inte e-postmeddelandet korrekt?"
@@ -1111,6 +1118,7 @@ sv:
     create_new_marketplace: "Skapa en ny marknadsplats"
     contact_us: "Kontakta oss"
     profile: Profil
+    manage_listings: ~
     invite: "Bjud in nya medlemmar"
     login: "Logga in"
     signup: "Bli medlem"
@@ -1364,7 +1372,6 @@ sv:
       reply_sent: "Svar skickades"
       request_accepted: "Förfrågan accepterad"
       request_confirmed: "Förfrågan klar"
-      request_closed: "Förfrågan stängd"
       request_rejected: "Förfrågan avslagen"
       request_canceled: "Förfrågan avbruten"
       message_sent: "Meddelande skickat"
@@ -1377,7 +1384,6 @@ sv:
       listing_closed: "Denna annons har stängts"
       send_instructions: "Du kommer snart att få ett e-postmeddelande med instruktioner om hur du återställer ditt lösenord."
       you_cannot_reply_to_a_closed_offer: "Du kan inte svara på ett stängt erbjudande"
-      you_cannot_reply_to_a_closed_request: "Du kan inte svara på en stängd förfrågan"
       you_cannot_send_message_to_yourself: "Du kan inte skicka ett meddelande till dig själv"
       you_followed_listing: "Du följer nu denna annons"
       you_have_already_given_feedback_about_this_event: "Du har redan lämnat feedback om denna händelse"
@@ -1846,13 +1852,8 @@ sv:
       read_more_about_kassi_communities: "Läs mer om Sharetribe marknadsplatser."
       this_user_does_not_belong_to_this_community: "Denna användare är inte en medlem av %{community}."
     profile_feedback:
-      as_expected: "Som förväntat"
-      exceeded_expectations: "Mycket bättre än väntat"
       grade: "betyg:"
       and_gave_following_feedback: "och gav följande feedback"
-      less_than_expected: "Värre än väntat"
-      slightly_better_than_expected: "Något bättre än väntat"
-      slightly_less_than_expected: "Något sämre än förväntat"
     profile_listings:
       show_also_closed: "Visa avslutade också"
       show_only_open: "Visa bara öppnade"

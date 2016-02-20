@@ -6,7 +6,7 @@
 #  custom_field_id :integer
 #  listing_id      :integer
 #  text_value      :text
-#  numeric_value   :float
+#  numeric_value   :float(24)
 #  date_value      :datetime
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -16,19 +16,20 @@
 # Indexes
 #
 #  index_custom_field_values_on_listing_id  (listing_id)
+#  index_custom_field_values_on_type        (type)
 #
 
 require 'spec_helper'
 
-describe TextFieldValue do
+describe TextFieldValue, type: :model do
   describe "validations" do
     it "should have text value" do
       @value = TextFieldValue.new
-      @value.should_not be_valid
+      expect(@value).not_to be_valid
 
       @value3 = TextFieldValue.new
       @value3.text_value = "Test"
-      @value3.should be_valid
+      expect(@value3).to be_valid
     end
   end
 end

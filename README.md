@@ -6,7 +6,7 @@
 
 # Sharetribe
 
-[![Build Status](https://travis-ci.org/sharetribe/sharetribe.svg?branch=master)](https://travis-ci.org/sharetribe/sharetribe) [![Dependency Status](https://gemnasium.com/sharetribe/sharetribe.png)](https://gemnasium.com/sharetribe/sharetribe) [![Code Climate](https://codeclimate.com/github/sharetribe/sharetribe.png)](https://codeclimate.com/github/sharetribe/sharetribe) [![Coverage Status](https://coveralls.io/repos/sharetribe/sharetribe/badge.png)](https://coveralls.io/r/sharetribe/sharetribe)
+[![Build Status](https://travis-ci.org/sharetribe/sharetribe.svg?branch=master)](https://travis-ci.org/sharetribe/sharetribe) [![Dependency Status](https://gemnasium.com/sharetribe/sharetribe.png)](https://gemnasium.com/sharetribe/sharetribe) [![Code Climate](https://codeclimate.com/github/sharetribe/sharetribe.png)](https://codeclimate.com/github/sharetribe/sharetribe)
 
 Sharetribe is an open source platform to create your own peer-to-peer marketplace.
 
@@ -17,9 +17,12 @@ Want to get in touch? Email [info@sharetribe.com](mailto:info@sharetribe.com)
 ### Contents
 - [Installation](#installation)
 - [Payments](#payments)
-- [Updating](#payments)
+- [Versioning](#versioning)
+- [Changes](#changes)
+- [Upgrade](#upgrade)
+- [Contribute](#contribute)
+- [Release](#release)
 - [Technical roadmap](#technical-roadmap)
-- [Contributing](#contributing)
 - [Translation](#translation)
 - [Known issues](#known-issues)
 - [Developer documentation](#developer-documentation)
@@ -78,7 +81,7 @@ Before you get started, the following needs to be installed:
   bundle exec rake ts:index
   ```
 
-1. Stat the Sphinx daemon:
+1. Start the Sphinx daemon:
 
   ```bash
   bundle exec rake ts:start
@@ -195,6 +198,16 @@ Before starting these steps, perform [steps 1-6 from above](#setting-up-the-deve
   bundle exec rake assets:precompile
   ```
 
+1. Set environment variables
+
+  Set environment variable `secret_key_base`.
+
+  To generate the new `secret_key_base` key, go rails console and type:
+
+  ```ruby
+  SecureRandom.hex(64)
+  ```
+
 1. Invoke the delayed job worker:
 
   ```bash
@@ -211,6 +224,8 @@ Before starting these steps, perform [steps 1-6 from above](#setting-up-the-deve
 The built-in WEBrick server (which was started in the last step above) should not be used in production due to performance reasons. A dedicated HTTP server such as [unicorn](http://unicorn.bogomips.org/) is recommended.
 
 It is not recommended to serve static assets from a Rails server in production. Instead, you should use a CDN (Content Delivery Network) service, such as [Amazon CloudFront](https://aws.amazon.com/cloudfront/). To serve the assets from the CDN service, you need to change the `asset_host` configuration in the the `config/config.yml` file to point your CDN distribution.
+
+**For production use we recommend you to upgrade only when new version is released and not to follow the master branch.**
 
 #### Setting your domain
 
@@ -240,19 +255,42 @@ Sharetribe's open source version supports payments using [Braintree Marketplace]
 PayPal payments are only available on marketplaces hosted at [Sharetribe.com](https://www.sharetribe.com) due to special permissions needed from PayPal. We hope to add support for PayPal payments to the open source version of Sharetribe in the future.
 
 
-## Updating
+## Versioning
 
-See [release notes](RELEASE_NOTES.md) for information about what has changed and if actions are needed to upgrade.
+Sharetribe follows [Semantic Versioning](http://semver.org/) where possible.
+
+Given a version number MAJOR.MINOR.PATCH, increment the:
+
+* MAJOR version when you make incompatible API changes,
+* MINOR version when you add functionality in a backwards-compatible manner, and
+* PATCH version when you make backwards-compatible bug fixes.
+
+
+## Changes
+
+See [CHANGELOG.md](CHANGELOG.md) for detailed list of changes between releases.
+
+
+## Upgrade
+
+See [UPGRADE.md](UPGRADE.md) for information about actions needed when upgrading.
+
+For production use we recommend you to upgrade only when new version is released and not to follow the master branch.
+
+## Contribute
+
+Would you like to make Sharetribe better?
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the steps to contribute.
+
+## Release
+
+See [RELEASE.md](RELEASE.md) for information about how to make a new release.
 
 
 ## Technical roadmap
 
 For a better high-level understanding of what the Sharetribe core team is working on currently and what it plans to work on next, read the [technical roadmap](TECHNICAL_ROADMAP.md).
-
-
-## Contributing
-
-Would you like to make Sharetribe better? [Follow these steps](CONTRIBUTING.md).
 
 
 ## Translation
@@ -274,6 +312,7 @@ Browse open issues and submit new ones at http://github.com/sharetribe/sharetrib
 * [Delayed job priorities](docs/delayed-job-priorities.md)
 * [Cucumber testing Do's and Don'ts](docs/cucumber-do-dont.md)
 * [Technical roadmap](TECHNICAL_ROADMAP.md)
+* [Feature flags](docs/feature-flags.md)
 
 
 ## MIT License

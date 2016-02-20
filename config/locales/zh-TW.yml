@@ -215,6 +215,10 @@ zh-TW:
         users_can_invite_new_users: 所有用户都可以邀请新用户来到这个集市
         private: 这个集市是私有的（只有注册用户可以看到内容）
         require_verification_to_post_listings: 只有经管理员验证的用户可以发布新的信息
+        search_preferences: ~
+        default_search_type: ~
+        keyword_search: ~
+        location_search: ~
         listing_preferences: 信息展示页面偏好设置
         transaction_preferences: 交易偏好
         show_listing_publishing_date: 在信息展示页面的显示信息的发布日期
@@ -340,6 +344,10 @@ zh-TW:
         field_required:
           this_field_is_required: 这个字段是必填的。
           this_field_is_required_checkbox: 该字段必须填写（用户必须选择至少一个选项）
+        search_filter:
+          search_filter: ~
+          date_cant_be_filtered: ~
+          text_cant_be_filtered: ~
       index:
         listing_fields: 信息字段&过滤器
         listing_fields_help: 你可以在这里编辑用户在创建新的信息时必须填入的字段。请注意某些预定义字段不能被编辑。
@@ -624,6 +632,7 @@ zh-TW:
       message_content_not_available: ~
     message:
       accepted_request: 已接受请求
+      received_payment: ~
       accepted_offer: 已接受的宝贝
       rejected_request: 已拒绝的请求
       rejected_offer: 已拒绝的宝贝
@@ -868,11 +877,9 @@ zh-TW:
       or_paste_link: 或者你可以复制以下链接到你浏览器的地址栏：
       turning_on_confirmations_in_this_community: "我们开始在%{service_name}中使用电子邮件确认。"
     common:
-      check_your_settings: 查看你的设置
       hey: "你好 %{name},"
       kassi_team: "%{service_name} 团队"
       thanks: 谢谢！
-      want_to_control_emails: "想要管理来自%{service_name} 的邮件？"
       dont_want_to_receive_these_emails: 不想收到这些邮件？
       edit_your_email_settings_here: 编辑你的邮箱设定
       message_not_displaying_correctly: 邮件显示正确吗？
@@ -1098,6 +1105,7 @@ zh-TW:
     create_new_marketplace: 创建一个新的集市
     contact_us: 联系我们
     profile: 个人主页
+    manage_listings: ~
     invite: 邀请新成员
     login: 登录
     signup: 注册
@@ -1351,7 +1359,6 @@ zh-TW:
       reply_sent: 回复发送成功
       request_accepted: 你的请求已被接受
       request_confirmed: 请求已完成。
-      request_closed: 请求已关闭
       request_rejected: 请求已拒绝
       request_canceled: 请求已取消
       message_sent: 消息已发出
@@ -1364,7 +1371,6 @@ zh-TW:
       listing_closed: ~
       send_instructions: 几分钟内你将会收到一封电子邮件告知你重置密码。
       you_cannot_reply_to_a_closed_offer: 你不能对已关闭的宝贝发表评论
-      you_cannot_reply_to_a_closed_request: 你不能回复已关闭请求
       you_cannot_send_message_to_yourself: 你不能给你自己发送消息
       you_followed_listing: 你没有关注这条信息
       you_have_already_given_feedback_about_this_event: 你已经对此事件发表评价
@@ -1832,13 +1838,8 @@ zh-TW:
       read_more_about_kassi_communities: 阅读更多关于这个网站
       this_user_does_not_belong_to_this_community: "此用户不是%{community} 社区的成员。"
     profile_feedback:
-      as_expected: 符合期望
-      exceeded_expectations: 比期望的好很多
       grade: 评分：
       and_gave_following_feedback: 并且给出以下反馈
-      less_than_expected: 差
-      slightly_better_than_expected: 较好
-      slightly_less_than_expected: 较差
     profile_listings:
       show_also_closed: 显示已关闭的
       show_only_open: 仅显示开放的

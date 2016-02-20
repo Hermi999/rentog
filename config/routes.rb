@@ -587,10 +587,14 @@ Kassi::Application.routes.draw do
   # error handling: 3$: http://blog.plataformatec.com.br/2012/01/my-five-favorite-hidden-features-in-rails-3-2/
   get '/500' => 'errors#server_error'
   get '/404' => 'errors#not_found', :as => :error_not_found
+  get '/406' => 'errors#not_acceptable', :as => :error_not_acceptable
   get '/410' => 'errors#gone', as: :error_gone
   get '/community_not_found' => 'errors#community_not_found', as: :community_not_found
 
   resources :communities, only: [:new, :create]
+
+
+  devise_for :people, only: :omniauth_callbacks, controllers: { omniauth_callbacks: "sessions" }
 
   # Adds locale to every url right after the root path
   scope "(/:locale)", :constraints => { :locale => locale_matcher } do
@@ -793,7 +797,7 @@ Kassi::Application.routes.draw do
     get :update_device_returned, to: 'bookings#update_device_returned'    # needet for email device return
 
 
-    devise_for :people, :controllers => { :confirmations => "confirmations", :registrations => "people", :omniauth_callbacks => "sessions"}, :path_names => { :sign_in => 'login'}
+    devise_for :people, skip: :omniauth_callbacks, controllers: { confirmations: "confirmations", registrations: "people", omniauth_callbacks: "sessions"}, :path_names => { :sign_in => 'login'}
     devise_scope :person do
       # these matches need to be before the general resources to have more priority
       get "/people/confirmation" => "confirmations#show", :as => :confirmation

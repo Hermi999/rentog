@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PeopleController do
+describe PeopleController, type: :controller do
 
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:person]
@@ -13,7 +13,7 @@ describe PeopleController do
 
     it "should return available if email not in use" do
       get :check_email_availability,  {:person => {:email => "totally_random_email_not_in_use@example.com"}, :format => :json}
-      response.body.should == "true"
+      expect(response.body).to eq("true")
     end
   end
 
@@ -26,11 +26,11 @@ describe PeopleController do
       person = FactoryGirl.create(:person, :emails => [ FactoryGirl.create(:email, :address => "test@example.com")])
 
       get :check_email_availability,  {:person => {:email_attributes => {:address => "test@example.com"} }, :format => :json}
-      response.body.should == "false"
+      expect(response.body).to eq("false")
 
       Email.create(:person_id => person.id, :address => "test2@example.com")
       get :check_email_availability,  {:person => {:email_attributes => {:address => "test2@example.com"} }, :format => :json}
-      response.body.should == "false"
+      expect(response.body).to eq("false")
     end
 
     it "should return NOT available for user's own adress" do
@@ -39,7 +39,7 @@ describe PeopleController do
 
       Email.create(:person_id => person.id, :address => "test2@example.com")
       get :check_email_availability,  {:person => {:email_attributes => {:address => "test2@example.com"} }, :format => :json}
-      response.body.should == "false"
+      expect(response.body).to eq("false")
     end
   end
 
@@ -54,7 +54,7 @@ describe PeopleController do
 
       Email.create(:person_id => person.id, :address => "test2@example.com")
       get :check_email_availability_and_validity,  {:person => {:email => "test2@example.com"}, :format => :json}
-      response.body.should == "true"
+      expect(response.body).to eq("true")
     end
   end
 
@@ -65,14 +65,14 @@ describe PeopleController do
 
     it "should return available if organization_name is not in use" do
       get :check_organization_name_availability,  {:person => {:organization_name => "totally_random_organization_not_in_use"}, :format => :json}
-      response.body.should == "true"
+      expect(response.body).to eq("true")
     end
 
     it "should return unavailable if organization_name is in use" do
       person = FactoryGirl.create(:person, organization_name: "R-Bosch")
 
       get :check_organization_name_availability,  {:person => {organization_name: "r-bOSch"}, :format => :json}
-      response.body.should == "false"
+      expect(response.body).to eq("false")
     end
   end
 
@@ -100,9 +100,9 @@ describe PeopleController do
 
       post :create, {:person => {:username => generate_random_username, :password => "test", :email => "one@examplecompany.co", :given_name => "The user who", :family_name => "tries to use taken email", organization_name: "Bosch", signup_as: "organization"}}
 
-      Person.find_by_family_name("tries to use taken email").should be_nil
-      Person.count.should == person_count
-      flash[:error].to_s.should include("The email you gave is already in use")
+      expect(Person.find_by_family_name("tries to use taken email")).to be_nil
+      expect(Person.count).to eq(person_count)
+      expect(flash[:error].to_s).to include("The email you gave is already in use")
 
     end
   end
@@ -114,11 +114,11 @@ describe PeopleController do
       person_count = Person.count
       username = generate_random_username
       post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "organization", organization_name: "Simi"}, :community => "test"}
-      Person.count.should == person_count + 1
+      expect(Person.count).to eq(person_count + 1)
       organization = Person.find_by_username(username)
-      organization.should_not be_nil
-      organization.is_organization.should_not be_false
-      organization.organization_name.should_not be_nil
+      expect(organization).not_to be_nil
+      expect(organization.is_organization).not_to be_false
+      expect(organization.organization_name).not_to be_nil
     end
 
     it "creates an employee" do
@@ -131,20 +131,19 @@ describe PeopleController do
 
       # First try: Should not work, because company does not exist
       post :create, {:person => {:username => username, :password => "testtest", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_email: "Siem@bosch.at"}, :community => "test"}
-      Person.find_by_username(username).should be_nil
-      flash[:error].to_s.should include("The company you've given does not exist")
+      expect(Person.find_by_username(username)).to be_nil
+      expect(flash[:error].to_s).to include("The company you've given does not exist")
 
       # Second try: Should work, because we use a already created company
       post :create, {:person => {:username => username, :password => "testtest", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_email: "abc@xyz.com"}, :community => "test"}
-      Person.find_by_username(username).should_not be_nil
-      Person.count.should == person_count + 1
+      expect(Person.find_by_username(username)).not_to be_nil
+      expect(Person.count).to eq(person_count + 1)
       employee = Person.find_by_username(username)
-      employee.should_not be_nil
-      employee.is_organization.should be_false
-      employee.organization_name.should be_nil
-      # organization should have a new employee & employee should have a company
-      orga.employees.size.should == employee_count + 1
-      employee.company.organization_name.should == "ABCD"
+      expect(employee).not_to be_nil
+      expect(employee.is_organization).to be_false
+      expect(employee.organization_name).to be_nil
+      expect(orga.employees.size).to eq(employee_count + 1)
+      expect(employee.company.organization_name).to eq("ABCD")
     end
 
     it "doesn't create a new user if submited data is invalid" do
@@ -152,8 +151,8 @@ describe PeopleController do
       person_count = Person.count
       username = generate_random_username
       post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", :organization_name => "Siemens", :organization_name2 => "Bosch"}, :community => "test"}
-      Person.find_by_username(username).should be_nil
-      Person.count.should == person_count
+      expect(Person.find_by_username(username)).to be_nil
+      expect(Person.count).to eq(person_count)
     end
 
     it "doesn't create an organization for community if email is not allowed" do
@@ -164,8 +163,8 @@ describe PeopleController do
 
       post :create, {:person => {:username => username, :password => "test", :email => "#{username}@example.com", :given_name => "", :family_name => "", :organization_name => "test", :signup_as => "organization"}}
 
-      Person.find_by_username(username).should be_nil
-      flash[:error].to_s.should include("This email is not allowed")
+      expect(Person.find_by_username(username)).to be_nil
+      expect(flash[:error].to_s).to include("This email is not allowed")
     end
   end
 
@@ -176,16 +175,16 @@ describe PeopleController do
       @person = FactoryGirl.create(:person)
       @community.members << @person
       @id = @person.id
-      Person.find_by_id(@id).should_not be_nil
+      expect(Person.find_by_id(@id)).not_to be_nil
     end
 
     it "deletes the person" do
       sign_in_for_spec(@person)
 
       delete :destroy, {:person_id => @id}
-      response.status.should == 302
+      expect(response.status).to eq(302)
 
-      Person.find_by_id(@id).deleted?.should eql(true)
+      expect(Person.find_by_id(@id).deleted?).to eql(true)
     end
 
     it "doesn't delete if not logged in as target person" do
@@ -194,9 +193,9 @@ describe PeopleController do
       sign_in_for_spec(b)
 
       delete :destroy, {:person_id => @id}
-      response.status.should == 302
+      expect(response.status).to eq(302)
 
-      Person.find_by_id(@id).should_not be_nil
+      expect(Person.find_by_id(@id)).not_to be_nil
     end
 
   end

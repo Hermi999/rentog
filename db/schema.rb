@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151230095128) do
+ActiveRecord::Schema.define(version: 20160126141249) do
 
   create_table "auth_tokens", force: true do |t|
     t.string   "token"
@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(version: 20151230095128) do
     t.string   "country"
     t.integer  "members_count",                                         default: 0
     t.integer  "user_limit"
-    t.float    "monthly_price_in_euros"
+    t.float    "monthly_price_in_euros",                     limit: 24
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
@@ -361,29 +361,32 @@ ActiveRecord::Schema.define(version: 20151230095128) do
     t.integer  "custom_field_id"
     t.integer  "listing_id"
     t.text     "text_value"
-    t.float    "numeric_value"
+    t.float    "numeric_value",   limit: 24
     t.datetime "date_value"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.string   "type"
-    t.boolean  "delta",           default: true, null: false
+    t.boolean  "delta",                      default: true, null: false
   end
 
   add_index "custom_field_values", ["listing_id"], name: "index_custom_field_values_on_listing_id", using: :btree
+  add_index "custom_field_values", ["type"], name: "index_custom_field_values_on_type", using: :btree
 
   create_table "custom_fields", force: true do |t|
     t.string   "type"
     t.integer  "sort_priority"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.boolean  "search_filter",             default: false, null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.integer  "community_id"
-    t.boolean  "required",       default: true
-    t.float    "min"
-    t.float    "max"
-    t.boolean  "allow_decimals", default: false
+    t.boolean  "required",                  default: true
+    t.float    "min",            limit: 24
+    t.float    "max",            limit: 24
+    t.boolean  "allow_decimals",            default: false
   end
 
   add_index "custom_fields", ["community_id"], name: "index_custom_fields_on_community_id", using: :btree
+  add_index "custom_fields", ["search_filter"], name: "index_custom_fields_on_search_filter", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
@@ -642,8 +645,8 @@ ActiveRecord::Schema.define(version: 20151230095128) do
   add_index "listings", ["open"], name: "index_listings_on_open", using: :btree
 
   create_table "locations", force: true do |t|
-    t.float    "latitude"
-    t.float    "longitude"
+    t.float    "latitude",       limit: 24
+    t.float    "longitude",      limit: 24
     t.string   "address"
     t.string   "google_address"
     t.datetime "created_at"
@@ -657,6 +660,15 @@ ActiveRecord::Schema.define(version: 20151230095128) do
   add_index "locations", ["community_id"], name: "index_locations_on_community_id", using: :btree
   add_index "locations", ["listing_id"], name: "index_locations_on_listing_id", using: :btree
   add_index "locations", ["person_id"], name: "index_locations_on_person_id", using: :btree
+
+  create_table "marketplace_configurations", force: true do |t|
+    t.integer  "community_id",                     null: false
+    t.string   "main_search",  default: "keyword", null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "marketplace_configurations", ["community_id"], name: "index_marketplace_configurations_on_community_id", using: :btree
 
   create_table "marketplace_plans", force: true do |t|
     t.integer  "community_id", null: false
@@ -1048,7 +1060,7 @@ ActiveRecord::Schema.define(version: 20151230095128) do
   end
 
   create_table "testimonials", force: true do |t|
-    t.float    "grade"
+    t.float    "grade",            limit: 24
     t.text     "text"
     t.string   "author_id"
     t.integer  "participation_id"

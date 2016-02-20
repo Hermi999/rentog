@@ -1,5 +1,4 @@
 include ApplicationHelper
-include PeopleHelper
 include ListingsHelper
 include TruncateHtmlHelper
 
@@ -12,14 +11,20 @@ class CommunityMailer < ActionMailer::Base
 
   # This task is expected to be run with daily or hourly scheduling
   # It looks through all users and send email to those who want it now
-  def deliver_community_updates
+  def self.deliver_community_updates
     Person.find_each do |person|
       if person.should_receive_community_updates_now?
         person.communities.select { |c| c.automatic_newsletters }.each do |community|
           listings_to_send = community.get_new_listings_to_update_email(person)
           unless listings_to_send.empty?
             begin
-              CommunityMailer.community_updates(person, community, listings_to_send).deliver
+              token = AuthToken.create_unsubscribe_token(person_id: person.id).token
+              CommunityMailer.community_updates(
+                recipient: person,
+                community: community,
+                listings: listings_to_send,
+                unsubscribe_token: token
+              ).deliver
             rescue => e
               # Catch the exception and continue sending emails
             puts "Error sending mail to #{person.confirmed_notification_emails} community updates: #{e.message}"
@@ -33,7 +38,7 @@ class CommunityMailer < ActionMailer::Base
     end
   end
 
-  def community_updates(recipient, community, listings)
+  def community_updates(recipient:, community:, listings:, unsubscribe_token:)
     @community = community
     @current_community = community
     @recipient = recipient
@@ -69,7 +74,7 @@ class CommunityMailer < ActionMailer::Base
                      :from => community_specific_sender(community),
                      :subject => subject,
                      :delivery_method => delivery_method) do |format|
-        format.html { render :layout => 'email_blank_layout' }
+        format.html { render layout: 'email_blank_layout', locals: { unsubscribe_token: unsubscribe_token } }
       end
     end
   end

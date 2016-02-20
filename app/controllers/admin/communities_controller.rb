@@ -34,6 +34,7 @@ class Admin::CommunitiesController < ApplicationController
 
     sender_address = EmailService::API::Api.addresses.get_sender(community_id: @current_community.id).data
     user_defined_address = EmailService::API::Api.addresses.get_user_defined(community_id: @current_community.id).data
+    ses_in_use = EmailService::API::Api.ses_client.present?
 
     enqueue_status_sync!(user_defined_address)
 
@@ -46,6 +47,7 @@ class Admin::CommunitiesController < ApplicationController
              post_sender_address_url: create_sender_address_admin_community_path,
              can_set_sender_address: can_set_sender_address(@current_plan),
              knowledge_base_url: APP_CONFIG.knowledge_base_url,
+             ses_in_use: ses_in_use,
            }
   end
 
@@ -180,12 +182,31 @@ class Admin::CommunitiesController < ApplicationController
   def settings
     @selected_left_navi_link = "admin_settings"
 
-    render :settings, locals: {
-             supports_escrow: escrow_payments?(@current_community),
-             delete_redirect_url: delete_redirect_url(APP_CONFIG),
-             delete_confirmation: @current_community.ident,
-             can_delete_marketplace: can_delete_marketplace?(@current_community.id)
-           }
+    # When feature flag is removed, make this pretty
+    if feature_enabled?(:location_search)
+      marketplace_configurations = MarketplaceService::API::Api.configurations.get(community_id: @current_community.id).data
+
+      main_search_select_options = [:keyword, :location]
+        .map { |type|
+          [SettingsViewUtils.search_type_translation(type), type]
+        }
+
+      render :settings, locals: {
+        supports_escrow: escrow_payments?(@current_community),
+        delete_redirect_url: delete_redirect_url(APP_CONFIG),
+        delete_confirmation: @current_community.ident,
+        can_delete_marketplace: can_delete_marketplace?(@current_community.id),
+        main_search: marketplace_configurations[:main_search],
+        main_search_select_options: main_search_select_options
+      }
+    else
+      render :settings, locals: {
+        supports_escrow: escrow_payments?(@current_community),
+        delete_redirect_url: delete_redirect_url(APP_CONFIG),
+        delete_confirmation: @current_community.ident,
+        can_delete_marketplace: can_delete_marketplace?(@current_community.id)
+      }
+    end
   end
 
   def update_look_and_feel
@@ -268,6 +289,8 @@ class Admin::CommunitiesController < ApplicationController
     settings_params = params.require(:community).permit(*permitted_params)
 
     maybe_update_payment_settings(@current_community.id, params[:community][:automatic_confirmation_after_days])
+
+    MarketplaceService::API::Api.configurations.update(community_id: @current_community.id, main_search: params[:main_search]) if feature_enabled?(:location_search)
 
     update(@current_community,
             settings_params,

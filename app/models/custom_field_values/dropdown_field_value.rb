@@ -6,7 +6,7 @@
 #  custom_field_id :integer
 #  listing_id      :integer
 #  text_value      :text
-#  numeric_value   :float
+#  numeric_value   :float(24)
 #  date_value      :datetime
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -16,6 +16,7 @@
 # Indexes
 #
 #  index_custom_field_values_on_listing_id  (listing_id)
+#  index_custom_field_values_on_type        (type)
 #
 
 class DropdownFieldValue < OptionFieldValue

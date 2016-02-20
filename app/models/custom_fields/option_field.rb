@@ -5,17 +5,19 @@
 #  id             :integer          not null, primary key
 #  type           :string(255)
 #  sort_priority  :integer
+#  search_filter  :boolean          default(FALSE), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  community_id   :integer
 #  required       :boolean          default(TRUE)
-#  min            :float
-#  max            :float
+#  min            :float(24)
+#  max            :float(24)
 #  allow_decimals :boolean          default(FALSE)
 #
 # Indexes
 #
-#  index_custom_fields_on_community_id  (community_id)
+#  index_custom_fields_on_community_id   (community_id)
+#  index_custom_fields_on_search_filter  (search_filter)
 #
 
 class OptionField < CustomField
@@ -45,11 +47,11 @@ class OptionField < CustomField
       }
     }
 
-    attributes_hash = attributes.map { |(option_id, opts)|
+    attributes_hash = attributes.map { |opts|
       {
-        id: Maybe(option_id).to_i.or_else(nil),
-        sort_priority: opts["sort_priority"].to_i,
-        title_attributes: opts["title_attributes"]
+        id: str_to_integer(opts[:id]),
+        sort_priority: opts[:sort_priority].to_i,
+        title_attributes: opts[:title_attributes]
       }
     }
 
@@ -66,5 +68,16 @@ class OptionField < CustomField
     diff.select { |d| d[:action] == :changed }.map { |added| added[:value] }.each { |changed|
       options.where(id: changed[:id]).first.update_attributes(changed)
     }
+  end
+
+  def str_to_integer(s)
+    if s.nil?
+      nil
+    elsif !/\A\d+\z/.match(s)
+      # not positive integer
+      nil
+    else
+      s.to_i
+    end
   end
 end

@@ -1,16 +1,4 @@
 require 'spec_utils'
-
-#Set up coveralls, this needs to be on top! Zeus check enables using zeus.
-#These don't work well together if used simulatenously.
-def zeus_running?
-  File.exists? '.zeus.sock'
-end
-
-if !zeus_running?
-  require 'coveralls'
-  Coveralls.wear!('rails')
-end
-
 require 'rubygems'
 
 #uncomment the following line to use spork with the debugger
@@ -48,6 +36,7 @@ prefork = lambda {
   # from the project root directory.
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
+  require 'rails/test_help'
   require 'rspec/rails'
   require "email_spec"
 
@@ -64,7 +53,7 @@ prefork = lambda {
     # config.mock_with :flexmock
     # config.mock_with :rr
     config.mock_with :rspec
-    config.include Devise::TestHelpers, :type => :controller
+    config.include Devise::TestHelpers, type: :controller
     config.include SpecUtils
 
     Timecop.safe_mode = true
@@ -118,7 +107,7 @@ def create_admin_for(community)
     membership.admin = true
   end
   community.reload
-  community.members.count.should eql(members_count + 1)
-  community.admins.length.should eql(admins_length + 1)
+  expect(community.members.count).to eql(members_count + 1)
+  expect(community.admins.length).to eql(admins_length + 1)
   return person
 end

@@ -15,9 +15,6 @@ Kassi::Application.configure do
   # Specifies the header that your server uses for sending files
   config.action_dispatch.x_sendfile_header = "X-Sendfile"
 
-  # Set how to handle deprecation warnings
-  config.active_support.deprecation = :notify
-
   # For nginx:
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
 
@@ -41,6 +38,8 @@ Kassi::Application.configure do
       current_user_id: event.payload[:current_user_id],
       request_uuid: event.payload[:request_uuid] }
     }
+
+  # to ignore certain messages, see commit e1ac643f677b0a9f73b10454fa04f67595c8c0c5
 
   config.lograge.formatter = Lograge::Formatters::Json.new
 

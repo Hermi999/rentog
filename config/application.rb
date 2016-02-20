@@ -66,8 +66,6 @@ module Kassi
     # List of removed locales
     config.REMOVED_LOCALES = Sharetribe::REMOVED_LOCALES
 
-    I18n.enforce_available_locales = true
-
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -141,6 +139,9 @@ module Kassi
       Devise::Mailer.layout "email" # email.haml or email.erb
       Devise::Mailer.helper :email_template
     end
+
+    # Log deprecation warnings to stderr
+    config.active_support.deprecation = :stderr
 
     # Map custom errors to error pages
     config.action_dispatch.rescue_responses["PeopleController::PersonDeleted"] = :gone

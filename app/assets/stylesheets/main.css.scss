@@ -392,6 +392,9 @@ label.radiobutton {
 
 button, .button {
   @include button($link);
+  padding-top: lines(0.375);
+  padding-bottom: lines(0.375);
+  height: auto;
 }
 
 .inline-button-container {
@@ -1983,18 +1986,6 @@ figure.fluidratio {
   background-position: center center;
 }
 
-.lander-content {
-  position: absolute;
-  left: lines(0.5);
-  right: lines(0.5);
-  text-align: center;
-
-  @include media(tablet) {
-    left: 0;
-    right: 0;
-  }
-}
-
 .mobile {
   display: block;
   @include media(tablet) {
@@ -2013,7 +2004,6 @@ figure.fluidratio {
   Lander
 */
 
-.lander-content-container,
 .network-header-content-container {
   position: relative;
 }
@@ -2023,10 +2013,8 @@ figure.fluidratio {
 
   figure.marketplace-cover {
     background-image: url(image-path($cover-photo-url));
-    height: em($cover-photo-mobile-height);
-    @include media(tablet) {
-      @include fluid-ratio(em(1920) em($cover-photo-height), em(300) em($cover-photo-height));
-    }
+    height: auto;
+    background-size: cover;
   }
 
   figure.marketplace-cover-small {
@@ -2059,7 +2047,9 @@ figure.fluidratio {
   }
 
   .marketplace-lander-content {
-    top: lines($lander-content-top-mobile);
+    padding-top: 5em;
+    padding-bottom: 5em;
+    text-align: center;
   }
 
   .marketplace-lander-content-title {
@@ -2213,9 +2203,6 @@ figure.fluidratio {
 
   @include media(tablet) {
 
-    .marketplace-lander-content {
-      top: lines($lander-content-top);
-    }
 
     .marketplace-lander-content-title {
       margin-bottom: 0;

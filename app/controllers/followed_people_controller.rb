@@ -18,7 +18,6 @@ class FollowedPeopleController < ApplicationController
     end
   end
 
-  # Add or remove followed people from FollowersController
 
 end
 

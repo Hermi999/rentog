@@ -3,7 +3,7 @@
 # Table name: testimonials
 #
 #  id               :integer          not null, primary key
-#  grade            :float
+#  grade            :float(24)
 #  text             :text
 #  author_id        :string(255)
 #  participation_id :integer
@@ -21,9 +21,6 @@
 
 class Testimonial < ActiveRecord::Base
 
-  # TODO Rails 4, Remove
-  include ActiveModel::ForbiddenAttributesProtection
-
   GRADES = [
     [ "positive", { :form_value => "5", :db_value => 1, :default => false, :icon => "like" } ],
     [ "negative", { :form_value => "1", :db_value => 0, :default => false, :icon => "dislike" } ]
@@ -31,7 +28,7 @@ class Testimonial < ActiveRecord::Base
 
   belongs_to :author, :class_name => "Person"
   belongs_to :receiver, :class_name => "Person"
-  belongs_to :transaction
+  belongs_to :tx, class_name: "Transaction", foreign_key: "transaction_id"
 
   validates_inclusion_of :grade, :in => 0..1, :allow_nil => false
 

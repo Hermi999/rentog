@@ -43,6 +43,10 @@
       = icon_tag("new_listing", ["icon-with-text"])
       = t("homepage.index.post_new_listing")
 
+  = link_to person_path(user, :show_closed => true) do
+    = icon_tag("list", ["icon-with-text"])
+    = t("header.manage_listings")
+
   = link_to person_settings_path(user) do
     = icon_tag("settings", ["icon-with-text"])
     = t("layouts.logged_in.settings")

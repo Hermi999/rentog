@@ -1,11 +1,6 @@
 class PeopleController < Devise::RegistrationsController
   class PersonDeleted < StandardError; end
 
-  include PeopleHelper
-
-  # Handle exceptions
-  rescue_from Net::SMTPFatalError, :with => :error_render_method
-
   skip_before_filter :verify_authenticity_token, :only => [:creates]
   skip_before_filter :require_no_authentication, :only => [:new]
 
@@ -70,7 +65,17 @@ class PeopleController < Devise::RegistrationsController
       ))
     }.data
 
-    render locals: { listings: listings }
+    followed_people = followed_people_in_community(@person, @current_community)
+    received_testimonials = TestimonialViewUtils.received_testimonials_in_community(@person, @current_community)
+    received_positive_testimonials = TestimonialViewUtils.received_positive_testimonials_in_community(@person, @current_community)
+    feedback_positive_percentage = @person.feedback_positive_percentage_in_community(@current_community)
+
+    render locals: { listings: listings,
+                     followed_people: followed_people,
+                     received_testimonials: received_testimonials,
+                     received_positive_testimonials: received_positive_testimonials,
+                     feedback_positive_percentage: feedback_positive_percentage
+                   }
   end
 
   def new
@@ -589,10 +594,13 @@ class PeopleController < Devise::RegistrationsController
     end
   end
 
-  # Exception handler
-  def error_render_method
-    flash[:error] = "Email address is not verified by Amazon SES. This should only occur during testing."
-    redirect_to request.original_url
-    return
+  # Filters out those followed_people that are not members of the community
+  # This method is temporary and only needed until the possibility to have
+  # one account in many communities is disabled. Then this can be deleted
+  # and return to use just simpler followed_people
+  # NOTE: similar method is in FollowedPeopleController and should be cleaned too
+  def followed_people_in_community(person, community)
+    person.followed_people.select{|p| p.member_of?(community)}
   end
+
 end

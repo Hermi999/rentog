@@ -205,6 +205,10 @@ vi:
         users_can_invite_new_users: ~
         private: ~
         require_verification_to_post_listings: ~
+        search_preferences: ~
+        default_search_type: ~
+        keyword_search: ~
+        location_search: ~
         listing_preferences: ~
         transaction_preferences: ~
         show_listing_publishing_date: ~
@@ -330,6 +334,10 @@ vi:
         field_required:
           this_field_is_required: ~
           this_field_is_required_checkbox: ~
+        search_filter:
+          search_filter: ~
+          date_cant_be_filtered: ~
+          text_cant_be_filtered: ~
       index:
         listing_fields: ~
         listing_fields_help: ~
@@ -604,6 +612,7 @@ vi:
       message_content_not_available: ~
     message:
       accepted_request: ~
+      received_payment: ~
       accepted_offer: ~
       rejected_request: ~
       rejected_offer: ~
@@ -848,11 +857,9 @@ vi:
       or_paste_link: ~
       turning_on_confirmations_in_this_community: "Chúng tôi đang bắt đầu sử dụng các xác nhận email trong cộng đồng %{service_name}."
     common:
-      check_your_settings: "Kiểm tra các thiết lập của bạn"
       hey: "Chào %{name},"
       kassi_team: "Nhóm %{service_name}"
       thanks: "Cảm ơn,"
-      want_to_control_emails: "Muốn kiểm soát những email bạn nhận từ %{service_name}?"
       dont_want_to_receive_these_emails: "Không muốn nhận những email này?"
       edit_your_email_settings_here: "Chỉnh sửa các thiết lập email của bạn ở đây"
       message_not_displaying_correctly: "Email này không được hiển thị đúng?"
@@ -1078,6 +1085,7 @@ vi:
     create_new_marketplace: ~
     contact_us: ~
     profile: ~
+    manage_listings: ~
     invite: ~
     login: ~
     signup: ~
@@ -1331,7 +1339,6 @@ vi:
       reply_sent: "Trả lời đã gửi thành công."
       request_accepted: "Yêu cầu đã được chấp nhận"
       request_confirmed: ~
-      request_closed: "Yêu cầu đã đóng"
       request_rejected: "Yêu cầu đã bị từ chối"
       request_canceled: ~
       message_sent: "Đã gửi tin nhắn"
@@ -1344,7 +1351,6 @@ vi:
       listing_closed: ~
       send_instructions: "Bạn sẽ nhận được một email với các hướng dẫn làm thế nào để đặt lại mật khẩu của bạn trong một vài phút."
       you_cannot_reply_to_a_closed_offer: "Bạn không thể trả lời hỗ trợ bị đóng"
-      you_cannot_reply_to_a_closed_request: "Bạn không thể trả lời một yêu cầu bị đóng"
       you_cannot_send_message_to_yourself: "Bạn không thể gửi thư cho chính mình"
       you_followed_listing: "Bây giờ bạn đang theo dõi bảng liệt kê này"
       you_have_already_given_feedback_about_this_event: "Bạn vừa đưa ra thông tin phản hồi về sự kiện này"
@@ -1810,13 +1816,8 @@ vi:
       read_more_about_kassi_communities: "Tìm hiểu thêm về cộng đồng %{service_name}"
       this_user_does_not_belong_to_this_community: "Người dùng này không thuộc về cộng đồng %{community}"
     profile_feedback:
-      as_expected: "Như mong đợi"
-      exceeded_expectations: "Tốt hơn nhiều so với dự kiến"
       grade: "xếp loại:"
       and_gave_following_feedback: "và đã cung cấp thông tin phản hồi sau"
-      less_than_expected: "Tệ hơn so với dự kiến"
-      slightly_better_than_expected: "Tốt hơn một chút so với dự kiến"
-      slightly_less_than_expected: "Tệ hơn một chút so với dự kiến"
     profile_listings:
       show_also_closed: "Hiển thị cũng đóng"
       show_only_open: "Chỉ hiển thị mở"

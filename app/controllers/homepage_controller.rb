@@ -29,13 +29,10 @@ class HomepageController < ApplicationController
     listing_shape_menu_enabled = all_shapes.size > 1
     @show_categories = @categories.size > 1
     show_price_filter = @current_community.show_price_filter && all_shapes.any? { |s| s[:price_enabled] }
-    @show_custom_fields = @current_community.custom_fields.any?(&:can_filter?) || show_price_filter
-    @category_menu_enabled = @show_categories || @show_custom_fields
 
-    @app_store_badge_filename = "/assets/Available_on_the_App_Store_Badge_en_135x40.svg"
-    if File.exists?("app/assets/images/Available_on_the_App_Store_Badge_#{I18n.locale}_135x40.svg")
-       @app_store_badge_filename = "/assets/Available_on_the_App_Store_Badge_#{I18n.locale}_135x40.svg"
-    end
+    filters = @current_community.custom_fields.where(search_filter: true).sort
+    @show_custom_fields = filters.present? || show_price_filter
+    @category_menu_enabled = @show_categories || @show_custom_fields
 
     filter_params = {}
 
@@ -79,25 +76,30 @@ class HomepageController < ApplicationController
         render nothing: true, status: 500
       }
     else
+      main_search = feature_enabled?(:location_search) ? MarketplaceService::API::Api.configurations.get(community_id: @current_community.id).data[:main_search] : :keyword
       search_result.on_success { |listings|
         @listings = listings
         render locals: {
                  shapes: all_shapes,
+                 filters: filters,
                  show_price_filter: show_price_filter,
                  selected_shape: selected_shape,
                  shape_name_map: shape_name_map,
                  testimonials_in_use: @current_community.testimonials_in_use,
-                 listing_shape_menu_enabled: listing_shape_menu_enabled }
+                 listing_shape_menu_enabled: listing_shape_menu_enabled,
+                 main_search: main_search }
       }.on_error { |e|
         flash[:error] = t("homepage.errors.search_engine_not_responding")
         @listings = Listing.none.paginate(:per_page => 1, :page => 1)
         render status: 500, locals: {
                  shapes: all_shapes,
+                 filters: filters,
                  show_price_filter: show_price_filter,
                  selected_shape: selected_shape,
                  shape_name_map: shape_name_map,
                  testimonials_in_use: @current_community.testimonials_in_use,
-                 listing_shape_menu_enabled: listing_shape_menu_enabled }
+                 listing_shape_menu_enabled: listing_shape_menu_enabled,
+                 main_search: main_search }
       }
     end
   end
@@ -154,7 +156,16 @@ class HomepageController < ApplicationController
       availability_not_intern: true       # wah_new
     }
 
-    ListingIndexService::API::Api.listings.search(community_id: @current_community.id, search: search, includes: includes).and_then { |res|
+    search_engine = feature_enabled?(:new_search) || APP_CONFIG.external_search_in_use ? :zappy : :sphinx;
+    raise_errors = Rails.env.development?
+
+    ListingIndexService::API::Api.listings.search(
+      community_id: @current_community.id,
+      search: search,
+      includes: includes,
+      engine: search_engine,
+      raise_errors: raise_errors
+      ).and_then { |res|
       Result::Success.new(
         ListingIndexViewUtils.to_struct(
         result: res,

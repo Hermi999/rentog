@@ -205,6 +205,10 @@ ms-MY:
         users_can_invite_new_users: ~
         private: ~
         require_verification_to_post_listings: ~
+        search_preferences: ~
+        default_search_type: ~
+        keyword_search: ~
+        location_search: ~
         listing_preferences: ~
         transaction_preferences: ~
         show_listing_publishing_date: ~
@@ -330,6 +334,10 @@ ms-MY:
         field_required:
           this_field_is_required: ~
           this_field_is_required_checkbox: ~
+        search_filter:
+          search_filter: ~
+          date_cant_be_filtered: ~
+          text_cant_be_filtered: ~
       index:
         listing_fields: ~
         listing_fields_help: ~
@@ -604,6 +612,7 @@ ms-MY:
       message_content_not_available: ~
     message:
       accepted_request: ~
+      received_payment: ~
       accepted_offer: ~
       rejected_request: ~
       rejected_offer: ~
@@ -848,11 +857,9 @@ ms-MY:
       or_paste_link: ~
       turning_on_confirmations_in_this_community: ~
     common:
-      check_your_settings: ~
       hey: ~
       kassi_team: ~
       thanks: ~
-      want_to_control_emails: ~
       dont_want_to_receive_these_emails: ~
       edit_your_email_settings_here: ~
       message_not_displaying_correctly: ~
@@ -1078,6 +1085,7 @@ ms-MY:
     create_new_marketplace: ~
     contact_us: ~
     profile: ~
+    manage_listings: ~
     invite: ~
     login: ~
     signup: ~
@@ -1331,7 +1339,6 @@ ms-MY:
       reply_sent: ~
       request_accepted: ~
       request_confirmed: ~
-      request_closed: ~
       request_rejected: ~
       request_canceled: ~
       message_sent: ~
@@ -1344,7 +1351,6 @@ ms-MY:
       listing_closed: ~
       send_instructions: ~
       you_cannot_reply_to_a_closed_offer: ~
-      you_cannot_reply_to_a_closed_request: ~
       you_cannot_send_message_to_yourself: ~
       you_followed_listing: ~
       you_have_already_given_feedback_about_this_event: ~
@@ -1810,13 +1816,8 @@ ms-MY:
       read_more_about_kassi_communities: ~
       this_user_does_not_belong_to_this_community: ~
     profile_feedback:
-      as_expected: ~
-      exceeded_expectations: ~
       grade: ~
       and_gave_following_feedback: ~
-      less_than_expected: ~
-      slightly_better_than_expected: ~
-      slightly_less_than_expected: ~
     profile_listings:
       show_also_closed: ~
       show_only_open: ~

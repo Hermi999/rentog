@@ -1236,17 +1236,20 @@ function initialize_update_account_info_form(locale, change_text, cancel_text, e
       $("#person_email_attributes_send_notifications").prop("disabled", "disabled");
     }
   );
-  $('#account_password_link').click(
-    function() {
-      if ($(this).text() === cancel_text) {
-        $('#account_password_form').hide();
-        $(this).text(change_text);
-      }else{
-        $('#account_password_form').show();
-        $(this).text(cancel_text);
-        $('#person_password').focus();
-      }
+  var changeLinkVisible = true;
+  $('#account_password_link').click(function() {
+    if (changeLinkVisible) {
+      $('#account_password_form').show();
+      $(this).text(cancel_text);
+      $('#person_password').focus();
+    } else {
+      $('#account_password_form').hide();
+      $(this).text(change_text);
+    }
+
+    changeLinkVisible = !changeLinkVisible;
   });
+
   var email_form_id = "#email_form";
   $(email_form_id).validate({
     errorPlacement: function(error, element) {
@@ -1634,8 +1637,9 @@ function validateBraintreeForm(locale, beforeSubmit, opts) {
 function set_textarea_maxlength() {
   var ignore = [8,9,13,33,34,35,36,37,38,39,40,46];
   var eventName = 'keypress';
-  $('body')
-    .on(eventName, 'textarea[maxlength]', function(event) {
+
+  $('textarea[maxlength]')
+    .on(eventName, function(event) {
       var self = $(this),
           maxlength = self.attr('maxlength'),
           code = $.data(this, 'keycode');
@@ -1645,7 +1649,7 @@ function set_textarea_maxlength() {
 
       }
     })
-    .on('keydown','textarea[maxlength]', function(event) {
+    .on('keydown', function(event) {
       $.data(this, 'keycode', event.keyCode || event.which);
     });
 }

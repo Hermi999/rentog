@@ -70,7 +70,7 @@ class Person < ActiveRecord::Base
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :omniauthable, :token_authenticatable
+         :omniauthable
 
   if APP_CONFIG.use_asi_encryptor
     require Rails.root.join('lib', 'devise', 'encryptors', 'asi')
@@ -417,20 +417,22 @@ class Person < ActiveRecord::Base
     listings.requests
   end
 
-  def feedback_average
-    ((received_testimonials.average(:grade) * 4 + 1) * 10).round / 10.0
-  end
-
   # The percentage of received testimonials with positive grades
   # (grades between 3 and 5 are positive, 1 and 2 are negative)
-  def feedback_positive_percentage
-    if received_positive_testimonials.size > 0
-      if received_negative_testimonials.size > 0
-        (received_positive_testimonials.size.to_f/received_testimonials.size.to_f*100).round
+  def feedback_positive_percentage_in_community(community)
+    # NOTE the filtering with communinity can be removed when
+    # user accounts are no more shared among communities
+    received_testimonials = TestimonialViewUtils.received_testimonials_in_community(self, community)
+    positive_testimonials = TestimonialViewUtils.received_positive_testimonials_in_community(self, community)
+    negative_testimonials = TestimonialViewUtils.received_negative_testimonials_in_community(self, community)
+
+    if positive_testimonials.size > 0
+      if negative_testimonials.size > 0
+        (positive_testimonials.size.to_f/received_testimonials.size.to_f*100).round
       else
         return 100
       end
-    elsif received_negative_testimonials.size > 0
+    elsif negative_testimonials.size > 0
       return 0
     end
   end
@@ -609,19 +611,19 @@ class Person < ActiveRecord::Base
   end
 
   def reset_password_token_if_needed
-    # Using methods from Devise
-    generate_reset_password_token! if should_generate_reset_token?
+    # Devise 3.1.0 doesn't expose methods to generate reset_password_token without
+    # sending the email, so this code is copy-pasted from Recoverable module
+    raw, enc = Devise.token_generator.generate(self.class, :reset_password_token)
+    self.reset_password_token   = enc
+    self.reset_password_sent_at = Time.now.utc
+    save(:validate => false)
+    raw
   end
 
   # If image_file_name is null, it means the user
   # does not have a profile picture.
   def has_profile_picture?
     image_file_name.present?
-  end
-
-  def new_email_auth_token
-    t = AuthToken.create(:person => self, :expires_at => 1.week.from_now, :token_type => "unsubscribe")
-    return t.token
   end
 
   # Tell Devise that email is not required

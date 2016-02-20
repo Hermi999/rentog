@@ -1,5 +1,6 @@
 require 'spec_helper'
-describe PersonMailer do
+
+describe PersonMailer, type: :mailer do
 
   # Include EmailSpec stuff (https://github.com/bmabey/email-spec)
   include(EmailSpec::Helpers)
@@ -111,7 +112,7 @@ describe PersonMailer do
     assert_equal "You are ready to receive payments", email.subject
     assert_equal "You are ready to receive payments", email.subject
 
-    email.body.include?("Your payment information has been confirmed and you are now ready").should be_truthy
+    expect(email.body.include?("Your payment information has been confirmed and you are now ready")).to be_truthy
   end
 
   it "should send email about a new testimonial" do
@@ -123,7 +124,7 @@ describe PersonMailer do
                                 listing_shape_id: 123, # not needed, but mandatory
                                 author: @test_person)
     transaction = FactoryGirl.create(:transaction, starter: @test_person2, listing: listing, transaction_transitions: [transition])
-    testimonial = FactoryGirl.create(:testimonial, :grade => 0.75, :text => "Yeah", :author => @test_person, :receiver => @test_person2, :transaction => transaction)
+    testimonial = FactoryGirl.create(:testimonial, grade: 0.75, text: "Yeah", author: @test_person, receiver: @test_person2, tx: transaction)
 
     email = PersonMailer.new_testimonial(testimonial, @community).deliver
     assert !ActionMailer::Base.deliveries.empty?
@@ -208,18 +209,19 @@ describe PersonMailer do
 
     it "should welcome a regular member" do
       @email = PersonMailer.welcome_email(@p1, @p1.communities.first)
-      @email.should deliver_to("update_tester@example.com")
-      @email.should have_subject("Welcome to Rentog")
-      @email.should have_body_text "Welcome to Rentog! Glad to have you on board."
-      @email.should_not have_body_text "You have now admin rights in this community."
+
+      expect(@email).to deliver_to("update_tester@example.com")
+      expect(@email).to have_subject("Welcome to Rentog")
+      expect(@email).to have_body_text "Welcome to Rentog! Glad to have you on board."
+      expect(@email).not_to have_body_text "You have now admin rights in this community."
     end
 
     it "should contain custom content if that is defined for the community" do
       @c1.community_customizations.first.update_attribute(:welcome_email_content, "Custom email")
       @email = PersonMailer.welcome_email(@p1, @p1.communities.first)
-      @email.should have_body_text "Custom email"
-      @email.should_not have_body_text "Add something you could offer to others."
-      @email.should_not have_body_text "You have now admin rights in this community."
+      expect(@email).to have_body_text "Custom email"
+      expect(@email).not_to have_body_text "Add something you could offer to others."
+      expect(@email).not_to have_body_text "You have now admin rights in this community."
     end
 
   end

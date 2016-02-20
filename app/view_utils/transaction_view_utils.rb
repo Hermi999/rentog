@@ -145,7 +145,7 @@ module TransactionViewUtils
     when "rejected"
       t("conversations.message.rejected_request")
     when preauthorize_accepted
-      t("conversations.message.accepted_request")
+      t("conversations.message.received_payment", sum: humanized_money_with_symbol(payment_sum))
     when post_pay_accepted
       t("conversations.message.paid", sum: humanized_money_with_symbol(payment_sum))
     when "canceled"

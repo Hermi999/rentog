@@ -1,7 +1,7 @@
 /*
 * $ lightbox_me
 * By: Buck Wilson
-* Version : 2.3
+* Version : 2.4
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -122,14 +122,18 @@
                 if (opts.parentLightbox) {
                     opts.parentLightbox.fadeIn(200);
                 }
-
+                if (opts.preventScroll) {
+                    $('body').css('overflow', '');
+                }
                 $iframe.remove();
 
 				// clean up events.
                 $self.undelegate(opts.closeSelector, "click");
+                $self.unbind('close', closeLightbox);
+                $self.unbind('repositon', setSelfPosition);
 
-                $(window).unbind('reposition', setOverlayHeight);
-                $(window).unbind('reposition', setSelfPosition);
+                $(window).unbind('resize', setOverlayHeight);
+                $(window).unbind('resize', setSelfPosition);
                 $(window).unbind('scroll', setSelfPosition);
                 $(window).unbind('keyup.lightbox_me');
                 opts.onClose();
@@ -186,6 +190,9 @@
                     } else {
                         $self.css({ position: 'fixed'}).css(opts.modalCSS);
                     }
+                    if (opts.preventScroll) {
+                        $('body').css('overflow', 'hidden');
+                    }
                 }
             }
 
@@ -212,6 +219,7 @@
         destroyOnClose: false,
         showOverlay: true,
         parentLightbox: false,
+        preventScroll: false,
 
         // callbacks
         onLoad: function() {},

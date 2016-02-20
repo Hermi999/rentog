@@ -28,8 +28,6 @@ Kassi::Application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
-  config.active_support.deprecation = :stderr
-
   # As instructed by Devise, to make local mails work
   config.action_mailer.default_url_options = { :host => 'test.lvh.me:9887' }
 
@@ -45,7 +43,7 @@ Kassi::Application.configure do
     end
   end
 
-  Capybara.default_wait_time = 10
+  Capybara.default_max_wait_time = 10
   Capybara.ignore_hidden_elements = true
 
   ENV['RAILS_ASSET_ID'] = ""
@@ -58,7 +56,4 @@ Kassi::Application.configure do
   config.active_record.mass_assignment_sanitizer = :strict
 
   config.cache_store = :memory_store, { :namespace => "sharetribe-test"}
-
-  # For tests we want the observer that sync runs delayed jobs
-  config.active_record.observers = :sync_delayed_job_observer
 end

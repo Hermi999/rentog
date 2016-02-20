@@ -220,6 +220,10 @@ nl:
         users_can_invite_new_users: "Alle gebruikers kunnen nieuwe leden uitnodigen voor deze marktplaats"
         private: "Deze marktplaats is privé (enkel geregistreerde gebruikers kunnen de inhoud zien)"
         require_verification_to_post_listings: "Enkel gebruikers die door de beheerder nagekeken werden kunnen nieuwe items toevoegen"
+        search_preferences: ~
+        default_search_type: ~
+        keyword_search: ~
+        location_search: ~
         listing_preferences: "Voorkeuren lijst"
         transaction_preferences: "Voorkeuren transacties"
         show_listing_publishing_date: "Toon publicatie datum van de lijst op de lijst pagina"
@@ -345,6 +349,10 @@ nl:
         field_required:
           this_field_is_required: "This veld is verplicht"
           this_field_is_required_checkbox: "Dit veld is verplicht (gebruiker moet minstens één optie kiezen)"
+        search_filter:
+          search_filter: ~
+          date_cant_be_filtered: ~
+          text_cant_be_filtered: ~
       index:
         listing_fields: "Items velden en filters"
         listing_fields_help: "Hier kan je de velden aanpassen die gebruikers moeten invullen wanneer ze een nieuw item aanmaken. Merk op dat sommige velden gepredefinieerd zijn en niet gewijzigd kunnen worden."
@@ -619,6 +627,7 @@ nl:
       message_content_not_available: ~
     message:
       accepted_request: "heeft het verzoek aanvaard"
+      received_payment: ~
       accepted_offer: "heeft het voorstel aanvaard"
       rejected_request: "heeft het verzoek niet aanvaard"
       rejected_offer: "heeft het voorstel niet aanvaard"
@@ -863,11 +872,9 @@ nl:
       or_paste_link: "U kunt ook onderstaande link kopiëren en plaatsen in de adresbalk van uw browser."
       turning_on_confirmations_in_this_community: "We beginnen met e-mail bevestigingen te gebruiken in deze %{service_name} marktplaats."
     common:
-      check_your_settings: "Controleer je instellingen"
       hey: "Hallo %{name},"
       kassi_team: "Het %{service_name} Team"
       thanks: "Bedankt,"
-      want_to_control_emails: "Wilt u instellen welke e-mails u ontvangt van %{service_name}?"
       dont_want_to_receive_these_emails: "Wilt u deze berichten niet ontvangen?"
       edit_your_email_settings_here: "Wijzig uw e-mail instellingen hier"
       message_not_displaying_correctly: "Wordt deze e-mail correct weergegeven?"
@@ -1093,6 +1100,7 @@ nl:
     create_new_marketplace: "Maak een nieuwe marktplaats"
     contact_us: "Contacteer ons"
     profile: Profiel
+    manage_listings: ~
     invite: "Nodig nieuwe leden uit"
     login: "Log in"
     signup: Registreer
@@ -1346,7 +1354,6 @@ nl:
       reply_sent: "Reactie succesvol verstuurd"
       request_accepted: "Verzoek geaccepteerd"
       request_confirmed: "Verzoek uitgevoerd"
-      request_closed: "Verzoek gesloten"
       request_rejected: "Verzoek afgewezen"
       request_canceled: "Verzoek geannuleerd"
       message_sent: "Bericht verstuurd"
@@ -1359,7 +1366,6 @@ nl:
       listing_closed: ~
       send_instructions: "U ontvangt binnen enkele minuten een e-mail met instructies om uw wachtwoord te resetten."
       you_cannot_reply_to_a_closed_offer: "Je kan niet reageren op een gesloten aanbod"
-      you_cannot_reply_to_a_closed_request: "Je kan niet reageren op een gesloten verzoek"
       you_cannot_send_message_to_yourself: "U kunt geen bericht naar uzelf sturen"
       you_followed_listing: "U volgt nu dit item"
       you_have_already_given_feedback_about_this_event: "Je heb al feedback gegeven over dit evenement"
@@ -1828,13 +1834,8 @@ nl:
       read_more_about_kassi_communities: "Lees meer over de Sharetribe marktplaatsen"
       this_user_does_not_belong_to_this_community: "Deze gebruiker is geen lid van de %{community} marktplaats."
     profile_feedback:
-      as_expected: "Zoals verwacht"
-      exceeded_expectations: "Veel beter dan verwacht"
       grade: "cijfer:"
       and_gave_following_feedback: "en gaf de volgende feedback"
-      less_than_expected: "Minder dan verwacht"
-      slightly_better_than_expected: "Iets beter dan verwacht"
-      slightly_less_than_expected: "Iets minder dan verwacht"
     profile_listings:
       show_also_closed: "Laat ook gesloten zien"
       show_only_open: "Laat alleen open zien"

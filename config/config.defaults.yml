@@ -251,8 +251,21 @@ default: &default_settings
   external_plan_service_secret:
   external_plan_service_login_url:
 
+  # External search service connection
+  external_search_in_use: false
+  external_search_url:
+  external_search_apikey:
+
+  # Rails config.eager_load. Eager loads classes. Should be true only for production
+  eager_load: false
+
+  # Delayed job maximum run time in seconds
+  delayed_job_max_run_time: 180
+
 production: &production_settings
   <<: *default_settings
+
+  eager_load: true
 
 staging:
   <<: *production_settings
@@ -266,6 +279,8 @@ development:
 
   # Skip email confirmation
   skip_email_confirmation: true
+
+  secret_key_base: "fd1af50b59b5e27776941b3205f92aca0f704c2252225cf93e3d97ae53f4774d25736cbdb19c1580839a2f68e15009209227e966003f53932c1bcc5d65616948"
 
 test:
   <<: *default_settings
@@ -324,3 +339,5 @@ test:
   braintree_test_public_key: xxxxxxxxxxxxxxxx
   braintree_test_private_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   braintree_client_side_encryption_key: MIIBCgKCAQEArIfLwPsGtsJ5ELsvaFrdww/vEcBBiS3ViPoMg0mmV67nM3RqkFuWu7JQ1bln12PVQgyU7Bn6O7OLUjAdaO35kunmRfwLNb/SStyGfd5JIFOFP2Pu4CRnKr2tTR+OkitqXTwoa9den8RmMFJlQyadozcpWvAIGtAa21r0RWNaSoHS9gkbmhiEa/94gvxVuPlEQTrlKWHp3pnOuTwST/xEcDI73q7Ug4nVhFgtqqU0Kck6HOBnF5Gby+tIfI5blih64sxPGKVGuExopcWNos4lV7x7fKxYT07vOCeRUIFUSYhfxRs8hZ/tLfXxzNsInOnaddFJpM8Mda8jKWs+aFhPiwIDAQAB
+
+  secret_key_base: "8fb582997a5e3ba2efb57c020dd01aa81647674dbb1aee6efcf30d75ec442e3a48832379e1ebaae2801782075efbf02ebed797a1df3f2b3ad87ec3faf37ccc64"

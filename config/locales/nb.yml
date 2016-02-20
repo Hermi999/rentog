@@ -220,6 +220,10 @@ nb:
         users_can_invite_new_users: "Alle brukere kan invitere nye brukere til denne markedsplassen"
         private: "Denne markedsplassen er privat(kun registrerte brukere kan se dets innhold)"
         require_verification_to_post_listings: "Kun brukere som er godkjent av admin kan legge ut annonser"
+        search_preferences: ~
+        default_search_type: ~
+        keyword_search: ~
+        location_search: ~
         listing_preferences: Annonseinnstillinger
         transaction_preferences: Transaksjonsinnstillinger
         show_listing_publishing_date: "Vis dato annonsen ble publisert"
@@ -345,6 +349,10 @@ nb:
         field_required:
           this_field_is_required: "Dette feltet er påkrevd"
           this_field_is_required_checkbox: "Dette feltet er påkrevd(bruker må velge minst ett valg)"
+        search_filter:
+          search_filter: ~
+          date_cant_be_filtered: ~
+          text_cant_be_filtered: ~
       index:
         listing_fields: "Annonse felt & filter"
         listing_fields_help: "Her kan du endre feltene brukere må fylle inn når de oppretter en annonse. Noen av feltene er predefinerte og kan ikke endres."
@@ -633,6 +641,7 @@ nb:
       message_content_not_available: ~
     message:
       accepted_request: "godtok forespørselen"
+      received_payment: ~
       accepted_offer: "Tilbud godtatt"
       rejected_request: "avslå forespørselen"
       rejected_offer: "avslå tilbudet"
@@ -881,11 +890,9 @@ nb:
       or_paste_link: "Alternativt kan du kopiere lenken under til nettleseren din:"
       turning_on_confirmations_in_this_community: "Vi benytter nå e-postbekreftelse på %{service_name}."
     common:
-      check_your_settings: "Sjekk innstillingene dine"
       hey: "Hei %{name},"
       kassi_team: "Vennlig hilsen %{service_name}"
       thanks: "Takk,"
-      want_to_control_emails: "Vil du kontrollere hvilke e-poster du mottar fra %{service_name}?"
       dont_want_to_receive_these_emails: "Ønsker du ikke å motta e-poster?"
       edit_your_email_settings_here: "Rediger dine e-post innstillinger her"
       message_not_displaying_correctly: "Vises ikke denne e-post korrekt?"
@@ -1111,6 +1118,7 @@ nb:
     create_new_marketplace: "Lag en ny markedsplass"
     contact_us: "Kontakt oss"
     profile: Profil
+    manage_listings: ~
     invite: "Invitér nye brukere"
     login: "Logg inn"
     signup: "Registrér deg"
@@ -1364,7 +1372,6 @@ nb:
       reply_sent: "Svar sendt"
       request_accepted: "Forespørsel godtatt"
       request_confirmed: "Forespørsel fullført"
-      request_closed: "Forespørsel stengt"
       request_rejected: "Forespørsel avvist"
       request_canceled: "Forespørsel avbrutt."
       message_sent: "Melding sendt"
@@ -1377,7 +1384,6 @@ nb:
       listing_closed: "Denne annonsen har blitt stengt."
       send_instructions: "Du vil om kort tid motta en e-post med instruksjoner om hvordan du tilbakestiller passordet ditt."
       you_cannot_reply_to_a_closed_offer: "Du kan ikke besvare et inaktivt tilbud"
-      you_cannot_reply_to_a_closed_request: "Du kan ikke besvare en inaktiv forespørsel"
       you_cannot_send_message_to_yourself: "Du kan ikke sende melding til deg selv"
       you_followed_listing: "Du følger nå denne annonsen"
       you_have_already_given_feedback_about_this_event: "Du har allerede gitt en tilbakemelding på dette"
@@ -1787,8 +1793,8 @@ nb:
     from_your_payment_settings_link_text: betalingsinnstillinger
     redirect_message: "Omdirigerer deg til PayPal. Hvis ingenting skjer, klikk %{redirect_link}."
     redirect_link_text: her
-    paypal_account_all_set_up: ~
-    can_receive_payments: ~
+    paypal_account_all_set_up: "Perfekt, nå er alt klart!"
+    can_receive_payments: "Du kan nå motta betalinger for dine annonser."
     paypal_account_connected_summary: ~
     paypal_permission_granted_summary: ~
   paypal:
@@ -1846,13 +1852,8 @@ nb:
       read_more_about_kassi_communities: "Les mer om Sharetribes markedsplasser"
       this_user_does_not_belong_to_this_community: "Denne brukeren er ikke medlem av %{community}."
     profile_feedback:
-      as_expected: "Som forventet"
-      exceeded_expectations: "Mye bedre enn forventet"
       grade: "karakter:"
       and_gave_following_feedback: "og gav følgende tilbakemelding"
-      less_than_expected: "Dårligere enn forventet"
-      slightly_better_than_expected: "Noe bedre enn forventet"
-      slightly_less_than_expected: "Noe dårligere enn forventet"
     profile_listings:
       show_also_closed: "Vis også lukkede"
       show_only_open: "Vis kun åpne"

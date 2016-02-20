@@ -21,7 +21,7 @@
 #     else
 #       @current_community.community_customizations.create(param_hash.merge({:locale => I18n.locale}))
 #     end
-#     render text: ""
+#     render plain: ""
 #   end
 
 # end

@@ -20,7 +20,7 @@
 
 class Booking < ActiveRecord::Base
 
-  belongs_to :transaction
+  belongs_to :tx, class_name: "Transaction", foreign_key: "transaction_id"
 
   attr_accessible :transaction_id, :end_on, :start_on, :reason, :description, :device_returned
 
