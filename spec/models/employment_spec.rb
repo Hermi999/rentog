@@ -32,12 +32,12 @@ describe Employment do
 
   it "should be valid" do
     expect(@test_employee.class).to eq(Person)
-    expect(@test_employee.is_organization).to eq(true)
+    expect(@test_employee.is_organization).to eq(false)
     expect(@test_employee).not_to be_nil
     expect(@test_employee).to be_valid
 
     expect(@test_organization.class).to eq(Person)
-    expect(@test_organization.is_organization).to eq(false)
+    expect(@test_organization.is_organization).to eq(true)
     expect(@test_organization).not_to be_nil
   end
 
