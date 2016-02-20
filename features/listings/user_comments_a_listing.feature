@@ -25,6 +25,7 @@ Feature: User comments a listing
     And I should see "Don't get emails about new comments"
     When I log out
     And I log in as "kassi_testperson1"
+    And I go to the marketplace page
     And I follow "Massage"
     And I press "Send comment"
     And the system processes jobs

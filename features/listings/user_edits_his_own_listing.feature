@@ -46,6 +46,7 @@ Feature: User edits his own listing
     And I follow "Hammer"
     When I log out
     And I log in as "kassi_testperson1"
+    And I am on the marketplace
     When I follow "Hammer"
     And I follow "Edit listing"
     Then I should see "Listing title*"
@@ -64,6 +65,7 @@ Feature: User edits his own listing
       | kassi_testperson1 |
     And there is a listing with title "Hammer" from "kassi_testperson1" with category "Tools" and with listing shape "Requesting"
     And I am logged in as "kassi_testperson1"
+    And I am on the marketplace
     When I follow "Hammer"
     And I follow "Edit listing" within "#listing-message-links"
     Then I should see "Listing title*"

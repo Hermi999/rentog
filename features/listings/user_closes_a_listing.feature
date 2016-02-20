@@ -10,6 +10,7 @@ Feature: User closes a listing
       | kassi_testperson1 |
     And there is a listing with title "Hammer" from "kassi_testperson1" with category "Items" and with listing shape "Requesting"
     And I am logged in as "kassi_testperson1"
+    And I am on the marketplace
     When I follow "Hammer"
     And I follow "Close listing"
     And I should see "Listing is closed" within "#listing-message-links"

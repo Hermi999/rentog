@@ -16,6 +16,7 @@ Feature: User invites other user
     Then I should be on invitations page
 
   @javascript
+  @skip_phantomjs
   Scenario: User invites another user successfully
     When users can not invite new users to join community "test"
     And I am on the marketplace
