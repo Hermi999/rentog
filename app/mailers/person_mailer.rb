@@ -151,7 +151,7 @@ class PersonMailer < ActionMailer::Base
 
 
     overdueBookings.each do |booking|
-      current_user = booking.transaction.starter
+      current_user = booking.tx.starter
       user_already_there = false
 
       # Iterate through all existing users_to_notify_of_overdue
@@ -167,7 +167,7 @@ class PersonMailer < ActionMailer::Base
           user_to_notify[:listings].each do |listing|
 
             # If the listing of this current booking already exists within the array
-            if listing[:listing].id == booking.transaction.listing_id
+            if listing[:listing].id == booking.tx.listing_id
 
               # If the current booking ends later, then take over it's attributes
               if listing[:return_on] < booking.end_on
@@ -184,7 +184,7 @@ class PersonMailer < ActionMailer::Base
           # If the listing was not within the array yet
           unless listing_already_there
             user_to_notify[:listings] << {
-              listing: booking.transaction.listing,
+              listing: booking.tx.listing,
               transaction_id: booking.transaction_id,
               return_on: booking.end_on,
               return_token: booking.device_return_token
@@ -200,7 +200,7 @@ class PersonMailer < ActionMailer::Base
       # listing
       unless user_already_there
         new_listing = {
-          listing: booking.transaction.listing,
+          listing: booking.tx.listing,
           transaction_id: booking.transaction_id,
           return_on: booking.end_on,
           return_token: booking.device_return_token

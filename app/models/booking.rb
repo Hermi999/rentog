@@ -71,7 +71,7 @@ class Booking < ActiveRecord::Base
     if listing_id.nil?
       Booking.where("device_returned = false AND end_on < ?", Date.today)
     else
-      Booking.joins(:transaction).where('listing_id = ? AND device_returned = false AND end_on < ?', listing_id, Date.today).readonly(false)
+      Booking.joins(:tx).where('listing_id = ? AND device_returned = false AND end_on < ?', listing_id, Date.today).readonly(false)
     end
   end
 
@@ -80,7 +80,7 @@ class Booking < ActiveRecord::Base
     if listing_id.nil?
       Booking.where("end_on >= ? AND start_on <= ?", Date.today, Date.today)
     else
-      Booking.joins(:transaction).where('listing_id = ? AND end_on >= ? AND start_on <= ?', listing_id, Date.today, Date.today).readonly(false)
+      Booking.joins(:tx).where('listing_id = ? AND end_on >= ? AND start_on <= ?', listing_id, Date.today, Date.today).readonly(false)
     end
   end
 
@@ -90,7 +90,7 @@ class Booking < ActiveRecord::Base
     if listing_id.nil?
       Booking.where("device_returned = false")
     else
-      Booking.joins(:transaction).where("listing_id = ? AND device_returned = false", listing_id).readonly(false)
+      Booking.joins(:tx).where("listing_id = ? AND device_returned = false", listing_id).readonly(false)
     end
   end
 
@@ -98,18 +98,18 @@ class Booking < ActiveRecord::Base
   # returned by now, because the return date is in the past
   def self.getOverdueBookingsOfUser(user_id, listing_id=nil)
     if listing_id.nil?
-      Booking.joins(:transaction).where('starter_id = ? AND device_returned = false AND end_on < ?', user_id, Date.today).readonly(false)
+      Booking.joins(:tx).where('starter_id = ? AND device_returned = false AND end_on < ?', user_id, Date.today).readonly(false)
     else
-      Booking.joins(:transaction).where('listing_id = ? AND starter_id = ? AND device_returned = false AND end_on < ?', listing_id, user_id, Date.today).readonly(false)
+      Booking.joins(:tx).where('listing_id = ? AND starter_id = ? AND device_returned = false AND end_on < ?', listing_id, user_id, Date.today).readonly(false)
     end
   end
 
   # Returns all bookings of a user [and a specific listing] which are currently active
   def self.getActiveBookingsOfUser(user_id, listing_id=nil)
     if listing_id.nil?
-      Booking.joins(:transaction).where('starter_id = ? AND end_on >= ? AND start_on <= ?', user_id, Date.today, Date.today).readonly(false)
+      Booking.joins(:tx).where('starter_id = ? AND end_on >= ? AND start_on <= ?', user_id, Date.today, Date.today).readonly(false)
     else
-      Booking.joins(:transaction).where('listing_id = ? AND starter_id = ? AND end_on >= ? AND start_on <= ?', listing_id, user_id, Date.today, Date.today).readonly(false)
+      Booking.joins(:tx).where('listing_id = ? AND starter_id = ? AND end_on >= ? AND start_on <= ?', listing_id, user_id, Date.today, Date.today).readonly(false)
     end
   end
 
@@ -117,9 +117,9 @@ class Booking < ActiveRecord::Base
   # they are in the future or in the  past (overdue)
   def self.getOpenBookingsOfUser(user_id, listing_id=nil)
     if listing_id.nil?
-      Booking.joins(:transaction).where("starter_id = ? AND device_returned = false", user_id).readonly(false)
+      Booking.joins(:tx).where("starter_id = ? AND device_returned = false", user_id).readonly(false)
     else
-      Booking.joins(:transaction).where("listing_id = ? AND starter_id = ? AND device_returned = false", listing_id, user_id).readonly(false)
+      Booking.joins(:tx).where("listing_id = ? AND starter_id = ? AND device_returned = false", listing_id, user_id).readonly(false)
     end
   end
 

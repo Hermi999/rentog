@@ -117,7 +117,7 @@ Then /^there should be a booking with starter "([^"]*)", start-date \+(\d+), end
   starter = Person.where(:username => starter_username).first
   booking = Booking.joins(:transaction).where('transactions.starter_id = ?', starter.id).first
 
-  booking.transaction.starter.username.should == starter_username
+  booking.tx.starter.username.should == starter_username
   booking.start_on.should == Date.today + initial_offset.to_i + start_date_offset.to_i
   booking.end_on.should == Date.today + length.to_i + initial_offset.to_i + end_date_offset.to_i
 end

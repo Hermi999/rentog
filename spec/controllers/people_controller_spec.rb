@@ -117,7 +117,7 @@ describe PeopleController, type: :controller do
       expect(Person.count).to eq(person_count + 1)
       organization = Person.find_by_username(username)
       expect(organization).not_to be_nil
-      expect(organization.is_organization).not_to be_false
+      expect(organization.is_organization).to eq(true)
       expect(organization.organization_name).not_to be_nil
     end
 
@@ -140,8 +140,9 @@ describe PeopleController, type: :controller do
       expect(Person.count).to eq(person_count + 1)
       employee = Person.find_by_username(username)
       expect(employee).not_to be_nil
-      expect(employee.is_organization).to be_false
+      expect(employee.is_organization).to eq(false)
       expect(employee.organization_name).to be_nil
+      orga.reload   # Reload orga, so that the employees association gets updatet to the local model object
       expect(orga.employees.size).to eq(employee_count + 1)
       expect(employee.company.organization_name).to eq("ABCD")
     end

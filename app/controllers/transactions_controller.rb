@@ -319,8 +319,8 @@ class TransactionsController < ApplicationController
     booking = Booking.where(:transaction_id => params[:id]).first
 
     # Ensure that only internal transactions can be modified
-      starter = booking.transaction.starter
-      author = booking.transaction.author
+      starter = booking.tx.starter
+      author = booking.tx.author
       # If starter is an oranisation & starter is not the company admin
       if starter.is_organization? &&
          (starter.id != params[:person_id] && starter.username != params[:person_id])
@@ -348,7 +348,7 @@ class TransactionsController < ApplicationController
     # Check if booking dates are valid
     if !bookingDatesValid?( start_day.to_s,
                             end_day.to_s,
-                            booking.transaction.listing_id,
+                            booking.tx.listing_id,
                             booking[:start_on],
                             booking[:end_on])
       error_message = t("pool_tool.invalid_booking_dates")
@@ -384,8 +384,8 @@ class TransactionsController < ApplicationController
     booking = Booking.where(:transaction_id => params[:id]).first
 
     # Ensure that only internal transactions can be deleted
-      starter = booking.transaction.starter
-      author = booking.transaction.author
+      starter = booking.tx.starter
+      author = booking.tx.author
       # If starter is an oranisation & starter is not the company admin
       if starter.is_organization? &&
          (starter.id != params[:person_id] && starter.username != params[:person_id])
@@ -407,8 +407,8 @@ class TransactionsController < ApplicationController
 
     # Delete booking with the corresponding transaction id
     booking.delete
-    booking.transaction.conversation.delete
-    booking.transaction.delete
+    booking.tx.conversation.delete
+    booking.tx.delete
 
     # Render response
     render :json => {

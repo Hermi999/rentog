@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TransactionsController do
+describe TransactionsController, type: :controller do
   # Prerequisites
   before(:each) do
     @community = FactoryGirl.create(:community)
@@ -39,11 +39,11 @@ describe TransactionsController do
     @community.members << @employee2
     @community.members << @employee_other
 
-    Person.find_by_id(@company.id).should_not be_nil
-    Person.find_by_id(@employee.id).should_not be_nil
-    Person.find_by_id(@employee2.id).should_not be_nil
-    Person.find_by_id(@company_other.id).should_not be_nil
-    Person.find_by_id(@employee_other.id).should_not be_nil
+    expect(Person.find_by_id(@company.id)).not_to be_nil
+    expect(Person.find_by_id(@employee.id)).not_to be_nil
+    expect(Person.find_by_id(@employee2.id)).not_to be_nil
+    expect(Person.find_by_id(@company_other.id)).not_to be_nil
+    expect(Person.find_by_id(@employee_other.id)).not_to be_nil
   end
 
 
@@ -69,16 +69,16 @@ describe TransactionsController do
         # Check database entries
         last_trans = Transaction.last
         last_booking = Booking.last
-        last_trans.should_not == last_trans_before
-        last_booking.should_not == last_booking_before
+        expect(last_trans).not_to eq(last_trans_before)
+        expect(last_booking).not_to eq(last_booking_before)
 
         # Check response status code
-        response.status.should == 200
+        expect(response.status).to eq(200)
 
         # Check response
         resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
         display_name = @employee.family_name + " " + @employee.given_name
-        resp.should == {
+        expect(resp).to eq({
           "status" => "success",
           "employee" => true,
           "empl_or_reason" => display_name,
@@ -88,7 +88,7 @@ describe TransactionsController do
           "transaction_id" => last_trans.id,
           "renter_id" => @employee.id,
           "description" => "abc"
-          }
+          })
       end
 
 
@@ -112,16 +112,16 @@ describe TransactionsController do
         # Check database entries
         last_trans = Transaction.last
         last_booking = Booking.last
-        last_trans.should_not == last_trans_before
-        last_booking.should_not == last_booking_before
+        expect(last_trans).not_to eq(last_trans_before)
+        expect(last_booking).not_to eq(last_booking_before)
 
         # Check response status code
-        response.status.should == 200
+        expect(response.status).to eq(200)
 
         # Check response
         resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
         display_name = @employee.family_name + " " + @employee.given_name
-        resp.should == {
+        expect(resp).to eq({
           "status" => "success",
           "employee" => true,
           "empl_or_reason" => display_name,
@@ -131,7 +131,7 @@ describe TransactionsController do
           "transaction_id" => last_trans.id,
           "renter_id" => @employee.id,
           "description" => "abc"
-          }
+          })
       end
 
 
@@ -155,15 +155,15 @@ describe TransactionsController do
         # Check database entries
         last_trans = Transaction.last
         last_booking = Booking.last
-        last_trans.should_not == last_trans_before
-        last_booking.should_not == last_booking_before
+        expect(last_trans).not_to eq(last_trans_before)
+        expect(last_booking).not_to eq(last_booking_before)
 
         # Check response status code
-        response.status.should == 200
+        expect(response.status).to eq(200)
 
         # Check response
         resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
-        resp.should == {
+        expect(resp).to eq({
           "status" => "success",
           "employee" => false,
           "empl_or_reason" => "Maintainance",
@@ -173,7 +173,7 @@ describe TransactionsController do
           "transaction_id" => last_trans.id,
           "renter_id" => @company.id,
           "description" => "abc"
-          }
+          })
       end
 
 
@@ -192,10 +192,10 @@ describe TransactionsController do
                       }
 
         # No redirect but also no new transaction
-        response.status.should == 200
+        expect(response.status).to eq(200)
         resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
-        resp.should include({ "status" => "error"})
-        Transaction.last.should == last_trans
+        expect(resp).to include({ "status" => "error"})
+        expect(Transaction.last).to eq(last_trans)
       end
 
 
@@ -213,8 +213,8 @@ describe TransactionsController do
                       }
 
         # Redirect & no new transaction
-        response.status.should == 302
-        Transaction.last.should == last_trans
+        expect(response.status).to eq(302)
+        expect(Transaction.last).to eq(last_trans)
       end
 
 
@@ -232,8 +232,8 @@ describe TransactionsController do
                         description: "abc"
                       }
         # Redirect & no new transaction
-        response.status.should == 302
-        Transaction.last.should == last_trans
+        expect(response.status).to eq(302)
+        expect(Transaction.last).to eq(last_trans)
       end
 
       it "PoolTool: No new booking if employee is from another company" do
@@ -250,8 +250,8 @@ describe TransactionsController do
                         description: "abc"
                       }
         # Redirect & no new transaction
-        response.status.should == 302
-        Transaction.last.should == last_trans
+        expect(response.status).to eq(302)
+        expect(Transaction.last).to eq(last_trans)
       end
 
       it "PoolTool: No new booking if employee tries to book for other employee" do
@@ -268,8 +268,8 @@ describe TransactionsController do
                         description: "abc"
                       }
         # Redirect & no new transaction
-        response.status.should == 302
-        Transaction.last.should == last_trans
+        expect(response.status).to eq(302)
+        expect(Transaction.last).to eq(last_trans)
       end
     end
   end
@@ -282,7 +282,7 @@ describe TransactionsController do
       describe "Logged out" do
         it "No destroy as logged out user" do
           post :destroy, { person_id: 1, id: 1 }
-          response.status.should == 302
+          expect(response.status).to eq(302)
         end
       end
 
@@ -307,44 +307,44 @@ describe TransactionsController do
         it "Delete any booking as signed in company admin" do
           tr_count = Transaction.all.count
           post :destroy, { person_id: @company.username, id: @transaction_id }
-          response.status.should == 200
-          Transaction.all.count.should == tr_count - 1
+          expect(response.status).to eq(200)
+          expect(Transaction.all.count).to eq(tr_count - 1)
           resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
-          resp.should include({ "status" => "success"})
+          expect(resp).to include({ "status" => "success"})
         end
 
         it "Delete own booking as signed in employee" do
           sign_in_for_spec(@employee)
           tr_count = Transaction.all.count
           post :destroy, { person_id: @company.username, id: @transaction_id }
-          response.status.should == 200
-          Transaction.all.count.should == tr_count - 1
+          expect(response.status).to eq(200)
+          expect(Transaction.all.count).to eq(tr_count - 1)
           resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
-          resp.should include({ "status" => "success"})
+          expect(resp).to include({ "status" => "success"})
         end
 
         it "No destroy if same company but other employee" do
           sign_in_for_spec(@employee2)
           tr_count = Transaction.all.count
           post :destroy, { person_id: @company.username, id: @transaction_id }
-          response.status.should == 302
-          Transaction.all.count.should == tr_count
+          expect(response.status).to eq(302)
+          expect(Transaction.all.count).to eq(tr_count)
         end
 
         it "No destroy if other company admin" do
           sign_in_for_spec(@company_other)
           tr_count = Transaction.all.count
           post :destroy, { person_id: @company.username, id: @transaction_id }
-          response.status.should == 302
-          Transaction.all.count.should == tr_count
+          expect(response.status).to eq(302)
+          expect(Transaction.all.count).to eq(tr_count)
         end
 
         it "No destroy if other company employee" do
           sign_in_for_spec(@employee_other)
           tr_count = Transaction.all.count
           post :destroy, { person_id: @company.username, id: @transaction_id }
-          response.status.should == 302
-          Transaction.all.count.should == tr_count
+          expect(response.status).to eq(302)
+          expect(Transaction.all.count).to eq(tr_count)
         end
 
       end
@@ -358,7 +358,7 @@ describe TransactionsController do
       describe "Logged out" do
         it "No update as logged out user" do
           post :update, { person_id: 1, id: 1 }
-          response.status.should == 302
+          expect(response.status).to eq(302)
         end
       end
 
@@ -387,9 +387,9 @@ describe TransactionsController do
                           from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
                           to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
                         }
-          response.status.should == 200
+          expect(response.status).to eq(200)
           resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
-          resp.should include({ "status" => "success"})
+          expect(resp).to include({ "status" => "success"})
         end
 
         it "Update own booking as signed in employee" do
@@ -400,9 +400,9 @@ describe TransactionsController do
                           from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
                           to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
                          }
-          response.status.should == 200
+          expect(response.status).to eq(200)
           resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
-          resp.should include({ "status" => "success"})
+          expect(resp).to include({ "status" => "success"})
         end
 
         it "No update if invalid dates" do
@@ -413,9 +413,9 @@ describe TransactionsController do
                           from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
                           to: "Tue Sep 29 2025 02:00:00 GMT+0200 (CEST)"
                          }
-          response.status.should == 200
+          expect(response.status).to eq(200)
           resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
-          resp.should include({ "status" => "error"})
+          expect(resp).to include({ "status" => "error"})
         end
 
         it "No update if same company but other employee" do
@@ -426,7 +426,7 @@ describe TransactionsController do
                           from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
                           to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
                          }
-          response.status.should == 302
+          expect(response.status).to eq(302)
         end
 
         it "No update if other company admin" do
@@ -437,7 +437,7 @@ describe TransactionsController do
                             from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
                             to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
                           }
-          response.status.should == 302
+          expect(response.status).to eq(302)
         end
 
         it "No update if other company employee" do
@@ -448,7 +448,7 @@ describe TransactionsController do
                           from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
                           to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
                           }
-          response.status.should == 302
+          expect(response.status).to eq(302)
         end
       end
     end
