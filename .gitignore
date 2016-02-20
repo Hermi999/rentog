@@ -33,7 +33,7 @@ public/assets/*
 # Rails.application.config.assets.digests will bei nil which leeds to
 # (Sprockets::Helpers::RailsHelper::AssetPaths::AssetNotPrecompiledError)
 # during Server startup.
-!public/assets/manifest.yml
+!public/assets/manifest*
 app/assets/webfonts/
 app/assets/stylesheets/customizations-*
 app/assets/stylesheets/custom-style-*
