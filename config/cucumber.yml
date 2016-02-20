@@ -3,11 +3,12 @@ rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
 rerun_opts = rerun.to_s.strip.empty? ? "--format #{ENV['CUCUMBER_FORMAT'] || 'progress'} features" : "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} #{rerun}"
 std_opts = "-rfeatures --format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags ~@wip"
 skip_phantomjs = ENV['PHANTOMJS'] ? "--tags ~@skip_phantomjs" : ""
+not_needed_for_rentog = "--tags ~@not_needed_for_rentog"
 %>
-default: <%= skip_phantomjs %>  <%= std_opts %> features
+default: <%= skip_phantomjs %> <%= not_needed_for_rentog %> <%= std_opts %> features
 only_phantomjs: --tags @skip_phantomjs <%= std_opts %>
 wip: --tags @wip:3 --wip features
 rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags ~@wip
-travis: -rfeatures --tags ~@pending --tags ~@fix_for_new_design <%= skip_phantomjs %> --format Cucumber::Formatter::Sharetribe features
+travis: -rfeatures --tags ~@pending --tags ~@fix_for_new_design <%= skip_phantomjs %> <%= not_needed_for_rentog %> --format Cucumber::Formatter::Sharetribe features
 temp: -rfeatures --strict --tags ~@wip --tags ~@pending --tags ~@fix_for_new_design --format progress features
 parallel: -rfeatures --tags ~@wip --format progress features
