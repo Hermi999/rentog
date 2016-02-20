@@ -83,6 +83,8 @@ FactoryGirl.define do
   factory :person, aliases: [:author, :receiver, :recipient, :payer, :sender, :follower, :company, :employee] do
     id
     is_admin 0
+    created_at DateTime.now
+    updated_at DateTime.now
     locale "en"
     test_group_number 4
     given_name "Proto"
@@ -95,11 +97,10 @@ FactoryGirl.define do
     has_many :emails do |person|
       FactoryGirl.build(:email, person: person)
     end
-    build_association(:company_option)
   end
 
   factory :company_option do
-    company_id 999
+    build_association(:company)
     employee_has_to_give_back_listing true
     employee_can_see_statistics true
   end
@@ -210,6 +211,8 @@ FactoryGirl.define do
   end
 
   factory :employment do
+    created_at DateTime.now
+    updated_at DateTime.now
     build_association(:company)
     build_association(:employee)
     active :active

@@ -1,14 +1,15 @@
-require "spec_helper"
+# wah: We dont need mercury at the moment
+# require "spec_helper"
 
-describe "Routing for mercury" do
+# describe "Routing for mercury" do
 
-  it "routes /en/mercury_update to mercury controller" do
-    expect(put "/en/mercury_update").to(
-      route_to({
-                 :controller => "mercury_update",
-                 :action => "update",
-                 :locale => "en"
-               }))
-  end
+#   it "routes /en/mercury_update to mercury controller" do
+#     expect(put "/en/mercury_update").to(
+#       route_to({
+#                  :controller => "mercury_update",
+#                  :action => "update",
+#                  :locale => "en"
+#                }))
+#   end
 
-end
+# end

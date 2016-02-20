@@ -281,7 +281,7 @@ describe TransactionsController do
 
       describe "Logged out" do
         it "No destroy as logged out user" do
-          post :destroy, { id: 1 }
+          post :destroy, { person_id: 1, id: 1 }
           response.status.should == 302
         end
       end
@@ -357,7 +357,7 @@ describe TransactionsController do
 
       describe "Logged out" do
         it "No update as logged out user" do
-          post :update, { id: 1 }
+          post :update, { person_id: 1, id: 1 }
           response.status.should == 302
         end
       end

@@ -7,11 +7,9 @@ gem 'rails', '4.0.13'
 # To use debugger
 #gem 'ruby-debug'
 
-group :assets do
-  gem 'coffee-rails', "~> 4.0.1"
-  gem 'uglifier'
-  gem 'asset_sync'
-end
+gem 'coffee-rails', "~> 4.0.1"
+gem 'uglifier'
+gem 'asset_sync'
 
 gem 'sass-rails', '~> 4.0.0'
 gem 'compass-rails', '~> 1.1'

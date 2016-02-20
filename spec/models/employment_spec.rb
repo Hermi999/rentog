@@ -23,8 +23,11 @@ describe Employment do
     @dummy = FactoryGirl.build(:person, :is_organization => false)
     @test_employee = FactoryGirl.build(:person, :is_organization => false, :username => 'XXXXXXX', :organization_name => '')
     @test_employee2 = FactoryGirl.build(:person, :is_organization => false, :username => 'YYYYYYY', :organization_name => '')
+    @test_employee3 = FactoryGirl.build(:person, :is_organization => false, :username => 'ZZZZZZZ', :organization_name => '')
+    @test_employee4 = FactoryGirl.build(:person, :is_organization => false, :username => 'WWWWWWW', :organization_name => '')
     @test_organization = FactoryGirl.build(:person, :username => 'aaaaaaaaaaa', :organization_name => 'AAA')
     @test_organization2 = FactoryGirl.build(:person, :username => 'bbbbbbbbbbb', :organization_name => 'BBB')
+    @test_organization3 = FactoryGirl.build(:person, :username => 'ccccccccccc', :organization_name => 'CCC')
   end
 
   it "should be valid" do
@@ -44,34 +47,32 @@ describe Employment do
     @test_organization.id.should_not == 0
   end
 
-  describe "#create and destroy" do
-    it "should create a new employment" do
-      lambda {
-        Employment.add_employee_to_company(@test_employee, @test_organization)
-        Employment.add_employee_to_company(@test_employee2, @test_organization2)
-      }.should change{Employment.count}.by(2)
+  it "should create a new employment" do
+    lambda {
+      Employment.add_employee_to_company(@test_employee2, @test_organization2)
+      Employment.add_employee_to_company(@test_employee3, @test_organization2)
+    }.should change{Employment.count}.by(2)
 
-      @test_employee.company.id == @test_organization.id
-      @test_employee2.company.id == @test_organization2.id
-      @test_organization.employees.first.id == @test_employee.id
-      @test_organization2.employees.first.id == @test_employee2.id
-      #@test_employee.companies.first.id == @test_organization.id
-      #@test_employee2.companies.first.id == @test_organization2.id
-      #@test_organization.employees.first.id == @test_employee.id
-      #@test_organization2.employees.first.id == @test_employee2.id
-    end
+    @test_employee2.company.id == @test_organization2.id
+    @test_employee3.company.id == @test_organization2.id
+    @test_organization2.employees.first.id == @test_employee2.id
+    @test_organization2.employees.second.id == @test_employee3.id
+    #@test_employee2.companies.first.id == @test_organization2.id
+    #@test_employee3.companies.first.id == @test_organization3.id
+    #@test_organization2.employees.first.id == @test_employee2.id
+    #@test_organization3.employees.first.id == @test_employee3.id
+  end
 
 
-    it "should destroy an employment" do
-      Employment.add_employee_to_company(@test_employee, @test_organization)
-      Employment.remove_employee_from_company(@test_employee, @test_organization)
+  it "should destroy an employment" do
+    Employment.add_employee_to_company(@test_employee4, @test_organization3)
+    Employment.remove_employee_from_company(@test_employee4, @test_organization3)
 
-      empl = Employment.find_by_employee_id(@test_employee.id)
-      empl.active.should == false
-      @test_organization.employs?(@test_employee).should == false
+    empl = Employment.find_by_employee_id(@test_employee4.id)
+    empl.active.should == false
+    @test_organization3.employs?(@test_employee4).should == false
 
-      #clean up
-      Employment.delete_all
-    end
+    #clean up
+    Employment.delete_all
   end
 end

@@ -30,7 +30,7 @@ class Employment < ActiveRecord::Base
   def self.add_employee_to_company(employee, company = nil)
     company ||= @current_user
 
-    # Check if relationship already exists. I fyes, then set active to true
+    # Check if relationship already exists. If yes, then set active to true
     if (employment = company.employments.where(employee_id: employee.id).first)
       employment.active = true
       employment.save
