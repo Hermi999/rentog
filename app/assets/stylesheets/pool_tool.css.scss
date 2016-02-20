@@ -431,20 +431,26 @@
 
 .poolTool_devices_i_have{
   margin-top: 30px;
+  margin-bottom: 30px;
   padding-top: 20px;
 }
 
 .pool_tool_header{
   @include big-type;
-  background-color: rgb(224, 223, 223);
+  background-color: #2F2F2F;
   padding: 8px 5px;
   border-radius: 5px;
-  border-bottom: 3px solid rgb(160, 159, 159);
+  border-bottom: 3px solid #000000;
+  color: white;
+  margin-bottom: 0px!important;
 }
 
 #my_devices{
-  margin-left:10px;
-  margin-top: 30px;
+  padding-left: 15px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  border-radius: 10px;
+  background-color: rgb(202, 202, 202)
 }
 
 #other_devices{
@@ -453,11 +459,13 @@
 }
 
 .user_booking{
-  border-bottom: 1px dotted black;
-  border-left: 1px dotted black;
+  border-bottom: 2px solid #5F5F5F;
+  border-left: 2px solid #5F5F5F;
+  border-radius: 10px;
   padding: 3px 10px!important;
   min-width: 350px;
-  margin-bottom: 30px;
+  margin-bottom: 20px!important;
+  margin-right: 20px;
   background: linear-gradient(45deg, #F5EDC3 0%, #F5EDC3 5%, #ffffff 100%);
 
   p.user_booking_header{
@@ -516,7 +524,7 @@
 }
 
 .no-open-bookings {
-  color: rgb(49, 144, 23);
+  color: #23a3b9;
   @include big-type;
 }
 

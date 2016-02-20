@@ -179,8 +179,8 @@
       #my_devices.row
 
 
-  / Devices others have at the moment
-  - if @current_user.is_organization?
+  / Devices others have at the moment - not working yet..only show admin
+  - if @current_user.is_organization? && @current_user.has_admin_rights_in?(@current_community)
     .poolTool_devices_others_have
       %p{:class=>"pool_tool_header"}
         = t('pool_tool.show.devices_others_borrowed')
