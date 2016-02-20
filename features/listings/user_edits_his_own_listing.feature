@@ -17,6 +17,7 @@ Feature: User edits his own listing
     And I follow "Hammer"
     When I log out
     And I log in as "kassi_testperson1"
+    And I am on the marketplace
     When I follow "Hammer"
     And I follow "Edit listing"
     Then I should see "Listing title*"
