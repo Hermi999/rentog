@@ -201,7 +201,7 @@ When /^I change custom field "(.*?)" categories$/ do |field_name|
 end
 
 Then /^correct categories should be stored$/ do
-  @custom_field.categories.should == [@custom_field.community.categories[0]]
+  expect(@custom_field.categories).to eq([@custom_field.community.categories[0]])
 end
 
 When /^I try to remove all categories$/ do

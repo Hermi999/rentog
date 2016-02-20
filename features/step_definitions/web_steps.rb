@@ -218,19 +218,19 @@ Then /^I should see "([^"]*)" in the "([^"]*)" input$/ do |content, field|
 end
 
 Then /^I should see element "([^"]*)"$/ do |element|
-  find(element).should be_visible
+  expect(find(element)).to be_visible
 end
 
 Then /^I should not see element "([^"]*)"$/ do |element|
-  find(element,:visible=>false).should_not be_visible
+  expect(find(element,:visible=>false)).not_to be_visible
 end
 
 Then /^I should see disabled element "([^"]*)"$/ do |element|
-  find(element,:visible=>false).should be_visible
+  expect(find(element,:visible=>false)).to be_visible
 end
 
 Then /^I should see enabled element "([^"]*)"$/ do |element|
-  find(element,:visible=>true).should be_visible
+  expect(find(element,:visible=>true)).to be_visible
 end
 
 Then /^(?:|I )should not see "([^"]*)"(?: within "([^"]*)")?$/ do |text, selector|
@@ -330,8 +330,8 @@ end
 
 Then /^I should see more than (\d+) validation errors$/ do |errors_count|
   errors = all("label.error");
-  errors.size.should be > (errors_count.to_i)
-  all("label.error").each { |error| error.should be_visible }
+  expect(errors.size).to be > (errors_count.to_i)
+  all("label.error").each { |error| expect(error).to be_visible }
 end
 
 Then /^take a screenshot$/ do

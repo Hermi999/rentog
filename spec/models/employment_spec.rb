@@ -31,20 +31,19 @@ describe Employment do
   end
 
   it "should be valid" do
-    @test_employee.class.should == Person
-    @test_employee.is_organization == true
-    @test_employee.should_not be_nil
-    @test_employee.should be_valid
+    expect(@test_employee.class).to eq(Person)
+    expect(@test_employee.is_organization).to eq(true)
+    expect(@test_employee).not_to be_nil
+    expect(@test_employee).to be_valid
 
-    @test_organization.class.should == Person
-    @test_organization.is_organization == false
-    @test_organization.should_not be_nil
-    #@test_organization.should be_valid
+    expect(@test_organization.class).to eq(Person)
+    expect(@test_organization.is_organization).to eq(false)
+    expect(@test_organization).not_to be_nil
   end
 
   it "should have an id other than 0" do
-    @test_employee.id.should_not == 0
-    @test_organization.id.should_not == 0
+    expect(@test_employee.id).not_to eq(0)
+    expect(@test_organization.id).not_to eq(0)
   end
 
   it "should create a new employment" do
@@ -69,8 +68,8 @@ describe Employment do
     Employment.remove_employee_from_company(@test_employee4, @test_organization3)
 
     empl = Employment.find_by_employee_id(@test_employee4.id)
-    empl.active.should == false
-    @test_organization3.employs?(@test_employee4).should == false
+    expect(empl.active).to eq(false)
+    expect(@test_organization3.employs?(@test_employee4)).to eq(false)
 
     #clean up
     Employment.delete_all

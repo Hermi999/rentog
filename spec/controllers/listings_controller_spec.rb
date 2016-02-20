@@ -161,7 +161,6 @@ describe ListingsController, type: :controller do
       expect(doc.search("feed/entry/title")[1].text).to eq("Request: bike")
       expect(doc.search("feed/entry/published")[0].text).to be > doc.search("feed/entry/published")[1].text
 
-      #DateTime.parse(doc.search("feed/entry/published")[1].text).should == @l1.created_at
       expect(doc.search("feed/entry/content")[1].text).to match(/#{@l1.description}/)
     end
 

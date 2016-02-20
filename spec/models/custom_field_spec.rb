@@ -42,8 +42,6 @@ describe CustomField, type: :model do
         it "with empty value" do
           @custom_field = FactoryGirl.build(:custom_dropdown_field, names: [])
           expect(@custom_field).to be_valid
-          # This is not possible. If you pass empty array, then factory girl uses defaults
-          # @custom_field.names.length.should == 0
         end
 
         it "with custom value" do
@@ -70,8 +68,6 @@ describe CustomField, type: :model do
         it "with empty value" do
           @custom_field = FactoryGirl.create(:custom_dropdown_field, names: [])
           expect(@custom_field).to be_valid
-          # This is not possible. If you pass empty array, then factory girl uses defaults
-          # @custom_field.names.length.should == 0
         end
 
         it "with custom value" do

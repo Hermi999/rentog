@@ -7,14 +7,14 @@ describe BookingsController do
   # describe "PUT 'update_device_returned'" do
   #   it "returns http success" do
   #     get 'update'
-  #     response.should be_success
+  #     expect(response).to be_success
   #   end
   # end
   #
   # # describe "GET 'update_device_returned'" do
   #   it "returns http success" do
   #     get 'update'
-  #     response.should be_success
+  #     expect(response).to be_success
   #   end
   # end
 

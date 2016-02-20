@@ -74,10 +74,12 @@ class ListingImagesController < ApplicationController
 
     if listing_image.save
       if !listing_image.image_downloaded
-        logger.info("Asynchronously downloading image", :start_async_image_download, listing_image_id: listing_image.id, url: url, params: params)
+        # wah: Temporary deactivate logger, because of:   #<Encoding::UndefinedConversionError: "\xFF" from ASCII-8BIT to UTF-8>
+        #logger.info("Asynchronously downloading image", :start_async_image_download, listing_image_id: listing_image.id, url: url, params: params)
         Delayed::Job.enqueue(DownloadListingImageJob.new(listing_image.id, url), priority: 1)
       else
-        logger.info("Listing image is already downloaded", :image_already_downloaded, listing_image_id: listing_image.id, params: params)
+        # wah: Temporary deactivate logger, because of:   #<Encoding::UndefinedConversionError: "\xFF" from ASCII-8BIT to UTF-8>
+        #logger.info("Listing image is already downloaded", :image_already_downloaded, listing_image_id: listing_image.id, params: params)
       end
 
       render json: ListingImageJSAdapter.new(listing_image).to_json, status: 202, content_type: 'text/plain' # Browsers without XHR fileupload support do not support other dataTypes than text

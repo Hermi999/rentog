@@ -61,7 +61,7 @@ When /^I try to go to inbox of "([^"]*)"$/ do |person|
 end
 
 Then /^the status of the conversation should be "([^"]*)"$/ do |status|
-  @transaction.status.should == status
+  expect(@transaction.status).to eq(status)
 end
 
 Given /^the (offer|request) is (accepted|rejected|confirmed|canceled|paid)$/ do |listing_type, status|

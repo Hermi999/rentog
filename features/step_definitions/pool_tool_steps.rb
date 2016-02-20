@@ -105,31 +105,31 @@ When(/I update start-date \+(\d+) and end-date \+(\d+) days$/) do |start_date_of
 end
 
 Then /^there should be a booking with starter "([^"]*)" and reason "([^"]*)" in the Db$/ do |starter_username, reason|
-  Booking.last.transaction.starter.username.should == starter_username
-  Booking.last.reason.should == reason
+  expect(Booking.last.tx.starter.username).to eq(starter_username)
+  expect(Booking.last.reason).to eq(reason)
 end
 
 Then /^there should be a booking with starter "([^"]*)" in the Db$/ do |starter_username|
-  Booking.last.transaction.starter.username.should == starter_username
+  expect(Booking.last.tx.starter.username).to eq(starter_username)
 end
 
 Then /^there should be a booking with starter "([^"]*)", start-date \+(\d+), end-date \+(\d+), length (\d+) and offset (\d+) days in the Db$/ do |starter_username, start_date_offset, end_date_offset, length, initial_offset|
   starter = Person.where(:username => starter_username).first
-  booking = Booking.joins(:transaction).where('transactions.starter_id = ?', starter.id).first
+  booking = Booking.joins(:tx).where('transactions.starter_id = ?', starter.id).first
 
-  booking.tx.starter.username.should == starter_username
-  booking.start_on.should == Date.today + initial_offset.to_i + start_date_offset.to_i
-  booking.end_on.should == Date.today + length.to_i + initial_offset.to_i + end_date_offset.to_i
+  expect(booking.tx.starter.username).to eq(starter_username)
+  expect(booking.start_on).to eq(Date.today + initial_offset.to_i + start_date_offset.to_i)
+  expect(booking.end_on).to eq(Date.today + length.to_i + initial_offset.to_i + end_date_offset.to_i)
 end
 
 Then /^there should not be a booking with starter "([^"]*)" in the Db$/ do |starter_username|
   starter = Person.where(:username => starter_username).first
-  booking = Booking.joins(:transaction).where('transactions.starter_id = ?', starter.id).first
-  booking.should == nil
+  booking = Booking.joins(:tx).where('transactions.starter_id = ?', starter.id).first
+  expect(booking).to eq(nil)
 end
 
 Then /^there should not be a booking with starter "([^"]*)" and reason "([^"]*)" in the Db$/ do |starter_username, reason|
   starter = Person.where(:username => starter_username).first
-  booking = Booking.joins(:transaction).where('bookings.reason = ? and transactions.starter_id = ?', reason, starter.id).first
-  booking.should == nil
+  booking = Booking.joins(:tx).where('bookings.reason = ? and transactions.starter_id = ?', reason, starter.id).first
+  expect(booking).to eq(nil)
 end
