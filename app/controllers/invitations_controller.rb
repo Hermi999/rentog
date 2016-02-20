@@ -37,7 +37,7 @@ class InvitationsController < ApplicationController
     invitation_emails.each do |email|
 
       # Invitations for employees last much shorter
-      if (params[:invitation][:target] == "employee")
+      if (invitation_params[:target] == "employee")
         valid_until = Time.now + 5.days
       else
         valid_until = Time.now + 60.days
@@ -48,7 +48,8 @@ class InvitationsController < ApplicationController
         email: email,
         inviter: @current_user,
         community_id: @current_community.id,
-        :valid_until => valid_until
+        valid_until: valid_until,
+        target: invitation_params[:target]
       )
 
       if invitation.save
