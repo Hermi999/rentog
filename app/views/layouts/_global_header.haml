@@ -7,6 +7,9 @@
   - logo_class = "header-wide-logo-restricted"
 - elsif request.path.include?("poolTool")
   - logo_class = "header-wide-logo-pooltool"
+- elsif request.path.include?("marketplace")
+  -# logo_class = "header-wide-logo-marketplace"
+  - header += " header-marketplace"
 
 %div{:id => "header", :class => "#{header}"}
   .header-wrapper

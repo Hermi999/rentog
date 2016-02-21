@@ -17,6 +17,11 @@
       = icon_tag("calendar", ["icon-with-text"])
       = t("layouts.logged_in.poolTool")
 
+  - unless @current_community.only_pool_tool
+    = link_to marketplace_path do
+      = icon_tag("notifications", ["icon-with-text"])
+      = t("header.marketplace")
+
   = link_to marketplace_path(:restrictedMarketplace => "1") do
     = icon_tag("lock", ["icon-with-text"])
     = t("header.restrictedMarketplace")
