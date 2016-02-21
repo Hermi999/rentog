@@ -178,47 +178,48 @@ class HomepageController < ApplicationController
     search_engine = feature_enabled?(:new_search) || APP_CONFIG.external_search_in_use ? :zappy : :sphinx;
     raise_errors = Rails.env.development?
 
-      res = ListingIndexService::API::Api.listings.search(
-        community_id: @current_community.id,
-        search: search,
-        includes: includes,
-        engine: search_engine,
-        raise_errors: raise_errors
-        )
+    res = ListingIndexService::API::Api.listings.search(
+      community_id: @current_community.id,
+      search: search,
+      includes: includes,
+      engine: search_engine,
+      raise_errors: raise_errors
+      )
 
-      # wah: Filter results based on marketplace type
-      listings_restrictedMarketplace = []
-      if @restrictedMarketplace
-        # get all listings which should be shown
-        if @current_user  # if logged in, then show devices from followers.
-          allowed_authors = @current_user.followers.as_json
-          allowed_authors << @current_user
-        else              # show devices from no one...
-          allowed_authors = []
-        end
-        allowed_authors.each do |follower|
-          res.data[:listings].each do |search_listing|
-            if search_listing[:author][:id] == follower["id"]
-              listings_restrictedMarketplace << search_listing
-            end
-          end
-        end
-
-       res.data[:listings] = listings_restrictedMarketplace
-       res.data[:count] = listings_restrictedMarketplace.count
-      else
+    # wah: Filter results based on marketplace type
+    listings_restrictedMarketplace = []
+    if @restrictedMarketplace
+      # get all listings which should be shown
+      if @current_user  # if logged in, then show devices from followers.
+        allowed_authors = @current_user.followers.as_json
+        allowed_authors << @current_user.as_json
+      else              # show devices from no one...
+        allowed_authors = []
       end
 
+      allowed_authors.each do |follower|
+        res.data[:listings].each do |search_listing|
+          if search_listing[:author][:id] == follower["id"]
+            listings_restrictedMarketplace << search_listing
+          end
+        end
+      end
 
-      res.and_then { |res|
-        Result::Success.new(
-          ListingIndexViewUtils.to_struct(
-          result: res,
-          includes: includes,
-          page: search[:page],
-          per_page: search[:per_page]
-        ))
-      }
+     res.data[:listings] = listings_restrictedMarketplace
+     res.data[:count] = listings_restrictedMarketplace.count
+    else
+    end
+
+
+    res.and_then { |res|
+      Result::Success.new(
+        ListingIndexViewUtils.to_struct(
+        result: res,
+        includes: includes,
+        page: search[:page],
+        per_page: search[:per_page]
+      ))
+    }
 
   end
 
