@@ -12,6 +12,8 @@ module NavigationHelpers
       '/'
     when /the marketplace/
       '/en/marketplace'
+    when /the restricted marketplace/
+      '/en/marketplace?restrictedMarketplace=1'
     when /the signup page/
       '/en/signup'
     when /the private community sign in page/

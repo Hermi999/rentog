@@ -190,8 +190,12 @@ class HomepageController < ApplicationController
       listings_restrictedMarketplace = []
       if @restrictedMarketplace
         # get all listings which should be shown
-        allowed_authors = @current_user.followers.as_json
-        allowed_authors << @current_user
+        if @current_user  # if logged in, then show devices from followers.
+          allowed_authors = @current_user.followers.as_json
+          allowed_authors << @current_user
+        else              # show devices from no one...
+          allowed_authors = []
+        end
         allowed_authors.each do |follower|
           res.data[:listings].each do |search_listing|
             if search_listing[:author][:id] == follower["id"]

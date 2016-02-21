@@ -26,6 +26,8 @@ Feature: User views a single listing
     And I should see "100%"
     And I should see "(2/2)"
 
+
+
   @only_without_asi
   Scenario: Trusted Company tries to view an intern listing
     And there is a listing with title "services_intern_requesting" from "kassi_testperson1" with category "Services" with availability "intern" and with listing shape "Renting"
@@ -59,6 +61,8 @@ Feature: User views a single listing
     And I should see "You are not authorized to view this content"
     And I should see "All listing types"
 
+
+
   @only_without_asi
   Scenario: Trusted Company views an trusted listing
     And there is a listing with title "services_trusted_requesting" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Renting"
@@ -68,7 +72,7 @@ Feature: User views a single listing
     And I am on the profile page of "kassi_testperson1"
     Then I should see "Siemens" within "#profile-followed-people-list"
 
-    When I am on the marketplace page
+    When I am on the restricted marketplace page
     Then I should see "services_trusted_requesting"
 
     When I go to the listing page
@@ -76,20 +80,17 @@ Feature: User views a single listing
     And I should see "Rent"
 
   @only_without_asi
-  Scenario: Untrusted Company views an trusted listing
+  Scenario: Untrusted Company cant view any trusted listing
     And there is a listing with title "services_trusted_requesting" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Renting"
 
     When I am logged in as "kassi_testperson2"
     And I am on the profile page of "kassi_testperson1"
     Then I should not see "Siemens" within ".page-content"
 
-    When I am on the marketplace page
-    Then I should see "services_trusted_requesting"
+    When I am on the restricted marketplace page
+    Then I should not see "services_trusted_requesting"
 
-    When I go to the listing page
-    Then I should see "services_trusted_requesting"
-    And I should not see "Renting"
-    And I should see "Please contact the owner and ask him to add you to his trusted companies"
+
 
   @only_without_asi
   Scenario: Employee views a listing but cant rent it

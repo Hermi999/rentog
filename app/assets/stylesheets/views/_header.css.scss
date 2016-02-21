@@ -253,6 +253,22 @@ $elementSpacing: lines(0.5);
   display: inline-block;
 }
 
+.header-wide-logo-marketplace{
+  background-image: url(image-path($wide-logo-lowres-marketplace-url));
+
+  @include highres {
+    background-image: url(image-path($wide-logo-highres-marketplace-url));
+  }
+  width: em(240);
+  height: em(40);
+
+  // Highres image
+  background-repeat: no-repeat;
+  @include background-size(em(240) auto);
+
+  display: inline-block;
+}
+
 .header-square-logo {
   background-image: url(image-path($square-logo-lowres-url));
 
