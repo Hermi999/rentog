@@ -967,7 +967,11 @@ module ApplicationHelper
 
   def get_header_logo_link
     if @current_user
-      "/"
+      if request.path.include?("poolTool")
+        marketplace_path(:restrictedMarketplace => "1")
+      else
+        "/"
+      end
     else
       get_wp_url("")
     end

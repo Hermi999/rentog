@@ -22,6 +22,9 @@ $elementSpacing: lines(0.5);
   width: 100%;
   background-color: #212121;
 }
+.header-restriced-marketplace{
+  background-color: #C32929;
+}
 
 .header-wrapper {
   @include wrapper(0);
@@ -211,6 +214,38 @@ $elementSpacing: lines(0.5);
   // Highres image
   background-repeat: no-repeat;
   @include background-size(em(168) auto);
+
+  display: inline-block;
+}
+
+.header-wide-logo-restricted{
+  background-image: url(image-path($wide-logo-lowres-restricted-url));
+
+  @include highres {
+    background-image: url(image-path($wide-logo-highres-restricted-url));
+  }
+  width: em(260);
+  height: em(40);
+
+  // Highres image
+  background-repeat: no-repeat;
+  @include background-size(em(260) auto);
+
+  display: inline-block;
+}
+
+.header-wide-logo-pooltool{
+  background-image: url(image-path($wide-logo-lowres-pooltool-url));
+
+  @include highres {
+    background-image: url(image-path($wide-logo-highres-pooltool-url));
+  }
+  width: em(215);
+  height: em(40);
+
+  // Highres image
+  background-repeat: no-repeat;
+  @include background-size(em(215) auto);
 
   display: inline-block;
 }

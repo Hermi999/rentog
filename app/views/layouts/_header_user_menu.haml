@@ -17,6 +17,10 @@
       = icon_tag("calendar", ["icon-with-text"])
       = t("layouts.logged_in.poolTool")
 
+  = link_to marketplace_path(:restrictedMarketplace => "1") do
+    = icon_tag("lock", ["icon-with-text"])
+    = t("header.restrictedMarketplace")
+
   - with_invite_link do
     = link_to new_invitation_path do
       = icon_tag("new_listing", ["icon-with-text"])

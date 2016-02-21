@@ -1150,6 +1150,7 @@ en:
     manage_listings: "Manage listings"
     company_profile: "My company"
     invite: "Invite new members"
+    restrictedMarketplace: "Your marketplace"
     login: "Log in"
     signup: "Sign up"
     menu: Menu
@@ -1248,7 +1249,7 @@ en:
       email: "Email address(es)"
       message: "A personal message"
       send_invitation: "Send invitation"
-      add_email_addresses_description: "Add the email addresses of the people you are inviting to the field below. To add multiple email addresses, separate them with comma."
+      add_email_addresses_description: "Add the email addresses of the people you are inviting to the field below. To add multiple email addresses, separate them with comma. <br>The people you invite will also get a Link to your profile page. On this page they can add you as trusted company or they can send you a message on Rentog."
       add_lots_of_email_addresses: "As you are an administrator, here is a tip: if you plan to send lots of invitations, you should use an emailing tool. Check out %{this_article_link} to find out resources about suitable email services."
       this_article_link: "this article"
       label_invite_any: 'Invite another company to join Rentog'

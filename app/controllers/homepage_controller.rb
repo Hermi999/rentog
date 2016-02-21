@@ -11,6 +11,8 @@ class HomepageController < ApplicationController
 
   def index
     @homepage = true
+    @restrictedMarketplace = params[:restrictedMarketplace]
+    @marketplace_with_trusted_devs = params[:marketplace_with_trusted_devs]
 
     # Display list if on mobile device and no view selected
     if mobile_device? && params[:view].nil?
@@ -143,6 +145,20 @@ class HomepageController < ApplicationController
     dropdowns = filter_params[:custom_dropdown_field_options].map { |dropdown_field| dropdown_field.merge(type: :selection_group, operator: :or) }
     numbers = numeric_search_params.map { |numeric| numeric.merge(type: :numeric_range) }
 
+    # wah: restricted marketplace or open marketplace
+    availability_for_sphinx = {}
+    if @restrictedMarketplace
+      availability = ["trusted"]
+      availability_for_sphinx[:availability_restricted_marketplace] = true
+
+    elsif @marketplace_with_trusted_devs
+      availability = ["intern"]
+      availability_for_sphinx[:availability_not_intern] = true
+    else
+      availability = ["all"]
+      availability_for_sphinx[:availability_marketplace] = true
+    end
+
     search = {
       # Add listing_id
       categories: filter_params[:categories],
@@ -152,28 +168,54 @@ class HomepageController < ApplicationController
       fields: checkboxes.concat(dropdowns).concat(numbers),
       per_page: listings_per_page,
       page: params[:page].to_i > 0 ? params[:page].to_i : 1,
-      availability: ["all", "trusted"],   # wah_new
-      availability_not_intern: true       # wah_new
+      availability: availability,                                                 # wah_new
     }
+
+    # wah: Add availability for sphinx search
+    search.merge!(availability_for_sphinx)
+
 
     search_engine = feature_enabled?(:new_search) || APP_CONFIG.external_search_in_use ? :zappy : :sphinx;
     raise_errors = Rails.env.development?
 
-    ListingIndexService::API::Api.listings.search(
-      community_id: @current_community.id,
-      search: search,
-      includes: includes,
-      engine: search_engine,
-      raise_errors: raise_errors
-      ).and_then { |res|
-      Result::Success.new(
-        ListingIndexViewUtils.to_struct(
-        result: res,
+      res = ListingIndexService::API::Api.listings.search(
+        community_id: @current_community.id,
+        search: search,
         includes: includes,
-        page: search[:page],
-        per_page: search[:per_page]
-      ))
-    }
+        engine: search_engine,
+        raise_errors: raise_errors
+        )
+
+      # wah: Filter results based on marketplace type
+      listings_restrictedMarketplace = []
+      if @restrictedMarketplace
+        # get all listings which should be shown
+        allowed_authors = @current_user.followers.as_json
+        allowed_authors << @current_user
+        allowed_authors.each do |follower|
+          res.data[:listings].each do |search_listing|
+            if search_listing[:author][:id] == follower["id"]
+              listings_restrictedMarketplace << search_listing
+            end
+          end
+        end
+
+       res.data[:listings] = listings_restrictedMarketplace
+       res.data[:count] = listings_restrictedMarketplace.count
+      else
+      end
+
+
+      res.and_then { |res|
+        Result::Success.new(
+          ListingIndexViewUtils.to_struct(
+          result: res,
+          includes: includes,
+          page: search[:page],
+          per_page: search[:per_page]
+        ))
+      }
+
   end
 
   def filter_range(price_min, price_max)

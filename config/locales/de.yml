@@ -1149,6 +1149,7 @@ de:
     profile: Profil
     manage_listings: "Einträge verwalten"
     invite: "Neue Mitglieder einladen"
+    restrictedMarketplace: "Ihr Marktplatz"
     login: Einloggen
     signup: Registrieren
     menu: Menü
@@ -1246,7 +1247,7 @@ de:
       email: E-Mail-Adresse(n)
       message: "Eine persönliche Nachricht"
       send_invitation: "Einladung senden"
-      add_email_addresses_description: "Füge die E-Mail-Adressen der Leute, die du einladen möchtest, in das obere Feld ein. Wenn du mehrere E-Mail-Adressen hinzufügst, unterteile sie mit einem Komma."
+      add_email_addresses_description: "Füge die E-Mail-Adressen der Leute, die du einladen möchtest, in das obere Feld ein. Wenn du mehrere E-Mail-Adressen hinzufügst, unterteile sie mit einem Komma.<br>Die eingeladenen Leute erhalten auch einen Link auf deine Profilseite, damit können Sie dich als befreundetes Unternehmen hinzufügen und dir Nachrichten auf Rentog senden."
       add_lots_of_email_addresses: "Wenn du sehr viele Einladungen verschicken möchtest, solltest du lieber ein Email-Tool verwenden. Lies %{this_article_link}, um mehr über geeignete Email-Dienste zu erfahren."
       this_article_link: "diesen Artikel"
       label_invite_any: "Lade ein anderes Unternehmen / eine andere Person ein"

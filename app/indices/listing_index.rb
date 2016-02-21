@@ -23,6 +23,8 @@ ThinkingSphinx::Index.define :listing, :with => :active_record, :delta => Thinki
   has category(:id), :as => :category_id
   has listing_shape_id
   has "availability != 'intern'", :as => :availability_not_intern, :type => :boolean  # wah_new
+  has "availability != 'intern' And availability != 'trusted'", :as => :availability_marketplace, :type => :boolean  # wah_new
+  has "availability = 'trusted'", :as => :availability_restricted_marketplace, :type => :boolean  # wah_new
   has community_id
 
   has custom_dropdown_field_values.selected_options.id, :as => :custom_dropdown_field_options, :type => :integer, :multi => true

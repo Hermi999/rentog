@@ -38,7 +38,7 @@ class SharetribeLogger
   private
 
   def to_hash(msg, type, structured)
-    HashUtils.compact({
+    ::HashUtils.compact({
                         tag: @tag,
                         free: msg,
                         type: type,

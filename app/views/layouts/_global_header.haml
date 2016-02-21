@@ -1,5 +1,14 @@
 -# Hide header in map view if mobile
-%header.header
+- header = "header"
+- logo_class = "header-wide-logo"
+
+- if params[:restrictedMarketplace]
+  - header += " header-restriced-marketplace"
+  - logo_class = "header-wide-logo-restricted"
+- elsif request.path.include?("poolTool")
+  - logo_class = "header-wide-logo-pooltool"
+
+%div{:id => "header", :class => "#{header}"}
   .header-wrapper
     .header-right.header-padding.visible-tablet
       - if post_listing_allowed && (!Community.first.only_pool_tool || @current_user)
@@ -32,7 +41,8 @@
       keep the logo here after buttons
     .header-left.header-logo-container
       = link_to get_header_logo_link, :class => "header-logo", :id => "header-logo" do
-        %i.header-wide-logo.visible-tablet
+        %i.visible-tablet{:class => "#{logo_class}"}
           -# Logo is here, it's a CSS background
+
         %i.header-square-logo.hidden-tablet
           -# Logo is here, it's a CSS background

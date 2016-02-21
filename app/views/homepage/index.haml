@@ -134,7 +134,7 @@
             = pageless(@listings.total_pages, item_container, request.fullpath, t('.loading_more_content'))
       - else
         .home-no-listings
-          - if params[:q] || params[:category] || params[:share_type] # Some filter in use
+          - if params[:q] || params[:category] || params[:share_type] || params[:restrictedMarketplace] # Some filter in use
             = t(".no_listings_with_your_search_criteria")
           - else
             - if !(@current_user && @current_user.is_employee? && !@current_community.employees_can_create_listings)

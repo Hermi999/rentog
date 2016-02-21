@@ -23,7 +23,9 @@ module ListingIndexService::DataTypes
     [:author_id, :string],
     [:include_closed, :to_bool, default: false],
     [:availability, :array, :optional],           # wah_new
-    [:availability_not_intern, :bool, :optional]  # wah_new
+    [:availability_not_intern, :bool, :optional],  # wah_new
+    [:availability_restricted_marketplace, :bool, :optional],  # wah_new
+    [:availability_marketplace, :bool, :optional]  # wah_new
   )
 
   AvatarImage = EntityUtils.define_builder(
