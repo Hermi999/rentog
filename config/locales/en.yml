@@ -1335,7 +1335,7 @@ en:
       requests: "Friend requests"
       settings: Settings
       sign_up: "Create account"
-      poolTool: "Pool Tool - Internal devices"
+      poolTool: "Pool Tool"
     logged_in_messages_icon:
       messages: Messages
     logged_in_notifications_icon:
@@ -2318,7 +2318,7 @@ en:
     next_month: "Next Month"
     date: "Date:"
     headline: "Pool Management Tool"
-    add_booking: "Add new booking"
+    add_booking: "Book internal device"
     cancel_booking: "Cancel"
     event_hint: "You can add reservations for your measurment devices here."
     device_name: "Choose one of your devices"
@@ -2347,8 +2347,9 @@ en:
       ifYouCompanyAdmin: "If you are the company admin..."
       createListingHere: "then you can create a new listing <a href='%{listing_path}'>here</a>"
       reopen_listing: "and you have already listings (but they are closed), then you can re-open them <a href='%{person_path}'>here</a>"
-      addNewBooking: "Add new booking"
+      addNewBooking: "Book internal device"
       addNewDevice: "Add a new device"
+      newExternalBooking: "Book external device"
       or: "or"
       choose_employee: "Choose employee"
       please_select: "Please choose..."

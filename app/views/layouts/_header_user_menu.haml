@@ -22,9 +22,9 @@
       = icon_tag("notifications", ["icon-with-text"])
       = t("header.marketplace")
 
-  = link_to marketplace_path(:restrictedMarketplace => "1") do
-    = icon_tag("lock", ["icon-with-text"])
-    = t("header.restrictedMarketplace")
+  /= link_to marketplace_path(:restrictedMarketplace => "1") do
+  /  = icon_tag("lock", ["icon-with-text"])
+  /  = t("header.restrictedMarketplace")
 
   - with_invite_link do
     = link_to new_invitation_path do

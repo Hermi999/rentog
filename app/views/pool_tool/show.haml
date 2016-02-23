@@ -93,8 +93,10 @@
       %button#addNewBooking.primary-button
         = t('pool_tool.show.addNewBooking')
 
-    - if post_listing_allowed
-      = link_to t('pool_tool.show.addNewDevice'), new_listing_path, :class => "new-listing-link", :id => "createNewDevice"
+    = link_to t('pool_tool.show.newExternalBooking'), marketplace_path(:restrictedMarketplace => "1"), :class => "new-external-booking-link", :id => "createNewExternalBooking"
+
+    /- if post_listing_allowed
+    /  = link_to t('pool_tool.show.addNewDevice'), new_listing_path, :class => "new-listing-link", :id => "createNewDevice"
 
 
   / Pool Tool 'Add new booking form'

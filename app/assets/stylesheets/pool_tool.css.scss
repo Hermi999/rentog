@@ -123,6 +123,18 @@
   }
 }
 
+#createNewExternalBooking{
+  height: 34px;
+  width: 225px;
+  margin-top:12px;
+  margin-right:10px;
+  float:left;
+  margin-bottom:0px;
+  @include media(mobile){
+    height: 42px;
+  }
+}
+
 #addNewBookingWrapper{
   padding-left: 0px;
 }

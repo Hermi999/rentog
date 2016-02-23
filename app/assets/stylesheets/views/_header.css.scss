@@ -23,7 +23,7 @@ $elementSpacing: lines(0.5);
   background-color: #212121;
 }
 .header-restriced-marketplace{
-  background-color: #C32929;
+  //background-color: #C32929;
 }
 .header-marketplace{
   background-color: #044E5A;
@@ -101,6 +101,9 @@ $elementSpacing: lines(0.5);
 
 .new-listing-link {
   @include header-menu-button(#EA806F);
+}
+.new-external-booking-link {
+  @include header-menu-button(#2CA77C);
 }
 
 .header-menu-container {
