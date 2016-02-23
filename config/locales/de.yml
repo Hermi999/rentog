@@ -1152,7 +1152,7 @@ de:
     profile: Profil
     manage_listings: "Einträge verwalten"
     invite: "Neue Mitglieder einladen"
-    restrictedMarketplace: "Ihr Marktplatz"
+    restrictedMarketplace: "Pool Tool - Geteilte Geräte"
     marketplace: "Globaler Marktplatz"
     login: Einloggen
     signup: Registrieren
@@ -1332,7 +1332,7 @@ de:
       requests: Freundschaftsanfragen
       settings: Einstellungen
       sign_up: "Konto erstellen"
-      poolTool: "Pool Tool"
+      poolTool: "Pool Tool - Interne Geräte"
     logged_in_messages_icon:
       messages: Nachrichten
     logged_in_notifications_icon:

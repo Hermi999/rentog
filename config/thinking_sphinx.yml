@@ -15,6 +15,12 @@ production:
   indices_location: /home/ec2-user/sphinx/sphinx
   configuration_file: /home/ec2-user/sphinx/production.sphinx.conf
   binlog_path: /home/ec2-user/sphinx/binlog
+  searchd_file_path: /home/ec2-user/sphinx/production.searchd.log
+  query_log_file: /home/ec2-user/sphinx/productoin.query.log
+  sql_user: <%= ENV['RDS_USERNAME'] %>
+  sql_pass: <%= ENV['RDS_PASSWORD'] %>
+  sql_host: <%= ENV['RDS_HOSTNAME'] %>
+  sql_db: <%= ENV['RDS_DB_NAME'] %>
 
 staging:
   version: '2.1.8'

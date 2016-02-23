@@ -1153,7 +1153,7 @@ en:
     manage_listings: "Manage listings"
     company_profile: "My company"
     invite: "Invite new members"
-    restrictedMarketplace: "Your marketplace"
+    restrictedMarketplace: "Pool Tool - Shared device"
     marketplace: "Global marketplace"
     login: "Log in"
     signup: "Sign up"
@@ -1335,7 +1335,7 @@ en:
       requests: "Friend requests"
       settings: Settings
       sign_up: "Create account"
-      poolTool: "Pool Tool"
+      poolTool: "Pool Tool - Internal devices"
     logged_in_messages_icon:
       messages: Messages
     logged_in_notifications_icon:
