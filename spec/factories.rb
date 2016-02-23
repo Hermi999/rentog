@@ -215,7 +215,7 @@ FactoryGirl.define do
     updated_at DateTime.now
     build_association(:company)
     build_association(:employee)
-    active :active
+    active false
   end
 
   factory :invitation do
