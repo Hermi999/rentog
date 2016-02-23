@@ -11,6 +11,10 @@ production:
   ngram_len: 1
   delayed_job_priority: 4
   mysql_ssl_ca: lib/certificates/rds-combined-ca-bundle.pem
+  pid_file: /home/ec2-user/sphinx/searchd.pid
+  indices_location: /home/ec2-user/sphinx/sphinx
+  configuration_file: /home/ec2-user/sphinx/production.sphinx.conf
+  binlog_path: /home/ec2-user/sphinx/binlog
 
 staging:
   version: '2.1.8'
