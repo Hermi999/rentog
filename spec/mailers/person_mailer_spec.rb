@@ -20,7 +20,7 @@ describe PersonMailer, type: :mailer do
     @message = FactoryGirl.create(:message)
     @message.conversation = @conversation
     @message.save
-    email = PersonMailer.new_message_notification(@message, @community).deliver
+    email = MailCarrier.deliver_now(PersonMailer.new_message_notification(@message, @community))
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal @test_person2.confirmed_notification_email_addresses, email.to
     if @community.only_organizations
@@ -34,7 +34,7 @@ describe PersonMailer, type: :mailer do
     @comment = FactoryGirl.create(:comment)
     @comment.author.update_attributes({ "given_name" => "Teppo", "family_name" => "Testaaja", "organization_name" => "Bosch" })
     recipient = @comment.listing.author
-    email = PersonMailer.new_comment_to_own_listing_notification(@comment, @community).deliver
+    email = MailCarrier.deliver_now(PersonMailer.new_comment_to_own_listing_notification(@comment, @community))
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal recipient.confirmed_notification_email_addresses, email.to
     if @community.only_organizations
@@ -55,7 +55,7 @@ describe PersonMailer, type: :mailer do
       active: true)
 
     recipient = listing.author
-    email = PersonMailer.payment_settings_reminder(listing, recipient, community).deliver
+    email = MailCarrier.deliver_now(PersonMailer.payment_settings_reminder(listing, recipient, community))
 
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal recipient.confirmed_notification_email_addresses, email.to
@@ -83,7 +83,7 @@ describe PersonMailer, type: :mailer do
       transaction.current_state = "accepted"
       transaction.save!
       transaction.reload
-      email = PersonMailer.conversation_status_changed(transaction, community).deliver
+      email = MailCarrier.deliver_now(PersonMailer.conversation_status_changed(transaction, community))
       assert !ActionMailer::Base.deliveries.empty?
       assert_equal starter.confirmed_notification_email_addresses, email.to
       assert_equal "Your request was accepted", email.subject
@@ -94,7 +94,7 @@ describe PersonMailer, type: :mailer do
       transaction.current_state = "rejected"
       transaction.save!
       transaction.reload
-      email = PersonMailer.conversation_status_changed(transaction, community).deliver
+      email = MailCarrier.deliver_now(PersonMailer.conversation_status_changed(transaction, community))
       assert !ActionMailer::Base.deliveries.empty?
       assert_equal starter.confirmed_notification_email_addresses, email.to
       assert_equal "Your request was rejected", email.subject
@@ -105,7 +105,7 @@ describe PersonMailer, type: :mailer do
   it "should send email about approved Braintree account" do
     community = FactoryGirl.create(:community)
     person = FactoryGirl.create(:person)
-    email = PersonMailer.braintree_account_approved(person, community).deliver
+    email = MailCarrier.deliver_now(PersonMailer.braintree_account_approved(person, community))
 
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal person.confirmed_notification_email_addresses, email.to
@@ -126,7 +126,7 @@ describe PersonMailer, type: :mailer do
     transaction = FactoryGirl.create(:transaction, starter: @test_person2, listing: listing, transaction_transitions: [transition])
     testimonial = FactoryGirl.create(:testimonial, grade: 0.75, text: "Yeah", author: @test_person, receiver: @test_person2, tx: transaction)
 
-    email = PersonMailer.new_testimonial(testimonial, @community).deliver
+    email = MailCarrier.deliver_now(PersonMailer.new_testimonial(testimonial, @community))
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal @test_person2.confirmed_notification_email_addresses, email.to
     if @community.only_organizations
@@ -143,7 +143,7 @@ describe PersonMailer, type: :mailer do
     # Create is needed here, not exactly sure why
     conversation = FactoryGirl.create(:transaction, starter: starter, listing: listing)
 
-    email = PersonMailer.testimonial_reminder(conversation, author, @community).deliver
+    email = MailCarrier.deliver_now(PersonMailer.testimonial_reminder(conversation, author, @community))
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal author.confirmed_notification_email_addresses, email.to
     if @community.only_organizations
@@ -159,7 +159,7 @@ describe PersonMailer, type: :mailer do
     listing = FactoryGirl.build(:listing, :author => author, listing_shape_id: 123)
     conversation = FactoryGirl.create(:transaction, starter: starter, listing: listing)
 
-    email = PersonMailer.accept_reminder(conversation, "this_can_be_anything", @community).deliver
+    email = MailCarrier.deliver_now(PersonMailer.accept_reminder(conversation, "this_can_be_anything", @community))
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal author.confirmed_notification_email_addresses, email.to
@@ -173,7 +173,7 @@ describe PersonMailer, type: :mailer do
   it "should send email to admins of new feedback" do
     @feedback = FactoryGirl.create(:feedback)
     @community = FactoryGirl.create(:community)
-    email = PersonMailer.new_feedback(@feedback, @community).deliver
+    email = MailCarrier.deliver_now(PersonMailer.new_feedback(@feedback, @community))
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal APP_CONFIG.feedback_mailer_recipients.split(", "), email.to
   end
@@ -183,7 +183,7 @@ describe PersonMailer, type: :mailer do
     @community = FactoryGirl.create(:community, :feedback_to_admin => 1)
     m = CommunityMembership.create(:person_id => @test_person.id, :community_id => @community.id, :status => "accepted")
     m.update_attribute(:admin, true)
-    email = PersonMailer.new_feedback(@feedback, @community).deliver
+    email = MailCarrier.deliver_now(PersonMailer.new_feedback(@feedback, @community))
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal @test_person.confirmed_notification_email_addresses, email.to
   end
@@ -192,7 +192,7 @@ describe PersonMailer, type: :mailer do
     @community = FactoryGirl.create(:community, :email_admins_about_new_members => 1)
     m = CommunityMembership.create(:person_id => @test_person.id, :community_id => @community.id, :status => "accepted")
     m.update_attribute(:admin, true)
-    email = PersonMailer.new_member_notification(@test_person2, @community, @test_person2.email).deliver
+    email = MailCarrier.deliver_now(PersonMailer.new_member_notification(@test_person2, @community, @test_person2.email))
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal @test_person.confirmed_notification_email_addresses, email.to
     assert_equal "New member in #{@community.full_name('en')}", email.subject
@@ -235,7 +235,7 @@ describe PersonMailer, type: :mailer do
     end
 
     it "should notify of a new listing" do
-      email = PersonMailer.new_listing_by_followed_person(@listing, @recipient, @community).deliver
+      email = MailCarrier.deliver_now(PersonMailer.new_listing_by_followed_person(@listing, @recipient, @community))
       assert !ActionMailer::Base.deliveries.empty?
       assert_equal @recipient.confirmed_notification_email_addresses, email.to
     end

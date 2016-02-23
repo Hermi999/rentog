@@ -2,10 +2,7 @@ source 'http://rubygems.org'
 
 ruby '2.1.5'
 
-gem 'rails', '4.1.14.1'
-
-# To use debugger
-#gem 'ruby-debug'
+gem 'rails', '4.2.5.1'
 
 gem 'coffee-rails', "~> 4.0.1"
 gem 'uglifier', "~> 2.7.2"
@@ -137,6 +134,7 @@ group :development do
   # Here's how to instal it: sudo apt-get install graphviz
   # Then run 'rake erd' (http://voormedia.github.io/rails-erd/customise.html)
   gem "rails-erd"
+  gem 'web-console', '~> 2.0'
 end
 
 group :test do

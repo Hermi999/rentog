@@ -4,7 +4,7 @@
 #
 #  id               :integer          not null, primary key
 #  grade            :float(24)
-#  text             :text
+#  text             :text(65535)
 #  author_id        :string(255)
 #  participation_id :integer
 #  transaction_id   :integer

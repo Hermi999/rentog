@@ -174,7 +174,7 @@ class Admin::CommunitiesController < ApplicationController
   end
 
   def test_welcome_email
-    PersonMailer.welcome_email(@current_user, @current_community, true, true).deliver
+    MailCarrier.deliver_later(PersonMailer.welcome_email(@current_user, @current_community, true, true))
     flash[:notice] = t("layouts.notifications.test_welcome_email_delivered_to", :email => @current_user.confirmed_notification_email_to)
     redirect_to edit_welcome_email_admin_community_path(@current_community)
   end
@@ -183,7 +183,7 @@ class Admin::CommunitiesController < ApplicationController
     @selected_left_navi_link = "admin_settings"
 
     # When feature flag is removed, make this pretty
-    if feature_enabled?(:location_search)
+    if(feature_enabled?(:location_search) && search_engine == :zappy)
       marketplace_configurations = MarketplaceService::API::Api.configurations.get(community_id: @current_community.id).data
 
       main_search_select_options = [:keyword, :location]
@@ -191,13 +191,20 @@ class Admin::CommunitiesController < ApplicationController
           [SettingsViewUtils.search_type_translation(type), type]
         }
 
+      distance_unit_select_options = [
+          [SettingsViewUtils.distance_unit_translation(:km), :metric],
+          [SettingsViewUtils.distance_unit_translation(:miles), :imperial]
+      ]
+
       render :settings, locals: {
         supports_escrow: escrow_payments?(@current_community),
         delete_redirect_url: delete_redirect_url(APP_CONFIG),
         delete_confirmation: @current_community.ident,
         can_delete_marketplace: can_delete_marketplace?(@current_community.id),
         main_search: marketplace_configurations[:main_search],
-        main_search_select_options: main_search_select_options
+        main_search_select_options: main_search_select_options,
+        distance_unit: marketplace_configurations[:distance_unit],
+        distance_unit_select_options: distance_unit_select_options
       }
     else
       render :settings, locals: {
@@ -290,7 +297,13 @@ class Admin::CommunitiesController < ApplicationController
 
     maybe_update_payment_settings(@current_community.id, params[:community][:automatic_confirmation_after_days])
 
-    MarketplaceService::API::Api.configurations.update(community_id: @current_community.id, main_search: params[:main_search]) if feature_enabled?(:location_search)
+    if(feature_enabled?(:location_search) && search_engine == :zappy)
+       MarketplaceService::API::Api.configurations.update({
+        community_id: @current_community.id,
+        main_search: params[:main_search],
+        distance_unit: params[:distance_unit]
+      })
+    end
 
     update(@current_community,
             settings_params,

@@ -13,9 +13,11 @@ module ListingIndexService::Search
     SEARCH_URL = APP_CONFIG.external_search_url
 
     def initialize(raise_errors:)
+      logger = ::Logger.new(STDOUT)
+      logger.level = ::Logger::INFO # log only on INFO level so that secrets are not logged
       @conn = Faraday.new(url: SEARCH_URL) do |c|
          c.request  :url_encoded             # form-encode POST params
-         c.response :logger                  # log requests to STDOUT
+         c.response :logger, logger          # log requests to STDOUT
          c.response :json, :content_type => /\bjson$/
          c.adapter  Faraday.default_adapter  # make requests with Net::HTTP
          c.use Faraday::Response::RaiseError if raise_errors
@@ -26,7 +28,7 @@ module ListingIndexService::Search
       included_models = includes.map { |m| INCLUDE_MAP[m] }
       search_params = format_params(search)
 
-      if DatabaseSearchHelper.needs_db_query?(search) && needs_search?(search)
+      if DatabaseSearchHelper.needs_db_query?(search) && DatabaseSearchHelper.needs_search?(search)
         return Result::Error.new(ArgumentError.new("Both DB query and search engine would be needed to fulfill the search"))
       end
 
@@ -53,9 +55,15 @@ module ListingIndexService::Search
 
     def format_params(original)
       {
-       :'search-keywords' => original[:keywords],
+       :'search[keywords]' => original[:keywords],
        :'page[number]' => original[:page],
-       :'page[size]' => original[:per_page]
+       :'page[size]' => original[:per_page],
+       :'filter[price_min]' => original[:price_min],
+       :'filter[price_max]' => original[:price_max],
+       :'filter[omit_closed]' => !original[:include_closed],
+       :'filter[listings_shape_ids]' => Maybe(original[:listing_shape_ids]).join(",").or_else(nil),
+       :'filter[category_ids]' => Maybe(original[:categories]).join(",").or_else(nil),
+       :'search[locale]' => original[:locale]
       }.compact
     end
 

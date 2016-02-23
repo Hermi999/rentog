@@ -36,7 +36,7 @@ class FeedbacksController < ApplicationController
                                     email: email
                                   }))
 
-    PersonMailer.new_feedback(feedback, @current_community).deliver
+    MailCarrier.deliver_later(PersonMailer.new_feedback(feedback, @current_community))
 
     flash[:notice] = t("layouts.notifications.feedback_saved")
 

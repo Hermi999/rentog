@@ -5,7 +5,7 @@
 #  id           :integer          not null, primary key
 #  author_id    :string(255)
 #  listing_id   :integer
-#  content      :text
+#  content      :text(65535)
 #  created_at   :datetime
 #  updated_at   :datetime
 #  community_id :integer
@@ -33,7 +33,7 @@ class Comment < ActiveRecord::Base
   def send_notifications(community)
     if !listing.author.id.eql?(author.id)
       if listing.author.should_receive?("email_about_new_comments_to_own_listing")
-        PersonMailer.new_comment_to_own_listing_notification(self, community).deliver
+        MailCarrier.deliver_now(PersonMailer.new_comment_to_own_listing_notification(self, community))
       end
     end
     listing.notify_followers(community, author, false)

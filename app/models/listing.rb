@@ -16,7 +16,7 @@
 #  last_modified                   :datetime
 #  sort_date                       :datetime
 #  listing_type_old                :string(255)
-#  description                     :text
+#  description                     :text(65535)
 #  origin                          :string(255)
 #  destination                     :string(255)
 #  valid_until                     :datetime
@@ -199,9 +199,9 @@ class Listing < ActiveRecord::Base
     followers.each do |follower|
       unless follower.id == current_user.id
         if update
-          PersonMailer.new_update_to_followed_listing_notification(self, follower, community).deliver
+          MailCarrier.deliver_now(PersonMailer.new_update_to_followed_listing_notification(self, follower, community))
         else
-          PersonMailer.new_comment_to_followed_listing_notification(comments.last, follower, community).deliver
+          MailCarrier.deliver_now(PersonMailer.new_comment_to_followed_listing_notification(comments.last, follower, community))
         end
       end
     end
