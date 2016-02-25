@@ -539,10 +539,10 @@ de:
         inquiry: Kontakt
   common:
     edit_page: "Seite bearbeiten"
-    #default_community_slogan: "Miete anstatt zu kaufen"
-    #default_community_description: "Mieten und Vermieten von Test- und Messgeräten zwischen Unternehmen"
-    default_community_slogan: "Verwalte deine Messgeräte"
-    default_community_description: "Ressourcen Management für Test- und Messgeräte im Unternehmen"
+    default_community_slogan: "Rentog. Der Test- und Messgeräte Marktplatz"
+    default_community_description: "Kaufen und Verkaufen von Test- und Messgeräten"
+    sharedPool_slogan: "Rentog Shared Pool"
+    sharedPool_description: "Durchstöbere und buche Geräte von deinen befreundeten Unternehmen"
     cancel: Abbrechen
     fields_that_are_mandatory: "Mit einem Stern (*) gekennzeichnete Felder sind Pflichtfelder."
     or: oder

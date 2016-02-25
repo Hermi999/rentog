@@ -45,10 +45,6 @@ Feature: User views profile page
     And I should not see "sewing"
     And I follow "Show also closed"
     And I should see "bike"
-    #And I follow "Offers (3)"
-    #And I should see "sewing"
-    #And I follow "Show only open"
-    #And I should not see "sewing"
 
     # Following others
     And I should see "You trust 2 companies"
@@ -61,8 +57,9 @@ Feature: User views profile page
     And I should see "Hermann T" within "#profile-employees-list"
 
 
+
   @javascript
-  Scenario: Company views somebody elses profile page
+  Scenario: Employee views his own companies profile page
     Given there are following users:
       | person               | is_organization | email  |
       | kassi_testperson1    | 1               | a@a.at |
@@ -70,12 +67,11 @@ Feature: User views profile page
       | employee_testperson1 | 0               | c@c.at |
       | employee_testperson2 | 0               | d@d.at |
 
-    # Prepare Listings
-    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" and with listing shape "Selling"
-    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" and with listing shape "Requesting"
-    And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" and with listing shape "Selling services"
-    And there is a listing with title "Housing" from "kassi_testperson2" with category "Spaces" and with listing shape "Selling"
-    And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" and with listing shape "Requesting"
+    # Prepare listings
+    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Selling"
+    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Requesting"
+    And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" with availability "all" and with listing shape "Selling services"
+    And there is a listing with title "bike" from "kassi_testperson1" with category "Items" with availability "all" and with listing shape "Requesting"
     And that listing is closed
 
     # Prepare followed
@@ -86,15 +82,200 @@ Feature: User views profile page
     And "Bosch" employs "employee_testperson1"
     And "Bosch" employs "employee_testperson2"
 
-    And I am not logged in
-    And I am on the marketplace page
-    When I follow "car spare parts"
-    When I follow "listing-author-link"
+    And I am logged in as "employee_testperson1"
+    And I am on the profile page of "kassi_testperson1"
+
+    # Listings
     Then I should see "car spare parts"
     And I should see "Helsinki - Turku"
-    And I should not see "Housing"
-    And I should not see "apartment"
     And I should see "massage"
+    And I should not see "bike"
+
+    # Following others
+    And I should see "Siemens" within "#profile-followed-people-list"
+    And I should see "Kassi T" within "#profile-followed-people-list"
+
+
+
+  @javascript
+  Scenario: Company views profile page of company who trusts the company
+    Given there are following users:
+      | person               | is_organization | email  |
+      | kassi_testperson1    | 1               | a@a.at |
+      | kassi_testperson2    | 1               | b@b.at |
+      | employee_testperson1 | 0               | c@c.at |
+      | employee_testperson2 | 0               | d@d.at |
+
+    # Prepare Listings
+    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Selling"
+    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Requesting"
+    And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" with availability "all" and with listing shape "Selling services"
+    And there is a listing with title "Housing" from "kassi_testperson2" with category "Spaces" with availability "all" and with listing shape "Selling"
+    And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" with availability "all" and with listing shape "Requesting"
+    And that listing is closed
+
+    # Prepare followed
+    And "kassi_testperson1" follows "kassi_testperson2"
+    And "kassi_testperson1" follows "employee_testperson1"
+
+    # Prepare Employees
+    And "Bosch" employs "employee_testperson1"
+    And "Bosch" employs "employee_testperson2"
+
+    Given I am logged in as "kassi_testperson2"
+    And I am on the profile page of "kassi_testperson1"
+
+    # Trusted user can see public and trusted listings
+    Then I should see "Helsinki - Turku"
+    And I should see "massage"
+    And I should not see "apartment"
+    And I should not see "car spare parts"
+
+    # Trusted user cant see employees if its allowed globally
+    Given the community allows others to view the employees of a company
+    When I refresh the page
+    Then I should see "3 employees"
+    And I should see "Kassi T" within "#profile-employees-list"
+    And I should see "Hermann T" within "#profile-employees-list"
+
+    # Trusted user cant see employees
+    Given the community does not allow others to view the employees of a company
+    When I refresh the page
+    Then I should not see "employees"
+
+    # Trusted user with admin rights can see employees
+    Given "kassi_testperson2" has admin rights in community "test"
+    When I refresh the page
+    Then I should see "3 employees"
+    And I should see "Kassi T" within "#profile-employees-list"
+    And I should see "Hermann T" within "#profile-employees-list"
+
+
+
+
+  @javascript
+  Scenario: Company views profile page of company who doesnt trusts him
+    Given there are following users:
+      | person               | is_organization | email  |
+      | kassi_testperson1    | 1               | a@a.at |
+      | kassi_testperson2    | 1               | b@b.at |
+      | employee_testperson1 | 0               | c@c.at |
+      | employee_testperson2 | 0               | d@d.at |
+
+    # Prepare Listings
+    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Selling"
+    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Requesting"
+    And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" with availability "all" and with listing shape "Selling services"
+    And there is a listing with title "Housing" from "kassi_testperson2" with category "Spaces" with availability "all" and with listing shape "Selling"
+    And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" with availability "all" and with listing shape "Requesting"
+    And that listing is closed
+
+    # Prepare followed
+    And "kassi_testperson1" follows "employee_testperson1"
+
+    # Prepare Employees
+    And "Bosch" employs "employee_testperson1"
+    And "Bosch" employs "employee_testperson2"
+
+    Given I am logged in as "kassi_testperson2"
+    And I am on the profile page of "kassi_testperson1"
+
+    # Untrusted, logged in user can only see public listings
+    Then I should see "Helsinki - Turku"
+    And I should not see "massage"
+    And I should not see "apartment"
+    And I should not see "car spare parts"
+
+    # Trusted user cant see employees if its allowed globally
+    Given the community allows others to view the employees of a company
+    When I refresh the page
+    Then I should see "3 employees"
+    And I should see "Kassi T" within "#profile-employees-list"
+    And I should see "Hermann T" within "#profile-employees-list"
+
+    # Trusted user cant see employees
+    Given the community does not allow others to view the employees of a company
+    When I refresh the page
+    Then I should not see "employees"
+
+
+
+  @javascript
+  Scenario: Employee views profile page of any other company
+    Given there are following users:
+      | person               | is_organization | email  |
+      | kassi_testperson1    | 1               | a@a.at |
+      | kassi_testperson2    | 1               | b@b.at |
+      | employee_testperson1 | 0               | c@c.at |
+      | employee_testperson2 | 0               | d@d.at |
+
+    # Prepare Listings
+    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Selling"
+    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Requesting"
+    And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" with availability "all" and with listing shape "Selling services"
+    And there is a listing with title "Housing" from "kassi_testperson2" with category "Spaces" with availability "all" and with listing shape "Selling"
+    And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" with availability "all" and with listing shape "Requesting"
+    And that listing is closed
+
+    # Prepare followed
+    And "kassi_testperson1" follows "employee_testperson1"
+
+    # Prepare Employees
+    And "Bosch" employs "employee_testperson1"
+
+    Given I am logged in as "employee_testperson2"
+    And I am on the profile page of "kassi_testperson1"
+
+    # Untrusted, logged in user can only see public listings
+    Then I should see "Helsinki - Turku"
+    And I should not see "massage"
+    And I should not see "apartment"
+    And I should not see "car spare parts"
+
+    # Trusted user cant see employees if its allowed globally
+    Given the community allows others to view the employees of a company
+    When I refresh the page
+    Then I should see "2 employees"
+    And I should see "Kassi T" within "#profile-employees-list"
+
+    # Trusted user cant see employees
+    Given the community does not allow others to view the employees of a company
+    When I refresh the page
+    Then I should not see "employees"
+
+
+
+  @javascript
+  Scenario: Logged out user views profile page of company
+    Given there are following users:
+      | person               | is_organization | email  |
+      | kassi_testperson1    | 1               | a@a.at |
+      | kassi_testperson2    | 1               | b@b.at |
+      | employee_testperson1 | 0               | c@c.at |
+      | employee_testperson2 | 0               | d@d.at |
+
+    # Prepare Listings
+    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Selling"
+    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Requesting"
+    And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" with availability "all" and with listing shape "Selling services"
+    And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" with availability "all" and with listing shape "Requesting"
+    And that listing is closed
+
+    # Prepare followed
+    And "kassi_testperson1" follows "kassi_testperson2"
+    And "kassi_testperson1" follows "employee_testperson1"
+
+    # Prepare Employees
+    And "Bosch" employs "employee_testperson1"
+    And "Bosch" employs "employee_testperson2"
+
+    # Logged out user can only see public listings
+    And I am not logged in
+    And I am on the profile page of "kassi_testperson1"
+    Then I should see "Helsinki - Turku"
+    And I should not see "car spare parts"
+    And I should not see "apartment"
+    And I should not see "massage"
 
     # Following others
     And I should see "2 trusted companies"
@@ -110,26 +291,7 @@ Feature: User views profile page
     When I refresh the page
     Then I should not see "employees"
 
-    # Logged in user can see employees
-    Given I am logged in as "kassi_testperson2"
-    And I am on the marketplace page
-    When I follow "car spare parts"
-    And I follow "listing-author-link"
-    Then I should see "3 employees"
-    And I should see "Kassi T" within "#profile-employees-list"
-    And I should see "Hermann T" within "#profile-employees-list"
 
-    # Logged in user cant see employees
-    Given the community does not allow others to view the employees of a company
-    When I refresh the page
-    Then I should not see "employees"
-
-    # Logged in user with admin rights can see employees
-    Given "kassi_testperson2" has admin rights in community "test"
-    When I refresh the page
-    Then I should see "3 employees"
-    And I should see "Kassi T" within "#profile-employees-list"
-    And I should see "Hermann T" within "#profile-employees-list"
 
 
   @javascript

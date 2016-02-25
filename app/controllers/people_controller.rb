@@ -37,12 +37,27 @@ class PeopleController < Devise::RegistrationsController
     @selected_tribe_navi_tab = "members"
     @community_membership = CommunityMembership.find_by_person_id_and_community_id_and_status(@person.id, @current_community.id, "accepted")
 
-    # Do not show internal listings if current logged in user is not ...
-    if  !@current_user ||                                          # logged in or
-        !@current_user.is_employee_of?(@person.id) &&              # not an employee of the company and
-        !@current_user.has_admin_rights_in?(@current_community) && # not the rentog admin and
-        !current_user?(@person)                                    # not the company admin himself
-      availability = ["all", "trusted"]
+    # Restrict which listings are viewed on profile page, depending on viewer
+    if @current_user &&                                           # logged in
+       !@current_user.is_employee_of?(@person.id) &&              # not an employee of the company and
+       !@current_user.has_admin_rights_in?(@current_community) && # not the rentog admin and
+       !current_user?(@person)                                    # not the company admin himself
+
+        # If trusted company or employee of trusted company -> show public and trusted listings
+        if @person.follows?(@current_user) || (@current_user.company && @person.follows?(@current_user.company))
+          availability = ["all", "trusted"]
+
+        # logged in, non trusted user
+        else
+          availability = ["all"]
+        end
+    # Logged out user -> show only public listings
+    elsif !@current_user
+      availability = ["all"]
+
+    # Employee or company admin himself
+    else
+      availability = ["all", "trusted", "intern"]
     end
 
     include_closed = @current_user == @person && params[:show_closed]

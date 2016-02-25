@@ -540,10 +540,10 @@ en:
         inquiry: Contact
   common:
     edit_page: "Edit page"
-    #default_community_slogan: "Rent instead of buy"
-    #default_community_description: "Renting test and measurement devices between companies"
-    default_community_slogan: "Manage your measurement devices"
-    default_community_description: "Resource management for test and measurement devices"
+    default_community_slogan: "Rentog. The Test- and Measurement Marketplace"
+    default_community_description: "Buy and sell test and measurement equipment"
+    sharedPool_slogan: "Rentog Shared Pool"
+    sharedPool_description: "Browse and book all devices of your trusted companies."
     cancel: Cancel
     fields_that_are_mandatory: "Fields marked with star (*) are mandatory."
     or: or

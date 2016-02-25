@@ -1,3 +1,12 @@
+- # wah: Change slogan based on url
+- if params[:restrictedMarketplace]
+  - slogan = t("common.sharedPool_slogan")
+  - description = t("common.sharedPool_description")
+- else
+  - slogan = community_slogan
+  - description = community_description
+
+
 - content_for :javascript do
   initialize_homepage();
 
@@ -6,8 +15,8 @@
 
 - content_for :title_header do
   - with_big_cover_photo do
-    %h1.marketplace-lander-content-title= community_slogan.html_safe
-    %p= community_description.html_safe
+    %h1.marketplace-lander-content-title= slogan.html_safe
+    %p= description.html_safe
     .search-form
       - if @current_community.private?
         %a.inline-big-button{href: sign_up_path}
