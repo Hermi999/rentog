@@ -16,7 +16,7 @@ window.ST.onFollowButtonAjaxComplete = function(event, xhr) {
 };
 
 
-
+// After klicked on trust button
 window.ST.onTrustButtonAjaxComplete = function(event, xhr) {
   var target = $(event.target);
   var newButtonContainer = $(xhr.responseText);
@@ -31,6 +31,7 @@ window.ST.onTrustButtonAjaxComplete = function(event, xhr) {
 
   target.parents(".trust-button-container:first").replaceWith(newButtonContainer);
   $(".trust-button", newButtonContainer).on("ajax:complete", window.ST.onTrustButtonAjaxComplete);
+
 };
 
 
@@ -57,6 +58,15 @@ window.ST.onEmployeeButtonAjaxComplete = function(event, xhr) {
 
 
 window.ST.initializeFollowButtons = function() {
+  $('.hover-content').click(function(ev){
+    var r = confirm(window.ST.untrust_warning);
+
+    if(!r){
+      ev.stopImmediatePropagation();
+      ev.preventDefault();
+    }
+  });
+
   $(".follow-button").on("ajax:complete", window.ST.onFollowButtonAjaxComplete);
   $(".follow-button-small").on("ajax:complete", window.ST.onFollowButtonAjaxComplete);
   $(".trust-button").on("ajax:complete", window.ST.onTrustButtonAjaxComplete);
@@ -64,4 +74,5 @@ window.ST.initializeFollowButtons = function() {
   $(".employ-button-new").on("ajax:complete", window.ST.onEmployeeButtonAjaxComplete);
   $(".employ-button-small").on("ajax:complete", window.ST.onEmployeeButtonAjaxComplete);
   $(".employ-button-small-new").on("ajax:complete", window.ST.onEmployeeButtonAjaxComplete);
+
 };

@@ -655,6 +655,16 @@ class PersonMailer < ActionMailer::Base
          :subject => "New employee in #{@community.full_name(@employee.locale)}")
   end
 
+  def new_trustedRelationship_notification(truster, other_company, community, email)
+    @community = community
+    @no_settings = true
+    @truster = truster
+    @email = email
+    premailer_mail(:to => [other_company.emails.first.address],
+         :from => community_specific_sender(@community),
+         :subject => "Company #{@truster} now trusts you")
+  end
+
   def email_confirmation(email, community)
     @current_community = community
     @no_settings = true

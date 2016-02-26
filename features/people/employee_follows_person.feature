@@ -1,4 +1,4 @@
-Feature: User follows another user
+Feature: Employee follows and unfollows another user
 
   Background:
     Given there are following users:
@@ -9,7 +9,7 @@ Feature: User follows another user
     And I am logged in as "employee_testperson2"
 
   @javascript
-  Scenario: User follows another user
+  Scenario: Employee follows another user
     When I go to the profile page of "employee_testperson1"
     And I follow "Follow"
     Then I should see "Following" within ".profile-action-buttons-desktop"
@@ -17,7 +17,7 @@ Feature: User follows another user
     Then I should see "Them T" within "#profile-followed-people-list"
 
   @javascript
-  Scenario: User unfollows another user
+  Scenario: Employee unfollows another user
     Given "employee_testperson2" follows "employee_testperson1"
     When I go to the profile page of "employee_testperson1"
     And I follow "Unfollow"
@@ -27,7 +27,7 @@ Feature: User follows another user
     Then I should see "No followed people"
 
   @javascript
-  Scenario: User views additional followed people
+  Scenario: Employee sees all people he followed on profile page
     Given there are 10 companies with organization_name prefix "User"
     And "employee_testperson2" follows everyone
     When I go to the profile page of "employee_testperson2"

@@ -1392,7 +1392,7 @@ de:
       listing_created_successfully: "Eintrag erfolgreich erstellt. %{new_listing_link}"
       offer_rejected: "Angebot abgelehnt"
       offer_canceled: "Angebot abgebrochen"
-      listing_updated_successfully: "Eintrag wurde erfolgreich aktualisiert"
+      listing_updated_successfully: "Eintrag aktualisiert - Es kann bis zu 60 Sekunden dauern bis Filter/Suche das Gerät erkennen."
       only_kassi_administrators_can_access_this_area: "Nur  %{service_name} Administratoren können diesen Bereich aufrufen"
       only_listing_author_can_close_a_listing: "Nur der erstellende Anbieter kann ein Angebot deaktivieren"
       only_listing_author_can_edit_a_listing: "Nur Autoren eines Eintrags können den Eintrag bearbeiten"
@@ -1984,8 +1984,13 @@ de:
       unfollow: "Nicht mehr folgen"
     trust_button:
       trusted: Befreundet
-      trust: Neue Freundschaft
-      untrust: Freundschaft aufheben
+      trust: "Neue Freundschaft"
+      untrust: "Freundschaft aufheben"
+      untrust_warning: "Wenn Sie Ihre Freundschaft zu diesem Benutzer beenden, so wird er und seine Mitarbeiter nicht mehr in der Lage sein Ihre privaten, geteilten Geräte zu sehen oder zu buchen. Bestehende Buchungen bleiben aber aufrecht. Diese können Sie manuell im Pool Tool entfernen."
+      successfully_trusted: "Befreundet. Das andere Unternehmen kann jetzt Ihre privaten Geräte, welche als 'Shared' gekennzeichnet sind, sehen und buchen!"
+      successfully_untrusted: "Freundschaft beendet. Das andere Unternehmen kann jetzt ihre privaten Geräte, welche als 'Shared' gekennzeichnet sind, nicht mehr sehen oder buchen!"
+      message_to_trusted_company: "(Diese Nachricht wurde von RENTOG automatisch generiert) \nDas Unternehmen %{name} mit der Email %{email} hat Ihr Unternehmen als Freund hinzugefügt. \n\nDas bedeutet, dass Sie und Ihre Mitarbeiter auf alle internen, geteilten Geräte von %{name} zugreifen und buchen können. Wenn Sie dem anderen Unternehmen auch vertrauen, so erstellen Sie eine neue Freundschaft indem Sie auf den 'Neue Freundschaft' Button auf der Profilseite des anderen Unternehmen klicken: %{profile}"
+      message_to_untrusted_company: "(Diese Nachricht wurde von RENTOG automatisch generiert) \nDas Unternehmen %{name} mit der Email %{email} hat Ihren Unternehmen die Freundschaft entzogen. \n\nd Das bedeutet, dass Sie und Ihre Mitarbeiter keinen Zugriff mehr auf die internen, geteilten Geräte von %{name} haben. Zukünftige Geräte-Buchungen beim anderen Unternehmen sind von der Aktion nicht betroffen. Es besteht jedoch die Möglichkeit, dass der Unternehmensadmin des anderen Unternehmen diese Buchungen über sein Pool Tool cancellt. In diesem Fall wird der Bucher des Geräts (Sie oder Ihr Mitarbeiter) in einer separaten Nachricht davon in Kenntnis gesetzt."
     employ_button:
       employee: Mitarbeiter
       employ: Annehmen

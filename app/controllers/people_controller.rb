@@ -162,6 +162,7 @@ class PeopleController < Devise::RegistrationsController
     @grid_class = params[:private_community] ? "grid_6 prefix_3 suffix_3" : "grid_10 prefix_7 suffix_7"
   end
 
+  # Signup of a new user
   def create
     @current_community ? domain = @current_community.full_url : domain = "#{request.protocol}#{request.host_with_port}"
     error_redirect_path = domain + sign_up_path
