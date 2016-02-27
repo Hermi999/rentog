@@ -340,11 +340,7 @@
                         window.ST.poolToolRows++;
 
                         // desc = availability
-                        if (entry.desc && !gon.only_pool_tool) {
-                            entries.push('<div class="row_g desc row' + i + ' " id="RowdId_' + i + '" data-id="' + entry.id + '">');
-                            entries.push('<span class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + entry.desc + '</span>');
-                            entries.push('</div>');
-
+                        if (entry.desc) {
                             var header = "",text = "";
                             switch(entry.desc){
                                 case 'intern':
@@ -360,6 +356,10 @@
                                     header = gon.availability_desc_header_all;
                                     break;
                             }
+
+                            entries.push('<div class="row_g desc row' + i + ' " id="RowdId_' + i + '" data-id="' + entry.id + '">');
+                            entries.push('<span class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + header + '</span>');
+                            entries.push('</div>');
 
                             var popover_html = "";
                             popover_html += "<p><b>" + header + "</b></p>";

@@ -133,7 +133,10 @@
             .col-12
               .home-fluid-thumbnail-grid-pooltool
                 .home-fluid-thumbnail-grid
-                  = label_tag :description, t('pool_tool.show.devices')
+                  - if @current_community.only_pool_tool
+                    = label_tag :description, t('pool_tool.show.devices_only_poolTool').html_safe
+                  -else
+                    = label_tag :description, t('pool_tool.show.devices').html_safe
                   = render :partial => "radio_grid_item", :collection => listings, :as => :listing
             .clear-floating
 

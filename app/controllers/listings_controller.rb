@@ -30,7 +30,7 @@ class ListingsController < ApplicationController
   before_filter :is_authorized_to_post, :only => [ :new, :create ]
 
 
-  # called when clicked on "show all listings"
+  # called when clicked on "show all listings" on profile page
   def index
     @selected_tribe_navi_tab = "home"
 
@@ -173,6 +173,7 @@ class ListingsController < ApplicationController
     end
   end
 
+  # The listings page
   def show
     @selected_tribe_navi_tab = "home"
 

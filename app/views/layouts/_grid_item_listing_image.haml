@@ -7,6 +7,9 @@
   - Listing price
   - Adds `modifier_class` which can be used for view specific fine tunings
 
+
+- modifier_image_marker ||= ""
+
 = link_to(listing_path(listing.url), :class => "#{modifier_class} fluid-thumbnail-grid-image-item-link") do
   .fluid-thumbnail-grid-image-image-container{:class => "#{modifier_class}"}
     - with_first_listing_image(listing) do |first_image_url|
@@ -28,3 +31,6 @@
       - else
         %span.fluid-thumbnail-grid-image-type{:class => "#{modifier_class}"}
           = shape_name(listing)
+
+    .fluid-thumbnail-grid-image-marker{:class => "fluid-thumbnail-grid-image-marker-#{modifier_image_marker}"}
+

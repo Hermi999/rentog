@@ -148,7 +148,7 @@ class HomepageController < ApplicationController
     # wah: restricted marketplace or open marketplace
     availability_for_sphinx = {}
     if @restrictedMarketplace
-      availability = ["trusted"]
+      availability = ["trusted", "all"]
       availability_for_sphinx[:availability_restricted_marketplace] = true
 
     elsif @marketplace_with_trusted_devs

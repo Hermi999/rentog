@@ -952,10 +952,12 @@ window.ST.poolTool = function() {
         $(".webui-popover").css("background-color","#714565");
 
         // Change leftPanel size depending on Rentog functionality
+        /*
         if(gon.only_pool_tool){
           $(".leftPanel").width("224px");
           $(".fn-wide").width("220px");
         }
+        */
 
         initialize_listing_previews();
 

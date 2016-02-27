@@ -20,7 +20,7 @@ module ListingsHelper
   end
 
   def availability_array
-    Listing::VALID_AVAILABILITY_OPTIONS.collect { |option| [t("listings.form.availability.#{option}"), option] }
+    Listing::VALID_AVAILABILITY_OPTIONS_USER_CAN_CHOOSE.collect { |option| [t("listings.form.availability.#{option}"), option] }
   end
 
   def listed_listing_title(listing)

@@ -90,8 +90,20 @@ class Listing < ActiveRecord::Base
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :currency
   monetize :shipping_price_additional_cents, allow_nil: true, with_model_currency: :currency
 
-  #VALID_AVAILABILITY_OPTIONS = ["intern", "trusted", "all"]
-  VALID_AVAILABILITY_OPTIONS = ["intern", "trusted"]
+  VALID_AVAILABILITY_OPTIONS = ["intern", "trusted", "all"]
+  VALID_AVAILABILITY_OPTIONS_USER_CAN_CHOOSE = ["intern", "trusted"]
+
+  # wah
+  before_save :set_availability_if_necessary
+  def set_availability_if_necessary
+    type = get_listing_type
+
+    if type == "rent"
+      self.availability = "all"
+    elsif type != "intern" and type != "trusted"
+      self.availability = nil
+    end
+  end
 
   before_validation :set_valid_until_time
 
@@ -107,6 +119,7 @@ class Listing < ActiveRecord::Base
   def set_updates_email_at_to_now
     self.updates_email_at ||= Time.now
   end
+
 
   before_validation do
     # Normalize browser line-breaks.
@@ -244,5 +257,44 @@ class Listing < ActiveRecord::Base
 
   def person_belongs_to_same_company?(person)
     person && (person.is_employee_of?(author.id) || author.id == person.id)
+  end
+
+
+  # wah
+  # returns one of the following values:
+  # "intern", "trusted", "sell", "rent", "ad"
+  def get_listing_type
+    listing_shape_name = ListingShape.find(listing_shape_id).name if listing_shape_id
+
+    # If private listing, then check availability
+    if listing_shape_name.nil? || (listing_shape_name.include? "private")
+      availability
+
+    # otherweise check ListingShape name
+    else
+      if listing_shape_name.include? "vermieten"
+        "rent"
+      elsif listing_shape_name.include? "kaufen"
+        "sell"
+      elsif listing_shapes_name.include? "vermarkten"
+        "ad"
+      else
+        listing_shape_name
+      end
+    end
+  end
+
+  # wah
+  # only for devices which can be rented
+  # returns either of the following: "intern", "trusted", "all", nil
+  def get_listing_marker
+    type = get_listing_type
+    if type == "rent"
+      "all"
+    elsif type == "intern" || type == "trusted"
+      type
+    else
+      nil
+    end
   end
 end

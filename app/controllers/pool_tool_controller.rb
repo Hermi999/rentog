@@ -26,6 +26,7 @@ class PoolToolController < ApplicationController
                                                                   .where("  listings.author_id = ? AND
                                                                             transactions.community_id = ? AND
                                                                             listings.open = '1' AND
+                                                                            (listings.availability = 'all' OR listings.availability = 'intern' OR listings.availability = 'trusted') AND
                                                                             (listings.valid_until IS NULL OR valid_until > ?)",
                                                                             @company_owner.id, @current_community.id, DateTime.now)
                                                                   .order("  listings.id asc")
@@ -42,7 +43,8 @@ class PoolToolController < ApplicationController
       author_id: @company_owner.id,
       include_closed: false,
       page: 1,
-      per_page: 200
+      per_page: 200,
+      availability: Listing::VALID_AVAILABILITY_OPTIONS
     }
 
     includes = [:author, :listing_images]
@@ -52,7 +54,7 @@ class PoolToolController < ApplicationController
         result: res,
         includes: includes,
         page: search[:page],
-        per_page: search[:per_page]
+        per_page: search[:per_page],
       ))
     }.data
 
@@ -287,12 +289,12 @@ class PoolToolController < ApplicationController
         utilization_text_outOf: t("pool_tool.load_popover.utilization_text_outOf"),
         utilization_text_days: t("pool_tool.load_popover.utilization_text_days"),
         utilization_start_date: t("pool_tool.load_popover.utilization_start_date"),
-        availability_desc_header_trusted: "Trusted",
-        availability_desc_header_intern: "Intern",
-        availability_desc_header_all: "All",
-        availability_desc_text_trusted: "This listing is marked as trusted. So only trusted companies and company employees can book it.",
-        availability_desc_text_intern: "This listing is marked as intern. So only company employees can book it.",
-        availability_desc_text_all: "This listing can be booked by all registered companies and the company employees.",
+        availability_desc_header_trusted: t("pool_tool.load_popover.availability_desc_header_trusted"),
+        availability_desc_header_intern: t("pool_tool.load_popover.availability_desc_header_intern"),
+        availability_desc_header_all: t("pool_tool.load_popover.availability_desc_header_all"),
+        availability_desc_text_trusted: t("pool_tool.load_popover.availability_desc_text_trusted"),
+        availability_desc_text_intern: t("pool_tool.load_popover.availability_desc_text_intern"),
+        availability_desc_text_all: t("pool_tool.load_popover.availability_desc_text_all"),
 
         pool_tool_preferences: {
           pooltool_user_has_to_give_back_device: @current_user.has_to_give_back_device?(@current_community),
