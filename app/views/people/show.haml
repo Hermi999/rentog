@@ -19,45 +19,116 @@
         - text_with_line_breaks do
           = @person.description
       - elsif current_user?(@person)
-        %a{href: person_settings_path(@person)}
-          .icon-with-text-container
-            .ss-chat.icon-part
-            .ss.text-part= t(".add_description")
+        = link_to person_settings_path(@person) do
+          = icon_tag("new_listing", ["icon-with-text"])
+          = t(".add_description")
+          <br><br>
 
-    .row
+    / renting listings
+    .row.profile-row
       %h2.people-header
-        - if listings.total_entries > 0
-          - if current_user?(@person) && params[:show_closed]
-            = pluralize(listings.total_entries, t(".listing"), t(".listings"))
-          - else
-            = pluralize(listings.total_entries, t(".open_listing"), t(".open_listings"))
-        - else
+        / if no listings at all
+        - if renting_listings.total_entries == 0 && selling_listings.total_entries == 0 && ad_listings.total_entries == 0
           - if current_user?(@person) && params[:show_closed]
             = t(".no_listings")
           - else
             = t(".no_open_listings")
-        %span.people-show-closed-link
-          - if current_user?(@person)
-            - if params[:show_closed]
-              = link_to t("people.profile_listings.show_only_open"), person_path(@person)
-            - else
-              = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
 
-    #profile-listings-list
-      - limit = 8
-      = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: listings}
+        / Renting listings available
+        - if renting_listings.total_entries > 0
+          = t(".renting_listings")
+          (
+          - if current_user?(@person) && params[:show_closed]
+            = pluralize(renting_listings.total_entries, t(".listing"), t(".listings"))
+          - else
+            = pluralize(renting_listings.total_entries, t(".open_listing"), t(".open_listings"))
+          )
 
-    -if !@current_community.only_pool_tool
-      - if @current_community.follow_in_use?
+          %span.people-show-closed-link
+            - if current_user?(@person)
+              - if params[:show_closed]
+                = link_to t("people.profile_listings.show_only_open"), person_path(@person)
+              - else
+                = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
+
+    - if renting_listings.total_entries > 0
+
+      / Legend
+      .listing-legend-wrapper
+        .listing-legend-header= t(".legend_header")
+        %span.listing-legend.listing-legend-intern= t(".legend_intern")
+        %span.listing-legend.listing-legend-trusted= t(".legend_trusted")
+        %span.listing-legend.listing-legend-global= t(".legend_global")
+
+      #profile-listings-list
+        - limit = 12
+        = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: renting_listings}
+
+
+
+    / ad listings
+    - if ad_listings.total_entries > 0
+      .row.profile-row
+        %h2.people-header
+          = t(".ad_listings")
+          (
+          - if current_user?(@person) && params[:show_closed]
+            = pluralize(ad_listings.total_entries, t(".listing"), t(".listings"))
+          - else
+            = pluralize(ad_listings.total_entries, t(".open_listing"), t(".open_listings"))
+          )
+
+          %span.people-show-closed-link
+            - if current_user?(@person)
+              - if params[:show_closed]
+                = link_to t("people.profile_listings.show_only_open"), person_path(@person)
+              - else
+                = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
+
+      #profile-listings-list
+      - limit = 12
+      = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: ad_listings}
+
+
+    / selling listings
+    - if selling_listings.total_entries > 0
+      .row.profile-row
+        %h2.people-header
+          = t(".selling_listings")
+          (
+          - if current_user?(@person) && params[:show_closed]
+            = pluralize(selling_listings.total_entries, t(".listing"), t(".listings"))
+          - else
+            = pluralize(selling_listings.total_entries, t(".open_listing"), t(".open_listings"))
+          )
+
+          %span.people-show-closed-link
+            - if current_user?(@person)
+              - if params[:show_closed]
+                = link_to t("people.profile_listings.show_only_open"), person_path(@person)
+              - else
+                = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
+
+
+      #profile-listings-list
+        - limit = 12
+        = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: selling_listings}
+
+
+
+    / Trusted companies & followed people
+    - if @current_community.follow_in_use?
+      .row.profile-row
         - if @person.is_organization
           = render :partial => "trusted_companies", :locals => { :person => @person, followed_people: followed_people, :limit => 6 }
         - else
           = render :partial => "followed_people", :locals => { :person => @person, followed_people: followed_people, :limit => 6 }
 
 
+    / Feedback
     - if @current_community.testimonials_in_use
       #people-testimonials.listing-main
-        .row
+        .row.profile-row
           %h2.people-header
             - if received_testimonials.size > 0
               = pluralize(received_testimonials.size, t(".review"), t(".reviews"))
@@ -72,6 +143,7 @@
       - limit = 8
       = render :partial => 'show_employees', :locals => { :company => @person, :limit => 6 }
 
+  / Profile image
   .col-4
     .row
       .people-image

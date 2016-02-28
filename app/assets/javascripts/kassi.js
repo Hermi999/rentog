@@ -1343,8 +1343,8 @@ function initialize_profile_view(profile_id) {
 
 function initialize_homepage() {
   // wah: Remove me. Marketplace coming soon
-  $("body").append("<div id='marketplace_cover' style='position:fixed; height:2000px; width:100%; top:0px; bottom:0px; z-index:100; background-color:rgba(53, 53, 53, 0.69);'> </div>")
-  $("#marketplace_cover").append("<div style='position:fixed; top: 40%; background-color:rgba(249, 216, 165, 0.94); padding: 20px 50px; left:25%; right:25%; width:50%; text-align:center; color: #B72424; font-weight: 600; font-size: 1.3em; border-radius:10px;'>Sharing devices with other, trusted companies is comming soon! <br><span style='color:black;'>Return to</span> <a href='/'>Pool Tool</a></div>")
+  //$("body").append("<div id='marketplace_cover' style='position:fixed; height:2000px; width:100%; top:0px; bottom:0px; z-index:100; background-color:rgba(53, 53, 53, 0.69);'> </div>")
+  //$("#marketplace_cover").append("<div style='position:fixed; top: 40%; background-color:rgba(249, 216, 165, 0.94); padding: 20px 50px; left:25%; right:25%; width:50%; text-align:center; color: #B72424; font-weight: 600; font-size: 1.3em; border-radius:10px;'>Sharing devices with other, trusted companies is comming soon! <br><span style='color:black;'>Return to</span> <a href='/'>Pool Tool</a></div>")
 
 
   // make map/list button change the value in the filter form and submit the form

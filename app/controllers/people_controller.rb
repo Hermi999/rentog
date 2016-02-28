@@ -45,19 +45,19 @@ class PeopleController < Devise::RegistrationsController
 
         # If trusted company or employee of trusted company -> show public and trusted listings
         if @person.follows?(@current_user) || (@current_user.company && @person.follows?(@current_user.company))
-          availability = ["all", "trusted"]
+          availability = ["all", "trusted", nil, ""]
 
         # logged in, non trusted user
         else
-          availability = ["all"]
+          availability = ["all", nil, ""]
         end
     # Logged out user -> show only public listings
     elsif !@current_user
-      availability = ["all"]
+      availability = ["all", nil, ""]
 
     # Employee or company admin himself
     else
-      availability = ["all", "trusted", "intern"]
+      availability = ["all", "trusted", "intern", nil, ""]
     end
 
     include_closed = @current_user == @person && params[:show_closed]
@@ -65,14 +65,14 @@ class PeopleController < Devise::RegistrationsController
       author_id: @person.id,
       include_closed: include_closed,
       page: 1,
-      per_page: 6,
+      per_page: 12,
       availability: availability,    # wah new
     }
 
     includes = [:author, :listing_images]
     raise_errors = Rails.env.development?
 
-    listings =
+    search_res =
       ListingIndexService::API::Api
       .listings
       .search(
@@ -81,7 +81,58 @@ class PeopleController < Devise::RegistrationsController
         engine: search_engine,
         raise_errors: raise_errors,
         includes: includes
-      ).and_then { |res|
+      )
+
+
+    # wah: split listings into Renting, Selling and Ad
+    renting_listings_arr = []
+    selling_listings_arr = []
+    ad_listings_arr = []
+    search_res.data[:listings].each do |listing|
+      # Selling or ad listing
+      if listing[:availability].nil?
+        type = Listing.get_listing_type(listing)
+        if type == "sell"
+          selling_listings_arr << listing
+        elsif type == "ad"
+          ad_listings_arr << listing
+        end
+
+      # Renting listing
+      else
+        if listing != []
+
+          renting_listings_arr << listing
+        end
+      end
+    end
+
+    # wah: create new Result:Success object
+    renting_temp = Result::Success.new({count: renting_listings_arr.count, listings: renting_listings_arr})
+    selling_temp = Result::Success.new({count: selling_listings_arr.count, listings: selling_listings_arr})
+    ad_temp = Result::Success.new({count: ad_listings_arr.count, listings: ad_listings_arr})
+
+
+    # wah: prepare listings vor view
+    renting_listings = renting_temp.and_then { |res|
+      Result::Success.new(
+        ListingIndexViewUtils.to_struct(
+        result: res,
+        includes: includes,
+        page: search[:page],
+        per_page: search[:per_page]
+      ))
+    }.data
+    selling_listings = selling_temp.and_then { |res|
+      Result::Success.new(
+        ListingIndexViewUtils.to_struct(
+        result: res,
+        includes: includes,
+        page: search[:page],
+        per_page: search[:per_page]
+      ))
+    }.data
+    ad_listings = ad_temp.and_then { |res|
       Result::Success.new(
         ListingIndexViewUtils.to_struct(
         result: res,
@@ -91,18 +142,22 @@ class PeopleController < Devise::RegistrationsController
       ))
     }.data
 
+
     followed_people = followed_people_in_community(@person, @current_community)
     received_testimonials = TestimonialViewUtils.received_testimonials_in_community(@person, @current_community)
     received_positive_testimonials = TestimonialViewUtils.received_positive_testimonials_in_community(@person, @current_community)
     feedback_positive_percentage = @person.feedback_positive_percentage_in_community(@current_community)
 
-    render locals: { listings: listings,
+    render locals: { renting_listings: renting_listings,
+                     selling_listings: selling_listings,
+                     ad_listings: ad_listings,
                      followed_people: followed_people,
                      received_testimonials: received_testimonials,
                      received_positive_testimonials: received_positive_testimonials,
                      feedback_positive_percentage: feedback_positive_percentage
                    }
   end
+
 
   def new
     # Check if signup link is an invitation from a company admin

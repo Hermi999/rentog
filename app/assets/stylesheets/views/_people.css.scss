@@ -95,3 +95,37 @@ $profile-pic-gutter-mobile: lines(0.5);
     padding-bottom: 100%;
   }
 }
+
+
+.profile-row {
+  margin-top: 40px;
+}
+
+
+.listing-legend-wrapper{
+  margin-bottom: 25px;
+  margin-top:-15px;
+  background-color: rgba(202, 202, 202, 0.58);
+  border-radius: 10px;
+  padding: 10px;
+}
+.listing-legend-header{
+  font-size: 0.8em;
+}
+.listing-legend{
+  color: white;
+  padding: 3px 6px;
+  border-radius: 7px;
+  text-align: center;
+  width: 33%;
+  font-size: 0.7em;
+}
+.listing-legend-intern{
+  background-color: #F54A4A;
+}
+.listing-legend-trusted{
+  background-color: #3A6ED8;
+}
+.listing-legend-global{
+  background-color: #B91F8A;
+}

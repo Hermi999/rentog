@@ -276,7 +276,7 @@ class Listing < ActiveRecord::Base
         "rent"
       elsif listing_shape_name.include? "kaufen"
         "sell"
-      elsif listing_shapes_name.include? "vermarkten"
+      elsif listing_shape_name.include? "vermarkten"
         "ad"
       else
         listing_shape_name
@@ -297,4 +297,34 @@ class Listing < ActiveRecord::Base
       nil
     end
   end
+
+  # wah
+  def self.get_listing_type(listing)
+    listing_shapes = ListingShape.all
+    listing_shape_name = nil
+
+    listing_shapes.each do |listing_shape|
+      if listing_shape.id == listing[:listing_shape_id]
+        listing_shape_name = listing_shape.name
+      end
+    end
+
+    # If private listing, then check availability
+    if listing_shape_name.nil? || (listing_shape_name.include? "private")
+      listing[:availability]
+
+    # otherweise check ListingShape name
+    else
+      if listing_shape_name.include? "vermieten"
+        "rent"
+      elsif listing_shape_name.include? "verkaufen"
+        "sell"
+      elsif listing_shape_name.include? "vermarkten"
+        "ad"
+      else
+        listing_shape_name
+      end
+    end
+  end
+
 end

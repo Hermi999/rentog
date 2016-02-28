@@ -16,7 +16,8 @@ module ListingIndexService::Search::Converters
       quantity: l.quantity,
       shape_name_tr_key: l.shape_name_tr_key,
       listing_shape_id: l.listing_shape_id,
-      availability: l.availability
+      availability: l.availability,
+      open: l.open
     }.merge(location_hash(l, includes))
       .merge(author_hash(l, includes))
       .merge(listing_images_hash(l, includes))
