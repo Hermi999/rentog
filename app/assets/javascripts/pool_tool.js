@@ -35,8 +35,10 @@ window.ST.pooToolSpinner = new Spinner(opts).spin();
 
 
 
-
 window.ST.poolTool = function() {
+  var searchTimeout, searchTermOld = "";
+
+  console.log("===== Pool Tool Code called =====");
 
   // Initialize the whole pool tool (jquery gantt chart, date pickers, add new booking form, ...)
   function init(){
@@ -48,6 +50,7 @@ window.ST.poolTool = function() {
     initialize_poolTool_createTransaction_form(gon.locale, gon.choose_employee_or_renter_msg);
     initialize_device_picker();
     initialize_poolTool_options();
+    initialize_poolTool_search();
 
     // Show devices the current logged in user has in his hands
     show_my_borrowed_devices();
@@ -604,13 +607,75 @@ window.ST.poolTool = function() {
     };
     source.push(hiddenElement);
 
-    // Create gon.source, so that we can access the source when adding an element to one device
+    // Gon.source points to source, so that we can access the source when adding an element to one device
     gon.source = source;
 
     // update gantt chart (with the new gon.source)
     updateGanttChart();
 
     prettyPrint();
+  }
+
+
+  // Handler for search field
+  // Doesn't start the search immetiately, but with a slight delay, so that
+  // the user can finish his word
+  function initialize_poolTool_search(){
+    $('#poolTool_search').keyup(function(){
+      var value = $('#poolTool_search').val();
+
+      clearTimeout(searchTimeout);
+
+      searchTimeout = setTimeout(function(){
+        search(value);
+      }, 700);
+    });
+  }
+
+  // Search for the given term within the source of jquery GanttChart &
+  // updates the ganttchart
+  function search(term){
+    var source = jQuery.extend(true, [], gon.source);  // deep copy - we don't change the gon.source array
+
+    if (term.length < 3){
+      term = "";
+      if (searchTermOld !== term){
+        searchTermOld = term;
+        $('#poolTool_search').css("background-color", "white");
+        $('#poolTool_search').css("color", "black");
+        updateGanttChart(source);
+      }
+    }
+
+    if (searchTermOld !== term){
+      searchTermOld = term;
+
+      if (term.length > 2){
+        for (var x = 0; x < source.length; x++){
+          var re = new RegExp(term, "i");
+
+          if (source[x].name){
+            var result_name = source[x].name.match(re);
+
+            if (result_name === null){
+              source.splice(x, 1);
+              x = x-1;
+            }
+          }
+        }
+        if (source.length < 2){
+          // red
+          $('#poolTool_search').css("background-color", "rgb(241, 188, 188)");
+          $('#poolTool_search').css("color", "rgb(130,30,30)");
+        }else{
+          // green
+          $('#poolTool_search').css("background-color", "rgb(189, 241, 202)");
+          $('#poolTool_search').css("color", "green");
+        }
+
+        updateGanttChart(source);
+      }
+    }
   }
 
   // This function actually initializes and updates the jquery gantt chart. It
@@ -621,7 +686,9 @@ window.ST.poolTool = function() {
   // The "onRender" Event-Handler handles all the stuff which can only be done
   // after the jquery gantt plugin has been rendered, like stopping the spinner,
   // adding event listeners for the legend, disable jquery gantt navigation buttons, ...
-  function updateGanttChart(){
+  function updateGanttChart(source){
+    source = source || gon.source;
+
     $(".gantt").gantt({
       dow: gon.translated_days_min,
       months: gon.translated_months,
@@ -632,7 +699,7 @@ window.ST.poolTool = function() {
       holidays: ["/Date(1334872800000)/","/Date(1335823200000)/"],
       // wah todo: Add Holidays
       // Get them from here: http://kayaposoft.com/enrico/json/
-      source: gon.source,
+      source: source,
       onItemClick: function(data) {
         var info = data.data("dataObj");
         var regEx = /\d+/;
@@ -1405,4 +1472,4 @@ window.ST.poolTool = function() {
     calculateLoadFactor: calculateLoadFactor,
     update_my_borrowed_devices: update_my_borrowed_devices
   };
-};
+}();

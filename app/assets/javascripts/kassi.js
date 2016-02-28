@@ -1106,7 +1106,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         addButton.removeClass('delete-button');
 
         // Update gantt chart
-        window.ST.poolTool().updateGanttChart();
+        window.ST.poolTool.updateGanttChart();
 
         // Update the 'borrowed devices' by adding the changed
         // transaction as new booking. This change booking is
@@ -1123,7 +1123,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
             title: title,
             renter_id: data.renter_id
           });
-          window.ST.poolTool().update_my_borrowed_devices();
+          window.ST.poolTool.update_my_borrowed_devices();
         }
 
       }else{

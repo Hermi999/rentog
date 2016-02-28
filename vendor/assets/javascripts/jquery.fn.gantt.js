@@ -367,7 +367,7 @@
                             entries.push('<script type="text/javascript">$("#RowdId_" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
                         }
 
-                        var load = window.ST.poolTool().calculateLoadFactor(entry);
+                        var load = window.ST.poolTool.calculateLoadFactor(entry);
 
                         if(entry.name){
                             entries.push('<div class="row_g load row' + i + '" id="load' + i + '">');
