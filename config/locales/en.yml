@@ -2387,6 +2387,7 @@ en:
         description: "Description"
       device_return_successful_email_flash: "You've returned the device <b>%{title}</b> successfully."
       device_return_fail_email_flash: "The device <b>%{title}</b> has already been returned."
+      search_devices: "Enter device name..."
     load_popover:
       utilization_header: "Utilization until today"
       utilization_desc_1: "Only working days"

@@ -87,16 +87,23 @@
       .poolTool_theme#theme_red
 
 
-  / Pool Tool Top level buttons (Add new Booking, Add new device)
+
+  / Pool Tool Top level buttons
   .row
+    / Pool Tool Search
+    .poolTool_search_container{:style=>"float:left;"}
+      = text_field_tag 'poolTool_search', nil, placeholder: t("pool_tool.show.search_devices")
+
+
+    / Button: Add new Booking
     #addNewBookingWrapper{:style=>"float:left;"}
       %button#addNewBooking.primary-button
         = t('pool_tool.show.addNewBooking')
 
+
+    / Button: Add new device
     = link_to t('pool_tool.show.newExternalBooking'), marketplace_path(:restrictedMarketplace => "1"), :class => "new-external-booking-link", :id => "createNewExternalBooking"
 
-    /- if post_listing_allowed
-    /  = link_to t('pool_tool.show.addNewDevice'), new_listing_path, :class => "new-listing-link", :id => "createNewDevice"
 
 
   / Pool Tool 'Add new booking form'
@@ -157,12 +164,6 @@
           #submit_wrapper.row
             .col-3
               = submit_tag(t('pool_tool.show.create'), id: "pooltool_submit_new_transaction", class: "primary-button pooltool_create_booking")
-
-
-  / Pool Tool Search
-  .poolTool_search_container.row
-    .col-4
-      = text_field_tag 'poolTool_search', nil, placeholder: 'Enter device name...'
 
 
   / Pool Tool Gantt Calendar

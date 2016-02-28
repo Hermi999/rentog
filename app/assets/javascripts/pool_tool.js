@@ -678,6 +678,7 @@ window.ST.poolTool = function() {
     }
   }
 
+
   // This function actually initializes and updates the jquery gantt chart. It
   // also defines the actions for the event listeners "onItemClick", "onAddClick" and
   // "onRender".
