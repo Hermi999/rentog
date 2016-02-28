@@ -1,6 +1,24 @@
 - if custom_fields && custom_fields.count > 0
+
   .new_listing_form_field_container
     - custom_fields.each do |custom_field|
       - custom_field.with_type do |field_type|
-        = label "custom_fields", "#{custom_field.id}".to_sym, "#{custom_field.name(I18n.locale)}#{custom_field.required ? '*' : ''}"
-        = render :partial => "listings/form/custom_field_partials/#{field_type}", :locals => { :custom_field => custom_field, :custom_field_value => listing.answer_for(custom_field) }
+        / Edit mode
+        - if (params[:edit_custom_fields] && custom_field.required == false)
+          - if @current_user.is_employee?
+            - company = @current_user.company
+          - else
+            - company = @current_user
+
+          - value = company.custom_fields.where(:id => custom_field).first
+
+          / Show custom field.
+          = label "custom_fields", "#{custom_field.id}".to_sym, "#{custom_field.name(I18n.locale)}#{custom_field.required ? '*' : ''}"
+          = check_box_tag custom_field.id, "Enabled", value, class: "custom_field_enabler"
+          = render :partial => "listings/form/custom_field_partials/#{field_type}", :locals => { :custom_field => custom_field, :custom_field_value => listing.answer_for(custom_field) }
+
+        - else
+          - if custom_field.companies.where(:id => @current_user.id).first
+            / Show custom field. But only if user has activated it
+            = label "custom_fields", "#{custom_field.id}".to_sym, "#{custom_field.name(I18n.locale)}#{custom_field.required ? '*' : ''}"
+            = render :partial => "listings/form/custom_field_partials/#{field_type}", :locals => { :custom_field => custom_field, :custom_field_value => listing.answer_for(custom_field) }

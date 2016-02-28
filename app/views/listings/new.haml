@@ -7,49 +7,89 @@
 - content_for :extra_javascript do
   = javascript_include_tag "https://maps.google.com/maps/api/js?sensor=true"
 
-- content_for :title_header do
-  %h1= t("listings.new.post_a_new_listing")
-#new_listing_form.new-listing-form.centered-section
 
-  #selected-groups
-    - if categories.size > 1
-      .selected-group{:name => "category"}
-        - categories.each do |value|
-          %a.select.selected.hidden{:data => {:id => value.id}}
-            .link-text= t(".selected_category", :category => value.display_name(I18n.locale))
+- title = t("listings.new.post_a_new_listing")
 
-    - if subcategories.size > 1
-      .selected-group{:name => "subcategory"}
-        - subcategories.each do |value|
-          %a.select.selected.hidden{:data => {:id => value.id}}
-            .link-text= t(".selected_subcategory", :subcategory => value.display_name(I18n.locale))
+/ Edit mode
+- if params[:edit_custom_fields]
+  - content_for :extra_javascript do
+    :javascript
+      $(document).ready(function() {
+        window.ST.initialize_edit_custom_fields();
+      });
 
-    - if shapes.size > 1
-      .selected-group{:name => "listing_shape"}
-        - shapes.each do |value|
-          %a.select.selected.hidden{:data => {:id => value[:id]}}
-            .link-text= t(".selected_transaction_type", :transaction_type => t(value[:name_tr_key]))
 
-  %h2.listing-form-title{:id => "foo"}
+  - edit_custom_fields_disable_elements = "edit_custom_fields_disable_elements"
+  - title = t("listings.form.enable_custom_fields")
 
-  #option-groups
+  - content_for :title_header do
+    %h1= title
 
-    - if categories.size > 1
-      .option-group{:name => "category"}
-        - categories.each do |value|
-          %a.select.option.hidden{:data => {:id => value.id}}
-            .link-text= value.display_name(I18n.locale)
+  .row{:style => "margin-bottom: 0px;"}
+    .col-4#edit_custom_fields_return
+      = link_to t("listings.form.return_from_custom_fields"), url_for(params.except(:edit_custom_fields).merge(only_path: true))
 
-    - if subcategories.size > 1
-      .option-group{:name => "subcategory"}
-        - subcategories.each do |value|
-          %a.select.option.hidden{:data => {:id => value.id}}
-            .link-text= value.display_name(I18n.locale)
+    .col-4
+      %button#edit_custom_fields_save
+        = t("listings.form.save_custom_fields")
 
-    - if shapes.size > 1
-      .option-group{:name => "listing_shape"}
-        - shapes.each do |value|
-          %a.select.option.hidden{:data => {:id => value[:id]}}
-            .link-text= t(value[:name_tr_key])
+  .row{:style => "margin-bottom: 25px; text-align: center"}
+    .col-4
+    .col-4
+      = t("listings.form.request_new_attribute").html_safe
 
-  .js-form-fields.hidden
+  #new_listing_form.new-listing-form.centered-section
+    .element{:id => "#{edit_custom_fields_disable_elements}"}
+    .js-form-fields.hidden
+
+- else
+  / Normal mode
+  - content_for :title_header do
+    %h1= title
+
+  = link_to t("listings.form.add_more_fields"), url_for(params.merge(:edit_custom_fields => 1)), class: "js-form-edit-custom-fields hidden"
+
+  #new_listing_form.new-listing-form.centered-section
+
+    #selected-groups
+      - if categories.size > 1
+        .selected-group{:name => "category"}
+          - categories.each do |value|
+            %a.select.selected.hidden{:data => {:id => value.id}}
+              .link-text= t(".selected_category", :category => value.display_name(I18n.locale))
+
+      - if subcategories.size > 1
+        .selected-group{:name => "subcategory"}
+          - subcategories.each do |value|
+            %a.select.selected.hidden{:data => {:id => value.id}}
+              .link-text= t(".selected_subcategory", :subcategory => value.display_name(I18n.locale))
+
+      - if shapes.size > 1
+        .selected-group{:name => "listing_shape"}
+          - shapes.each do |value|
+            %a.select.selected.hidden{:data => {:id => value[:id]}}
+              .link-text= t(".selected_transaction_type", :transaction_type => t(value[:name_tr_key]))
+
+    %h2.listing-form-title{:id => "foo"}
+
+    #option-groups
+
+      - if categories.size > 1
+        .option-group{:name => "category"}
+          - categories.each do |value|
+            %a.select.option.hidden{:data => {:id => value.id}}
+              .link-text= value.display_name(I18n.locale)
+
+      - if subcategories.size > 1
+        .option-group{:name => "subcategory"}
+          - subcategories.each do |value|
+            %a.select.option.hidden{:data => {:id => value.id}}
+              .link-text= value.display_name(I18n.locale)
+
+      - if shapes.size > 1
+        .option-group{:name => "listing_shape"}
+          - shapes.each do |value|
+            %a.select.option.hidden{:data => {:id => value[:id]}}
+              .link-text= t(value[:name_tr_key])
+
+    .js-form-fields.hidden

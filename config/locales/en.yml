@@ -1512,6 +1512,11 @@ en:
       unfollow: "Don't get emails about new comments"
     cannot_book: "This listing can only be booked by users the owner <b>trusts</b>.<br> Please contact the owner and ask him to add you to his trusted companies."
     form:
+      enable_custom_fields: "Enable & disable custom fields"
+      add_more_fields: "+ Add more attributes"
+      return_from_custom_fields: "<< Return"
+      save_custom_fields: Save
+      request_new_attribute: "You need an additional attribute? <a href='https://rentog.com/contact'>Contact us!</a> You'll get your new attribute within 24 hours."
       custom_field_partials:
         dropdown:
           select_one___: "Select one..."

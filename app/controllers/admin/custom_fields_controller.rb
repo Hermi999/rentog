@@ -112,11 +112,13 @@ class Admin::CustomFieldsController < ApplicationController
     @custom_field = params[:field_type].constantize.new(custom_field_entity) #before filter checks valid field types and prevents code injection
     @custom_field.community = @current_community
 
+
     success = if valid_categories?(@current_community, params[:custom_field][:category_attributes])
       @custom_field.save
     end
 
     if success
+      add_custom_field_to_company   # wah
       redirect_to admin_custom_fields_path
     else
       flash[:error] = "Listing field saving failed"
@@ -167,6 +169,8 @@ class Admin::CustomFieldsController < ApplicationController
     custom_field_entity = build_custom_field_entity(@custom_field.type, custom_field_params)
 
     @custom_field.update_attributes(custom_field_entity)
+
+    add_custom_field_to_company # wah
 
     redirect_to admin_custom_fields_path
   end
@@ -266,6 +270,26 @@ class Admin::CustomFieldsController < ApplicationController
 
   def listings_api
     ListingService::API::Api
+  end
+
+
+  # wah
+  def add_custom_field_to_company
+    # wah: Add custom field to all companies if its mandatory
+    if @custom_field.required == true
+      Person.all.each do |person|
+        already_there = false
+
+        if person.is_organization?
+          person.custom_fields.each do |custom_field|
+            if custom_field == @custom_field
+              already_there = true
+            end
+          end
+          person.custom_fields << @custom_field if !already_there
+        end
+      end
+    end
   end
 
 end

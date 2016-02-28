@@ -141,6 +141,8 @@ class Person < ActiveRecord::Base
   has_many :inverse_follower_relationships, :class_name => "FollowerRelationship", :foreign_key => "follower_id"
   has_many :followed_people, :through => :inverse_follower_relationships, :source => "person"
 
+  has_and_belongs_to_many :custom_fields, class_name: "CustomField"   # wah
+
   has_and_belongs_to_many :followed_listings, :class_name => "Listing", :join_table => "listing_followers"
 
   def to_param
@@ -727,6 +729,18 @@ class Person < ActiveRecord::Base
     else
       company_option && company_option.pool_tool_modify_past
     end
+  end
+
+  def get_company
+    if self.is_employee?
+      company
+    else
+      self
+    end
+  end
+
+  def get_company_name
+    get_company.organization_name
   end
 
 end

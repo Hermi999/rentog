@@ -155,6 +155,7 @@ window.ST = window.ST || {};
     $.get(new_listing_path, selected_attributes, function(data) {
       $('.js-form-fields').html(data);
       $('.js-form-fields').removeClass('hidden');
+      $('.js-form-edit-custom-fields').removeClass('hidden');
     });
   }
 
@@ -164,6 +165,7 @@ window.ST = window.ST || {};
     $.get(edit_listing_path, request_params, function(data) {
       $('.js-form-fields').html(data);
       $('.js-form-fields').removeClass('hidden');
+      $('.js-form-edit-custom-fields').removeClass('hidden');
     });
   }
 
@@ -296,6 +298,7 @@ window.ST = window.ST || {};
       selected_attributes = evt.state || emptySelection;
 
       $('.js-form-fields').addClass('hidden');
+      $('.js-form-edit-custom-fields').addClass('hidden');
       var shouldLoadForm = select_listing_form_menu_link($(this), locale, attribute_array, listing_form_menu_titles, ordered_attributes, selected_attributes);
 
       menuStateChanged(shouldLoadForm);
@@ -305,6 +308,7 @@ window.ST = window.ST || {};
     $('.new-listing-form').find('a.select').click(
       function() {
         $('.js-form-fields').addClass('hidden');
+        $('.js-form-edit-custom-fields').addClass('hidden');
         var shouldLoadForm = select_listing_form_menu_link($(this), locale, attribute_array, listing_form_menu_titles, ordered_attributes, selected_attributes);
 
         setPushState(selected_attributes);
@@ -331,6 +335,7 @@ window.ST = window.ST || {};
 
     if(shouldShowForm) {
       $('.js-form-fields').removeClass('hidden');
+      $('.js-form-edit-custom-fields').removeClass('hidden');
     }
 
     var menuStateChanged = function(shouldLoadForm) {
@@ -341,6 +346,7 @@ window.ST = window.ST || {};
 
         if(loadNotNeeded) {
           $('.js-form-fields').removeClass('hidden');
+          $('.js-form-edit-custom-fields').removeClass('hidden');
         } else {
           $('.js-form-fields').html("");
           display_edit_listing_form(selected_attributes, locale, id);
@@ -354,6 +360,7 @@ window.ST = window.ST || {};
       selected_attributes = evt.state || originalSelection;
 
       $('.js-form-fields').addClass('hidden');
+      $('.js-form-edit-custom-fields').addClass('hidden');
       var shouldLoadForm = select_listing_form_menu_link($(this), locale, attribute_array, listing_form_menu_titles, ordered_attributes, selected_attributes);
 
       menuStateChanged(shouldLoadForm);
@@ -363,6 +370,7 @@ window.ST = window.ST || {};
     $('.new-listing-form').find('a.select').click(
       function() {
         $('.js-form-fields').addClass('hidden');
+        $('.js-form-edit-custom-fields').addClass('hidden');
         var shouldLoadForm = select_listing_form_menu_link($(this), locale, attribute_array, listing_form_menu_titles, ordered_attributes, selected_attributes);
 
         setPushState(selected_attributes);
@@ -537,5 +545,35 @@ window.ST = window.ST || {};
     set_textarea_maxlength();
     auto_resize_text_areas("listing_description_textarea");
   };
+
+  // Initialize the edit custom fields mode
+  module.initialize_edit_custom_fields = function(){
+    // Save button clicked
+    $('#edit_custom_fields_save').click(function(){
+
+      var attributes = [];
+
+      for (var i=0; i < $('.custom_field_enabler').length; i++){
+        attributes.push({
+          id: Number.parseInt($('.custom_field_enabler')[i].id),
+          value: $('.custom_field_enabler')[i].checked
+        });
+      }
+
+      $.ajax({
+          type: "POST",
+          url: '/custom_fields_people/update',
+          data: { _method:'PUT', values: attributes },
+          dataType: 'json',
+          success: function(msg) {
+            if (msg.success === "success"){
+              $("body").append("<div class='central_success_message'>Saved!</div>");
+              $('.central_success_message').fadeOut(8000);
+            }
+          }
+      });
+
+    });
+  }
 
 })(window.ST);

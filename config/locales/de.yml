@@ -1509,6 +1509,11 @@ de:
       unfollow: "Diesem Eintrag nicht mehr folgen"
     cannot_book: "Dieses Gerät kann nur von Unternehmen gebucht werden, die mit dem Vermieter <b>befreundet</b> sind.<br> Kontaktiere den Vermieter und bitte ihn dein Unternehmen zu seinen <b>Freunden</b> hinzuzufügen."
     form:
+      enable_custom_fields: "Aktivieren & deaktivieren von Feldern"
+      add_more_fields: "+ Füge weitere Attribute hinzu"
+      return_from_custom_fields: "<< Zurück"
+      save_custom_fields: Speichern
+      request_new_attribute: "Sie benötigen weitere Attribute?<br> <a href='https://rentog.com/de/contact'>Kontaktieren Sie uns!</a> Innerhalb von 24h haben Sie alle Attribute, die Sie benötigen!"
       custom_field_partials:
         dropdown:
           select_one___: auswählen...

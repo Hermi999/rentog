@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160209183917) do
+ActiveRecord::Schema.define(version: 20160228155930) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -387,6 +387,16 @@ ActiveRecord::Schema.define(version: 20160209183917) do
 
   add_index "custom_fields", ["community_id"], name: "index_custom_fields_on_community_id", using: :btree
   add_index "custom_fields", ["search_filter"], name: "index_custom_fields_on_search_filter", using: :btree
+
+  create_table "custom_fields_people", force: :cascade do |t|
+    t.string   "person_id",       limit: 255
+    t.integer  "custom_field_id", limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "custom_fields_people", ["custom_field_id"], name: "index_custom_fields_people_on_custom_field_id", using: :btree
+  add_index "custom_fields_people", ["person_id"], name: "index_custom_fields_people_on_person_id", using: :btree
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   limit: 4,     default: 0

@@ -32,7 +32,10 @@ class CustomField < ActiveRecord::Base
 
   has_many :options, class_name: "CustomFieldOption"
 
+  has_and_belongs_to_many :companies, class_name: "Person"   # wah
+
   belongs_to :community
+
 
   VALID_TYPES = ["TextField", "NumericField", "DropdownField", "CheckboxField","DateField"]
 
@@ -71,4 +74,5 @@ class CustomField < ActiveRecord::Base
   def with_type(&block)
     throw "Implement this in the subclass"
   end
+
 end

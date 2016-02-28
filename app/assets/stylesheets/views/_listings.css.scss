@@ -224,3 +224,30 @@ $listing-author-avatar-height: 108;
 .listings-how-paypal-works-link {
   font-size: em(14);
 }
+
+.custom_field_enabler{
+  display: block;
+  background-color: green;
+  float: right;
+  margin-right: -40px;
+}
+
+.custom_fields_grey{
+  background-color: #BFBFBF;
+}
+#edit_custom_fields_disable_elements{
+  width: 450px;
+  background-color: rgba(173, 173, 173, 0.35);
+  height: 80%;
+  position: absolute;
+  margin-top: -11px;
+  margin-left: -11px;
+  z-index: 10;
+}
+#edit_custom_fields_save{
+  width: 100%;
+}
+#edit_custom_fields_return{
+  margin-top:17px;
+}
+
