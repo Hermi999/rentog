@@ -163,11 +163,11 @@ Feature: User views profile page
       | employee_testperson2 | 0               | d@d.at |
 
     # Prepare Listings
-    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Selling"
-    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Requesting"
-    And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" with availability "all" and with listing shape "Selling services"
-    And there is a listing with title "Housing" from "kassi_testperson2" with category "Spaces" with availability "all" and with listing shape "Selling"
-    And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" with availability "all" and with listing shape "Requesting"
+    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Private devices"
+    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Private devices"
+    And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" and with listing shape "Selling services"
+    And there is a listing with title "Housing" from "kassi_testperson2" with category "Spaces" and with listing shape "Selling"
+    And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" and with listing shape "Requesting"
     And that listing is closed
 
     # Prepare followed
@@ -210,11 +210,11 @@ Feature: User views profile page
       | employee_testperson2 | 0               | d@d.at |
 
     # Prepare Listings
-    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Selling"
-    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Requesting"
-    And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" with availability "all" and with listing shape "Selling services"
-    And there is a listing with title "Housing" from "kassi_testperson2" with category "Spaces" with availability "all" and with listing shape "Selling"
-    And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" with availability "all" and with listing shape "Requesting"
+    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Private devices"
+    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Private devices"
+    And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" and with listing shape "Selling services"
+    And there is a listing with title "Housing" from "kassi_testperson2" with category "Spaces" and with listing shape "Selling"
+    And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" and with listing shape "Requesting"
     And that listing is closed
 
     # Prepare followed
@@ -255,10 +255,10 @@ Feature: User views profile page
       | employee_testperson2 | 0               | d@d.at |
 
     # Prepare Listings
-    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Selling"
-    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Requesting"
-    And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" with availability "all" and with listing shape "Selling services"
-    And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" with availability "all" and with listing shape "Requesting"
+    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Private devices"
+    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Private devices"
+    And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" and with listing shape "Selling services"
+    And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" and with listing shape "Requesting"
     And that listing is closed
 
     # Prepare followed

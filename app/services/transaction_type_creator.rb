@@ -42,6 +42,9 @@ module TransactionTypeCreator
     },
     "Swap" => {
       price_enabled: false
+    },
+    "Private" => {
+      price_enabled: true
     }
   }
 
@@ -90,6 +93,11 @@ module TransactionTypeCreator
       label: "Swap",
       translation_key: "admin.transaction_types.swap",
       action_button_translation_key: "admin.transaction_types.default_action_button_labels.offer",
+    },
+    "Private" => {
+      label: "Private",
+      translation_key: "admin.transaction_types.private",
+      action_button_translation_key: "admin.transaction_types.default_action_button_labels.book"
     }
   }
 

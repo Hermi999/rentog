@@ -19,24 +19,24 @@ Feature: User interacts with Pool Tool
      When I follow "here" within "#create_new_listing"
      Then I should see "Post a new listing"
 
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
-    Given there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "trusted" and with listing shape "Renting"
-    Given there is a listing with title "Listing3" from "kassi_testperson1" with category "Tools" with availability "all" and with listing shape "Renting"
+    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
+    Given there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "trusted" and with listing shape "Private devices"
+    Given there is a listing with title "Listing3" from "kassi_testperson1" with category "Tools" and with listing shape "Renting"
       And I am on my pool tool page
      Then I should see "Pool Management Tool"
       And I should not see element "#addNewBookingForm"
       And I should see "Listing1"
       And I should see "intern"
       And I should see "Listing2"
-      And I should see "trusted"
+      And I should see "Trusted"
       And I should see "Listing3"
-      And I should see "all"
+      And I should see "All"
     #done
 
 
   Scenario: Create a new Booking with Employee
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
-    Given there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
+    Given there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
       And I should not see element "#addNewBookingForm"
@@ -52,8 +52,8 @@ Feature: User interacts with Pool Tool
     #done
 
   Scenario: Create a new Booking with other Reason
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
-    Given there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
+    Given there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
       And I should not see element "#addNewBookingForm"
@@ -69,7 +69,7 @@ Feature: User interacts with Pool Tool
     #done
 
   Scenario: Cancel a new Booking
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
      When I press "Book internal device"
@@ -82,7 +82,7 @@ Feature: User interacts with Pool Tool
     #done
 
   Scenario: Only employee or reason can be chosen but not both
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
      When I press "Book internal device"
@@ -99,7 +99,7 @@ Feature: User interacts with Pool Tool
     #done
 
   Scenario: Test new booking error messages
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
      When I press "Book internal device"
@@ -129,8 +129,8 @@ Feature: User interacts with Pool Tool
     # done
 
   Scenario: Try to update external existing Booking
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "trusted" and with listing shape "Renting"
-      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "trusted" and with listing shape "Private devices"
+      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And there exists an external booking for company "kassi_testperson1" from company "kassi_testperson2" and listing "Listing2" with length 5 days and offset 1 days
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
@@ -145,8 +145,8 @@ Feature: User interacts with Pool Tool
     # done
 
   Scenario: Update existing Booking with Employee
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
-      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
+      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And there exists an internal booking for company "kassi_testperson1" and employee "employee_testperson1" and listing "Listing1" with length 5 and offset 1 days
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
@@ -163,8 +163,8 @@ Feature: User interacts with Pool Tool
     # done
 
   Scenario: Update existing Booking with other Reason
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
-      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
+      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And there exists an internal booking for company "kassi_testperson1" and listing "Listing1" with reason "internal000" and length 5 days and offset 1 days
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
@@ -182,8 +182,8 @@ Feature: User interacts with Pool Tool
 
 
   Scenario: Update existing Booking with invalid Dates
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
-      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
+      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And there exists an internal booking for company "kassi_testperson1" and listing "Listing1" with reason "internal000" and length 2 days and offset 1 days
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
@@ -199,8 +199,8 @@ Feature: User interacts with Pool Tool
 
 
   Scenario: Update existing Booking with conflicting Dates
-    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
-      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+    Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
+      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And there exists an internal booking for company "kassi_testperson1" and listing "Listing1" with reason "internal000" and length 2 days and offset 1 days
       And there exists an internal booking for company "kassi_testperson1" and listing "Listing1" with reason "internal001" and length 5 days and offset 4 days
       And I am logged in as "kassi_testperson1"
@@ -220,8 +220,8 @@ Feature: User interacts with Pool Tool
   @skip_phantomjs
   Scenario: Delete existing Booking with Employee
     Given I will confirm all following confirmation dialogs in this page if I am running PhantomJS
-      And there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
-      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+      And there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
+      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And there exists an internal booking for company "kassi_testperson1" and employee "employee_testperson1" and listing "Listing1" with length 2 and offset 1 days
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
@@ -239,8 +239,8 @@ Feature: User interacts with Pool Tool
   @skip_phantomjs
   Scenario: Delete existing Booking with other Reason
     Given I will confirm all following confirmation dialogs in this page if I am running PhantomJS
-      And there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
-      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+      And there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
+      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And there exists an internal booking for company "kassi_testperson1" and listing "Listing1" with reason "internal000" and length 2 days and offset 1 days
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
@@ -259,8 +259,8 @@ Feature: User interacts with Pool Tool
   Scenario: Create, update and delete a booking in a row
     # Create
     Given I will confirm all following confirmation dialogs in this page if I am running PhantomJS
-      And there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
-      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
+      And there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
+      And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
      When I press "Book internal device"

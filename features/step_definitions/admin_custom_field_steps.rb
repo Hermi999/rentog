@@ -280,6 +280,12 @@ Given /^there is a custom dropdown field "(.*?)" in community "(.*?)"(?: in cate
   @custom_fields << custom_field
 end
 
+# wah
+Given /^I activate all custom fields$/ do
+  @current_user.custom_fields << CustomField.all
+end
+
+
 Given /^there is a custom text field "(.*?)" in community "(.*?)"(?: in category "([^"]*)")?$/ do |name, community, category_name|
   current_community = Community.where(ident: community).first
   custom_field = FactoryGirl.build(:custom_text_field, {

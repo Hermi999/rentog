@@ -30,7 +30,7 @@ Feature: User views a single listing
 
   @only_without_asi
   Scenario: Trusted Company tries to view an intern listing
-    And there is a listing with title "services_intern_requesting" from "kassi_testperson1" with category "Services" with availability "intern" and with listing shape "Renting"
+    And there is a listing with title "services_intern_requesting" from "kassi_testperson1" with category "Services" with availability "intern" and with listing shape "Private devices"
     And "kassi_testperson1" trusts "kassi_testperson2"
 
     When I am logged in as "kassi_testperson2"
@@ -47,7 +47,7 @@ Feature: User views a single listing
 
   @only_without_asi
   Scenario: Untrusted Company tries to view an intern listing
-    And there is a listing with title "services_intern_requesting" from "kassi_testperson1" with category "Services" with availability "intern" and with listing shape "Renting"
+    And there is a listing with title "services_intern_requesting" from "kassi_testperson1" with category "Services" with availability "intern" and with listing shape "Private devices"
 
     When I am logged in as "kassi_testperson2"
     And I am on the profile page of "kassi_testperson1"
@@ -65,7 +65,7 @@ Feature: User views a single listing
 
   @only_without_asi
   Scenario: Trusted Company views an trusted listing
-    And there is a listing with title "services_trusted_requesting" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Renting"
+    And there is a listing with title "services_trusted_requesting" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Private devices"
     And "kassi_testperson1" trusts "kassi_testperson2"
 
     When I am logged in as "kassi_testperson2"
@@ -77,11 +77,11 @@ Feature: User views a single listing
 
     When I go to the listing page
     Then I should see "services_trusted_requesting"
-    And I should see "Rent"
+    And I should see "Book"
 
   @only_without_asi
   Scenario: Untrusted Company cant view any trusted listing
-    And there is a listing with title "services_trusted_requesting" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Renting"
+    And there is a listing with title "services_trusted_requesting" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Private devices"
 
     When I am logged in as "kassi_testperson2"
     And I am on the profile page of "kassi_testperson1"

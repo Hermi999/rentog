@@ -435,6 +435,7 @@ en:
           save_order_successful: "Successfully saved order type order"
           save_order_error: "An error occurred while saving order. Please refresh the page and try again."
       templates:
+        private_devices: "Private devices"
         selling_products: "Selling products"
         renting_products: "Renting products"
         offering_services: "Offering services"
@@ -533,12 +534,14 @@ en:
       request: Requesting
       inquiry: Announcement
       share_for_free: "Sharing for free"
+      private: "Private devices"
       default_action_button_labels:
         sell: Buy
         rent: Rent
         request: Offer
         offer: Request
         inquiry: Contact
+        book: Book
   common:
     edit_page: "Edit page"
     default_community_slogan: "Rentog. The Test- and Measurement Marketplace"
@@ -1969,6 +1972,7 @@ en:
       open_listings: "open listings"
       renting_listings: "Devices for renting"
       selling_listings: "Devices for selling"
+      other_listings: "All other listings"
       ad_listings: "Ad devices"
       no_listings: "No listings"
       legend_header: "The following availabilities are valid for renting devices:"

@@ -104,7 +104,7 @@ Feature: User edits his own listing
     When I fill in "listing_title" with "Sledgehammer"
     And I press "Save listing"
     Then I should see "Sledgehammer" within "#listing-title"
-    And I should see "Listing updated successfully"
+    And I should see "Listing updated"
 
   @javascript
   Scenario: Trying to update somebody else's listing as an admin of the current community
@@ -122,4 +122,4 @@ Feature: User edits his own listing
     When I fill in "listing_title" with "Sledgehammer"
     And I press "Save listing"
     Then I should see "Sledgehammer" within "#listing-title"
-    And I should see "Listing updated successfully"
+    And I should see "Listing updated"

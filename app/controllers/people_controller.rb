@@ -88,14 +88,17 @@ class PeopleController < Devise::RegistrationsController
     renting_listings_arr = []
     selling_listings_arr = []
     ad_listings_arr = []
+    other_listings_arr = []
     search_res.data[:listings].each do |listing|
-      # Selling or ad listing
+      # Selling or ad listing or other type
       if listing[:availability].nil?
         type = Listing.get_listing_type(listing)
         if type == "sell"
           selling_listings_arr << listing
         elsif type == "ad"
           ad_listings_arr << listing
+        else
+          other_listings_arr << listing
         end
 
       # Renting listing
@@ -111,6 +114,7 @@ class PeopleController < Devise::RegistrationsController
     renting_temp = Result::Success.new({count: renting_listings_arr.count, listings: renting_listings_arr})
     selling_temp = Result::Success.new({count: selling_listings_arr.count, listings: selling_listings_arr})
     ad_temp = Result::Success.new({count: ad_listings_arr.count, listings: ad_listings_arr})
+    other_temp = Result::Success.new({count: other_listings_arr.count, listings: other_listings_arr})
 
 
     # wah: prepare listings vor view
@@ -141,6 +145,15 @@ class PeopleController < Devise::RegistrationsController
         per_page: search[:per_page]
       ))
     }.data
+    other_listings = other_temp.and_then { |res|
+      Result::Success.new(
+        ListingIndexViewUtils.to_struct(
+        result: res,
+        includes: includes,
+        page: search[:page],
+        per_page: search[:per_page]
+      ))
+    }.data
 
 
     followed_people = followed_people_in_community(@person, @current_community)
@@ -151,6 +164,7 @@ class PeopleController < Devise::RegistrationsController
     render locals: { renting_listings: renting_listings,
                      selling_listings: selling_listings,
                      ad_listings: ad_listings,
+                     other_listings: other_listings,
                      followed_people: followed_people,
                      received_testimonials: received_testimonials,
                      received_positive_testimonials: received_positive_testimonials,

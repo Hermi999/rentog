@@ -28,6 +28,11 @@ module TestHelpers
         en: {
           name: "Selling services", action_button_label: "Offer"
         }
+      },
+      Private: {
+        en: {
+          name: "Private devices", action_button_label: "Book this item"
+        }
       }
     }
 

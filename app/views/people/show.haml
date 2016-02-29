@@ -115,6 +115,31 @@
         = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: selling_listings}
 
 
+    / other listings
+    - if other_listings.total_entries > 0
+      .row.profile-row
+        %h2.people-header
+          = t(".other_listings")
+          (
+          - if current_user?(@person) && params[:show_closed]
+            = pluralize(other_listings.total_entries, t(".listing"), t(".listings"))
+          - else
+            = pluralize(other_listings.total_entries, t(".open_listing"), t(".open_listings"))
+          )
+
+          %span.people-show-closed-link
+            - if current_user?(@person)
+              - if params[:show_closed]
+                = link_to t("people.profile_listings.show_only_open"), person_path(@person)
+              - else
+                = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
+
+
+      #profile-listings-list
+        - limit = 12
+        = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: other_listings}
+
+
 
     / Trusted companies & followed people
     - if @current_community.follow_in_use?

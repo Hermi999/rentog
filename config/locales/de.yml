@@ -434,6 +434,7 @@ de:
           save_order_successful: "Erfolgreich gespeicherte Bestellung"
           save_order_error: "Beim Speichern der Bestellung ist ein Fehler aufgetreten. Bitte aktualisiere die Seite und versuche es erneut."
       templates:
+        private_devices: "Private Geräte"
         selling_products: "Verkauf von Produkten"
         renting_products: "Vermietung von Produkten"
         offering_services: "Angebot von Dienstleistungen"
@@ -532,12 +533,14 @@ de:
       request: Anfragen
       inquiry: Anfrage
       share_for_free: "Kostenlos teilen"
+      private: "Private Geräte"
       default_action_button_labels:
         sell: Kaufen
         rent: Mieten
         request: Anbieten
         offer: Anfragen
         inquiry: Kontakt
+        book: Buchen
   common:
     edit_page: "Seite bearbeiten"
     default_community_slogan: "Rentog. Der Test- und Messgeräte Marktplatz"
@@ -1970,6 +1973,7 @@ de:
       legend_global: "Global - Verfügbar für registrierte User"
       renting_listings: "Zu vermietende Geräte"
       selling_listings: "Zu verkaufende Geräte"
+      other_listings: "Alle anderen Einträge"
       ad_listings: "Bewerbende Geräte"
       no_open_listings: "Keine aktiven Einträge"
       no_reviews: "Keine Bewertungen"

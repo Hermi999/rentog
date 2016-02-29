@@ -37,6 +37,17 @@ class ListingShapeTemplates
 
   def all
     [
+      { # wah
+        label: "admin.listing_shapes.templates.private_devices",
+        name_tr_key: "admin.transaction_types.private",
+        action_button_tr_key: "admin.transaction_types.default_action_button_labels.book",
+        price_enabled: true,
+        shipping_enabled: true,
+        online_payments: true,
+        template: :private_devices,
+        author_is_seller: true,
+        units: []
+      },
       {
         label: "admin.listing_shapes.templates.selling_products",
         name_tr_key: "admin.transaction_types.sell",

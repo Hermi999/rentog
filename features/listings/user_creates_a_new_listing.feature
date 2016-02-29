@@ -134,6 +134,7 @@ Feature: User creates a new listing
       | en             | fi                   |
       | Cleaning       | Siivous              |
       | Delivery       | Kuljetus             |
+    And I activate all custom fields
     And I am on the marketplace page
     When I follow "new-listing-link"
     And I select "Spaces" from listing type menu
@@ -160,12 +161,12 @@ Feature: User creates a new listing
   Scenario: Company creates a new listing with custom text field
     Given I am logged in
     And there is a custom text field "Details" in community "test" in category "Spaces"
+    And I activate all custom fields
     When I follow "new-listing-link"
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
     And I fill in "listing_title" with "My house"
     And I fill in text field "Details" with "Test details"
-    And I select "All other companies and your employees" from "listing_availability"
     And I press "Save listing"
     And the Listing indexes are processed
     When I go to the marketplace page
@@ -177,6 +178,7 @@ Feature: User creates a new listing
   Scenario: Company creates a new listing with numeric field
     Given I am logged in
     And there is a custom numeric field "Area" in that community in category "Spaces" with min value 100 and with max value 2000
+    And I activate all custom fields
     When I follow "new-listing-link"
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
@@ -192,6 +194,7 @@ Feature: User creates a new listing
 Scenario: Company creates a new listing with date field
   Given I am logged in
   And there is a custom date field "building_date_test" in that community in category "Spaces"
+  And I activate all custom fields
   When I follow "new-listing-link"
   And I select "Spaces" from listing type menu
   And I select "Selling" from listing type menu
@@ -211,6 +214,7 @@ Scenario: Company creates a new listing with date field
       | Pool              |
       | Sauna             |
       | Hot Tub           |
+    And I activate all custom fields
     When I follow "new-listing-link"
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
@@ -239,7 +243,6 @@ Scenario: Company creates a new listing with date field
     Then I should not see "Privacy*"
     And I fill in "listing_title" with "Sledgehammer"
     And I fill in "listing_description" with "My description"
-    And I select "All other companies and your employees" from "listing_availability"
     And I press "Save listing"
     Then I should see "Sledgehammer" within "#listing-title"
     When I go to the marketplace page
