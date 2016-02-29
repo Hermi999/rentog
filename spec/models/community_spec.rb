@@ -151,7 +151,7 @@ describe Community, type: :model do
       FactoryGirl.create(:listing,
         :created_at => created_at.days.ago,
         :updates_email_at => updates_email_at.days.ago,
-        :listing_shape_id => 123,
+        :listing_shape_id => 1,
         :community_id => @community.id)
     end
 

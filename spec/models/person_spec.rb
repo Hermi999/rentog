@@ -116,7 +116,7 @@ describe Person, type: :model do
         listing = FactoryGirl.create(:listing,
           :title => "Test",
           :author => @test_person,
-          :listing_shape_id => 123
+          :listing_shape_id => 3
         )
         expect(listing.title).to eq("Test")
         expect(@test_person.listings.last).to eq(listing)
