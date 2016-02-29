@@ -3,9 +3,9 @@ require 'spec_helper'
 describe ListingService::API::Listings do
 
   let(:listings_api) { ListingService::API::Api }
-  let(:sell_id) { 91 }
-  let(:rent_id) { 92 }
-  let(:c2_sell_id) { 95 }
+  let(:sell_id) { ListingShape.where(:name => "selling").last.id }
+  let(:rent_id) { ListingShape.where(:name => "renting").last.id }
+  let(:c2_sell_id) { ListingShape.where(:name => "selling-services").last.id }
   # TODO We should not use models directly like this
   let(:community) { FactoryGirl.create(:community) }
   let(:community2) { FactoryGirl.create(:community) }

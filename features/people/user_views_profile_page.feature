@@ -107,8 +107,8 @@ Feature: User views profile page
       | employee_testperson2 | 0               | d@d.at |
 
     # Prepare Listings
-    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Selling"
-    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Requesting"
+    And there is a listing with title "car spare parts" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Private devices"
+    And there is a listing with title "massage" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Private devices"
     And there is a listing with title "Helsinki - Turku" from "kassi_testperson1" with category "Services" with availability "all" and with listing shape "Selling services"
     And there is a listing with title "Housing" from "kassi_testperson2" with category "Spaces" with availability "all" and with listing shape "Selling"
     And there is a listing with title "apartment" from "kassi_testperson1" with category "Spaces" with availability "all" and with listing shape "Requesting"
@@ -141,7 +141,7 @@ Feature: User views profile page
     # Trusted user cant see employees
     Given the community does not allow others to view the employees of a company
     When I refresh the page
-    Then I should not see "employees"
+    Then I should not see "3 employees"
 
     # Trusted user with admin rights can see employees
     Given "kassi_testperson2" has admin rights in community "test"

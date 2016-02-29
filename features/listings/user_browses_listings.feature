@@ -111,16 +111,16 @@ Feature: User browses listings
       | kassi_testperson1 |
       | kassi_testperson2 |
     # intern listings
-    And there is a listing with title "items_intern_requesting" from "kassi_testperson2" with category "Items" with availability "intern" and with listing shape "Requesting"
-    And there is a listing with title "items_intern_renting" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Renting"
-    And there is a listing with title "services_intern_lending" from "kassi_testperson1" with category "Services" with availability "intern" and with listing shape "Lending"
-    And there is a listing with title "spaces_intern_selling" from "kassi_testperson2" with category "Spaces" with availability "intern" and with listing shape "Selling"
+    And there is a listing with title "items_intern_privatedevices" from "kassi_testperson2" with category "Items" with availability "intern" and with listing shape "Private devices"
+    And there is a listing with title "items_intern_privatedevices2" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Private devices"
+    And there is a listing with title "services_intern_privatedevices" from "kassi_testperson1" with category "Services" with availability "intern" and with listing shape "Private devices"
+    And there is a listing with title "spaces_intern_privatedevices" from "kassi_testperson2" with category "Spaces" with availability "intern" and with listing shape "Private devices"
 
     # trusted listings
-    And there is a listing with title "items_trusted_requesting" from "kassi_testperson2" with category "Items" with availability "trusted" and with listing shape "Requesting"
-    And there is a listing with title "items_trusted_renting" from "kassi_testperson1" with category "Items" with availability "trusted" and with listing shape "Renting"
-    And there is a listing with title "services_trusted_lending" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Lending"
-    And there is a listing with title "spaces_trusted_selling" from "kassi_testperson2" with category "Spaces" with availability "trusted" and with listing shape "Selling"
+    And there is a listing with title "itmes_trusted_privatedevices" from "kassi_testperson2" with category "Items" with availability "trusted" and with listing shape "Private devices"
+    And there is a listing with title "itmes_trusted_privatedevices2" from "kassi_testperson1" with category "Items" with availability "trusted" and with listing shape "Private devices"
+    And there is a listing with title "services_trusted_privatedevices" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Private devices"
+    And there is a listing with title "spaces_trusted_privatedevices" from "kassi_testperson2" with category "Spaces" with availability "trusted" and with listing shape "Private devices"
 
     # public listings
     And there is a listing with title "items_all_requesting" from "kassi_testperson2" with category "Items" and with listing shape "Requesting"
@@ -137,15 +137,15 @@ Feature: User browses listings
     And I should see "services_all_lending"
     And I should see "spaces_all_selling"
 
-    And I should not see "items_trusted_requesting"
-    And I should not see "items_trusted_renting"
-    And I should not see "services_trusted_lending"
-    And I should not see "spaces_trusted_selling"
+    And I should not see "itmes_trusted_privatedevices"
+    And I should not see "itmes_trusted_privatedevices2"
+    And I should not see "services_trusted_privatedevices"
+    And I should not see "spaces_trusted_privatedevices"
 
-    And I should not see "items_intern_requesting"
-    And I should not see "items_intern_renting"
-    And I should not see "services_intern_lending"
-    And I should not see "spaces_intern_selling"
+    And I should not see "items_intern_privatedevices"
+    And I should not see "items_intern_privatedevices2"
+    And I should not see "services_intern_privatedevices"
+    And I should not see "spaces_intern_privatedevices"
 
 
 @javascript @sphinx @no-transaction
@@ -155,16 +155,16 @@ Feature: User browses listings
       | kassi_testperson1 |
       | kassi_testperson2 |
     # intern listings
-    And there is a listing with title "items_intern_requesting" from "kassi_testperson2" with category "Items" with availability "intern" and with listing shape "Requesting"
-    And there is a listing with title "items_intern_renting" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Renting"
-    And there is a listing with title "services_intern_lending" from "kassi_testperson1" with category "Services" with availability "intern" and with listing shape "Lending"
-    And there is a listing with title "spaces_intern_selling" from "kassi_testperson2" with category "Spaces" with availability "intern" and with listing shape "Selling"
+    And there is a listing with title "items_intern_privatedevices" from "kassi_testperson2" with category "Items" with availability "intern" and with listing shape "Requesting"
+    And there is a listing with title "items_intern_privatedevices2" from "kassi_testperson1" with category "Items" with availability "intern" and with listing shape "Renting"
+    And there is a listing with title "services_intern_privatedevices" from "kassi_testperson1" with category "Services" with availability "intern" and with listing shape "Lending"
+    And there is a listing with title "spaces_intern_privatedevices" from "kassi_testperson2" with category "Spaces" with availability "intern" and with listing shape "Selling"
 
     # trusted listings
-    And there is a listing with title "items_trusted_requesting" from "kassi_testperson2" with category "Items" with availability "trusted" and with listing shape "Requesting"
-    And there is a listing with title "items_trusted_renting" from "kassi_testperson1" with category "Items" with availability "trusted" and with listing shape "Renting"
-    And there is a listing with title "services_trusted_lending" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Lending"
-    And there is a listing with title "spaces_trusted_selling" from "kassi_testperson2" with category "Spaces" with availability "trusted" and with listing shape "Selling"
+    And there is a listing with title "itmes_trusted_privatedevices" from "kassi_testperson2" with category "Items" with availability "trusted" and with listing shape "Requesting"
+    And there is a listing with title "itmes_trusted_privatedevices2" from "kassi_testperson1" with category "Items" with availability "trusted" and with listing shape "Renting"
+    And there is a listing with title "services_trusted_privatedevices" from "kassi_testperson1" with category "Services" with availability "trusted" and with listing shape "Lending"
+    And there is a listing with title "spaces_trusted_privatedevices" from "kassi_testperson2" with category "Spaces" with availability "trusted" and with listing shape "Selling"
 
     # public listings
     And there is a listing with title "items_all_requesting" from "kassi_testperson2" with category "Items" and with listing shape "Requesting"
@@ -181,12 +181,12 @@ Feature: User browses listings
     And I should not see "services_all_lending"
     And I should not see "spaces_all_selling"
 
-    And I should not see "items_trusted_requesting"
-    And I should not see "items_trusted_renting"
-    And I should not see "services_trusted_lending"
-    And I should not see "spaces_trusted_selling"
+    And I should not see "itmes_trusted_privatedevices"
+    And I should not see "itmes_trusted_privatedevices2"
+    And I should not see "services_trusted_privatedevices"
+    And I should not see "spaces_trusted_privatedevices"
 
-    And I should not see "items_intern_requesting"
-    And I should not see "items_intern_renting"
-    And I should not see "services_intern_lending"
-    And I should not see "spaces_intern_selling"
+    And I should not see "items_intern_privatedevices"
+    And I should not see "items_intern_privatedevices2"
+    And I should not see "services_intern_privatedevices"
+    And I should not see "spaces_intern_privatedevices"

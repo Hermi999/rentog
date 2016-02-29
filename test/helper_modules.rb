@@ -193,7 +193,7 @@ module TestHelpers
     end.first
   end
 
-  def get_first_listing_shape
+  def get_first_listing_shape()
     ListingShape.first
   end
 
