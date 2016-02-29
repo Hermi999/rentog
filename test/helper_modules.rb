@@ -193,6 +193,12 @@ module TestHelpers
     end.first
   end
 
+  def get_first_listing_shape
+    ListingShape.first
+  end
+
+  module_function :get_first_listing_shape
+
   def index_finished?
     Dir[Rails.root.join(ThinkingSphinx::Test.config.indices_location, '*.{new,tmp}.*')].empty?
   end

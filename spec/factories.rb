@@ -114,7 +114,7 @@ FactoryGirl.define do
     valid_until 3.months.from_now
     times_viewed 0
     privacy "public"
-    listing_shape_id ListingShape.last
+    listing_shape_id { TestHelpers::get_first_listing_shape }
     price Money.new(20, "USD")
     availability "all"
   end
