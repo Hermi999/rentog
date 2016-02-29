@@ -420,6 +420,7 @@ en:
       index:
         listing_shapes: "Order types"
         description: "Order types determine how the order process works in your site. You can decide whether your users are renting or selling, or perhaps just posting announcements and communicating via free messages."
+        warning: "Don't change anything here unless you are 100% sure what you are doing! You might also need to change something in code (get_listing_type, get_listing_marker, set_availability_if_necessary methods in file listing.rb)"
         read_more_about_order_types: "Read more about order types"
         add_new_shape: "Add new order type: "
         select_template: "Select template..."

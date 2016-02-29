@@ -419,6 +419,7 @@ de:
       index:
         listing_shapes: ~
         description: ~
+        warning: ~
         read_more_about_order_types: "Lies mehr über Auftragsarten"
         add_new_shape: "Füge neue Auftragsart hinzu: "
         select_template: "Template wählen ..."

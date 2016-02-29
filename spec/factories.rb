@@ -114,7 +114,7 @@ FactoryGirl.define do
     valid_until 3.months.from_now
     times_viewed 0
     privacy "public"
-    listing_shape_id 123
+    listing_shape_id 1
     price Money.new(20, "USD")
     availability "all"
   end

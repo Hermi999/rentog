@@ -266,25 +266,8 @@ class Listing < ActiveRecord::Base
   def get_listing_type
     listing_shape_name = ListingShape.find(listing_shape_id).name if listing_shape_id
 
-    # If private listing, then check availability
-    if listing_shape_name.nil? || (listing_shape_name.downcase.include? "private")
-      availability
+    self.class.get_listing_type_helper(availability, listing_shape_name)
 
-    # otherweise check ListingShape name
-    else
-      if listing_shape_name.downcase.include? "vermieten" or
-         listing_shape_name.downcase.include? "rent"
-        "rent"
-      elsif listing_shape_name.downcase.include? "kaufen" or
-            listing_shape_name.downcase.include? "buy"
-        "sell"
-      elsif listing_shape_name.downcase.include? "vermarkten" or
-            listing_shape_name.downcase.include? "ad"
-        "ad"
-      else
-        listing_shape_name.downcase
-      end
-    end
   end
 
   # wah
@@ -312,20 +295,31 @@ class Listing < ActiveRecord::Base
       end
     end
 
+    get_listing_type_helper(listing[:availability], listing_shape_name)
+
+  end
+
+
+
+  # wah
+  def self.get_listing_type_helper(temp_availability, temp_listing_shape_name)
     # If private listing, then check availability
-    if listing_shape_name.nil? || (listing_shape_name.include? "private")
-      listing[:availability]
+    if temp_listing_shape_name.nil? || (temp_listing_shape_name.downcase.include? "private")
+      temp_availability
 
     # otherweise check ListingShape name
     else
-      if listing_shape_name.include? "vermieten"
+      if temp_listing_shape_name.downcase.include? "vermieten" or
+         temp_listing_shape_name.downcase.include? "rent"
         "rent"
-      elsif listing_shape_name.include? "verkaufen"
+      elsif temp_listing_shape_name.downcase.include? "kaufen" or
+            temp_listing_shape_name.downcase.include? "buy"
         "sell"
-      elsif listing_shape_name.include? "vermarkten"
+      elsif temp_listing_shape_name.downcase.include? "vermarkten" or
+            temp_listing_shape_name.downcase.include? "ad"
         "ad"
       else
-        listing_shape_name
+        temp_listing_shape_name.downcase
       end
     end
   end
