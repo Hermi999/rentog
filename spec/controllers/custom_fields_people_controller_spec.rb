@@ -1,12 +1,7 @@
-require 'rails_helper'
+require 'spec_helper'
 
-RSpec.describe CustomFieldsPeopleController, type: :controller do
+describe CustomFieldsPeopleController, type: :controller do
 
-  describe "GET #update" do
-    it "returns http success" do
-      get :update
-      expect(response).to have_http_status(:success)
-    end
-  end
+
 
 end

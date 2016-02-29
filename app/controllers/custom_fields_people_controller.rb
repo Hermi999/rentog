@@ -1,5 +1,6 @@
 class CustomFieldsPeopleController < ApplicationController
   before_filter :only => [ :update ] do |controller|
+    binding.pry
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_view_this_content")
   end
 
@@ -8,7 +9,9 @@ class CustomFieldsPeopleController < ApplicationController
     data = params[:values]
     company = @current_user.get_company
 
-    data.each do |element|
+    data.each_with_index do |element, index|
+      # DoS protect: Limit how many custom fields a client can send
+      break if index > 100
 
       already_there = false
       company.custom_fields.each do |custom_field|

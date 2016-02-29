@@ -152,7 +152,7 @@ class HomepageController < ApplicationController
       availability_for_sphinx[:availability_restricted_marketplace] = true
 
     elsif @marketplace_with_trusted_devs
-      availability = ["intern"]
+      availability = ["intern", "trusted"]
       availability_for_sphinx[:availability_not_intern] = true
     else
       availability = ["all", nil]

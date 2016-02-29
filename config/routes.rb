@@ -662,7 +662,6 @@ Kassi::Application.routes.draw do
     post '/:person_id/settings/payments/braintree/create' => 'braintree_accounts#create', :as => :create_braintree_settings_payment
     get '/:person_id/settings/payments/paypal_account' => 'paypal_accounts#index', :as => :paypal_account_settings_payment
 
-    get 'custom_fields_people/edit'
     put 'custom_fields_people/update'
 
 

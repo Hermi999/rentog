@@ -267,19 +267,22 @@ class Listing < ActiveRecord::Base
     listing_shape_name = ListingShape.find(listing_shape_id).name if listing_shape_id
 
     # If private listing, then check availability
-    if listing_shape_name.nil? || (listing_shape_name.include? "private")
+    if listing_shape_name.nil? || (listing_shape_name.downcase.include? "private")
       availability
 
     # otherweise check ListingShape name
     else
-      if listing_shape_name.include? "vermieten"
+      if listing_shape_name.downcase.include? "vermieten" or
+         listing_shape_name.downcase.include? "rent"
         "rent"
-      elsif listing_shape_name.include? "kaufen"
+      elsif listing_shape_name.downcase.include? "kaufen" or
+            listing_shape_name.downcase.include? "buy"
         "sell"
-      elsif listing_shape_name.include? "vermarkten"
+      elsif listing_shape_name.downcase.include? "vermarkten" or
+            listing_shape_name.downcase.include? "ad"
         "ad"
       else
-        listing_shape_name
+        listing_shape_name.downcase
       end
     end
   end
