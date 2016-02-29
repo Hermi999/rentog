@@ -6,6 +6,8 @@ describe PersonMailer, type: :mailer do
   include(EmailSpec::Helpers)
   include(EmailSpec::Matchers)
 
+  let(:listing_shapes_id) {ListingShape.first}
+
   before(:each) do
     @test_person = FactoryGirl.create(:person)
     @test_person2 = FactoryGirl.create(:person)
@@ -46,7 +48,7 @@ describe PersonMailer, type: :mailer do
 
   it "should send email about listing with payment but without user's payment details" do
     community = FactoryGirl.create(:community)
-    listing = FactoryGirl.create(:listing, listing_shape_id: 123)
+    listing = FactoryGirl.create(:listing, listing_shape_id: listing_shapes_id)
 
     TransactionService::API::Api.settings.provision(
       community_id: community.id,
@@ -65,7 +67,7 @@ describe PersonMailer, type: :mailer do
   describe "status changed" do
 
     let(:author) { FactoryGirl.build(:person) }
-    let(:listing) { FactoryGirl.build(:listing, author: author, listing_shape_id: 123) }
+    let(:listing) { FactoryGirl.build(:listing, author: author, listing_shape_id: listing_shapes_id) }
     let(:starter) { FactoryGirl.build(:person, given_name: "Teppo", family_name: "Testaaja") }
     let(:conversation) { FactoryGirl.build(:conversation) }
     let(:transaction) { FactoryGirl.create(:transaction, listing: listing, starter: starter, conversation: conversation) }
@@ -121,7 +123,7 @@ describe PersonMailer, type: :mailer do
     transition = FactoryGirl.build(:transaction_transition, to_state: "confirmed")
     listing = FactoryGirl.build(:listing,
                                 transaction_process_id: 123, # not needed, but mandatory
-                                listing_shape_id: 123, # not needed, but mandatory
+                                listing_shape_id: listing_shapes_id, # not needed, but mandatory
                                 author: @test_person)
     transaction = FactoryGirl.create(:transaction, starter: @test_person2, listing: listing, transaction_transitions: [transition])
     testimonial = FactoryGirl.create(:testimonial, grade: 0.75, text: "Yeah", author: @test_person, receiver: @test_person2, tx: transaction)
@@ -139,7 +141,7 @@ describe PersonMailer, type: :mailer do
   it "should remind about testimonial" do
     author = FactoryGirl.build(:person)
     starter = FactoryGirl.build(:person, given_name: "Teppo", family_name: "Testaaja", "organization_name" => "Bosch")
-    listing = FactoryGirl.build(:listing, author: author, listing_shape_id: 123)
+    listing = FactoryGirl.build(:listing, author: author, listing_shape_id: listing_shapes_id)
     # Create is needed here, not exactly sure why
     conversation = FactoryGirl.create(:transaction, starter: starter, listing: listing)
 
@@ -156,7 +158,7 @@ describe PersonMailer, type: :mailer do
   it "should remind to accept or reject" do
     starter = FactoryGirl.build(:person, given_name: "Jack", family_name: "Dexter", organization_name: "Bosch")
     author = FactoryGirl.build(:person)
-    listing = FactoryGirl.build(:listing, :author => author, listing_shape_id: 123)
+    listing = FactoryGirl.build(:listing, :author => author, listing_shape_id: listing_shapes_id)
     conversation = FactoryGirl.create(:transaction, starter: starter, listing: listing)
 
     email = MailCarrier.deliver_now(PersonMailer.accept_reminder(conversation, "this_can_be_anything", @community))
@@ -230,7 +232,7 @@ describe PersonMailer, type: :mailer do
 
     before do
       @community = FactoryGirl.create(:community)
-      @listing = FactoryGirl.create(:listing, listing_shape_id: 123, community_id: @community.id)
+      @listing = FactoryGirl.create(:listing, listing_shape_id: listing_shapes_id, community_id: @community.id)
       @recipient = FactoryGirl.create(:person)
     end
 
