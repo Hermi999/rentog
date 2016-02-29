@@ -2374,6 +2374,7 @@ en:
       enter_other_reason: "Enter another reason (<span id='reason_counter'>40</span> chars available)"
       description: "Description (optional, <span id='description_counter'>249</span> chars available)"
       devices: "Available devices (Visibility: <span style='color: #B91F8A'>all</span>, <span style='color: #F54A4A'>intern</span>, <span style='color: #3A6ED8'>trusted</span>)"
+      devices_only_poolTool: "Available devices (Visibility: <span style='color: #F54A4A'>Intern</span>, <span style='color: #3A6ED8'>Trusted</span>)"
       example: "fg.: Maintainance"
       create: "Create"
       devices_i_have_borrowed: "Devices I've borrowed at the moment"

@@ -40,7 +40,7 @@ Feature: User interacts with Pool Tool
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
       And I should not see element "#addNewBookingForm"
-     When I press "Add new booking"
+     When I press "Book internal device"
       And I should see element "#addNewBookingForm"
      When I select "Kassi Testperson3" from "dd_employee"
       And I click on element "div.fluid-thumbnail-grid-image-title" with text "Listing2" and within ".home-fluid-thumbnail-grid"
@@ -57,7 +57,7 @@ Feature: User interacts with Pool Tool
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
       And I should not see element "#addNewBookingForm"
-     When I press "Add new booking"
+     When I press "Book internal device"
       And I should see element "#addNewBookingForm"
      When I fill in "tf_device_renter" with "Wartung"
       And I click on element "div.fluid-thumbnail-grid-image-title" with text "Listing2" and within ".home-fluid-thumbnail-grid"
@@ -72,11 +72,11 @@ Feature: User interacts with Pool Tool
     Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
-     When I press "Add new booking"
+     When I press "Book internal device"
      Then I should see "Cancel"
       And I should see element "#addNewBookingForm"
      When I press "Cancel"
-     Then I should see "Add new booking"
+     Then I should see "Book internal device"
       And I should not see "Create" within ".page-content"
       And I should not see element "#addNewBookingForm"
     #done
@@ -85,7 +85,7 @@ Feature: User interacts with Pool Tool
     Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
-     When I press "Add new booking"
+     When I press "Book internal device"
       And I fill in "tf_device_renter" with "Wartung"
      Then I should see disabled element "#dd_employee"
      When I fill in "tf_device_renter" with ""
@@ -102,7 +102,7 @@ Feature: User interacts with Pool Tool
     Given there is a listing with title "Listing1" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
-     When I press "Add new booking"
+     When I press "Book internal device"
 
       And I press "Create"
      Then I should see 4 validation errors
@@ -263,7 +263,7 @@ Feature: User interacts with Pool Tool
       And there is a listing with title "Listing2" from "kassi_testperson1" with category "Tools" with availability "intern" and with listing shape "Renting"
       And I am logged in as "kassi_testperson1"
       And I am on my pool tool page
-     When I press "Add new booking"
+     When I press "Book internal device"
       And I select "Kassi Testperson3" from "dd_employee"
       And I click on element "div.fluid-thumbnail-grid-image-title" with text "Listing2" and within ".home-fluid-thumbnail-grid"
       And I fill booking start-date +2 and end-date +5 days

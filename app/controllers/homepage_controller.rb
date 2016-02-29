@@ -155,7 +155,7 @@ class HomepageController < ApplicationController
       availability = ["intern"]
       availability_for_sphinx[:availability_not_intern] = true
     else
-      availability = ["all"]
+      availability = ["all", nil]
       availability_for_sphinx[:availability_marketplace] = true
     end
 

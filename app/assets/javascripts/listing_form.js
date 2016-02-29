@@ -574,6 +574,6 @@ window.ST = window.ST || {};
       });
 
     });
-  }
+  };
 
 })(window.ST);

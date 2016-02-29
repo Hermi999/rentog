@@ -35,7 +35,7 @@ window.ST.pooToolSpinner = new Spinner(opts).spin();
 
 
 
-window.ST.poolTool = function() {
+window.ST.poolTool = (function() {
   var searchTimeout, searchTermOld = "";
 
   console.log("===== Pool Tool Code called =====");
@@ -1473,4 +1473,4 @@ window.ST.poolTool = function() {
     calculateLoadFactor: calculateLoadFactor,
     update_my_borrowed_devices: update_my_borrowed_devices
   };
-}();
+})();

@@ -19,7 +19,7 @@ Feature: User tries to access the pool tool
     When I click "#header-user-display-name"
     When I follow "Pool Tool"
     Then I should see "Pool Management Tool"
-    And I should see "Add new booking"
+    And I should see "Book internal device"
     And I should see "Post a new listing"
     And I should see "Listing1"
     And I should see "Listing2"
@@ -50,7 +50,7 @@ Feature: User tries to access the pool tool
     And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson1"
     Then I should see "Pool Management Tool"
-    And I should see "Add new booking"
+    And I should see "Book internal device"
     And I should see "Post a new listing"
     And I should see "Listing1"
     And I should see "Listing2"
