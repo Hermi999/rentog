@@ -221,7 +221,7 @@ class ListingsController < ApplicationController
          # Show button if no user is logged in or if the availaility fits the current user
       show_rent_button = true
 
-    elsif @current_user != @listing.author
+    elsif @current_user != @listing.author && !@current_user.has_admin_rights_in?(@current_community)
       if @listing.availability == "intern"
         flash[:error] = t("transactions.listing_is_intern")
         redirect_to root_path and return
