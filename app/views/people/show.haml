@@ -58,7 +58,8 @@
         .listing-legend-header= t(".legend_header")
         %span.listing-legend.listing-legend-intern= t(".legend_intern")
         %span.listing-legend.listing-legend-trusted= t(".legend_trusted")
-        %span.listing-legend.listing-legend-global= t(".legend_global")
+        - unless @current_community.only_pool_tool
+          %span.listing-legend.listing-legend-global= t(".legend_global")
 
       #profile-listings-list
         - limit = 12
