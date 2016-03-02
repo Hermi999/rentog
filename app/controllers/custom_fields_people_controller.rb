@@ -1,6 +1,5 @@
 class CustomFieldsPeopleController < ApplicationController
   before_filter :only => [ :update ] do |controller|
-    binding.pry
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_view_this_content")
   end
 
