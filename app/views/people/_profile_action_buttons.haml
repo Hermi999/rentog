@@ -10,3 +10,6 @@
     = render :partial => "trust_button", :locals => { :person => @person}
   - elsif !@current_user.is_organization
     = render :partial => "follow_button", :locals => { :person => @person }
+
+- if @current_user.has_admin_rights_in?(@current_community)
+  = link_to "Pool Tool", person_poolTool_path(@person)

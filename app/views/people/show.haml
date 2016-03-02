@@ -62,7 +62,7 @@
           %span.listing-legend.listing-legend-global= t(".legend_global")
 
       #profile-listings-list
-        - limit = 12
+        - limit = 1000
         = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: renting_listings}
 
 
@@ -87,7 +87,7 @@
                 = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
 
       #profile-listings-list
-      - limit = 12
+      - limit = 1000
       = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: ad_listings}
 
 
@@ -112,7 +112,7 @@
 
 
       #profile-listings-list
-        - limit = 12
+        - limit = 1000
         = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: selling_listings}
 
 
@@ -137,7 +137,7 @@
 
 
       #profile-listings-list
-        - limit = 12
+        - limit = 1000
         = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: other_listings}
 
 

@@ -65,7 +65,7 @@ class PeopleController < Devise::RegistrationsController
       author_id: @person.id,
       include_closed: include_closed,
       page: 1,
-      per_page: 12,
+      per_page: 1000,                # wah 'show all listings' not working at the moment
       availability: availability,    # wah new
     }
 
@@ -82,7 +82,6 @@ class PeopleController < Devise::RegistrationsController
         raise_errors: raise_errors,
         includes: includes
       )
-
 
     # wah: split listings into Renting, Selling and Ad
     renting_listings_arr = []
@@ -117,7 +116,7 @@ class PeopleController < Devise::RegistrationsController
     other_temp = Result::Success.new({count: other_listings_arr.count, listings: other_listings_arr})
 
 
-    # wah: prepare listings vor view
+    # wah: prepare listings for view
     renting_listings = renting_temp.and_then { |res|
       Result::Success.new(
         ListingIndexViewUtils.to_struct(

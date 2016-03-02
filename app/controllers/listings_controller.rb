@@ -30,7 +30,8 @@ class ListingsController < ApplicationController
   before_filter :is_authorized_to_post, :only => [ :new, :create ]
 
 
-  # called when clicked on "show all listings" on profile page
+  # wah: called when clicked on "show all listings" on profile page --> not working at the moment because I
+  # separated the different listing types
   def index
     @selected_tribe_navi_tab = "home"
 
