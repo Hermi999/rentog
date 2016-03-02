@@ -12,4 +12,7 @@
     = render :partial => "follow_button", :locals => { :person => @person }
 
 - if @current_user.has_admin_rights_in?(@current_community)
-  = link_to "Pool Tool", person_poolTool_path(@person)
+  - if @person.is_organization
+    = link_to "Pool Tool", person_poolTool_path(@person)
+  - else
+    = link_to "Companies Pool Tool", person_poolTool_path(@person.company)
