@@ -301,7 +301,7 @@ module TestHelpers
                                   locale: "en",
                                   encrypted_password: "72bf5831e031cbcf2e226847677fccd6d8ec6fe0673549a60abb5fd05f726462",
                                   password_salt: "zXklAGLwt7Cu",
-                                  given_name: "Hermann",
+                                  given_name: "Hank",
                                   family_name: "Testperson6",
                                   created_at: "2011-05-04 18:17:04",
                                   is_organization: 0,

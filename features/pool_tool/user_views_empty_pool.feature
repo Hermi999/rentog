@@ -15,8 +15,8 @@ Feature: User views empty Pool Tool
   Scenario: Initial Pool Tool Access
     Given I am logged in as "kassi_testperson2"
       And I am on my pool tool page
-     Then I should see "Your company has no (open) devices yet"
-      And I should see "create a new listing here"
+     Then I should see "Your company has no (open) devices for renting yet"
+      And I should see "create a new renting listing here"
      When I follow "here" within "#create_new_listing"
      Then I should see "Post a new listing"
 
@@ -32,4 +32,17 @@ Feature: User views empty Pool Tool
       And I should see "Trusted"
       And I should see "Listing3"
       And I should see "All"
+    #done
+
+  Scenario: Pool Tool without renting listings
+    Given there is a listing with title "Listing1" from "kassi_testperson2" with category "Tools" with availability "intern" and with listing shape "Selling"
+    Given there is a listing with title "Listing2" from "kassi_testperson2" with category "Tools" with availability "trusted" and with listing shape "Requesting"
+    Given I am logged in as "kassi_testperson2"
+
+      And I am on my pool tool page
+     Then I should see "Pool Management Tool"
+     Then I should see "Your company has no (open) devices for renting yet"
+      And I should see "create a new renting listing here"
+     When I follow "here" within "#create_new_listing"
+     Then I should see "Post a new listing"
     #done

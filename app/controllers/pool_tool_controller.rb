@@ -190,11 +190,15 @@ class PoolToolController < ApplicationController
 
 
       # NOT ALLOWED
-      flash[:error] = t("pool_tool.you_have_to_be_company_member")
-      redirect_to person_poolTool_path(@current_user)         if @relation == :untrusted_company_admin
-      redirect_to person_poolTool_path(@current_user.company) if @relation == :untrusted_company_employee || @relation == :employee_own_pool_tool
-      redirect_to login_path                                  if @relation == :logged_out_user
-      return false
+        # no error message
+        redirect_to person_poolTool_path(@current_user.company) and return false if @relation == :employee_own_pool_tool
+
+        # with error message
+        flash[:error] = t("pool_tool.you_have_to_be_company_member")
+        redirect_to person_poolTool_path(@current_user)         if @relation == :untrusted_company_admin
+        redirect_to person_poolTool_path(@current_user.company) if @relation == :untrusted_company_employee
+        redirect_to login_path                                  if @relation == :logged_out_user
+        return false
     end
 
 
