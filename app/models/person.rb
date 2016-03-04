@@ -83,7 +83,8 @@ class Person < ActiveRecord::Base
                 :form_given_name, :form_family_name, :form_password,
                 :form_password2, :form_email, :consent,
                 :input_again, :community_category, :send_notifications,
-                :organization_name2, :signup_as, :organization_email
+                :organization_name2, :signup_as, :organization_email,
+                :user_type
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'

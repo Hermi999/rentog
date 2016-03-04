@@ -53,7 +53,9 @@ window.ST.poolTool = (function() {
     initialize_poolTool_search();
 
     // Show devices the current logged in user has in his hands
-    show_my_borrowed_devices();
+    if (gon.user_active_bookings !== null){
+      show_my_borrowed_devices();
+    }
 
     $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"500px", maxHeight:"270px"});
   }
@@ -61,9 +63,11 @@ window.ST.poolTool = (function() {
   // Removes all borrowed booking cards (divs) and then calls the method for showing the borrowed devices
   // This is used for updating the view, for example after a booking has been deleted, changed or created
   function update_my_borrowed_devices(){
-    $('.user_booking').remove();
-    $('.no-open-bookings').remove();
-    show_my_borrowed_devices();
+    if (gon.user_active_bookings !== null){
+      $('.user_booking').remove();
+      $('.no-open-bookings').remove();
+      show_my_borrowed_devices();
+    }
   }
 
   // Show devices the current logged in user has in his hands at this moment
@@ -201,37 +205,39 @@ window.ST.poolTool = (function() {
 
   // Update the active bookings array with the values from the db.
   function update_bookings_after_gantt_chart_update(){
-    for(var i=0; i<gon.user_active_bookings.length; i++){
-      for(var j=i+1; j<gon.user_active_bookings.length; j++){
-        if (gon.user_active_bookings[i].listing_id === gon.user_active_bookings[j].listing_id){
+    if (gon.user_active_bookings !== null){
+      for(var i=0; i<gon.user_active_bookings.length; i++){
+        for(var j=i+1; j<gon.user_active_bookings.length; j++){
+          if (gon.user_active_bookings[i].listing_id === gon.user_active_bookings[j].listing_id){
 
-          // If transaction id is the same, then the booking was updated via the gantt chart
-          if (gon.user_active_bookings[i].transaction_id === gon.user_active_bookings[j].transaction_id){
-            if (gon.user_active_bookings[i].update === true){
-              // Take over attributes from gantt change & remove the object created
-              // with the gantt change
-              gon.user_active_bookings[j].end_on = gon.user_active_bookings[i].end_on;
-              gon.user_active_bookings[j].start_on = gon.user_active_bookings[i].start_on;
-              gon.user_active_bookings[j].description = gon.user_active_bookings[i].description;
-              gon.user_active_bookings.splice(i, 1);
-            }else{
-              // Take over attributes from gantt change & remove the object created
-              // with the gantt change
-              gon.user_active_bookings[i].end_on = gon.user_active_bookings[j].end_on;
-              gon.user_active_bookings[i].start_on = gon.user_active_bookings[j].start_on;
-              gon.user_active_bookings[i].description = gon.user_active_bookings[j].description;
-              gon.user_active_bookings.splice(j, 1);
+            // If transaction id is the same, then the booking was updated via the gantt chart
+            if (gon.user_active_bookings[i].transaction_id === gon.user_active_bookings[j].transaction_id){
+              if (gon.user_active_bookings[i].update === true){
+                // Take over attributes from gantt change & remove the object created
+                // with the gantt change
+                gon.user_active_bookings[j].end_on = gon.user_active_bookings[i].end_on;
+                gon.user_active_bookings[j].start_on = gon.user_active_bookings[i].start_on;
+                gon.user_active_bookings[j].description = gon.user_active_bookings[i].description;
+                gon.user_active_bookings.splice(i, 1);
+              }else{
+                // Take over attributes from gantt change & remove the object created
+                // with the gantt change
+                gon.user_active_bookings[i].end_on = gon.user_active_bookings[j].end_on;
+                gon.user_active_bookings[i].start_on = gon.user_active_bookings[j].start_on;
+                gon.user_active_bookings[i].description = gon.user_active_bookings[j].description;
+                gon.user_active_bookings.splice(j, 1);
+              }
             }
           }
         }
       }
-    }
 
-    // Set 'update' to false if there is a booking left which is an update.
-    // This only happens if there was no booking there of this listing before
-    for(var k=0; k<gon.user_active_bookings.length; k++){
-      if (gon.user_active_bookings[k].update === true){
-        gon.user_active_bookings[k].update = false;
+      // Set 'update' to false if there is a booking left which is an update.
+      // This only happens if there was no booking there of this listing before
+      for(var k=0; k<gon.user_active_bookings.length; k++){
+        if (gon.user_active_bookings[k].update === true){
+          gon.user_active_bookings[k].update = false;
+        }
       }
     }
   }

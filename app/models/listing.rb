@@ -90,6 +90,7 @@ class Listing < ActiveRecord::Base
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :currency
   monetize :shipping_price_additional_cents, allow_nil: true, with_model_currency: :currency
 
+  TRUSTED_AVAILABILITY_OPTIONS = ["all", "trusted"]
   VALID_AVAILABILITY_OPTIONS = ["intern", "trusted", "all"]
   VALID_AVAILABILITY_OPTIONS_USER_CAN_CHOOSE = ["intern", "trusted"]
 

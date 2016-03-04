@@ -1,50 +1,22 @@
 class PoolToolController < ApplicationController
   # Filters
+  before_filter :get_current_user_pool_tool_company_relation
   before_filter :ensure_is_authorized_to_view, :only => [ :show, :get_theme, :set_theme, :return_device]
 
   def show
-    # @company_owner is the person which owns the company
-    @company_owner = Person.find(params[:person_id] || params[:id])
+    # Is admin or employee of company (or rentog admin)?
+    @belongs_to_company = (@relation == :company_admin || @relation == :company_employee || @relation == :rentog_admin)
 
-    # Get all company transactions (joined with listings and bookings) from database, ordered by listings.id
-    transactions = Transaction.joins(:listing, :booking, :starter).select(" transactions.id as transaction_id,
-                                                                            listings.id as listing_id,
-                                                                            listings.title as title,
-                                                                            listings.availability as availability,
-                                                                            listings.created_at,
-                                                                            bookings.start_on as start_on,
-                                                                            bookings.end_on as end_on,
-                                                                            bookings.reason as reason,
-                                                                            bookings.description as description,
-                                                                            bookings.device_returned as device_returned,
-                                                                            transactions.current_state,
-                                                                            people.given_name as renter_given_name,
-                                                                            people.family_name as renter_family_name,
-                                                                            people.username as renting_entity_username,
-                                                                            people.organization_name as renting_entity_organame,
-                                                                            people.id as renter_id")
-                                                                  .where("  listings.author_id = ? AND
-                                                                            transactions.community_id = ? AND
-                                                                            listings.open = '1' AND
-                                                                            (listings.availability = 'all' OR listings.availability = 'intern' OR listings.availability = 'trusted') AND
-                                                                            (listings.valid_until IS NULL OR valid_until > ?)",
-                                                                            @company_owner.id, @current_community.id, DateTime.now)
-                                                                  .order("  listings.id asc")
-    # Convert ActiveRecord Relation into array of hashes
-    transaction_array = transactions.as_json
+    # OPEN LISTINGS OF THE COMPANY
+    temp_avail = Listing::TRUSTED_AVAILABILITY_OPTIONS
+    temp_avail = Listing::VALID_AVAILABILITY_OPTIONS if @belongs_to_company
 
-    # Get only bookings which are booked by the user AND are currently in state active (that means the user hadn't give them back) AND are past, but the user did not return them
-    user_bookings = transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
-    @user_bookings_array = user_bookings.as_json
-
-    # Get all open Listings of the current user
-    # @open_listings = Listing.currently_open.where("listings.author_id" => @company_owner)
     search = {
-      author_id: @company_owner.id,
+      author_id: @pooltool_owner.id,
       include_closed: false,
       page: 1,
-      per_page: 200,
-      availability: Listing::VALID_AVAILABILITY_OPTIONS
+      per_page: 1000,
+      availability: temp_avail
     }
 
     includes = [:author, :listing_images]
@@ -69,6 +41,41 @@ class PoolToolController < ApplicationController
                                 created_at: listing.created_at,
                                 image: small_image }
     end
+
+
+
+
+    # GET ALL COMPANY TRANSACTIONS
+    # (joined with listings and bookings) from database, ordered by listings.id
+    temp_avail2 = "(listings.availability = 'all' OR listings.availability = 'intern' OR listings.availability = 'trusted')"
+    temp_avail2 = "(listings.availability = 'all' OR listings.availability = 'trusted')" if !@belongs_to_company
+
+    transactions = Transaction.joins(:listing, :booking, :starter).select(" transactions.id as transaction_id,
+                                                                            listings.id as listing_id,
+                                                                            listings.title as title,
+                                                                            listings.availability as availability,
+                                                                            listings.created_at,
+                                                                            bookings.start_on as start_on,
+                                                                            bookings.end_on as end_on,
+                                                                            bookings.reason as reason,
+                                                                            bookings.description as description,
+                                                                            bookings.device_returned as device_returned,
+                                                                            transactions.current_state,
+                                                                            people.given_name as renter_given_name,
+                                                                            people.family_name as renter_family_name,
+                                                                            people.username as renting_entity_username,
+                                                                            people.organization_name as renting_entity_organame,
+                                                                            people.id as renter_id")
+                                                                  .where("  listings.author_id = ? AND
+                                                                            transactions.community_id = ? AND
+                                                                            listings.open = '1' AND
+                                                                            #{temp_avail2} AND
+                                                                            (listings.valid_until IS NULL OR valid_until > ?)",
+                                                                            @pooltool_owner.id, @current_community.id, DateTime.now)
+                                                                  .order("  listings.id asc")
+    # Convert ActiveRecord Relation into array of hashes
+    transaction_array = transactions.as_json
+
     # Convert all the transaction into a jquery-Gantt readable source.
     # wah: This might be shifted to the client (javascript) in future, since
     # it would reduce load on the server
@@ -85,6 +92,14 @@ class PoolToolController < ApplicationController
         renting_entity = transaction['renting_entity_organame']
       else
         renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name']
+      end
+
+
+      # wah: if does not belongs to company - hide description and who booked the devie
+      if !@belongs_to_company
+        transaction['description'] = ''
+        renter[:relation] = "otherReason" #"privateBooking"
+        renting_entity = ''
       end
 
 
@@ -126,6 +141,19 @@ class PoolToolController < ApplicationController
       end
     end
 
+
+
+    # OPEN BOOKINGS OF CURRENT USER (if belongs to company)
+    # Get only bookings which are booked by the user AND are currently in state
+    # active (that means the user hadn't give them back) AND are past, but the
+    # user did not return them
+    if @belongs_to_company
+      user_bookings = transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
+      @user_bookings_array = user_bookings.as_json
+    end
+
+
+
     # Variables which should be send to JavaScript
     poolTool_gon_vars(devices, open_listings_array)
 
@@ -153,49 +181,54 @@ class PoolToolController < ApplicationController
   private
 
     def ensure_is_authorized_to_view
-      # Rentog Admin is authorized
-      return if @current_user && @current_user.has_admin_rights_in?(@current_community)
+      # ALLOWED
+      return if @relation == :rentog_admin ||
+                @relation == :company_admin ||
+                @relation == :company_employee ||
+                @relation == :trusted_company_admin ||
+                @relation == :trusted_company_employee
 
-      # if organization
-      if @current_user and @current_user.is_organization
-        # ALLOWED: Company Admin is authorized to view own pool tool
-        if @current_user.username == params['person_id']
-          return
 
-        # NOT ALLOWED: View another companies pool tool --> Redirect
+      # NOT ALLOWED
+      flash[:error] = t("pool_tool.you_have_to_be_company_member")
+      redirect_to person_poolTool_path(@current_user)         if @relation == :untrusted_company_admin
+      redirect_to person_poolTool_path(@current_user.company) if @relation == :untrusted_company_employee || @relation == :employee_own_pool_tool
+      redirect_to login_path                                  if @relation == :logged_out_user
+      return false
+    end
+
+
+
+    def get_current_user_pool_tool_company_relation
+      # Get company who's pool tool page is accessed
+      @pooltool_owner = Person.where(:username => params['person_id']).first
+
+      @relation =
+        if @current_user
+          if @current_user.has_admin_rights_in?(@current_community)
+            :rentog_admin
+          elsif @current_user.is_organization
+            if @current_user.username == params['person_id']
+              :company_admin
+            elsif @pooltool_owner.follows?(@current_user)
+              :trusted_company_admin
+            else
+              :untrusted_company_admin
+            end
+          elsif @current_user.is_employee?
+            if @current_user.is_employee_of?(@pooltool_owner.id)
+              :company_employee
+            elsif @pooltool_owner.follows?(@current_user.company)
+              :trusted_company_employee
+            elsif @pooltool_owner == @current_user
+              :employee_own_pool_tool     # Employee accesses own pool tool (but has none)
+            else
+              :untrusted_company_employee
+            end
+          end
         else
-          flash[:error] = t("pool_tool.you_have_to_be_company_member")
-          redirect_to person_poolTool_path(@current_user) and return false
+          :logged_out_user
         end
-
-
-      # if employee
-      elsif @current_user and @current_user.is_employee?
-        # Get company who's pool tool page should be accessed
-        comp = Person.where(:username => params['person_id']).first
-
-        # NOT ALLOWED (but no error):
-        # employee tries to access own pool tool via employee id. That's not
-        # possible -> Redirect to company pool tool page without error message
-        if @current_user.username == params['person_id']
-          redirect_to person_poolTool_path(@current_user.company) and return
-
-        # ALLOWED: Company employee is authorized to view his companies pool tool page
-        elsif comp && @current_user.is_employee_of?(comp.id)
-          return
-
-        # NOT ALLOWED: Employee accessing another companies pool tool --> Redirect to own pool tool
-        else
-          flash[:error] = t("pool_tool.you_have_to_be_company_member")
-          redirect_to person_poolTool_path(@current_user.company) and return false
-        end
-
-      # If not logged in
-      else
-        # NOT ALLOWED: Signed out user tries to access any pool tool page --> Redirect to login
-        flash[:error] = t("pool_tool.you_have_to_be_company_member")
-        redirect_to login_path and return false
-      end
     end
 
 
@@ -205,10 +238,10 @@ class PoolToolController < ApplicationController
         renter = Person.where(id: transaction["renter_id"]).first
         if renter.is_organization
           # Company is renting listing
-          if @company_owner.follows?(renter)
+          if @pooltool_owner.follows?(renter)
             # Other company is trusted by the company
             relation = "trustedCompany"
-          elsif renter == @company_owner
+          elsif renter == @pooltool_owner
             relation = "otherReason"
           else
             # Other company is not trusted by the company
@@ -216,7 +249,7 @@ class PoolToolController < ApplicationController
           end
         else
           # Any Employee is renting listing
-          if renter.is_employee_of?(@company_owner.id)
+          if renter.is_employee_of?(@pooltool_owner.id)
             # Own employee is renting listing
             relation = "ownEmployee"
           else
@@ -239,6 +272,13 @@ class PoolToolController < ApplicationController
       days =    [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday]
       months =  [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
 
+      button_text =
+      if @belongs_to_company
+        t("pool_tool.show.addNewBooking")
+      else
+        t("pool_tool.show.addNewBooking_visitor")
+      end
+
       gon.push({
         devices: devices,                             # holds listings with transactions (values) for gantt chart and also the already_booked_dates for the calendar
         open_listings: open_listings_array,           # holds all listings (even those with no transactions)
@@ -253,18 +293,18 @@ class PoolToolController < ApplicationController
         translated_days_min: days.map { |day_symbol| t("datepicker.days_min.#{day_symbol}") },
         translated_months: months.map { |day_symbol| t("datepicker.months.#{day_symbol}") },
         translated_months_short: months.map { |day_symbol| t("datepicker.months_short.#{day_symbol}") },
-        comp_id: @company_owner.id,
+        comp_id: @pooltool_owner.id,
         current_user_id: @current_user.id,
         current_user_username: @current_user.username,
         current_user_email: @current_user.emails.first.address,
-        is_admin: @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community),
+        is_admin: @current_user.is_company_admin_of?(@pooltool_owner) || @current_user.has_admin_rights_in?(@current_community),
         theme: @current_user.pool_tool_color_schema,
 
         today: t("datepicker.today"),
         week_start: t("datepicker.week_start", default: 0),
         clear: t("datepicker.clear"),
         format: t("datepicker.format"),
-        add_booking: t("pool_tool.add_booking"),
+        add_booking: button_text,
         cancel_booking: t("pool_tool.cancel_booking"),
         device_name: t("pool_tool.device_name"),
         comment: t("pool_tool.comment"),
