@@ -103,6 +103,14 @@ class PoolToolController < ApplicationController
       end
 
 
+      # Get company_id of renter of the transaction
+      if renter[:renter].is_employee?
+        renter_company_id = renter[:renter].company.id
+      else
+        renter_company_id = renter[:renter].id
+      end
+
+
       if prev_listing_id != transaction['listing_id']
         # new Listing, new transaction
         counter = counter + 1
@@ -117,6 +125,7 @@ class PoolToolController < ApplicationController
           'customClass' =>  "gantt_" + renter[:relation],
           'transaction_id' => transaction['transaction_id'],
           'renter_id' => transaction['renter_id'],
+          'renter_company_id' => renter_company_id,
           'description' => transaction['description']
         }]
         # Remove unused keys from hash
@@ -135,6 +144,7 @@ class PoolToolController < ApplicationController
           'customClass' => "gantt_" + renter[:relation],
           'transaction_id' => transaction['transaction_id'],
           'renter_id' => transaction['renter_id'],
+          'renter_company_id' => renter_company_id,
           'description' => transaction['description']
         }
         devices[counter]['values'] << newTrans
@@ -243,11 +253,11 @@ class PoolToolController < ApplicationController
         renter = Person.where(id: transaction["renter_id"]).first
 
         # Current user does not belong to company
-        if !@belongs_to_company &&
-           @current_user != renter &&               # Current user is not the initiator of this transaction
-           !@current_user.employs?(renter) &&       # current user does not employee initiator of this transaction
-           @current_user.company != renter          # Current user is not employee of the renter
-           @current_user.company != renter.company  # Current user is not from same company as renter
+        if !@belongs_to_company &&                          # current user does not belong to pool tool company
+           @current_user != renter &&                       # Current user is not the initiator of this transaction
+           !@current_user.employs?(renter) &&               # current user does not employee initiator of this transaction
+           @current_user.company != renter &&               # Current user is not employee of the renter
+           @current_user.get_company != renter.get_company  # Current user is not from same company as renter
               relation = "privateBooking"
         elsif renter.is_organization
           # Company is renting listing

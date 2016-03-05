@@ -760,6 +760,9 @@ class TransactionsController < ApplicationController
       elsif @current_user == transaction_starter
         # The starter of the transaction can modify his own booking
 
+      elsif @current_user == transaction_starter.get_company
+        # The company admin of the transaction starter can modify booking
+
       else
         # All others are not allowed to change bookings
         flash[:error] = "Access denied"

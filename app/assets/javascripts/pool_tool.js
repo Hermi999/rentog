@@ -673,14 +673,31 @@ window.ST.poolTool = (function() {
       if (term.length > 2){
         for (var x = 0; x < source.length; x++){
           var re = new RegExp(term, "i");
+          var remove1 = false;
+          var remove2 = false;
 
+          // device name
           if (source[x].name){
             var result_name = source[x].name.match(re);
 
             if (result_name === null){
-              source.splice(x, 1);
-              x = x-1;
+              remove1 = true;
             }
+          }
+
+          // device availability
+          if (source[x].desc){
+            var locale_desc = gon["availability_desc_header_" + source[x].desc];
+            var result_avail = locale_desc.match(re);
+
+            if (result_avail === null){
+              remove2 = true;
+            }
+          }
+
+          if (remove1 && remove2){
+            source.splice(x, 1);
+            x = x-1;
           }
         }
         if (source.length < 2){
@@ -743,9 +760,13 @@ window.ST.poolTool = (function() {
         $('#modifyBookingLink').click();
 
         // Remove buttons and disable textfields if
-        // - user is not a company admin or rentog admin and this is not a booking of the user OR
+        // - user is not a company admin or rentog admin AND
+        // - this is not a booking of the user AND
+        // - the current user is not the company admin of the transaction starter OR
         // - it's not allowed to change the past and the booking is already in the past
-        if (gon.is_admin === false && info.booking.renter_id !== gon.current_user_id ||
+        if (gon.is_admin === false &&
+            info.booking.renter_id !== gon.current_user_id &&
+            gon.current_user_id !== info.booking.renter_company_id ||
             !gon.pool_tool_preferences.pool_tool_modify_past && e < today){
           $('#btn_update').css('display', 'none');
           $('#btn_delete').css('display', 'none');

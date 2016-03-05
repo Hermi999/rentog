@@ -195,7 +195,7 @@ Scenario: Trusted company can not update booking of others than own company memb
 
     # booking of another trusted company employee
      When I click element "#cboxClose"
-      And I click on second element "div" with text "private" and within ".gantt_privateBooking"
+      And I click on element "div" with text "private" and within ".gantt_privateBooking"
      Then I should see element "#cboxLoadedContent"
       And I should not see element "#btn_update"
       And I should not see element "#btn_delete"
