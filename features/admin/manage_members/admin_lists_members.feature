@@ -79,7 +79,7 @@ Feature: Admin lists members
   Scenario: Admin views member count
     Given there are 50 companies with organization_name prefix "Company"
     And I go to the manage members admin page
-    Then I should see a range from 1 to 50 with total user count of 55
+    Then I should see a range from 1 to 50 with total user count of 57
 
   Scenario: Admin views multiple users with pagination
     Given there are 50 companies with organization_name prefix "Company"
@@ -87,8 +87,8 @@ Feature: Admin lists members
     Then I should see 50 users
     And the first user should be "Company 50"
     When I follow "Next"
-    Then I should see 5 users
-    And the first user should be "Samsung"
+    Then I should see 7 users
+    And the first user should be "Continental"
 
   Scenario: Admin verifies sellers
     Given only verified users can post listings in this community

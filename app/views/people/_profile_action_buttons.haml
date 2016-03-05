@@ -11,7 +11,7 @@
   - elsif !@current_user.is_organization
     = render :partial => "follow_button", :locals => { :person => @person }
 
-- if @current_user.has_admin_rights_in?(@current_community)
+- if @current_user && @current_user.has_admin_rights_in?(@current_community)
   - if @person.is_organization
     = link_to "Pool Tool", person_poolTool_path(@person)
   - else

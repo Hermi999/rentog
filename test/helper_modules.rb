@@ -374,29 +374,6 @@ module TestHelpers
                       :last_page_load_date => DateTime.now,
                       :status => "accepted")
 
-    # FactoryGirl.create(:email,
-    # :person => person1,
-    # :address => "kassi_testperson1@example.com",
-    # :send_notifications => true,
-    # :confirmed_at => "2012-05-04 18:17:04")
-
-    # FactoryGirl.create(:email,
-    # :person => person2,
-    # :address => "kassi_testperson2@example.com",
-    # :send_notifications => true,
-    # :confirmed_at => "2012-05-04 18:17:04")
-
-    # FactoryGirl.create(:email,
-    # :person => person3,
-    # :address => "employee_testperson1@example.com",
-    # :send_notifications => true,
-    # :confirmed_at => "2012-05-04 18:17:04")
-
-    # FactoryGirl.create(:email,
-    # :person => person4,
-    # :address => "employee_testperson2@example.com",
-    # :send_notifications => true,
-    # :confirmed_at => "2012-05-04 18:17:04")
 
     FactoryGirl.create(:employment,
     :company => person1,
