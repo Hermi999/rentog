@@ -1108,7 +1108,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         // update_borrowed_device() function
         if (typeof gon.user_active_bookings !== 'undefined' && gon.user_active_bookings !== null)
           var today = new Date(new Date().setHours(1,0,0,0));
-          if (to_date >= today && gon.current_user_id === data.renter_id){
+          if (to_date >= today && from_date <= today && gon.current_user_id === data.renter_id){
             gon.user_active_bookings.push({
               update: true,
               transaction_id: data.transaction_id,
