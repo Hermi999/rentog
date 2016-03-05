@@ -1,3 +1,7 @@
+Given /^there are no bookings$/ do
+  Booking.delete_all
+end
+
 Given /^there exists an internal booking for company "([^"]*)" and listing "([^"]*)" with reason "([^"]*)" and length (\d+) days and offset (\d+) days$/ do |username, listing_title, reason, length, offset|
   listing_id = Listing.where(:title => listing_title).first.id
   starter_id = author_id = Person.where(:username => username).first.id
@@ -48,6 +52,31 @@ Given /^there exists an internal booking for company "([^"]*)" and employee "([^
 end
 
 Given /^there exists an external booking for company "([^"]*)" from company "([^"]*)" and listing "([^"]*)" with length (\d+) days and offset (\d+) days$/ do |author_username, starter_username, listing_title, length, offset|
+  listing_id = Listing.where(:title => listing_title).first.id
+  starter_id = Person.where(:username => starter_username).first.id
+  author_id = Person.where(:username => author_username).first.id
+  start_date = Date.today + offset.to_i
+  end_date = start_date + length.to_i
+  booking_fields = {:start_on=>start_date, :end_on=>end_date}
+
+  TransactionService::Transaction.create(
+  {
+    transaction: {
+      community_id: @current_community.id,
+      listing_id: listing_id,
+      listing_title: listing_title,
+      starter_id: starter_id,
+      listing_author_id: author_id,
+      listing_quantity: (length.to_i + 1),
+      content: nil,
+      booking_fields: booking_fields,
+      payment_gateway: :none,
+      payment_process: :none
+    }
+  })
+end
+
+Given /^there exists an external booking for company "([^"]*)" from employee "([^"]*)" and listing "([^"]*)" with length (\d+) days and offset (\d+) days$/ do |author_username, starter_username, listing_title, length, offset|
   listing_id = Listing.where(:title => listing_title).first.id
   starter_id = Person.where(:username => starter_username).first.id
   author_id = Person.where(:username => author_username).first.id

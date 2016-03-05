@@ -8,7 +8,10 @@ class TransactionsController < ApplicationController
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_do_a_transaction")
   end
 
-  before_filter :is_authorized_for_transaction
+  before_filter :get_booking_to_edit, :only => [:update, :destroy]
+  before_filter :get_current_user_listing_owner_relation, :only => [:new, :create, :update, :destroy]
+  before_filter :is_authorized_for_starting_transaction, :only => [:new, :create]
+  before_filter :is_authorized_for_changing_pool_tool_booking, :only => [:update, :destroy]
 
 
   MessageForm = Form::Message
@@ -26,75 +29,6 @@ class TransactionsController < ApplicationController
     [:start_on, transform_with: ->(v) { Maybe(v).map { |d| TransactionViewUtils.parse_booking_date(d) }.or_else(nil) } ],
     [:end_on, transform_with: ->(v) { Maybe(v).map { |d| TransactionViewUtils.parse_booking_date(d) }.or_else(nil) } ]
   )
-
-  def is_authorized_for_transaction
-    # If pool tool
-    # The actions update & destroy are just for the pool tool
-    if params[:poolTool] || params[:action] == "destroy" || params[:action] == "update"
-      company_id = params[:person_id]
-
-      # No company specified
-      if company_id.nil?
-        flash[:error] = "Access denied"
-        redirect_to root_path and return
-      end
-
-      # Company admin can do what he want's to do
-      if @current_user.id == company_id ||
-         @current_user.username == company_id
-        return true
-      end
-
-      # Employee can only make transactions within pool tool
-      if !@current_user.is_organization && (@current_user.company.id == company_id ||
-                                            @current_user.company.username == company_id)
-        return true
-      end
-
-      # Other company can't make pool tool transactions
-      if @current_user.is_organization
-        flash[:error] = t("pool_tool.you_have_to_be_company_admin")
-        redirect_to root_path and return
-      end
-    end
-
-
-    unless @current_user.is_organization
-      # employee can't make transactions
-      if !@current_community.employees_can_buy_listings
-        unless @current_user.has_admin_rights_in?(@current_community)
-          flash[:error] = t("transactions.employees_cannot_make_transactions")
-          redirect_to root_path and return
-        end
-      end
-    end
-
-    # Unverified Company can't make transactions
-    if @current_user.is_organization
-      if @current_community.require_verification_to_post_listings
-        unless @current_user.can_post_listings_at?(@current_community)
-          flash[:error] = t("transactions.company_not_verified")
-          redirect_to root_path and return
-        end
-      end
-    end
-
-    current_listing = Listing.where(:id => params[:listing_id]).first
-
-    if @current_user.is_organization && params[:listing_id]
-      # Other company can't make transaction if listing is "intern"
-      if current_listing.availability == "intern"
-        flash[:error] = t("transactions.listing_is_intern")
-        redirect_to root_path and return
-      end
-
-      # Not trusted company can't make transactions if listing is "trusted"]
-      if current_listing.availability == "trusted" && @current_user.followers.where(:id => current_listing.author_id).first.nil?
-        flash[:error] = t("transactions.listing_is_only_for_trusted_companies")
-        redirect_to root_path and return
-      end
-    end
-  end
 
 
   def new
@@ -186,7 +120,7 @@ class TransactionsController < ApplicationController
                 booking_fields: booking_fields,
                 payment_gateway: process[:process] == :none ? :none : gateway, # TODO This is a bit awkward
                 payment_process: process[:process],
-                transaction_type: "extern"}
+                transaction_type: "extern"}   # wah
             })
         }
       ).on_success { |(_, (_, _, _, process), _, _, tx)|
@@ -211,17 +145,51 @@ class TransactionsController < ApplicationController
         } and return
     end
 
-    company_id = params[:person_id]
+    # Determine if employee or another reason for booking was choosen
+    if @relation == :trusted_company_admin
+      empl_or_reason = @current_user.organization_name
+      params[:employee] = nil
+      type = "trustedCompany"
 
-    # Check if employee or another reason for booking was choosen
-    # In case of employee replace the person_id (= renter id)
-    if params[:employee]
-      params[:person_id] = params[:employee][:username]
+    elsif @relation == :trusted_company_employee
       employee = Person.where(username: params[:employee][:username]).first
-      empl_or_reason = employee[:family_name] + " " + employee[:given_name]
+      empl_or_reason = employee[:family_name] + " " + employee[:given_name] + " (" + employee.company.organization_name + ")"
+      type = "trustedCompany"
+
     else
-      empl_or_reason = params[:renter]
+      if params[:employee]
+        employee = Person.where(username: params[:employee][:username]).first
+        empl_or_reason = employee[:family_name] + " " + employee[:given_name]
+        type = "ownEmployee"
+
+      elsif params[:renter]
+        empl_or_reason = params[:renter]
+        type = "otherReason"
+
+      else
+        flash[:error] = "Something went wrong"
+        redirect_to_root and return
+      end
     end
+
+    # CHECK:
+    # Company and trusted employ is not allowed to make transaction for anyone else then himself
+    if @relation == :company_employee || @relation == :trusted_company_employee
+      unless @current_user == employee
+        flash[:error] = "Access denied"
+        redirect_to root and return
+      end
+    end
+
+    # CHECK:
+    # Trusted company admin, is only allowed to make transactions for own employees & himself
+    if @relation == :trusted_company_admin
+      if employee && employee.company != @current_user
+        flash[:error] = "Access denied"
+        redirect_to root and return
+      end
+    end
+
 
     # Starter is either the employee or the current user (= company)
     starter_id =
@@ -231,17 +199,8 @@ class TransactionsController < ApplicationController
         @current_user.id
       end
 
-    # If current user is employee, only allow him to make transactions for
-    # himself
-    unless @current_user.is_organization
-      unless @current_user == employee
-        flash[:error] = "Access denied"
-        redirect_to root and return
-      end
-    end
 
-
-    # Handle new bookings with do not have an employee, but another reason
+    # Handle new bookings which do not have an employee, but another reason
     Result.all(
       ->() {
         PoolToolTransactionForm.validate(params)
@@ -297,7 +256,7 @@ class TransactionsController < ApplicationController
       # Renter json-response with the new data stored in the db
       render :json => {
         status: "success",
-        employee: !!params[:employee],
+        type: type,
         empl_or_reason: empl_or_reason,
         start_on: params[:start_on],
         end_on: params[:end_on],
@@ -314,32 +273,8 @@ class TransactionsController < ApplicationController
     }
   end
 
+  # wah: Only for Pool Tool
   def update
-    # Get Booking from db
-    booking = Booking.where(:transaction_id => params[:id]).first
-
-    # Ensure that only internal transactions can be modified
-      starter = booking.tx.starter
-      author = booking.tx.author
-      # If starter is an oranisation & starter is not the company admin
-      if starter.is_organization? &&
-         (starter.id != params[:person_id] && starter.username != params[:person_id])
-        flash[:error] = "Access denied"
-        redirect_to root and return
-      end
-
-    # Ensure that the different users can only do what they are supposed to do
-    if author == @current_user
-      # Company admin modifies one of the bookings of his company
-    elsif @current_user.has_admin_rights_in?(@current_community)
-      # Rentog admin modifies any booking
-    elsif @current_user == starter && !@current_user.is_organization
-      # Company employee modifies his own booking
-    else
-
-      flash[:error] = "Access denied"
-      redirect_to root and return
-    end
 
     # Get new start and end date
     start_day = Date.parse(params[:from])
@@ -348,9 +283,9 @@ class TransactionsController < ApplicationController
     # Check if booking dates are valid
     if !bookingDatesValid?( start_day.to_s,
                             end_day.to_s,
-                            booking.tx.listing_id,
-                            booking[:start_on],
-                            booking[:end_on])
+                            @booking.tx.listing_id,
+                            @booking[:start_on],
+                            @booking[:end_on])
       error_message = t("pool_tool.invalid_booking_dates")
       render :json => {
         action: "update",
@@ -360,15 +295,15 @@ class TransactionsController < ApplicationController
     end
 
     # Update booking with the corresponding transaction id
-    booking[:start_on] = start_day
-    booking[:end_on] = end_day
-    booking[:description] = params[:desc]
-    booking.save!
+    @booking[:start_on] = start_day
+    @booking[:end_on] = end_day
+    @booking[:description] = params[:desc]
+    @booking.save!
 
     # Check if booking is active or in future, if yes, then set device_returned
     # to false, because the user couldn't already give back the device
-    if booking.is_active? || booking.is_in_future?
-      booking.update_attribute :device_returned, false
+    if @booking.is_active? || @booking.is_in_future?
+      @booking.update_attribute :device_returned, false
     end
 
     # Render response
@@ -378,37 +313,13 @@ class TransactionsController < ApplicationController
         } and return
   end
 
-
+  # wah: Only for Pool Tool
   def destroy
-    # Get Booking from db
-    booking = Booking.where(:transaction_id => params[:id]).first
-
-    # Ensure that only internal transactions can be deleted
-      starter = booking.tx.starter
-      author = booking.tx.author
-      # If starter is an oranisation & starter is not the company admin
-      if starter.is_organization? &&
-         (starter.id != params[:person_id] && starter.username != params[:person_id])
-        flash[:error] = "Access denied"
-        redirect_to root and return
-      end
-
-    # Ensure that the different users can only do what they are supposed to do
-    if author == @current_user
-      # Company admin modifies one of the bookings of his company
-    elsif @current_user.has_admin_rights_in?(@current_community)
-      # Rentog admin modifies any booking
-    elsif @current_user == starter && !@current_user.is_organization
-      # Company employee modifies his own booking
-    else
-      flash[:error] = "Access denied"
-      redirect_to root and return
-    end
 
     # Delete booking with the corresponding transaction id
-    booking.delete
-    booking.tx.conversation.delete
-    booking.tx.delete
+    @booking.delete
+    @booking.tx.conversation.delete
+    @booking.tx.delete
 
     # Render response
     render :json => {
@@ -746,5 +657,113 @@ class TransactionsController < ApplicationController
              quantity: quantity,
              form_action: person_transactions_path(person_id: @current_user, listing_id: listing_model.id)
            }
+  end
+
+  def get_booking_to_edit
+    # Get Booking from db
+    @booking = Booking.where(:transaction_id => params[:id]).first
+    @listing_owner = @booking.tx.author
+  end
+
+  def get_current_user_listing_owner_relation
+    if @listing_owner.nil?
+      # Get company listing which should be booked
+      listing_owner_id = Listing.find(params[:listing_id]).author_id
+      @listing_owner = Person.find(listing_owner_id)
+    end
+
+    # Get relation between listing owner and current user
+    @relation =
+      if @current_user
+        if @current_user.has_admin_rights_in?(@current_community)
+          :rentog_admin
+        elsif @current_user.is_organization
+          if @current_user == @listing_owner
+            :company_admin
+          elsif @listing_owner.follows?(@current_user)
+            :trusted_company_admin
+          else
+            :untrusted_company_admin
+          end
+        elsif @current_user.is_employee?
+          if @current_user.is_employee_of?(@listing_owner.id)
+            :company_employee
+          elsif @listing_owner.follows?(@current_user.company)
+            :trusted_company_employee
+          elsif @listing_owner == @current_user
+            :employees_own_listing
+          else
+            :untrusted_company_employee
+          end
+        end
+      else
+        :logged_out_user
+      end
+  end
+
+  def is_authorized_for_starting_transaction
+    # If pool tool
+    # The actions update & destroy are just for the pool tool
+    if params[:poolTool]
+
+      # People who can make Pool Tool transactions & changes
+      if  @relation == :rentog_admin ||
+          @relation == :company_admin ||
+          @relation == :company_employee ||
+          @relation == :trusted_company_admin ||
+          @relation == :trusted_company_employee
+            return true
+
+      # others
+      else
+        flash[:error] = t("pool_tool.not_allowed__to_make_pool_tool_change")
+        redirect_to root_path and return
+      end
+    end
+
+
+    unless @current_user.is_organization
+      # employee can't make transactions
+      if !@current_community.employees_can_buy_listings
+        unless @current_user.has_admin_rights_in?(@current_community)
+          flash[:error] = t("transactions.employees_cannot_make_transactions")
+          redirect_to root_path and return
+        end
+      end
+    end
+
+    # Unverified Company can't make transactions
+    if @current_user.is_organization
+      if @current_community.require_verification_to_post_listings
+        unless @current_user.can_post_listings_at?(@current_community)
+          flash[:error] = t("transactions.company_not_verified")
+          redirect_to root_path and return
+        end
+      end
+    end
+  end
+
+  def is_authorized_for_changing_pool_tool_booking
+    transaction_starter = @booking.tx.starter
+
+    # Ensure that only pool tool transactions can be modified
+    if @booking.tx.transaction_type == "extern"
+      flash[:error] = "Access denied"
+      redirect_to root and return
+    end
+
+    # Ensure that user can only verify his own or his employees bookings
+      if @relation == :rentog_admin ||
+         @relation == :company_admin
+        # Rentog admin and Listing owner (Company admin) can modify all pool tool bookings
+
+      elsif @current_user == transaction_starter
+        # The starter of the transaction can modify his own booking
+
+      else
+        # All others are not allowed to change bookings
+        flash[:error] = "Access denied"
+        redirect_to root and return
+      end
   end
 end

@@ -43,7 +43,7 @@ window.ST.poolTool = (function() {
   // Initialize the whole pool tool (jquery gantt chart, date pickers, add new booking form, ...)
   function init(){
     $('.page-content').append(window.ST.pooToolSpinner.el);
-    fullScreen();
+    changeDesign();
     initializeCheckOrientation();
     initializeGantt();
     initializeDatepickers();
@@ -384,10 +384,23 @@ window.ST.poolTool = (function() {
 
   // Within the pool tool we need a wider screen. This functions adds the
   // necessary classes to the wrapper-divs
-  function fullScreen(){
+  function changeDesign(){
+    // FULLSCREEN
     $('.header-wrapper').addClass('fullscreen');
     $('.title-header-wrapper').addClass('fullscreen');
     $('.page-content .wrapper').addClass('fullscreen');
+
+    // Change background-color if on another companies pool tool
+    if (!gon.belongs_to_company){
+      var color_background = "rgb(243, 196, 188)";
+      var color_title_container = "rgb(231, 78, 53)";
+
+      $('body').css('background-color', color_background);
+      $('.page-content').css('background-color', color_background);
+      $('.wrapper').css('background-color', color_background);
+      $('.title-container').css('background-color', color_title_container);
+      $('.marketplace-title-header>h1').css("color", "white");
+    }
   }
 
 
@@ -398,9 +411,10 @@ window.ST.poolTool = (function() {
                       "today", "navigate", "fn-content", "legend", "dataPanel_past",
                       "gantt_otherReason", "ganttLegend_otherReason", "gantt_otherReason_me",
                       "gantt_ownEmployee", "ganttLegend_ownEmployee", "gantt_ownEmployee_me",
-                      "gantt_anyEmployee", "ganttLegend_anyEmployee", "gantt_anyEmployee_me",
+                      "gantt_trustedEmployee", "ganttLegend_trustedEmployee", "gantt_trustedEmployee_me",
                       "gantt_anyCompany", "ganttLegend_anyCompany", "gantt_anyCompany_me",
                       "gantt_trustedCompany", "ganttLegend_trustedCompany","gantt_trustedCompany_me",
+                      "gantt_privateBooking", "ganttLegend_privateBooking","gantt_privateBooking_me",
                       "nav-link", "showLegend", "load", "newBookingForm"];
 
     // Set default theme
@@ -844,7 +858,7 @@ window.ST.poolTool = (function() {
               $.ajax({
                 method: "post",   // Browser can't do delete requests
                 dataType: "json",
-                url: "/" + gon.locale + "/" + gon.comp_id + "/transactions/" + transaction_id,
+                url: "/" + gon.locale + "/" + gon.pooltool_owner_id + "/transactions/" + transaction_id,
                 data: {_method:'delete'},
                 beforeSend :function(){
                   // Disable Sumbmit Buttons until we get an response from the server
@@ -960,7 +974,7 @@ window.ST.poolTool = (function() {
 
             $.ajax({
               method: "PUT",
-              url: "/" + gon.locale + "/" + gon.comp_id + "/transactions/" + transaction_id,
+              url: "/" + gon.locale + "/" + gon.pooltool_owner_id + "/transactions/" + transaction_id,
               data: {from: s_new, to: e_new, desc: desc},
               beforeSend: function(){
                 // Disable Sumbmit Buttons until we get an response from the server
@@ -1026,12 +1040,10 @@ window.ST.poolTool = (function() {
         $(".webui-popover").css("background-color","#714565");
 
         // Change leftPanel size depending on Rentog functionality
-        /*
-        if(gon.only_pool_tool){
+        if (!gon.belongs_to_company){    //(gon.only_pool_tool){
           $(".leftPanel").width("224px");
           $(".fn-wide").width("220px");
         }
-        */
 
         initialize_listing_previews();
 

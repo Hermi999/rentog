@@ -22,7 +22,7 @@ class PersonMailer < ActionMailer::Base
   # user notifications. The overdue bookings are also stored into the overdue
   # bookings table in the db.
   # Optional the user_id can be given for test purposes
-  def deliver_device_return_notifications(user_id=nil)
+  def self.deliver_device_return_notifications(user_id=nil)
     # Go through all the overdue bookings to store only the latest overdue booking
     # of one user for one specific listing into the users_to_notify_of_overdue array.
     latestOverdueBookingsWithUsers = getLatestOverdueBookingsWithUsers(user_id)
@@ -68,19 +68,19 @@ class PersonMailer < ActionMailer::Base
 
 
   # Get all users and the devices to notify of an overdue
-  def getUsersToNotifyOfOverdue(latestOverdueBookingsWithUsers, activeBookings)
+  def self.getUsersToNotifyOfOverdue(latestOverdueBookingsWithUsers, activeBookings)
     # Go through all active bookings
     activeBookings.each do |activeBooking|
-      current_user = activeBooking.transaction.starter
+      current_user = activeBooking.tx.starter
 
       # Remove all listings of each user from the latestOverdueBookingsWithUsers
       # array, where there is an active booking. This is
       # because users who have active Bookings will get an extra notification
       # for this listing. They do not have to give back the device yet.
       latestOverdueBookingsWithUsers.each do |user_to_notify|
-        if user_to_notify[:user].id == activeBooking.transaction.starter_id
+        if user_to_notify[:user].id == activeBooking.tx.starter_id
           user_to_notify[:listings].each do |listing|
-            if listing[:listing].id == activeBooking.transaction.listing_id
+            if listing[:listing].id == activeBooking.tx.listing_id
               user_to_notify[:listings].delete(listing)
 
               if user_to_notify[:listings] == []
@@ -96,12 +96,12 @@ class PersonMailer < ActionMailer::Base
   end
 
   # Get all users and their devices to pre notify for returning the devices
-  def getUsersToPreNotify(return_date, activeBookings)
+  def self.getUsersToPreNotify(return_date, activeBookings)
     users_to_pre_notify = []
 
     # Go through all active bookings
     activeBookings.each do |activeBooking|
-      current_user = activeBooking.transaction.starter
+      current_user = activeBooking.tx.starter
 
       user_already_there = false
       if activeBooking.end_on == return_date
@@ -109,7 +109,7 @@ class PersonMailer < ActionMailer::Base
             # If user already exists, just add the listing to the listing-array
             if pre_notify_user[:user].id == current_user.id
               pre_notify_user[:listings] << {
-                listing: activeBooking.transaction.listing,
+                listing: activeBooking.tx.listing,
                 transaction_id: activeBooking.transaction_id,
                 return_on: activeBooking.end_on,
                 return_token: activeBooking.device_return_token
@@ -122,7 +122,7 @@ class PersonMailer < ActionMailer::Base
         # Create new user-booking-pre-notification entry
         unless user_already_there
           new_listing = {
-            listing: activeBooking.transaction.listing,
+            listing: activeBooking.tx.listing,
             transaction_id: activeBooking.transaction_id,
             return_on: activeBooking.end_on,
             return_token: activeBooking.device_return_token
@@ -141,7 +141,7 @@ class PersonMailer < ActionMailer::Base
 
   # Go through all the overdue bookings to store only the latest overdue booking
   # of one user for one specific listing into the users_to_notify_of_overdue array.
-  def getLatestOverdueBookingsWithUsers(user_id=nil)
+  def self.getLatestOverdueBookingsWithUsers(user_id=nil)
     if user_id.nil?
       overdueBookings = Booking.getOverdueBookings
     else
@@ -185,7 +185,7 @@ class PersonMailer < ActionMailer::Base
           unless listing_already_there
             user_to_notify[:listings] << {
               listing: booking.tx.listing,
-              transaction_id: booking.transaction_id,
+                transaction_id: booking.transaction_id,
               return_on: booking.end_on,
               return_token: booking.device_return_token
             }

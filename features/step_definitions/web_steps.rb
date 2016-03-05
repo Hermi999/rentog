@@ -99,6 +99,16 @@ When /^(?:|I )click on element "([^"]*)" with text "([^"]*)"(?: and within "([^"
   first(selector).find(:xpath, searchstring).click
 end
 
+When /^(?:|I )click on first element "([^"]*)" with text "([^"]*)"(?: and within "([^"]*)")?$/ do |element, text, selector|
+  searchstring = "//div[contains(text(), '#{text}')]"
+  first(selector).first(:xpath, searchstring).click
+end
+
+When /^(?:|I )click on second element "([^"]*)" with text "([^"]*)"(?: and within "([^"]*)")?$/ do |element, text, selector|
+  searchstring = "//div[contains(text(), '#{text}')]"
+  first(selector).all(:xpath, searchstring)[1].click
+end
+
 When /^I remove the focus"?$/ do
   page.execute_script("$('input').blur();")
 end

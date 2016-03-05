@@ -76,7 +76,10 @@
     ST.poolTool.init();
 
 - content_for :title_header do
-  %h1= t("pool_tool.headline")
+  - if @belongs_to_company
+    %h1= t("pool_tool.headline")
+  - else
+    %h1= t("pool_tool.headline_visitor", :owner => @pooltool_owner.organization_name)
 
 #poolTool_Wrapper
   / Pool Tool 'Choose theme'
@@ -180,7 +183,7 @@
     = check_box_tag 'mine', 'yes', false, :class => 'pooltool_options only_mine'
     = label_tag t('pool_tool.show.only_mine'), nil, :id => 'only_mine_label', :class => 'pooltool_options_label'
 
-    - if @current_user.is_organization?
+    - if @current_user.is_organization? && @belongs_to_company
       = link_to pooltool_person_settings_path(@current_user), :id => "pooltool_options_link" do
         = image_tag "pooltool/pooltool_options.png", :alt => t("pool_tool.show.options"), :title => t("pool_tool.show.options"), :id => "pooltool_options_image"
 

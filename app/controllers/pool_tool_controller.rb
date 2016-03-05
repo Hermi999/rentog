@@ -95,11 +95,11 @@ class PoolToolController < ApplicationController
       end
 
 
-      # wah: if does not belongs to company - hide description and who booked the devie
-      if !@belongs_to_company
-        transaction['description'] = ''
-        renter[:relation] = "otherReason" #"privateBooking"
-        renting_entity = ''
+      # wah: Hide description and who booked the device, if visitor does not belong
+      # to company at booking is not his or his employees_do_not_post
+      if !@belongs_to_company && renter[:relation] == "privateBooking"
+        transaction['description'] = 'private'
+        renting_entity = 'private'
       end
 
 
@@ -147,6 +147,7 @@ class PoolToolController < ApplicationController
     # Get only bookings which are booked by the user AND are currently in state
     # active (that means the user hadn't give them back) AND are past, but the
     # user did not return them
+    @user_bookings_array = []
     if @belongs_to_company
       user_bookings = transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
       @user_bookings_array = user_bookings.as_json
@@ -240,7 +241,15 @@ class PoolToolController < ApplicationController
     def get_renter_and_relation(transaction)
       # How is the relation between the company & the renter of this one listing?
         renter = Person.where(id: transaction["renter_id"]).first
-        if renter.is_organization
+
+        # Current user does not belong to company
+        if !@belongs_to_company &&
+           @current_user != renter &&               # Current user is not the initiator of this transaction
+           !@current_user.employs?(renter) &&       # current user does not employee initiator of this transaction
+           @current_user.company != renter          # Current user is not employee of the renter
+           @current_user.company != renter.company  # Current user is not from same company as renter
+              relation = "privateBooking"
+        elsif renter.is_organization
           # Company is renting listing
           if @pooltool_owner.follows?(renter)
             # Other company is trusted by the company
@@ -258,7 +267,7 @@ class PoolToolController < ApplicationController
             relation = "ownEmployee"
           else
             # Employee of another company is renting listing
-            relation = "anyEmployee"
+            relation = "trustedEmployee"
           end
         end
 
@@ -297,11 +306,12 @@ class PoolToolController < ApplicationController
         translated_days_min: days.map { |day_symbol| t("datepicker.days_min.#{day_symbol}") },
         translated_months: months.map { |day_symbol| t("datepicker.months.#{day_symbol}") },
         translated_months_short: months.map { |day_symbol| t("datepicker.months_short.#{day_symbol}") },
-        comp_id: @pooltool_owner.id,
+        pooltool_owner_id: @pooltool_owner.id,
         current_user_id: @current_user.id,
         current_user_username: @current_user.username,
         current_user_email: @current_user.emails.first.address,
         is_admin: @current_user.is_company_admin_of?(@pooltool_owner) || @current_user.has_admin_rights_in?(@current_community),
+        belongs_to_company: @belongs_to_company,
         theme: @current_user.pool_tool_color_schema,
 
         today: t("datepicker.today"),

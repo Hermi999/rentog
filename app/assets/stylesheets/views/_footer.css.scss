@@ -16,6 +16,7 @@ $elementSpacing: lines(0.5);
 
 
 .footer-placeholder{
+  background-color: rgba(0,0,0,0);
   min-height: $footerHeight_tablet + lines(2);
   @include media(tablet) {
     min-height: $footerHeight + lines(2);

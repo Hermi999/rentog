@@ -367,19 +367,21 @@
                             entries.push('<script type="text/javascript">$("#RowdId_" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
                         }
 
-                        var load = window.ST.poolTool.calculateLoadFactor(entry);
+                        if (gon.belongs_to_company){
+                            var load = window.ST.poolTool.calculateLoadFactor(entry);
 
-                        if(entry.name){
-                            entries.push('<div class="row_g load row' + i + '" id="load' + i + '">');
-                            entries.push('<span class="fn-label ' + load.load_class + '">' + load.weekday_load + '%</span>');
-                            entries.push('</div>');
+                            if(entry.name){
+                                entries.push('<div class="row_g load row' + i + '" id="load' + i + '">');
+                                entries.push('<span class="fn-label ' + load.load_class + '">' + load.weekday_load + '%</span>');
+                                entries.push('</div>');
 
-                            var popover_html = "";
-                            popover_html += "<p><b>" + gon.utilization_header + "</b></p>";
-                            popover_html += "<p class='popover_desc'>" + gon.utilization_desc_1 + ":</p> <p class='popover_text'>" + load.count_booked_weekdays + " " + gon.utilization_text_outOf + " " + load.count_weekdays + " " + gon.utilization_text_days + "</p> <p class='popover_percent'>(" + load.weekday_load + "%)</p>";
-                            popover_html += "<p class='popover_desc'>" + gon.utilization_desc_2 + ":</p> <p class='popover_text'>" + load.count_booked_days + " " + gon.utilization_text_outOf + " " + load.count_days + " " + gon.utilization_text_days + "</p> <p class='popover_percent'>(" + load.day_load + "%)</p>";
-                            popover_html += "<p class='popover_small'>*" + gon.utilization_start_date + load.utilization_start.toLocaleDateString() + "</p>";
-                            entries.push('<script type="text/javascript">$("#load" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "utilization"});</script>');
+                                var popover_html = "";
+                                popover_html += "<p><b>" + gon.utilization_header + "</b></p>";
+                                popover_html += "<p class='popover_desc'>" + gon.utilization_desc_1 + ":</p> <p class='popover_text'>" + load.count_booked_weekdays + " " + gon.utilization_text_outOf + " " + load.count_weekdays + " " + gon.utilization_text_days + "</p> <p class='popover_percent'>(" + load.weekday_load + "%)</p>";
+                                popover_html += "<p class='popover_desc'>" + gon.utilization_desc_2 + ":</p> <p class='popover_text'>" + load.count_booked_days + " " + gon.utilization_text_outOf + " " + load.count_days + " " + gon.utilization_text_days + "</p> <p class='popover_percent'>(" + load.day_load + "%)</p>";
+                                popover_html += "<p class='popover_small'>*" + gon.utilization_start_date + load.utilization_start.toLocaleDateString() + "</p>";
+                                entries.push('<script type="text/javascript">$("#load" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "utilization"});</script>');
+                            }
                         }
                     }
                 });
@@ -902,7 +904,7 @@
                 var ganttNavigate = null;
                 var appendLegend;
 
-                if (!gon.only_pool_tool){
+                if (gon.belongs_to_company){    //(!gon.only_pool_tool){
                     appendLegend = '<p class="showLegend" id="showLegendId">'+ gon.show_legend +'</p>';
                 }
 
@@ -1091,21 +1093,21 @@
                 var legend = $('<div class="legend" />')
                     .append($('<h3 class="legend_title" />')
                         .html(gon.legend))
-                    .append($('<div class="ganttLegend_trustedCompany" />')
-                        .append($('<div class="fn-label" />')
-                            .html(gon.trusted_company)))
-                    .append($('<div class="ganttLegend_anyCompany" />')
-                        .append($('<div class="fn-label" />')
-                            .html(gon.any_company)))
-                    .append($('<div class="ganttLegend_ownEmployee" />')
-                        .append($('<div class="fn-label" />')
-                            .html(gon.own_employee)))
-                    .append($('<div class="ganttLegend_anyEmployee" />')
-                        .append($('<div class="fn-label" />')
-                            .html(gon.any_employee)))
                     .append($('<div class="ganttLegend_otherReason" />')
                         .append($('<div class="fn-label" />')
                             .html(gon.other_reason)))
+                    .append($('<div class="ganttLegend_ownEmployee" />')
+                        .append($('<div class="fn-label" />')
+                            .html(gon.own_employee)))
+                    .append($('<div class="ganttLegend_trustedCompany" />')
+                        .append($('<div class="fn-label" />')
+                            .html(gon.trusted_company)))
+                    .append($('<div class="ganttLegend_trustedEmployee" />')
+                        .append($('<div class="fn-label" />')
+                            .html(gon.any_employee)))
+                    .append($('<div class="ganttLegend_anyCompany" />')
+                        .append($('<div class="fn-label" />')
+                            .html(gon.any_company)))
                     .append($('<div class="clear-floating" />'));
 
                 return legend;

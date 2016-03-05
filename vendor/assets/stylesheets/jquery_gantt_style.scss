@@ -6,11 +6,12 @@
                 $main_font_color, $weekend_bg_color, $weekend_font_color,
                 $today_bg_color, $today_font_color, $otherReason_bg_color,
                 $otherReason_font_color, $ownEmployee_bg_color, $ownEmployee_font_color,
-                $anyCompany_bg_color, $anyCompany_font_color, $anyEmployee_bg_color,
-                $anyEmployee_font_color, $trustedCompany_bg_color, $trustedCompany_font_color,
+                $anyCompany_bg_color, $anyCompany_font_color, $trustedEmployee_bg_color,
+                $trustedEmployee_font_color, $trustedCompany_bg_color, $trustedCompany_font_color,
                 $button_bg_color, $showLegend_color, $showLegend_bg_color,
                 $newBookingForm_bg_color, $otherReason_me_bg_color, $ownEmployee_me_bg_color,
-                $anyCompany_me_bg_color, $anyEmployee_me_bg_color, $trustedCompany_me_bg_color /*,$load_bg_color*/) {
+                $anyCompany_me_bg_color, $trustedEmployee_me_bg_color, $trustedCompany_me_bg_color,
+                $privateBooking_bg_color, $privateBooking_font_color /*,$load_bg_color*/) {
 
     .gantt_#{$theme} {
         border: $border;
@@ -75,6 +76,24 @@
         }
         */
 
+        .gantt_privateBooking_#{$theme} {
+            background-color: $privateBooking_bg_color;
+            .fn-label{
+                color: $privateBooking_font_color;
+            }
+        }
+        .ganttLegend_privateBooking_#{$theme}{
+            background-color: $privateBooking_bg_color;
+            .fn-label{
+                color: $privateBooking_font_color;
+            }
+        }
+        .gantt_privateBooking_me_#{$theme} {
+            background-color: $privateBooking_font_color;
+            .fn-label{
+                color: $privateBooking_bg_color;
+            }
+        }
         .gantt_otherReason_#{$theme} {
             background-color: $otherReason_bg_color;
             .fn-label{
@@ -132,22 +151,22 @@
             }
         }
 
-        .gantt_anyEmployee_#{$theme}{
-            background-color: $anyEmployee_bg_color;
+        .gantt_trustedEmployee_#{$theme}{
+            background-color: $trustedEmployee_bg_color;
             .fn-label{
-                color: $anyEmployee_font_color;
+                color: $trustedEmployee_font_color;
             }
         }
-        .gantt_anyEmployee_me_#{$theme}{
-            background-color: $anyEmployee_me_bg_color;
+        .gantt_trustedEmployee_me_#{$theme}{
+            background-color: $trustedEmployee_me_bg_color;
             .fn-label{
-                color: $anyEmployee_font_color;
+                color: $trustedEmployee_font_color;
             }
         }
-        .ganttLegend_anyEmployee_#{$theme} {
-            background-color: $anyEmployee_bg_color;
+        .ganttLegend_trustedEmployee_#{$theme} {
+            background-color: $trustedEmployee_bg_color;
             .fn-label{
-                color: $anyEmployee_font_color;
+                color: $trustedEmployee_font_color;
             }
         }
 
@@ -450,12 +469,12 @@
 
 .fn-gantt {
     .gantt_anyCompany:hover,
-    .gantt_anyEmployee:hover,
+    .gantt_trustedEmployee:hover,
     .gantt_ownEmployee:hover,
     .gantt_trustedCompany:hover,
     .gantt_otherReason:hover,
     .gantt_anyCompany_me:hover,
-    .gantt_anyEmployee_me:hover,
+    .gantt_trustedEmployee_me:hover,
     .gantt_ownEmployee_me:hover,
     .gantt_trustedCompany_me:hover,
     .gantt_otherReason_me:hover,
@@ -472,7 +491,7 @@
         box-shadow: none;
     }
 
-    .gantt_anyEmployee {
+    .gantt_trustedEmployee {
         background-color: rgba(185, 88, 53, 0.67);
         cursor: pointer;
         .fn-label {
@@ -512,7 +531,7 @@
         }
     }
 
-    .gantt_anyEmployee_me {
+    .gantt_trustedEmployee_me {
         background-color: #B7AFA3;
         cursor: pointer;
         .fn-label {
@@ -583,7 +602,7 @@
         float:left;
         font-weight: bold;
     }
-    .ganttLegend_anyEmployee {
+    .ganttLegend_trustedEmployee {
         background-color: #B7AFA3;
         .fn-label {
             color: rgb(52, 82, 116);
@@ -917,7 +936,8 @@
                 white, rgba(61, 50, 66, 0.67), white,
                 #7E7E7E, white, rgb(102, 112, 131),
                 #E1E8F5, #7A3E48, #EFB332,
-                #ACD1E9, #B95835, #3D3242 /*,#347689*/);
+                #ACD1E9, #B95835, #3D3242 /*,#347689*/,
+                rgba(93, 93, 93, 0.58), white);
 
 
 
@@ -931,7 +951,8 @@
                 white, rgba(61, 50, 66, 0.67), white,
                 #4E87A9, white, #A56464,
                 #ECDADA, #7A3E48, #EFB332,
-                #ACD1E9, #B95835, #3D3242 /*,#7A3E48*/);
+                #ACD1E9, #B95835, #3D3242 /*,#7A3E48*/,
+                rgba(93, 93, 93, 0.58), white);
 
 
 
@@ -945,6 +966,7 @@
                 rgb(52, 82, 116), rgba(193, 218, 214, 0.65), rgb(52, 82, 116),
                 #595959, rgb(126, 126, 126), rgb(213, 213, 213),
                 #E8E7E7, #6D929B, #e8d0a9,
-                #ACD1E9, #B7AFA3, #C1DAD6 /*,#C3C3C3*/);
+                #ACD1E9, #B7AFA3, #C1DAD6 /*,#C3C3C3*/,
+                rgba(93, 93, 93, 0.58), white);
 
 

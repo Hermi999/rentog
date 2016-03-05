@@ -1043,15 +1043,9 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         $(form_id).find(":submit").prop('value', btn_text);
 
         // Decide which gantt-Class to use for drawing the new booking
-        if (data.employee){
-          if (gon.current_user_id === data.renter_id){
-            custom_class = "gantt_ownEmployee_me";
-          }else{
-            // Admin create booking for employee
-            custom_class = "gantt_ownEmployee";
-          }
-        }else{
-          custom_class = "gantt_otherReason_me";
+        custom_class = "gantt_" + data.type;
+        if (gon.current_user_id === data.renter_id){
+          custom_class = custom_class + "_me";
         }
 
         // Add booking element to existing device (skip the empty dummy one)
@@ -1112,7 +1106,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         // transaction as new booking. This change booking is
         // marked as update, so that it can be deleted in the
         // update_borrowed_device() function
-        if (typeof gon.user_active_bookings !== 'undefined')
+        if (typeof gon.user_active_bookings !== 'undefined' && gon.user_active_bookings !== null)
           var today = new Date(new Date().setHours(1,0,0,0));
           if (to_date >= today && gon.current_user_id === data.renter_id){
             gon.user_active_bookings.push({
