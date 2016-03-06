@@ -43,13 +43,12 @@ class PoolToolController < ApplicationController
     end
 
 
-
-
     # GET ALL COMPANY TRANSACTIONS WITH OWN LISTINGS
     intern_transactions = get_transactions_with_own_listings
 
     # GET ALL COMPANY TRANSACTIONS WITH LISTINGS OF OTHER COMPANIES
-    extern_transactions = get_transactions_with_listings_from_other_companies
+    extern_transactions = []
+    extern_transactions = get_transactions_with_listings_from_other_companies if @belongs_to_company
 
     # Combine them and turn them into array
     transactions = intern_transactions + extern_transactions
@@ -80,19 +79,32 @@ class PoolToolController < ApplicationController
       end
 
 
-      # wah: get author
+      # get author of a listing
       possible_companies.each do |company|
         if company.id == transaction['listing_author_id']
           transaction['listing_author_username'] = company.username
+          transaction['listing_author_organization_name'] = company.organization_name
         end
       end
 
-      # wah: Hide description and who booked the device, if visitor does not belong
+      # Hide description and who booked the device, if visitor does not belong
       # to company at booking is not his or his employees_do_not_post
       if !@belongs_to_company && renter[:relation] == "privateBooking"
         transaction['description'] = 'private'
         renting_entity = 'private'
       end
+
+      # Hide description and who booked the devices, if
+      #   - a company member is viewing the pool tool
+      #   - the listing author is not the pool tool ower and
+      #   - the booking is not related to a company member
+      if @belongs_to_company &&
+         transaction['listing_author_id'] != @pooltool_owner.id &&
+         renter[:relation] == "privateBooking"
+
+            transaction['description'] = 'private'
+            renting_entity = 'private'
+       end
 
 
       if prev_listing_id != transaction['listing_id']
@@ -271,14 +283,34 @@ class PoolToolController < ApplicationController
 
 
     def get_transactions_with_listings_from_other_companies
-      all_users = [@pooltool_owner] + @pooltool_owner.employees
+      # 1 FIND OUT WHICH EXTERNAL LISTINGS WHERE BOOKED BY COMPANY MEMBERS
 
-      user_ids = []
-      all_users.each do |user|
-        user_ids << user.id
-      end
+        # 1a Get the ids of all company members
+        all_users = @pooltool_owner.get_company_members
+        user_ids = []
+        all_users.each do |user|
+          user_ids << user.id
+        end
 
-      all_external_transactions = Transaction.joins(:listing, :booking, :starter).select("transactions.id as transaction_id,
+        # 1b Get all extern transactions this users will have in future, are currently active or are not closed (device not returned)
+        company_external_transactions = Transaction.joins(:booking).where(" transactions.starter_id IN (?) AND
+                                                                            transactions.community_id = ? AND
+                                                                            transactions.listing_author_id <> ? AND
+                                                                            (bookings.end_on > ? OR bookings.device_returned = false)",
+                                                                            user_ids, @current_community.id, @pooltool_owner, DateTime.now)
+
+
+        # 1c Extract the extern listings from the extern transactions
+        ext_listings_ids = []
+        company_external_transactions.each do |ext_trans|
+          ext_listings_ids << Listing.find(ext_trans.listing_id).id
+        end
+        ext_listings_ids = ext_listings_ids.uniq    # remove duplicates
+        @ext_listings_count = ext_listings_ids.count
+
+
+      # 2 GET ALL THE TRANSACTION, BOOKING & LISTING DETAILS FOR ALL LISTINGS WITH OPEN TRANSACTIONS FOR THIS COMPANY
+        company_external_transactions2 = Transaction.joins(:listing, :booking, :starter).select("transactions.id as transaction_id,
                                                                                           listings.id as listing_id,
                                                                                           listings.author_id as listing_author_id,
                                                                                           listings.title as title,
@@ -294,14 +326,13 @@ class PoolToolController < ApplicationController
                                                                                           people.username as renting_entity_username,
                                                                                           people.organization_name as renting_entity_organame,
                                                                                           people.id as renter_id")
-                                                                                .where("  transactions.starter_id IN (?) AND
-                                                                                          listings.author_id <> ? AND
+                                                                                .where("  listings.id IN (?) AND
                                                                                           transactions.community_id = ? AND
                                                                                           listings.open = '1' AND
                                                                                           (bookings.end_on > ? OR bookings.device_returned = false) AND
                                                                                           (listings.valid_until IS NULL OR valid_until > ?) AND
                                                                                           (listings.availability = 'all' OR listings.availability = 'trusted')",
-                                                                                          user_ids, @pooltool_owner.id, @current_community.id, DateTime.now, DateTime.now)
+                                                                                          ext_listings_ids, @current_community.id, DateTime.now, DateTime.now)
                                                                                 .order("  listings.id asc")
     end
 
@@ -311,13 +342,22 @@ class PoolToolController < ApplicationController
       # How is the relation between the company & the renter of this one listing?
         renter = Person.where(id: transaction["renter_id"]).first
 
-        # Current user does not belong to company
-        if !@belongs_to_company &&                          # current user does not belong to pool tool company
-           @current_user != renter &&                       # Current user is not the initiator of this transaction
-           !@current_user.employs?(renter) &&               # current user does not employee initiator of this transaction
-           @current_user.company != renter &&               # Current user is not employee of the renter
-           @current_user.get_company != renter.get_company  # Current user is not from same company as renter
-              relation = "privateBooking"
+        # If the current user DOES belong to company and the booking is not one from his company
+        if @belongs_to_company &&                                               # current user does belong to pool tool company
+           transaction['listing_author_id'] != @current_user.get_company.id &&  # listing author is not the company the current user belongs to
+           @current_user != renter &&                                           # Current user is not the initiator of this transaction
+          !@current_user.employs?(renter) &&                                    # current user does not employee initiator of this transaction
+           @current_user.company != renter &&                                   # Current user is not employee of the renter
+           @current_user.get_company != renter.get_company                      # Current user is not from same company as renter
+                  relation = "privateBooking"
+
+        # If the current user DOES NOT belong to company and the booking is not one from his company
+        elsif !@belongs_to_company &&                          # current user does not belong to pool tool company
+               @current_user != renter &&                      # Current user is not the initiator of this transaction
+              !@current_user.employs?(renter) &&               # current user does not employee initiator of this transaction
+               @current_user.company != renter &&              # Current user is not employee of the renter
+               @current_user.get_company != renter.get_company # Current user is not from same company as renter
+                  relation = "privateBooking"
         elsif renter.is_organization
           # Company is renting listing
           if @pooltool_owner.follows?(renter)
@@ -362,9 +402,10 @@ class PoolToolController < ApplicationController
       end
 
       gon.push({
-        devices: devices,                             # holds listings with transactions (values) for gantt chart and also the already_booked_dates for the calendar
-        open_listings: open_listings_array,           # holds all listings (even those with no transactions)
-        user_active_bookings: @user_bookings_array,   # holds the currently open bookings of the user
+        devices: devices,                               # holds listings with transactions (values) for gantt chart and also the already_booked_dates for the calendar
+        open_listings: open_listings_array,             # holds all listings (even those with no transactions)
+        user_active_bookings: @user_bookings_array,     # holds the currently open bookings of the user
+        count_extern_listings: @ext_listings_count,  # number of extern listings
 
         only_pool_tool: @current_community.only_pool_tool,
         locale: I18n.locale,

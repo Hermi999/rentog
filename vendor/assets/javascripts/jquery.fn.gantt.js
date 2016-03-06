@@ -283,6 +283,8 @@
 
                 core.darkenPast(element);
 
+                core.overlayExtern(element);
+
                 core.fillData(element, $dataPanel, $leftPanel);
 
                 // Set a cookie to record current position in the view
@@ -661,6 +663,7 @@
                         // Append panel elements
                         dataPanel.data("view", "hours");
                         dataPanel.append('<div class="dataPanel_past"/>');
+                        dataPanel.append('<div class="dataPanel_overlay_extern"/>');
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
                         dataPanel.append($('<div class="row_g"/>').html(dayArr.join("")));
@@ -744,6 +747,7 @@
 
                         dataPanel.data("view", "weeks");
                         dataPanel.append('<div class="dataPanel_past"/>');
+                        dataPanel.append('<div class="dataPanel_overlay_extern"/>');
                         dataPanel.append(yearArr.join("") + monthArr.join("") + dayArr.join("") + (dowArr.join("")));
 
                         break;
@@ -802,6 +806,7 @@
                         // Append panel elements
                         dataPanel.data("view", "months");
                         dataPanel.append('<div class="dataPanel_past"/>');
+                        dataPanel.append('<div class="dataPanel_overlay_extern"/>');
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
                         dataPanel.append($('<div class="row_g"/>').html(dayArr.join("")));
@@ -902,6 +907,7 @@
                         // Append panel elements
                         dataPanel.data("view", "days");
                         dataPanel.append('<div class="dataPanel_past"/>');
+                        dataPanel.append('<div class="dataPanel_overlay_extern"/>');
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
                         dataPanel.append($('<div class="row_g" style="margin-left: 0;" />').html(dayArr.join("")));
@@ -1190,6 +1196,15 @@
             darkenPast: function(element){
                 var offset = tools.getTodayOffset(element);
                 $(element).find('div.dataPanel_past').css('width', offset);
+            },
+
+            overlayExtern: function(element){
+                var factor = gon.count_extern_listings+1;
+                if (gon.count_extern_listings === 0){
+                    factor = gon.count_extern_listings;
+                }
+                var height = tools.getCellSize() * factor + "px";
+                $(element).find('div.dataPanel_overlay_extern').css("height", height);
             },
 
             // **Fill the Chart**

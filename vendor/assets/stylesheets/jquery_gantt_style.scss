@@ -381,6 +381,13 @@
     position:absolute;
     height:inherit;
 }
+.dataPanel_overlay_extern{
+    position:absolute;
+    height:inherit;
+    bottom:0px;
+    width:inherit;
+    background-color: rgba(234, 128, 111, 0.23);
+}
 .fn-gantt .day_g, .fn-gantt .date {
     overflow: visible;
     width: 24px;
@@ -572,7 +579,6 @@
             color: rgb(52, 82, 116);
             font-weight: bold;
         }
-        border: 1px solid black;
         border-radius: 5px;
         margin: 5px;
         width:22%;
@@ -585,7 +591,6 @@
         .fn-label {
             color: rgb(52, 82, 116);
         }
-        border: 1px solid black;
         border-radius: 5px;
         margin: 5px;
         width:22%;
@@ -599,7 +604,6 @@
         .fn-label {
             color: rgb(52, 82, 116);
         }
-        border: 1px solid black;
         border-radius: 5px;
         margin: 5px;
         width:22%;
@@ -613,7 +617,6 @@
         .fn-label {
             color: rgb(52, 82, 116);
         }
-        border: 1px solid black;
         border-radius: 5px;
         margin: 5px;
         width:22%;
@@ -627,7 +630,6 @@
         .fn-label {
             color: rgb(52, 82, 116);
         }
-        border: 1px solid black;
         border-radius: 5px;
         margin: 5px;
         width:22%;
@@ -934,7 +936,7 @@
 
 /************** DARK THEME *****************/
 @include theme( "theme_dark", 4px solid #8794AD, none,
-                rgba(74, 81, 94, 0.39), #4A515E, #C1CFE7,
+                rgba(74, 81, 94, 0.39), #4A515E, rgb(246, 246, 246),
                 white, #727C90, white,
                 #fff8da, #484a4d, rgba(122, 62, 72, 0.69),
                 white, rgba(239, 179, 50, 0.63), white,

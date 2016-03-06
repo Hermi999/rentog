@@ -617,18 +617,18 @@ window.ST.poolTool = (function() {
     // Attach listings without transactions to source array
     // Attach them after the internal, trusted, all listings, but before the external listings
     var temp_arr = [];
-    for (var j=0; j<source.length; j++){
+    for (var xx=0; xx<source.length; xx++){
       // copy reference to all intern, trusted, all listings
-      if (source[j].desc !== "extern"){
-        temp_arr[j] = source[j];
+      if (source[xx].desc !== "extern"){
+        temp_arr[xx] = source[xx];
       }
       else{
         // copy all references to listings without transactions
         temp_arr = temp_arr.concat(empty_arr);
 
         // copy all references to extern listings
-        for (var k=j; k<source.length; k++){
-          temp_arr[k+empty_arr.length] = source[k];
+        for (var ww=xx; ww<source.length; ww++){
+          temp_arr[ww+empty_arr.length] = source[ww];
         }
         break;
       }
@@ -751,6 +751,14 @@ window.ST.poolTool = (function() {
   function updateGanttChart(source){
     source = source || gon.source;
 
+    var count_extern = 0;
+    for (var oo = 0; oo < source.length; oo++){
+      if (source[oo].desc === "extern"){
+        count_extern ++;
+      }
+    }
+    gon.count_extern_listings = count_extern;
+
     $(".gantt").gantt({
       dow: gon.translated_days_min,
       months: gon.translated_months,
@@ -792,10 +800,9 @@ window.ST.poolTool = (function() {
         // - this is not a booking of the user AND
         // - the current user is not the company admin of the transaction starter OR
         // - it's not allowed to change the past and the booking is already in the past
-        if (gon.is_admin === false &&
-            info.booking.renter_id !== gon.current_user_id &&
-            gon.current_user_id !== info.booking.renter_company_id ||
-            !gon.pool_tool_preferences.pool_tool_modify_past && e < today){
+        if ((gon.is_admin === false && info.booking.renter_id !== gon.current_user_id && gon.current_user_id !== info.booking.renter_company_id) ||
+            (info.booking.customClass === "gantt_privateBooking") ||
+            (!gon.pool_tool_preferences.pool_tool_modify_past && e < today)){
           $('#btn_update').css('display', 'none');
           $('#btn_delete').css('display', 'none');
 

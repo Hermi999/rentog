@@ -744,4 +744,9 @@ class Person < ActiveRecord::Base
     get_company.organization_name
   end
 
+  def get_company_members
+    comp = self.get_company
+    [comp] + comp.employees
+  end
+
 end
