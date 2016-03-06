@@ -2406,6 +2406,8 @@ de:
       availability_desc_header_trusted: "Freunde"
       availability_desc_header_intern: "Intern"
       availability_desc_header_all: "Global"
+      availability_desc_header_extern: "Extern"
       availability_desc_text_trusted: "Dieses Gerät ist für befreundete Unternehmen sichtbar und kann von diesen gebucht werden."
       availability_desc_text_intern: "Dieses Gerät ist nur für Ihre eigenen Mitarbeitern sichbar und kann von diesen gebucht werden."
       availability_desc_text_all: "Dieses Geräte ist am globalen Marktplatz sichtbar und kann dort von allen auf Rentog registrierten Unternehmen gebucht werden."
+      availability_desc_text_extern: "Dieses Geräte gehört einem anderen Unternehmen. Es ist hier sichtbar, da einer Ihrer Mitarbeiter es aktuell oder in Zukunft gebucht hat."

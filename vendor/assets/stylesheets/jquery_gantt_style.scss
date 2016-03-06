@@ -39,6 +39,9 @@
                 color: $main_font_color;
             }
         }
+        .leftPanel .pooltool_extern_listing{
+            background-color: #EA806F;
+        }
         .bottom .navigate_#{$theme} {
             background-color: $main_bg_color;
         }
@@ -300,6 +303,9 @@
             background-color: #CF9008;
             color: white !important;
         }
+    }
+    .load_placeholder{
+        cursor: default;
     }
 
     .fn-wide,

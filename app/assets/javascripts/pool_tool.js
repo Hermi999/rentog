@@ -283,6 +283,7 @@ window.ST.poolTool = (function() {
   function show_only_mine(){
     if($('.only_mine').prop('checked')){
       $('.bar').hide();
+      $('.gantt_trustedEmployee_me').show();
       $('.gantt_ownEmployee_me').show();
       $('.gantt_anyCompany_me').show();
       $('.gantt_trustedCompany_me').show();
@@ -585,6 +586,8 @@ window.ST.poolTool = (function() {
     for (var j=0; j<gon.open_listings.length; j++){
       var already_there = false;
       for (var k=0; k<source.length; k++){
+        // If listing is already within the source array, then there are
+        // transactions. In this case only copy the image url
         if (gon.open_listings[j].name === source[k].name){
           already_there = true;
 
@@ -593,6 +596,7 @@ window.ST.poolTool = (function() {
         }
       }
 
+      // If not already there store the listing without transactions in empty_arr
       if (!already_there){
         empty_arr.push({
           name: gon.open_listings[j].name,
@@ -609,7 +613,27 @@ window.ST.poolTool = (function() {
         });
       }
     }
-    source = source.concat(empty_arr);
+
+    // Attach listings without transactions to source array
+    // Attach them after the internal, trusted, all listings, but before the external listings
+    var temp_arr = [];
+    for (var j=0; j<source.length; j++){
+      // copy reference to all intern, trusted, all listings
+      if (source[j].desc !== "extern"){
+        temp_arr[j] = source[j];
+      }
+      else{
+        // copy all references to listings without transactions
+        temp_arr = temp_arr.concat(empty_arr);
+
+        // copy all references to extern listings
+        for (var k=j; k<source.length; k++){
+          temp_arr[k+empty_arr.length] = source[k];
+        }
+        break;
+      }
+    }
+    source = temp_arr;
 
     // If source is still empty (because company has no open listings),
     // then add dummy listings
@@ -750,7 +774,11 @@ window.ST.poolTool = (function() {
         var today = new Date(new Date().setHours(0,0,0,0));
 
         // Update shown information in popover
-        $('#poolTool_popover_deviceImage').attr('src', info.listing.image);
+        if (typeof info.listing.image !== "undefined") {
+          $('#poolTool_popover_deviceImage').attr('src', info.listing.image);
+        }else{
+          $('#poolTool_popover_deviceImage').attr('src', "/assets/logos/mobile/default.png");
+        }
         $('#poolTool_popover_deviceName').html(info.listing.name);
         $('#poolTool_popover_renter').html(info.booking.label);
         $('#poolTool_popover_availability').html(info.listing.availability);

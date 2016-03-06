@@ -24,7 +24,7 @@ class ListingVisibilityGuard
         public_community?
 
       elsif trusted_listing?
-        user_and_listing_belong_to_same_company? || listing_author_follows_user?
+        user_and_listing_belong_to_same_company? || listing_author_follows_users_company?
       else
         user_and_listing_belong_to_same_company?
       end
@@ -65,8 +65,8 @@ class ListingVisibilityGuard
     @listing.availability == "trusted"
   end
 
-  def listing_author_follows_user?
-    @listing.author.follows?(@user)
+  def listing_author_follows_users_company?
+    @listing.author.follows?(@user.get_company)
   end
 
   def user_and_listing_belong_to_same_company?

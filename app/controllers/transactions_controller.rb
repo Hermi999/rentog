@@ -154,7 +154,7 @@ class TransactionsController < ApplicationController
     elsif @relation == :trusted_company_employee
       employee = Person.where(username: params[:employee][:username]).first
       empl_or_reason = employee[:family_name] + " " + employee[:given_name] + " (" + employee.company.organization_name + ")"
-      type = "trustedCompany"
+      type = "trustedEmployee"
 
     else
       if params[:employee]

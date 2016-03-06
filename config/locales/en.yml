@@ -2412,7 +2412,8 @@ en:
       availability_desc_header_trusted: "Trusted"
       availability_desc_header_intern: "Intern"
       availability_desc_header_all: "All"
+      availability_desc_header_extern: "Extern"
       availability_desc_text_trusted: "This listing is marked as trusted. So only trusted companies and company employees can book it."
       availability_desc_text_intern: "This listing is marked as intern. So only company employees can book it."
       availability_desc_text_all: "This listing can be booked by all registered companies and the company employees."
-
+      availability_desc_text_extern: "This device belongs to another company. It's displayed here, because a member of your compmany has booked it."

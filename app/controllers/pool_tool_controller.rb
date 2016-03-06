@@ -45,36 +45,21 @@ class PoolToolController < ApplicationController
 
 
 
-    # GET ALL COMPANY TRANSACTIONS
-    # (joined with listings and bookings) from database, ordered by listings.id
-    temp_avail2 = "(listings.availability = 'all' OR listings.availability = 'intern' OR listings.availability = 'trusted')"
-    temp_avail2 = "(listings.availability = 'all' OR listings.availability = 'trusted')" if !@belongs_to_company
+    # GET ALL COMPANY TRANSACTIONS WITH OWN LISTINGS
+    intern_transactions = get_transactions_with_own_listings
 
-    transactions = Transaction.joins(:listing, :booking, :starter).select(" transactions.id as transaction_id,
-                                                                            listings.id as listing_id,
-                                                                            listings.title as title,
-                                                                            listings.availability as availability,
-                                                                            listings.created_at,
-                                                                            bookings.start_on as start_on,
-                                                                            bookings.end_on as end_on,
-                                                                            bookings.reason as reason,
-                                                                            bookings.description as description,
-                                                                            bookings.device_returned as device_returned,
-                                                                            transactions.current_state,
-                                                                            people.given_name as renter_given_name,
-                                                                            people.family_name as renter_family_name,
-                                                                            people.username as renting_entity_username,
-                                                                            people.organization_name as renting_entity_organame,
-                                                                            people.id as renter_id")
-                                                                  .where("  listings.author_id = ? AND
-                                                                            transactions.community_id = ? AND
-                                                                            listings.open = '1' AND
-                                                                            #{temp_avail2} AND
-                                                                            (listings.valid_until IS NULL OR valid_until > ?)",
-                                                                            @pooltool_owner.id, @current_community.id, DateTime.now)
-                                                                  .order("  listings.id asc")
-    # Convert ActiveRecord Relation into array of hashes
+    # GET ALL COMPANY TRANSACTIONS WITH LISTINGS OF OTHER COMPANIES
+    extern_transactions = get_transactions_with_listings_from_other_companies
+
+    # Combine them and turn them into array
+    transactions = intern_transactions + extern_transactions
     transaction_array = transactions.as_json
+
+
+    # wah: Get all possible company ids of companies which can be shown in pool tool
+    possible_company_ids = [@pooltool_owner] + @pooltool_owner.followers
+    possible_companies = Person.where(:id => possible_company_ids)
+
 
     # Convert all the transaction into a jquery-Gantt readable source.
     # wah: This might be shifted to the client (javascript) in future, since
@@ -95,6 +80,13 @@ class PoolToolController < ApplicationController
       end
 
 
+      # wah: get author
+      possible_companies.each do |company|
+        if company.id == transaction['listing_author_id']
+          transaction['listing_author_username'] = company.username
+        end
+      end
+
       # wah: Hide description and who booked the device, if visitor does not belong
       # to company at booking is not his or his employees_do_not_post
       if !@belongs_to_company && renter[:relation] == "privateBooking"
@@ -103,20 +95,14 @@ class PoolToolController < ApplicationController
       end
 
 
-      # Get company_id of renter of the transaction
-      if renter[:renter].is_employee?
-        renter_company_id = renter[:renter].company.id
-      else
-        renter_company_id = renter[:renter].id
-      end
-
-
       if prev_listing_id != transaction['listing_id']
         # new Listing, new transaction
         counter = counter + 1
 
+        availability = transaction['availability'] || "extern"
+
         transaction['name'] = transaction['title']
-        transaction['desc'] = transaction['availability']
+        transaction['desc'] = availability
         transaction['already_booked_dates'] = Listing.already_booked_dates(transaction['listing_id'], @current_community)
         transaction['values'] = [{
           'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
@@ -125,9 +111,15 @@ class PoolToolController < ApplicationController
           'customClass' =>  "gantt_" + renter[:relation],
           'transaction_id' => transaction['transaction_id'],
           'renter_id' => transaction['renter_id'],
-          'renter_company_id' => renter_company_id,
+          'renter_company_id' => renter[:renter].get_company.id,
           'description' => transaction['description']
         }]
+
+        if availability == "extern"
+          temp_listing = Listing.where(:id => transaction['listing_id']).first
+          transaction['image'] = temp_listing.listing_images.first.image.url(:small_3x2) if temp_listing.listing_images.first
+        end
+
         # Remove unused keys from hash
         transaction.except!('title', 'start_on', 'end_on', 'renting_entity_username', 'renting_entity_organame', 'transaction_id', 'renter_family_name', 'renter_given_name', 'renter_id')
 
@@ -144,7 +136,7 @@ class PoolToolController < ApplicationController
           'customClass' => "gantt_" + renter[:relation],
           'transaction_id' => transaction['transaction_id'],
           'renter_id' => transaction['renter_id'],
-          'renter_company_id' => renter_company_id,
+          'renter_company_id' => renter[:renter].get_company.id,
           'description' => transaction['description']
         }
         devices[counter]['values'] << newTrans
@@ -159,8 +151,9 @@ class PoolToolController < ApplicationController
     # user did not return them
     @user_bookings_array = []
     if @belongs_to_company
-      user_bookings = transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
-      @user_bookings_array = user_bookings.as_json
+      user_bookings1 = intern_transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
+      user_bookings2 = extern_transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
+      @user_bookings_array = user_bookings1.as_json + user_bookings2.as_json
     end
 
 
@@ -213,7 +206,6 @@ class PoolToolController < ApplicationController
     end
 
 
-
     def get_current_user_pool_tool_company_relation
       # Get company who's pool tool page is accessed
       @pooltool_owner = Person.where(:username => params['person_id']).first
@@ -244,6 +236,73 @@ class PoolToolController < ApplicationController
         else
           :logged_out_user
         end
+    end
+
+
+    def get_transactions_with_own_listings
+      temp_avail2 = "(listings.availability = 'all' OR listings.availability = 'intern' OR listings.availability = 'trusted')"
+      temp_avail2 = "(listings.availability = 'all' OR listings.availability = 'trusted')" if !@belongs_to_company
+
+      transactions = Transaction.joins(:listing, :booking, :starter).select(" transactions.id as transaction_id,
+                                                                              listings.id as listing_id,
+                                                                              listings.author_id as listing_author_id,
+                                                                              listings.title as title,
+                                                                              listings.availability as availability,
+                                                                              listings.created_at,
+                                                                              bookings.start_on as start_on,
+                                                                              bookings.end_on as end_on,
+                                                                              bookings.reason as reason,
+                                                                              bookings.description as description,
+                                                                              bookings.device_returned as device_returned,
+                                                                              transactions.current_state,
+                                                                              people.given_name as renter_given_name,
+                                                                              people.family_name as renter_family_name,
+                                                                              people.username as renting_entity_username,
+                                                                              people.organization_name as renting_entity_organame,
+                                                                              people.id as renter_id")
+                                                                    .where("  listings.author_id = ? AND
+                                                                              transactions.community_id = ? AND
+                                                                              listings.open = '1' AND
+                                                                              #{temp_avail2} AND
+                                                                              (listings.valid_until IS NULL OR valid_until > ?)",
+                                                                              @pooltool_owner.id, @current_community.id, DateTime.now)
+                                                                    .order("  listings.id asc")
+    end
+
+
+    def get_transactions_with_listings_from_other_companies
+      all_users = [@pooltool_owner] + @pooltool_owner.employees
+
+      user_ids = []
+      all_users.each do |user|
+        user_ids << user.id
+      end
+
+      all_external_transactions = Transaction.joins(:listing, :booking, :starter).select("transactions.id as transaction_id,
+                                                                                          listings.id as listing_id,
+                                                                                          listings.author_id as listing_author_id,
+                                                                                          listings.title as title,
+                                                                                          listings.created_at,
+                                                                                          bookings.start_on as start_on,
+                                                                                          bookings.end_on as end_on,
+                                                                                          bookings.reason as reason,
+                                                                                          bookings.description as description,
+                                                                                          bookings.device_returned as device_returned,
+                                                                                          transactions.current_state,
+                                                                                          people.given_name as renter_given_name,
+                                                                                          people.family_name as renter_family_name,
+                                                                                          people.username as renting_entity_username,
+                                                                                          people.organization_name as renting_entity_organame,
+                                                                                          people.id as renter_id")
+                                                                                .where("  transactions.starter_id IN (?) AND
+                                                                                          listings.author_id <> ? AND
+                                                                                          transactions.community_id = ? AND
+                                                                                          listings.open = '1' AND
+                                                                                          (bookings.end_on > ? OR bookings.device_returned = false) AND
+                                                                                          (listings.valid_until IS NULL OR valid_until > ?) AND
+                                                                                          (listings.availability = 'all' OR listings.availability = 'trusted')",
+                                                                                          user_ids, @pooltool_owner.id, @current_community.id, DateTime.now, DateTime.now)
+                                                                                .order("  listings.id asc")
     end
 
 
@@ -356,9 +415,11 @@ class PoolToolController < ApplicationController
         availability_desc_header_trusted: t("pool_tool.load_popover.availability_desc_header_trusted"),
         availability_desc_header_intern: t("pool_tool.load_popover.availability_desc_header_intern"),
         availability_desc_header_all: t("pool_tool.load_popover.availability_desc_header_all"),
+        availability_desc_header_extern: t("pool_tool.load_popover.availability_desc_header_extern"),
         availability_desc_text_trusted: t("pool_tool.load_popover.availability_desc_text_trusted"),
         availability_desc_text_intern: t("pool_tool.load_popover.availability_desc_text_intern"),
         availability_desc_text_all: t("pool_tool.load_popover.availability_desc_text_all"),
+        availability_desc_text_extern: t("pool_tool.load_popover.availability_desc_text_extern"),
 
         pool_tool_preferences: {
           pooltool_user_has_to_give_back_device: @current_user.has_to_give_back_device?(@current_community),
