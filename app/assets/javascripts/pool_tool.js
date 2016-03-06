@@ -674,6 +674,12 @@ window.ST.poolTool = (function() {
         search(value);
       }, 700);
     });
+
+    // remove search text
+    $('#remove_search').click(function(){
+      $('#poolTool_search').val("");
+      search("");
+    });
   }
 
   // Search for the given term within the source of jquery GanttChart &

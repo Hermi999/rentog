@@ -108,6 +108,18 @@
     margin-top: 12px;
     margin-right: 12px;
     width: 225px;
+    padding-right: 30px;
+}
+
+#remove_search{
+  right: 33px;
+  top: 20px;
+  display: inline;
+  float: left;
+  position: relative;
+  font-weight: bold;
+  font-size: 1.2em;
+  cursor: pointer;
 }
 
 #addNewBooking{
