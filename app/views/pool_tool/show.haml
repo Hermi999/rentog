@@ -8,13 +8,15 @@
   = t('pool_tool.show.could_not_create_new_booking')
 
 / Lock Screen and show 'no listing' message if the company has no listings yet
-- if listings == []
+- if transactions == [] && listings == []
   - content_for :javascript do
     $('body').css('overflow', 'hidden');
 
   .poolTool_no_listings_coverSite
     .poolTool_no_listings
-      = t('pool_tool.show.no_open_devices')
+      %span{:style => "display:block; margin-bottom: 5px;"}
+        = t('pool_tool.show.no_open_devices')
+
       .poolTool_no_listings_whatToDo
         = t('pool_tool.show.ifYouCompanyAdmin')
         %ul
@@ -22,6 +24,16 @@
             = t('pool_tool.show.createListingHere', :listing_path => new_listing_path).html_safe
           %li#reopen_listing
             = t('pool_tool.show.reopen_listing', :person_path => person_path(@pooltool_owner)).html_safe
+
+        %span{:style => "font-size: 0.9em; margin-top:20px; display:block;"}
+          = t('pool_tool.show.do_not_want_to_create_listing')
+          %ol{:style => "padding-left: 1.5em;"}
+            %li
+              = t('pool_tool.show.send_profile_url', :person_path => person_path(@pooltool_owner)).html_safe
+            %li
+              = t('pool_tool.show.go_to_marketplace', :shared_pool_path => marketplace_path(:restrictedMarketplace => "1")).html_safe
+
+
 
 
 / Show 'colorbox' modal/popover if user clicked in gantt chart on a booking
@@ -103,9 +115,10 @@
     / Button: Add new Booking
     - add_booking_text = t('pool_tool.show.addNewBooking_visitor')
     - add_booking_text = t('pool_tool.show.addNewBooking') if @belongs_to_company
-    #addNewBookingWrapper{:style=>"float:left;"}
-      %button#addNewBooking.primary-button
-        = add_booking_text
+    - if listings != []
+      #addNewBookingWrapper{:style=>"float:left;"}
+        %button#addNewBooking.primary-button
+          = add_booking_text
 
 
     / Button: Add new device

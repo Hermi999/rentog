@@ -173,7 +173,7 @@ class PoolToolController < ApplicationController
     # Variables which should be send to JavaScript
     poolTool_gon_vars(devices, open_listings_array)
 
-    render locals: { listings: listings }
+    render locals: { listings: listings, transactions: transactions }
   end
 
   # get the current theme of the user from the db

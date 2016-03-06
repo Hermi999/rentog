@@ -60,18 +60,28 @@
   bottom:10%;
   width: 90%;
   margin: 0 5% 0 5%;
-  background-color: $bootstrap-warning;
-  opacity: 0.87;
+  background-color: #EA806F;
+  opacity: 0.95;
   font-weight: bold;
   padding: 20px;
   border-radius: 15px;
   -webkit-box-shadow: 11px 10px 40px -1px rgba(0,0,0,0.75);
   box-shadow: 11px 10px 40px -1px rgba(0,0,0,0.75);
-  @include large-type;
+
+  @include big-type;
+
+  @include media(tablet){
+    @include large-type;
+    top:10%;
+    right: 1%;
+    width: 40%;
+    bottom: initial;
+  }
 }
 
 .poolTool_no_listings_whatToDo{
-  font-size:0.9em;
+  font-size: 0.8em;
+  font-weight: normal;
 }
 
 .poolTool_no_listings_coverSite{
