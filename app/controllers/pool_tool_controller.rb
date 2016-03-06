@@ -1,7 +1,7 @@
 class PoolToolController < ApplicationController
   # Filters
-  before_filter :get_current_user_pool_tool_company_relation
-  before_filter :ensure_is_authorized_to_view, :only => [ :show, :get_theme, :set_theme, :return_device]
+  before_filter :get_current_user_pool_tool_company_relation, :only => [ :show]
+  before_filter :ensure_is_authorized_to_view, :only => [ :show]
 
   def show
     # Is admin or employee of company (or rentog admin)?
