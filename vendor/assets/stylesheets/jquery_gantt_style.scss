@@ -150,7 +150,7 @@
             }
         }
         .ganttLegend_anyCompany_#{$theme}{
-            background-color: anyCompany_bg_color;
+            background-color: $anyCompany_bg_color;
             .fn-label{
                 color: anyCompany_font_color;
             }
@@ -488,151 +488,36 @@
     .gantt_ownEmployee:hover,
     .gantt_trustedCompany:hover,
     .gantt_otherReason:hover,
+    .gantt_privateBooking:hover,
     .gantt_anyCompany_me:hover,
     .gantt_trustedEmployee_me:hover,
     .gantt_ownEmployee_me:hover,
     .gantt_trustedCompany_me:hover,
     .gantt_otherReason_me:hover,
+    .gantt_privateBooking_me:hover
      {
         opacity: 0.7;
     }
 
-    .gantt_ownEmployee {
-        background-color: rgba(239, 179, 50, 0.63);
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        box-shadow: none;
-    }
-
-    .gantt_trustedEmployee {
-        background-color: rgba(185, 88, 53, 0.67);
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        box-shadow: none;
-    }
-    .gantt_trustedCompany {
-        background-color: rgba(61, 50, 66, 0.67);
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        box-shadow: none;
-    }
-    .gantt_anyCompany {
-        background-color: rgba(172, 209, 233, 0.69);
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        box-shadow: none;
-    }
-    .gantt_otherReason {
-        background-color: #6D929B;
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        box-shadow: none;
-    }
-
-    .gantt_ownEmployee_me {
-        background-color: #E8D0A9;
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-    }
-
-    .gantt_trustedEmployee_me {
-        background-color: #B7AFA3;
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116) ;
-        }
-    }
-    .gantt_trustedCompany_me {
-        background-color: #C1DAD6;
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-    }
-    .gantt_anyCompany_me {
-        background-color: #ACD1E9;
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-    }
+    .gantt_ownEmployee,
+    .gantt_trustedEmployee,
+    .gantt_trustedCompany,
+    .gantt_anyCompany,
+    .gantt_otherReason,
+    .gantt_privateBooking,
+    .gantt_ownEmployee_me,
+    .gantt_trustedEmployee_me,
+    .gantt_trustedCompany_me,
+    .gantt_anyCompany_me,
     .gantt_otherReason_me {
-        background-color: #6D929B;
         cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
     }
 
-    .ganttLegend_ownEmployee {
-        background-color: #E8D0A9;
-        .fn-label {
-            color: rgb(52, 82, 116);
-            font-weight: bold;
-        }
-        border-radius: 5px;
-        margin: 5px;
-        width:22%;
-        min-width:115px;
-        max-width:130px;
-        float:left;
-    }
-    .ganttLegend_trustedCompany {
-        background-color: #C1DAD6;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        border-radius: 5px;
-        margin: 5px;
-        width:22%;
-        min-width:115px;
-        max-width:130px;
-        float:left;
-        font-weight: bold;
-    }
-    .ganttLegend_anyCompany {
-        background-color: #ACD1E9;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        border-radius: 5px;
-        margin: 5px;
-        width:22%;
-        min-width:115px;
-        max-width:130px;
-        float:left;
-        font-weight: bold;
-    }
-    .ganttLegend_trustedEmployee {
-        background-color: #B7AFA3;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        border-radius: 5px;
-        margin: 5px;
-        width:22%;
-        min-width:115px;
-        max-width:130px;
-        float:left;
-        font-weight: bold;
-    }
+    .ganttLegend_ownEmployee,
+    .ganttLegend_trustedCompany,
+    .ganttLegend_anyCompany,
+    .ganttLegend_trustedEmployee,
     .ganttLegend_otherReason {
-        background-color: #6D929B;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
         border-radius: 5px;
         margin: 5px;
         width:22%;
@@ -641,7 +526,6 @@
         float:left;
         font-weight: bold;
     }
-
 
     .ganttHidden {
         visibility: hidden;
