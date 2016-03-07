@@ -51,7 +51,7 @@ Feature: User tries to view the pool tool
     When I click "#header-user-display-name"
     When I follow "Pool Tool"
     Then I should see "Pool Management Tool"
-    And I should see "Your company has no (open) devices for renting yet"
+    And I should see "Your company has no (open) devices rented or created yet"
     And I should see "create a new renting listing here"
     When I follow "here" within "#create_new_listing"
     Then I should see "Post a new listing"
