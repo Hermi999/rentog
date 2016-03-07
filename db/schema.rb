@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160228155930) do
+ActiveRecord::Schema.define(version: 20160307213504) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -985,6 +985,7 @@ ActiveRecord::Schema.define(version: 20160228155930) do
     t.string   "organization_name",                  limit: 255
     t.boolean  "deleted",                                          default: false
     t.string   "pool_tool_color_schema",             limit: 255,   default: "theme_dark"
+    t.string   "pool_tool_show_legend",              limit: 255,   default: "1"
   end
 
   add_index "people", ["authentication_token"], name: "index_people_on_authentication_token", using: :btree

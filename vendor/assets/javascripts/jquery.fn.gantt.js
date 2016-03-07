@@ -925,7 +925,7 @@
                 var appendLegend;
 
                 if (gon.belongs_to_company){    //(!gon.only_pool_tool){
-                    appendLegend = '<p class="showLegend" id="showLegendId">'+ gon.show_legend +'</p>';
+                    appendLegend = '<p class="showLegend" id="showLegendId">'+ gon.hide_legend +'</p>';
                 }
 
                 // Scrolling navigation is provided by setting
@@ -1122,13 +1122,25 @@
                     .append($('<div class="ganttLegend_trustedCompany" />')
                         .append($('<div class="fn-label" />')
                             .html(gon.trusted_company)))
-                    .append($('<div class="ganttLegend_trustedEmployee" />')
-                        .append($('<div class="fn-label" />')
-                            .html(gon.any_employee)))
+                    //.append($('<div class="ganttLegend_trustedEmployee" />')
+                    //    .append($('<div class="fn-label" />')
+                    //        .html(gon.any_employee)))
                     .append($('<div class="ganttLegend_anyCompany" />')
                         .append($('<div class="fn-label" />')
                             .html(gon.any_company)))
                     .append($('<div class="clear-floating" />'));
+
+                    var popover_html1 = gon.legend_otherReason_text;
+                    legend.append('<script type="text/javascript">$(".ganttLegend_otherReason").webuiPopover({content: "' + popover_html1 + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
+
+                    var popover_html2 = gon.legend_ownEmployee_text;;
+                    legend.append('<script type="text/javascript">$(".ganttLegend_ownEmployee").webuiPopover({content: "' + popover_html2 + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
+
+                    var popover_html3 = gon.legend_trustedCompany_text;
+                    legend.append('<script type="text/javascript">$(".ganttLegend_trustedCompany").webuiPopover({content: "' + popover_html3 + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
+
+                    var popover_html4 = gon.legend_anyCompany_text;
+                    legend.append('<script type="text/javascript">$(".ganttLegend_anyCompany").webuiPopover({content: "' + popover_html4 + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
 
                 return legend;
             },

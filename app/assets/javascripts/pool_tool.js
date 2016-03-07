@@ -480,6 +480,22 @@ window.ST.poolTool = (function() {
     });
   }
 
+  // Saves if legend is shown by user or not
+  function saveLegend(legend){
+    $.ajax({
+      method: "post",
+      dataType: "json",
+      url: "/" + gon.current_user_username + "/poolToolLegend",
+      data: {legend: legend},
+    })
+    .success(function(data){
+      // Do not show any message to user
+    })
+    .error(function(data){
+      // Do not show any message to user
+    });
+  }
+
   // Initialize the Datepickers (add new booking & edit existing booking).
   // Also add an eventlistener for updating the datepicker if the user changes
   // the listing in the 'add new booking form'
@@ -1126,10 +1142,21 @@ window.ST.poolTool = (function() {
         $('#showLegendId').on('click', function(){
           if ($('#showLegendId').html() === gon.show_legend){
             $('#showLegendId').html(gon.hide_legend);
+            saveLegend(true);
           }else{
             $('#showLegendId').html(gon.show_legend);
+            saveLegend(false);
           }
         });
+
+        // Set legend according to db stored status
+        if (gon.legend_status === "1"){
+          $('.legend').show();
+          $('#showLegendId').html(gon.hide_legend);
+        }else{
+          $('.legend').hide();
+          $('#showLegendId').html(gon.show_legend);
+        }
 
         // Disable navigation buttons
         if($('.dataPanel').data('view') === 'days'){

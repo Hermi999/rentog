@@ -72,8 +72,8 @@ class PoolToolController < ApplicationController
 
       if transaction['reason']
         renting_entity = transaction['reason']
-      elsif transaction['renting_entity_organame'] != "" && transaction['renting_entity_organame'] != nil
-        renting_entity = transaction['renting_entity_organame']
+      elsif (renter[:relation] == "trustedCompany" || renter[:relation] == "trustedEmployee") && transaction['renting_entity_organame'] != "" && transaction['renting_entity_organame'] != nil
+        renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name'] + " (" + transaction['renting_entity_organame'] + ")"
       else
         renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name']
       end
@@ -193,6 +193,18 @@ class PoolToolController < ApplicationController
     end
   end
 
+  def set_legend
+    # Save in db
+    if params['legend'] == "true"
+      @current_user.update_attribute :pool_tool_show_legend, "1"
+    else
+      @current_user.update_attribute :pool_tool_show_legend, "0"
+    end
+
+    respond_to do |format|
+      format.json { render :json => {show_legend: @current_user.pool_tool_show_legend} }
+    end
+  end
 
   private
 
@@ -279,6 +291,15 @@ class PoolToolController < ApplicationController
                                                                               (listings.valid_until IS NULL OR valid_until > ?)",
                                                                               @pooltool_owner.id, @current_community.id, DateTime.now)
                                                                     .order("  listings.id asc")
+
+      # Add company name to transactions of external trusted employees
+        transactions.each_with_index do |ext_tr, index|
+          if ext_tr[:renting_entity_organame] == nil
+            transactions[index][:renting_entity_organame] = Person.find(ext_tr[:renter_id]).get_company_name
+          end
+        end
+
+        transactions
     end
 
 
@@ -334,6 +355,7 @@ class PoolToolController < ApplicationController
                                                                                           (listings.availability = 'all' OR listings.availability = 'trusted')",
                                                                                           ext_listings_ids, @current_community.id, DateTime.now, DateTime.now)
                                                                                 .order("  listings.id asc")
+
     end
 
 
@@ -423,7 +445,9 @@ class PoolToolController < ApplicationController
         is_admin: @current_user.is_company_admin_of?(@pooltool_owner) || @current_user.has_admin_rights_in?(@current_community),
         belongs_to_company: @belongs_to_company,
         theme: @current_user.pool_tool_color_schema,
-
+        legend_status: @current_user.pool_tool_show_legend,
+        show_legend: t("pool_tool.show.show_legend"),
+        hide_legend: t("pool_tool.show.hide_legend"),
         today: t("datepicker.today"),
         week_start: t("datepicker.week_start", default: 0),
         clear: t("datepicker.clear"),
@@ -434,8 +458,6 @@ class PoolToolController < ApplicationController
         comment: t("pool_tool.comment"),
         choose_employee_or_renter_msg: t("pool_tool.show.choose_employee_or_renter"),
         deleteConfirmation: t("pool_tool.deleteConfirmation"),
-        show_legend: t("pool_tool.show.show_legend"),
-        hide_legend: t("pool_tool.show.hide_legend"),
         legend: t("pool_tool.show.legend"),
         trusted_company: t("pool_tool.show.trusted_company"),
         any_company: t("pool_tool.show.any_company"),
@@ -461,6 +483,10 @@ class PoolToolController < ApplicationController
         availability_desc_text_intern: t("pool_tool.load_popover.availability_desc_text_intern"),
         availability_desc_text_all: t("pool_tool.load_popover.availability_desc_text_all"),
         availability_desc_text_extern: t("pool_tool.load_popover.availability_desc_text_extern"),
+        legend_otherReason_text: t("pool_tool.show.legend_otherReason_text"),
+        legend_ownEmployee_text: t("pool_tool.show.legend_ownEmployee_text"),
+        legend_trustedCompany_text: t("pool_tool.show.legend_trustedCompany_text"),
+        legend_anyCompany_text: t("pool_tool.show.legend_anyCompany_text"),
 
         pool_tool_preferences: {
           pooltool_user_has_to_give_back_device: @current_user.has_to_give_back_device?(@current_community),

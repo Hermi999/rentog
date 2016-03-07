@@ -942,6 +942,9 @@ Kassi::Application.routes.draw do
         get  :poolToolTheme, to: 'pool_tool#get_theme'
         post :poolToolTheme, to: 'pool_tool#set_theme'
 
+        # change legend show/hide
+        post :poolToolLegend, to: 'pool_tool#set_legend'
+
       end # people
 
     end # devise scope person
