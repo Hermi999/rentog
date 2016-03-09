@@ -335,7 +335,33 @@ class ListingsController < ApplicationController
         action_button_tr_key: shape[:action_button_tr_key],
     ).merge(unit_to_listing_opts(m_unit)).except(:unit)
 
+    # wah: Store & Remove attachment from params hash
+    listing_attachments = params[:attachment][:file]
+
     @listing = Listing.new(listing_params)
+
+    listing_attachments.each_with_index do |attachm, index|
+      # only 10 attachments at once
+      if index > 9
+        break;
+      else
+        # wah: Create new attachment object
+        @attachment = ListingAttachment.new
+        @attachment.attachment = attachm
+        if @attachment.save
+          # wah: Add attachment to listing
+          @listing.listing_attachments << @attachment
+        else
+          # delete all created listings again
+          @listing.listing_attachments.each do |li_att|
+            li_att.delete
+          end
+
+          flash[:error] = t("layouts.notifications.listing_attachment_error")
+          redirect_to new_listing_path and return
+        end
+      end
+    end
 
     ActiveRecord::Base.transaction do
       @listing.author = @current_user
@@ -460,6 +486,28 @@ class ListingsController < ApplicationController
       logger.error("Errors in editing listing: #{@listing.errors.full_messages.inspect}")
       flash[:error] = t("layouts.notifications.listing_could_not_be_saved", :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), new_user_feedback_path, :class => "flash-error-link")).html_safe
       redirect_to edit_listing_path(@listing)
+    end
+  end
+
+  # wah: Delete pdf attachment
+  def delete_attachment
+    if params[:id]
+      at = ListingAttachment.find(params[:id])
+      if at.listing.author_id == @current_user.id
+        at.delete
+        at.save
+
+        respond_to do |format|
+          format.html { redirect_to :back }
+          format.json { render :json => {status: "success"} }
+        end
+        return
+      end
+    end
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render :json => {status: "error"} }
     end
   end
 

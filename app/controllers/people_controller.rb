@@ -631,13 +631,17 @@ class PeopleController < Devise::RegistrationsController
 
     person.inherit_settings_from(current_community)
 
-    # Change the user type according to the params
+    # wah: Change the user type according to the params
     if params[:person][:signup_as] == "organization"
       person.is_organization = true
     elsif params[:person][:signup_as] == "employee"
       person.is_organization = false
       person.company = Person.where('organization_name = ? And deleted = 0',company_name).first
     end
+
+    # wah: Set user plan
+    user_plan = UserPlanService::Api.new
+    user_plan.set_plan_and_feature_plan_levels(person, :free)
 
     if person.save!
       sign_in(resource_name, resource)

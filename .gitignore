@@ -19,6 +19,7 @@ old_databases.sql
 capybara*
 public/system/favicons
 public/system/images
+public/system/attachments
 public/system/listing_images
 public/system/people
 public/system/cover_photos/

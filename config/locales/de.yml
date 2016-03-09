@@ -1353,6 +1353,7 @@ de:
       sign_up: Registrieren
     notifications:
       listing_could_not_be_saved: "Der Eintrag konnte nicht gespeichert werden. Bitte versuche es noch einmal. Wenn das Problem fortbesteht, %{contact_admin_link}."
+      listing_attachment_error: "Upload Datei(en) ungültig. max. 15MB/Datei, max. 10 Dateien, nur PDF Dateien"
       contact_admin_link_text: "Administrator kontaktieren"
       test_welcome_email_delivered_to: "Eine Test-Mail wurde gesendet an %{email}."
       something_went_wrong: "Da ist etwas schief gelaufen"
