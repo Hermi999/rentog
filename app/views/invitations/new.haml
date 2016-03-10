@@ -19,9 +19,15 @@
     = f.text_area :email, :class => "text_field", :placeholder => t("homepage.invitation_form.invitation_emails_field_placeholder")
     = f.label :message, t("homepage.invitation_form.message")
     = f.text_area :message, :class => "invitation_message_text", :value => t("homepage.invitation_form.invitation_message_field_placeholder1")
-    = f.radio_button :target, 'employee', :checked => true
-    = f.label :target_employee, t("homepage.invitation_form.label_invite_employee"), :id => "target_employee_label"
-    %br
-    = f.radio_button :target, 'any'
+
+    - if @company_employees_left
+      = f.radio_button :target, 'employee', :checked => true
+      = f.label :target_employee, t("homepage.invitation_form.label_invite_employee"), :id => "target_employee_label"
+      %br
+      = f.radio_button :target, 'any'
+    - else
+      = link_to t('people.show.employee_limit_reached_invite').html_safe, get_wp_url('pricing'), :class => "upgrade_profile_person"
+      = f.radio_button :target, 'any', :checked => true
+
     = label :target_anyone, t("homepage.invitation_form.label_invite_any"), :id => "target_any_label"
     = f.button t("homepage.invitation_form.send_invitation")

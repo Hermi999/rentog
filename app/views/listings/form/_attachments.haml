@@ -1,0 +1,19 @@
+.listing_attachments{style: "margin-bottom:40px;"}
+  = form.label :attachment, t('.headline')
+
+  -if @attachments_left
+    - if @max_attachments > 1
+      = form.file_field :attachment, multiple: true, name: "attachment[file][]"
+    - else
+      = form.file_field :attachment, multiple: false, name: "attachment[file][]"
+
+  %table
+    - @listing.listing_attachments.each do |attachm|
+      %tr
+        %td
+          = link_to attachm.attachment_file_name, attachm.attachment.url, :target => "_blank"
+        %td
+          = link_to "x", listing_listing_attachment_path(@listing.id, attachm.id), data: {:confirm => 'Are you sure?'}, :method => :delete
+
+  -unless @attachments_left
+    = link_to t('.more_attachments').html_safe, get_wp_url('pricing'), :class => "upgrade_profile"

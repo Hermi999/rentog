@@ -28,10 +28,9 @@ class PeopleController < Devise::RegistrationsController
     # if person is an employee find out the organization he works for
     @organization = @person.company
     # if person is an company get all the employees
-    @employees = @person.employees
+    @employees = Employment.where(:company_id => @person.id, :active => true)
     # WORKAROUND: create path for showing more than 6 employees
     @employees_path = request.original_url + '/followed_people?type=employees'
-
 
     redirect_to root and return if @current_community.private? && !@current_user
     @selected_tribe_navi_tab = "members"

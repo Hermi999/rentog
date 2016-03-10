@@ -72,6 +72,19 @@
           - text_with_line_breaks do
             = @listing.description
 
+    .row
+      .col-12
+        .files-headline
+          Files:
+        %table
+          - if @listing.listing_attachments
+            - @listing.listing_attachments.each do |attachm|
+              %tr
+                %td
+                  = link_to attachm.attachment.url, :target => "_blank" do
+                    = icon_tag("terms", ["icon-with-text"])
+                    = attachm.attachment_file_name
+
     - @listing.custom_field_values.each do |custom_field_value|
       .row
         .col-12

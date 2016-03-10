@@ -51,6 +51,10 @@
 .ajax-update-error {
   color: $background;
   background: $error-red;
+  a {
+    color: #8AEEFF;
+    font-weight: bold;
+  }
 }
 
 .flash-error-link {

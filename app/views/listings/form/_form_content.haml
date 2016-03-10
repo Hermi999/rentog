@@ -17,20 +17,7 @@
   = render :partial => "listings/form/origin", :locals => { :form => form, :origin_loc => @listing.origin_loc }
   = render :partial => "listings/form/googlemap", :locals => { :form => form, :run_js_immediately => run_js_immediately}
   = render :partial => "listings/form/images", :locals => { :form => form, :run_js_immediately => run_js_immediately }
-
-  = form.label :attachment, "PDF attachments (datasheet, marketing material)"
-  = form.file_field :attachment, multiple: true, name: "attachment[file][]"
-  %br
-  %br
-  %table
-    - @listing.listing_attachments.each do |attachm|
-      %tr
-        %td
-          = link_to attachm.attachment_file_name, attachm.attachment.url
-        %td
-          = link_to "x", listing_listing_attachment_path(@listing.id, attachm.id),
-            data: {:confirm => 'Are you sure?'}, :method => :delete
-  %br
+  = render :partial => "listings/form/attachments", :locals => { :form => form }
 
   = render :partial => "listings/form/send_button", :locals => { :form => form }
 

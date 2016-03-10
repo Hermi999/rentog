@@ -277,6 +277,9 @@ de:
         save_user_status_error: "Speichern fehlgeschlagen. Bitte erneuere die Seite und versuch es noch einmal."
         ban_user_confirmation: ~
         ban_me_error: "Du kannst dich nicht selber sperren."
+      user_plans:
+        user_plans: "Benutzertypen"
+        headline: "Benutzertypen managen"
       social_media:
         social_media: "Social media"
         twitter_handle: Twittername
@@ -1354,6 +1357,8 @@ de:
     notifications:
       listing_could_not_be_saved: "Der Eintrag konnte nicht gespeichert werden. Bitte versuche es noch einmal. Wenn das Problem fortbesteht, %{contact_admin_link}."
       listing_attachment_error: "Upload Datei(en) ungültig. max. 15MB/Datei, max. 10 Dateien, nur PDF Dateien"
+      listing_attachment_max_upload_limit: "Sie haben mehr als 1GB an Dateien hochgeladen. Bitte kontaktieren Sie uns damit wir Ihr Upload Limit erhöhen."
+      listing_attachment_userplan_error: "Sie haben die maximale Anzahl an Anhängen pro Gerät für Ihren Accounttyp erreicht. <a href='%{link}'>Jetzt Ihren Account upgraden!</a>."
       contact_admin_link_text: "Administrator kontaktieren"
       test_welcome_email_delivered_to: "Eine Test-Mail wurde gesendet an %{email}."
       something_went_wrong: "Da ist etwas schief gelaufen"
@@ -1563,6 +1568,9 @@ de:
         file_too_large: "Die Datei ist zu groß."
         accepted_formats: "Die Bilddatei muss entweder im GIF-, JPG- oder PNG-Format vorliegen."
         images_not_uploaded_confirm: "Es sind noch nicht alle Bilder hochgeladen. Möchtest Du wirklich fortfahren?"
+      attachments:
+        headline: "PDF Dateien (Datenblätter, Marketing Material, ...)"
+        more_attachments: "Mehr Dateien hinzufügen? <br>Jetzt Ihren Account upgraden!"
       location:
         location: Standort
       price:
@@ -1982,6 +1990,10 @@ de:
       show_all_open_listings: "Zeige alle offenen Einträge an"
       show_all_reviews: "Alle Bewertungen anzeigen"
       organization_is_in_use: "The organization name you entered is already in use."
+      employee_limit_reached: "Sie haben das Limit an Mitarbeitern für diesen Accounttyp erreicht. Jetzt Account upgraden!"
+      employee_limit_reached_invite: "Sie haben das Limit an Mitarbeitern für diesen Accounttyp erreicht und können daher keine weiteren Mitarbeiter einladen. Jetzt Account upgraden!"
+      followers_limit_reached: "Das andere Unternehmen kann mit dem aktuellen Account-Typ keine weiteren Unternehmen mehr in seinem 'Shared Pool' aufnehmen. Bitte kontaktieren Sie das andere Unternehmen, damit es den Account upgradet!"
+      followed_limit_reached: "Mit dem aktuellen Kontotyp können Sie keine weiteren Unternehmen zu Ihrem 'Shared Pool' hinzufügen. Jetzt Ihren Account upgraden!"
     followed_people:
       you_follow_plural: "Du folgst %{count} Personen"
       you_follow_singular: "Du folgst %{count} Person"
@@ -1990,12 +2002,12 @@ de:
       show_all_followed_people: "Zeige alle gefolgten Personen"
       no_followed_people: "Keine gefolgten Personen"
     trusted_companies:
-      you_trust_plural: "Du bist mit %{count} anderen befreundet"
-      you_trust_singular: "Du bist mit %{count}nem Unternehmen befreunted"
-      they_trust_plural: "%{count} befreundete Unternehmen"
-      they_trust_singular: "%{count} befreundete Unternehmen"
+      you_trust_plural: "Du bist mit %{count} anderen befreundet (Shared Pool)"
+      you_trust_singular: "Du bist mit %{count}nem Unternehmen befreunted (Shared Pool)"
+      they_trust_plural: "%{count} befreundete Unternehmen (Shared Pool)"
+      they_trust_singular: "%{count} befreundete Unternehmen (Shared Pool)"
       show_all_trusted_people: "Zeige alle befreundeten Unternehmen"
-      no_trusted_people: "Keine befreundeten Unternehmen"
+      no_trusted_people: "Keine befreundeten Unternehmen (Shared Pool)"
     follow_button:
       following: Folgend
       follow: Folgen

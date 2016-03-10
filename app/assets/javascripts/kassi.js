@@ -300,6 +300,26 @@ function initialize_user_feedback_form() {
   });
 }
 
+function initialize_user_plans_dropdowns(locale, community_id){
+  $('.user_plans_dropdown').change(function(ev){
+    var value = ev.currentTarget.value;
+    var attr_name = ev.currentTarget.attributes.name.nodeValue;
+    var endOfFeature = attr_name.indexOf("[");
+    var endOfUserId = attr_name.indexOf("]");
+    var feature = attr_name.substr(0, endOfFeature);
+    var user_id = attr_name.substr(endOfFeature+1, endOfUserId-endOfFeature-1);
+
+    $.ajax({
+        method: "PUT",
+        url: "/" + locale + "/admin/communities/" + community_id + "/user_plans/" + user_id,
+        data: {feature: feature, value: value}
+      })
+      .success(function(data){
+        window.location.reload(false);
+      });
+  });
+}
+
 function initialize_email_members_form() {
   form_id = "#new_member_email";
   auto_resize_text_areas("email_members_text_area");

@@ -287,6 +287,12 @@ class ListingsController < ApplicationController
 
     @listing = Listing.new
 
+    # wah
+    userplanservice = UserPlanService::Api.new
+    @max_attachments = userplanservice.get_plan_feature_level(@current_user, :listing_attachments)[:value]
+    @attachments_left = true
+
+
     if (@current_user.location != nil)
       temp = @current_user.location
       @listing.build_origin_loc(temp.attributes)
@@ -335,37 +341,15 @@ class ListingsController < ApplicationController
         action_button_tr_key: shape[:action_button_tr_key],
     ).merge(unit_to_listing_opts(m_unit)).except(:unit)
 
-    # wah: Store & Remove attachment from params hash
-    listing_attachments = params[:attachment][:file]
-
     @listing = Listing.new(listing_params)
+    @listing.author = @current_user
 
-    listing_attachments.each_with_index do |attachm, index|
-      # only 10 attachments at once
-      if index > 9
-        break;
-      else
-        # wah: Create new attachment object
-        @attachment = ListingAttachment.new
-        @attachment.attachment = attachm
-        if @attachment.save
-          # wah: Add attachment to listing
-          @listing.listing_attachments << @attachment
-        else
-          # delete all created listings again
-          @listing.listing_attachments.each do |li_att|
-            li_att.delete
-          end
-
-          flash[:error] = t("layouts.notifications.listing_attachment_error")
-          redirect_to new_listing_path and return
-        end
-      end
+    # wah
+    unless save_listing_attachments(params)
+      redirect_to :back and return
     end
 
     ActiveRecord::Base.transaction do
-      @listing.author = @current_user
-
       if @listing.save
         upsert_field_values!(@listing, params[:custom_fields])
 
@@ -405,6 +389,13 @@ class ListingsController < ApplicationController
     if !@listing.origin_loc
         @listing.build_origin_loc()
     end
+
+    # wah
+    userplanservice = UserPlanService::Api.new
+    @max_attachments = userplanservice.get_plan_feature_level(@current_user, :listing_attachments)[:value]
+    listingAttachmentsCount = ListingAttachment.where(author_id: @current_user.id, listing_id: @listing.id).count
+    @attachments_left = listingAttachmentsCount < @max_attachments
+
 
     @custom_field_questions = @listing.category.custom_fields.where(community_id: @current_community.id)
     @numeric_field_ids = numeric_field_ids(@custom_field_questions)
@@ -472,6 +463,11 @@ class ListingsController < ApplicationController
       action_button_tr_key: shape[:action_button_tr_key],
       last_modified: DateTime.now
     ).merge(open_params).merge(unit_to_listing_opts(m_unit)).except(:unit)
+
+    # wah
+    unless save_listing_attachments(params)
+      redirect_to :back and return
+    end
 
     update_successful = @listing.update_fields(listing_params)
 
@@ -1021,5 +1017,45 @@ class ListingsController < ApplicationController
         price_info: ListingViewUtils.shipping_info(delivery_type, price, shipping_price_additional),
         default: true
       }
+  end
+
+  def save_listing_attachments(params)
+    return true if params[:attachment].nil?
+
+    # wah: Store & Remove attachment from params hash
+    listing_attachments = params[:attachment][:file]
+
+    listing_attachments.each_with_index do |attachm, index|
+      # only 20 attachments at once
+      if index > 20
+        break
+      elsif @listing.valid?
+        # wah: Create new attachment object
+        @attachment = ListingAttachment.new
+        @attachment.attachment = attachm
+        @attachment.author_id = @current_user.id
+        @attachment.listing_id = @listing.id
+
+        if @attachment.save
+          # wah: Add attachment to listing
+          @listing.listing_attachments << @attachment
+        else
+          if @attachment.errors && @attachment.errors.first[0] != :attachment_content_type
+            if @attachment.errors.first[0] == :max_upload_limit
+              flash[:error] = t("layouts.notifications.listing_attachment_max_upload_limit").html_safe
+            elsif @attachment.errors.first[0] == :user_tried_to_hack_user_plan
+              flash[:error] = t("layouts.notifications.listing_attachment_userplan_error", link: get_wp_url("pricing")).html_safe
+            else
+              flash[:error] = @attachment.errors.first[1]
+            end
+          else
+            flash[:error] = t("layouts.notifications.listing_attachment_error")
+          end
+
+          return false
+        end
+      end
+    end
+    return true
   end
 end

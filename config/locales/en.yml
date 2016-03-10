@@ -278,6 +278,9 @@ en:
         save_user_status_error: "Saving failed. Please refresh the page and try again."
         ban_user_confirmation: "This removes the user from the marketplace and prevents them from accessing the site again with this account. Are you sure you want to proceed?"
         ban_me_error: "You cannot ban yourself."
+      user_plans:
+        user_plans: "Usertypes"
+        headline: "Manage user types"
       social_media:
         social_media: "Social media"
         twitter_handle: "Twitter handle"
@@ -1357,6 +1360,8 @@ en:
     notifications:
       listing_could_not_be_saved: "Listing could not be saved. Please try again. If the problem persists, please %{contact_admin_link}."
       listing_attachment_error: "Invalid file type or size."
+      listing_attachment_max_upload_limit: "You've uploaded more than 1GB. Please contact us to increase you upload limit."
+      listing_attachment_userplan_error: "You have reached the maximum upload amount for this device. <a href='%{link}'>Upgrade your account</a>."
       contact_admin_link_text: "contact the admin"
       test_welcome_email_delivered_to: "A test email was sent to %{email}."
       something_went_wrong: "Something went wrong"
@@ -1566,6 +1571,9 @@ en:
         file_too_large: "The file is too large"
         accepted_formats: "The image format must be either GIF, JPG or PNG."
         images_not_uploaded_confirm: "All images have not finished uploading. Do you really want to continue?"
+      attachments:
+        headline: "PDF attachments (datasheet, marketing material, ...)"
+        more_attachments: "You want to upload more attachments? <br>Upgrade your Account now!"
       location:
         location: Location
       price:
@@ -1986,6 +1994,10 @@ en:
       show_all_open_listings: "Show all open listings"
       show_all_reviews: "Show all reviews"
       organization_is_in_use: "The organization name you entered is already in use."
+      employee_limit_reached: "You've reached the employee limit for your account type. Upgrade your acccount now!"
+      employee_limit_reached_invite: "You've reached the employee limit for your account type and can not invite further employees. Upgrade your acccount now!"
+      followers_limit_reached: "The other company can not add any further company to it's shared device pool with the current company account type. Please contact the other company admin if he considers upgrading his account!"
+      followed_limit_reached: "You can not add any more companies to your shared pool with your current account type. Upgrade your account now!"
     followed_people:
       you_follow_plural: "You follow %{count} people"
       you_follow_singular: "You follow %{count} person"
@@ -1994,12 +2006,12 @@ en:
       show_all_followed_people: "Show all followed people"
       no_followed_people: "No followed people"
     trusted_companies:
-      you_trust_plural: "You trust %{count} companies"
-      you_trust_singular: "You trust %{count} company"
-      they_trust_plural: "%{count} trusted companies"
-      they_trust_singular: "%{count} trusted company"
+      you_trust_plural: "You trust %{count} companies (Shared Pool)"
+      you_trust_singular: "You trust %{count} company (Shared Pool)"
+      they_trust_plural: "%{count} trusted companie (Shared Pool)s"
+      they_trust_singular: "%{count} trusted company (Shared Pool)"
       show_all_trusted_people: "Show all trusted companies"
-      no_trusted_people: "No trusted companies"
+      no_trusted_people: "No trusted companies (Shared Pool)"
     follow_button:
       following: Following
       follow: Follow
