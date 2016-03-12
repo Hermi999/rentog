@@ -1526,6 +1526,8 @@ en:
       add_more_fields: "+ Add more attributes"
       return_from_custom_fields: "<< Return"
       save_custom_fields: Save
+      non_market_listings_limit_reached: "You have reached your current limit for private devices. Upgrade your account now!"
+      custom_fields_limit_reached: "You have reached your current limit for adding custom fields. Upgrade your account now!"
       request_new_attribute: "You need an additional attribute? <a href='https://rentog.com/contact'>Contact us!</a> You'll get your new attribute within 24 hours."
       custom_field_partials:
         dropdown:
@@ -1573,7 +1575,7 @@ en:
         images_not_uploaded_confirm: "All images have not finished uploading. Do you really want to continue?"
       attachments:
         headline: "PDF attachments (datasheet, marketing material, ...)"
-        more_attachments: "You want to upload more attachments? <br>Upgrade your Account now!"
+        attachment_limit_reached: "You want to upload more attachments? <br>Upgrade your Account now!"
       location:
         location: Location
       price:
@@ -1997,7 +1999,7 @@ en:
       employee_limit_reached: "You've reached the employee limit for your account type. Upgrade your acccount now!"
       employee_limit_reached_invite: "You've reached the employee limit for your account type and can not invite further employees. Upgrade your acccount now!"
       followers_limit_reached: "The other company can not add any further company to it's shared device pool with the current company account type. Please contact the other company admin if he considers upgrading his account!"
-      followed_limit_reached: "You can not add any more companies to your shared pool with your current account type. Upgrade your account now!"
+      followed_limit_reached: "You can not add (any more) companies to your shared pool with your current account type. Upgrade your account now!"
     followed_people:
       you_follow_plural: "You follow %{count} people"
       you_follow_singular: "You follow %{count} person"
@@ -2395,6 +2397,7 @@ en:
       addNewDevice: "Add a new device"
       newExternalBooking: "Book external device"
       newExternalBooking_visitor: "All available devices"
+      createSharedPool: "Create Shared Pool"
       or: "or"
       choose_employee: "Choose employee"
       please_select: "Please choose..."

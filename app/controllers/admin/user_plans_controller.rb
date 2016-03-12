@@ -13,7 +13,7 @@ class Admin::UserPlansController < ApplicationController
 
   def update
     userplanservice = UserPlanService::Api.new
-    result = userplanservice.set_feature_plan_level(@current_user, params["feature"].to_sym, UserPlanService::DataTypes::LEVELS.key(params["value"].to_sym))
+    result = userplanservice.set_feature_plan_level(Person.find(params["id"]), params["feature"].to_sym, UserPlanService::DataTypes::LEVELS.key(params["value"].to_sym))
 
     if result
       respond_to do |format|

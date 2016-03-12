@@ -7,6 +7,24 @@ class PoolToolController < ApplicationController
     # Is admin or employee of company (or rentog admin)?
     @belongs_to_company = (@relation == :company_admin || @relation == :company_employee || @relation == :rentog_admin)
 
+    # Button text
+      if @belongs_to_company
+        @add_booking_text = t('pool_tool.show.addNewBooking')
+
+        # If no company trusts me
+        if @pooltool_owner.followers == []
+          @external_booking_text = t('pool_tool.show.createSharedPool')
+          @external_booking_link = get_wp_url("blog/2016/03/10/create-shared-pool")
+        else
+          @external_booking_text = t('pool_tool.show.newExternalBooking')
+          @external_booking_link = marketplace_path(:restrictedMarketplace => "1")
+        end
+      else
+        @add_booking_text = t('pool_tool.show.addNewBooking_visitor')
+        @external_booking_text = t('pool_tool.show.newExternalBooking_visitor')
+      end
+
+
     # OPEN LISTINGS OF THE COMPANY
     temp_avail = Listing::TRUSTED_AVAILABILITY_OPTIONS
     temp_avail = Listing::VALID_AVAILABILITY_OPTIONS if @belongs_to_company

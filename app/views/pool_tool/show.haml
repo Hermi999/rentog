@@ -113,18 +113,14 @@
 
 
     / Button: Add new Booking
-    - add_booking_text = t('pool_tool.show.addNewBooking_visitor')
-    - add_booking_text = t('pool_tool.show.addNewBooking') if @belongs_to_company
     - if listings != []
       #addNewBookingWrapper{:style=>"float:left;"}
         %button#addNewBooking.primary-button
-          = add_booking_text
+          = @add_booking_text
 
 
     / Button: Add new device
-    - external_booking_text = t('pool_tool.show.newExternalBooking_visitor')
-    - external_booking_text = t('pool_tool.show.newExternalBooking') if @belongs_to_company
-    = link_to external_booking_text, marketplace_path(:restrictedMarketplace => "1"), :class => "new-external-booking-link", :id => "createNewExternalBooking"
+    = link_to @external_booking_text, @external_booking_link, :class => "new-external-booking-link", :id => "createNewExternalBooking"
 
 
 

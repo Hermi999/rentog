@@ -16,4 +16,4 @@
           = link_to "x", listing_listing_attachment_path(@listing.id, attachm.id), data: {:confirm => 'Are you sure?'}, :method => :delete
 
   -unless @attachments_left
-    = link_to t('.more_attachments').html_safe, get_wp_url('pricing'), :class => "upgrade_profile"
+    = link_to t('.attachment_limit_reached').html_safe, get_wp_url('pricing'), :class => "upgrade_profile"

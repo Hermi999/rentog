@@ -1,24 +1,43 @@
-= render :partial => "listings/form/javascripts", :locals => { listing_id: Maybe(@listing.id).map { |id| id.to_s }.or_else("false"), minimum_price_cents: minimum_price_cents, run_js_immediately: run_js_immediately, shape: shape}
 
-= form_for @listing, :html => {:multipart => true} do |form|
-  = render :partial => "listings/form/title", :locals => { :form => form }
+/ Edit mode
+- if params[:edit_custom_fields]
+  - if request.xhr?
+    :javascript
+        $(document).ready(function() {
+          window.ST.initialize_custom_fields_checkboxes(#{@max_listing_optional_attributes}, "#{t("listings.form.custom_fields_limit_reached")}", "#{get_wp_url("pricing")}");
+        });
+  - else
+    - content_for :extra_javascript do
+      :javascript
+        $(document).ready(function() {
+          window.ST.initialize_custom_fields_checkboxes(#{@max_listing_optional_attributes}, "#{t("listings.form.custom_fields_limit_reached")}", "#{get_wp_url("pricing")}");
+        });
+
+- if defined?(@nonMarketlistings_left) && !@nonMarketlistings_left && params["edit_custom_fields"].nil?
+  = link_to t('listings.form.non_market_listings_limit_reached').html_safe, get_wp_url('pricing'), :class => "upgrade_profile"
+
+- else
+  = render :partial => "listings/form/javascripts", :locals => { listing_id: Maybe(@listing.id).map { |id| id.to_s }.or_else("false"), minimum_price_cents: minimum_price_cents, run_js_immediately: run_js_immediately, shape: shape}
+
+  = form_for @listing, :html => {:multipart => true} do |form|
+    = render :partial => "listings/form/title", :locals => { :form => form }
 
 
-  = render :partial => "listings/form/price", :locals => { :form => form, :seller_commission_in_use => seller_commission_in_use, :payment_gateway => payment_gateway, :run_js_immediately => run_js_immediately, :minimum_commission => minimum_commission, commission_from_seller: commission_from_seller, shape: shape, unit_options: unit_options, shipping_price_additional: shipping_price_additional, paypal_fees_url: paypal_fees_url }
+    = render :partial => "listings/form/price", :locals => { :form => form, :seller_commission_in_use => seller_commission_in_use, :payment_gateway => payment_gateway, :run_js_immediately => run_js_immediately, :minimum_commission => minimum_commission, commission_from_seller: commission_from_seller, shape: shape, unit_options: unit_options, shipping_price_additional: shipping_price_additional, paypal_fees_url: paypal_fees_url }
 
-  / wah: Check if listing type is private (not selling, renting, ad)
-  - if ListingShape.find(@listing.listing_shape_id).name.include? "private"
-    = render :partial => "listings/form/availability", :locals => { :form => form }   # wah
+    / wah: Check if listing type is private (not selling, renting, ad)
+    - if ListingShape.find(@listing.listing_shape_id).name.include? "private"
+      = render :partial => "listings/form/availability", :locals => { :form => form }   # wah
 
-  = render partial: "listings/form/shipping", locals: { form: form, shape: shape, always_show_additional_shipping_price: always_show_additional_shipping_price, shipping_enabled: shipping_enabled, pickup_enabled: pickup_enabled, shipping_price: shipping_price, shipping_price_additional: shipping_price_additional }
-  = render :partial => "listings/form/description", :locals => { :form => form }
-  = render :partial => "listings/form/custom_fields", :locals => { :form => form, :listing => @listing, :custom_fields => @custom_field_questions }
-  = render :partial => "listings/form/valid_until", :locals => { :form => form }
-  = render :partial => "listings/form/origin", :locals => { :form => form, :origin_loc => @listing.origin_loc }
-  = render :partial => "listings/form/googlemap", :locals => { :form => form, :run_js_immediately => run_js_immediately}
-  = render :partial => "listings/form/images", :locals => { :form => form, :run_js_immediately => run_js_immediately }
-  = render :partial => "listings/form/attachments", :locals => { :form => form }
+    = render partial: "listings/form/shipping", locals: { form: form, shape: shape, always_show_additional_shipping_price: always_show_additional_shipping_price, shipping_enabled: shipping_enabled, pickup_enabled: pickup_enabled, shipping_price: shipping_price, shipping_price_additional: shipping_price_additional }
+    = render :partial => "listings/form/description", :locals => { :form => form }
+    = render :partial => "listings/form/custom_fields", :locals => { :form => form, :listing => @listing, :custom_fields => @custom_field_questions }
+    = render :partial => "listings/form/valid_until", :locals => { :form => form }
+    = render :partial => "listings/form/origin", :locals => { :form => form, :origin_loc => @listing.origin_loc }
+    = render :partial => "listings/form/googlemap", :locals => { :form => form, :run_js_immediately => run_js_immediately}
+    = render :partial => "listings/form/images", :locals => { :form => form, :run_js_immediately => run_js_immediately }
+    = render :partial => "listings/form/attachments", :locals => { :form => form }
 
-  = render :partial => "listings/form/send_button", :locals => { :form => form }
+    = render :partial => "listings/form/send_button", :locals => { :form => form }
 
-= render :partial => "listings/help_texts", :collection => ["help_valid_until"], :as => :field
+  = render :partial => "listings/help_texts", :collection => ["help_valid_until"], :as => :field

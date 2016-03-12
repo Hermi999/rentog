@@ -267,6 +267,10 @@ class ListingsController < ApplicationController
   end
 
   def new
+    # wah: NEW is also caling new_form_content (but edit is not calling edit_form_content)
+    #initialize_user_plan_restrictions
+    #initialize_user_plan_restrictions3
+
     category_tree = CategoryViewUtils.category_tree(
       categories: ListingService::API::Api.categories.get_all(community_id: @current_community.id)[:data],
       shapes: get_shapes,
@@ -287,11 +291,8 @@ class ListingsController < ApplicationController
 
     @listing = Listing.new
 
-    # wah
-    userplanservice = UserPlanService::Api.new
-    @max_attachments = userplanservice.get_plan_feature_level(@current_user, :listing_attachments)[:value]
-    @attachments_left = true
-
+    initialize_user_plan_restrictions
+    return unless initialize_user_plan_restrictions2
 
     if (@current_user.location != nil)
       temp = @current_user.location
@@ -306,6 +307,9 @@ class ListingsController < ApplicationController
 
   def edit_form_content
     return redirect_to action: :edit unless request.xhr?
+
+    initialize_user_plan_restrictions
+    return unless initialize_user_plan_restrictions2
 
     if !@listing.origin_loc
         @listing.build_origin_loc()
@@ -344,13 +348,11 @@ class ListingsController < ApplicationController
     @listing = Listing.new(listing_params)
     @listing.author = @current_user
 
-    # wah
-    unless save_listing_attachments(params)
-      redirect_to :back and return
-    end
-
     ActiveRecord::Base.transaction do
       if @listing.save
+        # wah - listing is saved even if attachment fails
+        save_listing_attachments(params)
+
         upsert_field_values!(@listing, params[:custom_fields])
 
         listing_image_ids =
@@ -385,17 +387,13 @@ class ListingsController < ApplicationController
   end
 
   def edit
+    initialize_user_plan_restrictions
+    initialize_user_plan_restrictions3
+
     @selected_tribe_navi_tab = "home"
     if !@listing.origin_loc
         @listing.build_origin_loc()
     end
-
-    # wah
-    userplanservice = UserPlanService::Api.new
-    @max_attachments = userplanservice.get_plan_feature_level(@current_user, :listing_attachments)[:value]
-    listingAttachmentsCount = ListingAttachment.where(author_id: @current_user.id, listing_id: @listing.id).count
-    @attachments_left = listingAttachmentsCount < @max_attachments
-
 
     @custom_field_questions = @listing.category.custom_fields.where(community_id: @current_community.id)
     @numeric_field_ids = numeric_field_ids(@custom_field_questions)
@@ -1057,5 +1055,68 @@ class ListingsController < ApplicationController
       end
     end
     return true
+  end
+
+
+  # Listing attachment & custom fields restrictions
+  def initialize_user_plan_restrictions
+     # wah
+    if @listing && @listing.id
+      listing_id = @listing.id
+    else
+      listing_id = -1
+    end
+
+    userplanservice = UserPlanService::Api.new
+    @max_attachments = userplanservice.get_plan_feature_level(@current_user, :listing_attachments)[:value]
+    listingAttachmentsCount = ListingAttachment.where(author_id: @current_user.id, listing_id: listing_id).count
+    @attachments_left = listingAttachmentsCount < @max_attachments
+
+    # wah - user plan: max listing optional attributes
+    if params["edit_custom_fields"]
+      @max_listing_optional_attributes = userplanservice.get_plan_feature_level(@current_user, :listing_optional_attributes)[:value]
+      listingOptionalAttributesCount = @current_user.custom_fields.count
+      @maxOptionalAttributesLeft = @max_listing_optional_attributes <= listingOptionalAttributesCount
+    end
+  end
+
+  def initialize_user_plan_restrictions2
+    # wah - user plan: non marketplace listings restriction
+    # Only if user want to create a private listing
+    userplanservice = UserPlanService::Api.new
+    listing_shape_name =
+      if ListingShape.where(id: params["listing_shape"]).first
+        ListingShape.where(id: params["listing_shape"]).first.get_standardized_listingshape_name
+      else
+        "private"
+      end
+
+    if listing_shape_name == "private"
+      @max_nonMarketlistings = userplanservice.get_plan_feature_level(@current_user, :company_non_market_listings)[:value]
+      nonMarketlistingCount = Listing.where("author_id = ? And (availability = 'trusted' Or availability = 'intern')", @current_user.id).count
+      if @max_nonMarketlistings <= nonMarketlistingCount && params["edit_custom_fields"].nil?
+        render :partial => "listings/form/max_company_non_market_listings" and return false
+      end
+    end
+
+    return true
+  end
+
+  def initialize_user_plan_restrictions3
+    # wah - user plan: non marketplace listings restriction
+    # Only if user want to create a private listing
+    userplanservice = UserPlanService::Api.new
+    listing_shape_name =
+      if ListingShape.where(id: params["listing_shape"]).first
+        ListingShape.where(id: params["listing_shape"]).first.get_standardized_listingshape_name
+      else
+        "private"
+      end
+
+    if listing_shape_name == "private"
+      @max_nonMarketlistings = userplanservice.get_plan_feature_level(@current_user, :company_non_market_listings)[:value]
+      nonMarketlistingCount = Listing.where("author_id = ? And (availability = 'trusted' Or availability = 'intern')", @current_user.id).count
+      @nonMarketlistings_left = @max_nonMarketlistings > nonMarketlistingCount
+    end
   end
 end

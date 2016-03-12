@@ -287,6 +287,7 @@ class Listing < ActiveRecord::Base
   end
 
   # wah
+  # returns either of the following: intern, trusted, rent, sell, ad
   def self.get_listing_type(listing)
     listing_shapes = ListingShape.all
     listing_shape_name = nil
@@ -306,7 +307,7 @@ class Listing < ActiveRecord::Base
   # wah
   def self.get_listing_type_helper(temp_availability, temp_listing_shape_name)
     # If private listing, then check availability
-    if temp_listing_shape_name.nil? || (temp_listing_shape_name.downcase.include? "private")
+    if temp_listing_shape_name.nil? || (temp_listing_shape_name.downcase.include? "privat")
       temp_availability
 
     # otherweise check ListingShape name

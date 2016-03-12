@@ -1523,6 +1523,8 @@ de:
       add_more_fields: "+ Füge weitere Attribute hinzu"
       return_from_custom_fields: "<< Zurück"
       save_custom_fields: Speichern
+      non_market_listings_limit_reached: "Sie haben das Limit für private Geräte mit Ihrem aktuellen Account Typ erreicht. Jetzt Account upgraden!"
+      custom_fields_limit_reached: "Sie haben das Limit für benutzerdefinierte Attribute mit Ihrem aktuellen Account Typ erreicht. Jetzt Account upgraden!"
       request_new_attribute: "Sie benötigen weitere Attribute?<br> <a href='https://rentog.com/de/contact'>Kontaktieren Sie uns!</a> Innerhalb von 24h haben Sie alle Attribute, die Sie benötigen!"
       custom_field_partials:
         dropdown:
@@ -1570,7 +1572,7 @@ de:
         images_not_uploaded_confirm: "Es sind noch nicht alle Bilder hochgeladen. Möchtest Du wirklich fortfahren?"
       attachments:
         headline: "PDF Dateien (Datenblätter, Marketing Material, ...)"
-        more_attachments: "Mehr Dateien hinzufügen? <br>Jetzt Ihren Account upgraden!"
+        attachment_limit_reached: "Mehr Dateien hinzufügen? <br>Jetzt Ihren Account upgraden!"
       location:
         location: Standort
       price:
@@ -1993,7 +1995,7 @@ de:
       employee_limit_reached: "Sie haben das Limit an Mitarbeitern für diesen Accounttyp erreicht. Jetzt Account upgraden!"
       employee_limit_reached_invite: "Sie haben das Limit an Mitarbeitern für diesen Accounttyp erreicht und können daher keine weiteren Mitarbeiter einladen. Jetzt Account upgraden!"
       followers_limit_reached: "Das andere Unternehmen kann mit dem aktuellen Account-Typ keine weiteren Unternehmen mehr in seinem 'Shared Pool' aufnehmen. Bitte kontaktieren Sie das andere Unternehmen, damit es den Account upgradet!"
-      followed_limit_reached: "Mit dem aktuellen Kontotyp können Sie keine weiteren Unternehmen zu Ihrem 'Shared Pool' hinzufügen. Jetzt Ihren Account upgraden!"
+      followed_limit_reached: "Mit dem aktuellen Kontotyp können Sie keine (weiteren) Unternehmen zu Ihrem 'Shared Pool' hinzufügen. Jetzt Ihren Account upgraden!"
     followed_people:
       you_follow_plural: "Du folgst %{count} Personen"
       you_follow_singular: "Du folgst %{count} Person"
@@ -2389,6 +2391,7 @@ de:
       addNewDevice: "Erstelle ein neues Gerät"
       newExternalBooking: "Buche externes Gerät"
       newExternalBooking_visitor: "Alle verfügbaren Geräte"
+      createSharedPool: "Shared Pool erstellen"
       or: "oder"
       choose_employee: "Wähle einen Mitarbeiter"
       please_select: "Bitte wählen..."

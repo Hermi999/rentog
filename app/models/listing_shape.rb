@@ -42,4 +42,27 @@ class ListingShape < ActiveRecord::Base
   def self.columns
     super.reject { |c| c.name == "transaction_type_id" || c.name == "price_quantity_placeholder" }
   end
+
+  def get_standardized_listingshape_name
+    # If private listing, then check availability
+    if name.nil? || (name.downcase.include? "privat")
+      "private"
+
+    # otherweise check ListingShape name
+    else
+      if name.downcase.include? "vermieten" or
+         name.downcase.include? "rent"
+        "rent"
+      elsif name.downcase.include? "kaufen" or
+            name.downcase.include? "buy" or
+            name.downcase.include? "sell"
+        "sell"
+      elsif name.downcase.include? "vermarkten" or
+            name.downcase.include? "ad"
+        "ad"
+      else
+        name.downcase
+      end
+    end
+  end
 end
