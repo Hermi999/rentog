@@ -596,6 +596,7 @@ window.ST.poolTool = (function() {
     var today_minus_3_ms = Math.round(today_minus_3.getTime());
     var next_month = new Date(new Date(today).setMonth(today.getMonth()+3));
     var next_month_ms = Math.round(next_month.getTime());
+    gon.showPoolToolOverlay = false;
 
     // Add listings which have no transaction yet
     var empty_arr = [];
@@ -658,21 +659,18 @@ window.ST.poolTool = (function() {
       source = empty_arr;
     }
 
-    // If source is still empty (because company has no open listings),
+    // If source is still empty (because company has no open listings and no other company follows),
     // then add dummy listings
     if (source.length < 1) {
       source = addDummyListings();
+      if (gon.owner_has_followers === true){
+        $(".poolTool_gantt_container *").css('pointer-events', 'none');
+        gon.showPoolToolOverlay = true;
+      }
     }
 
-    // Add hidden gantt-element, to show the chart at least until today + 3 months
-    var hiddenElement = {
-      values: [{
-        from: "/Date(" + today_minus_3_ms + ")/",
-        to: "/Date(" + next_month_ms + ")/",
-        customClass: "ganttHidden"
-      }]
-    };
-    source.push(hiddenElement);
+    // Add hidden element to gantt-source
+    addHiddenGanttElement(source, today_minus_3_ms, next_month_ms);
 
     // Gon.source points to source, so that we can access the source when adding an element to one device
     gon.source = source;
@@ -684,10 +682,32 @@ window.ST.poolTool = (function() {
   }
 
 
+  function addHiddenGanttElement(source, from, to){
+    // Add hidden gantt-element, to show the chart at least until today + 3 months
+    var hiddenElement = {
+      values: [{
+        from: "/Date(" + from + ")/",
+        to: "/Date(" + to + ")/",
+        customClass: "ganttHidden"
+      }]
+    };
+    source.push(hiddenElement);
+  }
+
+
   // Handler for search field
   // Doesn't start the search immetiately, but with a slight delay, so that
   // the user can finish his word
   function initialize_poolTool_search(){
+    // get url params
+    var listing_id = getUrlParameter('listing_id');
+    if (typeof listing_id !== "undefined"){
+      $('#poolTool_search').val("id=" + listing_id);
+      search("id=" + listing_id);
+      $('#addNewBooking').click();
+    }
+
+    // if user searches
     $('#poolTool_search').keyup(function(){
       var value = $('#poolTool_search').val();
 
@@ -710,6 +730,7 @@ window.ST.poolTool = (function() {
   function search(term){
     var source = jQuery.extend(true, [], gon.source);  // deep copy - we don't change the gon.source array
 
+    // Show all devices again
     if (term.length < 3){
       term = "";
       if (searchTermOld !== term){
@@ -717,57 +738,119 @@ window.ST.poolTool = (function() {
         $('#poolTool_search').css("background-color", "white");
         $('#poolTool_search').css("color", "black");
         updateGanttChart(source);
+        $('.home-fluid-thumbnail-grid-item').show();
       }
     }
 
     if (searchTermOld !== term){
       searchTermOld = term;
 
-      if (term.length > 2){
-        for (var x = 0; x < source.length; x++){
-          var re = new RegExp(term, "i");
-          var remove1 = false;
-          var remove2 = false;
-
-          // device name
-          if (source[x].name){
-            var result_name = source[x].name.match(re);
-
-            if (result_name === null){
-              remove1 = true;
-            }
-          }
-
-          // device availability
-          if (source[x].desc){
-            var locale_desc = gon["availability_desc_header_" + source[x].desc];
-            var result_avail = locale_desc.match(re);
-
-            if (result_avail === null){
-              remove2 = true;
-            }
-          }
-
-          if (remove1 && remove2){
-            source.splice(x, 1);
-            x = x-1;
-          }
-        }
-        if (source.length < 2){
-          // red
-          $('#poolTool_search').css("background-color", "rgb(241, 188, 188)");
-          $('#poolTool_search').css("color", "rgb(130,30,30)");
-        }else{
-          // green
-          $('#poolTool_search').css("background-color", "rgb(189, 241, 202)");
-          $('#poolTool_search').css("color", "green");
-        }
-
-        updateGanttChart(source);
-      }
+      search_update_gantt(term, source);
+      search_update_booking_dialog(term);
     }
   }
 
+  // Search the term within the gantt chart and remove rest
+  function search_update_gantt(term, source){
+    if (term.length > 2){
+      for (var x = 0; x < source.length; x++){
+        var re = new RegExp(term, "i");
+        var remove1 = false;
+        var remove2 = false;
+        var remove3 = false;
+
+        // device name
+        if (source[x].name){
+          var result_name = source[x].name.match(re);
+
+          if (result_name === null){
+            remove1 = true;
+          }
+        }
+
+        // device availability
+        if (source[x].desc){
+          var locale_desc = gon["availability_desc_header_" + source[x].desc];
+          var result_avail = locale_desc.match(re);
+
+          if (result_avail === null){
+            remove2 = true;
+          }
+        }
+
+        // listing_id
+        if (source[x].listing_id){
+          if ("id=" + source[x].listing_id !== term){
+            remove3 = true;
+          }
+        }
+
+        if (remove1 && remove2 && remove3){
+          source.splice(x, 1);
+          x = x-1;
+        }
+      }
+      if (source.length < 2){
+        // red
+        $('#poolTool_search').css("background-color", "rgb(241, 188, 188)");
+        $('#poolTool_search').css("color", "rgb(130,30,30)");
+      }else{
+        // green
+        $('#poolTool_search').css("background-color", "rgb(189, 241, 202)");
+        $('#poolTool_search').css("color", "green");
+      }
+
+      updateGanttChart(source);
+    }
+  }
+
+  // Search the listings in the booking dialog and remove rest
+  function search_update_booking_dialog(term){
+    var listings = $('.home-fluid-thumbnail-grid-item');
+    var re = new RegExp(term, "i");
+
+    // show all
+    listings.show();
+
+    // hide specific
+    listings.each(function(index, element){
+      var title = $(element).data("listingtitle");
+      var availability = $(element).data("listingavailability");
+      var listingid = $(element).data("listingid");
+
+      var remove1 = false;
+      var remove2 = false;
+      var remove3 = false;
+
+      // listing title
+      if (title.match(re) === null){
+        remove1 = true;
+      }
+
+      // listing availability
+      if (availability.match(re) === null){
+        remove2 = true;
+      }
+
+      // listing id
+      if (("id=" + listingid) !== term){
+        remove3 = true;
+      }
+
+      // remove listing element
+      if (remove1 && remove2 && remove3){
+        $(element).hide();
+      }
+    });
+
+    // check first visible element
+    $("input[type='radio'][name='listing_id'").each(function(index,element){
+      if ($(element).parent().is(":visible")){
+        $(element).prop("checked", true);
+        return
+      }
+    });
+  }
 
   // This function actually initializes and updates the jquery gantt chart. It
   // also defines the actions for the event listeners "onItemClick", "onAddClick" and

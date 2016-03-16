@@ -9,7 +9,7 @@
     = "-"
     = t("admin.communities.edit_details.invite_people")
 
-#invitation_form.centered-section
+#invitation_form.centered-section{:style => "max-width: 32em;"}
   - support_link = link_to(t("homepage.invitation_form.this_article_link"), "http://support.sharetribe.com/knowledgebase/articles/675040", target: "_blank")
   %p= t("homepage.invitation_form.add_email_addresses_description").html_safe
   - if has_admin_rights
@@ -19,6 +19,8 @@
     = f.text_area :email, :class => "text_field", :placeholder => t("homepage.invitation_form.invitation_emails_field_placeholder")
     = f.label :message, t("homepage.invitation_form.message")
     = f.text_area :message, :class => "invitation_message_text", :value => t("homepage.invitation_form.invitation_message_field_placeholder1")
+    %span{:style=> "font-size:0.8em; display:block"}= t("homepage.invitation_form.auto_filled")
+    %br
 
     - if @company_employees_left
       = f.radio_button :target, 'employee', :checked => true
@@ -29,5 +31,5 @@
       = link_to t('people.show.employee_limit_reached_invite').html_safe, get_wp_url('pricing'), :class => "upgrade_profile_person"
       = f.radio_button :target, 'any', :checked => true
 
-    = label :target_anyone, t("homepage.invitation_form.label_invite_any"), :id => "target_any_label"
+    = f.label :target_anyone, t("homepage.invitation_form.label_invite_shared_pool"), :id => "target_any_label"
     = f.button t("homepage.invitation_form.send_invitation")

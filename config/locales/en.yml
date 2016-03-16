@@ -1265,10 +1265,12 @@ en:
       this_article_link: "this article"
       label_invite_any: 'Invite another company to join Rentog'
       label_invite_employee: 'Add a new employee to your companies profile'
+      label_invite_shared_pool: 'Shared Pool request to existing company'
+      auto_filled: "(The buttons and links to your profile will be added automatically.)"
       invitation_emails_field_placeholder: "friend1@example.com, friend2@example.com, ..."
       invitation_message_field_placeholder: "I joined Rentog. You should do this too!"
-      invitation_message_field_placeholder1: "Hi. From now on we use Rentog for managing our test and measurment devices. Please also sign up!"
-      invitation_message_field_placeholder2: "Hi. We use Rentog in our company for managing our test and measurement devices. Maybe its also helpful for your company. Check it out!"
+      invitation_message_field_placeholder1: "Hi. \nFrom now on we use Rentog for managing our test and measurment devices. Please also sign up!"
+      invitation_message_field_placeholder2: "Hi. \nPlease add me to your shared devices pool. Simply click on one of the two links above to get to my profile page and then press the button 'Trust'.\nThis will allow me to see and book your devices. \n\nIf your company / department has no Rentog profile yet, then you can press on the button below to sign up."
       errors_in_emails: "Check that the email addresses you added are valid. If you added multiple addresses, make sure they are separated with comma."
     list_item:
       review: review
@@ -2000,6 +2002,7 @@ en:
       employee_limit_reached_invite: "You've reached the employee limit for your account type and can not invite further employees. Upgrade your acccount now!"
       followers_limit_reached: "The other company can not add any further company to it's shared device pool with the current company account type. Please contact the other company admin if he considers upgrading his account!"
       followed_limit_reached: "You can not add (any more) companies to your shared pool with your current account type. Upgrade your account now!"
+      followed_limit_reached2: "You can not add (any more) companies to your shared pool with your current account type. <a href='%{link}'>Upgrade your account now!</a>"
     followed_people:
       you_follow_plural: "You follow %{count} people"
       you_follow_singular: "You follow %{count} person"
@@ -2010,10 +2013,18 @@ en:
     trusted_companies:
       you_trust_plural: "You trust %{count} companies (Shared Pool)"
       you_trust_singular: "You trust %{count} company (Shared Pool)"
-      they_trust_plural: "%{count} trusted companie (Shared Pool)s"
+      they_trust_plural: "%{count} trusted companies (Shared Pool)s"
       they_trust_singular: "%{count} trusted company (Shared Pool)"
       show_all_trusted_people: "Show all trusted companies"
       no_trusted_people: "No trusted companies (Shared Pool)"
+    companies_with_trust:
+      they_trust_you_plural: "%{count} other companies trust you (Shared Pool)"
+      they_trust_you_singular: "%{count} other company trusts you (Shared Pool)"
+      they_they_trust_you_plural: "%{count} other companies trust %{company}"
+      they_they_trust_you_singular: "%{count} other company trust %{company} (Shared Pool)"
+      show_all_trusted_people: "Show all companies with trust"
+      no_trusted_people: "There are no companies at the moment who trust your company (Shared Pool)"
+      they_no_trusted_people: "No other company trusts this company at the moment (Shared Pool)"
     follow_button:
       following: Following
       follow: Follow
@@ -2037,6 +2048,27 @@ en:
       employees_plural: " %{count} employees"
       no_employees: " No employees"
       show_all_employees: "Show all employees"
+    followers:
+      edit:
+        title: "Configure your relationship with company <a href='%{company_link}'>%{company}</a>"
+        header_text: "The other company can see and book your devices which are visible for trusted companies. <br>On this page you can configure how the other company admin and the employees of the other company can interact with your devices."
+        trust_level_header: "Trust & Booking process"
+        trust_level_desc: "With the below options you can decide how much you trust the other company or department in terms of how people from the other organization can access your devices."
+        trust_level1_header: "Trust admin & employees"
+        trust_level2_header: "Trust only admin"
+        trust_level3_header: "Always confirm"
+        trust_level1_desc: "The company admin and all employees of the other company are allowed to directly book your companies devices (without your explicit confirmation).<br>[With this option enabled, neither shipping nor payment is possible]"
+        trust_level2_desc: "Only the company admin of the other company is allowed to directly book your companies devices. If an employee of the other company/department wants to book your companies devices, he or she need your explicit approval.<br>[With this option enabled, neither shipping nor payment is possible]"
+        trust_level3_desc: "If any person of the other company wants to book one of your devices, he or she needs can just send a booking request and you as the company admin can confirm or decline the request. With this option it is also possible that you charge and ship the device, because you are directly involved in the booking process of each device."
+        shipment_header: "Shipment"
+        shipment_necessary_desc: "With this option you can decide if you need to send the devices to the other company/department. If this is the case our shipment handling features will get activated and you can choose if you would like to let us handle the shipment."
+        shipment_necessary1_header: "Yes"
+        shipment_necessary2_header: "No"
+        payment_header: "Payment"
+        payment_necessary_desc: "If the other company/deparment needs to pay for renting your devices, then you can set this option to 'Yes'. The other company will see the price and we will calculate the costs (together with the shipment costs) for you. <br><b><i>At the moment we do not offer payment and invoice service, but we are working on it.</i></b>"
+        payment_necessary1_header: "Yes"
+        payment_necessary2_header: "No"
+        save: "Save"
   search:
     show:
       all_results: "All results"
@@ -2385,13 +2417,11 @@ en:
       booking_from: "From"
       booking_to: "To"
       choose_employee_or_renter: "Please choose either an employee or fill in another reason"
-      no_open_devices: "Your company has no (open) devices rented or created yet."
+      no_open_devices: "Your company has no devices rented or devices created for renting yet."
       ifYouCompanyAdmin: "If you are the company admin..."
       createListingHere: "then you can create a new renting listing <a href='%{listing_path}'>here</a>"
       reopen_listing: "and you have already renting listings (but they are closed), then you can re-open them <a href='%{person_path}'>here</a>"
-      do_not_want_to_create_listing: "If you don't want to create your own devices, but just want to book devices from other companies proceed as following:"
-      send_profile_url: "Go to your <a href='%{person_path}'>companies profile</a> and send the URL as a link to the company admin of the company you want to book devices from (you have to know him). When the company admin of the other company goes to your companies profile page, he can add your company as trusted company."
-      go_to_marketplace: "Now you can go to your <a href='%{shared_pool_path}'>Shared Pool</a> and can book devices of all other companies which trust your company."
+      do_not_want_to_create_listing: "If you don't want to create your own devices, but just want to book devices from other companies proceed as following: <a href='%{link}'>Create Shared Pool</a>"
       addNewBooking: "Book internal device"
       addNewBooking_visitor: "Book from this pool"
       addNewDevice: "Add a new device"

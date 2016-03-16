@@ -178,6 +178,39 @@ class ListingsController < ApplicationController
   def show
     @selected_tribe_navi_tab = "home"
 
+    # wah
+    relation = get_relation
+
+    # redirect if intern listing
+    if @listing.availability == "intern"  &&
+       !relation == :author               &&
+       !relation == :rentog_admin         &&
+       !relation == :employee_of_author
+
+        flash[:error] = t("transactions.listing_is_intern")
+        redirect_to root_path and return
+    end
+
+    # wah: Get transactions in future, so that other user can not book the device
+    #      if its already booked at a certain date
+    booked_end_start_dates = Transaction.joins(:listing, :booking)
+                                        .select("bookings.start_on as start_on, bookings.end_on as end_on")
+                                        .where("listings.id = ? And
+                                               transactions.community_id = ? And
+                                               bookings.end_on > ?",
+                                               @listing.id, @current_community.id, Date.today)
+                                        .order("bookings.end_on asc")
+    @booked_dates = []
+    booked_end_start_dates.each do |booked_end_start_date|
+      # Merge the arrays and ensure that there are no values twice
+      if (booked_end_start_date.start_on != booked_end_start_date.end_on)
+        @booked_dates = (@booked_dates + (booked_end_start_date.start_on..booked_end_start_date.end_on).map(&:to_s)).uniq
+      else
+        @booked_dates = (@booked_dates + [booked_end_start_date.start_on.to_s])
+      end
+    end
+
+
     @current_image = if params[:image]
       @listing.image_by_id(params[:image])
     else
@@ -193,54 +226,71 @@ class ListingsController < ApplicationController
     payment_gateway = MarketplaceService::Community::Query.payment_type(@current_community.id)
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: @listing.transaction_process_id)
 
-    # Employees can just send a message to their Company in which they request for renting the listing.
-    # If the listing is a company intern listing, the employees can book it via the pool tool
-    if @listing.person_belongs_to_same_company?(@current_user)
-      form_path = person_poolTool_path(@current_user)
-    else
-      if @current_user && @current_user.is_employee? && !@current_community.employees_can_buy_listings
-        form_path = new_person_person_message_path(@current_user.company)
-      else
-        form_path = new_transaction_path(listing_id: @listing.id)
-      end
-    end
 
-    if @current_user &&
-       @current_user.is_organization &&
-       @current_community.require_verification_to_post_listings &&
-       !@current_user.can_post_listings_at?(@current_community)
-       # Unverified Companies cant make transactions
-        show_rent_button = false
+
+
+    rent_button = ""
+    show_price = true
+    show_date = true
+
+    case relation
+      when :rentog_admin
+        rent_button = "rent"
+        form_path = new_transaction_path(listing_id: @listing.id)
+
+      when :author
+        rent_button = "pooltool"
+        form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
+
+      when :employee_of_author
+        show_price = false
+        show_date = false
+        rent_button = "pooltool"
+        form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
+
+      when :full_trust_employee
+        show_price = @trusted_relation.payment_necessary
+        show_date = false
+        rent_button = "pooltool"
+        form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
+
+      when :trust_employee
+        form_path = new_transaction_path(listing_id: @listing.id)
+        show_price = @trusted_relation.payment_necessary
+        rent_button = "rent"
+        form_path = new_transaction_path(listing_id: @listing.id)
+
+      when :any_employee
+        if @current_community.employees_can_buy_listings
+          form_path = new_transaction_path(listing_id: @listing.id)
+        else
+          form_path = new_person_person_message_path(@current_user.company)
+        end
+
+      when :full_trust_company
+        show_price = @trusted_relation.payment_necessary
+        show_date = false
+        rent_button = "pooltool"
+        form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
+
+      when :trust_company
+        show_price = @trusted_relation.payment_necessary
+        rent_button = "rent"
+        form_path = new_transaction_path(listing_id: @listing.id)
+
+      when :any_company
+        rent_button = "rent"
+        form_path = new_transaction_path(listing_id: @listing.id)
+
+      when :unverified_company
         flash.now[:error] = t("transactions.company_not_verified")
 
-    elsif @current_user.nil? ||
-         (@current_user &&
-            (@listing.availability == nil ||
-             @listing.availability == "all" ||
-             (@listing.availability == "trusted" && @current_user.followers.where(:id => @listing.author_id).first) ||
-             (@listing.availability == "intern" && !@current_user.is_organization && @current_user.company.id == @listing.author_id)))
-         # Show button if no user is logged in or if the availaility fits the current user
-      show_rent_button = true
+      when :logged_out
+        rent_button = "rent"
+        form_path = new_transaction_path(listing_id: @listing.id)
 
-    elsif @current_user != @listing.author && !@current_user.has_admin_rights_in?(@current_community)
-      if @listing.availability == "intern"
-        flash[:error] = t("transactions.listing_is_intern")
-        redirect_to root_path and return
-      end
-
-      # show -> "not trusted" message for other company
-      # Employee should get message "contact your company admin", because he
-      # shouldn contact the listing owner
-      unless @current_user.is_employee?
-        @show_availability_message = true
-        show_rent_button = false
       else
-        show_rent_button = true
-      end
 
-    else
-      # Dont show rent button if listing auhtor is viewing the page
-      show_rent_button = false
     end
 
     community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
@@ -258,7 +308,9 @@ class ListingsController < ApplicationController
              process: process,
              delivery_opts: delivery_opts,
              listing_unit_type: @listing.unit_type,
-             show_rent_button: show_rent_button,
+             rent_button: rent_button,
+             show_price: show_price,
+             show_date: show_date,
              country_code: community_country_code,
              received_testimonials: received_testimonials,
              received_positive_testimonials: received_positive_testimonials,
@@ -1118,5 +1170,52 @@ class ListingsController < ApplicationController
       nonMarketlistingCount = Listing.where("author_id = ? And (availability = 'trusted' Or availability = 'intern')", @current_user.id).count
       @nonMarketlistings_left = @max_nonMarketlistings > nonMarketlistingCount
     end
+  end
+
+  # wah
+  # returns one of the following relations:
+  # logged_out, author, employee_of_author, full_trust_company, trust_company,
+  # full_trust_employee, trust_employee, unverified_company, any_employee,
+  # any_company
+  def get_relation
+    relation = :logged_out
+    return if @current_user.nil?
+
+    # rentog admin
+    if @current_user.has_admin_rights_in?(@current_community)
+      relation = :rentog_admin
+
+
+    # belong to same company
+    elsif @listing.author == @current_user.company
+      if @current_user.is_organization
+        relation = :author
+      else
+        relation = :employee_of_author
+      end
+
+    # trusted relation
+    elsif @listing.author.follows?(@current_user.get_company)
+      @trusted_relation = @listing.author.inverse_follower_relationships.where(:person_id => @current_user.get_company.id).first
+      rel = FollowerRelationship.get_company_user_relation(@trusted_relation)
+
+      if @current_user.is_organization
+        relation = (rel + "_company").to_sym      # full_trust_company, trust_company
+      else
+        relation = (rel + "_employee").to_sym     # full_trust_employee, trust_employee
+      end
+
+    # no relation
+    elsif @current_community.require_verification_to_post_listings && !@current_user.can_post_listings_at?(@current_community)
+      relation = :unverified_company
+
+    else
+      if @current_user.is_employee?
+        relation = :any_employee
+      elsif @current_user.is_organization
+        relation = :any_company
+      end
+    end
+
   end
 end

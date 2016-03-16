@@ -5,6 +5,30 @@
   opacity: 0.0;
 }
 
+#poolToolOverlay{
+  position:relative;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  width:100%;
+
+  div {
+    text-align:center;
+
+    p{
+      text-align: center;
+      background-color: #F58787;
+      opacity: 1.0!important;
+      display: inline-block;
+      padding: 10px;
+      font-size: 1.5em;
+      margin-top: 150px;
+      border-radius: 7px;
+      font-weight: bold;
+      color: white;
+    }
+  }
+}
+
 .fullscreen{
   max-width: 90%!important;
 }
@@ -161,6 +185,13 @@
   @include media(mobile){
     height: 42px;
   }
+}
+
+#createNewDevice{
+  width: 225px;
+  float: left;
+  height: 42px;
+  margin: 12px 0 0 0;
 }
 
 #addNewBookingWrapper{

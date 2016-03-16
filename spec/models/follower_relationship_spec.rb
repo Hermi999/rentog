@@ -2,11 +2,14 @@
 #
 # Table name: follower_relationships
 #
-#  id          :integer          not null, primary key
-#  person_id   :string(255)      not null
-#  follower_id :string(255)      not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id                 :integer          not null, primary key
+#  person_id          :string(255)      not null
+#  follower_id        :string(255)      not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  trust_level        :string(255)      default("trust_admin_and_employees")
+#  shipment_necessary :boolean          default(FALSE)
+#  payment_necessary  :boolean          default(FALSE)
 #
 # Indexes
 #

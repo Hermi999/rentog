@@ -1,0 +1,48 @@
+@import "mixins/all";
+
+.relationship_config_radio_group{
+  border: 1px solid #D8D8D8;
+  border-radius: 10px;
+  padding: 10px 15px;
+  margin-top: 15px;
+  background-color: #F7F7F7;
+
+  label{
+    margin:0px;
+  }
+
+  @include media(tablet){
+    width: 80%;
+  }
+}
+
+.relationship_config_wrapper{
+  margin: 10px;
+  @include media(tablet){
+    margin: 0px;
+  }
+}
+
+.relationship_config_header_text{
+  margin-bottom: 10px;
+}
+
+.relationship_config_radio_button{
+  margin: 8px 0 0 0;
+}
+
+.relationship_config_radio_group_description{
+  font-size: 0.9em;
+  color: grey;
+}
+
+.relationship_config_radio_text{
+  margin-left: 5px;
+  display:inline;
+}
+
+.relationship_config_radio_description{
+  font-size: 0.8em;
+  color: grey;
+  margin-left: 22px;
+}

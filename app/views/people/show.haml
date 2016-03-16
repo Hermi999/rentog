@@ -1,5 +1,5 @@
 - content_for :javascript do
-  initialize_profile_view("#{@person.username}");
+  initialize_profile_view("#{@person.username}", #{company_member});
 
 - content_for :title_header do
   %h1
@@ -149,6 +149,12 @@
           = render :partial => "trusted_companies", :locals => { :person => @person, followed_people: followed_people, :limit => 6 }
         - else
           = render :partial => "followed_people", :locals => { :person => @person, followed_people: followed_people, :limit => 6 }
+
+    / Companies who trust this company
+    -if @current_community.follow_in_use?
+      .row.profile-row
+        - if @person.is_organization
+          = render :partial => "companies_with_trust", :locals => { :person => @person, followers: followers, :limit => 6 }
 
 
     / Feedback

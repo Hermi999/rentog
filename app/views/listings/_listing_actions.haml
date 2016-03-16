@@ -19,11 +19,7 @@
   - if is_author
     = render partial: "delivery_opts", locals: { delivery_opts: delivery_opts, is_author: is_author }
 
-  - elsif @show_availability_message
-    .availability_message
-      %p= t("listings.cannot_book").html_safe
-
-  - elsif show_rent_button
+  - elsif rent_button == "rent"
 
     = form_tag form_path, :method => :get, :id => "booking-dates" do
 
@@ -40,20 +36,10 @@
           - translated_months = months.map { |day_symbol| t("datepicker.months.#{day_symbol}") }.to_json
           - translated_months_short = months.map { |day_symbol| t("datepicker.months_short.#{day_symbol}") }.to_json
 
-          - # Get transactions (joined with listings and bookings) from database, ordered by booking end date
-          - booked_end_start_dates = Transaction.joins(:listing, :booking).select("bookings.start_on as start_on, bookings.end_on as end_on").where("listings.id" => @listing.id, "transactions.community_id" => @current_community).order("bookings.end_on asc")
-          - booked_dates = []
-          - booked_end_start_dates.each do |booked_end_start_date|
-            -# Merge the arrays and ensure that there are no values twice
-            - if (booked_end_start_date.start_on != booked_end_start_date.end_on)
-              - booked_dates = (booked_dates + (booked_end_start_date.start_on..booked_end_start_date.end_on).map(&:to_s)).uniq
-            - else
-              - booked_dates = (booked_dates + [booked_end_start_date.start_on.to_s])
-
           - content_for :extra_javascript do
             :javascript
               /* Making all booked dates available in Javascript */
-              var booked_dates = #{booked_dates};
+              var booked_dates = #{@booked_dates};
 
               /* Initialize datepicker with locale values */
               var loc = '#{I18n.locale}';
@@ -131,6 +117,11 @@
       .row
         .col-12
           = render :partial => "listing_conversations/paypal_payment_methods", locals: { country_code: country_code }
+
+
+  - elsif rent_button == "pooltool"
+    = link_to action_button_label(@listing), form_path, :class => "book-button", :style=>"padding-top:17px;"
+
 
   - if is_authorized
     .listing-view-admin-links

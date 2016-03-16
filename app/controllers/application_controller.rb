@@ -598,4 +598,36 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError.new(msg)
   end
 
+
+  # Get the relation between the owner of the site and the current visitor
+  def get_site_owner_visitor_relation(site_owner, visitor)
+    relation =
+      if visitor# Get the relation between the profile owner and the current visitor
+        if visitor.has_admin_rights_in?(@current_community)
+          :rentog_admin                                 # rentog admin is visisiting the site
+        elsif visitor.is_organization
+          if site_owner == visitor
+            :company_admin_own_site                     # company admin is on own companies site
+          elsif site_owner.follows?(visitor)
+            :trusted_company_admin                      # company the site owner trusts
+          else
+            :untrusted_company_admin                    # company the site owner does not trust
+          end
+
+        elsif visitor.is_employee?
+          if visitor.is_employee_of?(site_owner.id)
+            :company_employee                           # employee of site owner
+          elsif site_owner.follows?(visitor.company)
+            :trusted_company_employee                   # employee of a company the site owner trusts
+          elsif site_owner == visitor
+            :employee_own_site                          # employee is on own site
+          else
+            :untrusted_company_employee                 # employee of a company the site owner does not trust
+          end
+        end
+      else
+        :logged_out_user                                # logged out user
+      end
+  end
+
 end

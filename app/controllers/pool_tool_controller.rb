@@ -1,11 +1,11 @@
 class PoolToolController < ApplicationController
   # Filters
-  before_filter :get_current_user_pool_tool_company_relation, :only => [ :show]
+  before_filter :get_visitor_pool_tool_owner_relation, :only => [ :show]
   before_filter :ensure_is_authorized_to_view, :only => [ :show]
 
   def show
     # Is admin or employee of company (or rentog admin)?
-    @belongs_to_company = (@relation == :company_admin || @relation == :company_employee || @relation == :rentog_admin)
+    @belongs_to_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin)
 
     # Button text
       if @belongs_to_company
@@ -22,6 +22,7 @@ class PoolToolController < ApplicationController
       else
         @add_booking_text = t('pool_tool.show.addNewBooking_visitor')
         @external_booking_text = t('pool_tool.show.newExternalBooking_visitor')
+        @external_booking_link = marketplace_path(:restrictedMarketplace => "1")
       end
 
 
@@ -229,7 +230,7 @@ class PoolToolController < ApplicationController
     def ensure_is_authorized_to_view
       # ALLOWED
       return if @relation == :rentog_admin ||
-                @relation == :company_admin ||
+                @relation == :company_admin_own_site ||
                 @relation == :company_employee ||
                 @relation == :trusted_company_admin ||
                 @relation == :trusted_company_employee
@@ -237,7 +238,7 @@ class PoolToolController < ApplicationController
 
       # NOT ALLOWED
         # no error message
-        redirect_to person_poolTool_path(@current_user.company) and return false if @relation == :employee_own_pool_tool
+        redirect_to person_poolTool_path(@current_user.company) and return false if @relation == :employee_own_site
 
         # with error message
         flash[:error] = t("pool_tool.you_have_to_be_company_member")
@@ -248,36 +249,11 @@ class PoolToolController < ApplicationController
     end
 
 
-    def get_current_user_pool_tool_company_relation
+    # Get the relation between the owner of the site and the current visitor
+    def get_visitor_pool_tool_owner_relation
       # Get company who's pool tool page is accessed
       @pooltool_owner = Person.where(:username => params['person_id']).first
-
-      @relation =
-        if @current_user
-          if @current_user.has_admin_rights_in?(@current_community)
-            :rentog_admin
-          elsif @current_user.is_organization
-            if @current_user.username == params['person_id']
-              :company_admin
-            elsif @pooltool_owner.follows?(@current_user)
-              :trusted_company_admin
-            else
-              :untrusted_company_admin
-            end
-          elsif @current_user.is_employee?
-            if @current_user.is_employee_of?(@pooltool_owner.id)
-              :company_employee
-            elsif @pooltool_owner.follows?(@current_user.company)
-              :trusted_company_employee
-            elsif @pooltool_owner == @current_user
-              :employee_own_pool_tool     # Employee accesses own pool tool (but has none)
-            else
-              :untrusted_company_employee
-            end
-          end
-        else
-          :logged_out_user
-        end
+      @relation = get_site_owner_visitor_relation(@pooltool_owner, @current_user)
     end
 
 
@@ -462,6 +438,7 @@ class PoolToolController < ApplicationController
         current_user_email: @current_user.emails.first.address,
         is_admin: @current_user.is_company_admin_of?(@pooltool_owner) || @current_user.has_admin_rights_in?(@current_community),
         belongs_to_company: @belongs_to_company,
+        owner_has_followers: (@pooltool_owner.followers != []),
         theme: @current_user.pool_tool_color_schema,
         legend_status: @current_user.pool_tool_show_legend,
         show_legend: t("pool_tool.show.show_legend"),

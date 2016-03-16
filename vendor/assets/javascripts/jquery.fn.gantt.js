@@ -266,7 +266,9 @@
                 content.append(core.navigation(element));
 
                 // append legend
-                content.append(core.legend);
+                if (gon.belongs_to_company){
+                    content.append(core.legend);
+                }
 
                 var $dataPanel = $rightPanel.find(".dataPanel");
 
@@ -319,6 +321,17 @@
                 }
 
                 $dataPanel.css({ height: $leftPanel.height() });
+
+                // Add overlay if no source, but followed users
+                if (gon.showPoolToolOverlay === true){
+                    var hx = content.height()+8;
+                    var overlay = $('.poolTool_gantt_container')
+                                    .append($("<div id='poolToolOverlay' style='height:"+ hx +"px; top: -"+ (hx+10) +"px;'/>")
+                                        .append($("<div/>")
+                                            .append($("<p>No devices created or booked yet!</p>"))));
+                    $('.poolTool_gantt_container').css('max-height', '450px');
+                }
+
                 core.waitToggle(element, false);
                 settings.onRender();
             },

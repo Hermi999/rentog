@@ -13,7 +13,10 @@
         - else
           = t(".they_trust_plural", :count => followed_people.count)
     - else
-      = t(".no_trusted_people")
+      - if current_user?(@person)
+        = t(".no_trusted_people")
+      - else
+        = t(".they_no_trusted_people")
 .people-fluid-thumbnail-grid-container
   .people-fluid-thumbnail-grid#profile-followed-people-list
     = render :partial => "people/followed_person", :collection => displayed_people, :as => :person, :locals => { :origin => "trusted_companies" }

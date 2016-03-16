@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309103936) do
+ActiveRecord::Schema.define(version: 20160312083822) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -481,10 +481,13 @@ ActiveRecord::Schema.define(version: 20160309103936) do
   end
 
   create_table "follower_relationships", force: :cascade do |t|
-    t.string   "person_id",   limit: 255, null: false
-    t.string   "follower_id", limit: 255, null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "person_id",          limit: 255,                                       null: false
+    t.string   "follower_id",        limit: 255,                                       null: false
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
+    t.string   "trust_level",        limit: 255, default: "trust_admin_and_employees"
+    t.boolean  "shipment_necessary",             default: false
+    t.boolean  "payment_necessary",              default: false
   end
 
   add_index "follower_relationships", ["follower_id"], name: "index_follower_relationships_on_follower_id", using: :btree

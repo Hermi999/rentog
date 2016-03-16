@@ -1,0 +1,70 @@
+- content_for :extra_javascript do
+  :javascript
+    ST.trusted_relationship.init();
+
+- content_for :title_header do
+  %h1= t("people.followers.edit.title", :company => @followed_company.organization_name, :company_link => person_path(@followed_company)).html_safe
+
+.relationship_config_wrapper
+  .relationship_config_header_text= t("people.followers.edit.header_text").html_safe
+
+  = form_for @relationship, url: person_follower_path(@current_user, @relationship.id), :method => :put do |f|
+    .relationship_config_radio_group
+      = f.label :trust_level, t("people.followers.edit.trust_level_header")
+      .relationship_config_radio_group_description
+        =t("people.followers.edit.trust_level_desc").html_safe
+
+      .relationship_config_radio_button
+        = f.radio_button :trust_level, "trust_admin_and_employees", :class => "radio_trust_level"
+        .relationship_config_radio_text
+          =t("people.followers.edit.trust_level1_header").html_safe
+        .relationship_config_radio_description
+          =t("people.followers.edit.trust_level1_desc").html_safe
+
+      .relationship_config_radio_button
+        = f.radio_button :trust_level, "trust_only_admin", :class => "radio_trust_level"
+        .relationship_config_radio_text
+          =t("people.followers.edit.trust_level2_header").html_safe
+        .relationship_config_radio_description
+          =t("people.followers.edit.trust_level2_desc").html_safe
+
+      .relationship_config_radio_button
+        = f.radio_button :trust_level, "always_confirm", :class => "radio_trust_level"
+        .relationship_config_radio_text
+          =t("people.followers.edit.trust_level3_header").html_safe
+        .relationship_config_radio_description
+          =t("people.followers.edit.trust_level3_desc").html_safe
+
+
+    / .relationship_config_radio_group#shipment_necessary_group
+    /   = f.label :shipment_necessary, t("people.followers.edit.shipment_header"), :class => "radio_shipment_necessary"
+    /   .relationship_config_radio_group_description
+    /     =t("people.followers.edit.shipment_necessary_desc").html_safe
+
+    /   .relationship_config_radio_button
+    /     = f.radio_button :shipment_necessary, true, :class => "radio_shipment_necessary", :id => "shipment_yes"
+    /     .relationship_config_radio_text
+    /       =t("people.followers.edit.shipment_necessary1_header").html_safe
+
+    /   .relationship_config_radio_button
+    /     = f.radio_button :shipment_necessary, false, :class => "radio_shipment_necessary", :id => "shipment_no"
+    /     .relationship_config_radio_text
+    /       =t("people.followers.edit.shipment_necessary2_header").html_safe
+
+    / .relationship_config_radio_group#payment_necessary_group
+    /   = f.label :payment_necessary, t("people.followers.edit.payment_header")
+    /   .relationship_config_radio_group_description
+    /     =t("people.followers.edit.payment_necessary_desc").html_safe
+
+    /   .relationship_config_radio_button
+    /     = f.radio_button :payment_necessary, true, :class => "radio_payment_necessary", :id => "payment_yes"
+    /     .relationship_config_radio_text
+    /       =t("people.followers.edit.payment_necessary1_header").html_safe
+
+    /   .relationship_config_radio_button
+    /     = f.radio_button :payment_necessary, false, :class => "radio_payment_necessary", :id => "payment_no"
+    /     .relationship_config_radio_text
+    /       =t("people.followers.edit.payment_necessary2_header").html_safe
+
+    %br
+    = f.submit t("people.followers.edit.save"), :class=>"button"
