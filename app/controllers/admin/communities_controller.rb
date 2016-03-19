@@ -169,7 +169,8 @@ class Admin::CommunitiesController < ApplicationController
 
   # Only accessable for superadmins
   def create_payment_gateway
-    @current_community.payment_gateway = BraintreePaymentGateway.create(params[:payment_gateway].merge(community: @current_community))
+    #@current_community.payment_gateway = BraintreePaymentGateway.create(params[:payment_gateway].merge(community: @current_community))
+    @current_community.payment_gateway = BraintreePaymentGateway.create(params.require(:payment_gateway).permit(:braintree_public_key, :braintree_private_key, :braintree_merchant_id, :braintree_master_merchant_id, :braintree_client_side_encryption_key, :braintree_environment, :community_id))
     update_payment_gateway
   end
 
@@ -346,7 +347,7 @@ class Admin::CommunitiesController < ApplicationController
   end
 
   def update(model, params, path, action, &block)
-    if model.update_attributes(params)
+    if model.update_attributes(params.permit(:braintree_public_key, :braintree_private_key, :braintree_merchant_id, :braintree_master_merchant_id, :braintree_client_side_encryption_key, :braintree_environment, :community_id))
       flash[:notice] = t("layouts.notifications.community_updated")
       yield if block_given? #on success, call optional block
       redirect_to path

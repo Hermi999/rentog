@@ -220,6 +220,9 @@ class TransactionsController < ApplicationController
           booking_fields[:reason] = empl_or_reason
         end
 
+        # Pool tool booking is always confirmed
+        booking_fields[:confirmed] = true
+
         # Add description
         if params[:description]
           booking_fields[:description] = params[:description]
@@ -383,6 +386,7 @@ class TransactionsController < ApplicationController
       conversation_other_party: person_entity_with_url(conversation[:other_person]),
       is_author: is_author,
       role: role,
+      can_book_for_free: can_book_for_free?(listing.author, conversation[:starter_person][:id]),
       message_form: MessageForm.new({sender_id: @current_user.id, conversation_id: conversation[:id]}),
       message_form_action: person_message_messages_path(@current_user, :message_id => conversation[:id]),
       price_break_down_locals: price_break_down_locals(tx)
@@ -655,6 +659,7 @@ class TransactionsController < ApplicationController
              booking_start: booking_start,
              booking_end: booking_end,
              quantity: quantity,
+             can_book_for_free: can_book_for_free?(@listing_owner, @current_user.id),
              form_action: person_transactions_path(person_id: @current_user, listing_id: listing_model.id)
            }
   end
@@ -673,32 +678,7 @@ class TransactionsController < ApplicationController
     end
 
     # Get relation between listing owner and current user
-    @relation =
-      if @current_user
-        if @current_user.has_admin_rights_in?(@current_community)
-          :rentog_admin
-        elsif @current_user.is_organization
-          if @current_user == @listing_owner
-            :company_admin
-          elsif @listing_owner.follows?(@current_user)
-            :trusted_company_admin
-          else
-            :untrusted_company_admin
-          end
-        elsif @current_user.is_employee?
-          if @current_user.is_employee_of?(@listing_owner.id)
-            :company_employee
-          elsif @listing_owner.follows?(@current_user.company)
-            :trusted_company_employee
-          elsif @listing_owner == @current_user
-            :employees_own_listing
-          else
-            :untrusted_company_employee
-          end
-        end
-      else
-        :logged_out_user
-      end
+    @relation = get_site_owner_visitor_relation(@listing_owner, @current_user)
   end
 
   def is_authorized_for_starting_transaction
@@ -708,7 +688,7 @@ class TransactionsController < ApplicationController
 
       # People who can make Pool Tool transactions & changes
       if  @relation == :rentog_admin ||
-          @relation == :company_admin ||
+          @relation == :company_admin_own_site ||
           @relation == :company_employee ||
           @relation == :trusted_company_admin ||
           @relation == :trusted_company_employee
@@ -754,7 +734,7 @@ class TransactionsController < ApplicationController
 
     # Ensure that user can only verify his own or his employees bookings
       if @relation == :rentog_admin ||
-         @relation == :company_admin
+         @relation == :company_admin_own_site
         # Rentog admin and Listing owner (Company admin) can modify all pool tool bookings
 
       elsif @current_user == transaction_starter
@@ -768,5 +748,16 @@ class TransactionsController < ApplicationController
         flash[:error] = "Access denied"
         redirect_to root and return
       end
+  end
+
+  def can_book_for_free?(owner, renter_id)
+
+    follower_relation = owner.inverse_follower_relationships.where(:person_id => renter_id).first
+
+    if follower_relation && !follower_relation.payment_necessary
+      return true
+    end
+
+    false
   end
 end

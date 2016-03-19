@@ -11,7 +11,8 @@
                 $button_bg_color, $showLegend_color, $showLegend_bg_color,
                 $newBookingForm_bg_color, $otherReason_me_bg_color, $ownEmployee_me_bg_color,
                 $anyCompany_me_bg_color, $trustedEmployee_me_bg_color, $trustedCompany_me_bg_color,
-                $privateBooking_bg_color, $privateBooking_font_color /*,$load_bg_color*/) {
+                $privateBooking_bg_color, $privateBooking_font_color, $rentingRequest_bg_color,
+                $rentingRequest_font_color /*,$load_bg_color*/) {
 
     .gantt_#{$theme} {
         border: $border;
@@ -99,6 +100,30 @@
                 color: $privateBooking_bg_color;
             }
         }
+
+
+        .gantt_rentingRequest_#{$theme} {
+            background-color: $rentingRequest_bg_color;
+            box-shadow: none;
+            border-radius: 0px;
+            .fn-label{
+                color: $rentingRequest_font_color;
+            }
+        }
+        .ganttLegend_rentingRequest_#{$theme}{
+            background-color: $rentingRequest_bg_color;
+            .fn-label{
+                color: $rentingRequest_font_color;
+            }
+        }
+        .gantt_rentingRequest_me_#{$theme} {
+            background-color: $rentingRequest_font_color;
+            .fn-label{
+                color: $rentingRequest_bg_color;
+            }
+        }
+
+
         .gantt_otherReason_#{$theme} {
             background-color: $otherReason_bg_color;
             .fn-label{
@@ -489,12 +514,14 @@
     .gantt_trustedCompany:hover,
     .gantt_otherReason:hover,
     .gantt_privateBooking:hover,
+    .gantt_rentingRequest:hover,
     .gantt_anyCompany_me:hover,
     .gantt_trustedEmployee_me:hover,
     .gantt_ownEmployee_me:hover,
     .gantt_trustedCompany_me:hover,
     .gantt_otherReason_me:hover,
-    .gantt_privateBooking_me:hover
+    .gantt_privateBooking_me:hover,
+    .gantt_rentingRequest_me:hover
      {
         opacity: 0.7;
     }
@@ -505,11 +532,13 @@
     .gantt_anyCompany,
     .gantt_otherReason,
     .gantt_privateBooking,
+    .gantt_rentingRequest,
     .gantt_ownEmployee_me,
     .gantt_trustedEmployee_me,
     .gantt_trustedCompany_me,
     .gantt_anyCompany_me,
-    .gantt_otherReason_me {
+    .gantt_otherReason_me,
+    .gantt_rentingRequest_me {
         cursor: pointer;
     }
 
@@ -517,7 +546,8 @@
     .ganttLegend_trustedCompany,
     .ganttLegend_anyCompany,
     .ganttLegend_trustedEmployee,
-    .ganttLegend_otherReason {
+    .ganttLegend_otherReason,
+    .ganttLegend_rentingRequest {
         border-radius: 5px;
         margin: 0 5px 3px 5px;
         width:25%;
@@ -833,7 +863,8 @@
                 #7E7E7E, white, rgb(102, 112, 131),
                 #E1E8F5, #7A3E48, #EFB332,
                 #ACD1E9, #B95835, #B95835 /*,#347689*/,
-                rgba(93, 93, 93, 0.58), white);
+                rgba(93, 93, 93, 0.58), white, black,
+                white);
 
 
 
@@ -848,7 +879,8 @@
                 #4E87A9, white, #A56464,
                 #ECDADA, #7A3E48, #EFB332,
                 #ACD1E9, #B95835, #B95835 /*,#7A3E48*/,
-                rgba(93, 93, 93, 0.58), white);
+                rgba(93, 93, 93, 0.58), white, black,
+                white);
 
 
 
@@ -863,6 +895,7 @@
                 #595959, rgb(126, 126, 126), rgb(213, 213, 213),
                 #E8E7E7, #6D929B, #e8d0a9,
                 #ACD1E9, #B7AFA3, #B7AFA3 /*,#C3C3C3*/,
-                rgba(93, 93, 93, 0.58), white);
+                rgba(93, 93, 93, 0.58), white, black,
+                white);
 
 

@@ -12,6 +12,7 @@
 #  device_returned     :boolean          default(FALSE)
 #  description         :string(255)
 #  device_return_token :string(255)      default("33881b4582b5cfc17967")
+#  confirmed           :boolean          default(FALSE)
 #
 # Indexes
 #

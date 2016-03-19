@@ -19,7 +19,7 @@ Feature: Inquiry
     Then I should see "Contact"
     When I press "Inquire"
     And I fill in "message" with "Test content"
-    And I press "Send message"
+    And I press "Send request"
     And I log out
     And I log in as "kassi_testperson1"
     And I follow inbox link

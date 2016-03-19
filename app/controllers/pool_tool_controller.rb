@@ -73,7 +73,6 @@ class PoolToolController < ApplicationController
     transactions = intern_transactions + extern_transactions
     transaction_array = transactions.as_json
 
-
     # wah: Get all possible company ids of companies which can be shown in pool tool
     possible_company_ids = [@pooltool_owner] + @pooltool_owner.followers
     possible_companies = Person.where(:id => possible_company_ids)
@@ -87,9 +86,20 @@ class PoolToolController < ApplicationController
     prev_listing_id = 0, counter = -1
 
     transaction_array.each do |transaction|
+
+      ############ wah: TEMPORARY - REMOVE THIS ########
+      transaction[:booking_confirmed] = 1
+      ############ #####################################
+
       renter = get_renter_and_relation(transaction)
 
-      if transaction['reason']
+      if transaction['booking_confirmed'] == 0
+        if transaction['renter_id'] == @current_user.id
+          renting_entity = t("pool_tool.show.own_renting_request")
+        else
+          renting_entity = t("pool_tool.show.renting_request") + " (" + transaction['renting_entity_organame'] + ")"
+        end
+      elsif transaction['reason']
         renting_entity = transaction['reason']
       elsif (renter[:relation] == "trustedCompany" || renter[:relation] == "trustedEmployee") && transaction['renting_entity_organame'] != "" && transaction['renting_entity_organame'] != nil
         renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name'] + " (" + transaction['renting_entity_organame'] + ")"
@@ -143,7 +153,8 @@ class PoolToolController < ApplicationController
           'transaction_id' => transaction['transaction_id'],
           'renter_id' => transaction['renter_id'],
           'renter_company_id' => renter[:renter].get_company.id,
-          'description' => transaction['description']
+          'description' => transaction['description'],
+          'confirmed' => transaction['booking_confirmed']
         }]
 
         if availability == "extern"
@@ -168,7 +179,8 @@ class PoolToolController < ApplicationController
           'transaction_id' => transaction['transaction_id'],
           'renter_id' => transaction['renter_id'],
           'renter_company_id' => renter[:renter].get_company.id,
-          'description' => transaction['description']
+          'description' => transaction['description'],
+          'confirmed' => transaction['booking_confirmed']
         }
         devices[counter]['values'] << newTrans
       end
@@ -286,6 +298,7 @@ class PoolToolController < ApplicationController
                                                                               @pooltool_owner.id, @current_community.id, DateTime.now)
                                                                     .order("  listings.id asc")
 
+
       # Add company name to transactions of external trusted employees
         transactions.each_with_index do |ext_tr, index|
           if ext_tr[:renting_entity_organame] == nil
@@ -359,7 +372,9 @@ class PoolToolController < ApplicationController
         renter = Person.where(id: transaction["renter_id"]).first
 
         # If the current user DOES belong to company and the booking is not one from his company
-        if @belongs_to_company &&                                               # current user does belong to pool tool company
+        if transaction["booking_confirmed"] == 0
+          relation = "rentingRequest"
+        elsif @belongs_to_company &&                                               # current user does belong to pool tool company
            transaction['listing_author_id'] != @current_user.get_company.id &&  # listing author is not the company the current user belongs to
            @current_user != renter &&                                           # Current user is not the initiator of this transaction
           !@current_user.employs?(renter) &&                                    # current user does not employee initiator of this transaction

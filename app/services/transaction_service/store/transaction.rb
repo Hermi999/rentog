@@ -84,6 +84,7 @@ module TransactionService::Store::Transaction
     # & removes all keys which are not defined in NewTransaction specs.
     # (call = alias for build)
     tx_data = HashUtils.compact(NewTransaction.call(opts))
+
     # create Transaction
     tx_model = TransactionModel.new(tx_data.except(:content, :booking_fields))
     build_conversation(tx_model, tx_data)

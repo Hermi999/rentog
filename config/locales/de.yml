@@ -705,12 +705,14 @@ de:
       rideshare_offer_message_form_title: "%{person} um eine Mitfahrgelegenheit bitten"
       rideshare_request_message_form_title: "%{person} eine Mitfahrgelegenheit anbieten"
       send_message: "Nachricht senden"
+      send_request: "Anfrage senden"
       send: Senden
       this_message_is_private: "Dies ist eine private Nachricht zwischen dir und %{person}. %{person} wird per E-Mail über diese Nachricht benachrichtigt."
       you_will_get_notified_of_acceptance: "Du erhältst eine E-Mail-Benachrichtigung, wenn %{person} deinen Vorschlag akzeptiert oder ablehnt."
       you_will_get_notified: "Du erhältst eine E-Mail-Benachrichtigung, wenn %{person} dir antwortet."
       title: Titel
       send_message_to_user: "Nachricht an %{person} senden"
+      send_request_to_user: "Anfrage an %{person} senden"
       about_listing: "In Bezug auf %{listing_title}"
       author_has_to_accept_request: "%{author_name} muss den Auftrag annehmen, bevor Sie zahlen können"
     show:
@@ -2394,6 +2396,8 @@ de:
     turn_your_device: "Bitte drehen Sie ihr mobiles Gerät innerhalb des Pool Tools!"
     invalid_booking_dates: "Ungültiger Buchungszeitraum: Vielleicht hat jemand anderes schon an einem der gewählten Tage das Gerät gebucht oder deine Buchung liegt in der Vergangenheit. Bitte lade die Seite neu und versuche es noch einmal."
     show:
+      renting_request: "Mietanfrage"
+      own_renting_request: "Eigene Mietanfrage"
       show_legend: "Zeige Legende"
       hide_legend: "Verberge Legende"
       legend: "Legende"

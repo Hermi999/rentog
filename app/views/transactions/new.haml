@@ -22,7 +22,7 @@
 
       - m_price_break_down.each do |price_break_down|
         %li
-          = render partial: "transactions/price_break_down", locals: price_break_down
+          = render partial: "transactions/price_break_down", locals: price_break_down.merge(can_book_for_free: can_book_for_free)
 
   = form_tag(form_action, method: :post, id: "transaction-form") do
 
@@ -32,7 +32,7 @@
 
     .preauthorize-section
       %h2
-        = t("conversations.new.send_message_to_user", person: author_link).html_safe
+        = t("conversations.new.send_request_to_user", person: author_link).html_safe
       .row
         .col-12
           = text_area_tag(:message, nil, :class => "text_area")
@@ -42,4 +42,4 @@
 
       .row
         .col-12
-          = button_tag t("conversations.new.send_message"), :class => "send_button"
+          = button_tag t("conversations.new.send_request"), :class => "send_button"

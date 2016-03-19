@@ -416,6 +416,7 @@ window.ST.poolTool = (function() {
                       "gantt_anyCompany", "ganttLegend_anyCompany", "gantt_anyCompany_me",
                       "gantt_trustedCompany", "ganttLegend_trustedCompany","gantt_trustedCompany_me",
                       "gantt_privateBooking", "ganttLegend_privateBooking","gantt_privateBooking_me",
+                      "gantt_rentingRequest", "ganttLegend_rentingRequest","gantt_rentingRequest_me",
                       "nav-link", "showLegend", "load", "newBookingForm"];
 
     // Set default theme
@@ -912,9 +913,11 @@ window.ST.poolTool = (function() {
         // - this is not a booking of the user AND
         // - the current user is not the company admin of the transaction starter OR
         // - it's not allowed to change the past and the booking is already in the past
-        if ((gon.is_admin === false && info.booking.renter_id !== gon.current_user_id && gon.current_user_id !== info.booking.renter_company_id) ||
-            (info.booking.customClass === "gantt_privateBooking") ||
-            (!gon.pool_tool_preferences.pool_tool_modify_past && e < today)){
+        if ( (gon.is_admin === false && info.booking.renter_id !== gon.current_user_id && gon.current_user_id !== info.booking.renter_company_id) ||
+             (info.booking.customClass === "gantt_privateBooking") ||
+             (!gon.pool_tool_preferences.pool_tool_modify_past && e < today) ||
+             (gon.is_admin === false && info.booking.confirmed === 0)
+           ){
           $('#btn_update').css('display', 'none');
           $('#btn_delete').css('display', 'none');
 
