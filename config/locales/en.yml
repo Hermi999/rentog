@@ -335,6 +335,7 @@ en:
           rejected: Rejected
           paid: Paid
           confirmed: Confirmed
+          confirmed_free: Confirmed free
           canceled: Canceled
           initiated: "Waiting PayPal payment"
           pending_ext: "Waiting PayPal payment"
@@ -927,6 +928,7 @@ en:
     conversation_status_changed:
       has_accepted_your_offer: "%{accepter} has accepted your offer %{listing}."
       has_accepted_your_request: "%{accepter} has accepted your request %{listing}."
+      has_confirmed_free_your_request: "%{accepter} has accepted your request %{listing}."
       has_rejected_your_offer: "%{accepter} has rejected your offer %{listing}."
       has_rejected_your_request: "%{accepter} has rejected your request %{listing}."
       view_thread: "View conversation"
@@ -934,6 +936,7 @@ en:
       your_offer_was_rejected: "Your offer was rejected"
       your_request_was_accepted: "Your request was accepted"
       your_request_was_rejected: "Your request was rejected"
+      your_request_was_confirmed_free: "Your request was accepted"
       you_can_now_pay_to: "You can now pay the requested amount to %{payment_receiver}."
       pay_now: "Pay now"
       remember_to_confirm: "When the order is fulfilled, remember to mark it as completed. If the order is not fulfilled your have %{days_to_automatic_confirmation} days to cancel it. Otherwise it will be automatically marked as completed."
@@ -2404,7 +2407,7 @@ en:
     invalid_booking_dates: "Invalid booking dates: Maybe someone else already reserved a device on one of those days or your booking is in the past. Please refresh the page and try again!"
     show:
       renting_request: "Renting request"
-      own_renting_request: "My renting request"
+      own_renting_request: "Pending renting request"
       show_legend: "Show legend"
       hide_legend: "Hide legend"
       legend: "Legend"

@@ -146,12 +146,12 @@ class TransactionsController < ApplicationController
     end
 
     # Determine if employee or another reason for booking was choosen
-    if @relation == :trusted_company_admin
+    if @relation == :trusted_company_admin || @relation == :full_trusted_company_admin
       empl_or_reason = @current_user.organization_name
       params[:employee] = nil
       type = "trustedCompany"
 
-    elsif @relation == :trusted_company_employee
+    elsif @relation == :trusted_company_employee || @relation == :full_trusted_company_employee
       employee = Person.where(username: params[:employee][:username]).first
       empl_or_reason = employee[:family_name] + " " + employee[:given_name] + " (" + employee.company.organization_name + ")"
       type = "trustedEmployee"
@@ -174,7 +174,7 @@ class TransactionsController < ApplicationController
 
     # CHECK:
     # Company and trusted employ is not allowed to make transaction for anyone else then himself
-    if @relation == :company_employee || @relation == :trusted_company_employee
+    if @relation == :company_employee || @relation == :trusted_company_employee || @relation == :full_trusted_company_employee
       unless @current_user == employee
         flash[:error] = "Access denied"
         redirect_to root and return
@@ -183,7 +183,7 @@ class TransactionsController < ApplicationController
 
     # CHECK:
     # Trusted company admin, is only allowed to make transactions for own employees & himself
-    if @relation == :trusted_company_admin
+    if @relation == :trusted_company_admin || @relation == :full_trusted_company_admin
       if employee && employee.company != @current_user
         flash[:error] = "Access denied"
         redirect_to root and return
@@ -691,7 +691,9 @@ class TransactionsController < ApplicationController
           @relation == :company_admin_own_site ||
           @relation == :company_employee ||
           @relation == :trusted_company_admin ||
-          @relation == :trusted_company_employee
+          @relation == :full_trusted_company_admin ||
+          @relation == :trusted_company_employee ||
+          @relation == :full_trusted_company_employee
             return true
 
       # others
@@ -726,10 +728,14 @@ class TransactionsController < ApplicationController
   def is_authorized_for_changing_pool_tool_booking
     transaction_starter = @booking.tx.starter
 
-    # Ensure that only pool tool transactions can be modified
-    if @booking.tx.transaction_type == "extern"
-      flash[:error] = "Access denied"
-      redirect_to root and return
+    # Ensure that only pool tool or free transactions of trusted users can be modified
+    if @booking.tx.transaction_type == "extern" && !@booking.tx.status.include?("_free")
+      error_message = "Access denied"
+      render :json => {
+        action: "update",
+        status: "error",
+        message: error_message
+      } and return
     end
 
     # Ensure that user can only verify his own or his employees bookings
@@ -745,8 +751,12 @@ class TransactionsController < ApplicationController
 
       else
         # All others are not allowed to change bookings
-        flash[:error] = "Access denied"
-        redirect_to root and return
+        error_message = "Access denied"
+        render :json => {
+          action: "update",
+          status: "error",
+          message: error_message
+        } and return
       end
   end
 end

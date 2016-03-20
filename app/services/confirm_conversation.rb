@@ -27,7 +27,8 @@ class ConfirmConversation
 
   # wah - Confirm free transaction
   def confirm_free!
-    Delayed::Job.enqueue(TransactionConfirmedJob.new(@transaction.id, @community.id))
+    # only email 'marked order as complete - no need for that at the moment'
+    #Delayed::Job.enqueue(TransactionConfirmedJob.new(@transaction.id, @community.id))
   end
 
   # Listing canceled by user

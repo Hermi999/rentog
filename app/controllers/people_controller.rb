@@ -47,7 +47,9 @@ class PeopleController < Devise::RegistrationsController
           relation == :company_employee
       availability = ["all", "trusted", "intern", nil, ""]
 
-    elsif relation == :trusted_company_admin ||
+    elsif relation == :full_trusted_company_admin ||
+          relation == :trusted_company_admin ||
+          relation == :full_trusted_company_employee ||
           relation == :trusted_company_employee
       availability = ["all", "trusted", nil, ""]
 

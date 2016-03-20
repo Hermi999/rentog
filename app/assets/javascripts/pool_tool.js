@@ -916,7 +916,7 @@ window.ST.poolTool = (function() {
         if ( (gon.is_admin === false && info.booking.renter_id !== gon.current_user_id && gon.current_user_id !== info.booking.renter_company_id) ||
              (info.booking.customClass === "gantt_privateBooking") ||
              (!gon.pool_tool_preferences.pool_tool_modify_past && e < today) ||
-             (gon.is_admin === false && info.booking.confirmed === 0)
+             (info.booking.confirmed === false)
            ){
           $('#btn_update').css('display', 'none');
           $('#btn_delete').css('display', 'none');

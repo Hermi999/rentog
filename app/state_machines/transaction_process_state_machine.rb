@@ -66,9 +66,16 @@ class TransactionProcessStateMachine
     confirmation.confirm!
   end
 
+  # wah
   after_transition(to: :confirmed_free) do |conversation|
-    confirmation = ConfirmConversation.new(conversation, conversation.starter, conversation.community)
-    confirmation.confirm!
+    # mail after accepting
+    accepter = conversation.listing.author
+    current_community = conversation.community
+    Delayed::Job.enqueue(TransactionStatusChangedJob.new(conversation.id, accepter.id, current_community.id))
+
+    # mail 'marked order as complete' not need for this at the moment
+    #confirmation = ConfirmConversation.new(conversation, conversation.starter, conversation.community)
+    #confirmation.confirm_free!
   end
 
   after_transition(from: :accepted, to: :canceled) do |conversation|

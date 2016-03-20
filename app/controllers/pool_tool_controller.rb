@@ -3,6 +3,10 @@ class PoolToolController < ApplicationController
   before_filter :get_visitor_pool_tool_owner_relation, :only => [ :show]
   before_filter :ensure_is_authorized_to_view, :only => [ :show]
 
+  VALID_TRANSACTION_STATUSES = [nil, "", "confirmed", "confirmed_free", "pending",
+                                "pending_free", "pending_ext", "preauthorized",
+                                "accepted", "paid"]
+
   def show
     # Is admin or employee of company (or rentog admin)?
     @belongs_to_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin)
@@ -87,13 +91,20 @@ class PoolToolController < ApplicationController
 
     transaction_array.each do |transaction|
 
-      ############ wah: TEMPORARY - REMOVE THIS ########
-      transaction[:booking_confirmed] = 1
-      ############ #####################################
+      @transaction_confirmed = transaction['transaction_status'] == nil ||
+                              transaction['transaction_status'] == "confirmed_free" ||
+                              transaction['transaction_status'] == "confirmed"
+
+      @transaction_pending = transaction['transaction_status'] == "pending" ||
+                            transaction['transaction_status'] == "pending_free" ||
+                            transaction['transaction_status'] == "pending_ext" ||
+                            transaction['transaction_status'] == "preauthorized" ||
+                            transaction['transaction_status'] == "accepted" ||
+                            transaction['transaction_status'] == "paid"
 
       renter = get_renter_and_relation(transaction)
 
-      if transaction['booking_confirmed'] == 0
+      if @transaction_pending
         if transaction['renter_id'] == @current_user.id
           renting_entity = t("pool_tool.show.own_renting_request")
         else
@@ -133,7 +144,7 @@ class PoolToolController < ApplicationController
 
             transaction['description'] = 'private'
             renting_entity = 'private'
-       end
+      end
 
 
       if prev_listing_id != transaction['listing_id']
@@ -154,7 +165,7 @@ class PoolToolController < ApplicationController
           'renter_id' => transaction['renter_id'],
           'renter_company_id' => renter[:renter].get_company.id,
           'description' => transaction['description'],
-          'confirmed' => transaction['booking_confirmed']
+          'confirmed' => @transaction_confirmed
         }]
 
         if availability == "extern"
@@ -180,7 +191,7 @@ class PoolToolController < ApplicationController
           'renter_id' => transaction['renter_id'],
           'renter_company_id' => renter[:renter].get_company.id,
           'description' => transaction['description'],
-          'confirmed' => transaction['booking_confirmed']
+          'confirmed' => @transaction_confirmed
         }
         devices[counter]['values'] << newTrans
       end
@@ -245,7 +256,9 @@ class PoolToolController < ApplicationController
                 @relation == :company_admin_own_site ||
                 @relation == :company_employee ||
                 @relation == :trusted_company_admin ||
-                @relation == :trusted_company_employee
+                @relation == :full_trusted_company_admin ||
+                @relation == :trusted_company_employee ||
+                @relation == :full_trusted_company_employee
 
 
       # NOT ALLOWED
@@ -272,6 +285,9 @@ class PoolToolController < ApplicationController
     def get_transactions_with_own_listings
       temp_avail2 = "(listings.availability = 'all' OR listings.availability = 'intern' OR listings.availability = 'trusted')"
       temp_avail2 = "(listings.availability = 'all' OR listings.availability = 'trusted')" if !@belongs_to_company
+      transaction_not_invalid = "(current_state <> 'rejected' OR current_state is null) AND
+                                 (current_state <> 'errored'  OR current_state is null) AND
+                                 (current_state <> 'canceled' OR current_state is null)"
 
       transactions = Transaction.joins(:listing, :booking, :starter).select(" transactions.id as transaction_id,
                                                                               listings.id as listing_id,
@@ -284,7 +300,7 @@ class PoolToolController < ApplicationController
                                                                               bookings.reason as reason,
                                                                               bookings.description as description,
                                                                               bookings.device_returned as device_returned,
-                                                                              transactions.current_state,
+                                                                              transactions.current_state as transaction_status,
                                                                               people.given_name as renter_given_name,
                                                                               people.family_name as renter_family_name,
                                                                               people.username as renting_entity_username,
@@ -292,6 +308,7 @@ class PoolToolController < ApplicationController
                                                                               people.id as renter_id")
                                                                     .where("  listings.author_id = ? AND
                                                                               transactions.community_id = ? AND
+                                                                              #{transaction_not_invalid} AND
                                                                               listings.open = '1' AND
                                                                               #{temp_avail2} AND
                                                                               (listings.valid_until IS NULL OR valid_until > ?)",
@@ -320,10 +337,15 @@ class PoolToolController < ApplicationController
           user_ids << user.id
         end
 
-        # 1b Get all extern transactions this users will have in future, are currently active or are not closed (device not returned)
+        transaction_not_invalid = "(current_state <> 'rejected' OR current_state is null) AND
+                                   (current_state <> 'errored'  OR current_state is null) AND
+                                   (current_state <> 'canceled' OR current_state is null)"
+
+        # 1b Get all extern transactions this users will have in future, are currently active, valied and or are not closed (device not returned)
         company_external_transactions = Transaction.joins(:booking).where(" transactions.starter_id IN (?) AND
                                                                             transactions.community_id = ? AND
                                                                             transactions.listing_author_id <> ? AND
+                                                                            #{transaction_not_invalid} AND
                                                                             (bookings.end_on > ? OR bookings.device_returned = false)",
                                                                             user_ids, @current_community.id, @pooltool_owner, DateTime.now)
 
@@ -348,7 +370,7 @@ class PoolToolController < ApplicationController
                                                                                           bookings.reason as reason,
                                                                                           bookings.description as description,
                                                                                           bookings.device_returned as device_returned,
-                                                                                          transactions.current_state,
+                                                                                          transactions.current_state as transaction_status,
                                                                                           people.given_name as renter_given_name,
                                                                                           people.family_name as renter_family_name,
                                                                                           people.username as renting_entity_username,
@@ -356,6 +378,7 @@ class PoolToolController < ApplicationController
                                                                                           people.id as renter_id")
                                                                                 .where("  listings.id IN (?) AND
                                                                                           transactions.community_id = ? AND
+                                                                                          #{transaction_not_invalid} AND
                                                                                           listings.open = '1' AND
                                                                                           (bookings.end_on > ? OR bookings.device_returned = false) AND
                                                                                           (listings.valid_until IS NULL OR valid_until > ?) AND
@@ -372,7 +395,7 @@ class PoolToolController < ApplicationController
         renter = Person.where(id: transaction["renter_id"]).first
 
         # If the current user DOES belong to company and the booking is not one from his company
-        if transaction["booking_confirmed"] == 0
+        if @transaction_confirmed == false
           relation = "rentingRequest"
         elsif @belongs_to_company &&                                               # current user does belong to pool tool company
            transaction['listing_author_id'] != @current_user.get_company.id &&  # listing author is not the company the current user belongs to

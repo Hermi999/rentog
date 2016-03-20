@@ -524,10 +524,15 @@ class Person < ActiveRecord::Base
 
   def should_receive?(email_type)
     confirmed_email = !confirmed_notification_emails.empty?
+
     if email_type == "community_updates"
       # this is handled outside prefenrences so answer separately
       return active && confirmed_email && min_days_between_community_updates < 100000
+
+    elsif email_type == "email_when_conversation_confirmed_free"
+      email_type = "email_when_conversation_accepted"
     end
+
     active && confirmed_email && preferences && preferences[email_type]
   end
 

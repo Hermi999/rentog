@@ -334,6 +334,7 @@ de:
           rejected: Abgelehnt
           paid: Bezahlt
           confirmed: Bestätigt
+          confirmed_free: Bestätigt (gratis)
           canceled: Storniert
           initiated: "Warten auf die Paypal Zahlung"
           pending_ext: "Warten auf die Paypal Zahlung"
@@ -926,6 +927,7 @@ de:
     conversation_status_changed:
       has_accepted_your_offer: "%{accepter} hat dein Angebot %{listing} akzeptiert."
       has_accepted_your_request: "%{accepter} hat deine Anfrage %{listing} akzeptiert."
+      has_confirmed_free_your_request: "%{accepter} hat deine Anfrage %{listing} akzeptiert."
       has_rejected_your_offer: "%{accepter} hat dein Angebot %{listing} abgelehnt."
       has_rejected_your_request: "%{accepter} hat deine Anfrage %{listing} abgelehnt."
       view_thread: "Konversation anzeigen"
@@ -933,6 +935,7 @@ de:
       your_offer_was_rejected: "Dein Angebot wurde abgelehnt"
       your_request_was_accepted: "Deine Anfrage wurde akzeptiert"
       your_request_was_rejected: "Deine Anfrage wurde abgelehnt"
+      your_request_was_confirmed_free: "Deine Anfrage wurde akzeptiert"
       you_can_now_pay_to: "Du kannst jetzt den betreffenden Betrag an %{payment_receiver} zahlen."
       pay_now: "Jetzt bezahlen"
       remember_to_confirm: "Wenn der Auftrag erfüllt ist, denke daran, ihn als erledigt zu markieren. Wenn der Auftrag noch nicht erfüllt ist, hast Du %{days_to_automatic_confirmation} Tage, um ihn abzubrechen. Sonst wird er automatisch als abgeschlossen markiert werden."
@@ -2400,7 +2403,7 @@ de:
     invalid_booking_dates: "Ungültiger Buchungszeitraum: Vielleicht hat jemand anderes schon an einem der gewählten Tage das Gerät gebucht oder deine Buchung liegt in der Vergangenheit. Bitte lade die Seite neu und versuche es noch einmal."
     show:
       renting_request: "Mietanfrage"
-      own_renting_request: "Eigene Mietanfrage"
+      own_renting_request: "Eigene (unbestätigte) Mietanfrage"
       show_legend: "Zeige Legende"
       hide_legend: "Verberge Legende"
       legend: "Legende"
