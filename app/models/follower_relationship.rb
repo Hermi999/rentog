@@ -83,4 +83,17 @@ class FollowerRelationship < ActiveRecord::Base
 
     return "no_relation"
   end
+
+  def self.payment_necessary?(owner, renter_id)
+    follower_relation = owner.inverse_follower_relationships.where(:person_id => renter_id).first
+    if follower_relation
+      if follower_relation.payment_necessary
+        return true
+      else
+        return false
+      end
+    else
+      return true
+    end
+  end
 end

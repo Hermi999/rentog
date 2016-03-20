@@ -50,6 +50,17 @@ module TransactionHelper
         }
       } },
 
+      pending_free: ->() { {
+        author: {
+          icon: icon_waiting_you,
+          text: t("conversations.status.waiting_for_you_to_accept_request")
+        },
+        starter: {
+          icon: icon_waiting_other,
+          text: t("conversations.status.waiting_for_listing_author_to_accept_request", listing_author_name: other_party_name)
+        }
+      } },
+
       preauthorized: ->() { {
         author: {
           icon: icon_waiting_you,
@@ -156,6 +167,13 @@ module TransactionHelper
         }
       } },
 
+      confirmed_free: ->() { {
+        both: {
+          icon: icon_tag("check", ["icon-fix-rel", "confirmed"]),
+          text: t("conversations.status.request_accepted")
+        }
+      } },
+
       canceled: ->() { {
         both: {
           icon: icon_tag("cross", ["icon-fix-rel", "canceled"]),
@@ -213,6 +231,11 @@ module TransactionHelper
     statuses = if conversation.listing && !conversation.status.eql?("free")
       status_hash = {
         pending: ->() { {
+          both: [
+            pending_status(conversation)
+          ]
+        } },
+        pending_free: ->() { {
           both: [
             pending_status(conversation)
           ]
@@ -279,6 +302,12 @@ module TransactionHelper
         confirmed: ->() { {
           both: [
             status_info(t("conversations.status.request_confirmed"), icon_classes: icon_for("confirmed")),
+            feedback_status(conversation, @current_community.testimonials_in_use)
+          ]
+        } },
+        confirmed_free: ->() { {
+          both: [
+            status_info(t("conversations.status.request_accepted"), icon_classes: icon_for("confirmed")),
             feedback_status(conversation, @current_community.testimonials_in_use)
           ]
         } },

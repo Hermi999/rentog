@@ -386,7 +386,7 @@ class TransactionsController < ApplicationController
       conversation_other_party: person_entity_with_url(conversation[:other_person]),
       is_author: is_author,
       role: role,
-      can_book_for_free: can_book_for_free?(listing.author, conversation[:starter_person][:id]),
+      can_book_for_free: !FollowerRelationship.payment_necessary?(listing.author, tx_model.starter_id),
       message_form: MessageForm.new({sender_id: @current_user.id, conversation_id: conversation[:id]}),
       message_form_action: person_message_messages_path(@current_user, :message_id => conversation[:id]),
       price_break_down_locals: price_break_down_locals(tx)
@@ -534,7 +534,7 @@ class TransactionsController < ApplicationController
     when :none
       # TODO Do I really have to do the state transition here?
       # Shouldn't it be handled by the TransactionService
-      MarketplaceService::Transaction::Command.transition_to(transaction[:id], "free")
+      MarketplaceService::Transaction::Command.transition_to(transaction[:id], "pending_free")
 
       # TODO: remove references to transaction model
       transaction = Transaction.find(transaction[:id])
@@ -659,7 +659,7 @@ class TransactionsController < ApplicationController
              booking_start: booking_start,
              booking_end: booking_end,
              quantity: quantity,
-             can_book_for_free: can_book_for_free?(@listing_owner, @current_user.id),
+             can_book_for_free: !FollowerRelationship.payment_necessary?(@listing_owner, @current_user.id),
              form_action: person_transactions_path(person_id: @current_user, listing_id: listing_model.id)
            }
   end
@@ -748,16 +748,5 @@ class TransactionsController < ApplicationController
         flash[:error] = "Access denied"
         redirect_to root and return
       end
-  end
-
-  def can_book_for_free?(owner, renter_id)
-
-    follower_relation = owner.inverse_follower_relationships.where(:person_id => renter_id).first
-
-    if follower_relation && !follower_relation.payment_necessary
-      return true
-    end
-
-    false
   end
 end

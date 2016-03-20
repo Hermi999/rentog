@@ -25,6 +25,11 @@ class ConfirmConversation
     release_escrow if @hold_in_escrow
   end
 
+  # wah - Confirm free transaction
+  def confirm_free!
+    Delayed::Job.enqueue(TransactionConfirmedJob.new(@transaction.id, @community.id))
+  end
+
   # Listing canceled by user
   def cancel!
     Delayed::Job.enqueue(TransactionCanceledJob.new(@transaction.id, @community.id))
