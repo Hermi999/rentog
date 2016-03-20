@@ -587,7 +587,7 @@ function style_action_selectors() {
             $(".visible-when-" + action).removeClass('hidden');
 
             $(this).addClass(action);
-            $(".conversation-action").find('input:radio[id=' + $(this).attr('name') + ']').prop('checked', true);
+            $(".conversation-action").find('input:radio[id="action-' + $(this).attr('id') + '"]').prop('checked', true);
             $("#conversation_message_attributes_action").val(action);
             $("#conversation_status").val(action + 'ed');
           }

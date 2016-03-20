@@ -121,7 +121,7 @@ module TransactionViewUtils
       }
     when "confirmed_free"
       {
-        sender: starter,
+        sender: author,
         mood: :positive
       }
     else

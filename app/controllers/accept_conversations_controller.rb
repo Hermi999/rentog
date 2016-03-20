@@ -30,7 +30,6 @@ class AcceptConversationsController < ApplicationController
 
   # Handles accept and reject forms
   def acceptance
-
     # Update first everything else than the status, so that the payment is in correct
     # state before the status change callback is called
     if @listing_conversation.update_attributes(params[:listing_conversation].except(:status))

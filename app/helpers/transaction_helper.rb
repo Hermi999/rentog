@@ -57,7 +57,7 @@ module TransactionHelper
         },
         starter: {
           icon: icon_waiting_other,
-          text: t("conversations.status.waiting_for_listing_author_to_accept_request", listing_author_name: other_party_name)
+          text: t("conversations.status.waiting_for_listing_author_to_accept_request_free", listing_author_name: other_party_name)
         }
       } },
 
@@ -237,7 +237,7 @@ module TransactionHelper
         } },
         pending_free: ->() { {
           both: [
-            pending_status(conversation)
+            pending_status_free(conversation)
           ]
         } },
         accepted: ->() { {
@@ -350,6 +350,14 @@ module TransactionHelper
       waiting_for_current_user_to_accept(conversation)
     else
       waiting_for_author_acceptance(conversation)
+    end
+  end
+
+  def pending_status_free(conversation)
+    if current_user?(conversation.listing.author)
+      waiting_for_current_user_to_accept(conversation)
+    else
+      waiting_for_author_acceptance_free(conversation)
     end
   end
 
@@ -516,6 +524,18 @@ module TransactionHelper
 
     link = t(
       "conversations.status.waiting_for_listing_author_to_accept_request",
+      :listing_author_name => other_party_link
+    ).html_safe
+
+    status_info(link, icon_classes: 'ss-clock')
+  end
+
+  def waiting_for_author_acceptance_free(conversation)
+    other_party = conversation.other_party(@current_user)
+    other_party_link = link_to(other_party.given_name_or_username, other_party)
+
+    link = t(
+      "conversations.status.waiting_for_listing_author_to_accept_request_free",
       :listing_author_name => other_party_link
     ).html_safe
 
