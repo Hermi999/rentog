@@ -11,59 +11,43 @@ class PoolToolController < ApplicationController
     # Is admin or employee of company (or rentog admin)?
     @belongs_to_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin)
 
-    # Button text
-      if @belongs_to_company
-        @add_booking_text = t('pool_tool.show.addNewBooking')
-
-        # If no company trusts me
-        if @pooltool_owner.followers == []
-          @external_booking_text = t('pool_tool.show.createSharedPool')
-          @external_booking_link = get_wp_url("blog/2016/03/10/create-shared-pool")
-        else
-          @external_booking_text = t('pool_tool.show.newExternalBooking')
-          @external_booking_link = marketplace_path(:restrictedMarketplace => "1")
-        end
-      else
-        @add_booking_text = t('pool_tool.show.addNewBooking_visitor')
-        @external_booking_text = t('pool_tool.show.newExternalBooking_visitor')
-        @external_booking_link = marketplace_path(:restrictedMarketplace => "1")
-      end
-
+    # BUTTONS TEXTs
+    addjustButtonText
 
     # OPEN LISTINGS OF THE COMPANY
-    temp_avail = Listing::TRUSTED_AVAILABILITY_OPTIONS
-    temp_avail = Listing::VALID_AVAILABILITY_OPTIONS if @belongs_to_company
+      temp_avail = Listing::TRUSTED_AVAILABILITY_OPTIONS
+      temp_avail = Listing::VALID_AVAILABILITY_OPTIONS if @belongs_to_company
 
-    search = {
-      author_id: @pooltool_owner.id,
-      include_closed: false,
-      page: 1,
-      per_page: 1000,
-      availability: temp_avail
-    }
+      search = {
+        author_id: @pooltool_owner.id,
+        include_closed: false,
+        page: 1,
+        per_page: 1000,
+        availability: temp_avail
+      }
 
-    includes = [:author, :listing_images]
-    listings = ListingIndexService::API::Api.listings.search(community_id: @current_community.id, search: search, includes: includes).and_then { |res|
-      Result::Success.new(
-        ListingIndexViewUtils.to_struct(
-        result: res,
-        includes: includes,
-        page: search[:page],
-        per_page: search[:per_page],
-      ))
-    }.data
+      includes = [:author, :listing_images]
+      listings = ListingIndexService::API::Api.listings.search(community_id: @current_community.id, search: search, includes: includes).and_then { |res|
+        Result::Success.new(
+          ListingIndexViewUtils.to_struct(
+          result: res,
+          includes: includes,
+          page: search[:page],
+          per_page: search[:per_page],
+        ))
+      }.data
 
-    # Only use certain fields in JS
-    open_listings_array = []
-    listings.each do |listing|
-      small_image = listing.listing_images.first.small_3x2 if listing.listing_images.first
-      open_listings_array << {  name: listing.title,
-                                desc: listing.availability,
-                                availability: listing.availability,
-                                listing_id: listing.id,
-                                created_at: listing.created_at,
-                                image: small_image }
-    end
+      # Only use certain fields in JS
+      open_listings_array = []
+      listings.each do |listing|
+        small_image = listing.listing_images.first.small_3x2 if listing.listing_images.first
+        open_listings_array << {  name: listing.title,
+                                  desc: listing.availability,
+                                  availability: listing.availability,
+                                  listing_id: listing.id,
+                                  created_at: listing.created_at,
+                                  image: small_image }
+      end
 
 
     # GET ALL COMPANY TRANSACTIONS WITH OWN LISTINGS
@@ -91,60 +75,15 @@ class PoolToolController < ApplicationController
 
     transaction_array.each do |transaction|
 
-      @transaction_confirmed = transaction['transaction_status'] == nil ||
-                              transaction['transaction_status'] == "confirmed_free" ||
-                              transaction['transaction_status'] == "confirmed"
+      # get the status of the transaction (pending or confirmed)
+      get_transaction_status(transaction)
 
-      @transaction_pending = transaction['transaction_status'] == "pending" ||
-                            transaction['transaction_status'] == "pending_free" ||
-                            transaction['transaction_status'] == "pending_ext" ||
-                            transaction['transaction_status'] == "preauthorized" ||
-                            transaction['transaction_status'] == "accepted" ||
-                            transaction['transaction_status'] == "paid"
+      # returns what relation a specific transaction has to the company
+      tr_starter = get_transaction_starter_and_relation(transaction)
 
-      renter = get_renter_and_relation(transaction)
-
-      if @transaction_pending
-        if transaction['renter_id'] == @current_user.id
-          renting_entity = t("pool_tool.show.own_renting_request")
-        else
-          renting_entity = t("pool_tool.show.renting_request") + " (" + transaction['renting_entity_organame'] + ")"
-        end
-      elsif transaction['reason']
-        renting_entity = transaction['reason']
-      elsif (renter[:relation] == "trustedCompany" || renter[:relation] == "trustedEmployee") && transaction['renting_entity_organame'] != "" && transaction['renting_entity_organame'] != nil
-        renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name'] + " (" + transaction['renting_entity_organame'] + ")"
-      else
-        renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name']
-      end
-
-
-      # get author of a listing
-      possible_companies.each do |company|
-        if company.id == transaction['listing_author_id']
-          transaction['listing_author_username'] = company.username
-          transaction['listing_author_organization_name'] = company.organization_name
-        end
-      end
-
-      # Hide description and who booked the device, if visitor does not belong
-      # to company at booking is not his or his employees_do_not_post
-      if !@belongs_to_company && renter[:relation] == "privateBooking"
-        transaction['description'] = 'private'
-        renting_entity = 'private'
-      end
-
-      # Hide description and who booked the devices, if
-      #   - a company member is viewing the pool tool
-      #   - the listing author is not the pool tool ower and
-      #   - the booking is not related to a company member
-      if @belongs_to_company &&
-         transaction['listing_author_id'] != @pooltool_owner.id &&
-         renter[:relation] == "privateBooking"
-
-            transaction['description'] = 'private'
-            renting_entity = 'private'
-      end
+      # Update the title and the description of the booking according to
+      # the different transaction types
+      edit_tr_title_and_description(transaction, tr_starter, possible_companies)
 
 
       if prev_listing_id != transaction['listing_id']
@@ -156,17 +95,9 @@ class PoolToolController < ApplicationController
         transaction['name'] = transaction['title']
         transaction['desc'] = availability
         transaction['already_booked_dates'] = Listing.already_booked_dates(transaction['listing_id'], @current_community)
-        transaction['values'] = [{
-          'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
-          'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
-          'label' => renting_entity,
-          'customClass' =>  "gantt_" + renter[:relation],
-          'transaction_id' => transaction['transaction_id'],
-          'renter_id' => transaction['renter_id'],
-          'renter_company_id' => renter[:renter].get_company.id,
-          'description' => transaction['description'],
-          'confirmed' => @transaction_confirmed
-        }]
+
+        # set the transaction specific values of the first element in the transaction array of this listing
+        transaction['values'] = [set_transaction_element_values(transaction, tr_starter)]
 
         if availability == "extern"
           temp_listing = Listing.where(:id => transaction['listing_id']).first
@@ -182,35 +113,22 @@ class PoolToolController < ApplicationController
 
       else
         # Previous Listing, new transaction
-        newTrans = {
-          'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
-          'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
-          'label' => renting_entity,
-          'customClass' => "gantt_" + renter[:relation],
-          'transaction_id' => transaction['transaction_id'],
-          'renter_id' => transaction['renter_id'],
-          'renter_company_id' => renter[:renter].get_company.id,
-          'description' => transaction['description'],
-          'confirmed' => @transaction_confirmed
-        }
+        # add transaction specific values to the transaction array of this listing
+        newTrans = set_transaction_element_values(transaction, tr_starter)
         devices[counter]['values'] << newTrans
       end
     end
-
-
 
     # OPEN BOOKINGS OF CURRENT USER (if belongs to company)
     # Get only bookings which are booked by the user AND are currently in state
     # active (that means the user hadn't give them back) AND are past, but the
     # user did not return them
-    @user_bookings_array = []
-    if @belongs_to_company
-      user_bookings1 = intern_transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
-      user_bookings2 = extern_transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
-      @user_bookings_array = user_bookings1.as_json + user_bookings2.as_json
-    end
-
-
+      @user_bookings_array = []
+      if @belongs_to_company
+        user_bookings1 = intern_transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
+        user_bookings2 = extern_transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
+        @user_bookings_array = user_bookings1.as_json + user_bookings2.as_json
+      end
 
     # Variables which should be send to JavaScript
     poolTool_gon_vars(devices, open_listings_array)
@@ -390,7 +308,7 @@ class PoolToolController < ApplicationController
 
 
     # returns what relation a specific transaction has to the company
-    def get_renter_and_relation(transaction)
+    def get_transaction_starter_and_relation(transaction)
       # How is the relation between the company & the renter of this one listing?
         renter = Person.where(id: transaction["renter_id"]).first
 
@@ -440,6 +358,103 @@ class PoolToolController < ApplicationController
         end
 
         { renter: renter, relation: relation }
+    end
+
+    # Update the title and the description of the booking according to
+    # the different transaction types
+    def edit_tr_title_and_description(transaction, tr_starter, possible_companies)
+      renting_entity = nil
+
+      if @transaction_pending
+        if transaction['renter_id'] == @current_user.id
+          renting_entity = t("pool_tool.show.own_renting_request")
+        else
+          renting_entity = t("pool_tool.show.renting_request") + " (" + transaction['renting_entity_organame'] + ")"
+        end
+      elsif transaction['reason']
+        renting_entity = transaction['reason']
+      elsif (tr_starter[:relation] == "trustedCompany" || tr_starter[:relation] == "trustedEmployee") && transaction['renting_entity_organame'] != "" && transaction['renting_entity_organame'] != nil
+        renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name'] + " (" + transaction['renting_entity_organame'] + ")"
+      else
+        renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name']
+      end
+
+
+      # get author of a listing
+      possible_companies.each do |company|
+        if company.id == transaction['listing_author_id']
+          transaction['listing_author_username'] = company.username
+          transaction['listing_author_organization_name'] = company.organization_name
+        end
+      end
+
+      # Hide description and who booked the device, if visitor does not belong
+      # to company at booking is not his or his employees_do_not_post
+      if !@belongs_to_company && tr_starter[:relation] == "privateBooking"
+        transaction['description'] = 'private'
+        renting_entity = 'private'
+      end
+
+      # Hide description and who booked the devices, if
+      #   - a company member is viewing the pool tool
+      #   - the listing author is not the pool tool ower and
+      #   - the booking is not related to a company member
+      if @belongs_to_company &&
+         transaction['listing_author_id'] != @pooltool_owner.id &&
+         tr_starter[:relation] == "privateBooking"
+
+            transaction['description'] = 'private'
+            renting_entity = 'private'
+      end
+
+      transaction['renting_entity'] = renting_entity
+    end
+
+    # set the values of the first element in the transaction array of this listing
+    def set_transaction_element_values(transaction, tr_starter)
+      {
+        'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
+        'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
+        'label' => transaction['renting_entity'],
+        'customClass' => "gantt_" + tr_starter[:relation],
+        'transaction_id' => transaction['transaction_id'],
+        'renter_id' => transaction['renter_id'],
+        'renter_company_id' => tr_starter[:renter].get_company.id,
+        'description' => transaction['description'],
+        'confirmed' => @transaction_confirmed
+      }
+    end
+
+    def addjustButtonText
+      if @belongs_to_company
+        @add_booking_text = t('pool_tool.show.addNewBooking')
+
+        # If no company trusts me
+        if @pooltool_owner.followers == []
+          @external_booking_text = t('pool_tool.show.createSharedPool')
+          @external_booking_link = get_wp_url("blog/2016/03/10/create-shared-pool")
+        else
+          @external_booking_text = t('pool_tool.show.newExternalBooking')
+          @external_booking_link = marketplace_path(:restrictedMarketplace => "1")
+        end
+      else
+        @add_booking_text = t('pool_tool.show.addNewBooking_visitor')
+        @external_booking_text = t('pool_tool.show.newExternalBooking_visitor')
+        @external_booking_link = marketplace_path(:restrictedMarketplace => "1")
+      end
+    end
+
+    def get_transaction_status(transaction)
+      @transaction_confirmed = false
+      @transaction_pending = false
+
+      case transaction['transaction_status']
+        when nil, "confirmed", "confirmed_free"
+          @transaction_confirmed = true
+        when "pending", "pending_free", "pending_ext", "preauthorized", "accepted", "paid"
+        else
+          @transaction_pending = true
+        end
     end
 
     # sets all variables which are needed in Javascript on the client side

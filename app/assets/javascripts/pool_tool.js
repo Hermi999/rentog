@@ -1,5 +1,5 @@
 /* Tell jshint that there exists a global called gon */
-/* globals gon, prettyPrint, initialize_poolTool_createTransaction_form, getDatesBetweenRange, getDaysBetweenDates, Spinner, console */
+/* globals gon, getUrlParameter, prettyPrint, initialize_poolTool_createTransaction_form, getDatesBetweenRange, getDaysBetweenDates, Spinner, console */
 /* jshint unused: false */
 
 window.ST = window.ST || {};
@@ -848,7 +848,7 @@ window.ST.poolTool = (function() {
     $("input[type='radio'][name='listing_id'").each(function(index,element){
       if ($(element).parent().is(":visible")){
         $(element).prop("checked", true);
-        return
+        return;
       }
     });
   }

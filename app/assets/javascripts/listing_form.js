@@ -597,13 +597,6 @@ window.ST = window.ST || {};
   };
 
   module.initialize_custom_fields_checkboxes = function(max_custom_fields, limit_reached_text, pricing_link){
-    disable_checkboxes();
-
-    // max custom fields
-    $('input[type=checkbox]').change(function(){
-      disable_checkboxes();
-    });
-
     function disable_checkboxes(){
       // how many checkboxes are enabled
       var counter = 0;
@@ -620,7 +613,7 @@ window.ST = window.ST || {};
           if (value.checked === false){
             value.disabled = true;
             // Show message
-            $("body").append("<a href='"+ pricing_link +"' class='upgrade_profile_static'>" + limit_reached_text + "</a>")
+            $("body").append("<a href='"+ pricing_link +"' class='upgrade_profile_static'>" + limit_reached_text + "</a>");
           }
         });
       }
@@ -631,6 +624,14 @@ window.ST = window.ST || {};
         });
       }
     }
-  }
+
+    disable_checkboxes();
+
+    // max custom fields
+    $('input[type=checkbox]').change(function(){
+      disable_checkboxes();
+    });
+
+  };
 
 })(window.ST);

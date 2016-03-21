@@ -8,7 +8,7 @@ window.ST = window.ST || {};
     var start_date = datepicker_start_date || null;
 
     if(datepicker_start_date === "today"){
-      dateipcker_start_date = new Date(new Date().setHours(1,0,0,0));
+      start_date = new Date(new Date().setHours(1,0,0,0));
     }
 
     var options = {

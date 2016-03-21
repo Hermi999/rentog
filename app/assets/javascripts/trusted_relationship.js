@@ -31,7 +31,7 @@ window.ST.trusted_relationship = (function() {
       $('#shipment_necessary_group').css("color", "black");
       $('#payment_necessary_group').css("color", "black");
     }
-  };
+  }
 
   return {init: init};
 })();

@@ -628,6 +628,8 @@ class ApplicationController < ActionController::Base
           if visitor.is_employee_of?(site_owner.id)
             :company_employee                           # employee of site owner
           elsif site_owner.follows?(visitor.company)
+            @trusted_relation = site_owner.inverse_follower_relationships.where(:person_id => visitor.get_company.id).first
+            rel = FollowerRelationship.get_company_user_relation(@trusted_relation)
             (rel + "ed_company_employee").to_sym        # employee the site owner (fully) trusts
           elsif site_owner == visitor
             :employee_own_site                          # employee is on own site
