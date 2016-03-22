@@ -2021,7 +2021,7 @@ de:
       they_trust_singular: "Vertraut %{count}nem Unternehmen (Shared Pool)"
       show_all_trusted_people: "Zeige alle Unternehmen denen du vertraust"
       no_trusted_people: "Es gibt aktuell keine Unternehmen denen du vertraust (Shared Pool)"
-      they_no_trusted_people: "Vertraut aktuell keinenm anderen Unternehmen (Shared Pool)"
+      they_no_trusted_people: "Vertraut aktuell keinem anderen Unternehmen (Shared Pool)"
     companies_with_trust:
       they_trust_you_plural: "%{count} andere Unternehmen vertrauen dir (Shared Pool)"
       they_trust_you_singular: "%{count} anderes Unternehmen vertraut dir (Shared Pool)"

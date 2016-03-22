@@ -249,6 +249,7 @@ class ListingsController < ApplicationController
         else
           form_path = new_person_person_message_path(@current_user.company)
         end
+        rent_button = "rent"
 
       when :full_trusted_company_admin
         show_price = @trusted_relation.payment_necessary

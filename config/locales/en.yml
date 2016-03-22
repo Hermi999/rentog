@@ -2025,6 +2025,7 @@ en:
       they_trust_singular: "%{count} trusted company (Shared Pool)"
       show_all_trusted_people: "Show all trusted companies"
       no_trusted_people: "No trusted companies (Shared Pool)"
+      they_no_trusted_people: "No trusted companies (Shared Pool)"
     companies_with_trust:
       they_trust_you_plural: "%{count} other companies trust you (Shared Pool)"
       they_trust_you_singular: "%{count} other company trusts you (Shared Pool)"

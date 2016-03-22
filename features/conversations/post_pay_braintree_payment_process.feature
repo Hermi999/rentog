@@ -18,8 +18,8 @@ Feature: Post pay Braintree payment process
   Scenario: User successfully buys Skateboard using post pay
     Given I am logged in as "buyer_bob"
 
-    #Given Braintree escrow release is mocked
-    #  And Braintree merchant creation is mocked
+    Given Braintree escrow release is mocked
+      And Braintree merchant creation is mocked
 
     When I buy that listing
     Then I should see that the price of a listing is "$50"

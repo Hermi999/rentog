@@ -70,6 +70,10 @@ class FollowersController < ApplicationController
     # each company can have n (=limit) followed companies and n followers
     # if any of the two involved companies reach the limit following is not possible
     def ensure_user_plan_limit_not_reached
+      if @current_user.is_employee? || @person.is_employee?
+        return
+      end
+
       userplanservice = UserPlanService::Api.new
       @current_user_max_trusted_users = userplanservice.get_plan_feature_level(@current_user, :company_trusted_users)[:value]
       @other_company_max_trusted_users = userplanservice.get_plan_feature_level(@person, :company_trusted_users)[:value]
@@ -82,7 +86,7 @@ class FollowersController < ApplicationController
         flash[:error] = t('people.show.followed_limit_reached2', :link => get_wp_url('pricing')).html_safe
         respond_to do |format|
           format.html { redirect_to :back }
-          #format.js { render :partial => "people/max_followers_reached" }
+          format.js { render :partial => "people/max_followers_reached" }
         end
         return
       end
@@ -93,7 +97,7 @@ class FollowersController < ApplicationController
         flash[:error] = t('people.show.followers_limit_reached').html_safe
         respond_to do |format|
           format.html { redirect_to :back }
-          #format.js { render :partial => "people/max_followers_reached" }
+          format.js { render :partial => "people/max_followers_reached" }
         end
       end
       return
@@ -103,7 +107,10 @@ class FollowersController < ApplicationController
     def respond_after_follow_request
       trusted_relation = FollowerRelationship.where(:person_id => @person.id, :follower_id => @current_user.id).first
       if trusted_relation
-        redirect_to edit_person_follower_path(@current_user, trusted_relation) and return
+        respond_to do |format|
+          format.html { redirect_to edit_person_follower_path(@current_user, trusted_relation) and return }
+          format.js { render :partial => "people/follow_button", :locals => { :person => @person } and return }
+        end
       end
 
       respond_to do |format|

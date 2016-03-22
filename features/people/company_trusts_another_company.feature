@@ -6,13 +6,19 @@ Feature: Company trusts and untrusts another company
        | kassi_testperson1    | Bosch      |
        | kassi_testperson2    | Siemens    |
     And I am logged in as "kassi_testperson1"
+    And I am a "basic" user
+    And "kassi_testperson2" is a "basic" user
 
   @javascript
   Scenario: Company trusts another company
     When I go to the profile page of "kassi_testperson2"
     And I follow "Trust"
-    Then I should see "Trusted" within ".profile-action-buttons-desktop"
-    And I should see "Successfully trusted company. The other company can now see and book your devices which are visible for trusted companies"
+    Then I should see "Configure your relationship with company Siemens"
+    And I should see "Trust admin & employees"
+    And I should see "Trust only admin"
+    And I should see "Always confirm"
+    When I press "Save"
+    Then I should see "Siemens" within ".profile-title"
     When I go to my profile page
     Then I should see "Siemens" within "#profile-followed-people-list"
     And "kassi_testperson2@example.com" should have 1 email

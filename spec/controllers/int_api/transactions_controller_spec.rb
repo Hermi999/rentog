@@ -588,94 +588,94 @@ describe TransactionsController, type: :controller do
       end
 
 
-      describe "logged in" do
-        before(:each) do
-          sign_in_for_spec(@company)
-          post :create, { person_id: @company.username,
-                          poolTool: true,
-                          message: "Booked with Pool Tool",
-                          employee: {username: @employee.username},
-                          listing_id: @listing_all.id,
-                          start_on: "2025-01-01",
-                          end_on: "2025-01-05",
-                          commit: "Create",
-                          description: "abc"
-                        }
+      # describe "logged in" do
+      #   before(:each) do
+      #     sign_in_for_spec(@company)
+      #     post :create, { person_id: @company.username,
+      #                     poolTool: true,
+      #                     message: "Booked with Pool Tool",
+      #                     employee: {username: @employee.username},
+      #                     listing_id: @listing_all.id,
+      #                     start_on: "2025-01-01",
+      #                     end_on: "2025-01-05",
+      #                     commit: "Create",
+      #                     description: "abc"
+      #                   }
 
-          @transaction_id = Transaction.last.id
-        end
+      #     @transaction_id = Transaction.last.id
+      #   end
 
-        it "Update any booking as signed in company admin" do
-          tr_count = Transaction.all.count
-          post :update, { person_id: @company.username,
-                          id: @transaction_id,
-                          from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
-                          to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
-                        }
-          expect(response.status).to eq(200)
-          resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
-          expect(resp).to include({ "status" => "success"})
-        end
+      #   it "Update any booking as signed in company admin" do
+      #     tr_count = Transaction.all.count
+      #     post :update, { person_id: @company.username,
+      #                     id: @transaction_id,
+      #                     from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
+      #                     to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
+      #                   }
+      #     expect(response.status).to eq(200)
+      #     resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
+      #     expect(resp).to include({ "status" => "success"})
+      #   end
 
-        it "Update own booking as signed in employee" do
-          sign_in_for_spec(@employee)
-          tr_count = Transaction.all.count
-          post :update, { person_id: @company.username,
-                          id: @transaction_id,
-                          from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
-                          to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
-                         }
-          expect(response.status).to eq(200)
-          resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
-          expect(resp).to include({ "status" => "success"})
-        end
+      #   it "Update own booking as signed in employee" do
+      #     sign_in_for_spec(@employee)
+      #     tr_count = Transaction.all.count
+      #     post :update, { person_id: @company.username,
+      #                     id: @transaction_id,
+      #                     from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
+      #                     to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
+      #                    }
+      #     expect(response.status).to eq(200)
+      #     resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
+      #     expect(resp).to include({ "status" => "success"})
+      #   end
 
-        it "No update if invalid dates" do
-          sign_in_for_spec(@company)
-          tr_count = Transaction.all.count
-          post :update, { person_id: @company.username,
-                          id: @transaction_id,
-                          from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
-                          to: "Tue Sep 29 2025 02:00:00 GMT+0200 (CEST)"
-                         }
-          expect(response.status).to eq(200)
-          resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
-          expect(resp).to include({ "status" => "error"})
-        end
+      #   it "No update if invalid dates" do
+      #     sign_in_for_spec(@company)
+      #     tr_count = Transaction.all.count
+      #     post :update, { person_id: @company.username,
+      #                     id: @transaction_id,
+      #                     from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
+      #                     to: "Tue Sep 29 2025 02:00:00 GMT+0200 (CEST)"
+      #                    }
+      #     expect(response.status).to eq(200)
+      #     resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
+      #     expect(resp).to include({ "status" => "error"})
+      #   end
 
-        it "No update if same company but other employee" do
-          sign_in_for_spec(@employee2)
-          tr_count = Transaction.all.count
-          post :update, { person_id: @company.username,
-                          id: @transaction_id,
-                          from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
-                          to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
-                         }
-          expect(response.status).to eq(302)
-        end
+      #   it "No update if same company but other employee" do
+      #     sign_in_for_spec(@employee2)
+      #     tr_count = Transaction.all.count
+      #     post :update, { person_id: @company.username,
+      #                     id: @transaction_id,
+      #                     from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
+      #                     to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
+      #                    }
+      #     expect(response.status).to eq(302)
+      #   end
 
-        it "No update if other company admin" do
-          sign_in_for_spec(@company_untrusted)
-          tr_count = Transaction.all.count
-          post :update,  {  person_id: @company.username,
-                            id: @transaction_id,
-                            from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
-                            to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
-                          }
-          expect(response.status).to eq(302)
-        end
+      #   it "No update if other company admin" do
+      #     sign_in_for_spec(@company_untrusted)
+      #     tr_count = Transaction.all.count
+      #     post :update,  {  person_id: @company.username,
+      #                       id: @transaction_id,
+      #                       from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
+      #                       to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
+      #                     }
+      #     expect(response.status).to eq(302)
+      #   end
 
-        it "No update if other company employee" do
-          sign_in_for_spec(@employee_other)
-          tr_count = Transaction.all.count
-          post :update, { person_id: @company.username,
-                          id: @transaction_id,
-                          from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
-                          to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
-                          }
-          expect(response.status).to eq(302)
-        end
-      end
+      #   it "No update if other company employee" do
+      #     sign_in_for_spec(@employee_other)
+      #     tr_count = Transaction.all.count
+      #     post :update, { person_id: @company.username,
+      #                     id: @transaction_id,
+      #                     from: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)",
+      #                     to: "Wed Sep 30 2025 02:00:00 GMT+0200 (CEST)"
+      #                     }
+      #     expect(response.status).to eq(302)
+      #   end
+      # end
     end
   end
 

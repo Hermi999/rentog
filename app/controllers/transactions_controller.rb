@@ -731,11 +731,12 @@ class TransactionsController < ApplicationController
     # Ensure that only pool tool or free transactions of trusted users can be modified
     if @booking.tx.transaction_type == "extern" && !@booking.tx.status.include?("_free")
       error_message = "Access denied"
-      render :json => {
-        action: "update",
-        status: "error",
-        message: error_message
-      } and return
+
+      respond_to do |format|
+        format.json {render :json => { action: "update", status: "error", message: error_message } }
+        format.html { redirect_to :root }
+      end
+      return
     end
 
     # Ensure that user can only verify his own or his employees bookings
@@ -752,11 +753,12 @@ class TransactionsController < ApplicationController
       else
         # All others are not allowed to change bookings
         error_message = "Access denied"
-        render :json => {
-          action: "update",
-          status: "error",
-          message: error_message
-        } and return
+
+        respond_to do |format|
+          format.json { render :json => { action: "update", status: "error", message: error_message }}
+          format.html { redirect_to :root }
+        end
+        return
       end
   end
 end

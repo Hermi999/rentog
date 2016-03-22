@@ -189,9 +189,9 @@
       .row
         %h2
           =t("people.show.employer")
-        = link_to medium_avatar_thumb(@organization), person_path(@organization)
+        = link_to medium_avatar_thumb(@person.get_company), person_path(@person.get_company)
         %p
-          =link_to(@organization.organization_name, person_path(@organization))
+          =link_to(@person.get_company.organization_name, person_path(@person.get_company))
 
 - content_for :extra_javascript do
   :javascript

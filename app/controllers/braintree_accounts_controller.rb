@@ -117,6 +117,7 @@ class BraintreeAccountsController < ApplicationController
       .merge(hidden_account_number: StringUtils.trim_and_hide(params[:braintree_account][:account_number]))
 
     @braintree_account = BraintreeAccount.new(model_attributes)
+
     if @braintree_account.valid?
       # Save Braintree account before calling the Braintree API
       # Braintree may trigger the webhook very, very fast (at least in sandbox)

@@ -58,7 +58,7 @@ Feature: User requests an item in item offer
     And I am on the marketplace
     When I follow "Hammer"
     And I press "Borrow this item"
-    And I press "Send message"
+    And I press "Send request"
     Then I should see "This field is required."
 
   @javascript

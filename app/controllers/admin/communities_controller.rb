@@ -347,7 +347,7 @@ class Admin::CommunitiesController < ApplicationController
   end
 
   def update(model, params, path, action, &block)
-    if model.update_attributes(params.permit(:braintree_public_key, :braintree_private_key, :braintree_merchant_id, :braintree_master_merchant_id, :braintree_client_side_encryption_key, :braintree_environment, :community_id))
+    if model.update_attributes(params)
       flash[:notice] = t("layouts.notifications.community_updated")
       yield if block_given? #on success, call optional block
       redirect_to path
