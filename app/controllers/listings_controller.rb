@@ -213,13 +213,16 @@ class ListingsController < ApplicationController
 
 
     rent_button = ""
+    special_action_button_label = t(@listing.action_button_tr_key)
     show_price = true
     show_date = true
 
     case relation
       when :rentog_admin
-        rent_button = "rent"
-        form_path = new_transaction_path(listing_id: @listing.id)
+        show_price = true
+        show_date = false
+        rent_button = "pooltool"
+        form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
 
       when :company_admin_own_site
         rent_button = "pooltool"
@@ -250,6 +253,7 @@ class ListingsController < ApplicationController
           form_path = new_person_person_message_path(@current_user.company)
         end
         rent_button = "rent"
+        special_action_button_label = t("listings.show.request_by_company")
 
       when :full_trusted_company_admin
         show_price = @trusted_relation.payment_necessary
@@ -293,6 +297,7 @@ class ListingsController < ApplicationController
              delivery_opts: delivery_opts,
              listing_unit_type: @listing.unit_type,
              rent_button: rent_button,
+             special_action_button_label: special_action_button_label,
              show_price: show_price,
              show_date: show_date,
              country_code: community_country_code,

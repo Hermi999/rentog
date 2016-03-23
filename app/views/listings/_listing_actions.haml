@@ -111,7 +111,7 @@
 
       %button.book-button
         .content
-          = action_button_label(@listing)
+          = special_action_button_label
 
     - if payment_gateway == :paypal && process != :none
       .row
@@ -120,7 +120,7 @@
 
 
   - elsif rent_button == "pooltool"
-    = link_to action_button_label(@listing), form_path, :class => "book-button", :style=>"padding-top:17px;"
+    = link_to special_action_button_label, form_path, :class => "book-button", :style=>"padding-top:17px;"
 
 
   - if is_authorized

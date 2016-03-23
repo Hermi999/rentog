@@ -703,9 +703,8 @@ class TransactionsController < ApplicationController
       end
     end
 
-
-    unless @current_user.is_organization
-      # employee can't make transactions
+    # untrusted employees can't make transactions
+    if @relation == :untrusted_company_employee
       if !@current_community.employees_can_buy_listings
         unless @current_user.has_admin_rights_in?(@current_community)
           flash[:error] = t("transactions.employees_cannot_make_transactions")
@@ -715,13 +714,9 @@ class TransactionsController < ApplicationController
     end
 
     # Unverified Company can't make transactions
-    if @current_user.is_organization
-      if @current_community.require_verification_to_post_listings
-        unless @current_user.can_post_listings_at?(@current_community)
-          flash[:error] = t("transactions.company_not_verified")
-          redirect_to root_path and return
-        end
-      end
+    if @relation == :unverified_company
+      flash[:error] = t("transactions.company_not_verified")
+      redirect_to root_path and return
     end
   end
 
