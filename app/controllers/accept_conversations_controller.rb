@@ -17,14 +17,20 @@ class AcceptConversationsController < ApplicationController
   def accept
     prepare_accept_or_reject_form
     @action = "accept"
-    path_to_payment_settings = payment_settings_path(@current_community.payment_gateway.gateway_type, @current_user)
+
+    if @requester_needs_to_pay
+      path_to_payment_settings = payment_settings_path(@current_community.payment_gateway.gateway_type, @current_user)
+    end
     render(locals: { path_to_payment_settings: path_to_payment_settings, message_form: MessageForm.new })
   end
 
   def reject
     prepare_accept_or_reject_form
+
     @action = "reject"
-    path_to_payment_settings = payment_settings_path(@current_community.payment_gateway.gateway_type, @current_user)
+    if @requester_needs_to_pay
+      path_to_payment_settings = payment_settings_path(@current_community.payment_gateway.gateway_type, @current_user)
+    end
     render(:accept, locals: { path_to_payment_settings: path_to_payment_settings, message_form: MessageForm.new })
   end
 
@@ -62,13 +68,15 @@ class AcceptConversationsController < ApplicationController
   private
 
   def prepare_accept_or_reject_form
-    @requester_needs_to_pay = FollowerRelationship.payment_necessary?(@listing_conversation.author, @listing_conversation.starter_id)
+    @requester_needs_to_pay = FollowerRelationship.payment_necessary?(@listing_conversation.author, @listing_conversation.starter_id) || @listing.get_listing_type != "trusted"
 
-    @payment = @current_community.payment_gateway.new_payment
-    @payment.community = @current_community
-    @payment.default_sum(@listing_conversation.listing, Maybe(@current_community).vat.or_else(0))
+    if @requester_needs_to_pay
+      @payment = @current_community.payment_gateway.new_payment
+      @payment.community = @current_community
+      @payment.default_sum(@listing_conversation.listing, Maybe(@current_community).vat.or_else(0))
 
-    @payout_registration_missing = PaymentRegistrationGuard.new(@current_community, @current_user, @listing).requires_registration_before_accepting?
+      @payout_registration_missing = PaymentRegistrationGuard.new(@current_community, @current_user, @listing).requires_registration_before_accepting?
+    end
   end
 
   def ensure_is_author
