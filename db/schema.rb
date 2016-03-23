@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160228155930) do
+ActiveRecord::Schema.define(version: 20160312083822) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -481,10 +481,13 @@ ActiveRecord::Schema.define(version: 20160228155930) do
   end
 
   create_table "follower_relationships", force: :cascade do |t|
-    t.string   "person_id",   limit: 255, null: false
-    t.string   "follower_id", limit: 255, null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "person_id",          limit: 255,                                       null: false
+    t.string   "follower_id",        limit: 255,                                       null: false
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
+    t.string   "trust_level",        limit: 255, default: "trust_admin_and_employees"
+    t.boolean  "shipment_necessary",             default: false
+    t.boolean  "payment_necessary",              default: false
   end
 
   add_index "follower_relationships", ["follower_id"], name: "index_follower_relationships_on_follower_id", using: :btree
@@ -530,6 +533,17 @@ ActiveRecord::Schema.define(version: 20160228155930) do
   create_table "kassi_events_people", id: false, force: :cascade do |t|
     t.string "person_id",      limit: 255
     t.string "kassi_event_id", limit: 255
+  end
+
+  create_table "listing_attachments", force: :cascade do |t|
+    t.integer  "listing_id",              limit: 4
+    t.string   "author_id",               limit: 255
+    t.string   "attachment_file_name",    limit: 255
+    t.string   "attachment_content_type", limit: 255
+    t.integer  "attachment_file_size",    limit: 4
+    t.datetime "attachment_updated_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "listing_comments", force: :cascade do |t|
@@ -985,6 +999,9 @@ ActiveRecord::Schema.define(version: 20160228155930) do
     t.string   "organization_name",                  limit: 255
     t.boolean  "deleted",                                          default: false
     t.string   "pool_tool_color_schema",             limit: 255,   default: "theme_dark"
+    t.string   "pool_tool_show_legend",              limit: 255,   default: "1"
+    t.string   "user_plan",                          limit: 255,   default: "free"
+    t.string   "user_plan_features",                 limit: 255
   end
 
   add_index "people", ["authentication_token"], name: "index_people_on_authentication_token", using: :btree

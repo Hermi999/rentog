@@ -1,5 +1,5 @@
 /* Tell jshint that there exists a global called gon */
-/* globals gon, prettyPrint, initialize_poolTool_createTransaction_form, getDatesBetweenRange, getDaysBetweenDates, Spinner, console */
+/* globals gon, getUrlParameter, prettyPrint, initialize_poolTool_createTransaction_form, getDatesBetweenRange, getDaysBetweenDates, Spinner, console */
 /* jshint unused: false */
 
 window.ST = window.ST || {};
@@ -43,7 +43,7 @@ window.ST.poolTool = (function() {
   // Initialize the whole pool tool (jquery gantt chart, date pickers, add new booking form, ...)
   function init(){
     $('.page-content').append(window.ST.pooToolSpinner.el);
-    fullScreen();
+    changeDesign();
     initializeCheckOrientation();
     initializeGantt();
     initializeDatepickers();
@@ -53,7 +53,9 @@ window.ST.poolTool = (function() {
     initialize_poolTool_search();
 
     // Show devices the current logged in user has in his hands
-    show_my_borrowed_devices();
+    if (gon.user_active_bookings !== null){
+      show_my_borrowed_devices();
+    }
 
     $(".inline").colorbox({inline:true, width:"90%", height:"95%", maxWidth:"500px", maxHeight:"270px"});
   }
@@ -61,9 +63,11 @@ window.ST.poolTool = (function() {
   // Removes all borrowed booking cards (divs) and then calls the method for showing the borrowed devices
   // This is used for updating the view, for example after a booking has been deleted, changed or created
   function update_my_borrowed_devices(){
-    $('.user_booking').remove();
-    $('.no-open-bookings').remove();
-    show_my_borrowed_devices();
+    if (gon.user_active_bookings !== null){
+      $('.user_booking').remove();
+      $('.no-open-bookings').remove();
+      show_my_borrowed_devices();
+    }
   }
 
   // Show devices the current logged in user has in his hands at this moment
@@ -201,37 +205,39 @@ window.ST.poolTool = (function() {
 
   // Update the active bookings array with the values from the db.
   function update_bookings_after_gantt_chart_update(){
-    for(var i=0; i<gon.user_active_bookings.length; i++){
-      for(var j=i+1; j<gon.user_active_bookings.length; j++){
-        if (gon.user_active_bookings[i].listing_id === gon.user_active_bookings[j].listing_id){
+    if (gon.user_active_bookings !== null){
+      for(var i=0; i<gon.user_active_bookings.length; i++){
+        for(var j=i+1; j<gon.user_active_bookings.length; j++){
+          if (gon.user_active_bookings[i].listing_id === gon.user_active_bookings[j].listing_id){
 
-          // If transaction id is the same, then the booking was updated via the gantt chart
-          if (gon.user_active_bookings[i].transaction_id === gon.user_active_bookings[j].transaction_id){
-            if (gon.user_active_bookings[i].update === true){
-              // Take over attributes from gantt change & remove the object created
-              // with the gantt change
-              gon.user_active_bookings[j].end_on = gon.user_active_bookings[i].end_on;
-              gon.user_active_bookings[j].start_on = gon.user_active_bookings[i].start_on;
-              gon.user_active_bookings[j].description = gon.user_active_bookings[i].description;
-              gon.user_active_bookings.splice(i, 1);
-            }else{
-              // Take over attributes from gantt change & remove the object created
-              // with the gantt change
-              gon.user_active_bookings[i].end_on = gon.user_active_bookings[j].end_on;
-              gon.user_active_bookings[i].start_on = gon.user_active_bookings[j].start_on;
-              gon.user_active_bookings[i].description = gon.user_active_bookings[j].description;
-              gon.user_active_bookings.splice(j, 1);
+            // If transaction id is the same, then the booking was updated via the gantt chart
+            if (gon.user_active_bookings[i].transaction_id === gon.user_active_bookings[j].transaction_id){
+              if (gon.user_active_bookings[i].update === true){
+                // Take over attributes from gantt change & remove the object created
+                // with the gantt change
+                gon.user_active_bookings[j].end_on = gon.user_active_bookings[i].end_on;
+                gon.user_active_bookings[j].start_on = gon.user_active_bookings[i].start_on;
+                gon.user_active_bookings[j].description = gon.user_active_bookings[i].description;
+                gon.user_active_bookings.splice(i, 1);
+              }else{
+                // Take over attributes from gantt change & remove the object created
+                // with the gantt change
+                gon.user_active_bookings[i].end_on = gon.user_active_bookings[j].end_on;
+                gon.user_active_bookings[i].start_on = gon.user_active_bookings[j].start_on;
+                gon.user_active_bookings[i].description = gon.user_active_bookings[j].description;
+                gon.user_active_bookings.splice(j, 1);
+              }
             }
           }
         }
       }
-    }
 
-    // Set 'update' to false if there is a booking left which is an update.
-    // This only happens if there was no booking there of this listing before
-    for(var k=0; k<gon.user_active_bookings.length; k++){
-      if (gon.user_active_bookings[k].update === true){
-        gon.user_active_bookings[k].update = false;
+      // Set 'update' to false if there is a booking left which is an update.
+      // This only happens if there was no booking there of this listing before
+      for(var k=0; k<gon.user_active_bookings.length; k++){
+        if (gon.user_active_bookings[k].update === true){
+          gon.user_active_bookings[k].update = false;
+        }
       }
     }
   }
@@ -277,6 +283,7 @@ window.ST.poolTool = (function() {
   function show_only_mine(){
     if($('.only_mine').prop('checked')){
       $('.bar').hide();
+      $('.gantt_trustedEmployee_me').show();
       $('.gantt_ownEmployee_me').show();
       $('.gantt_anyCompany_me').show();
       $('.gantt_trustedCompany_me').show();
@@ -378,10 +385,23 @@ window.ST.poolTool = (function() {
 
   // Within the pool tool we need a wider screen. This functions adds the
   // necessary classes to the wrapper-divs
-  function fullScreen(){
+  function changeDesign(){
+    // FULLSCREEN
     $('.header-wrapper').addClass('fullscreen');
     $('.title-header-wrapper').addClass('fullscreen');
     $('.page-content .wrapper').addClass('fullscreen');
+
+    // Change background-color if on another companies pool tool
+    if (!gon.belongs_to_company){
+      var color_background = "rgb(243, 196, 188)";
+      var color_title_container = "rgb(231, 78, 53)";
+
+      $('body').css('background-color', color_background);
+      $('.page-content').css('background-color', color_background);
+      $('.wrapper').css('background-color', color_background);
+      $('.title-container').css('background-color', color_title_container);
+      $('.marketplace-title-header>h1').css("color", "white");
+    }
   }
 
 
@@ -392,9 +412,11 @@ window.ST.poolTool = (function() {
                       "today", "navigate", "fn-content", "legend", "dataPanel_past",
                       "gantt_otherReason", "ganttLegend_otherReason", "gantt_otherReason_me",
                       "gantt_ownEmployee", "ganttLegend_ownEmployee", "gantt_ownEmployee_me",
-                      "gantt_anyEmployee", "ganttLegend_anyEmployee", "gantt_anyEmployee_me",
+                      "gantt_trustedEmployee", "ganttLegend_trustedEmployee", "gantt_trustedEmployee_me",
                       "gantt_anyCompany", "ganttLegend_anyCompany", "gantt_anyCompany_me",
                       "gantt_trustedCompany", "ganttLegend_trustedCompany","gantt_trustedCompany_me",
+                      "gantt_privateBooking", "ganttLegend_privateBooking","gantt_privateBooking_me",
+                      "gantt_rentingRequest", "ganttLegend_rentingRequest","gantt_rentingRequest_me",
                       "nav-link", "showLegend", "load", "newBookingForm"];
 
     // Set default theme
@@ -450,6 +472,22 @@ window.ST.poolTool = (function() {
       dataType: "json",
       url: "/" + gon.current_user_username + "/poolToolTheme",
       data: {theme: theme},
+    })
+    .success(function(data){
+      // Do not show any message to user
+    })
+    .error(function(data){
+      // Do not show any message to user
+    });
+  }
+
+  // Saves if legend is shown by user or not
+  function saveLegend(legend){
+    $.ajax({
+      method: "post",
+      dataType: "json",
+      url: "/" + gon.current_user_username + "/poolToolLegend",
+      data: {legend: legend},
     })
     .success(function(data){
       // Do not show any message to user
@@ -559,12 +597,15 @@ window.ST.poolTool = (function() {
     var today_minus_3_ms = Math.round(today_minus_3.getTime());
     var next_month = new Date(new Date(today).setMonth(today.getMonth()+3));
     var next_month_ms = Math.round(next_month.getTime());
+    gon.showPoolToolOverlay = false;
 
     // Add listings which have no transaction yet
     var empty_arr = [];
     for (var j=0; j<gon.open_listings.length; j++){
       var already_there = false;
       for (var k=0; k<source.length; k++){
+        // If listing is already within the source array, then there are
+        // transactions. In this case only copy the image url
         if (gon.open_listings[j].name === source[k].name){
           already_there = true;
 
@@ -573,6 +614,7 @@ window.ST.poolTool = (function() {
         }
       }
 
+      // If not already there store the listing without transactions in empty_arr
       if (!already_there){
         empty_arr.push({
           name: gon.open_listings[j].name,
@@ -589,23 +631,47 @@ window.ST.poolTool = (function() {
         });
       }
     }
-    source = source.concat(empty_arr);
 
-    // If source is still empty (because company has no open listings),
+    // Attach listings without transactions to source array
+    // Attach them after the internal, trusted, all listings, but before the external listings
+    var temp_arr = [];
+
+    if (source.length > 0){  // if there are already transactions
+      for (var xx=0; xx<source.length; xx++){
+        // copy reference to all intern, trusted, all listings
+        if (source[xx].desc !== "extern"){
+          temp_arr[xx] = source[xx];
+        }
+        else{
+          // copy all references to listings without transactions
+          temp_arr = temp_arr.concat(empty_arr);
+
+          // copy all references to extern listings
+          for (var ww=xx; ww<source.length; ww++){
+            temp_arr[ww+empty_arr.length] = source[ww];
+          }
+          break;
+        }
+      }
+      source = temp_arr;
+    }
+    // no transactions yet, but maybe already listings
+    else{
+      source = empty_arr;
+    }
+
+    // If source is still empty (because company has no open listings and no other company follows),
     // then add dummy listings
     if (source.length < 1) {
       source = addDummyListings();
+      if (gon.owner_has_followers === true){
+        $(".poolTool_gantt_container *").css('pointer-events', 'none');
+        gon.showPoolToolOverlay = true;
+      }
     }
 
-    // Add hidden gantt-element, to show the chart at least until today + 3 months
-    var hiddenElement = {
-      values: [{
-        from: "/Date(" + today_minus_3_ms + ")/",
-        to: "/Date(" + next_month_ms + ")/",
-        customClass: "ganttHidden"
-      }]
-    };
-    source.push(hiddenElement);
+    // Add hidden element to gantt-source
+    addHiddenGanttElement(source, today_minus_3_ms, next_month_ms);
 
     // Gon.source points to source, so that we can access the source when adding an element to one device
     gon.source = source;
@@ -617,10 +683,32 @@ window.ST.poolTool = (function() {
   }
 
 
+  function addHiddenGanttElement(source, from, to){
+    // Add hidden gantt-element, to show the chart at least until today + 3 months
+    var hiddenElement = {
+      values: [{
+        from: "/Date(" + from + ")/",
+        to: "/Date(" + to + ")/",
+        customClass: "ganttHidden"
+      }]
+    };
+    source.push(hiddenElement);
+  }
+
+
   // Handler for search field
   // Doesn't start the search immetiately, but with a slight delay, so that
   // the user can finish his word
   function initialize_poolTool_search(){
+    // get url params
+    var listing_id = getUrlParameter('listing_id');
+    if (typeof listing_id !== "undefined"){
+      $('#poolTool_search').val("id=" + listing_id);
+      search("id=" + listing_id);
+      $('#addNewBooking').click();
+    }
+
+    // if user searches
     $('#poolTool_search').keyup(function(){
       var value = $('#poolTool_search').val();
 
@@ -630,6 +718,12 @@ window.ST.poolTool = (function() {
         search(value);
       }, 700);
     });
+
+    // remove search text
+    $('#remove_search').click(function(){
+      $('#poolTool_search').val("");
+      search("");
+    });
   }
 
   // Search for the given term within the source of jquery GanttChart &
@@ -637,6 +731,7 @@ window.ST.poolTool = (function() {
   function search(term){
     var source = jQuery.extend(true, [], gon.source);  // deep copy - we don't change the gon.source array
 
+    // Show all devices again
     if (term.length < 3){
       term = "";
       if (searchTermOld !== term){
@@ -644,40 +739,119 @@ window.ST.poolTool = (function() {
         $('#poolTool_search').css("background-color", "white");
         $('#poolTool_search').css("color", "black");
         updateGanttChart(source);
+        $('.home-fluid-thumbnail-grid-item').show();
       }
     }
 
     if (searchTermOld !== term){
       searchTermOld = term;
 
-      if (term.length > 2){
-        for (var x = 0; x < source.length; x++){
-          var re = new RegExp(term, "i");
-
-          if (source[x].name){
-            var result_name = source[x].name.match(re);
-
-            if (result_name === null){
-              source.splice(x, 1);
-              x = x-1;
-            }
-          }
-        }
-        if (source.length < 2){
-          // red
-          $('#poolTool_search').css("background-color", "rgb(241, 188, 188)");
-          $('#poolTool_search').css("color", "rgb(130,30,30)");
-        }else{
-          // green
-          $('#poolTool_search').css("background-color", "rgb(189, 241, 202)");
-          $('#poolTool_search').css("color", "green");
-        }
-
-        updateGanttChart(source);
-      }
+      search_update_gantt(term, source);
+      search_update_booking_dialog(term);
     }
   }
 
+  // Search the term within the gantt chart and remove rest
+  function search_update_gantt(term, source){
+    if (term.length > 2){
+      for (var x = 0; x < source.length; x++){
+        var re = new RegExp(term, "i");
+        var remove1 = false;
+        var remove2 = false;
+        var remove3 = false;
+
+        // device name
+        if (source[x].name){
+          var result_name = source[x].name.match(re);
+
+          if (result_name === null){
+            remove1 = true;
+          }
+        }
+
+        // device availability
+        if (source[x].desc){
+          var locale_desc = gon["availability_desc_header_" + source[x].desc];
+          var result_avail = locale_desc.match(re);
+
+          if (result_avail === null){
+            remove2 = true;
+          }
+        }
+
+        // listing_id
+        if (source[x].listing_id){
+          if ("id=" + source[x].listing_id !== term){
+            remove3 = true;
+          }
+        }
+
+        if (remove1 && remove2 && remove3){
+          source.splice(x, 1);
+          x = x-1;
+        }
+      }
+      if (source.length < 2){
+        // red
+        $('#poolTool_search').css("background-color", "rgb(241, 188, 188)");
+        $('#poolTool_search').css("color", "rgb(130,30,30)");
+      }else{
+        // green
+        $('#poolTool_search').css("background-color", "rgb(189, 241, 202)");
+        $('#poolTool_search').css("color", "green");
+      }
+
+      updateGanttChart(source);
+    }
+  }
+
+  // Search the listings in the booking dialog and remove rest
+  function search_update_booking_dialog(term){
+    var listings = $('.home-fluid-thumbnail-grid-item');
+    var re = new RegExp(term, "i");
+
+    // show all
+    listings.show();
+
+    // hide specific
+    listings.each(function(index, element){
+      var title = $(element).data("listingtitle");
+      var availability = $(element).data("listingavailability");
+      var listingid = $(element).data("listingid");
+
+      var remove1 = false;
+      var remove2 = false;
+      var remove3 = false;
+
+      // listing title
+      if (title.match(re) === null){
+        remove1 = true;
+      }
+
+      // listing availability
+      if (availability.match(re) === null){
+        remove2 = true;
+      }
+
+      // listing id
+      if (("id=" + listingid) !== term){
+        remove3 = true;
+      }
+
+      // remove listing element
+      if (remove1 && remove2 && remove3){
+        $(element).hide();
+      }
+    });
+
+    // check first visible element
+    $("input[type='radio'][name='listing_id'").each(function(index,element){
+      if ($(element).parent().is(":visible")){
+        $(element).prop("checked", true);
+        return;
+      }
+    });
+  }
 
   // This function actually initializes and updates the jquery gantt chart. It
   // also defines the actions for the event listeners "onItemClick", "onAddClick" and
@@ -689,6 +863,14 @@ window.ST.poolTool = (function() {
   // adding event listeners for the legend, disable jquery gantt navigation buttons, ...
   function updateGanttChart(source){
     source = source || gon.source;
+
+    var count_extern = 0;
+    for (var oo = 0; oo < source.length; oo++){
+      if (source[oo].desc === "extern"){
+        count_extern ++;
+      }
+    }
+    gon.count_extern_listings = count_extern;
 
     $(".gantt").gantt({
       dow: gon.translated_days_min,
@@ -713,7 +895,11 @@ window.ST.poolTool = (function() {
         var today = new Date(new Date().setHours(0,0,0,0));
 
         // Update shown information in popover
-        $('#poolTool_popover_deviceImage').attr('src', info.listing.image);
+        if (typeof info.listing.image !== "undefined") {
+          $('#poolTool_popover_deviceImage').attr('src', info.listing.image);
+        }else{
+          $('#poolTool_popover_deviceImage').attr('src', "/assets/logos/mobile/default.png");
+        }
         $('#poolTool_popover_deviceName').html(info.listing.name);
         $('#poolTool_popover_renter').html(info.booking.label);
         $('#poolTool_popover_availability').html(info.listing.availability);
@@ -723,10 +909,15 @@ window.ST.poolTool = (function() {
         $('#modifyBookingLink').click();
 
         // Remove buttons and disable textfields if
-        // - user is not a company admin or rentog admin and this is not a booking of the user OR
+        // - user is not a company admin or rentog admin AND
+        // - this is not a booking of the user AND
+        // - the current user is not the company admin of the transaction starter OR
         // - it's not allowed to change the past and the booking is already in the past
-        if (gon.is_admin === false && info.booking.renter_id !== gon.current_user_id ||
-            !gon.pool_tool_preferences.pool_tool_modify_past && e < today){
+        if ( (gon.is_admin === false && info.booking.renter_id !== gon.current_user_id && gon.current_user_id !== info.booking.renter_company_id) ||
+             (info.booking.customClass === "gantt_privateBooking") ||
+             (!gon.pool_tool_preferences.pool_tool_modify_past && e < today) ||
+             (info.booking.confirmed === false)
+           ){
           $('#btn_update').css('display', 'none');
           $('#btn_delete').css('display', 'none');
 
@@ -838,7 +1029,7 @@ window.ST.poolTool = (function() {
               $.ajax({
                 method: "post",   // Browser can't do delete requests
                 dataType: "json",
-                url: "/" + gon.locale + "/" + gon.comp_id + "/transactions/" + transaction_id,
+                url: "/" + gon.locale + "/" + gon.pooltool_owner_id + "/transactions/" + transaction_id,
                 data: {_method:'delete'},
                 beforeSend :function(){
                   // Disable Sumbmit Buttons until we get an response from the server
@@ -954,7 +1145,7 @@ window.ST.poolTool = (function() {
 
             $.ajax({
               method: "PUT",
-              url: "/" + gon.locale + "/" + gon.comp_id + "/transactions/" + transaction_id,
+              url: "/" + gon.locale + "/" + gon.pooltool_owner_id + "/transactions/" + transaction_id,
               data: {from: s_new, to: e_new, desc: desc},
               beforeSend: function(){
                 // Disable Sumbmit Buttons until we get an response from the server
@@ -1020,12 +1211,10 @@ window.ST.poolTool = (function() {
         $(".webui-popover").css("background-color","#714565");
 
         // Change leftPanel size depending on Rentog functionality
-        /*
-        if(gon.only_pool_tool){
+        if (!gon.belongs_to_company){    //(gon.only_pool_tool){
           $(".leftPanel").width("224px");
           $(".fn-wide").width("220px");
         }
-        */
 
         initialize_listing_previews();
 
@@ -1039,10 +1228,21 @@ window.ST.poolTool = (function() {
         $('#showLegendId').on('click', function(){
           if ($('#showLegendId').html() === gon.show_legend){
             $('#showLegendId').html(gon.hide_legend);
+            saveLegend(true);
           }else{
             $('#showLegendId').html(gon.show_legend);
+            saveLegend(false);
           }
         });
+
+        // Set legend according to db stored status
+        if (gon.legend_status === "1"){
+          $('.legend').show();
+          $('#showLegendId').html(gon.hide_legend);
+        }else{
+          $('.legend').hide();
+          $('#showLegendId').html(gon.show_legend);
+        }
 
         // Disable navigation buttons
         if($('.dataPanel').data('view') === 'days'){

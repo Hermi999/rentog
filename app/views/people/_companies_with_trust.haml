@@ -1,0 +1,27 @@
+- displayed_people = followers.take(limit)
+.row
+  %h2.people-header
+    - if followers.count > 0
+      - if current_user?(@person)
+        - if followers.count == 1
+          = t(".they_trust_you_singular", :count => followers.count)
+        - else
+          = t(".they_trust_you_plural", :count => followers.count)
+      - else
+        - if followers.count == 1
+          = t(".they_they_trust_you_singular", :count => followers.count, :company => person.organization_name)
+        - else
+          = t(".they_they_trust_you_plural", :count => followers.count, :company => person.organization_name)
+    - else
+      - if current_user?(@person)
+        = t(".no_trusted_people")
+      - else
+        = t(".they_no_trusted_people")
+.people-fluid-thumbnail-grid-container
+  .people-fluid-thumbnail-grid#profile-followed-people-list
+    = render :partial => "people/followed_person", :collection => displayed_people, :as => :person, :locals => { :origin => "trusted_companies" }
+
+- if followers.count > limit
+  .people-load-more-listings-container
+    #load-more-followed-people
+      = link_to t(".show_all_trusted_people"), [ person, :followers ], :remote => true

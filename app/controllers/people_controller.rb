@@ -22,50 +22,48 @@ class PeopleController < Devise::RegistrationsController
     # @person is the person which owns the profile
     @person = Person.find(params[:person_id] || params[:id])
 
+    # Get the relation between the profile owner and the current visitor
+    relation = get_site_owner_visitor_relation(@person, @current_user)
+
+
     raise PersonDeleted if @person.deleted?
     PersonViewUtils.ensure_person_belongs_to_community!(@person, @current_community)
 
-    # if person is an employee find out the organization he works for
-    @organization = @person.company
-    # if person is an company get all the employees
-    @employees = @person.employees
+
     # WORKAROUND: create path for showing more than 6 employees
     @employees_path = request.original_url + '/followed_people?type=employees'
-
 
     redirect_to root and return if @current_community.private? && !@current_user
     @selected_tribe_navi_tab = "members"
     @community_membership = CommunityMembership.find_by_person_id_and_community_id_and_status(@person.id, @current_community.id, "accepted")
 
-    # Restrict which listings are viewed on profile page, depending on viewer
-    if @current_user &&                                           # logged in
-       !@current_user.is_employee_of?(@person.id) &&              # not an employee of the company and
-       !@current_user.has_admin_rights_in?(@current_community) && # not the rentog admin and
-       !current_user?(@person)                                    # not the company admin himself
 
-        # If trusted company or employee of trusted company -> show public and trusted listings
-        if @person.follows?(@current_user) || (@current_user.company && @person.follows?(@current_user.company))
-          availability = ["all", "trusted", nil, ""]
-
-        # logged in, non trusted user
-        else
-          availability = ["all", nil, ""]
-        end
-    # Logged out user -> show only public listings
-    elsif !@current_user
+    # Restrict (depending on viewer):
+    #   - which listings are viewed on profile page
+    if relation == :logged_out
       availability = ["all", nil, ""]
 
-    # Employee or company admin himself
-    else
+    elsif relation == :company_admin_own_site ||
+          relation == :company_employee
       availability = ["all", "trusted", "intern", nil, ""]
+
+    elsif relation == :full_trusted_company_admin ||
+          relation == :trusted_company_admin ||
+          relation == :full_trusted_company_employee ||
+          relation == :trusted_company_employee
+      availability = ["all", "trusted", nil, ""]
+
+    else
+      availability = ["all", nil, ""]
     end
+
 
     include_closed = @current_user == @person && params[:show_closed]
     search = {
       author_id: @person.id,
       include_closed: include_closed,
       page: 1,
-      per_page: 12,
+      per_page: 1000,                # wah 'show all listings' not working at the moment
       availability: availability,    # wah new
     }
 
@@ -82,7 +80,6 @@ class PeopleController < Devise::RegistrationsController
         raise_errors: raise_errors,
         includes: includes
       )
-
 
     # wah: split listings into Renting, Selling and Ad
     renting_listings_arr = []
@@ -117,7 +114,7 @@ class PeopleController < Devise::RegistrationsController
     other_temp = Result::Success.new({count: other_listings_arr.count, listings: other_listings_arr})
 
 
-    # wah: prepare listings vor view
+    # wah: prepare listings for view
     renting_listings = renting_temp.and_then { |res|
       Result::Success.new(
         ListingIndexViewUtils.to_struct(
@@ -157,6 +154,7 @@ class PeopleController < Devise::RegistrationsController
 
 
     followed_people = followed_people_in_community(@person, @current_community)
+    followers = @person.followers
     received_testimonials = TestimonialViewUtils.received_testimonials_in_community(@person, @current_community)
     received_positive_testimonials = TestimonialViewUtils.received_positive_testimonials_in_community(@person, @current_community)
     feedback_positive_percentage = @person.feedback_positive_percentage_in_community(@current_community)
@@ -166,6 +164,8 @@ class PeopleController < Devise::RegistrationsController
                      ad_listings: ad_listings,
                      other_listings: other_listings,
                      followed_people: followed_people,
+                     followers: followers,
+                     company_member: (relation == :company_admin_own_site || relation == :company_employee),
                      received_testimonials: received_testimonials,
                      received_positive_testimonials: received_positive_testimonials,
                      feedback_positive_percentage: feedback_positive_percentage
@@ -632,13 +632,17 @@ class PeopleController < Devise::RegistrationsController
 
     person.inherit_settings_from(current_community)
 
-    # Change the user type according to the params
+    # wah: Change the user type according to the params
     if params[:person][:signup_as] == "organization"
       person.is_organization = true
     elsif params[:person][:signup_as] == "employee"
       person.is_organization = false
       person.company = Person.where('organization_name = ? And deleted = 0',company_name).first
     end
+
+    # wah: Set user plan
+    user_plan = UserPlanService::Api.new
+    user_plan.set_plan_and_feature_plan_levels(person, :free)
 
     if person.save!
       sign_in(resource_name, resource)

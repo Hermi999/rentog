@@ -598,4 +598,48 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError.new(msg)
   end
 
+
+  # wah: Get the relation between the owner of the site and the current visitor
+  # Returns one of the following relations:
+  # logged_out_user, company_admin_own_site, enpoyee_own_site, company_employee, full_trusted_company_admin, trust_company,
+  # full_trusted_company_employee, trust_employee, unverified_company, untrusted_company_employee,
+  # untrusted_company_admin
+  def get_site_owner_visitor_relation(site_owner, visitor)
+    relation =
+      if visitor
+        if visitor.has_admin_rights_in?(@current_community)
+          :rentog_admin                                 # rentog admin is visisiting the site
+
+        elsif visitor.is_organization
+          if @current_community.require_verification_to_post_listings &&
+              !visitor.can_post_listings_at?(@current_community)
+            :unverified_company                         # Created company account but rentog admin has not verified yet
+          elsif site_owner == visitor
+            :company_admin_own_site                     # company admin is on own companies site
+          elsif site_owner.follows?(visitor)
+            @trusted_relation = site_owner.inverse_follower_relationships.where(:person_id => visitor.get_company.id).first
+            rel = FollowerRelationship.get_company_user_relation(@trusted_relation)
+            (rel + "ed_company_admin").to_sym           # company the site owner (fully) trusts
+          else
+            :untrusted_company_admin                    # company the site owner does not trust
+          end
+
+        elsif visitor.is_employee?
+          if visitor.is_employee_of?(site_owner.id)
+            :company_employee                           # employee of site owner
+          elsif site_owner.follows?(visitor.company)
+            @trusted_relation = site_owner.inverse_follower_relationships.where(:person_id => visitor.get_company.id).first
+            rel = FollowerRelationship.get_company_user_relation(@trusted_relation)
+            (rel + "ed_company_employee").to_sym        # employee the site owner (fully) trusts
+          elsif site_owner == visitor
+            :employee_own_site                          # employee is on own site
+          else
+            :untrusted_company_employee                 # employee of a company the site owner does not trust
+          end
+        end
+      else
+        :logged_out_user                                # logged out user
+      end
+  end
+
 end

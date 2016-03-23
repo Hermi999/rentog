@@ -251,3 +251,34 @@ $listing-author-avatar-height: 108;
   margin-top:17px;
 }
 
+.upgrade_profile{
+  border: 2px solid #0D8610;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #AAE4A6;
+  margin: 10px 30px;
+  padding: 5px;
+  font-weight: bold;
+  color:black;
+  display: block;
+}
+
+.upgrade_profile_static{
+  position: fixed;
+  right:5px;
+  top:65px;
+  width: 80%;
+  max-width: 330px;
+  border: 2px solid #0D8610;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #AAE4A6;
+  padding: 5px;
+  font-weight: bold;
+  color:black;
+  display: block;
+}
+
+.files-headline{
+  font-weight: bold;
+}

@@ -84,5 +84,6 @@
 //= require pool_tool
 //= require invitation
 //= require tracking
+//= require trusted_relationship
 //
 //= require_self

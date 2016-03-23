@@ -22,6 +22,9 @@ class ListingVisibilityGuard
     else
       if public_listing?
         public_community?
+
+      elsif trusted_listing?
+        user_and_listing_belong_to_same_company? || listing_author_follows_users_company?
       else
         user_and_listing_belong_to_same_company?
       end
@@ -55,10 +58,20 @@ class ListingVisibilityGuard
   end
 
   def public_listing?
-    @listing.availability != "intern"
+    @listing.availability != "intern" && @listing.availability != "trusted"
+  end
+
+  def trusted_listing?
+    @listing.availability == "trusted"
+  end
+
+  def listing_author_follows_users_company?
+    return false if @user.nil?
+    @listing.author.follows?(@user.get_company)
   end
 
   def user_and_listing_belong_to_same_company?
+    return false if @user.nil?
     @listing.person_belongs_to_same_company?(@user)
   end
 end

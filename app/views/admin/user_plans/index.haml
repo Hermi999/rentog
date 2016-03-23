@@ -1,0 +1,27 @@
+- content_for :javascript do
+  initialize_user_plans_dropdowns("#{I18n.locale}", #{@current_community.id});
+
+- content_for :title_header do
+  %h1
+    = t("layouts.admin.admin")
+    = "-"
+    = t("admin.communities.user_plans.headline")
+
+= render :partial => "admin/left_hand_navigation", :locals => { :links => admin_links_for(@current_community) }
+
+.left-navi-section
+  %table
+    %tr
+      %th{:style => "background-color: rgba(255, 0, 0, 0.24)"} Company
+
+      - @user_plan_service.get_plan_features_levels(@all_companies.first).each do |feature|
+        %th= feature[0]
+
+    - @all_companies.each do |company|
+      %tr
+        %td{:style => "background-color: rgba(255, 0, 0, 0.24)"}= company.organization_name
+        - @user_plan_service.get_plan_features_levels(company).each do |feature|
+          %td
+            = feature[1][:name] + " (" + feature[1][:value].to_s + ")"
+            %br
+            = select(feature[0], company.id, UserPlanService::DataTypes::LEVELS, {:prompt => true},{:class => "user_plans_dropdown"})

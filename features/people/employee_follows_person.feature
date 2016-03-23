@@ -31,15 +31,15 @@ Feature: Employee follows and unfollows another user
     Given there are 10 companies with organization_name prefix "User"
     And "employee_testperson2" follows everyone
     When I go to the profile page of "employee_testperson2"
-    Then I should see "You follow 13 people"
+    Then I should see "You follow 15 people"
 
     When I follow "Show all followed people"
     Then I should not see "Show all followed people"
-    Then I should see 13 user profile links
+    Then I should see 15 user profile links
 
     When I follow the first "Following"
     And I refresh the page
-    Then I should see "You follow 12 people"
+    Then I should see "You follow 14 people"
 
   @javascript
   Scenario: Follower receives notification of new listing

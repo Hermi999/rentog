@@ -33,11 +33,21 @@ class AcceptConversationsController < ApplicationController
     # Update first everything else than the status, so that the payment is in correct
     # state before the status change callback is called
     if @listing_conversation.update_attributes(params[:listing_conversation].except(:status))
+      # create a message if user wrote an additional message. If no message
+      # the message object will contain errors and will not be valid
       message = MessageForm.new(params[:message].merge({ conversation_id: @listing_conversation.id }))
       if(message.valid?)
         @listing_conversation.conversation.messages.create({content: message.content}.merge(sender_id: @current_user.id))
       end
 
+      # If a non monetary conversation?
+      if @listing_conversation.status == "pending_free"
+        if params[:listing_conversation][:status] == "accepted"
+          params[:listing_conversation][:status] = "confirmed_free"
+        end
+      end
+
+      # transition_to :accepted
       MarketplaceService::Transaction::Command.transition_to(@listing_conversation.id, params[:listing_conversation][:status])
       MarketplaceService::Transaction::Command.mark_as_unseen_by_other(@listing_conversation.id, @current_user.id)
 
@@ -52,6 +62,8 @@ class AcceptConversationsController < ApplicationController
   private
 
   def prepare_accept_or_reject_form
+    @requester_needs_to_pay = FollowerRelationship.payment_necessary?(@listing_conversation.author, @listing_conversation.starter_id)
+
     @payment = @current_community.payment_gateway.new_payment
     @payment.community = @current_community
     @payment.default_sum(@listing_conversation.listing, Maybe(@current_community).vat.or_else(0))

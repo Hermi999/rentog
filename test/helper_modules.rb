@@ -236,63 +236,63 @@ module TestHelpers
     community2 = Community.where(ident: "test2").first
     community3 = Community.where(ident: "test3").first
 
-    person1 = FactoryGirl.create(:person,
-                                 username: "kassi_testperson1",
-                                 is_admin: 0,
-                                 locale: "en",
+    person1 = FactoryGirl.create(:person, username: "kassi_testperson1",
+                                 is_admin: 0, locale: "en",
                                  encrypted_password: "64ae669314a3fb4b514fa5607ef28d3e1c1937a486e3f04f758270913de4faf5",
-                                 password_salt: "vGpGrfvaOhp3",
-                                 given_name: "Kassi",
-                                 family_name: "Testperson1",
-                                 phone_number: "0000-123456",
-                                 created_at: "2012-05-04 18:17:04",
-                                 is_organization: 1,
+                                 password_salt: "vGpGrfvaOhp3", given_name: "Kassi",
+                                 family_name: "Testperson1", phone_number: "0000-123456",
+                                 created_at: "2012-05-04 18:17:04", is_organization: 1,
                                  organization_name: "Bosch")
-    person2 = FactoryGirl.create(:person,
-                                  username: "kassi_testperson2",
-                                  is_admin: 0,
-                                  locale: "en",
+    person2 = FactoryGirl.create(:person, username: "kassi_testperson2",
+                                  is_admin: 0, locale: "en",
                                   encrypted_password: "72bf5831e031cbcf2e226847677fccd6d8ec6fe0673549a60abb5fd05f726462",
-                                  password_salt: "zXklAGLwt7Cu",
-                                  given_name: "Kassi",
-                                  family_name: "Testperson2",
-                                  created_at: "2012-05-04 18:17:04",
-                                  is_organization: 1,
-                                  organization_name: "Siemens")
-    person3 = FactoryGirl.create(:person,
-                                  username: "employee_testperson1",
-                                  is_admin: 0,
-                                  locale: "en",
+                                  password_salt: "zXklAGLwt7Cu", given_name: "Kassi",
+                                  family_name: "Testperson2", created_at: "2012-05-04 18:17:04",
+                                  is_organization: 1, organization_name: "Siemens")
+    person3 = FactoryGirl.create(:person, username: "kassi_testperson3",
+                                  is_admin: 0, locale: "en",
                                   encrypted_password: "72bf5831e031cbcf2e226847677fccd6d8ec6fe0673549a60abb5fd05f726462",
-                                  password_salt: "zXklAGLwt7Cu",
-                                  given_name: "Kassi",
-                                  family_name: "Testperson3",
-                                  created_at: "2012-05-04 18:17:04",
-                                  is_organization: 0,
-                                  organization_name: "")
-    person4 = FactoryGirl.create(:person,
-                                  username: "employee_testperson2",
-                                  is_admin: 0,
-                                  locale: "en",
+                                  password_salt: "zXklAGLwt7Cu", given_name: "Kassi",
+                                  family_name: "Testperson3", created_at: "2012-05-04 18:17:04",
+                                  is_organization: 1, organization_name: "Continental")
+
+    person4 = FactoryGirl.create(:person, username: "employee_testperson1",
+                                  is_admin: 0, locale: "en",
                                   encrypted_password: "72bf5831e031cbcf2e226847677fccd6d8ec6fe0673549a60abb5fd05f726462",
-                                  password_salt: "zXklAGLwt7Cu",
-                                  given_name: "Hermann",
-                                  family_name: "Testperson4",
-                                  created_at: "2011-05-04 18:17:04",
-                                  is_organization: 0,
-                                  organization_name: "")
+                                  password_salt: "zXklAGLwt7Cu", given_name: "Kassi",
+                                  family_name: "Testperson4", created_at: "2012-05-04 18:17:04",
+                                  is_organization: 0, organization_name: "")
+
+    person5 = FactoryGirl.create(:person, username: "employee_testperson2",
+                                  is_admin: 0, locale: "en",
+                                  encrypted_password: "72bf5831e031cbcf2e226847677fccd6d8ec6fe0673549a60abb5fd05f726462",
+                                  password_salt: "zXklAGLwt7Cu", given_name: "Hermann",
+                                  family_name: "Testperson5", created_at: "2011-05-04 18:17:04",
+                                  is_organization: 0, organization_name: "")
+
+    person6 = FactoryGirl.create(:person, username: "employee_testperson3",
+                                  is_admin: 0, locale: "en",
+                                  encrypted_password: "72bf5831e031cbcf2e226847677fccd6d8ec6fe0673549a60abb5fd05f726462",
+                                  password_salt: "zXklAGLwt7Cu", given_name: "Hank",
+                                  family_name: "Testperson6", created_at: "2011-05-04 18:17:04",
+                                  is_organization: 0, organization_name: "")
 
     person1.emails[0].address = "kassi_testperson1@example.com"
     person2.emails[0].address = "kassi_testperson2@example.com"
-    person3.emails[0].address = "employee_testperson1@example.com"
-    person4.emails[0].address = "employee_testperson2@example.com"
+    person3.emails[0].address = "kassi_testperson3@example.com"
+    person4.emails[0].address = "employee_testperson1@example.com"
+    person5.emails[0].address = "employee_testperson2@example.com"
+    person6.emails[0].address = "employee_testperson3@example.com"
     person1.emails[0].save
     person2.emails[0].save
     person3.emails[0].save
     person4.emails[0].save
+    person5.emails[0].save
+    person6.emails[0].save
 
     FactoryGirl.create(:company_option, :company => person1)
     FactoryGirl.create(:company_option, :company => person2)
+    FactoryGirl.create(:company_option, :company => person3)
 
     FactoryGirl.create(:community_membership, :person => person1,
                         :community => community1,
@@ -308,15 +308,8 @@ module TestHelpers
                       :last_page_load_date => DateTime.now,
                       :status => "accepted")
 
-    FactoryGirl.create(:community_membership, :person => person2,
-                      :community => community2,
-                      :admin => 1,
-                      :consent => "KASSI_FI1.0",
-                      :last_page_load_date => DateTime.now,
-                      :status => "accepted")
-
     FactoryGirl.create(:community_membership, :person => person3,
-                      :community => community1,
+                      :community=> community1,
                       :admin => 0,
                       :consent => "test_consent0.1",
                       :last_page_load_date => DateTime.now,
@@ -329,39 +322,31 @@ module TestHelpers
                       :last_page_load_date => DateTime.now,
                       :status => "accepted")
 
-    # FactoryGirl.create(:email,
-    # :person => person1,
-    # :address => "kassi_testperson1@example.com",
-    # :send_notifications => true,
-    # :confirmed_at => "2012-05-04 18:17:04")
+    FactoryGirl.create(:community_membership, :person => person5,
+                      :community => community1,
+                      :admin => 0,
+                      :consent => "test_consent0.1",
+                      :last_page_load_date => DateTime.now,
+                      :status => "accepted")
 
-    # FactoryGirl.create(:email,
-    # :person => person2,
-    # :address => "kassi_testperson2@example.com",
-    # :send_notifications => true,
-    # :confirmed_at => "2012-05-04 18:17:04")
+    FactoryGirl.create(:community_membership, :person => person6,
+                      :community => community1,
+                      :admin => 0,
+                      :consent => "test_consent0.1",
+                      :last_page_load_date => DateTime.now,
+                      :status => "accepted")
 
-    # FactoryGirl.create(:email,
-    # :person => person3,
-    # :address => "employee_testperson1@example.com",
-    # :send_notifications => true,
-    # :confirmed_at => "2012-05-04 18:17:04")
+    # community 2
+    FactoryGirl.create(:community_membership, :person => person2,
+                      :community => community2,
+                      :admin => 1,
+                      :consent => "KASSI_FI1.0",
+                      :last_page_load_date => DateTime.now,
+                      :status => "accepted")
 
-    # FactoryGirl.create(:email,
-    # :person => person4,
-    # :address => "employee_testperson2@example.com",
-    # :send_notifications => true,
-    # :confirmed_at => "2012-05-04 18:17:04")
-
-    FactoryGirl.create(:employment,
-    :company => person1,
-    :employee => person3,
-    :active => true)
-
-    FactoryGirl.create(:employment,
-    :company => person2,
-    :employee => person4,
-    :active => true)
+    FactoryGirl.create(:employment, :company => person1, :employee => person4, :active => true)
+    FactoryGirl.create(:employment, :company => person2, :employee => person5, :active => true)
+    FactoryGirl.create(:employment, :company => person3, :employee => person6, :active => true)
   end
   module_function :load_default_test_data_to_db_before_test
 

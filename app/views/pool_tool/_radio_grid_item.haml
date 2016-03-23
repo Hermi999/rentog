@@ -1,5 +1,5 @@
 - frontpage_fragment_cache("grid_item", listing) do
-  .home-fluid-thumbnail-grid-item
+  .home-fluid-thumbnail-grid-item{:data => {"listingid" => listing.id, "listingtitle" => listing.title, "listingavailability" => listing.availability}}
     %div
       -# Listing image
       = render :partial => "layouts/grid_item_listing_image", :locals => {:listing => listing, :modifier_class => "pooltool_grid_item_modifier_class", :modifier_price => "pooltool_price_modifier", :modifier_image_marker => Listing.find(listing.id).get_listing_marker}

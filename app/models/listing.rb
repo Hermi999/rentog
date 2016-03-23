@@ -70,6 +70,7 @@ class Listing < ActiveRecord::Base
   belongs_to :author, :class_name => "Person", :foreign_key => "author_id"
 
   has_many :listing_images, -> { where("error IS NULL") }, :dependent => :destroy
+  has_many :listing_attachments, :dependent => :destroy
 
   has_many :conversations
   has_many :comments, :dependent => :destroy
@@ -90,6 +91,7 @@ class Listing < ActiveRecord::Base
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :currency
   monetize :shipping_price_additional_cents, allow_nil: true, with_model_currency: :currency
 
+  TRUSTED_AVAILABILITY_OPTIONS = ["all", "trusted"]
   VALID_AVAILABILITY_OPTIONS = ["intern", "trusted", "all"]
   VALID_AVAILABILITY_OPTIONS_USER_CAN_CHOOSE = ["intern", "trusted"]
 
@@ -176,20 +178,14 @@ class Listing < ActiveRecord::Base
   end
 
   def self.already_booked_dates(listing_id, current_community)
-    # Get already booked dates (joined with listings and bookings) from database, ordered by booking end date
-    booked_end_start_dates = Transaction.joins(:listing, :booking).select("bookings.start_on as start_on, bookings.end_on as end_on").where("listings.id" => listing_id, "transactions.community_id" => current_community).order("bookings.end_on asc")
+    booked_end_start_dates = get_booked_dates_from_db(listing_id, current_community)
+    booked_dates = get_all_day_of_booked_dates(booked_end_start_dates)
+  end
 
-    # Get all days of already booked dates
-    booked_dates = []
-    booked_end_start_dates.each do |booked_end_start_date|
-      # Merge the arrays and ensure that there are no values twice
-      if (booked_end_start_date.start_on != booked_end_start_date.end_on)
-        booked_dates = (booked_dates + (booked_end_start_date.start_on..booked_end_start_date.end_on).map(&:to_s)).uniq
-      else
-        booked_dates = (booked_dates + [booked_end_start_date.start_on.to_s])
-      end
-    end
-    booked_dates
+  def self.already_booked_dates_in_future(listing_id, current_community)
+    booked_end_start_dates = get_booked_dates_from_db(listing_id, current_community)
+                              .where("bookings.end_on > ?", Date.today)
+    booked_dates = get_all_day_of_booked_dates(booked_end_start_dates)
   end
 
   # Returns true if listing exists and valid_until is set
@@ -285,6 +281,7 @@ class Listing < ActiveRecord::Base
   end
 
   # wah
+  # returns either of the following: intern, trusted, rent, sell, ad
   def self.get_listing_type(listing)
     listing_shapes = ListingShape.all
     listing_shape_name = nil
@@ -300,11 +297,10 @@ class Listing < ActiveRecord::Base
   end
 
 
-
   # wah
   def self.get_listing_type_helper(temp_availability, temp_listing_shape_name)
     # If private listing, then check availability
-    if temp_listing_shape_name.nil? || (temp_listing_shape_name.downcase.include? "private")
+    if temp_listing_shape_name.nil? || (temp_listing_shape_name.downcase.include? "privat")
       temp_availability
 
     # otherweise check ListingShape name
@@ -323,5 +319,38 @@ class Listing < ActiveRecord::Base
       end
     end
   end
+
+
+  private
+
+    def self.get_booked_dates_from_db(listing_id, current_community)
+      # Get already booked dates (joined with listings and bookings) from database, ordered by booking end date
+      transaction_not_invalid = "transactions.current_state <> 'rejected' AND
+                                 transactions.current_state <> 'errored' AND
+                                 transactions.current_state <> 'canceled'"
+
+      Transaction.joins(:listing, :booking)
+                 .select("bookings.start_on as start_on, bookings.end_on as end_on")
+                 .where("listings.id = ? AND
+                         transactions.community_id = ? AND
+                         #{transaction_not_invalid}",
+                         listing_id, current_community)
+                 .order("bookings.end_on asc")
+    end
+
+
+    def self.get_all_day_of_booked_dates(booked_end_start_dates)
+      # Get all days of already booked dates
+      booked_dates = []
+      booked_end_start_dates.each do |booked_end_start_date|
+        # Merge the arrays and ensure that there are no values twice
+        if (booked_end_start_date.start_on != booked_end_start_date.end_on)
+          booked_dates = (booked_dates + (booked_end_start_date.start_on..booked_end_start_date.end_on).map(&:to_s)).uniq
+        else
+          booked_dates = (booked_dates + [booked_end_start_date.start_on.to_s])
+        end
+      end
+      booked_dates
+    end
 
 end

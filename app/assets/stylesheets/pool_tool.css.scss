@@ -5,6 +5,30 @@
   opacity: 0.0;
 }
 
+#poolToolOverlay{
+  position:relative;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  width:100%;
+
+  div {
+    text-align:center;
+
+    p{
+      text-align: center;
+      background-color: #F58787;
+      opacity: 1.0!important;
+      display: inline-block;
+      padding: 10px;
+      font-size: 1.5em;
+      margin-top: 150px;
+      border-radius: 7px;
+      font-weight: bold;
+      color: white;
+    }
+  }
+}
+
 .fullscreen{
   max-width: 90%!important;
 }
@@ -60,18 +84,28 @@
   bottom:10%;
   width: 90%;
   margin: 0 5% 0 5%;
-  background-color: $bootstrap-warning;
-  opacity: 0.87;
+  background-color: #EA806F;
+  opacity: 0.95;
   font-weight: bold;
   padding: 20px;
   border-radius: 15px;
   -webkit-box-shadow: 11px 10px 40px -1px rgba(0,0,0,0.75);
   box-shadow: 11px 10px 40px -1px rgba(0,0,0,0.75);
-  @include large-type;
+
+  @include big-type;
+
+  @include media(tablet){
+    @include large-type;
+    top:10%;
+    right: 1%;
+    width: 40%;
+    bottom: initial;
+  }
 }
 
 .poolTool_no_listings_whatToDo{
-  font-size:0.9em;
+  font-size: 0.8em;
+  font-weight: normal;
 }
 
 .poolTool_no_listings_coverSite{
@@ -108,6 +142,18 @@
     margin-top: 12px;
     margin-right: 12px;
     width: 225px;
+    padding-right: 30px;
+}
+
+#remove_search{
+  right: 33px;
+  top: 20px;
+  display: inline;
+  float: left;
+  position: relative;
+  font-weight: bold;
+  font-size: 1.2em;
+  cursor: pointer;
 }
 
 #addNewBooking{
@@ -139,6 +185,13 @@
   @include media(mobile){
     height: 42px;
   }
+}
+
+#createNewDevice{
+  width: 225px;
+  float: left;
+  height: 42px;
+  margin: 12px 0 0 0;
 }
 
 #addNewBookingWrapper{
@@ -299,6 +352,7 @@
   height:75px;
 }
 #poolTool_popover_deviceImage_wrapper{
+  background-color: #363636;
   float: left;
   margin-bottom: 0px;
   height: inherit;
@@ -355,6 +409,7 @@
   margin-bottom:0px;
 }
 #poolTool_popover_renter{
+  overflow: hidden;
   width: 33.33333%;
   float: left;
   margin-bottom: 0px;
@@ -362,7 +417,7 @@
   border: 2px solid rgb(181, 181, 181);
   color: rgb(100, 100, 100);
   padding: 0px 5px;
-  font-size: 0.95em;
+  font-size: 0.9em;
   height: 25px;
 }
 #datepicker_wrapper2{
@@ -515,7 +570,7 @@
 
 .user_booking_img{
   height: 80px;
-  background-color:green;
+  background-color: #F3BC5B;
   margin-right:15px;
   float:left;
 }
@@ -555,3 +610,5 @@
 #pooltool_options_image{
   height: 25px;
 }
+
+

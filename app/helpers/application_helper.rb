@@ -606,6 +606,13 @@ module ApplicationHelper
       },
       {
         :topic => :manage,
+        :text => t("admin.communities.user_plans.user_plans"),
+        :icon_class => icon_class("community"),
+        :path => admin_community_user_plans_path(@current_community),
+        :name => "manage_user_plans"
+      },
+      {
+        :topic => :manage,
         :text => t("admin.emails.new.send_email_to_members"),
         :icon_class => icon_class("send"),
         :path => new_admin_community_email_path(:community_id => @current_community.id),

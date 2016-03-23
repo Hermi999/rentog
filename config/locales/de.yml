@@ -277,6 +277,9 @@ de:
         save_user_status_error: "Speichern fehlgeschlagen. Bitte erneuere die Seite und versuch es noch einmal."
         ban_user_confirmation: ~
         ban_me_error: "Du kannst dich nicht selber sperren."
+      user_plans:
+        user_plans: "Benutzertypen"
+        headline: "Benutzertypen managen"
       social_media:
         social_media: "Social media"
         twitter_handle: Twittername
@@ -331,6 +334,7 @@ de:
           rejected: Abgelehnt
           paid: Bezahlt
           confirmed: Bestätigt
+          confirmed_free: Bestätigt (gratis)
           canceled: Storniert
           initiated: "Warten auf die Paypal Zahlung"
           pending_ext: "Warten auf die Paypal Zahlung"
@@ -546,7 +550,7 @@ de:
     default_community_slogan: "Rentog. Der Test- und Messgeräte Marktplatz"
     default_community_description: "Kaufen und Verkaufen von Test- und Messgeräten"
     sharedPool_slogan: "Rentog Shared Pool"
-    sharedPool_description: "Durchstöbere und buche Geräte von deinen befreundeten Unternehmen"
+    sharedPool_description: "Durchstöbere und buche Geräte Unternehmen denen du vertraust"
     cancel: Abbrechen
     fields_that_are_mandatory: "Mit einem Stern (*) gekennzeichnete Felder sind Pflichtfelder."
     or: oder
@@ -702,12 +706,14 @@ de:
       rideshare_offer_message_form_title: "%{person} um eine Mitfahrgelegenheit bitten"
       rideshare_request_message_form_title: "%{person} eine Mitfahrgelegenheit anbieten"
       send_message: "Nachricht senden"
+      send_request: "Anfrage senden"
       send: Senden
       this_message_is_private: "Dies ist eine private Nachricht zwischen dir und %{person}. %{person} wird per E-Mail über diese Nachricht benachrichtigt."
       you_will_get_notified_of_acceptance: "Du erhältst eine E-Mail-Benachrichtigung, wenn %{person} deinen Vorschlag akzeptiert oder ablehnt."
       you_will_get_notified: "Du erhältst eine E-Mail-Benachrichtigung, wenn %{person} dir antwortet."
       title: Titel
       send_message_to_user: "Nachricht an %{person} senden"
+      send_request_to_user: "Anfrage an %{person} senden"
       about_listing: "In Bezug auf %{listing_title}"
       author_has_to_accept_request: "%{author_name} muss den Auftrag annehmen, bevor Sie zahlen können"
     show:
@@ -758,6 +764,7 @@ de:
       skip_feedback: "Keine Bewertung geben"
       waiting_for_listing_author_to_accept_offer: "Warte bis %{listing_author_name} das Angebt annimmt"
       waiting_for_listing_author_to_accept_request: "Warten auf Annahme der Anfrage durch %{listing_author_name}. Erst wenn %{listing_author_name} akzeptiert hat, wird Dein Konto belastet."
+      waiting_for_listing_author_to_accept_request_free: "Warten auf Annahme der Anfrage durch %{listing_author_name}. Erst wenn %{listing_author_name} akzeptiert hat, ist die Buchung im Pool Tool Kalender sichtbar."
       waiting_for_you_to_accept_request: "Wartet, dass Du die Anfrage akzeptierst"
       waiting_confirmation_from_requester: "Warten bis %{requester_name} die Anfrage als erledigt markiert"
       waiting_confirmation_from_you: "Wartet darauf, dass Du den Vorgang als abgeschlossen markierst"
@@ -881,6 +888,7 @@ de:
       request_marked_as_confirmed: "Anfrage bearbeitet. Denke daran, Feedback zu geben."
       request_marked_as_canceled: "Anfrage abgebrochen"
       has_marked_request_as_confirmed: "%{other_party_full_name} hat die Anfrage als %{request} vervollständigt. Du kannst nun Feedback an %{other_party_given_name} geben."
+      has_marked_request_as_confirmed_free: "%{other_party_full_name} hat die Anfrage als %{request} vervollständigt."
       has_marked_request_as_canceled: "%{other_party_full_name} hat deine Anfrage des %{request} abgelehnt. Du kannst trotzdem der %{other_party_given_name} Feedback geben."
       giving_feedback_is_good_idea: "Feedback zu geben, ist immer eine gute Idee. Wenn alles gut war, solltest du es andere wissen lassen, dass %{other_party_given_name} vertraut werden kann. Wenn es Probleme gab, dann ist es gut, dies auch zu erwähnen."
       give_feedback_to: "Gib %{other_party_given_name} ein Feedback"
@@ -919,6 +927,7 @@ de:
     conversation_status_changed:
       has_accepted_your_offer: "%{accepter} hat dein Angebot %{listing} akzeptiert."
       has_accepted_your_request: "%{accepter} hat deine Anfrage %{listing} akzeptiert."
+      has_confirmed_free_your_request: "%{accepter} hat deine Anfrage %{listing} akzeptiert."
       has_rejected_your_offer: "%{accepter} hat dein Angebot %{listing} abgelehnt."
       has_rejected_your_request: "%{accepter} hat deine Anfrage %{listing} abgelehnt."
       view_thread: "Konversation anzeigen"
@@ -926,6 +935,7 @@ de:
       your_offer_was_rejected: "Dein Angebot wurde abgelehnt"
       your_request_was_accepted: "Deine Anfrage wurde akzeptiert"
       your_request_was_rejected: "Deine Anfrage wurde abgelehnt"
+      your_request_was_confirmed_free: "Deine Anfrage wurde akzeptiert"
       you_can_now_pay_to: "Du kannst jetzt den betreffenden Betrag an %{payment_receiver} zahlen."
       pay_now: "Jetzt bezahlen"
       remember_to_confirm: "Wenn der Auftrag erfüllt ist, denke daran, ihn als erledigt zu markieren. Wenn der Auftrag noch nicht erfüllt ist, hast Du %{days_to_automatic_confirmation} Tage, um ihn abzubrechen. Sonst wird er automatisch als abgeschlossen markiert werden."
@@ -1255,14 +1265,16 @@ de:
       email: E-Mail-Adresse(n)
       message: "Eine persönliche Nachricht"
       send_invitation: "Einladung senden"
-      add_email_addresses_description: "Füge die E-Mail-Adressen der Leute, die du einladen möchtest, in das obere Feld ein. Wenn du mehrere E-Mail-Adressen hinzufügst, unterteile sie mit einem Komma.<br>Die eingeladenen Leute erhalten auch einen Link auf deine Profilseite, damit können Sie dich als befreundetes Unternehmen hinzufügen und dir Nachrichten auf Rentog senden."
+      add_email_addresses_description: "Füge die E-Mail-Adressen der Leute, die du einladen möchtest, in das obere Feld ein. Wenn du mehrere E-Mail-Adressen hinzufügst, unterteile sie mit einem Komma.<br>Die eingeladenen Leute erhalten auch einen Link auf deine Profilseite, damit können Sie deinem Unternehmen vertrauen oder dir Nachrichten auf Rentog senden."
       add_lots_of_email_addresses: "Wenn du sehr viele Einladungen verschicken möchtest, solltest du lieber ein Email-Tool verwenden. Lies %{this_article_link}, um mehr über geeignete Email-Dienste zu erfahren."
       this_article_link: "diesen Artikel"
       label_invite_any: "Lade ein anderes Unternehmen / eine andere Person ein"
       label_invite_employee: "Füge einen neuen Mitarbeiter deinem Unternehmen hinzu"
+      label_invite_shared_pool: "Anfrage für Shared Pool Benutzung bei bestehendem Rentog User"
+      auto_filled: "(Die Buttons und Links auf dein Profil werden automatisch erstellt.)"
       invitation_emails_field_placeholder: "freund1@beispiel.com, freund2@beispiel.com, ..."
-      invitation_message_field_placeholder1: "Hi. Wir verwenden ab jetzt firmenintern Rentog um unsere Testgeräte zu verwalten. Bitte registriere dich!"
-      invitation_message_field_placeholder2: "Hi. Wir verwenden in unserem Unternehmen Rentog für die Verwaltung von Messgeräten. Vielleicht wäre das auch was für euch!"
+      invitation_message_field_placeholder1: "Hi. \nWir verwenden ab jetzt firmenintern Rentog um unsere Testgeräte zu verwalten. Bitte registriere dich!"
+      invitation_message_field_placeholder2: "Hi. \nBitte füge mich zu deinem Shared Pool hinzu. Dazu klicke einfach auf einen der beiden Links oberhalb um zu meinem Profil zu kommen und anschließend auf den Button 'Vertrauen'.\nDadurch kann ich deine Geräte sehen und buchen. \n\nSolltest dein Unternehmen / deine Abteilung noch kein Rentog Profil erstellt haben, dann klicke auf den Button unterhalb."
       errors_in_emails: "Überprüfe, ob die eingegebenen E-Mail-Adressen korrekt sind. Wenn du mehrere E-Mail-Adressen eingegeben hast, trenne sie mit einem Komma."
     list_item:
       review: Bewertung
@@ -1313,7 +1325,7 @@ de:
       to_see_what_others_have_suggested: "um zu sehen, was andere Benutzer vorgeschlagen haben und um die für die Ideen zu stimmen."
       your_email_address: "Deine E-Mail-Adresse (um dich zu kontaktieren)"
       connect: "Jetzt registrieren"
-      invite_your_friends: "Freunde einladen"
+      invite_your_friends: "Vertraute Unternehmen einladen"
       invite_your_neighbors: "Lade Nachbarn ein!"
       invite_your_friends_description: "Je mehr Leute im %{service_name} sind, desto nützlicher ist es."
       invite_your_friends_invite_only_description: "Andere Leute können %{service_name} nur beitreten, wenn sie eingeladen werden."
@@ -1353,6 +1365,9 @@ de:
       sign_up: Registrieren
     notifications:
       listing_could_not_be_saved: "Der Eintrag konnte nicht gespeichert werden. Bitte versuche es noch einmal. Wenn das Problem fortbesteht, %{contact_admin_link}."
+      listing_attachment_error: "Upload Datei(en) ungültig. max. 15MB/Datei, max. 10 Dateien, nur PDF Dateien"
+      listing_attachment_max_upload_limit: "Sie haben mehr als 1GB an Dateien hochgeladen. Bitte kontaktieren Sie uns damit wir Ihr Upload Limit erhöhen."
+      listing_attachment_userplan_error: "Sie haben die maximale Anzahl an Anhängen pro Gerät für Ihren Accounttyp erreicht. <a href='%{link}'>Jetzt Ihren Account upgraden!</a>."
       contact_admin_link_text: "Administrator kontaktieren"
       test_welcome_email_delivered_to: "Eine Test-Mail wurde gesendet an %{email}."
       something_went_wrong: "Da ist etwas schief gelaufen"
@@ -1422,6 +1437,7 @@ de:
       reply_sent: "Nachricht erfolgreich gesendet"
       request_accepted: "Anfrage akzeptiert"
       request_confirmed: "Anfrage abgeschlossen"
+      request_confirmed_free: "Anfrage abgeschlossen"
       request_rejected: "Anfrage abgelehnt"
       request_canceled: "Anfrage abgebrochen"
       message_sent: "Nachricht gesendet"
@@ -1511,12 +1527,14 @@ de:
     follow_links:
       follow: "Erhalte E-Mails bei neuen Kommentaren"
       unfollow: "Diesem Eintrag nicht mehr folgen"
-    cannot_book: "Dieses Gerät kann nur von Unternehmen gebucht werden, die mit dem Vermieter <b>befreundet</b> sind.<br> Kontaktiere den Vermieter und bitte ihn dein Unternehmen zu seinen <b>Freunden</b> hinzuzufügen."
+    cannot_book: "Dieses Gerät kann nur von Unternehmen gebucht werden, denen der Besitzer <b>vertraut</b> sind.<br> Kontaktiere den Vermieter und bitte ihn deinem Unternehmen zu <b>vertrauen</b>."
     form:
       enable_custom_fields: "Aktivieren & deaktivieren von Feldern"
       add_more_fields: "+ Füge weitere Attribute hinzu"
       return_from_custom_fields: "<< Zurück"
       save_custom_fields: Speichern
+      non_market_listings_limit_reached: "Sie haben das Limit für private Geräte mit Ihrem aktuellen Account Typ erreicht. Jetzt Account upgraden!"
+      custom_fields_limit_reached: "Sie haben das Limit für benutzerdefinierte Attribute mit Ihrem aktuellen Account Typ erreicht. Jetzt Account upgraden!"
       request_new_attribute: "Sie benötigen weitere Attribute?<br> <a href='https://rentog.com/de/contact'>Kontaktieren Sie uns!</a> Innerhalb von 24h haben Sie alle Attribute, die Sie benötigen!"
       custom_field_partials:
         dropdown:
@@ -1562,6 +1580,9 @@ de:
         file_too_large: "Die Datei ist zu groß."
         accepted_formats: "Die Bilddatei muss entweder im GIF-, JPG- oder PNG-Format vorliegen."
         images_not_uploaded_confirm: "Es sind noch nicht alle Bilder hochgeladen. Möchtest Du wirklich fortfahren?"
+      attachments:
+        headline: "PDF Dateien (Datenblätter, Marketing Material, ...)"
+        attachment_limit_reached: "Mehr Dateien hinzufügen? <br>Jetzt Ihren Account upgraden!"
       location:
         location: Standort
       price:
@@ -1618,7 +1639,7 @@ de:
       availability:
         availability: "Verfügbarkeit (Bestimmt wer diesen Eintrag buchen kann)"
         intern: "Nur deine Mitarbeiter"
-        trusted: "Befreundete Unternehmen und deine Mitarbeiter"
+        trusted: "Unternehmen, denen du vertraust und deine Mitarbeiter"
         all: "Alle anderen Unternehmen und deine Mitarbeiter"
     help_texts:
       help_share_type_title: "Art des Angebots oder der Anfrage"
@@ -1969,7 +1990,7 @@ de:
       no_listings: "Keine Einträge"
       legend_header: "Für die zu vermietenden Geräte gelten folgende Sichtbarkeiten:"
       legend_intern: "Intern - Nur für Mitarbeiter"
-      legend_trusted: "Befreundet - Verfügbar für Freunde"
+      legend_trusted: "Vertraut - Verfügbar für vertraute Unternehmen"
       legend_global: "Global - Verfügbar für registrierte User"
       renting_listings: "Zu vermietende Geräte"
       selling_listings: "Zu verkaufende Geräte"
@@ -1981,6 +2002,11 @@ de:
       show_all_open_listings: "Zeige alle offenen Einträge an"
       show_all_reviews: "Alle Bewertungen anzeigen"
       organization_is_in_use: "The organization name you entered is already in use."
+      employee_limit_reached: "Sie haben das Limit an Mitarbeitern für diesen Accounttyp erreicht. Jetzt Account upgraden!"
+      employee_limit_reached_invite: "Sie haben das Limit an Mitarbeitern für diesen Accounttyp erreicht und können daher keine weiteren Mitarbeiter einladen. Jetzt Account upgraden!"
+      followers_limit_reached: "Das andere Unternehmen kann mit dem aktuellen Account-Typ keine weiteren Unternehmen mehr in seinem 'Shared Pool' aufnehmen. Bitte kontaktieren Sie das andere Unternehmen, damit es den Account upgradet!"
+      followed_limit_reached: "Mit dem aktuellen Kontotyp können Sie keine (weiteren) Unternehmen zu Ihrem 'Shared Pool' hinzufügen. Jetzt Ihren Account upgraden!"
+      followed_limit_reached2: "Mit dem aktuellen Kontotyp können Sie keine (weiteren) Unternehmen zu Ihrem 'Shared Pool' hinzufügen. <a href='%{link}'>Jetzt Ihren Account upgraden!</a>"
     followed_people:
       you_follow_plural: "Du folgst %{count} Personen"
       you_follow_singular: "Du folgst %{count} Person"
@@ -1989,25 +2015,34 @@ de:
       show_all_followed_people: "Zeige alle gefolgten Personen"
       no_followed_people: "Keine gefolgten Personen"
     trusted_companies:
-      you_trust_plural: "Du bist mit %{count} anderen befreundet"
-      you_trust_singular: "Du bist mit %{count}nem Unternehmen befreunted"
-      they_trust_plural: "%{count} befreundete Unternehmen"
-      they_trust_singular: "%{count} befreundete Unternehmen"
-      show_all_trusted_people: "Zeige alle befreundeten Unternehmen"
-      no_trusted_people: "Keine befreundeten Unternehmen"
+      you_trust_plural: "Du vertraust %{count} anderen Unternehmen (Shared Pool)"
+      you_trust_singular: "Du vertraust %{count}nem anderen Unternehmen (Shared Pool)"
+      they_trust_plural: "Vertraut %{count} Unternehmen (Shared Pool)"
+      they_trust_singular: "Vertraut %{count}nem Unternehmen (Shared Pool)"
+      show_all_trusted_people: "Zeige alle Unternehmen denen du vertraust"
+      no_trusted_people: "Es gibt aktuell keine Unternehmen denen du vertraust (Shared Pool)"
+      they_no_trusted_people: "Vertraut aktuell keinem anderen Unternehmen (Shared Pool)"
+    companies_with_trust:
+      they_trust_you_plural: "%{count} andere Unternehmen vertrauen dir (Shared Pool)"
+      they_trust_you_singular: "%{count} anderes Unternehmen vertraut dir (Shared Pool)"
+      they_they_trust_you_plural: "%{count} andere Unternehmen vertrauen %{company} (Shared Pool)"
+      they_they_trust_you_singular: "%{count} anderes Unternehmen vertraut %{company} (Shared Pool)"
+      show_all_trusted_people: "Zeige alle Unternehmen die dir vertrauen"
+      no_trusted_people: "Es gibt aktuell keine Unternehmen die dir vertrauen (Shared Pool)"
+      they_no_trusted_people: "Wird von keinem anderen Unternehmen aktuell vertraut (Shared Pool)"
     follow_button:
       following: Folgend
       follow: Folgen
       unfollow: "Nicht mehr folgen"
     trust_button:
-      trusted: Befreundet
-      trust: "Neue Freundschaft"
-      untrust: "Freundschaft aufheben"
-      untrust_warning: "Wenn Sie Ihre Freundschaft zu diesem Benutzer beenden, so wird er und seine Mitarbeiter nicht mehr in der Lage sein Ihre privaten, geteilten Geräte zu sehen oder zu buchen. Bestehende Buchungen bleiben aber aufrecht. Diese können Sie manuell im Pool Tool entfernen."
-      successfully_trusted: "Befreundet. Das andere Unternehmen kann jetzt Ihre privaten Geräte, welche als 'Shared' gekennzeichnet sind, sehen und buchen!"
-      successfully_untrusted: "Freundschaft beendet. Das andere Unternehmen kann jetzt ihre privaten Geräte, welche als 'Shared' gekennzeichnet sind, nicht mehr sehen oder buchen!"
-      message_to_trusted_company: "(Diese Nachricht wurde von RENTOG automatisch generiert) \nDas Unternehmen %{name} mit der Email %{email} hat Ihr Unternehmen als Freund hinzugefügt. \n\nDas bedeutet, dass Sie und Ihre Mitarbeiter auf alle internen, geteilten Geräte von %{name} zugreifen und buchen können. Wenn Sie dem anderen Unternehmen auch vertrauen, so erstellen Sie eine neue Freundschaft indem Sie auf den 'Neue Freundschaft' Button auf der Profilseite des anderen Unternehmen klicken: %{profile}"
-      message_to_untrusted_company: "(Diese Nachricht wurde von RENTOG automatisch generiert) \nDas Unternehmen %{name} mit der Email %{email} hat Ihren Unternehmen die Freundschaft entzogen. \n\nd Das bedeutet, dass Sie und Ihre Mitarbeiter keinen Zugriff mehr auf die internen, geteilten Geräte von %{name} haben. Zukünftige Geräte-Buchungen beim anderen Unternehmen sind von der Aktion nicht betroffen. Es besteht jedoch die Möglichkeit, dass der Unternehmensadmin des anderen Unternehmen diese Buchungen über sein Pool Tool cancellt. In diesem Fall wird der Bucher des Geräts (Sie oder Ihr Mitarbeiter) in einer separaten Nachricht davon in Kenntnis gesetzt."
+      trusted: Vertraut
+      trust: "Vertrauen"
+      untrust: "Vertrauen aufheben"
+      untrust_warning: "Wenn Sie Ihr Vertrauen zu diesem Unternehmen aufheben, so wird keiner seiner Mitarbeiter mehr in der Lage sein Ihre privaten, geteilten Geräte zu sehen oder zu buchen. Bestehende Buchungen bleiben aber aufrecht. Diese können Sie manuell im Pool Tool entfernen."
+      successfully_trusted: "Vertrauen aktiviert. Das andere Unternehmen kann jetzt Ihre privaten Geräte, welche als 'Shared' gekennzeichnet sind, sehen und buchen!"
+      successfully_untrusted: "Vertrauen aufgehoben. Das andere Unternehmen kann jetzt ihre privaten Geräte, welche als 'Shared' gekennzeichnet sind, nicht mehr sehen oder buchen!"
+      message_to_trusted_company: "(Diese Nachricht wurde von RENTOG automatisch generiert) \nDas Unternehmen %{name} mit der Email %{email} vertraut Ihrem Unternehmen. \n\nDas bedeutet, dass Sie und Ihre Mitarbeiter auf alle internen, geteilten Geräte von %{name} zugreifen und buchen können. Wenn Sie dem anderen Unternehmen auch vertrauen, klicken Sie einfach auf den Button 'Vertrauen' auf der Profilseite des anderen Unternehmen klicken: %{profile}"
+      message_to_untrusted_company: "(Diese Nachricht wurde von RENTOG automatisch generiert) \nDas Unternehmen %{name} mit der Email %{email} hat Ihren Unternehmen das Vertrauen entzogen. \n\nDas bedeutet, dass Sie und Ihre Mitarbeiter keinen Zugriff mehr auf die internen, geteilten Geräte von %{name} haben. Zukünftige Geräte-Buchungen beim anderen Unternehmen sind von der Aktion nicht betroffen. Es besteht jedoch die Möglichkeit, dass der Unternehmensadmin des anderen Unternehmen diese Buchungen über sein Pool Tool cancellt. In diesem Fall wird der Bucher des Geräts (Sie oder Ihr Mitarbeiter) in einer separaten Nachricht davon in Kenntnis gesetzt."
     employ_button:
       employee: Mitarbeiter
       employ: Annehmen
@@ -2018,6 +2053,27 @@ de:
       employees_plural: " %{count} Mitarbeiter"
       no_employees: " Keine Mitarbeiter"
       show_all_employees: "Zeige alle Mitarbeiter"
+    followers:
+      edit:
+        title: "Konfiguration des Vertrauensverhältnisses mit <a href='%{company_link}'>%{company}</a>"
+        header_text: "Das andere Unternehmen kann Geräte sehen und buchen, welche Sie für vertraute Unternehmen freigegeben haben<br>Auf dieser Seite können Sie nun die Details einstellen, wie Mitarbeiter des anderen Unternehmens auf Ihre Geräte zugreifen (buchen) können."
+        trust_level_header: "Vertrauen & Buchungsprozess"
+        trust_level_desc: "Mit den Optionen von unterhalb können Sie entscheiden wie Mitarbeiter des anderen Unternehmen Ihre Geräte buchen können."
+        trust_level1_header: "Admin & Mitarbeiter buchen ohne Bestätigung"
+        trust_level2_header: "Admin bucht ohne Bestätigung"
+        trust_level3_header: "Bestätigung immer erforderlich"
+        trust_level1_desc: "Der Unternehmensadministrator als auch jeder Mitarbeiter des anderen Unternehmens dürfen Ihre Geräte direkt buchen (also ohne dass sie explizit jeder Buchung zustimmen)."
+        trust_level2_desc: "Nur der Unternehmensadministrator des anderen Unternehmen darf Ihre Geräte direkt buchen. Jeder Buchung eines externen Mitarbeiters müssen Sie explizit zustimmen.<br>"
+        trust_level3_desc: "Jede Buchungsanfrage muss von Ihnen als Unternehmensadministrator bestätigt werden. Mit dieser Option ist es auch möglich, dass Geräte versendet werden bzw. Geld für eine Buchung verlangt werden kann, da Sie als zuständige Person direkt in jede Buchung involviert sind."
+        shipment_header: "Versand"
+        shipment_necessary_desc: "Hier können Sie einstellen ob die Geräte zum anderen Unternehmen/zur anderen Abteilung versendet werdne müssen. Wenn Sie 'Ja' wählen, so werden unsere Versand-Featues aktiviert die Sie beim Versand unterstützen bzw. können Sie auswählen ob wir den Versand übernehmen sollen."
+        shipment_necessary1_header: "Ja"
+        shipment_necessary2_header: "Nein"
+        payment_header: "Zahlung"
+        payment_necessary_desc: "Wählen Sie ob das andere Unternehmen für die Verwendung Ihrer Geräte etwas bezahlen soll. Das andere Unternehmen sieht den Tagespreis und wir berechnen automatisch die Gesamtkosten, inkl. Versand.<br><b><i>Im Moment bieten wir noch kein Bezahlsystem über unsere Plattform an, wir arbeiten aber schon daran.</i></b>"
+        payment_necessary1_header: "Ja"
+        payment_necessary2_header: "Nein"
+        save: "Speichern"
   search:
     show:
       all_results: "Alle Ergebnisse"
@@ -2285,7 +2341,7 @@ de:
     employees_cannot_make_transactions: "Mitarbeiter können keine Buchungen durchführen. Bitte sende eine Anfrage an deinen Unternehmens-Administrator, damit dieser eine Buchung für die tätigt."
     company_not_verified: "Nur Unternehmen die von den Rentog-Administratoren verifiziert wurden können Buchungen durchführen. Dein Unternehmen wurde bis jetzt noch nicht verifiziert. Wir werden uns um kürze darum kümmern!"
     listing_is_intern: "Dieser Eintrag ist 'intern' und kann von anderen Unternehmen nicht betrachtet oder gebucht werden."
-    listing_is_only_for_trusted_companies: "Dieser Eintrag ist nur für 'befreundete' Unternehmen. Bitte kontaktiere das andere Unternehmen, damit dieses dich zu seinen befreundeten Unternehmen hinzufügt."
+    listing_is_only_for_trusted_companies: "Dieser Eintrag ist nur für 'vertraute' Unternehmen. Bitte kontaktiere das andere Unternehmen, damit dieses dich zu seinen vertrauten Unternehmen hinzufügt."
     already_booked_for_this_date: "Entweder hast du versucht an einem Tag zu buchen an dem bereits eine Buchung besteht, oder das Anfangsdatum war hinter dem Enddatum! Bitte versuche es noch einmal."
     initiate:
       booked_days: "Gebuchte Tage:"
@@ -2331,12 +2387,12 @@ de:
     renting_request: "Hallo Administrator. Ich möchte gerne folgendes Gerät (%{device_link}) vom %{start_date} bis zum %{end_date} mieten. Bitte kontaktiere den Besitzer dieses Geräts!"
   pool_tool:
     you_have_to_be_company_member: "Du musst ein Mitarbeiter des Unternehmens sein um das Pool Tool sehen zu können!"
-    you_have_to_be_company_admin: "Du musst der Unternehmens-Admin sein um hier Änderungen vornehmen zu können!"
+    not_allowed__to_make_pool_tool_change: "Du hast keine Berechtigung Pool Tool Buchungen mit diesem Unternehmen durchzuführen!"
     previous_month: "Vorheriges Monat"
     next_month: "Nächstes Monat"
     date: "Datum:"
     headline: "Pool Management Tool"
-    add_booking: "Erstelle Buchung"
+    headline_visitor: "Gerätepool von %{owner}"
     cancel_booking: "Abbrechen"
     event_hint: "Du kannst hier Reservierungen für Messgeräte hinzufügen."
     device_name: "Wähle eines deiner Messgeräte"
@@ -2346,35 +2402,45 @@ de:
     turn_your_device: "Bitte drehen Sie ihr mobiles Gerät innerhalb des Pool Tools!"
     invalid_booking_dates: "Ungültiger Buchungszeitraum: Vielleicht hat jemand anderes schon an einem der gewählten Tage das Gerät gebucht oder deine Buchung liegt in der Vergangenheit. Bitte lade die Seite neu und versuche es noch einmal."
     show:
+      renting_request: "Mietanfrage"
+      own_renting_request: "Eigene (unbestätigte) Mietanfrage"
       show_legend: "Zeige Legende"
       hide_legend: "Verberge Legende"
       legend: "Legende"
-      trusted_company: "Befreundetes Untern."
+      trusted_company: "Vertrautes Untern."
       any_company: "Anderes Untern."
-      own_employee: "Eigener Mitarbeiter"
-      any_employee: "Anderer Mitarbeiter"
-      other_reason: "Anderer Grund"
+      own_employee: "Mitarbeiter"
+      any_employee: "Vertrauter Mitarbeiter"
+      other_reason: "Admin"
+      legend_otherReason_text: "Buchung des Unternehmens-Administrators. Dieser kann Geräte direkt buchen um zum Beispiel Wartungs- oder Kalibrierungsaufgaben durchzuführen. Diese Buchungen werden nicht in der Auslastungsauswertung berücksichtigt."
+      legend_ownEmployee_text: "Buchung eines eigenen Mitarbeiters."
+      legend_trustedCompany_text: "Buchungen von vertrauten Unternehmen oder deren Mitarbeitern. Diese Buchungen sind nur für Geräte mit der Verfügbarkeit 'Vertraute Unternehmen' möglich."
+      legent_anyCompany_text: "Buchungen von auf Rentog registrierten Unternehmen, denen dein Unternehmens noch nicht vertraut. Diese Buchungen sind nur für Geräte mit der Verfügbarkeit 'Global' möglich."
       only_mine: "Zeige nur meine"
       options: "Pool Tool Optionen"
       could_not_create_new_booking: "Error: Aktion fehlgeschlagen! Bitte überprüfe deine Internet-Verbindung."
       booking_from: "Von"
       booking_to: "Bis"
       choose_employee_or_renter: "Entweder einen Mitarbeiter oder einen anderen Grund angeben"
-      no_open_devices: "Dein Unternehmen hat noch keine (offenen) Geräte eingetragen"
+      no_open_devices: "Dein Unternehmen hat noch keine Vermiet-Geräte gebucht oder erstellt."
       ifYouCompanyAdmin: "Wenn du der Unternehmens-Administrator bist, ..."
-      createListingHere: "dann kannst du neue Geräte <a href='%{listing_path}'>hier</a> erstellen"
-      reopen_listing: "und es gibt bereits Geräte, diese sind aber 'geschlossen', so kannst du sie <a href='%{person_path}'>hier</a> wieder öffnen"
+      createListingHere: "dann kannst du neue Vermiet-Geräte <a href='%{listing_path}'>hier</a> erstellen"
+      reopen_listing: "und es gibt bereits Vermiet-Geräte, diese aber 'geschlossen' sind, so kannst du sie <a href='%{person_path}'>hier</a> wieder öffnen"
+      do_not_want_to_create_listing: "Wenn du keine eigenen Geräte anlegen, sondern nur Geräte von anderen Unternehmen (die dir vertrauen) auf Rentog buchen möchtest, dann erfahre hier wie's funktioniert: <a href='%{link}'>Erstelle Shared Pool</a>"
       addNewBooking: "Buche internes Gerät"
+      addNewBooking_visitor: "Buche von diesem Pool"
       addNewDevice: "Erstelle ein neues Gerät"
       newExternalBooking: "Buche externes Gerät"
+      newExternalBooking_visitor: "Alle verfügbaren Geräte"
+      createSharedPool: "Shared Pool erstellen"
       or: "oder"
       choose_employee: "Wähle einen Mitarbeiter"
       please_select: "Bitte wählen..."
       booked_with_poolTool: 'Booked with PoolTool'
       enter_other_reason: "Anderer Grund (<span id='reason_counter'>40</span> Zeichen verfügbar)"
       description: "Beschreibung (optional, <span id='description_counter'>249</span> Zeichen verfügbar)"
-      devices: "Verfügbare Geräte (Sichtbarkeit: <span style='color: #B91F8A'>Global</span>, <span style='color: #F54A4A'>Intern</span>, <span style='color: #3A6ED8'>Freunde</span>)"
-      devices_only_poolTool: "Verfügbare Geräte (Sichtbarkeit: <span style='color: #F54A4A'>Intern</span>, <span style='color: #3A6ED8'>Freunde</span>)"
+      devices: "Verfügbare Geräte (Sichtbarkeit: <span style='color: #B91F8A'>Global</span>, <span style='color: #F54A4A'>Intern</span>, <span style='color: #3A6ED8'>Vertraut</span>)"
+      devices_only_poolTool: "Verfügbare Geräte (Sichtbarkeit: <span style='color: #F54A4A'>Intern</span>, <span style='color: #3A6ED8'>Vertraut</span>)"
       example: "Bsp.: Wartung"
       create: "Erstellen"
       devices_i_have_borrowed: "Aktuell von mir ausgeborgte Geräte"
@@ -2393,7 +2459,7 @@ de:
         description: "Beschreibung"
       device_return_successful_email_flash: "Das Gerät <b>%{title}</b> wurde erfolgreich zurückgegeben."
       device_return_fail_email_flash: "Das Gerät <b>%{title}</b> ist bereits zurückgegeben."
-      search_devices: "Gerätename..."
+      search_devices: "'Gerätename', 'Intern'"
     load_popover:
       utilization_header: "Auslastung bis heute"
       utilization_desc_1: "Nur wochentags"
@@ -2401,9 +2467,11 @@ de:
       utilization_text_outOf: "von"
       utilization_text_days: "Tagen"
       utilization_start_date: "Anfangsdatum für die Auslastungs-Berechnung: "
-      availability_desc_header_trusted: "Freunde"
+      availability_desc_header_trusted: "Vertraut"
       availability_desc_header_intern: "Intern"
       availability_desc_header_all: "Global"
-      availability_desc_text_trusted: "Dieses Gerät ist für befreundete Unternehmen sichtbar und kann von diesen gebucht werden."
+      availability_desc_header_extern: "Extern"
+      availability_desc_text_trusted: "Dieses Gerät ist für vertraute Unternehmen sichtbar und kann von diesen gebucht werden."
       availability_desc_text_intern: "Dieses Gerät ist nur für Ihre eigenen Mitarbeitern sichbar und kann von diesen gebucht werden."
       availability_desc_text_all: "Dieses Geräte ist am globalen Marktplatz sichtbar und kann dort von allen auf Rentog registrierten Unternehmen gebucht werden."
+      availability_desc_text_extern: "Dieses Geräte gehört einem anderen Unternehmen. Es ist hier sichtbar, da einer Ihrer Mitarbeiter es aktuell oder in Zukunft gebucht hat."

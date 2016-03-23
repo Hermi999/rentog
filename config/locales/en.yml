@@ -278,6 +278,9 @@ en:
         save_user_status_error: "Saving failed. Please refresh the page and try again."
         ban_user_confirmation: "This removes the user from the marketplace and prevents them from accessing the site again with this account. Are you sure you want to proceed?"
         ban_me_error: "You cannot ban yourself."
+      user_plans:
+        user_plans: "Usertypes"
+        headline: "Manage user types"
       social_media:
         social_media: "Social media"
         twitter_handle: "Twitter handle"
@@ -332,6 +335,7 @@ en:
           rejected: Rejected
           paid: Paid
           confirmed: Confirmed
+          confirmed_free: Confirmed free
           canceled: Canceled
           initiated: "Waiting PayPal payment"
           pending_ext: "Waiting PayPal payment"
@@ -703,12 +707,14 @@ en:
       rideshare_offer_message_form_title: "Ask for a ride from %{person}"
       rideshare_request_message_form_title: "Offer a ride to %{person}"
       send_message: "Send message"
+      send_request: "Send request"
       send: Send
       this_message_is_private: "This message is private between you and %{person}. %{person} will be notified of this message by email."
       you_will_get_notified_of_acceptance: "You will get an email notification when %{person} accepts or rejects your proposal."
       you_will_get_notified: "You will get an email notification when %{person} answers you."
       title: Title
       send_message_to_user: "Send message to %{person}"
+      send_request_to_user: "Send request to %{person}"
       about_listing: "About listing %{listing_title}"
       author_has_to_accept_request: "%{author_name} needs to accept the request before you can pay"
     show:
@@ -759,6 +765,7 @@ en:
       skip_feedback: "Skip feedback"
       waiting_for_listing_author_to_accept_offer: "Waiting for %{listing_author_name} to accept the offer"
       waiting_for_listing_author_to_accept_request: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, you will be charged."
+      waiting_for_listing_author_to_accept_request_free: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, the booking will be visible in the pool tool calender."
       waiting_for_you_to_accept_request: "Waiting for you to accept the request"
       waiting_confirmation_from_requester: "Waiting for %{requester_name} to mark the order completed"
       waiting_confirmation_from_you: "Waiting for you to mark the order completed"
@@ -882,6 +889,7 @@ en:
       request_marked_as_confirmed: "Order completed - remember to give feedback"
       request_marked_as_canceled: "Order canceled"
       has_marked_request_as_confirmed: "%{other_party_full_name} has marked the order about '%{request}' completed. You can now give feedback to %{other_party_given_name}."
+      has_marked_request_as_confirmed_free: "%{other_party_full_name} has marked the order about '%{request}' completed."
       has_marked_request_as_canceled: "%{other_party_full_name} has canceled the order about '%{request}'. You can still give feedback to %{other_party_given_name}."
       giving_feedback_is_good_idea: "Giving feedback is always a good idea. If everything went well, you should let others know that %{other_party_given_name} can be trusted. If there were any problems, it's good to mention those as well."
       give_feedback_to: "Give feedback to %{other_party_given_name}"
@@ -920,6 +928,7 @@ en:
     conversation_status_changed:
       has_accepted_your_offer: "%{accepter} has accepted your offer %{listing}."
       has_accepted_your_request: "%{accepter} has accepted your request %{listing}."
+      has_confirmed_free_your_request: "%{accepter} has accepted your request %{listing}."
       has_rejected_your_offer: "%{accepter} has rejected your offer %{listing}."
       has_rejected_your_request: "%{accepter} has rejected your request %{listing}."
       view_thread: "View conversation"
@@ -927,6 +936,7 @@ en:
       your_offer_was_rejected: "Your offer was rejected"
       your_request_was_accepted: "Your request was accepted"
       your_request_was_rejected: "Your request was rejected"
+      your_request_was_confirmed_free: "Your request was accepted"
       you_can_now_pay_to: "You can now pay the requested amount to %{payment_receiver}."
       pay_now: "Pay now"
       remember_to_confirm: "When the order is fulfilled, remember to mark it as completed. If the order is not fulfilled your have %{days_to_automatic_confirmation} days to cancel it. Otherwise it will be automatically marked as completed."
@@ -1262,10 +1272,12 @@ en:
       this_article_link: "this article"
       label_invite_any: 'Invite another company to join Rentog'
       label_invite_employee: 'Add a new employee to your companies profile'
+      label_invite_shared_pool: 'Shared Pool request to existing company'
+      auto_filled: "(The buttons and links to your profile will be added automatically.)"
       invitation_emails_field_placeholder: "friend1@example.com, friend2@example.com, ..."
       invitation_message_field_placeholder: "I joined Rentog. You should do this too!"
-      invitation_message_field_placeholder1: "Hi. From now on we use Rentog for managing our test and measurment devices. Please also sign up!"
-      invitation_message_field_placeholder2: "Hi. We use Rentog in our company for managing our test and measurement devices. Maybe its also helpful for your company. Check it out!"
+      invitation_message_field_placeholder1: "Hi. \nFrom now on we use Rentog for managing our test and measurment devices. Please also sign up!"
+      invitation_message_field_placeholder2: "Hi. \nPlease add me to your shared devices pool. Simply click on one of the two links above to get to my profile page and then press the button 'Trust'.\nThis will allow me to see and book your devices. \n\nIf your company / department has no Rentog profile yet, then you can press on the button below to sign up."
       errors_in_emails: "Check that the email addresses you added are valid. If you added multiple addresses, make sure they are separated with comma."
     list_item:
       review: review
@@ -1356,6 +1368,9 @@ en:
       sign_up: "Sign up"
     notifications:
       listing_could_not_be_saved: "Listing could not be saved. Please try again. If the problem persists, please %{contact_admin_link}."
+      listing_attachment_error: "Invalid file type or size."
+      listing_attachment_max_upload_limit: "You've uploaded more than 1GB. Please contact us to increase you upload limit."
+      listing_attachment_userplan_error: "You have reached the maximum upload amount for this device. <a href='%{link}'>Upgrade your account</a>."
       contact_admin_link_text: "contact the admin"
       test_welcome_email_delivered_to: "A test email was sent to %{email}."
       something_went_wrong: "Something went wrong"
@@ -1425,6 +1440,7 @@ en:
       reply_sent: "Reply sent successfully"
       request_accepted: "Request accepted"
       request_confirmed: "Order completed"
+      request_confirmed_free: "Order completed"
       request_rejected: "Request rejected"
       request_canceled: "Order canceled"
       message_sent: "Message sent"
@@ -1520,6 +1536,8 @@ en:
       add_more_fields: "+ Add more attributes"
       return_from_custom_fields: "<< Return"
       save_custom_fields: Save
+      non_market_listings_limit_reached: "You have reached your current limit for private devices. Upgrade your account now!"
+      custom_fields_limit_reached: "You have reached your current limit for adding custom fields. Upgrade your account now!"
       request_new_attribute: "You need an additional attribute? <a href='https://rentog.com/contact'>Contact us!</a> You'll get your new attribute within 24 hours."
       custom_field_partials:
         dropdown:
@@ -1565,6 +1583,9 @@ en:
         file_too_large: "The file is too large"
         accepted_formats: "The image format must be either GIF, JPG or PNG."
         images_not_uploaded_confirm: "All images have not finished uploading. Do you really want to continue?"
+      attachments:
+        headline: "PDF attachments (datasheet, marketing material, ...)"
+        attachment_limit_reached: "You want to upload more attachments? <br>Upgrade your Account now!"
       location:
         location: Location
       price:
@@ -1985,6 +2006,11 @@ en:
       show_all_open_listings: "Show all open listings"
       show_all_reviews: "Show all reviews"
       organization_is_in_use: "The organization name you entered is already in use."
+      employee_limit_reached: "You've reached the employee limit for your account type. Upgrade your acccount now!"
+      employee_limit_reached_invite: "You've reached the employee limit for your account type and can not invite further employees. Upgrade your acccount now!"
+      followers_limit_reached: "The other company can not add any further company to it's shared device pool with the current company account type. Please contact the other company admin if he considers upgrading his account!"
+      followed_limit_reached: "You can not add (any more) companies to your shared pool with your current account type. Upgrade your account now!"
+      followed_limit_reached2: "You can not add (any more) companies to your shared pool with your current account type. <a href='%{link}'>Upgrade your account now!</a>"
     followed_people:
       you_follow_plural: "You follow %{count} people"
       you_follow_singular: "You follow %{count} person"
@@ -1993,12 +2019,21 @@ en:
       show_all_followed_people: "Show all followed people"
       no_followed_people: "No followed people"
     trusted_companies:
-      you_trust_plural: "You trust %{count} companies"
-      you_trust_singular: "You trust %{count} company"
-      they_trust_plural: "%{count} trusted companies"
-      they_trust_singular: "%{count} trusted company"
+      you_trust_plural: "You trust %{count} companies (Shared Pool)"
+      you_trust_singular: "You trust %{count} company (Shared Pool)"
+      they_trust_plural: "%{count} trusted companies (Shared Pool)s"
+      they_trust_singular: "%{count} trusted company (Shared Pool)"
       show_all_trusted_people: "Show all trusted companies"
-      no_trusted_people: "No trusted companies"
+      no_trusted_people: "No trusted companies (Shared Pool)"
+      they_no_trusted_people: "No trusted companies (Shared Pool)"
+    companies_with_trust:
+      they_trust_you_plural: "%{count} other companies trust you (Shared Pool)"
+      they_trust_you_singular: "%{count} other company trusts you (Shared Pool)"
+      they_they_trust_you_plural: "%{count} other companies trust %{company}"
+      they_they_trust_you_singular: "%{count} other company trust %{company} (Shared Pool)"
+      show_all_trusted_people: "Show all companies with trust"
+      no_trusted_people: "There are no companies at the moment who trust your company (Shared Pool)"
+      they_no_trusted_people: "No other company trusts this company at the moment (Shared Pool)"
     follow_button:
       following: Following
       follow: Follow
@@ -2022,6 +2057,27 @@ en:
       employees_plural: " %{count} employees"
       no_employees: " No employees"
       show_all_employees: "Show all employees"
+    followers:
+      edit:
+        title: "Configure your relationship with company <a href='%{company_link}'>%{company}</a>"
+        header_text: "The other company can see and book your devices which are visible for trusted companies. <br>On this page you can configure how the other company admin and the employees of the other company can interact with your devices."
+        trust_level_header: "Trust & Booking process"
+        trust_level_desc: "With the below options you can decide how much you trust the other company or department in terms of how people from the other organization can access your devices."
+        trust_level1_header: "Trust admin & employees"
+        trust_level2_header: "Trust only admin"
+        trust_level3_header: "Always confirm"
+        trust_level1_desc: "The company admin and all employees of the other company are allowed to directly book your companies devices (without your explicit confirmation).<br>[With this option enabled, neither shipping nor payment is possible]"
+        trust_level2_desc: "Only the company admin of the other company is allowed to directly book your companies devices. If an employee of the other company/department wants to book your companies devices, he or she need your explicit approval.<br>[With this option enabled, neither shipping nor payment is possible]"
+        trust_level3_desc: "If any person of the other company wants to book one of your devices, he or she needs can just send a booking request and you as the company admin can confirm or decline the request. With this option it is also possible that you charge and ship the device, because you are directly involved in the booking process of each device."
+        shipment_header: "Shipment"
+        shipment_necessary_desc: "With this option you can decide if you need to send the devices to the other company/department. If this is the case our shipment handling features will get activated and you can choose if you would like to let us handle the shipment."
+        shipment_necessary1_header: "Yes"
+        shipment_necessary2_header: "No"
+        payment_header: "Payment"
+        payment_necessary_desc: "If the other company/deparment needs to pay for renting your devices, then you can set this option to 'Yes'. The other company will see the price and we will calculate the costs (together with the shipment costs) for you. <br><b><i>At the moment we do not offer payment and invoice service, but we are working on it.</i></b>"
+        payment_necessary1_header: "Yes"
+        payment_necessary2_header: "No"
+        save: "Save"
   search:
     show:
       all_results: "All results"
@@ -2335,11 +2391,12 @@ en:
     renting_request: "Hi Admin. I would like to rent this device (%{device_link}) from %{start_date} to %{end_date}. Please contact the owner!"
   pool_tool:
     you_have_to_be_company_member: "You must be a company member to view the Pool Tool!"
-    you_have_to_be_company_admin: "You must be company admin to change something in the Pool Tool!"
+    not_allowed__to_make_pool_tool_change: "You are not allowed to make Pool Tool Transactions with this company!"
     previous_month: "Previous Month"
     next_month: "Next Month"
     date: "Date:"
     headline: "Pool Management Tool"
+    headline_visitor: "%{owner}'s device pool"
     add_booking: "Book internal device"
     cancel_booking: "Cancel"
     event_hint: "You can add reservations for your measurment devices here."
@@ -2350,14 +2407,20 @@ en:
     turn_your_device: "Please turn your device within the Pool Tool!"
     invalid_booking_dates: "Invalid booking dates: Maybe someone else already reserved a device on one of those days or your booking is in the past. Please refresh the page and try again!"
     show:
+      renting_request: "Renting request"
+      own_renting_request: "Pending renting request"
       show_legend: "Show legend"
       hide_legend: "Hide legend"
       legend: "Legend"
       trusted_company: "Trusted company"
       any_company: "Any company"
-      own_employee: "Own employee"
-      any_employee: "Other employee"
-      other_reason: "Other reason"
+      own_employee: "Employee"
+      any_employee: "Trusted employee"
+      other_reason: "Admin"
+      legend_otherReason_text: "Booking of the company admin. He can book devices directly for reasons like maintainance or calibration. Those kind of bookings do not have influence on the utiliization calculation."
+      legend_ownEmployee_text: "Booking of an employee of your company."
+      legend_trustedCompany_text: "Booking of a trusted company or its employees. This is only possible for devices with availability 'Trusted'."
+      legend_anyCompany_text: "Booking of a company which is signed up on Rentog, but is not explicitely trusted by your company. This is only possible for devices with availability 'Global'."
       only_mine: "Show only mine"
       options: "Pool tool options"
       give_back_listing: "Users have to give back devices"
@@ -2365,13 +2428,17 @@ en:
       booking_from: "From"
       booking_to: "To"
       choose_employee_or_renter: "Please choose either an employee or fill in another reason"
-      no_open_devices: "Your company has no (open) devices yet."
+      no_open_devices: "Your company has no devices rented or devices created for renting yet."
       ifYouCompanyAdmin: "If you are the company admin..."
-      createListingHere: "then you can create a new listing <a href='%{listing_path}'>here</a>"
-      reopen_listing: "and you have already listings (but they are closed), then you can re-open them <a href='%{person_path}'>here</a>"
+      createListingHere: "then you can create a new renting listing <a href='%{listing_path}'>here</a>"
+      reopen_listing: "and you have already renting listings (but they are closed), then you can re-open them <a href='%{person_path}'>here</a>"
+      do_not_want_to_create_listing: "If you don't want to create your own devices, but just want to book devices from other companies proceed as following: <a href='%{link}'>Create Shared Pool</a>"
       addNewBooking: "Book internal device"
+      addNewBooking_visitor: "Book from this pool"
       addNewDevice: "Add a new device"
       newExternalBooking: "Book external device"
+      newExternalBooking_visitor: "All available devices"
+      createSharedPool: "Create Shared Pool"
       or: "or"
       choose_employee: "Choose employee"
       please_select: "Please choose..."
@@ -2398,7 +2465,7 @@ en:
         description: "Description"
       device_return_successful_email_flash: "You've returned the device <b>%{title}</b> successfully."
       device_return_fail_email_flash: "The device <b>%{title}</b> has already been returned."
-      search_devices: "Enter device name..."
+      search_devices: "'Device name', 'Intern'"
     load_popover:
       utilization_header: "Utilization until today"
       utilization_desc_1: "Only working days"
@@ -2409,7 +2476,8 @@ en:
       availability_desc_header_trusted: "Trusted"
       availability_desc_header_intern: "Intern"
       availability_desc_header_all: "All"
+      availability_desc_header_extern: "Extern"
       availability_desc_text_trusted: "This listing is marked as trusted. So only trusted companies and company employees can book it."
       availability_desc_text_intern: "This listing is marked as intern. So only company employees can book it."
       availability_desc_text_all: "This listing can be booked by all registered companies and the company employees."
-
+      availability_desc_text_extern: "This device belongs to another company. It's displayed here, because a member of your compmany has booked it."

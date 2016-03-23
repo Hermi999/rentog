@@ -37,7 +37,7 @@ module TransactionViewUtils
   def create_messages_from_actions(transitions, author, starter, payment_sum)
     return [] if transitions.blank?
 
-    ignored_transitions = ["free", "pending", "initiated", "pending_ext", "errored"] # Transitions that should not generate auto-message
+    ignored_transitions = ["free", "pending_free", "pending", "initiated", "pending_ext", "errored"] # Transitions that should not generate auto-message
 
     previous_states = [nil] + transitions.map { |transition| transition[:to_state] }
 
@@ -119,6 +119,11 @@ module TransactionViewUtils
         sender: starter,
         mood: :positive
       }
+    when "confirmed_free"
+      {
+        sender: author,
+        mood: :positive
+      }
     else
       raise("Unknown transition to state: #{transition[:to_state]}")
     end
@@ -152,6 +157,8 @@ module TransactionViewUtils
       t("conversations.message.canceled_request")
     when "confirmed"
       t("conversations.message.confirmed_request")
+    when "confirmed_free"
+      t("conversations.message.accepted_request")
     else
       raise("Unknown transition to state: #{state}")
     end

@@ -6,11 +6,13 @@
                 $main_font_color, $weekend_bg_color, $weekend_font_color,
                 $today_bg_color, $today_font_color, $otherReason_bg_color,
                 $otherReason_font_color, $ownEmployee_bg_color, $ownEmployee_font_color,
-                $anyCompany_bg_color, $anyCompany_font_color, $anyEmployee_bg_color,
-                $anyEmployee_font_color, $trustedCompany_bg_color, $trustedCompany_font_color,
+                $anyCompany_bg_color, $anyCompany_font_color, $trustedEmployee_bg_color,
+                $trustedEmployee_font_color, $trustedCompany_bg_color, $trustedCompany_font_color,
                 $button_bg_color, $showLegend_color, $showLegend_bg_color,
                 $newBookingForm_bg_color, $otherReason_me_bg_color, $ownEmployee_me_bg_color,
-                $anyCompany_me_bg_color, $anyEmployee_me_bg_color, $trustedCompany_me_bg_color /*,$load_bg_color*/) {
+                $anyCompany_me_bg_color, $trustedEmployee_me_bg_color, $trustedCompany_me_bg_color,
+                $privateBooking_bg_color, $privateBooking_font_color, $rentingRequest_bg_color,
+                $rentingRequest_font_color /*,$load_bg_color*/) {
 
     .gantt_#{$theme} {
         border: $border;
@@ -37,6 +39,9 @@
             .fn-label{
                 color: $main_font_color;
             }
+        }
+        .leftPanel .pooltool_extern_listing{
+            background-color: #EA806F;
         }
         .bottom .navigate_#{$theme} {
             background-color: $main_bg_color;
@@ -74,6 +79,50 @@
             }
         }
         */
+
+        .gantt_privateBooking_#{$theme} {
+            background-color: $privateBooking_bg_color;
+            box-shadow: none;
+            border-radius: 0px;
+            .fn-label{
+                color: $privateBooking_font_color;
+            }
+        }
+        .ganttLegend_privateBooking_#{$theme}{
+            background-color: $privateBooking_bg_color;
+            .fn-label{
+                color: $privateBooking_font_color;
+            }
+        }
+        .gantt_privateBooking_me_#{$theme} {
+            background-color: $privateBooking_font_color;
+            .fn-label{
+                color: $privateBooking_bg_color;
+            }
+        }
+
+
+        .gantt_rentingRequest_#{$theme} {
+            background-color: $rentingRequest_bg_color;
+            box-shadow: none;
+            border-radius: 0px;
+            .fn-label{
+                color: $rentingRequest_font_color;
+            }
+        }
+        .ganttLegend_rentingRequest_#{$theme}{
+            background-color: $rentingRequest_bg_color;
+            .fn-label{
+                color: $rentingRequest_font_color;
+            }
+        }
+        .gantt_rentingRequest_me_#{$theme} {
+            background-color: $rentingRequest_font_color;
+            .fn-label{
+                color: $rentingRequest_bg_color;
+            }
+        }
+
 
         .gantt_otherReason_#{$theme} {
             background-color: $otherReason_bg_color;
@@ -126,28 +175,28 @@
             }
         }
         .ganttLegend_anyCompany_#{$theme}{
-            background-color: anyCompany_bg_color;
+            background-color: $anyCompany_bg_color;
             .fn-label{
                 color: anyCompany_font_color;
             }
         }
 
-        .gantt_anyEmployee_#{$theme}{
-            background-color: $anyEmployee_bg_color;
+        .gantt_trustedEmployee_#{$theme}{
+            background-color: $trustedEmployee_bg_color;
             .fn-label{
-                color: $anyEmployee_font_color;
+                color: $trustedEmployee_font_color;
             }
         }
-        .gantt_anyEmployee_me_#{$theme}{
-            background-color: $anyEmployee_me_bg_color;
+        .gantt_trustedEmployee_me_#{$theme}{
+            background-color: $trustedEmployee_me_bg_color;
             .fn-label{
-                color: $anyEmployee_font_color;
+                color: $trustedEmployee_font_color;
             }
         }
-        .ganttLegend_anyEmployee_#{$theme} {
-            background-color: $anyEmployee_bg_color;
+        .ganttLegend_trustedEmployee_#{$theme} {
+            background-color: $trustedEmployee_bg_color;
             .fn-label{
-                color: $anyEmployee_font_color;
+                color: $trustedEmployee_font_color;
             }
         }
 
@@ -282,6 +331,9 @@
             color: white !important;
         }
     }
+    .load_placeholder{
+        cursor: default;
+    }
 
     .fn-wide,
     .fn-wide:hover,
@@ -355,6 +407,13 @@
 .dataPanel_past{
     position:absolute;
     height:inherit;
+}
+.dataPanel_overlay_extern{
+    position:absolute;
+    height:inherit;
+    bottom:0px;
+    width:inherit;
+    background-color: rgba(234, 128, 111, 0.23);
 }
 .fn-gantt .day_g, .fn-gantt .date {
     overflow: visible;
@@ -450,168 +509,54 @@
 
 .fn-gantt {
     .gantt_anyCompany:hover,
-    .gantt_anyEmployee:hover,
+    .gantt_trustedEmployee:hover,
     .gantt_ownEmployee:hover,
     .gantt_trustedCompany:hover,
     .gantt_otherReason:hover,
+    .gantt_privateBooking:hover,
+    .gantt_rentingRequest:hover,
     .gantt_anyCompany_me:hover,
-    .gantt_anyEmployee_me:hover,
+    .gantt_trustedEmployee_me:hover,
     .gantt_ownEmployee_me:hover,
     .gantt_trustedCompany_me:hover,
     .gantt_otherReason_me:hover,
+    .gantt_privateBooking_me:hover,
+    .gantt_rentingRequest_me:hover
      {
         opacity: 0.7;
     }
 
-    .gantt_ownEmployee {
-        background-color: rgba(239, 179, 50, 0.63);
+    .gantt_ownEmployee,
+    .gantt_trustedEmployee,
+    .gantt_trustedCompany,
+    .gantt_anyCompany,
+    .gantt_otherReason,
+    .gantt_privateBooking,
+    .gantt_rentingRequest,
+    .gantt_ownEmployee_me,
+    .gantt_trustedEmployee_me,
+    .gantt_trustedCompany_me,
+    .gantt_anyCompany_me,
+    .gantt_otherReason_me,
+    .gantt_rentingRequest_me {
         cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        box-shadow: none;
     }
 
-    .gantt_anyEmployee {
-        background-color: rgba(185, 88, 53, 0.67);
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        box-shadow: none;
-    }
-    .gantt_trustedCompany {
-        background-color: rgba(61, 50, 66, 0.67);
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-    }
-    .gantt_anyCompany {
-        background-color: rgba(172, 209, 233, 0.69);
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        box-shadow: none;
-    }
-    .gantt_otherReason {
-        background-color: #6D929B;
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        box-shadow: none;
-    }
-
-    .gantt_ownEmployee_me {
-        background-color: #E8D0A9;
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-    }
-
-    .gantt_anyEmployee_me {
-        background-color: #B7AFA3;
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116) ;
-        }
-    }
-    .gantt_trustedCompany_me {
-        background-color: #C1DAD6;
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-    }
-    .gantt_anyCompany_me {
-        background-color: #ACD1E9;
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-    }
-    .gantt_otherReason_me {
-        background-color: #6D929B;
-        cursor: pointer;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-    }
-
-    .ganttLegend_ownEmployee {
-        background-color: #E8D0A9;
-        .fn-label {
-            color: rgb(52, 82, 116);
-            font-weight: bold;
-        }
-        border: 1px solid black;
+    .ganttLegend_ownEmployee,
+    .ganttLegend_trustedCompany,
+    .ganttLegend_anyCompany,
+    .ganttLegend_trustedEmployee,
+    .ganttLegend_otherReason,
+    .ganttLegend_rentingRequest {
         border-radius: 5px;
-        margin: 5px;
-        width:22%;
+        margin: 0 5px 3px 5px;
+        width:25%;
         min-width:115px;
-        max-width:130px;
-        float:left;
-    }
-    .ganttLegend_trustedCompany {
-        background-color: #C1DAD6;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        border: 1px solid black;
-        border-radius: 5px;
-        margin: 5px;
-        width:22%;
-        min-width:115px;
-        max-width:130px;
+        max-width:136px;
         float:left;
         font-weight: bold;
+        cursor: pointer;
     }
-    .ganttLegend_anyCompany {
-        background-color: #ACD1E9;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        border: 1px solid black;
-        border-radius: 5px;
-        margin: 5px;
-        width:22%;
-        min-width:115px;
-        max-width:130px;
-        float:left;
-        font-weight: bold;
-    }
-    .ganttLegend_anyEmployee {
-        background-color: #B7AFA3;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        border: 1px solid black;
-        border-radius: 5px;
-        margin: 5px;
-        width:22%;
-        min-width:115px;
-        max-width:130px;
-        float:left;
-        font-weight: bold;
-    }
-    .ganttLegend_otherReason {
-        background-color: #6D929B;
-        .fn-label {
-            color: rgb(52, 82, 116);
-        }
-        border: 1px solid black;
-        border-radius: 5px;
-        margin: 5px;
-        width:22%;
-        min-width:115px;
-        max-width:130px;
-        float:left;
-        font-weight: bold;
-    }
-
 
     .ganttHidden {
         visibility: hidden;
@@ -866,17 +811,17 @@
     font-size: 0.7em;
     text-align: center;
     border-radius: 5px;
-    width: 90%;
-    max-width: 725px;
+    width: 97%;
+    max-width: 589px;
     margin: 15px 1%;
     padding-top:5px;
     padding-bottom:5px;
-    display: none;
 }
 .legend_title {
     text-align: left;
-    margin-top:5px;
+    margin-bottom:5px;
     margin-left:10px;
+    font-size: 1.25em;
 }
 .showLegend{
     float: right;
@@ -909,15 +854,17 @@
 
 /************** DARK THEME *****************/
 @include theme( "theme_dark", 4px solid #8794AD, none,
-                rgba(74, 81, 94, 0.39), #4A515E, #C1CFE7,
+                rgba(74, 81, 94, 0.39), #4A515E, rgb(246, 246, 246),
                 white, #727C90, white,
                 #fff8da, #484a4d, rgba(122, 62, 72, 0.69),
                 white, rgba(239, 179, 50, 0.63), white,
                 rgba(172, 209, 233, 0.69), white, rgba(185, 88, 53, 0.67),
-                white, rgba(61, 50, 66, 0.67), white,
+                white, rgba(185, 88, 53, 0.67), white,
                 #7E7E7E, white, rgb(102, 112, 131),
                 #E1E8F5, #7A3E48, #EFB332,
-                #ACD1E9, #B95835, #3D3242 /*,#347689*/);
+                #ACD1E9, #B95835, #B95835 /*,#347689*/,
+                rgba(93, 93, 93, 0.58), white, black,
+                white);
 
 
 
@@ -928,10 +875,12 @@
                 #fff8da, #484a4d, rgba(122, 62, 72, 0.69),
                 white, rgba(239, 179, 50, 0.63), white,
                 rgba(172, 209, 233, 0.69), white, rgba(185, 88, 53, 0.67),
-                white, rgba(61, 50, 66, 0.67), white,
+                white, rgba(185, 88, 53, 0.67), white,
                 #4E87A9, white, #A56464,
                 #ECDADA, #7A3E48, #EFB332,
-                #ACD1E9, #B95835, #3D3242 /*,#7A3E48*/);
+                #ACD1E9, #B95835, #B95835 /*,#7A3E48*/,
+                rgba(93, 93, 93, 0.58), white, black,
+                white);
 
 
 
@@ -942,9 +891,11 @@
                 #fff8da, #484a4d, rgba(109, 146, 155, 0.65),
                 rgb(52, 82, 116), rgba(232, 208, 169, 0.42), rgb(52, 82, 116),
                 rgba(172, 209, 233, 0.69), rgb(52, 82, 116), rgba(183, 175, 163, 0.59),
-                rgb(52, 82, 116), rgba(193, 218, 214, 0.65), rgb(52, 82, 116),
+                rgb(52, 82, 116), rgba(183, 175, 163, 0.59), rgb(52, 82, 116),
                 #595959, rgb(126, 126, 126), rgb(213, 213, 213),
                 #E8E7E7, #6D929B, #e8d0a9,
-                #ACD1E9, #B7AFA3, #C1DAD6 /*,#C3C3C3*/);
+                #ACD1E9, #B7AFA3, #B7AFA3 /*,#C3C3C3*/,
+                rgba(93, 93, 93, 0.58), white, black,
+                white);
 
 

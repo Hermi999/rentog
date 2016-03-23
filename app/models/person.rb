@@ -41,6 +41,9 @@
 #  organization_name                  :string(255)
 #  deleted                            :boolean          default(FALSE)
 #  pool_tool_color_schema             :string(255)      default("theme_dark")
+#  pool_tool_show_legend              :string(255)      default("1")
+#  user_plan                          :string(255)      default("free")
+#  user_plan_features                 :string(255)
 #
 # Indexes
 #
@@ -83,7 +86,8 @@ class Person < ActiveRecord::Base
                 :form_given_name, :form_family_name, :form_password,
                 :form_password2, :form_email, :consent,
                 :input_again, :community_category, :send_notifications,
-                :organization_name2, :signup_as, :organization_email
+                :organization_name2, :signup_as, :organization_email,
+                :user_type
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
@@ -520,10 +524,15 @@ class Person < ActiveRecord::Base
 
   def should_receive?(email_type)
     confirmed_email = !confirmed_notification_emails.empty?
+
     if email_type == "community_updates"
       # this is handled outside prefenrences so answer separately
       return active && confirmed_email && min_days_between_community_updates < 100000
+
+    elsif email_type == "email_when_conversation_confirmed_free"
+      email_type = "email_when_conversation_accepted"
     end
+
     active && confirmed_email && preferences && preferences[email_type]
   end
 
@@ -741,6 +750,11 @@ class Person < ActiveRecord::Base
 
   def get_company_name
     get_company.organization_name
+  end
+
+  def get_company_members
+    comp = self.get_company
+    [comp] + comp.employees
   end
 
 end

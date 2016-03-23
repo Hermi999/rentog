@@ -50,6 +50,17 @@ module TransactionHelper
         }
       } },
 
+      pending_free: ->() { {
+        author: {
+          icon: icon_waiting_you,
+          text: t("conversations.status.waiting_for_you_to_accept_request")
+        },
+        starter: {
+          icon: icon_waiting_other,
+          text: t("conversations.status.waiting_for_listing_author_to_accept_request_free", listing_author_name: other_party_name)
+        }
+      } },
+
       preauthorized: ->() { {
         author: {
           icon: icon_waiting_you,
@@ -156,6 +167,13 @@ module TransactionHelper
         }
       } },
 
+      confirmed_free: ->() { {
+        both: {
+          icon: icon_tag("check", ["icon-fix-rel", "confirmed"]),
+          text: t("conversations.status.request_accepted")
+        }
+      } },
+
       canceled: ->() { {
         both: {
           icon: icon_tag("cross", ["icon-fix-rel", "canceled"]),
@@ -215,6 +233,11 @@ module TransactionHelper
         pending: ->() { {
           both: [
             pending_status(conversation)
+          ]
+        } },
+        pending_free: ->() { {
+          both: [
+            pending_status_free(conversation)
           ]
         } },
         accepted: ->() { {
@@ -282,6 +305,12 @@ module TransactionHelper
             feedback_status(conversation, @current_community.testimonials_in_use)
           ]
         } },
+        confirmed_free: ->() { {
+          both: [
+            status_info(t("conversations.status.request_accepted"), icon_classes: icon_for("confirmed")),
+            feedback_status(conversation, @current_community.testimonials_in_use)
+          ]
+        } },
         canceled: ->() { {
           both: [
             status_info(t("conversations.status.request_canceled"), icon_classes: icon_for("canceled")),
@@ -321,6 +350,14 @@ module TransactionHelper
       waiting_for_current_user_to_accept(conversation)
     else
       waiting_for_author_acceptance(conversation)
+    end
+  end
+
+  def pending_status_free(conversation)
+    if current_user?(conversation.listing.author)
+      waiting_for_current_user_to_accept(conversation)
+    else
+      waiting_for_author_acceptance_free(conversation)
     end
   end
 
@@ -487,6 +524,18 @@ module TransactionHelper
 
     link = t(
       "conversations.status.waiting_for_listing_author_to_accept_request",
+      :listing_author_name => other_party_link
+    ).html_safe
+
+    status_info(link, icon_classes: 'ss-clock')
+  end
+
+  def waiting_for_author_acceptance_free(conversation)
+    other_party = conversation.other_party(@current_user)
+    other_party_link = link_to(other_party.given_name_or_username, other_party)
+
+    link = t(
+      "conversations.status.waiting_for_listing_author_to_accept_request_free",
       :listing_author_name => other_party_link
     ).html_safe
 

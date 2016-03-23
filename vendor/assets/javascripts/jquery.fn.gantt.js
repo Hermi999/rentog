@@ -266,7 +266,9 @@
                 content.append(core.navigation(element));
 
                 // append legend
-                content.append(core.legend);
+                if (gon.belongs_to_company){
+                    content.append(core.legend);
+                }
 
                 var $dataPanel = $rightPanel.find(".dataPanel");
 
@@ -282,6 +284,8 @@
                 core.markNow(element);
 
                 core.darkenPast(element);
+
+                core.overlayExtern(element);
 
                 core.fillData(element, $dataPanel, $leftPanel);
 
@@ -317,6 +321,17 @@
                 }
 
                 $dataPanel.css({ height: $leftPanel.height() });
+
+                // Add overlay if no source, but followed users
+                if (gon.showPoolToolOverlay === true){
+                    var hx = content.height()+8;
+                    var overlay = $('.poolTool_gantt_container')
+                                    .append($("<div id='poolToolOverlay' style='height:"+ hx +"px; top: -"+ (hx+10) +"px;'/>")
+                                        .append($("<div/>")
+                                            .append($("<p>No devices created or booked yet!</p>"))));
+                    $('.poolTool_gantt_container').css('max-height', '450px');
+                }
+
                 core.waitToggle(element, false);
                 settings.onRender();
             },
@@ -332,9 +347,16 @@
 
                 var entries = [];
                 $.each(element.data, function (i, entry) {
+
+                    // External listing
+                    var extern_listing_class = "";
+                    if (entry.listing_author_id && gon.pooltool_owner_id !== entry.listing_author_id){
+                        extern_listing_class = "pooltool_extern_listing";
+                    }
+
                     if (i >= element.pageNum * settings.itemsPerPage && i < (element.pageNum * settings.itemsPerPage + settings.itemsPerPage)) {
-                        entries.push('<div class="row_g name row' + i + (entry.desc ? '' : ' fn-wide') + '" id="rowheader' + i + '" offset="' + i % settings.itemsPerPage * tools.getCellSize() + '">');
-                        entries.push('<a href="listings/' + entry.listing_id + '" class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + (entry.name || '') + '</a>');
+                        entries.push('<div class="row_g name ' + extern_listing_class + ' row' + i + (entry.desc ? '' : ' fn-wide') + '" id="rowheader' + i + '" offset="' + i % settings.itemsPerPage * tools.getCellSize() + '">');
+                        entries.push('<a href="/' + gon.locale + '/' + entry.listing_author_username + '/listings/' + entry.listing_id + '" class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + (entry.name || '') + '</a>');
                         entries.push('</div>');
 
                         window.ST.poolToolRows++;
@@ -355,9 +377,12 @@
                                     text = gon.availability_desc_text_all;
                                     header = gon.availability_desc_header_all;
                                     break;
+                                case 'extern':
+                                    text = gon.availability_desc_text_extern;
+                                    header = gon.availability_desc_header_extern;
                             }
 
-                            entries.push('<div class="row_g desc row' + i + ' " id="RowdId_' + i + '" data-id="' + entry.id + '">');
+                            entries.push('<div class="row_g desc ' + extern_listing_class + ' row' + i + ' " id="RowdId_' + i + '" data-id="' + entry.id + '">');
                             entries.push('<span class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + header + '</span>');
                             entries.push('</div>');
 
@@ -367,19 +392,25 @@
                             entries.push('<script type="text/javascript">$("#RowdId_" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
                         }
 
-                        var load = window.ST.poolTool.calculateLoadFactor(entry);
+                        if (gon.belongs_to_company){
+                            var load = window.ST.poolTool.calculateLoadFactor(entry);
 
-                        if(entry.name){
-                            entries.push('<div class="row_g load row' + i + '" id="load' + i + '">');
-                            entries.push('<span class="fn-label ' + load.load_class + '">' + load.weekday_load + '%</span>');
-                            entries.push('</div>');
+                            if(entry.name){
+                                if(entry.desc != "extern"){
+                                    entries.push('<div class="row_g ' + extern_listing_class + ' load row' + i + '" id="load' + i + '">');
+                                    entries.push('<span class="fn-label ' + load.load_class + '">' + load.weekday_load + '%</span>');
+                                    entries.push('</div>');
 
-                            var popover_html = "";
-                            popover_html += "<p><b>" + gon.utilization_header + "</b></p>";
-                            popover_html += "<p class='popover_desc'>" + gon.utilization_desc_1 + ":</p> <p class='popover_text'>" + load.count_booked_weekdays + " " + gon.utilization_text_outOf + " " + load.count_weekdays + " " + gon.utilization_text_days + "</p> <p class='popover_percent'>(" + load.weekday_load + "%)</p>";
-                            popover_html += "<p class='popover_desc'>" + gon.utilization_desc_2 + ":</p> <p class='popover_text'>" + load.count_booked_days + " " + gon.utilization_text_outOf + " " + load.count_days + " " + gon.utilization_text_days + "</p> <p class='popover_percent'>(" + load.day_load + "%)</p>";
-                            popover_html += "<p class='popover_small'>*" + gon.utilization_start_date + load.utilization_start.toLocaleDateString() + "</p>";
-                            entries.push('<script type="text/javascript">$("#load" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "utilization"});</script>');
+                                    var popover_html = "";
+                                    popover_html += "<p><b>" + gon.utilization_header + "</b></p>";
+                                    popover_html += "<p class='popover_desc'>" + gon.utilization_desc_1 + ":</p> <p class='popover_text'>" + load.count_booked_weekdays + " " + gon.utilization_text_outOf + " " + load.count_weekdays + " " + gon.utilization_text_days + "</p> <p class='popover_percent'>(" + load.weekday_load + "%)</p>";
+                                    popover_html += "<p class='popover_desc'>" + gon.utilization_desc_2 + ":</p> <p class='popover_text'>" + load.count_booked_days + " " + gon.utilization_text_outOf + " " + load.count_days + " " + gon.utilization_text_days + "</p> <p class='popover_percent'>(" + load.day_load + "%)</p>";
+                                    popover_html += "<p class='popover_small'>*" + gon.utilization_start_date + load.utilization_start.toLocaleDateString() + "</p>";
+                                    entries.push('<script type="text/javascript">$("#load" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "utilization"});</script>');
+                                }else{
+                                    entries.push('<div class="row_g ' + extern_listing_class + ' load load_placeholder row' + i + '"></div>');
+                                }
+                            }
                         }
                     }
                 });
@@ -645,6 +676,7 @@
                         // Append panel elements
                         dataPanel.data("view", "hours");
                         dataPanel.append('<div class="dataPanel_past"/>');
+                        dataPanel.append('<div class="dataPanel_overlay_extern"/>');
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
                         dataPanel.append($('<div class="row_g"/>').html(dayArr.join("")));
@@ -728,6 +760,7 @@
 
                         dataPanel.data("view", "weeks");
                         dataPanel.append('<div class="dataPanel_past"/>');
+                        dataPanel.append('<div class="dataPanel_overlay_extern"/>');
                         dataPanel.append(yearArr.join("") + monthArr.join("") + dayArr.join("") + (dowArr.join("")));
 
                         break;
@@ -786,6 +819,7 @@
                         // Append panel elements
                         dataPanel.data("view", "months");
                         dataPanel.append('<div class="dataPanel_past"/>');
+                        dataPanel.append('<div class="dataPanel_overlay_extern"/>');
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
                         dataPanel.append($('<div class="row_g"/>').html(dayArr.join("")));
@@ -886,6 +920,7 @@
                         // Append panel elements
                         dataPanel.data("view", "days");
                         dataPanel.append('<div class="dataPanel_past"/>');
+                        dataPanel.append('<div class="dataPanel_overlay_extern"/>');
                         dataPanel.append(yearArr.join(""));
                         dataPanel.append(monthArr.join(""));
                         dataPanel.append($('<div class="row_g" style="margin-left: 0;" />').html(dayArr.join("")));
@@ -902,8 +937,8 @@
                 var ganttNavigate = null;
                 var appendLegend;
 
-                if (!gon.only_pool_tool){
-                    appendLegend = '<p class="showLegend" id="showLegendId">'+ gon.show_legend +'</p>';
+                if (gon.belongs_to_company){    //(!gon.only_pool_tool){
+                    appendLegend = '<p class="showLegend" id="showLegendId">'+ gon.hide_legend +'</p>';
                 }
 
                 // Scrolling navigation is provided by setting
@@ -1091,22 +1126,34 @@
                 var legend = $('<div class="legend" />')
                     .append($('<h3 class="legend_title" />')
                         .html(gon.legend))
-                    .append($('<div class="ganttLegend_trustedCompany" />')
-                        .append($('<div class="fn-label" />')
-                            .html(gon.trusted_company)))
-                    .append($('<div class="ganttLegend_anyCompany" />')
-                        .append($('<div class="fn-label" />')
-                            .html(gon.any_company)))
-                    .append($('<div class="ganttLegend_ownEmployee" />')
-                        .append($('<div class="fn-label" />')
-                            .html(gon.own_employee)))
-                    .append($('<div class="ganttLegend_anyEmployee" />')
-                        .append($('<div class="fn-label" />')
-                            .html(gon.any_employee)))
                     .append($('<div class="ganttLegend_otherReason" />')
                         .append($('<div class="fn-label" />')
                             .html(gon.other_reason)))
+                    .append($('<div class="ganttLegend_ownEmployee" />')
+                        .append($('<div class="fn-label" />')
+                            .html(gon.own_employee)))
+                    .append($('<div class="ganttLegend_trustedCompany" />')
+                        .append($('<div class="fn-label" />')
+                            .html(gon.trusted_company)))
+                    //.append($('<div class="ganttLegend_trustedEmployee" />')
+                    //    .append($('<div class="fn-label" />')
+                    //        .html(gon.any_employee)))
+                    .append($('<div class="ganttLegend_anyCompany" />')
+                        .append($('<div class="fn-label" />')
+                            .html(gon.any_company)))
                     .append($('<div class="clear-floating" />'));
+
+                    var popover_html1 = gon.legend_otherReason_text;
+                    legend.append('<script type="text/javascript">$(".ganttLegend_otherReason").webuiPopover({content: "' + popover_html1 + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
+
+                    var popover_html2 = gon.legend_ownEmployee_text;;
+                    legend.append('<script type="text/javascript">$(".ganttLegend_ownEmployee").webuiPopover({content: "' + popover_html2 + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
+
+                    var popover_html3 = gon.legend_trustedCompany_text;
+                    legend.append('<script type="text/javascript">$(".ganttLegend_trustedCompany").webuiPopover({content: "' + popover_html3 + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
+
+                    var popover_html4 = gon.legend_anyCompany_text;
+                    legend.append('<script type="text/javascript">$(".ganttLegend_anyCompany").webuiPopover({content: "' + popover_html4 + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
 
                 return legend;
             },
@@ -1174,6 +1221,15 @@
             darkenPast: function(element){
                 var offset = tools.getTodayOffset(element);
                 $(element).find('div.dataPanel_past').css('width', offset);
+            },
+
+            overlayExtern: function(element){
+                var factor = gon.count_extern_listings+1;
+                if (gon.count_extern_listings === 0){
+                    factor = gon.count_extern_listings;
+                }
+                var height = tools.getCellSize() * factor + "px";
+                $(element).find('div.dataPanel_overlay_extern').css("height", height);
             },
 
             // **Fill the Chart**

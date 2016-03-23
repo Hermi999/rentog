@@ -8,20 +8,28 @@
   = t('pool_tool.show.could_not_create_new_booking')
 
 / Lock Screen and show 'no listing' message if the company has no listings yet
-- if listings == []
+/ and no transactions and no followers and no followed users
+- if transactions == [] && listings == [] && @current_user.followers == []
   - content_for :javascript do
     $('body').css('overflow', 'hidden');
 
   .poolTool_no_listings_coverSite
     .poolTool_no_listings
-      = t('pool_tool.show.no_open_devices')
+      %span{:style => "display:block; margin-bottom: 5px;"}
+        = t('pool_tool.show.no_open_devices')
+
       .poolTool_no_listings_whatToDo
         = t('pool_tool.show.ifYouCompanyAdmin')
         %ul
           %li#create_new_listing
             = t('pool_tool.show.createListingHere', :listing_path => new_listing_path).html_safe
           %li#reopen_listing
-            = t('pool_tool.show.reopen_listing', :person_path => person_path(@company_owner)).html_safe
+            = t('pool_tool.show.reopen_listing', :person_path => person_path(@pooltool_owner)).html_safe
+
+        %span{:style => "font-size: 0.9em; margin-top:20px; display:block;"}
+          = t('pool_tool.show.do_not_want_to_create_listing', :link => get_wp_url("blog/2016/03/10/create-shared-pool")).html_safe
+
+
 
 
 / Show 'colorbox' modal/popover if user clicked in gantt chart on a booking
@@ -76,7 +84,10 @@
     ST.poolTool.init();
 
 - content_for :title_header do
-  %h1= t("pool_tool.headline")
+  - if @belongs_to_company
+    %h1= t("pool_tool.headline")
+  - else
+    %h1= t("pool_tool.headline_visitor", :owner => @pooltool_owner.organization_name)
 
 #poolTool_Wrapper
   / Pool Tool 'Choose theme'
@@ -93,17 +104,23 @@
     / Pool Tool Search
     .poolTool_search_container{:style=>"float:left;"}
       = text_field_tag 'poolTool_search', nil, placeholder: t("pool_tool.show.search_devices")
+    #remove_search
+      x
 
 
     / Button: Add new Booking
-    #addNewBookingWrapper{:style=>"float:left;"}
-      %button#addNewBooking.primary-button
-        = t('pool_tool.show.addNewBooking')
+    - if listings != []
+      #addNewBookingWrapper{:style=>"float:left;"}
+        %button#addNewBooking.primary-button
+          = @add_booking_text
 
+
+    / Button: New booking
+    = link_to @external_booking_text, @external_booking_link, :class => "new-external-booking-link", :id => "createNewExternalBooking"
 
     / Button: Add new device
-    = link_to t('pool_tool.show.newExternalBooking'), marketplace_path(:restrictedMarketplace => "1"), :class => "new-external-booking-link", :id => "createNewExternalBooking"
-
+    - if @relation == :company_admin_own_site
+      = link_to t("homepage.index.post_new_listing"), new_listing_path, :class => "new-listing-link", :id => "createNewDevice"
 
 
   / Pool Tool 'Add new booking form'
@@ -115,11 +132,11 @@
           %input{:type => 'hidden', :name => 'poolTool', :value => 'true'}
           %input{:type => 'hidden', :name => 'message', :value => t('pool_tool.show.booked_with_poolTool')}
 
-          - if @current_user.is_company_admin_of?(@company_owner) || @current_user.has_admin_rights_in?(@current_community)
+          - if @current_user.is_company_admin_of?(@pooltool_owner) || @current_user.has_admin_rights_in?(@current_community)
             .row
               #employee_wrapper.col-5
                 = label_tag :employees, t('pool_tool.show.choose_employee')
-                = collection_select :employee, :username, @company_owner.employees, :username, :full_name, {:prompt => t('pool_tool.show.please_select')}, {id: "dd_employee"}
+                = collection_select :employee, :username, @pooltool_owner.employees, :username, :full_name, {:prompt => t('pool_tool.show.please_select')}, {id: "dd_employee"}
 
               #poolTool_or.col-1
                 = t('pool_tool.show.or')
@@ -171,31 +188,33 @@
     .gantt
 
 
-  / Pool Tool Options
-  .poolTool_options
-    = check_box_tag 'mine', 'yes', false, :class => 'pooltool_options only_mine'
-    = label_tag t('pool_tool.show.only_mine'), nil, :id => 'only_mine_label', :class => 'pooltool_options_label'
+  / If there are devices
+  - unless transactions == [] && listings == []
+    / Pool Tool Options
+    .poolTool_options
+      = check_box_tag 'mine', 'yes', false, :class => 'pooltool_options only_mine'
+      = label_tag t('pool_tool.show.only_mine'), nil, :id => 'only_mine_label', :class => 'pooltool_options_label'
 
-    - if @current_user.is_organization?
-      = link_to pooltool_person_settings_path(@current_user), :id => "pooltool_options_link" do
-        = image_tag "pooltool/pooltool_options.png", :alt => t("pool_tool.show.options"), :title => t("pool_tool.show.options"), :id => "pooltool_options_image"
-
-
-  / Devices I have at the moment
-  - if @current_user.has_to_give_back_device?(@current_community)
-    .poolTool_devices_i_have
-      %p{:class=>"pool_tool_header"}
-        = t('pool_tool.show.devices_i_have_borrowed')
-
-      / Div wrapper. The rest is javascript magic
-      #my_devices.row
+      - if @current_user.is_organization? && @belongs_to_company
+        = link_to pooltool_person_settings_path(@current_user), :id => "pooltool_options_link" do
+          = image_tag "pooltool/pooltool_options.png", :alt => t("pool_tool.show.options"), :title => t("pool_tool.show.options"), :id => "pooltool_options_image"
 
 
-  / Devices others have at the moment - not working yet..only show admin
-  - if @current_user.is_organization? && @current_user.has_admin_rights_in?(@current_community)
-    .poolTool_devices_others_have
-      %p{:class=>"pool_tool_header"}
-        = t('pool_tool.show.devices_others_borrowed')
+    / Devices I have at the moment
+    - if @belongs_to_company && @current_user.has_to_give_back_device?(@current_community)
+      .poolTool_devices_i_have
+        %p{:class=>"pool_tool_header"}
+          = t('pool_tool.show.devices_i_have_borrowed')
 
-      / Div wrapper. The rest is javascript magic
-      #other_devices.row
+        / Div wrapper. The rest is javascript magic
+        #my_devices.row
+
+
+    / Devices others have at the moment - not working yet..only show admin
+    - if @belongs_to_company && @current_user.is_organization? && @current_user.has_admin_rights_in?(@current_community)
+      .poolTool_devices_others_have
+        %p{:class=>"pool_tool_header"}
+          = t('pool_tool.show.devices_others_borrowed')
+
+        / Div wrapper. The rest is javascript magic
+        #other_devices.row

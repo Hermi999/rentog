@@ -18,7 +18,7 @@ Feature: User joins another marketplace
     Then I should see "This field is required"
     When I check "community_membership_consent"
     And I press "Join Rentog"
-    Then I should see "Bosch"
+    Then I should see "Continental"
     And I should see "Post a new listing"
 
   # @move_to_subdomain2

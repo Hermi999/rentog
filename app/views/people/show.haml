@@ -1,5 +1,5 @@
 - content_for :javascript do
-  initialize_profile_view("#{@person.username}");
+  initialize_profile_view("#{@person.username}", #{company_member});
 
 - content_for :title_header do
   %h1
@@ -62,7 +62,7 @@
           %span.listing-legend.listing-legend-global= t(".legend_global")
 
       #profile-listings-list
-        - limit = 12
+        - limit = 1000
         = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: renting_listings}
 
 
@@ -87,7 +87,7 @@
                 = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
 
       #profile-listings-list
-      - limit = 12
+      - limit = 1000
       = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: ad_listings}
 
 
@@ -112,7 +112,7 @@
 
 
       #profile-listings-list
-        - limit = 12
+        - limit = 1000
         = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: selling_listings}
 
 
@@ -137,7 +137,7 @@
 
 
       #profile-listings-list
-        - limit = 12
+        - limit = 1000
         = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: other_listings}
 
 
@@ -149,6 +149,12 @@
           = render :partial => "trusted_companies", :locals => { :person => @person, followed_people: followed_people, :limit => 6 }
         - else
           = render :partial => "followed_people", :locals => { :person => @person, followed_people: followed_people, :limit => 6 }
+
+    / Companies who trust this company
+    -if @current_community.follow_in_use?
+      .row.profile-row
+        - if @person.is_organization
+          = render :partial => "companies_with_trust", :locals => { :person => @person, followers: followers, :limit => 6 }
 
 
     / Feedback
@@ -183,9 +189,9 @@
       .row
         %h2
           =t("people.show.employer")
-        = link_to medium_avatar_thumb(@organization), person_path(@organization)
+        = link_to medium_avatar_thumb(@person.get_company), person_path(@person.get_company)
         %p
-          =link_to(@organization.organization_name, person_path(@organization))
+          =link_to(@person.get_company.organization_name, person_path(@person.get_company))
 
 - content_for :extra_javascript do
   :javascript

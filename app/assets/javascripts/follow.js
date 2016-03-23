@@ -34,6 +34,7 @@ window.ST.onTrustButtonAjaxComplete = function(event, xhr) {
 
   target.parents(".trust-button-container:first").replaceWith(newButtonContainer);
   $(".trust-button", newButtonContainer).on("ajax:complete", window.ST.onTrustButtonAjaxComplete);
+  $(".trust-button-small", newButtonContainer).on("ajax:complete", window.ST.onTrustButtonAjaxComplete);
 
 };
 
@@ -73,6 +74,7 @@ window.ST.initializeFollowButtons = function() {
   $(".follow-button").on("ajax:complete", window.ST.onFollowButtonAjaxComplete);
   $(".follow-button-small").on("ajax:complete", window.ST.onFollowButtonAjaxComplete);
   $(".trust-button").on("ajax:complete", window.ST.onTrustButtonAjaxComplete);
+  $(".trust-button-small").on("ajax:complete", window.ST.onTrustButtonAjaxComplete);
   $(".employ-button").on("ajax:complete", window.ST.onEmployeeButtonAjaxComplete);
   $(".employ-button-new").on("ajax:complete", window.ST.onEmployeeButtonAjaxComplete);
   $(".employ-button-small").on("ajax:complete", window.ST.onEmployeeButtonAjaxComplete);

@@ -7,7 +7,7 @@ namespace :sharetribe do
     end
   end
 
-  namespace :deliver_device_return_notifications do
+  namespace :device_return_notifications do
     desc "Sends a email to everyone who has open bookings"
     task :deliver => :environment do |t, args|
       PersonMailer.deliver_device_return_notifications

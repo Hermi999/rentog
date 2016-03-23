@@ -153,9 +153,14 @@ window.ST = window.ST || {};
   function display_new_listing_form(selected_attributes, locale) {
     var new_listing_path = '/' + locale + '/listings/new_form_content';
     $.get(new_listing_path, selected_attributes, function(data) {
+      var new_url = window.location.href + "?edit_custom_fields=1";
+      if (window.location.href.indexOf("?") > -1){
+        new_url = window.location.href + "&edit_custom_fields=1";
+      }
       $('.js-form-fields').html(data);
       $('.js-form-fields').removeClass('hidden');
       $('.js-form-edit-custom-fields').removeClass('hidden');
+      $('.js-form-edit-custom-fields').attr('href', new_url);
     });
   }
 
@@ -163,9 +168,14 @@ window.ST = window.ST || {};
     var edit_listing_path = '/' + locale + '/listings/edit_form_content';
     var request_params = _.assign({}, selected_attributes, {id: id});
     $.get(edit_listing_path, request_params, function(data) {
+      var new_url = window.location.href + "?edit_custom_fields=1";
+      if (window.location.href.indexOf("?") > -1){
+        new_url = window.location.href + "&edit_custom_fields=1";
+      }
       $('.js-form-fields').html(data);
       $('.js-form-fields').removeClass('hidden');
       $('.js-form-edit-custom-fields').removeClass('hidden');
+      $('.js-form-edit-custom-fields').attr('href', new_url);
     });
   }
 
@@ -334,8 +344,13 @@ window.ST = window.ST || {};
     var shouldShowForm = update_listing_form_view(locale, attribute_array, listing_form_menu_titles, ordered_attributes, selected_attributes);
 
     if(shouldShowForm) {
+      var new_url = window.location.href + "?edit_custom_fields=1";
+      if (window.location.href.indexOf("?") > -1){
+        new_url = window.location.href + "&edit_custom_fields=1";
+      }
       $('.js-form-fields').removeClass('hidden');
       $('.js-form-edit-custom-fields').removeClass('hidden');
+      $('.js-form-edit-custom-fields').attr('href', new_url);
     }
 
     var menuStateChanged = function(shouldLoadForm) {
@@ -345,8 +360,13 @@ window.ST = window.ST || {};
         current_attributes = _.clone(selected_attributes);
 
         if(loadNotNeeded) {
+          var new_url = window.location.href + "?edit_custom_fields=1";
+          if (window.location.href.indexOf("?") > -1){
+            new_url = window.location.href + "&edit_custom_fields=1";
+          }
           $('.js-form-fields').removeClass('hidden');
           $('.js-form-edit-custom-fields').removeClass('hidden');
+          $('.js-form-edit-custom-fields').attr('href', new_url);
         } else {
           $('.js-form-fields').html("");
           display_edit_listing_form(selected_attributes, locale, id);
@@ -574,6 +594,44 @@ window.ST = window.ST || {};
       });
 
     });
+  };
+
+  module.initialize_custom_fields_checkboxes = function(max_custom_fields, limit_reached_text, pricing_link){
+    function disable_checkboxes(){
+      // how many checkboxes are enabled
+      var counter = 0;
+      $.each($('.custom_field_enabler'), function(index, value){
+        if (value.checked){
+          counter++;
+        }
+      });
+
+      // If more checkboxes are enabled, than this user is allowed to have custom
+      // fields display upgrade and disable all unselected checkboxes
+      if (counter >= max_custom_fields){
+        $.each($('.custom_field_enabler'), function(index, value){
+          if (value.checked === false){
+            value.disabled = true;
+            // Show message
+            $("body").append("<a href='"+ pricing_link +"' class='upgrade_profile_static'>" + limit_reached_text + "</a>");
+          }
+        });
+      }
+      else{
+        $.each($('.custom_field_enabler'), function(index, value){
+          value.disabled = false;
+          $('.upgrade_profile_static').remove();
+        });
+      }
+    }
+
+    disable_checkboxes();
+
+    // max custom fields
+    $('input[type=checkbox]').change(function(){
+      disable_checkboxes();
+    });
+
   };
 
 })(window.ST);

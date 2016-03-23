@@ -300,6 +300,26 @@ function initialize_user_feedback_form() {
   });
 }
 
+function initialize_user_plans_dropdowns(locale, community_id){
+  $('.user_plans_dropdown').change(function(ev){
+    var value = ev.currentTarget.value;
+    var attr_name = ev.currentTarget.attributes.name.nodeValue;
+    var endOfFeature = attr_name.indexOf("[");
+    var endOfUserId = attr_name.indexOf("]");
+    var feature = attr_name.substr(0, endOfFeature);
+    var user_id = attr_name.substr(endOfFeature+1, endOfUserId-endOfFeature-1);
+
+    $.ajax({
+        method: "PUT",
+        url: "/" + locale + "/admin/communities/" + community_id + "/user_plans/" + user_id,
+        data: {feature: feature, value: value}
+      })
+      .success(function(data){
+        window.location.reload(false);
+      });
+  });
+}
+
 function initialize_email_members_form() {
   form_id = "#new_member_email";
   auto_resize_text_areas("email_members_text_area");
@@ -567,7 +587,7 @@ function style_action_selectors() {
             $(".visible-when-" + action).removeClass('hidden');
 
             $(this).addClass(action);
-            $(".conversation-action").find('input:radio[id=' + $(this).attr('name') + ']').prop('checked', true);
+            $(".conversation-action").find('input:radio[id="action-' + $(this).attr('id') + '"]').prop('checked', true);
             $("#conversation_message_attributes_action").val(action);
             $("#conversation_status").val(action + 'ed');
           }
@@ -1043,15 +1063,9 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         $(form_id).find(":submit").prop('value', btn_text);
 
         // Decide which gantt-Class to use for drawing the new booking
-        if (data.employee){
-          if (gon.current_user_id === data.renter_id){
-            custom_class = "gantt_ownEmployee_me";
-          }else{
-            // Admin create booking for employee
-            custom_class = "gantt_ownEmployee";
-          }
-        }else{
-          custom_class = "gantt_otherReason_me";
+        custom_class = "gantt_" + data.type;
+        if (gon.current_user_id === data.renter_id){
+          custom_class = custom_class + "_me";
         }
 
         // Add booking element to existing device (skip the empty dummy one)
@@ -1112,19 +1126,23 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         // transaction as new booking. This change booking is
         // marked as update, so that it can be deleted in the
         // update_borrowed_device() function
-        var today = new Date(new Date().setHours(1,0,0,0));
-        if (to_date >= today && from_date <= today && gon.current_user_id === data.renter_id){
-          gon.user_active_bookings.push({
-            update: true,
-            transaction_id: data.transaction_id,
-            listing_id: parseInt(data.listing_id),
-            start_on: from_date.getFullYear() + "-" + (from_date.getMonth()+1) + "-" + from_date.getDate(),
-            end_on: to_date.getFullYear() + "-" + (to_date.getMonth()+1) + "-" + to_date.getDate(),
-            title: title,
-            renter_id: data.renter_id
-          });
-          window.ST.poolTool.update_my_borrowed_devices();
-        }
+        if (typeof gon.user_active_bookings !== 'undefined' && gon.user_active_bookings !== null)
+          var today = new Date(new Date().setHours(1,0,0,0));
+          if (to_date >= today && from_date <= today && gon.current_user_id === data.renter_id){
+            gon.user_active_bookings.push({
+              update: true,
+              transaction_id: data.transaction_id,
+              listing_id: parseInt(data.listing_id),
+              start_on: from_date.getFullYear() + "-" + (from_date.getMonth()+1) + "-" + from_date.getDate(),
+              end_on: to_date.getFullYear() + "-" + (to_date.getMonth()+1) + "-" + to_date.getDate(),
+              title: title,
+              renter_id: data.renter_id
+            });
+
+            if (typeof gon.user_active_bookings !== 'undefined'){
+              window.ST.poolTool.update_my_borrowed_devices();
+            }
+          }
 
       }else{
         if(data.error_message !== ""){
@@ -1299,7 +1317,18 @@ function initialize_reset_password_form() {
   });
 }
 
-function initialize_profile_view(profile_id) {
+function initialize_profile_view(profile_id, belongs_to_company) {
+  if (!belongs_to_company){
+    var color_background = "rgb(252, 241, 239)";
+    var color_title_container = "rgb(231, 78, 53)";
+
+    $('body').css('background-color', color_background);
+    $('.page-content').css('background-color', color_background);
+    $('.wrapper').css('background-color', color_background);
+    $('.title-container').css('background-color', color_title_container);
+    $('.marketplace-title-header>h1').css("color", "white");
+  }
+
   $('#load-more-listings a').on("click", function() {
     var request_path = $(this).data().url;
     $.get(request_path, function(data) {
@@ -1343,8 +1372,8 @@ function initialize_profile_view(profile_id) {
 
 function initialize_homepage() {
   // wah: Remove me. Marketplace coming soon
-  $("body").append("<div id='marketplace_cover' style='position:fixed; height:2000px; width:100%; top:0px; bottom:0px; z-index:100; background-color:rgba(53, 53, 53, 0.69);'> </div>")
-  $("#marketplace_cover").append("<div style='position:fixed; top: 40%; background-color:rgba(249, 216, 165, 0.94); padding: 20px 50px; left:25%; right:25%; width:50%; text-align:center; color: #B72424; font-weight: 600; font-size: 1.3em; border-radius:10px;'>Sharing devices with other, trusted companies is comming soon! <br><span style='color:black;'>Return to</span> <a href='/'>Pool Tool</a></div>")
+  //$("body").append("<div id='marketplace_cover' style='position:fixed; height:2000px; width:100%; top:0px; bottom:0px; z-index:100; background-color:rgba(53, 53, 53, 0.69);'> </div>")
+  //$("#marketplace_cover").append("<div style='position:fixed; top: 40%; background-color:rgba(249, 216, 165, 0.94); padding: 20px 50px; left:25%; right:25%; width:50%; text-align:center; color: #B72424; font-weight: 600; font-size: 1.3em; border-radius:10px;'>Sharing devices with other, trusted companies is comming soon! <br><span style='color:black;'>Return to</span> <a href='/'>Pool Tool</a></div>")
 
 
   // make map/list button change the value in the filter form and submit the form

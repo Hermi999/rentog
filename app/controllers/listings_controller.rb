@@ -30,7 +30,8 @@ class ListingsController < ApplicationController
   before_filter :is_authorized_to_post, :only => [ :new, :create ]
 
 
-  # called when clicked on "show all listings" on profile page
+  # wah: called when clicked on "show all listings" on profile page --> not working at the moment because I
+  # separated the different listing types
   def index
     @selected_tribe_navi_tab = "home"
 
@@ -177,6 +178,24 @@ class ListingsController < ApplicationController
   def show
     @selected_tribe_navi_tab = "home"
 
+    # wah
+    relation = get_relation
+
+    # redirect if intern listing
+    if @listing.availability == "intern"    &&
+       !relation == :company_admin_own_site &&
+       !relation == :rentog_admin           &&
+       !relation == :company_employee
+
+        flash[:error] = t("transactions.listing_is_intern")
+        redirect_to root_path and return
+    end
+
+    # wah: Get valid transactions in future, so that other user can not book the device
+    #      if its already booked at a certain date
+    @booked_dates = Listing.already_booked_dates_in_future(@listing.id, @current_community)
+
+
     @current_image = if params[:image]
       @listing.image_by_id(params[:image])
     else
@@ -192,54 +211,70 @@ class ListingsController < ApplicationController
     payment_gateway = MarketplaceService::Community::Query.payment_type(@current_community.id)
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: @listing.transaction_process_id)
 
-    # Employees can just send a message to their Company in which they request for renting the listing.
-    # If the listing is a company intern listing, the employees can book it via the pool tool
-    if @listing.person_belongs_to_same_company?(@current_user)
-      form_path = person_poolTool_path(@current_user)
-    else
-      if @current_user && @current_user.is_employee? && !@current_community.employees_can_buy_listings
-        form_path = new_person_person_message_path(@current_user.company)
-      else
-        form_path = new_transaction_path(listing_id: @listing.id)
-      end
-    end
 
-    if @current_user &&
-       @current_user.is_organization &&
-       @current_community.require_verification_to_post_listings &&
-       !@current_user.can_post_listings_at?(@current_community)
-       # Unverified Companies cant make transactions
-        show_rent_button = false
+    rent_button = ""
+    show_price = true
+    show_date = true
+
+    case relation
+      when :rentog_admin
+        rent_button = "rent"
+        form_path = new_transaction_path(listing_id: @listing.id)
+
+      when :company_admin_own_site
+        rent_button = "pooltool"
+        form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
+
+      when :company_employee
+        show_price = false
+        show_date = false
+        rent_button = "pooltool"
+        form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
+
+      when :full_trusted_company_employee
+        show_price = @trusted_relation.payment_necessary
+        show_date = false
+        rent_button = "pooltool"
+        form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
+
+      when :trusted_company_employee
+        form_path = new_transaction_path(listing_id: @listing.id)
+        show_price = @trusted_relation.payment_necessary
+        rent_button = "rent"
+        form_path = new_transaction_path(listing_id: @listing.id)
+
+      when :untrusted_company_employee
+        if @current_community.employees_can_buy_listings
+          form_path = new_transaction_path(listing_id: @listing.id)
+        else
+          form_path = new_person_person_message_path(@current_user.company)
+        end
+        rent_button = "rent"
+
+      when :full_trusted_company_admin
+        show_price = @trusted_relation.payment_necessary
+        show_date = false
+        rent_button = "pooltool"
+        form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
+
+      when :trusted_company_admin
+        show_price = @trusted_relation.payment_necessary
+        rent_button = "rent"
+        form_path = new_transaction_path(listing_id: @listing.id)
+
+      when :untrusted_company_admin
+        rent_button = "rent"
+        form_path = new_transaction_path(listing_id: @listing.id)
+
+      when :unverified_company
         flash.now[:error] = t("transactions.company_not_verified")
 
-    elsif @current_user.nil? ||
-         (@current_user &&
-            (@listing.availability == nil ||
-             @listing.availability == "all" ||
-             (@listing.availability == "trusted" && @current_user.followers.where(:id => @listing.author_id).first) ||
-             (@listing.availability == "intern" && !@current_user.is_organization && @current_user.company.id == @listing.author_id)))
-         # Show button if no user is logged in or if the availaility fits the current user
-      show_rent_button = true
+      when :logged_out_user
+        rent_button = "rent"
+        form_path = new_transaction_path(listing_id: @listing.id)
 
-    elsif @current_user != @listing.author && !@current_user.has_admin_rights_in?(@current_community)
-      if @listing.availability == "intern"
-        flash[:error] = t("transactions.listing_is_intern")
-        redirect_to root_path and return
-      end
-
-      # show -> "not trusted" message for other company
-      # Employee should get message "contact your company admin", because he
-      # shouldn contact the listing owner
-      unless @current_user.is_employee?
-        @show_availability_message = true
-        show_rent_button = false
       else
-        show_rent_button = true
-      end
 
-    else
-      # Dont show rent button if listing auhtor is viewing the page
-      show_rent_button = false
     end
 
     community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
@@ -257,7 +292,9 @@ class ListingsController < ApplicationController
              process: process,
              delivery_opts: delivery_opts,
              listing_unit_type: @listing.unit_type,
-             show_rent_button: show_rent_button,
+             rent_button: rent_button,
+             show_price: show_price,
+             show_date: show_date,
              country_code: community_country_code,
              received_testimonials: received_testimonials,
              received_positive_testimonials: received_positive_testimonials,
@@ -266,6 +303,10 @@ class ListingsController < ApplicationController
   end
 
   def new
+    # wah: NEW is also caling new_form_content (but edit is not calling edit_form_content)
+    #initialize_user_plan_restrictions
+    #initialize_user_plan_restrictions3
+
     category_tree = CategoryViewUtils.category_tree(
       categories: ListingService::API::Api.categories.get_all(community_id: @current_community.id)[:data],
       shapes: get_shapes,
@@ -286,6 +327,9 @@ class ListingsController < ApplicationController
 
     @listing = Listing.new
 
+    initialize_user_plan_restrictions
+    return unless initialize_user_plan_restrictions2
+
     if (@current_user.location != nil)
       temp = @current_user.location
       @listing.build_origin_loc(temp.attributes)
@@ -299,6 +343,9 @@ class ListingsController < ApplicationController
 
   def edit_form_content
     return redirect_to action: :edit unless request.xhr?
+
+    initialize_user_plan_restrictions
+    return unless initialize_user_plan_restrictions2
 
     if !@listing.origin_loc
         @listing.build_origin_loc()
@@ -335,11 +382,13 @@ class ListingsController < ApplicationController
     ).merge(unit_to_listing_opts(m_unit)).except(:unit)
 
     @listing = Listing.new(listing_params)
+    @listing.author = @current_user
 
     ActiveRecord::Base.transaction do
-      @listing.author = @current_user
-
       if @listing.save
+        # wah - listing is saved even if attachment fails
+        save_listing_attachments(params)
+
         upsert_field_values!(@listing, params[:custom_fields])
 
         listing_image_ids =
@@ -374,6 +423,9 @@ class ListingsController < ApplicationController
   end
 
   def edit
+    initialize_user_plan_restrictions
+    initialize_user_plan_restrictions3
+
     @selected_tribe_navi_tab = "home"
     if !@listing.origin_loc
         @listing.build_origin_loc()
@@ -446,6 +498,11 @@ class ListingsController < ApplicationController
       last_modified: DateTime.now
     ).merge(open_params).merge(unit_to_listing_opts(m_unit)).except(:unit)
 
+    # wah
+    unless save_listing_attachments(params)
+      redirect_to :back and return
+    end
+
     update_successful = @listing.update_fields(listing_params)
 
     upsert_field_values!(@listing, params[:custom_fields])
@@ -459,6 +516,28 @@ class ListingsController < ApplicationController
       logger.error("Errors in editing listing: #{@listing.errors.full_messages.inspect}")
       flash[:error] = t("layouts.notifications.listing_could_not_be_saved", :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), new_user_feedback_path, :class => "flash-error-link")).html_safe
       redirect_to edit_listing_path(@listing)
+    end
+  end
+
+  # wah: Delete pdf attachment
+  def delete_attachment
+    if params[:id]
+      at = ListingAttachment.find(params[:id])
+      if at.listing.author_id == @current_user.id
+        at.delete
+        at.save
+
+        respond_to do |format|
+          format.html { redirect_to :back }
+          format.json { render :json => {status: "success"} }
+        end
+        return
+      end
+    end
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json { render :json => {status: "error"} }
     end
   end
 
@@ -972,5 +1051,119 @@ class ListingsController < ApplicationController
         price_info: ListingViewUtils.shipping_info(delivery_type, price, shipping_price_additional),
         default: true
       }
+  end
+
+  def save_listing_attachments(params)
+    return true if params[:attachment].nil?
+
+    # wah: Store & Remove attachment from params hash
+    listing_attachments = params[:attachment][:file]
+
+    listing_attachments.each_with_index do |attachm, index|
+      # only 20 attachments at once
+      if index > 20
+        break
+      elsif @listing.valid?
+        # wah: Create new attachment object
+        @attachment = ListingAttachment.new
+        @attachment.attachment = attachm
+        @attachment.author_id = @current_user.id
+        @attachment.listing_id = @listing.id
+
+        if @attachment.save
+          # wah: Add attachment to listing
+          @listing.listing_attachments << @attachment
+        else
+          if @attachment.errors && @attachment.errors.first[0] != :attachment_content_type
+            if @attachment.errors.first[0] == :max_upload_limit
+              flash[:error] = t("layouts.notifications.listing_attachment_max_upload_limit").html_safe
+            elsif @attachment.errors.first[0] == :user_tried_to_hack_user_plan
+              flash[:error] = t("layouts.notifications.listing_attachment_userplan_error", link: get_wp_url("pricing")).html_safe
+            else
+              flash[:error] = @attachment.errors.first[1]
+            end
+          else
+            flash[:error] = t("layouts.notifications.listing_attachment_error")
+          end
+
+          return false
+        end
+      end
+    end
+    return true
+  end
+
+
+  # Listing attachment & custom fields restrictions
+  def initialize_user_plan_restrictions
+     # wah
+    if @listing && @listing.id
+      listing_id = @listing.id
+    else
+      listing_id = -1
+    end
+
+    userplanservice = UserPlanService::Api.new
+    @max_attachments = userplanservice.get_plan_feature_level(@current_user, :listing_attachments)[:value]
+    listingAttachmentsCount = ListingAttachment.where(author_id: @current_user.id, listing_id: listing_id).count
+    @attachments_left = listingAttachmentsCount < @max_attachments
+
+    # wah - user plan: max listing optional attributes
+    if params["edit_custom_fields"]
+      @max_listing_optional_attributes = userplanservice.get_plan_feature_level(@current_user, :listing_optional_attributes)[:value]
+      listingOptionalAttributesCount = @current_user.custom_fields.count
+      @maxOptionalAttributesLeft = @max_listing_optional_attributes <= listingOptionalAttributesCount
+    end
+  end
+
+  def initialize_user_plan_restrictions2
+    # wah - user plan: non marketplace listings restriction
+    # Only if user want to create a private listing
+    userplanservice = UserPlanService::Api.new
+    listing_shape_name =
+      if ListingShape.where(id: params["listing_shape"]).first
+        ListingShape.where(id: params["listing_shape"]).first.get_standardized_listingshape_name
+      else
+        "private"
+      end
+
+    if listing_shape_name == "private"
+      @max_nonMarketlistings = userplanservice.get_plan_feature_level(@current_user, :company_non_market_listings)[:value]
+      nonMarketlistingCount = Listing.where("author_id = ? And (availability = 'trusted' Or availability = 'intern')", @current_user.id).count
+      if @max_nonMarketlistings <= nonMarketlistingCount && params["edit_custom_fields"].nil?
+        render :partial => "listings/form/max_company_non_market_listings" and return false
+      end
+    end
+
+    return true
+  end
+
+  def initialize_user_plan_restrictions3
+    # wah - user plan: non marketplace listings restriction
+    # Only if user want to create a private listing
+    userplanservice = UserPlanService::Api.new
+    listing_shape_name =
+      if ListingShape.where(id: params["listing_shape"]).first
+        ListingShape.where(id: params["listing_shape"]).first.get_standardized_listingshape_name
+      else
+        "private"
+      end
+
+    if listing_shape_name == "private"
+      @max_nonMarketlistings = userplanservice.get_plan_feature_level(@current_user, :company_non_market_listings)[:value]
+      nonMarketlistingCount = Listing.where("author_id = ? And (availability = 'trusted' Or availability = 'intern')", @current_user.id).count
+      @nonMarketlistings_left = @max_nonMarketlistings > nonMarketlistingCount
+    end
+  end
+
+  # wah
+  # returns one of the following relations:
+  # logged_out_user, company_admin_own_site, enpoyee_own_site, company_employee, full_trusted_company_admin, trust_company,
+  # full_trusted_company_employee, trust_employee, unverified_company, untrusted_company_employee,
+  # untrusted_company_admin
+  def get_relation
+    visitor = @current_user
+    site_owner = @listing.author
+    get_site_owner_visitor_relation(site_owner, visitor)
   end
 end

@@ -72,6 +72,19 @@
           - text_with_line_breaks do
             = @listing.description
 
+    .row
+      .col-12
+        .files-headline
+          Files:
+        %table
+          - if @listing.listing_attachments
+            - @listing.listing_attachments.each do |attachm|
+              %tr
+                %td
+                  = link_to attachm.attachment.url, :target => "_blank" do
+                    = icon_tag("terms", ["icon-with-text"])
+                    = attachm.attachment_file_name
+
     - @listing.custom_field_values.each do |custom_field_value|
       .row
         .col-12
@@ -116,7 +129,7 @@
             = render :partial => "comment_form"
 
   %aside.col-4
-    - if @listing.price
+    - if @listing.price && show_price
       .row
         .col-12
           .listing-price
@@ -129,7 +142,7 @@
     .row-with-divider
       .col-12
         #listing-message-links
-          = render :partial => "listing_actions", locals: { form_path: form_path, payment_gateway: payment_gateway, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code, show_rent_button: show_rent_button }
+          = render :partial => "listing_actions", locals: { form_path: form_path, payment_gateway: payment_gateway, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code, rent_button: rent_button, show_date: show_date }
     .row-with-divider
       .col-12
         .listing-author
