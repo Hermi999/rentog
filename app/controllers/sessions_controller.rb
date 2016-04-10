@@ -172,6 +172,13 @@ class SessionsController < ApplicationController
     if @current_user.blank?
       redirect_to root
     end
+
+    # if admin has confirmed, then redirect to root
+    if params[:origin] == "company_admin_verification"
+      if @current_user.employer.active
+        redirect_to root
+      end
+    end
   end
 
 

@@ -357,20 +357,6 @@ class PeopleController < Devise::RegistrationsController
     Delayed::Job.enqueue(CommunityJoinedJob.new(@person.id, @current_community.id)) if @current_community
 
 
-    # send email confirmation
-    # (unless disabled for testing environment)
-    if APP_CONFIG.skip_email_confirmation
-      email.confirm!
-
-      redirect_to root
-    else
-      Email.send_confirmation(email, @current_community)
-
-      flash[:notice] = t("layouts.notifications.account_creation_succesful_you_still_need_to_confirm_your_email")
-      redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation"
-    end
-
-
     # If employee ...
     if signup_as == "employee"
       # ... and not invited, then send message & email to company for confirming new employee
@@ -384,6 +370,18 @@ class PeopleController < Devise::RegistrationsController
       end
     end
 
+    # send email confirmation and redirect to
+    # (unless disabled for testing environment)
+    if APP_CONFIG.skip_email_confirmation
+      email.confirm!
+
+      redirect_to root
+    else
+      Email.send_confirmation(email, @current_community)
+
+      flash[:notice] = t("layouts.notifications.account_creation_succesful_you_still_need_to_confirm_your_email")
+      redirect_to :controller => "sessions", :action => "confirmation_pending", :origin => "email_confirmation"
+    end
 
   end
 
