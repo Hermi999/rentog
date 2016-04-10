@@ -15,6 +15,8 @@
                   = check_box_tag param_name, "#{option.id}", params[param_name]
                   %span.custom-filter-checkbox-label-text
                     = option.title(I18n.locale)
+            - if field.options.length > 5
+              =link_to "more...", "#", {:style => "padding-left: 22px;"}
 
   - field.with(:numeric) do
     .row

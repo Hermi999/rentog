@@ -8,6 +8,16 @@ $home-thumbnail-grid-avatar: 36px;
 $home-thumbnail-grid-avatar-padding: 6px;
 $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid-avatar-padding * 2);
 
+.listing_wrapper{
+  box-shadow: 1px 1px 5px rgb(123, 123, 123);
+}
+.listing_wrapper:hover{
+  box-shadow: 4px 4px 15px black;
+}
+
+.home-fluid-thumbnail-grid{
+  padding: 10px;
+}
 .home-fluid-thumbnail-grid-narrow {
   @include create-fluid-thumbnail-grid(home, 1, 1, 2, 3, 3, 3, 3, 3);
 }
@@ -24,6 +34,12 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
   @include border-bottom-radius($default-border-radius);
   background-color: $highlight;
   height: $home-thumbnail-grid-author;
+  position: relative;
+}
+.home-fluid-thumbnail-grid-details {
+  @include border-bottom-radius($default-border-radius);
+  background-color: $highlight;
+  height: auto;
   position: relative;
 }
 
@@ -49,3 +65,40 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
 
   @include ellipsis;
 }
+
+.grid-item-details{
+  padding: 4px;
+  font-weight: bold;
+  text-align: center;
+  margin: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.28);
+  line-height: 18px;
+  font-size: 0.7em;
+}
+.grid-item-type{
+  cursor: default;
+  border-radius: 20px;
+  border: 1px inset #FFF;
+}
+.grid-item-share{
+  cursor: pointer;
+  background-color: white;
+  box-shadow: 1px 1px 4px #777;
+}
+.grid-item-share:hover{
+  box-shadow: 1px 1px 5px #000;
+}
+
+.grid-item-type-fabriksneu{
+  background-color: #C3F0C3;
+}
+.grid-item-type-neuwertig{
+  background-color: #F8CCA2;
+}
+.grid-item-type-gut{
+  background-color: #F0ECC3;
+}
+.grid-item-type-gebraucht{
+  background-color: #C4E2F0;
+}
+

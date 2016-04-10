@@ -148,9 +148,22 @@ $bubbleDetailsMargin: em(5, $googleMapsFontSize);
   right: $bubbleDetailsMargin;
   top: $bubbleDetailsMargin;
 }
+.bubble-details2 {
+  color: $body;
+
+  position: absolute;
+  bottom: $bubbleDetailsMargin;
+  right: $bubbleDetailsMargin;
+  top: $bubbleDetailsMargin;
+}
 
 @mixin details-item-position($floatDirection, $paddingDirection) {
   width: 50%;
+  float: $floatDirection;
+  text-align: $floatDirection;
+  padding-#{$paddingDirection}: $bubbleDetailsMargin / 2;
+}
+@mixin details-item-position2($floatDirection, $paddingDirection) {
   float: $floatDirection;
   text-align: $floatDirection;
   padding-#{$paddingDirection}: $bubbleDetailsMargin / 2;
@@ -166,6 +179,16 @@ $bubbleDetailsMargin: em(5, $googleMapsFontSize);
 
 .bubble-details .bubble-price {
   @include details-item-position(right, left);
+
+  line-height: em(30, 14);
+  font-size: 14px;
+  padding-right: em(10, 16);
+
+  @extend .bubble-details-text-overflow;
+}
+
+.bubble-details2 .bubble-price2 {
+  @include details-item-position2(right, left);
 
   line-height: em(30, 14);
   font-size: 14px;
@@ -223,4 +246,24 @@ span.bubble-title-link {
 .map .bubble-author,
 .map .bubble-price {
   box-sizing: border-box;
+}
+
+.bubble-item-share{
+  width: 40px!important;
+  cursor: pointer;
+}
+.bubble-item-share:hover{
+  box-shadow: 1px 1px 5px black;
+}
+.bubble-item-button{
+  color: #000;
+  box-shadow: 1px 1px 3px #999;
+  border: 1px solid #808080;
+  width: 45px;
+  margin: 5px 1px 5px 4px;
+  padding: 0px 5px 0 5px;
+  text-align: center;
+  float: left;
+  font-size: 0.8em;
+  overflow: hidden;
 }

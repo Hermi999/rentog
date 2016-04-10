@@ -6,17 +6,40 @@
     %span{:class => "bubble-title-link"}
       = listing.title
   .bubble-title
-    .bubble-avatar
-      = small_avatar_thumb(listing.author)
-    .bubble-details
-      .bubble-author
-        = author_link(listing)
-      .bubble-price{:title => price_as_text(listing) }
-        - if listing.price
-          = humanized_money_with_symbol(listing.price).upcase
-          - if listing.quantity.present?
-            %span.bubble-price-quantity
-              = t("listings.form.price.per") + " " + listing.quantity
-          - elsif listing.unit_type
-            %span.bubble-price-quantity
-              = price_quantity_per_unit(listing)
+    - if @restrictedMarketplace
+      .bubble-avatar
+        = small_avatar_thumb(listing.author)
+    - else
+      - cond = get_listing_condition(listing)
+      .bubble-item-details
+        - if cond
+          .bubble-item-button.bubble-item-type{:class => "grid-item-type-" + cond[:condition].to_s}= cond[:title]
+
+        .bubble-item-button.bubble-item-share Teilen
+
+    - if @restrictedMarketplace
+      .bubble-details
+        .bubble-author
+          = author_link(listing)
+
+        .bubble-price{:title => price_as_text(listing) }
+          - if listing.price
+            = humanized_money_with_symbol(listing.price).upcase
+            - if listing.quantity.present?
+              %span.bubble-price-quantity
+                = t("listings.form.price.per") + " " + listing.quantity
+            - elsif listing.unit_type
+              %span.bubble-price-quantity
+                = price_quantity_per_unit(listing)
+
+    - else
+      .bubble-details2
+        .bubble-price2{:title => price_as_text(listing) }
+          - if listing.price
+            = humanized_money_with_symbol(listing.price).upcase
+            - if listing.quantity.present?
+              %span.bubble-price-quantity
+                = t("listings.form.price.per") + " " + listing.quantity
+            - elsif listing.unit_type
+              %span.bubble-price-quantity
+                = price_quantity_per_unit(listing)

@@ -74,7 +74,8 @@ module ListingIndexService::DataTypes
     [:shape_name_tr_key, :string], # TODO is this mandatory?
     [:listing_shape_id, :fixnum, :optional], # This can be nil, if the listing shape was deleted
     [:availability, :string],  # wah
-    [:open, :bool]  # wah
+    [:open, :bool],  # wah
+    [:condition_value, :fixnum] # wah
   )
 
   ListingIndexResult = EntityUtils.define_builder(

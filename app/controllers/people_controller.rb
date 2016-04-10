@@ -44,7 +44,8 @@ class PeopleController < Devise::RegistrationsController
       availability = ["all", nil, ""]
 
     elsif relation == :company_admin_own_site ||
-          relation == :company_employee
+          relation == :company_employee ||
+          relation == :rentog_admin
       availability = ["all", "trusted", "intern", nil, ""]
 
     elsif relation == :full_trusted_company_admin ||
@@ -165,7 +166,7 @@ class PeopleController < Devise::RegistrationsController
                      other_listings: other_listings,
                      followed_people: followed_people,
                      followers: followers,
-                     company_member: (relation == :company_admin_own_site || relation == :company_employee),
+                     company_member: (relation == :company_admin_own_site || relation == :company_employee || @current_user == @person),
                      received_testimonials: received_testimonials,
                      received_positive_testimonials: received_positive_testimonials,
                      feedback_positive_percentage: feedback_positive_percentage

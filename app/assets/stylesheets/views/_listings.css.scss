@@ -7,6 +7,30 @@
   word-wrap: break-word;
 }
 
+.listing_attribute_question{
+  display: block;
+  font-weight: bold;
+  width: 50%;
+  float: left;
+  max-width: 150px;
+  overflow: hidden;
+}
+.listing_attribute{
+  width: 100%;
+  float: left;
+  border: 1px solid #E0E0E0;
+  background-color: #F6F4F4;
+  padding: 3px 12px !important;
+  box-shadow: 1px 1px 1px #AAA;
+}
+.listing_published_date{
+  background-color: #535353;
+  color: white;
+  border: medium none;
+  box-shadow: none;
+  font-size: 0.8em;
+}
+
 // Social buttons
 .listing-social {
   @include clearfix();

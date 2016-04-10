@@ -8,8 +8,10 @@ class HomepageController < ApplicationController
   VIEW_TYPES = ["grid", "list", "map"]
 
 
-
   def index
+    # get the listing conditions and store them in attributes
+    @conditions = ListingConditions.get_listing_conditions
+
     @homepage = true
     @restrictedMarketplace = params[:restrictedMarketplace]
     @marketplace_with_trusted_devs = params[:marketplace_with_trusted_devs]
@@ -80,6 +82,7 @@ class HomepageController < ApplicationController
     else
       main_search = (feature_enabled?(:location_search) && search_engine == :zappy) ? MarketplaceService::API::Api.configurations.get(community_id: @current_community.id).data[:main_search] : :keyword
       search_result.on_success { |listings|
+
         @listings = listings
         render locals: {
                  shapes: all_shapes,
@@ -105,6 +108,7 @@ class HomepageController < ApplicationController
       }
     end
   end
+
 
   def self.selected_view_type(view_param, community_default, app_default, all_types)
     if view_param.present? and all_types.include?(view_param)

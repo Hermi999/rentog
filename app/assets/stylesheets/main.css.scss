@@ -753,6 +753,10 @@ $noscript-height: lines(4);
 
 }
 
+#filters{
+  line-height: 35px;
+}
+
 .feed-filters {
   background: $emphasis;
   padding: lines(0.5);
@@ -864,6 +868,9 @@ $noscript-height: lines(4);
 }
 
 .view-item {
+  background-color: #E4E3E3;
+  padding: 0 15px;
+  border: 1px dashed #BBB;
 
   .item-description {
     @include media(tablet) {

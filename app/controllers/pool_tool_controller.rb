@@ -365,16 +365,27 @@ class PoolToolController < ApplicationController
     def edit_tr_title_and_description(transaction, tr_starter, possible_companies)
       renting_entity = nil
 
+      # Transaction not accepted yet by author
       if @transaction_pending
         if transaction['renter_id'] == @current_user.id
           renting_entity = t("pool_tool.show.own_renting_request")
         else
           renting_entity = t("pool_tool.show.renting_request") + " (" + transaction['renting_entity_organame'] + ")"
         end
+
+      # This is a admin transaction with a reason (maintainance, ...)
       elsif transaction['reason']
         renting_entity = transaction['reason']
-      elsif (tr_starter[:relation] == "trustedCompany" || tr_starter[:relation] == "trustedEmployee") && transaction['renting_entity_organame'] != "" && transaction['renting_entity_organame'] != nil
+
+      # Trusted Company or trusted Employee
+      elsif (tr_starter[:relation] == "trustedCompany" ||
+             tr_starter[:relation] == "trustedEmployee"||
+             tr_starter[:relation] == "anyCompany")    &&
+             transaction['renting_entity_organame'] != "" &&
+             transaction['renting_entity_organame'] != nil
         renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name'] + " (" + transaction['renting_entity_organame'] + ")"
+
+      #
       else
         renting_entity = transaction['renter_family_name'] + " " + transaction['renter_given_name']
       end

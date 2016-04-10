@@ -23,7 +23,8 @@ Feature: User books a new device
       And I click on element "div.fluid-thumbnail-grid-image-title" with text "Listing2" and within ".home-fluid-thumbnail-grid"
       And I fill rent time for 4 days
       And I press "Create"
-     Then I should not see "Create" within ".page-content"
+     Then I should not see "Choose employee" within ".page-content"
+      And I should not see "Description (optional" within ".page-content"
       And I should see "Testperson5 Hermann" within ".poolTool_gantt_container"
       And there should be a booking with starter "employee_testperson2" in the Db
     #done
@@ -40,7 +41,8 @@ Feature: User books a new device
       And I click on element "div.fluid-thumbnail-grid-image-title" with text "Listing2" and within ".home-fluid-thumbnail-grid"
       And I fill rent time for 4 days
       And I press "Create"
-     Then I should not see "Create" within ".page-content"
+     Then I should not see "Choose employee" within ".page-content"
+      And I should not see "Description (optional" within ".page-content"
       And I should see "Wartung" within ".poolTool_gantt_container"
       And there should be a booking with starter "kassi_testperson2" and reason "Wartung" in the Db
     #done
@@ -54,7 +56,8 @@ Feature: User books a new device
       And I should see element "#addNewBookingForm"
      When I press "Cancel"
      Then I should see "Book internal device"
-      And I should not see "Create" within ".page-content"
+      And I should not see "Choose employee" within ".page-content"
+      And I should not see "Description (optional" within ".page-content"
       And I should not see element "#addNewBookingForm"
     #done
 

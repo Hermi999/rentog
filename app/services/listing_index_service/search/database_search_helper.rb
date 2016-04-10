@@ -18,7 +18,7 @@ module ListingIndexService::Search::DatabaseSearchHelper
 
     query = Listing
             .where(where_opts)
-            .includes(included_models)
+            .includes(included_models.push :custom_field_values)
             .order("listings.sort_date DESC")
             .paginate(per_page: search[:per_page], page: search[:page])
 
@@ -28,6 +28,7 @@ module ListingIndexService::Search::DatabaseSearchHelper
       else
         query.currently_open
       end
+
 
     success_result(listings.total_entries, listings, includes)
   end

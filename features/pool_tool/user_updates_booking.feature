@@ -28,22 +28,6 @@ Feature: User edits an existing booking
       And I should see "intern" within "#cboxLoadedContent"
     # done
 
-  Scenario: Can not update external existing Booking
-    Given there is a listing with title "Listing1" from "kassi_testperson2" with category "Tools" with availability "trusted" and with listing shape "Private devices"
-      And there is a listing with title "Listing2" from "kassi_testperson2" with category "Tools" with availability "intern" and with listing shape "Private devices"
-      And there exists an external booking for company "kassi_testperson2" from company "kassi_testperson1" and listing "Listing2" with length 5 days and offset 1 days
-      And I am logged in as "kassi_testperson2"
-      And I am on my pool tool page
-     Then I should see "Bosch" within ".poolTool_gantt_container"
-     When I click on element "div" with text "Bosch" and within ".gantt_anyCompany"
-     Then I should see element "#cboxLoadedContent"
-      And I should see disabled element "#btn_update"
-      And I should see disabled element "#btn_delete"
-      And I should see "Listing2" within "#cboxLoadedContent"
-      And I should see "Bosch" within "#cboxLoadedContent"
-      And I should see "intern" within "#cboxLoadedContent"
-    # done
-
   Scenario: Update existing Booking with Employee
     Given there is a listing with title "Listing1" from "kassi_testperson2" with category "Tools" with availability "intern" and with listing shape "Private devices"
       And there is a listing with title "Listing2" from "kassi_testperson2" with category "Tools" with availability "intern" and with listing shape "Private devices"

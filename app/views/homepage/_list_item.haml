@@ -33,18 +33,26 @@
               = icon_tag(listing.icon_name, ["icon-fix"])
               = shape_name(listing)
 
-    .home-list-author{:class => (listing.listing_images.size > 0 ? "home-list-author-with-listing-image" : "home-list-author-without-listing-image")}
-      .home-list-avatar
-        = link_to(person_path(id: listing.author.username), :class => "home-fluid-thumbnail-grid-author-avatar-image") do
-          = image_tag(listing.author.avatar.thumb || missing_avatar(:thumb))
-      .home-list-author-details
-        = link_to(person_path(id: listing.author.username), :class => "home-list-author-name") do
-          = PersonViewUtils::person_entity_display_name(listing.author, @current_community.name_display_type)
-        - if testimonials_in_use
-          .home-list-author-reviews
-            - if listing.author.num_of_reviews > 0
-              = icon_tag("testimonial")
-              = pluralize(listing.author.num_of_reviews, t(".review"), t(".reviews"))
+    - if @restrictedMarketplace
+      .home-list-author{:class => (listing.listing_images.size > 0 ? "home-list-author-with-listing-image" : "home-list-author-without-listing-image")}
+        .home-list-avatar
+          = link_to(person_path(id: listing.author.username), :class => "home-fluid-thumbnail-grid-author-avatar-image") do
+            = image_tag(listing.author.avatar.thumb || missing_avatar(:thumb))
+        .home-list-author-details
+          = link_to(person_path(id: listing.author.username), :class => "home-list-author-name") do
+            = PersonViewUtils::person_entity_display_name(listing.author, @current_community.name_display_type)
+          - if testimonials_in_use
+            .home-list-author-reviews
+              - if listing.author.num_of_reviews > 0
+                = icon_tag("testimonial")
+                = pluralize(listing.author.num_of_reviews, t(".review"), t(".reviews"))
+    - else
+      - cond = get_listing_condition(listing)
+      .home-list-buttons
+        - if cond
+          .home-list-type.home-list-details{:class => "grid-item-type-" + cond[:condition].to_s}= cond[:title]
+
+        .home-list-share.home-list-details Teilen
 
     .home-list-price-mobile{:class => (listing.listing_images.size > 0 ? "home-list-price-mobile-with-listing-image" : "home-list-price-mobile-without-listing-image")}
       - if listing.price
