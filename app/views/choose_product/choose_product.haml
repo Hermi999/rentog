@@ -1,0 +1,24 @@
+- content_for :title_header do
+  %h1= t("choose_product.headline")
+
+.row
+  .col-8{:style => "font-size: 1.1em"}
+    = t("choose_product.text1").html_safe
+    %br
+    %br
+    = t("choose_product.text2").html_safe
+
+.row
+  .col-5.product_wrapper
+    =link_to t("choose_product.marketplace"), update_main_product_path(:product => "marketplace"), :id => "choose-marketplace", :class => "choose-product"
+
+    .row
+      .col-12
+        .product-details= t("choose_product.market_details").html_safe
+
+  .col-5.product_wrapper
+    =link_to t("choose_product.pooltool"), update_main_product_path(:product => "pooltool"), :id => "choose-pooltool", :class => "choose-product"
+
+    .row
+      .col-12
+        .product-details= t("choose_product.pooltool_details").html_safe

@@ -29,7 +29,7 @@ module LoginHelpers
   def login_user_without_browser(username)
     person = Person.find_by_username(username)
     login_as(person, :scope => :person)
-    visit root_path(:locale => :en)
+    visit root(:locale => :en)
     @logged_in_user = person
     @current_user = person
   end

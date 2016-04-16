@@ -3,7 +3,7 @@ class TermsController < ApplicationController
   layout :choose_layout
 
   def show
-    redirect_to root_path and return unless session[:temp_cookie]
+    redirect_to root and return unless session[:temp_cookie]
     @current_community = Community.find(session[:temp_community_id])
     @current_user = nil
   end

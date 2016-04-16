@@ -168,7 +168,7 @@ class TransactionsController < ApplicationController
 
       else
         flash[:error] = "Something went wrong"
-        redirect_to_root and return
+        redirect_to root and return
       end
     end
 
@@ -699,7 +699,7 @@ class TransactionsController < ApplicationController
       # others
       else
         flash[:error] = t("pool_tool.not_allowed__to_make_pool_tool_change")
-        redirect_to root_path and return
+        redirect_to root and return
       end
     end
 
@@ -708,7 +708,7 @@ class TransactionsController < ApplicationController
       if !@current_community.employees_can_buy_listings
         unless @current_user.has_admin_rights_in?(@current_community)
           flash[:error] = t("transactions.employees_cannot_make_transactions")
-          redirect_to root_path and return
+          redirect_to root and return
         end
       end
     end
@@ -716,7 +716,7 @@ class TransactionsController < ApplicationController
     # Unverified Company can't make transactions
     if @relation == :unverified_company
       flash[:error] = t("transactions.company_not_verified")
-      redirect_to root_path and return
+      redirect_to root and return
     end
   end
 

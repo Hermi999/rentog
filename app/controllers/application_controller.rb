@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
   before_filter :cannot_access_without_joining, :except => [ :confirmation_pending, :check_email_availability]
   #before_filter :can_access_only_organizations_communities
   before_filter :check_confirmations_and_verifications, :except => [ :confirmation_pending, :check_email_availability_and_validity]
-
+  before_filter :check_main_product, :except => [:choose_product, :update_main_product, :change_locale]
   # This updates translation files from WTI on every page load. Only useful in translation test servers.
   before_filter :fetch_translations if APP_CONFIG.update_translations_on_every_page_load == "true"
 
@@ -166,9 +166,20 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  #Creates a URL for root path (i18n breaks root_path helper)
+  # a) Creates a URL for root path (i18n breaks root_path helper)
+  # b) redirect to the current root page depending of the main product the user chose
   def root
-    "#{request.protocol}#{request.host_with_port}/#{params[:locale]}"
+    if @current_user
+      if @current_user.get_company.main_product == "marketplace"
+        marketplace_path
+      elsif @current_user.get_company.main_product == "pooltool"
+        person_poolTool_path(@current_user.get_company)
+      else
+        "#{request.protocol}#{request.host_with_port}/#{params[:locale]}"
+      end
+    else
+      "#{request.protocol}#{request.host_with_port}/#{params[:locale]}"
+    end
   end
 
   def fetch_logged_in_user
@@ -367,6 +378,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+
   def check_confirmations_and_verifications
     # If confirmation is required, but not done, redirect to confirmation pending announcement page
     # (but allow confirmation to come through). If this is the case return from this function
@@ -397,6 +409,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # if user has not choosen a main product, redirect him to the 'choose product page'
+  def check_main_product
+    unless @current_community.only_pool_tool
+      if @current_user && @current_user.is_organization && @current_user.main_product == nil
+        redirect_to :choose_product
+      end
+    end
+  end
+
+
   def set_default_url_for_mailer
     url = @current_community ? "#{@current_community.full_domain}" : "www.#{APP_CONFIG.domain}"
     ActionMailer::Base.default_url_options = {:host => url}
@@ -425,11 +447,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # wah: remove this in production
-  def switch_pool_tool
-    Community.first.update_attribute(:only_pool_tool, !Community.first.only_pool_tool)
-    redirect_to :back and return
-  end
 
   def report_queue_size
     MonitoringService::Monitoring.report_queue_size
@@ -462,7 +479,7 @@ class ApplicationController < ActionController::Base
     clear_user_session
     flash[:error] = t("layouts.notifications.error_with_session")
     ApplicationHelper.send_error_notification("ASI session was unauthorized. This may be normal, if session just expired, but if this occurs frequently something is wrong.", "ASI session error", params)
-    redirect_to root_path and return
+    redirect_to root and return
   end
 
   def clear_user_session

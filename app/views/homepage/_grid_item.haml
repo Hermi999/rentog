@@ -1,6 +1,11 @@
+- own_listing_class = ""
+- if listing.author.id == @current_user.id
+  - own_listing_class = "own_listing"
+
+
 - frontpage_fragment_cache("grid_item", listing) do
   .home-fluid-thumbnail-grid-item
-    %div.listing_wrapper
+    %div.listing_wrapper{:class => "#{own_listing_class}"}
       / Listing image
       = render :partial => "layouts/grid_item_listing_image", :locals => {:listing => listing, :modifier_class => "", :modifier_price => ""}
 

@@ -13,7 +13,7 @@ class FollowersController < ApplicationController
     # Company can't follow or trust Employee
     if @person.is_employee? && @current_user.is_organization
       flash['error'] = "Company can't follow or trust employee"
-      redirect_to root_path and return
+      redirect_to root and return
     end
 
     # wah: If this is a trusted relationship (company - company) then ...

@@ -556,6 +556,11 @@
         float:left;
         font-weight: bold;
         cursor: pointer;
+        box-shadow: 1px 1px 5px #4C4C4C;
+
+        &:hover{
+            box-shadow: 2px 2px 5px black;
+        }
     }
 
     .ganttHidden {

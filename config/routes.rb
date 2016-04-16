@@ -658,6 +658,8 @@ Kassi::Application.routes.draw do
 
     get "/logout" => "sessions#destroy", :as => :logout
     get "/confirmation_pending" => "sessions#confirmation_pending", :as => :confirmation_pending
+    get "/choose_main_product" => "choose_product#choose_product", :as => :choose_product
+    get "/update_main_product" => "choose_product#update_main_product"    # wah: not nice, but fast
     get "/login" => "sessions#new", :as => :login
     get "/listing_bubble/:id" => "listings#listing_bubble", :as => :listing_bubble
     get "/listing_bubble_multiple/:ids" => "listings#listing_bubble_multiple", :as => :listing_bubble_multiple

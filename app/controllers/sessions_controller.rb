@@ -87,9 +87,13 @@ class SessionsController < ApplicationController
       elsif session[:return_to_content]
         redirect_to session[:return_to_content]
         session[:return_to_content] = nil
-      else
+      elsif @current_user.get_company.main_product == "pooltool"
+        # redirect to pool tool if company/user has pool tool as main product
         redirect_to person_poolTool_path(@current_user) and return if @current_user.is_organization?
         redirect_to person_poolTool_path(@current_user.company) and return
+      else
+        # redirect to marketplace if nothing else given
+        redirect_to marketplace_path
       end
     else
       redirect_to new_tribe_membership_path
@@ -180,7 +184,6 @@ class SessionsController < ApplicationController
       end
     end
   end
-
 
   private
 

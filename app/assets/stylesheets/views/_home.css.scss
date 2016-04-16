@@ -125,6 +125,10 @@
 .home-list-item:hover {
   box-shadow: 5px 5px 15px black;
 }
+.home-list-item.own_listing{
+  opacity: 0.5;
+  box-shadow: none;
+}
 
 $image-width: lines(7.5); // FIXME
 $image-height: image-height($image-width);

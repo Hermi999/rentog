@@ -75,8 +75,9 @@
             .home-toolbar-share-type-menu.toggle-menu.hidden
               = link_to t("homepage.filters.all_listing_types"), params.merge({transaction_type: "all"})
               - shapes.each do |shape|
-                = link_to params.merge({transaction_type: shape[:name]}), class:  "toggle-menu-subitem" do
-                  = t(shape[:name_tr_key])
+                - unless shape[:name].include? "privat"
+                  = link_to params.merge({transaction_type: shape[:name]}), class:  "toggle-menu-subitem" do
+                    = t(shape[:name_tr_key])
 
         - if @show_categories
           .toggle-container.home-toolbar-toggle-container.hidden-tablet

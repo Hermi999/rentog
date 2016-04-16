@@ -32,3 +32,9 @@
         $('.config-button').hide();
         $("body").append("<div class='central_info_message'>#{t(".successfully_untrusted")}</div>");
         $('.central_info_message').fadeOut(18000);
+
+    .info_text{:style => "font-size: 0.9em; color: #BB7C36; display:none;"}= t(".trust_info_text").html_safe
+    - content_for :extra_javascript do
+      :javascript
+        $('.#{trust_button_style}').hover(function(){$('.info_text').show();}, function(){$('.info_text').hide();});
+

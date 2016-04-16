@@ -44,6 +44,7 @@
 #  pool_tool_show_legend              :string(255)      default("1")
 #  user_plan                          :string(255)      default("free")
 #  user_plan_features                 :string(255)
+#  main_product                       :string(255)
 #
 # Indexes
 #

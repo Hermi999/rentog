@@ -1,5 +1,28 @@
 @import "mixins/all";
 
+#pooltool-header{
+  display: block;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  margin-top: 15px;
+
+  @include media(large-mobile) {
+    margin-top: 15px;
+  }
+
+  @include media(tablet) {
+    margin-top: 25px;
+  }
+}
+
+#pooltool-subheader{
+  text-align: center;
+  font-size: 0.8em;
+  @include media(tablet) {
+    text-align: left;
+  }
+}
+
 #poolTool_Wrapper{
   //visibility:hidden;
   opacity: 0.0;
@@ -539,7 +562,8 @@
   min-width: 350px;
   margin-bottom: 20px!important;
   margin-right: 20px;
-  background: linear-gradient(45deg, #F5EDC3 0%, #F5EDC3 5%, #ffffff 100%);
+  //background: linear-gradient(45deg, #F5EDC3 0%, #F5EDC3 5%, #ffffff 100%);
+  background-color: #F1EBD5;
 
   p.user_booking_header{
     font-weight:bold;
@@ -559,7 +583,7 @@
     margin-left: 10px;
     color: white;
     font-weight: bold;
-    background-color: #FF0000;
+    background-color: #C60000;
     padding: 0px 5px;
     border-radius: 7px;
     font-size: 0.9em;
@@ -570,7 +594,8 @@
 
 .user_booking_img{
   height: 80px;
-  background-color: #F3BC5B;
+  min-width: 80px;
+  background-color: #E6CFA4;
   margin-right:15px;
   float:left;
 }

@@ -85,9 +85,12 @@
 
 - content_for :title_header do
   - if @belongs_to_company
-    %h1= t("pool_tool.headline")
+    %h1#pooltool-header= t("pool_tool.headline")
   - else
-    %h1= t("pool_tool.headline_visitor", :owner => @pooltool_owner.organization_name)
+    %h1#pooltool-header= t("pool_tool.headline_visitor", :owner => @pooltool_owner.organization_name)
+  #pooltool-subheader= t("pool_tool.subheadline")
+
+
 
 #poolTool_Wrapper
   / Pool Tool 'Choose theme'

@@ -62,7 +62,7 @@ module RestHelper
       else
         # Logged in as user, but the session has expired or is otherwise unvalid
         # this is handled in application_controller
-        Rails.logger.info "Expired cookie (unauthorized) was for user-session. Logging out and redirecting to root_path"
+        Rails.logger.info "Expired cookie (unauthorized) was for user-session. Logging out and redirecting to root path"
         raise u
       end
     end

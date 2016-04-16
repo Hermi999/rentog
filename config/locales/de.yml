@@ -2043,6 +2043,7 @@ de:
       successfully_untrusted: "Vertrauen aufgehoben. Das andere Unternehmen kann jetzt ihre privaten Geräte, welche als 'Shared' gekennzeichnet sind, nicht mehr sehen oder buchen!"
       message_to_trusted_company: "(Diese Nachricht wurde von RENTOG automatisch generiert) \nDas Unternehmen %{name} mit der Email %{email} vertraut Ihrem Unternehmen. \n\nDas bedeutet, dass Sie und Ihre Mitarbeiter auf alle internen, geteilten Geräte von %{name} zugreifen und buchen können. Wenn Sie dem anderen Unternehmen auch vertrauen, klicken Sie einfach auf den Button 'Vertrauen' auf der Profilseite des anderen Unternehmen klicken: %{profile}"
       message_to_untrusted_company: "(Diese Nachricht wurde von RENTOG automatisch generiert) \nDas Unternehmen %{name} mit der Email %{email} hat Ihren Unternehmen das Vertrauen entzogen. \n\nDas bedeutet, dass Sie und Ihre Mitarbeiter keinen Zugriff mehr auf die internen, geteilten Geräte von %{name} haben. Zukünftige Geräte-Buchungen beim anderen Unternehmen sind von der Aktion nicht betroffen. Es besteht jedoch die Möglichkeit, dass der Unternehmensadmin des anderen Unternehmen diese Buchungen über sein Pool Tool cancellt. In diesem Fall wird der Bucher des Geräts (Sie oder Ihr Mitarbeiter) in einer separaten Nachricht davon in Kenntnis gesetzt."
+      trust_info_text: "Das Vertrauen von anderen Unternehmen ist nur relevant für <b>Pool Tool Benutzer</b>, die Ihren Geräte Pool mit einem anderen Unternehmen der einer anderen Abteilung teilen möchten."
     employ_button:
       employee: Mitarbeiter
       employ: Annehmen
@@ -2056,6 +2057,7 @@ de:
     followers:
       edit:
         title: "Konfiguration des Vertrauensverhältnisses mit <a href='%{company_link}'>%{company}</a>"
+        only_pooltool: "Das Vertrauen von anderen Unternehmen ist nur relevant für Pool Tool Benutzer, die Ihren Geräte Pool mit einem anderen Unternehmen der einer anderen Abteilung teilen möchten."
         header_text: "Das andere Unternehmen kann Geräte sehen und buchen, welche Sie für vertraute Unternehmen freigegeben haben<br>Auf dieser Seite können Sie nun die Details einstellen, wie Mitarbeiter des anderen Unternehmens auf Ihre Geräte zugreifen (buchen) können."
         trust_level_header: "Vertrauen & Buchungsprozess"
         trust_level_desc: "Mit den Optionen von unterhalb können Sie entscheiden wie Mitarbeiter des anderen Unternehmen Ihre Geräte buchen können."
@@ -2393,6 +2395,7 @@ de:
     date: "Datum:"
     headline: "Pool Management Tool"
     headline_visitor: "Gerätepool von %{owner}"
+    subheadline: "Für Interne und Vermietgeräte"
     cancel_booking: "Abbrechen"
     event_hint: "Du kannst hier Reservierungen für Messgeräte hinzufügen."
     device_name: "Wähle eines deiner Messgeräte"
@@ -2475,3 +2478,11 @@ de:
       availability_desc_text_intern: "Dieses Gerät ist nur für Ihre eigenen Mitarbeitern sichbar und kann von diesen gebucht werden."
       availability_desc_text_all: "Dieses Geräte ist am globalen Marktplatz sichtbar und kann dort von allen auf Rentog registrierten Unternehmen gebucht werden."
       availability_desc_text_extern: "Dieses Geräte gehört einem anderen Unternehmen. Es ist hier sichtbar, da einer Ihrer Mitarbeiter es aktuell oder in Zukunft gebucht hat."
+  choose_product:
+    headline: "Wählen Sie das Produkt, welches Sie hauptsächlich verwenden werden"
+    text1: "Ganz egal welches Produkt Sie jetzt auswählen, sie können mit diesem Benutzerkonto alle unsere Services verwenden. Diese Auswahl dient nur dazu um gewisse Voreinstellungen für Sie (und Ihre Mitarbeiter) richtig zu setzen."
+    text2: "Sie können Ihre Wahl jederzeit auf der Seite <b>Einstellungen</b> ändern."
+    marketplace: "Marktplatz"
+    pooltool: "Pool Tool"
+    market_details: "Am <b>Rentog Marktplatz</b> können Sie Test- und Messgeräte kaufen, verkaufen, mieten und vermieten. Jedes Mal wenn Sie sich einloggen werden sie direkt auf die Marktplatz-Seite weitergeleitet."
+    pooltool_details: "Mit dem <b>Rentog Pool Tool</b> können Sie Ihre Test- und Messgeräte innerhalb Ihre Unternehmens verwalten bzw. Ihren Gerätepool mit anderen Abteilungen oder auch Firmen zusammenlegen. Jedes Mal wenn Sie sich einloggen, werden sie automatisch auf den Pool Tool Geräte-Kalender weitergeleitet."

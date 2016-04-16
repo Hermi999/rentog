@@ -195,7 +195,7 @@ class ListingsController < ApplicationController
        !relation == :company_employee
 
         flash[:error] = t("transactions.listing_is_intern")
-        redirect_to root_path and return
+        redirect_to root and return
     end
 
     # wah: Get valid transactions in future, so that other user can not book the device

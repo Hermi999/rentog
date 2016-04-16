@@ -113,7 +113,7 @@ window.ST.poolTool = (function() {
         var end_on_date = new Date(end_on);
         var listing_id = _user_active_bookings[i].listing_id;
         var transaction_id = _user_active_bookings[i].transaction_id;
-        var image = "";
+        var image = "/assets/pooltool/transparent_cube.png";
         var today = new Date(new Date().setHours(1,0,0,0));
         var overdue = 0;
 
@@ -123,7 +123,9 @@ window.ST.poolTool = (function() {
 
         for (var ii=0; ii<gon.source.length; ii++){
           if (listing_id === gon.source[ii].listing_id){
-            image = gon.source[ii].image;
+            if (gon.source[ii].image){
+              image = gon.source[ii].image;
+            }
             break;
           }
         }

@@ -6,6 +6,7 @@
   %h1= t("people.followers.edit.title", :company => @followed_company.organization_name, :company_link => person_path(@followed_company)).html_safe
 
 .relationship_config_wrapper
+  .relationship_config_only_pooltool= t("people.followers.edit.only_pooltool").html_safe
   .relationship_config_header_text= t("people.followers.edit.header_text").html_safe
 
   = form_for @relationship, url: person_follower_path(@current_user, @relationship.id), :method => :put do |f|
