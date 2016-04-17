@@ -411,7 +411,7 @@ class ApplicationController < ActionController::Base
 
   # if user has not choosen a main product, redirect him to the 'choose product page'
   def check_main_product
-    unless @current_community.only_pool_tool
+    if @current_community && !@current_community.only_pool_tool
       if @current_user && @current_user.is_organization && @current_user.main_product == nil
         redirect_to :choose_product
       end
