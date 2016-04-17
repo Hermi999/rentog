@@ -1,26 +1,32 @@
 class ListingConditions
   def self.get_listing_conditions
-    condition_field_id = CustomFieldName.where(:value => "Zustand").first.custom_field_id.to_i
-    condition_field_options = CustomFieldOption.where(:custom_field_id => condition_field_id)
+    all_selected_condition_field_options = nil
+    condition_field_option_ids = nil
+    condition_fields = CustomFieldName.where(:value => "Zustand")
 
-    # Get All the selected condition field options of all listings
-    # We especially need the 'listing id' and the 'option id' so that we know
-    # in what kind of kondition each listing is
-    all_selected_condition_field_options = CustomFieldOption.joins(:custom_field_option_selections, :custom_field_values)
-                                                             .select("custom_field_options.custom_field_id,
-                                                                      custom_field_option_selections.custom_field_value_id,
-                                                                      custom_field_option_selections.custom_field_option_id,
-                                                                      custom_field_values.listing_id")
-                                                             .where(:custom_field_id => 9)
+    if condition_fields != []
+      condition_field_id = condition_fields.first.custom_field_id.to_i
+      condition_field_options = CustomFieldOption.where(:custom_field_id => condition_field_id)
+
+      # Get All the selected condition field options of all listings
+      # We especially need the 'listing id' and the 'option id' so that we know
+      # in what kind of kondition each listing is
+      all_selected_condition_field_options = CustomFieldOption.joins(:custom_field_option_selections, :custom_field_values)
+                                                               .select("custom_field_options.custom_field_id,
+                                                                        custom_field_option_selections.custom_field_value_id,
+                                                                        custom_field_option_selections.custom_field_option_id,
+                                                                        custom_field_values.listing_id")
+                                                               .where(:custom_field_id => 9)
 
 
-    # Get the different contition field option ids
-    condition_field_option_ids = get_condition_field_option_ids(condition_field_options)
-
-    return {
-      all_selected_condition_field_options: all_selected_condition_field_options,
-      condition_field_option_ids: condition_field_option_ids
-    }
+      # Get the different contition field option ids
+      condition_field_option_ids = get_condition_field_option_ids(condition_field_options)
+    else
+      return {
+        all_selected_condition_field_options: all_selected_condition_field_options,
+        condition_field_option_ids: condition_field_option_ids
+      }
+    end
   end
 
 
