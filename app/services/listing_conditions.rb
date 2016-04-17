@@ -21,12 +21,13 @@ class ListingConditions
 
       # Get the different contition field option ids
       condition_field_option_ids = get_condition_field_option_ids(condition_field_options)
-    else
-      return {
-        all_selected_condition_field_options: all_selected_condition_field_options,
-        condition_field_option_ids: condition_field_option_ids
-      }
     end
+
+    return {
+      all_selected_condition_field_options: all_selected_condition_field_options,
+      condition_field_option_ids: condition_field_option_ids
+    }
+
   end
 
 
