@@ -62,7 +62,7 @@ window.ST.onEmployeeButtonAjaxComplete = function(event, xhr) {
 
 
 window.ST.initializeFollowButtons = function() {
-  $('.hover-content').click(function(ev){
+  $('.untrust .hover-content').click(function(ev){
     var r = confirm(window.ST.untrust_warning);
 
     if(!r){
