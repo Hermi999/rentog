@@ -15,8 +15,11 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
   box-shadow: 4px 4px 15px black;
 }
 .listing_wrapper.own_listing{
-  opacity: 0.5;
-  box-shadow: none;
+  box-shadow: 0px 0px 15px #0054FF;
+
+  &:hover{
+    box-shadow: 0px 0px 25px #0054FF;
+  }
 }
 
 .home-fluid-thumbnail-grid{
