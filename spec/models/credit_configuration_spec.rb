@@ -21,7 +21,7 @@
 #  updated_at                     :datetime         not null
 #
 
-require 'rails_helper'
+require 'spec_helper'
 
 RSpec.describe CreditConfiguration, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
