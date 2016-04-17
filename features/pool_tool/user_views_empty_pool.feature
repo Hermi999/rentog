@@ -15,7 +15,7 @@ Feature: User views empty Pool Tool
   Scenario: Initial Pool Tool Access
     Given I am logged in as "kassi_testperson2"
       And I am on my pool tool page
-     Then I should see "Your company has no (open) devices rented or created yet"
+     Then I should see "Your company has no devices rented or devices created for renting yet"
       And I should see "create a new renting listing here"
      When I follow "here" within "#create_new_listing"
      Then I should see "Post a new listing"
@@ -41,7 +41,7 @@ Feature: User views empty Pool Tool
 
       And I am on my pool tool page
      Then I should see "Pool Management Tool"
-     Then I should see "Your company has no (open) devices rented or created yet"
+     Then I should see "Your company has no devices rented or devices created for renting yet"
       And I should see "create a new renting listing here"
      When I follow "here" within "#create_new_listing"
      Then I should see "Post a new listing"

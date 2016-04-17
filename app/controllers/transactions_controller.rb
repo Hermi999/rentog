@@ -278,7 +278,6 @@ class TransactionsController < ApplicationController
 
   # wah: Only for Pool Tool
   def update
-
     # Get new start and end date
     start_day = Date.parse(params[:from])
     end_day = Date.parse(params[:to])

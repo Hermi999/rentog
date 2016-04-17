@@ -30,6 +30,9 @@ Feature: User creates a new account
 
     # Unconfirmed user can create a listing or make transaction if community settings allow this
     When I follow "Post a new listing"
+    Then I should see "Please choose the main product you want to use"
+    When I follow "Pool Tool"
+    And I follow "Post a new listing"
     Then I should see "Select category"
     And I should not see "Rentog requires people to be verified manually by admin before they can post listings."
 
