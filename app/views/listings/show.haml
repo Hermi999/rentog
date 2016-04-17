@@ -129,6 +129,14 @@
             = render :partial => "comment_form"
 
   %aside.col-4
+    - if @listing.get_listing_type != 'intern' && @listing.get_listing_type != 'trusted' && @listing.author != @current_user
+      .notyetavailable
+        .notyetavailabletext
+          This is the Beta - Version of the Rentog Marketplace, so it's not possible to get in contact with the sellers yet.
+          %br
+          %br
+          The full version of Rentog will go online very soon (in April 2016).
+
     - if @listing.price && show_price
       .row
         .col-12

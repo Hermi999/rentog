@@ -26,4 +26,7 @@
                 .grid-item-type.grid-item-details{:class => "grid-item-type-" + cond[:condition].to_s}= cond[:title]
 
             .col-6{:style => "padding: 0px"}
-              .grid-item-share.grid-item-details Teilen
+              .grid-item-share.grid-item-details= t('homepage.share')
+              = render :partial => "share_dialog", :locals => {listing: listing, view: "grid"}
+
+

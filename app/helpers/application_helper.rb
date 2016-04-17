@@ -160,6 +160,9 @@ module ApplicationHelper
       "raclette_grill" => "ss-cookingutensils",
     },
     "font-awesome" => {
+      "linkedin" => "icon-linkedin-sign",
+      "twitter" => "icon-twitter-sign",
+      "xing" => "icon-xing",
       "map" => "icon-map-marker",
       "thumbnails" => "icon-th",
       "new_listing" => "icon-plus-sign-alt",

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160410140510) do
+ActiveRecord::Schema.define(version: 20160416121932) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -315,6 +315,34 @@ ActiveRecord::Schema.define(version: 20160410140510) do
   add_index "conversations", ["community_id"], name: "index_conversations_on_community_id", using: :btree
   add_index "conversations", ["last_message_at"], name: "index_conversations_on_last_message_at", using: :btree
   add_index "conversations", ["listing_id"], name: "index_conversations_on_listing_id", using: :btree
+
+  create_table "credit_configurations", force: :cascade do |t|
+    t.integer  "community_id",                   limit: 4,             null: false
+    t.integer  "credits_register",               limit: 4, default: 0, null: false
+    t.integer  "credits_new_device",             limit: 4, default: 0, null: false
+    t.integer  "credits_customer_request",       limit: 4, default: 0, null: false
+    t.integer  "credits_request",                limit: 4, default: 0, null: false
+    t.integer  "credits_referal_registration",   limit: 4, default: 0, null: false
+    t.integer  "credits_referal_seller",         limit: 4, default: 0, null: false
+    t.integer  "credits_referal_seller_days",    limit: 4, default: 0, null: false
+    t.integer  "credits_referal_social_media",   limit: 4, default: 0, null: false
+    t.integer  "credits_buy_in",                 limit: 4, default: 0, null: false
+    t.integer  "credits_free",                   limit: 4, default: 0, null: false
+    t.integer  "credits_admin_changed",          limit: 4, default: 0, null: false
+    t.integer  "credits_present",                limit: 4, default: 0, null: false
+    t.integer  "credits_listings_still_visible", limit: 4, default: 0, null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+  end
+
+  create_table "credit_histories", force: :cascade do |t|
+    t.string   "person_id",     limit: 255
+    t.string   "other_user_id", limit: 255
+    t.string   "type",          limit: 255
+    t.integer  "credits",       limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
 
   create_table "custom_field_names", force: :cascade do |t|
     t.string   "value",           limit: 255
@@ -1003,6 +1031,7 @@ ActiveRecord::Schema.define(version: 20160410140510) do
     t.string   "user_plan",                          limit: 255,   default: "free"
     t.string   "user_plan_features",                 limit: 255
     t.string   "main_product",                       limit: 255
+    t.integer  "credits",                            limit: 4,     default: 0
   end
 
   add_index "people", ["authentication_token"], name: "index_people_on_authentication_token", using: :btree

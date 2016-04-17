@@ -15,7 +15,27 @@
         - if cond
           .bubble-item-button.bubble-item-type{:class => "grid-item-type-" + cond[:condition].to_s}= cond[:title]
 
-        .bubble-item-button.bubble-item-share Teilen
+        .bubble-item-button.bubble-item-share= t('homepage.share')
+        = render :partial => "homepage/share_dialog", :locals => {listing: listing, view: "map"}
+        :javascript
+          $('.bubble-item-share').click(function(ev){
+            console.log(ev);
+            $(ev.target.nextElementSibling).show();
+          });
+          $('.share-dialog').mouseleave(function(ev){
+            $('.share-dialog').hide();
+          });
+
+          $('.link-dialog').mouseleave(function(ev){
+            $('.link-dialog').hide();
+            $('.share-dialog').hide();
+          });
+
+          $('.homepage-listing-link-button').click(function(ev){
+            ev.preventDefault();
+            $(ev.target.parentNode.parentNode.parentNode.nextElementSibling).show();
+          });
+
 
     - if @restrictedMarketplace
       .bubble-details
@@ -43,3 +63,4 @@
             - elsif listing.unit_type
               %span.bubble-price-quantity
                 = price_quantity_per_unit(listing)
+

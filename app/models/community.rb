@@ -122,6 +122,7 @@ class Community < ActiveRecord::Base
   has_many :admins, -> { where("community_memberships.admin = true AND community_memberships.status <> 'banned'") }, :through => :community_memberships, :source => :person
   has_many :invitations, :dependent => :destroy
   has_one :location, :dependent => :destroy
+  has_one :credit_configurations, :dependent => :destroy
   has_many :community_customizations, :dependent => :destroy
   has_many :menu_links, -> { order("sort_priority") }, :dependent => :destroy
 

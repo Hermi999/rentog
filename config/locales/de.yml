@@ -1192,6 +1192,10 @@ de:
         show_devices: "Zeige eigene Geräte"
         show_profile: "Zeige mein Profil"
   homepage:
+    share: "Teilen"
+    linkedin_summary: "Kaufe und miete Test- und Messgeräte"
+    email_subject: " auf Rentog"
+    email_body: "Hallo!\n\n Ich habe soeben ein neues Messgerät auf Rentog.com angelegt.\n\n Du kannst es dir hier im Detail ansehen:  "
     additional_private_listings_slate:
       additionally_one_private_offer_exists: "Zusätzlich gibt es ein <b>anderes Angebot</b>,"
       additionally_one_private_request_exists: "Zusätzlich gibt es eine <b>andere Anfrage</b>,"

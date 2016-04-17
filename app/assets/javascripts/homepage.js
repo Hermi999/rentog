@@ -19,4 +19,25 @@ $(function() {
 
   relocate(768, $("#header-menu-mobile-anchor"), $("#header-menu-desktop-anchor").get(0));
   relocate(768, $("#header-user-mobile-anchor"), $("#header-user-desktop-anchor").get(0));
+
+  $('.grid-item-share').click(function(ev){
+    $($(ev.target.parentNode).children()[1]).show();
+  });
+  $('.home-list-share').click(function(ev){
+    $(ev.target.nextElementSibling).show();
+  });
+
+  $('.share-dialog').mouseleave(function(ev){
+    $('.share-dialog').hide();
+  });
+
+  $('.link-dialog').mouseleave(function(ev){
+    $('.link-dialog').hide();
+    $('.share-dialog').hide();
+  });
+
+  $('.homepage-listing-link-button').click(function(ev){
+    ev.preventDefault();
+    $(ev.target.parentNode.parentNode.parentNode.nextElementSibling).show();
+  });
 });

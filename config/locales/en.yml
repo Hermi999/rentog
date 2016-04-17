@@ -1194,6 +1194,10 @@ en:
         show_profile: "Show my profile"
 
   homepage:
+    share: "Share"
+    linkedin_summary: "Rent and Sell Test- and Measurement devices"
+    email_subject: " on Rentog"
+    email_body: "Hi!\n\n I've just postet a new device on Rentog.\n\n Please check it out:  "
     additional_private_listings_slate:
       additionally_one_private_offer_exists: "Additionally  there is <b>one other offer</b>,"
       additionally_one_private_request_exists: "Additionally  there is <b>one other request</b>,"

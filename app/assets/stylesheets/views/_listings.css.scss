@@ -306,3 +306,28 @@ $listing-author-avatar-height: 108;
 .files-headline{
   font-weight: bold;
 }
+
+
+.notyetavailable{
+  position: absolute;
+  width: inherit;
+  height: 500px;
+  background-color: rgba(154, 154, 154, 0.6);
+  display: block;
+  z-index: 1000;
+  margin-left: -10px;
+  margin-top: -10px;
+
+  @include media (tablet){
+    max-width: 370px;
+  }
+}
+.notyetavailabletext{
+  margin: 160px 10px;
+  background-color: #AF7070;
+  padding: 10px;
+  border: 2px dashed #963030;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+}

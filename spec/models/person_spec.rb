@@ -45,6 +45,7 @@
 #  user_plan                          :string(255)      default("free")
 #  user_plan_features                 :string(255)
 #  main_product                       :string(255)
+#  credits                            :integer          default(0)
 #
 # Indexes
 #

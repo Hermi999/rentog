@@ -106,3 +106,62 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
   background-color: #C4E2F0;
 }
 
+.share-dialog-grid-view{
+  position: absolute;
+  background-color: #383838;
+  z-index: 10;
+  min-height: 40px;
+  padding: 2px 8px;
+  color: white;
+  width: 100%;
+  display: none;
+
+  top: 35px;
+
+  @include media(tablet){
+    top: 0px;
+    left: 0px;
+  }
+}
+.link-dialog-grid-view{
+  position: absolute;
+  background-color: #383838;
+  z-index: 11;
+  min-height: 40px;
+  width: 100%;
+  left: 0px;
+  top: 0px;
+  font-size: 0.8em;
+  display:none;
+}
+.share-buttons{
+  display: block;
+  border-radius: 4px;
+  width: 30px;
+  padding: 0px;
+  float:left;
+}
+.homepage-listing-linkedin-button{
+  margin: 2px 4px!important;
+  font-size:2.0em;
+}
+.homepage-listing-tweet-button{
+  margin: 2px 4px!important;
+  font-size: 2.0em;
+}
+.homepage-listing-email-button{
+  margin: 2px 4px!important;
+  font-size: 2.0em;
+}
+.homepage-listing-link-button{
+  margin: 4px 8px!important;
+  font-size: 1.8em;
+}
+
+input[type=text].link-input{
+  width: 93%;
+  float: right;
+  margin: 6px;
+  padding: 3px;
+  min-height: 0px;
+}

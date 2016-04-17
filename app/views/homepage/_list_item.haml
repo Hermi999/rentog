@@ -57,7 +57,8 @@
         - if cond
           .home-list-type.home-list-details{:class => "grid-item-type-" + cond[:condition].to_s}= cond[:title]
 
-        .home-list-share.home-list-details Teilen
+        .home-list-share.home-list-details= t('homepage.share')
+        = render :partial => "share_dialog", :locals => {listing: listing, view: "list"}
 
     .home-list-price-mobile{:class => (listing.listing_images.size > 0 ? "home-list-price-mobile-with-listing-image" : "home-list-price-mobile-without-listing-image")}
       - if listing.price
