@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
   before_filter :cannot_access_without_joining, :except => [ :confirmation_pending, :check_email_availability]
   #before_filter :can_access_only_organizations_communities
   before_filter :check_confirmations_and_verifications, :except => [ :confirmation_pending, :check_email_availability_and_validity]
-  before_filter :check_main_product, :except => [:choose_product, :update_main_product, :change_locale]
+  before_filter :check_main_product, :except => [:confirmation_pending, :choose_product, :update_main_product, :change_locale, :check_email_availability_and_validity]
   # This updates translation files from WTI on every page load. Only useful in translation test servers.
   before_filter :fetch_translations if APP_CONFIG.update_translations_on_every_page_load == "true"
 

@@ -6,6 +6,7 @@ class CommunityMembershipsController < ApplicationController
 
   skip_filter :cannot_access_without_joining
   skip_filter :check_confirmations_and_verifications, :only => [:new, :create]
+  skip_filter :check_main_product, :only => [:new, :create]
 
   def new
     existing_membership = @current_user.community_memberships.where(:community_id => @current_community.id).first

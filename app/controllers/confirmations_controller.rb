@@ -1,6 +1,6 @@
 class ConfirmationsController < Devise::ConfirmationsController
 
-  skip_filter :check_confirmations_and_verifications, :cannot_access_without_joining
+  skip_filter :check_confirmations_and_verifications, :cannot_access_without_joining, :check_main_product
 
   # This is directly copied from Devise::ConfirmationsController
   # to be able to handle better the situations of resending confirmation and
