@@ -1,5 +1,5 @@
 - own_listing_class = ""
-- if listing.author.id == @current_user.id
+- if @current_user && listing.author.id == @current_user.get_company.id
   - own_listing_class = "own_listing"
 
 

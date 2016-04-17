@@ -129,10 +129,17 @@
         %a.icon-with-text-container{href: edit_listing_path(@listing)}
           = icon_tag("edit", ["icon-part"])
           .text-part= t("listings.edit_links.edit_listing")
+
       .listing-view-admin-link
         %a.icon-with-text-container{href: close_person_listing_path(@current_user, @listing), data: { method: "put", remote: "true"}}
           = icon_tag("lock", ["icon-part"])
           .text-part= t("listings.edit_links.close_listing")
+
+      - if @listing.get_listing_type != "sell"
+        .listing-view-admin-link
+          %a.icon-with-text-container{href: person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s}
+            = icon_tag("calendar", ["icon-part"])
+            .text-part= t("listings.edit_links.book_with_pooltool")
 
       - if is_marketplace_admin
         .listing-view-admin-link

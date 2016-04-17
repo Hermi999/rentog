@@ -548,8 +548,8 @@ en:
         book: Book
   common:
     edit_page: "Edit page"
-    default_community_slogan: "Rentog. The Test- and Measurement Marketplace"
-    default_community_description: "Buy and sell test and measurement equipment"
+    default_community_slogan: "Rentog. The Marketplace for Test- and Measurement devices"
+    default_community_description: "Buy, sell and rent test and measurement equipment"
     sharedPool_slogan: "Rentog Shared Pool"
     sharedPool_description: "Browse and book all devices of your trusted companies."
     cancel: Cancel
@@ -1520,6 +1520,7 @@ en:
     edit_links:
       close_listing: "Close listing"
       edit_listing: "Edit listing"
+      book_with_pooltool: "Book device with Pool Tool"
       reopen_listing: "Reopen listing"
       move_to_top: "Move to top of homepage"
       show_in_updates_email: "Show in the next automatic email"

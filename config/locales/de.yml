@@ -548,7 +548,7 @@ de:
   common:
     edit_page: "Seite bearbeiten"
     default_community_slogan: "Rentog. Der Test- und Messgeräte Marktplatz"
-    default_community_description: "Kaufen und Verkaufen von Test- und Messgeräten"
+    default_community_description: "Kaufen, Verkaufen, Mieten & Vermieten von Test- und Messgeräten"
     sharedPool_slogan: "Rentog Shared Pool"
     sharedPool_description: "Durchstöbere und buche Geräte Unternehmen denen du vertraust"
     cancel: Abbrechen
@@ -1517,6 +1517,7 @@ de:
     edit_links:
       close_listing: "Eintrag deaktivieren"
       edit_listing: "Eintrag bearbeiten"
+      book_with_pooltool: "Gerät buchen über Pool Tool"
       reopen_listing: "Eintrag wieder aktivieren"
       move_to_top: "Auf der Homepage nach oben verschieben"
       show_in_updates_email: "In der nächsten automatischen E-Mail anzeigen"
