@@ -36,7 +36,7 @@ class EmploymentsController < ApplicationController
       PersonViewUtils.ensure_person_belongs_to_community!(@employee, @current_community)
 
       unless current_user?(@company) || @company.is_admin_of?(@current_community)
-        redirect_to root and renturn
+        redirect_to root and return
       end
     end
 
