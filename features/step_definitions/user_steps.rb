@@ -41,7 +41,7 @@ Given /^I am logged in as organization(?: "([^"]*)")?$/ do |org_name|
 
   person = Person.find_by_organization_name(orgname) || FactoryGirl.create(:person, :organization_name => orgname, :is_organization => true)
   login_as(person, :scope => :person)
-  visit root(:locale => :en)
+  visit root_path(:locale => :en)
   @logged_in_user = person
 end
 
