@@ -18,7 +18,7 @@
           = render :partial => "listings/form/custom_field_partials/#{field_type}", :locals => { :custom_field => custom_field, :custom_field_value => listing.answer_for(custom_field) }
 
         - else
-          - if custom_field.companies.where(:id => @current_user.id).first
-            / Show custom field. But only if user has activated it
+          - if custom_field.required || custom_field.companies.where(:id => @current_user.id).first
+            / Show custom field. But only if its required or the company has activated it
             = label "custom_fields", "#{custom_field.id}".to_sym, "#{custom_field.name(I18n.locale)}#{custom_field.required ? '*' : ''}"
             = render :partial => "listings/form/custom_field_partials/#{field_type}", :locals => { :custom_field => custom_field, :custom_field_value => listing.answer_for(custom_field) }
