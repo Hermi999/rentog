@@ -637,24 +637,35 @@ window.ST.poolTool = (function() {
     // Attach listings without transactions to source array
     // Attach them after the internal, trusted, all listings, but before the external listings
     var temp_arr = [];
+    var extern_exist = false;
 
-    if (source.length > 0){  // if there are already listings with transactions
+    // if there are already listings with transactions
+    if (source.length > 0){
       for (var xx=0; xx<source.length; xx++){
-        // copy reference to all intern, trusted, all listings
+        // if we are not already at the "extern" listings (extern listings
+        // always are at the bottom of the array)
         if (source[xx].desc !== "extern"){
           temp_arr[xx] = source[xx];
         }
+        // If we are at the extern listings
         else{
-          // copy all references to listings without transactions
+          // add all listings without transactions (in empty_arr) at the end of the temporary array
           temp_arr = temp_arr.concat(empty_arr);
 
           // copy all references to extern listings
           for (var ww=xx; ww<source.length; ww++){
             temp_arr[ww+empty_arr.length] = source[ww];
           }
+          extern_exist = true;
           break;
         }
       }
+      // If there were not extern listings, then attach the listings without
+      // transactions to the end now
+      if (!extern_exist){
+        temp_arr = temp_arr.concat(empty_arr);
+      }
+
       source = temp_arr;
     }
     // no transactions yet, but maybe already listings

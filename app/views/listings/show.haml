@@ -132,7 +132,7 @@
             = render :partial => "comment_form"
 
   %aside.col-4
-    - if disable_marketplace_requests && @listing.get_listing_type != 'intern' && @listing.get_listing_type != 'trusted' && @current_user && @listing.author != @current_user.get_company
+    - if disable_marketplace_requests && @listing.get_listing_type != 'intern' && @listing.get_listing_type != 'trusted' && (@current_user == nil || @listing.author != @current_user.get_company)
       .notyetavailable
         .notyetavailabletext
           This is the Beta - Version of the Rentog Marketplace, so it's not possible to get in contact with the sellers yet.
