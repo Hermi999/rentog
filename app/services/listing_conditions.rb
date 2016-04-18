@@ -16,7 +16,7 @@ class ListingConditions
                                                                         custom_field_option_selections.custom_field_value_id,
                                                                         custom_field_option_selections.custom_field_option_id,
                                                                         custom_field_values.listing_id")
-                                                               .where(:custom_field_id => 9)
+                                                               .where(:custom_field_id => condition_field_id)
 
 
       # Get the different contition field option ids

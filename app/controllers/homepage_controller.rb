@@ -199,13 +199,8 @@ class HomepageController < ApplicationController
       # get all listings which should be shown - at the moment only external listings
       # remove comment from allowed_authors = ... to add also internal listings
       if @current_user  # if logged in, then show devices from followers.
-        if @current_user.is_employee?
-          allowed_authors = @current_user.company.followers.as_json
-          # allowed_authors << @current_user.company.as_json
-        else
-          allowed_authors = @current_user.followers.as_json
-          # allowed_authors << @current_user.as_json
-        end
+        allowed_authors = @current_user.get_company.followers.as_json
+        allowed_authors << @current_user.get_company.as_json
       else              # show devices from no one...
         allowed_authors = []
       end

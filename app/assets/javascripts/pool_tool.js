@@ -638,7 +638,7 @@ window.ST.poolTool = (function() {
     // Attach them after the internal, trusted, all listings, but before the external listings
     var temp_arr = [];
 
-    if (source.length > 0){  // if there are already transactions
+    if (source.length > 0){  // if there are already listings with transactions
       for (var xx=0; xx<source.length; xx++){
         // copy reference to all intern, trusted, all listings
         if (source[xx].desc !== "extern"){
