@@ -323,21 +323,21 @@ class Listing < ActiveRecord::Base
 
   private
 
+    # Get already booked dates (joined with listings and bookings) from database, ordered by booking end date
     def self.get_booked_dates_from_db(listing_id, current_community)
-      # Get already booked dates (joined with listings and bookings) from database, ordered by booking end date
-      transaction_not_invalid = "(transactions.current_state <> 'rejected' AND
-                                 transactions.current_state <> 'errored' AND
-                                 transactions.current_state <> 'canceled')"
+      # skip invalid transactions
+      transaction_not_invalid = "(transactions.current_state not like 'rejected' AND
+                                 transactions.current_state not like 'errored' AND
+                                 transactions.current_state not like 'canceled' OR
+                                 transactions.current_state IS NULL)"
 
       tr = Transaction.joins(:listing, :booking)
-                 .select("bookings.start_on as start_on, bookings.end_on as end_on")
+                 .select("bookings.start_on as start_on, bookings.end_on as end_on, transactions.id as tr_id")
                  .where("listings.id = ? AND
                          transactions.community_id = ? AND
                          #{transaction_not_invalid}",
                          listing_id, current_community)
                  .order("bookings.end_on asc")
-      #binding.pry
-      tr = Transaction.joins(:listing, :booking).select("bookings.start_on as start_on, bookings.end_on as end_on").where("listings.id = ? AND transactions.community_id = ?", listing_id, current_community).order("bookings.end_on asc")
     end
 
 
