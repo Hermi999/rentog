@@ -64,7 +64,7 @@ window.ST.poolTool = (function() {
   // This is used for updating the view, for example after a booking has been deleted, changed or created
   function update_my_borrowed_devices(){
     if (gon.user_active_bookings !== null){
-      $('.user_booking').remove();
+      $('.open_booking_entry').remove();
       $('.no-open-bookings').remove();
       show_my_borrowed_devices();
     }
@@ -130,23 +130,19 @@ window.ST.poolTool = (function() {
           }
         }
 
-        // Create the device cards by adding element to the DOM with jquery
-        $('#my_devices')
-          .append($('<div class="col-4 user_booking" id="open_booking_'+ transaction_id +'" />')
-            .append($('<div class="user_booking_data"/>')
-              .append($('<p class="user_booking_header">')
-                .append($('<span class="user_booking_header_title">')
-                  .html(title))
-                .append($('<p class="user_booking_overdue" id="overdue_'+ i +'">')
-                  .html(gon.overdue + overdue + " days")))
-              .append('<img src="' + image + '" class="user_booking_img" />')
-              .append($('<span class="return_on" />')
-                .html(gon.return_on))
-              .append(end_on)
-            )
-            .append($('<button id="return_now_' + i + '" />')
-              .html(gon.return_now)
-            )
+        $('#my-device-table')
+          .append($('<tr class="open_booking_entry" id="open_booking_'+ transaction_id +'" />')
+            .append($('<td>')
+              .html(title))
+            .append($('<td class="user_booking_img_entry">')
+              .html('<img src="' + image + '" class="user_booking_img" />'))
+            .append($('<td id="overdue_'+ i +'">')
+              .html(end_on))
+            .append($('<td>')
+              .html(overdue + " days"))
+            .append($('<td>')
+              .append($('<button class="return_now" id="return_now_' + i + '" />')
+                .html(gon.return_now)))
           );
 
         // Remove overdue element if it's < 1 days
@@ -154,9 +150,11 @@ window.ST.poolTool = (function() {
           $('#overdue_' + i).remove();
         }
 
+        // Store image url with row
+        $('#open_booking_' + transaction_id).data('image_src', image);
+
         // Store transaction_id with the 'return now' button
         $('#return_now_' + i).data('transaction_id', transaction_id);
-
 
         // On click on button
         // ATTENTION: Function in a loop. Do not use a reference from the outside
@@ -200,6 +198,13 @@ window.ST.poolTool = (function() {
             .fail(function(){
 
             });
+
+          // Change sidebar height
+          if ($('#side-bar-row').height() < $('#poolTool_Wrapper').height()){
+            $('#pooltool-side-bar').height($('#poolTool_Wrapper').height());
+          }else{
+            $('#pooltool-side-bar').height($('#side-bar-row').height());
+          }
         });
       }
     }
@@ -1251,10 +1256,8 @@ window.ST.poolTool = (function() {
         // Set legend according to db stored status
         if (gon.legend_status === "1"){
           $('.legend').show();
-          $('#showLegendId').html(gon.hide_legend);
         }else{
           $('.legend').hide();
-          $('#showLegendId').html(gon.show_legend);
         }
 
         // Disable navigation buttons
@@ -1273,6 +1276,13 @@ window.ST.poolTool = (function() {
 
         // update gantt chart bookings depending on the 'Show only mine' checkbox
         show_only_mine();
+
+        // Change sidebar height
+        if ($('#side-bar-row').height() < $('#poolTool_Wrapper').height()){
+          $('#pooltool-side-bar').height($('#poolTool_Wrapper').height());
+        }else{
+          $('#pooltool-side-bar').height($('#side-bar-row').height());
+        }
 
       }
     });

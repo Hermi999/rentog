@@ -2454,9 +2454,15 @@ de:
       devices_i_have_borrowed: "Aktuell von mir ausgeborgte Geräte"
       devices_others_borrowed: "Aktuell von anderen geborgte Geräte"
       no_devices_borrowed: "Du hast dir im Moment keine Geräte ausgeborgt!"
-      overdue: "Überfällig: "
-      return_on: 'Fällig am: '
+      overdue: "Überfällig"
+      return_on: 'Fällig am'
+      device_title: "Gerätename"
+      action: "Aktion"
+      device_image: "Abbildung"
       return_now: 'Jetzt zurückgeben'
+      filter_devices: "Geräte filtern"
+      other_pools: "Pools anderer Firmen"
+      own_pool: "Zurück zu meinem Pool"
       modify_booking:
         renter_reason: "Mieter/Grund"
         availability: "Verfügbarkeit"

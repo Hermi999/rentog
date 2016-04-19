@@ -268,6 +268,15 @@
                 // append legend
                 if (gon.belongs_to_company){
                     content.append(core.legend);
+                    $('#showLegendId').on('vclick', function () {
+                        $('.legend').toggle();
+                        // Change sidebar height
+                        if ($('#side-bar-row').height() < $('#poolTool_Wrapper').height()){
+                          $('#pooltool-side-bar').height($('#poolTool_Wrapper').height());
+                        }else{
+                          $('#pooltool-side-bar').height($('#side-bar-row').height());
+                        }
+                    });
                 }
 
                 var $dataPanel = $rightPanel.find(".dataPanel");
@@ -935,11 +944,6 @@
             // **Navigation**
             navigation: function (element) {
                 var ganttNavigate = null;
-                var appendLegend;
-
-                if (gon.belongs_to_company){    //(!gon.only_pool_tool){
-                    appendLegend = '<p class="showLegend" id="showLegendId">'+ gon.hide_legend +'</p>';
-                }
 
                 // Scrolling navigation is provided by setting
                 // `settings.navigate='scroll'`
@@ -1049,11 +1053,7 @@
                                         }
                                     }))
                                     )
-                                )
-                        .append($(appendLegend)
-                            .on('vclick', function () {
-                                $('.legend').toggle();
-                            }));
+                                );
                     $(document).mouseup(function () {
                         element.scrollNavigation.scrollerMouseDown = false;
                     });

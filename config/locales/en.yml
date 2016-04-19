@@ -2460,9 +2460,15 @@ en:
       devices_i_have_borrowed: "Devices I've borrowed at the moment"
       devices_others_borrowed: "Devices others have borrowed at the moment"
       no_devices_borrowed: "You haven't borrowed any devices at the moment!"
-      return_on: 'Return on: '
+      return_on: 'Return on'
+      device_title: "Device name"
+      action: "Action"
+      device_image: "Image"
       return_now: 'Return now'
-      overdue: "Overdue: "
+      overdue: "Overdue"
+      filter_devices: "Filter devices"
+      other_pools: "Pools of other companies"
+      own_pool: "Go back to my pool"
       modify_booking:
         renter_reason: "Renter/Reason"
         availability: "Availability"

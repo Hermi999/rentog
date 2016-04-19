@@ -971,6 +971,13 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
       dd_employee.prop('disabled', false);
       $('label.error').remove();
     }
+
+    // Change sidebar height
+    if ($('#side-bar-row').height() < $('#poolTool_Wrapper').height()){
+      $('#pooltool-side-bar').height($('#poolTool_Wrapper').height());
+    }else{
+      $('#pooltool-side-bar').height($('#side-bar-row').height());
+    }
   });
 
   // Lock Employee dropdown or renter textfield

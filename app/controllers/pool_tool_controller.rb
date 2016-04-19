@@ -525,8 +525,6 @@ class PoolToolController < ApplicationController
         other_reason: t("pool_tool.show.other_reason"),
         only_mine: t("pool_tool.show.only_mine"),
         no_devices_borrowed: t("pool_tool.show.no_devices_borrowed"),
-        overdue: t("pool_tool.show.overdue"),
-        return_on: t("pool_tool.show.return_on"),
         return_now: t("pool_tool.show.return_now"),
         utilization_header: t("pool_tool.load_popover.utilization_header"),
         utilization_desc_1: t("pool_tool.load_popover.utilization_desc_1"),

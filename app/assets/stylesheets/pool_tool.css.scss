@@ -26,6 +26,10 @@
 #poolTool_Wrapper{
   //visibility:hidden;
   opacity: 0.0;
+
+  @include media(small-desktop){
+    padding-left: 20px;
+  }
 }
 
 #poolToolOverlay{
@@ -58,6 +62,8 @@
 
 .poolTool_themes{
   height: 22px;
+  width: 100px;
+  float: right;
 }
 .poolTool_theme{
   width: 20px;
@@ -161,63 +167,83 @@
     font-weight: bold;
 }
 
+.poolTool_search_container{
+  width: 100%;
+}
 #poolTool_search{
-    margin-top: 12px;
-    margin-right: 12px;
-    width: 225px;
-    padding-right: 30px;
+  margin-right: 12px;
+  padding-right: 30px;
 }
 
 #remove_search{
-  right: 33px;
-  top: 20px;
+  left: 92%;
+  top: -35px;
   display: inline;
   float: left;
   position: relative;
   font-weight: bold;
   font-size: 1.2em;
   cursor: pointer;
+  color: black;
+}
+
+.pooltool-button{
+  float: left;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  height: 42px;
+  margin: 12px 0 0 0!important;
+  padding-top: 8px;
+  text-align: center;
+  border-radius: 5px;
+  background-color: #585858;
+  color: white;
+
+  &:hover{
+    background-color: #6F6F6F;
+    color: white;
+  }
 }
 
 #addNewBooking{
-  width: 225px;
+  width: 100%;
   float:left;
   margin-right:10px;
   margin-bottom:0px;
+  padding: 0px;
 }
 
 #createNewDevice{
-  height: 34px;
-  width: 225px;
-  margin-top:12px;
-  margin-right:10px;
   float:left;
-  margin-bottom:0px;
-  @include media(mobile){
-    height: 42px;
-  }
+  width: 100%;
+  height: 42px;
+  margin: 12px 0 0 0;
+  padding: 0px;
 }
 
 #createNewExternalBooking{
   height: 34px;
-  width: 225px;
+  width: 100%;
   margin-top:12px;
   margin-right:10px;
-  float:left;
   margin-bottom:0px;
+  padding:0px;
+  float:left;
   @include media(mobile){
     height: 42px;
   }
 }
 
-#createNewDevice{
-  width: 225px;
-  float: left;
-  height: 42px;
-  margin: 12px 0 0 0;
+.showLegend{
+  //background-color: #5760A0;
+}
+.own-pool-button{
+  //background-color: white;
 }
 
 #addNewBookingWrapper{
+  width: 100%;
   padding-left: 0px;
 }
 
@@ -304,6 +330,8 @@
 }
 
 #addNewBookingForm{
+  box-shadow: 0px 0px 15px black;
+
   input[type=radio], input[type=checkbox] {
       display:none;
   }
@@ -529,13 +557,18 @@
   margin-top: 30px;
   margin-bottom: 30px;
   padding-top: 20px;
+  font-size: 0.8em;
+
+  @include media (tablet){
+    font-size: 1em;
+  }
 }
 
 .pool_tool_header{
   @include big-type;
   background-color: #2F2F2F;
   padding: 8px 5px;
-  border-radius: 5px;
+  border-radius: 7px 7px 0 0;
   border-bottom: 3px solid #000000;
   color: white;
   margin-bottom: 0px!important;
@@ -545,7 +578,7 @@
   padding-left: 15px;
   padding-top: 30px;
   padding-bottom: 30px;
-  border-radius: 10px;
+  border-radius: 0px 0 10px 10px;
   background-color: rgb(202, 202, 202)
 }
 
@@ -554,55 +587,6 @@
   margin-top: 30px;
 }
 
-.user_booking{
-  border-bottom: 2px solid #5F5F5F;
-  border-left: 2px solid #5F5F5F;
-  border-radius: 10px;
-  padding: 3px 10px!important;
-  min-width: 350px;
-  margin-bottom: 20px!important;
-  margin-right: 20px;
-  //background: linear-gradient(45deg, #F5EDC3 0%, #F5EDC3 5%, #ffffff 100%);
-  background-color: #F1EBD5;
-
-  p.user_booking_header{
-    font-weight:bold;
-    margin-bottom: 0.6em;
-  }
-
-  span.user_booking_header_title{
-    display: inline-block;
-    max-width: 60%;
-    height: 21px;
-    overflow: hidden;
-  }
-
-  p.user_booking_overdue {
-    margin-bottom: 0px;
-    display: inline-block;
-    margin-left: 10px;
-    color: white;
-    font-weight: bold;
-    background-color: #C60000;
-    padding: 0px 5px;
-    border-radius: 7px;
-    font-size: 0.9em;
-    max-height: 23px;
-  }
-}
-
-
-.user_booking_img{
-  height: 80px;
-  min-width: 80px;
-  background-color: #E6CFA4;
-  margin-right:15px;
-  float:left;
-}
-
-.return_on{
-  font-weight:bold;
-}
 
 .only_mine{
   float: left;
@@ -636,4 +620,74 @@
   height: 25px;
 }
 
+#pooltool-side-bar{
+  background-color: #2F2F2F;
+  height: 1000px;
+  box-shadow: 0px 0px 10px black;
+  border-radius: 5px;
+  color: white;
+  padding: 10px;
 
+  width: 100%;
+  max-height: 300px;
+  max-width: 1000px;
+  min-height: 500px;
+
+  @include media(small-desktop){
+    display: block;
+    border-radius: 0 25px 25px 0;
+    width: 25%;
+    max-width: 320px;
+    max-height: 3000px;
+  }
+}
+
+#pooltool-main-window{
+  width: 100%;
+  @include media(small-desktop){
+    width: 75%;
+  }
+}
+
+#other-pools{
+  float: left;
+  margin-top: 30px;
+  border-top: 1px solid #8E8E8E;
+  width: 100%;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+#my-device-table{
+  width: 95%;
+  max-width: 900px;
+}
+#my-device-table-head{
+  background-color: #F7F7F7;
+  border-bottom: 2px solid #A2A2A2;
+}
+
+.user_booking_img_entry{
+  display:none;
+  @include media (desktop){
+    display:block;
+  }
+}
+.user_booking_img{
+  height: 50px;
+}
+
+.return_now{
+  margin: 0px;
+}
+
+#other-shared-pools{
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 0px;
+}
+
+.col-6.other-pool-columns,
+.col-12.other-pool-columns{
+  padding: 0px 0px 0px 7px;
+  overflow: hidden;
+}

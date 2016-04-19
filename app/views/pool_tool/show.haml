@@ -31,193 +31,222 @@
 
 
 
-
-/ Show 'colorbox' modal/popover if user clicked in gantt chart on a booking
-#modifyBookingLinkWrapper
-  %a#modifyBookingLink.inline{:href => "#modifyBookingContent"}-
-#modifyBookingWrapper
-  #modifyBookingContent
-    .row#modifyBookingContent_row1
-      #poolTool_popover_deviceImage_wrapper
-        = image_tag("logos/mobile/default.png", alt: "device image", id: "poolTool_popover_deviceImage")
-      #poolTool_popover_deviceName_wrapper
-        #poolTool_popover_deviceName= "DummyText_Device1"
-
-        - if !@current_community.only_pool_tool
-          #poolTool_popover_availability= "DummyText_Intern"
+.row
+  .col-3#pooltool-side-bar
+    .row#side-bar-row
+      / Pool Tool Filter
+      .poolTool_search_container{:style=>"float:left;"}
+        = label_tag t("pool_tool.show.filter_devices")
+        = text_field_tag 'poolTool_search', nil, placeholder: t("pool_tool.show.search_devices")
+        #remove_search
+          x
 
 
-    .row#modifyBookingContent_row2
-      .modifyBookingContent_lbl#lbl_renter_reason= t('pool_tool.show.modify_booking.renter_reason')
-      .modifyBookingContent_lbl#lbl_starts_on= t('pool_tool.show.modify_booking.starts_on')
-      .modifyBookingContent_lbl#lbl_ends_on= t('pool_tool.show.modify_booking.ends_on')
-
-    .row#modifyBookingContent_row3
-      #poolTool_popover_renter
-        DummyText_HermannWagner
-      #datepicker_wrapper2
-        .input-daterange.input-group#datepicker2{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
-          .row{:style => "margin-bottom:0px;"}
-            .datepicker-start-wrapper#datepicker2-start-wrapper
-              %input.input-sm.form-control.required#start-on2{:type => 'text', :name => "start_on2", :placeholder => t("datepicker.format"), :data => { :output => "booking-start-output" } }
-              %input#booking-start-output2{:type => 'hidden', :name => 'start_on2'}
-
-            .datepicker-end-wrapper#datepicker2-end-wrapper
-              %input.input-sm.form-control.required#end-on2{:type => 'text', :name => "end_on2", :placeholder => t("datepicker.format"), :data => { :output => "booking-end-output" }}
-              %input#booking-end-output2{:type => 'hidden', :name => 'end_on2'}
-
-    .row#modifyBookingContent_row4
-      .modifyBookingContent_lbl#modifyBookingContent_description= t('pool_tool.show.modify_booking.description')
-
-    .row#modifyBookingContent_row5
-      #poolTool_popover_description
-        = text_area_tag :ta_popover_description, nil, rows: 4, id: "ta_popover_description"
-      #poolTool_popover_buttons
-        #btn_delete.icon-remove-circle
-        #btn_update.icon-save
+      / Button: Add new Booking
+      - if listings != []
+        #addNewBookingWrapper{:style=>"float:left;"}
+          %button#addNewBooking.primary-button
+            = @add_booking_text
 
 
+      / Button: New booking
+      = link_to @external_booking_text, @external_booking_link, :class => "new-external-booking-link", :id => "createNewExternalBooking"
 
-/ Pool Tool Main code
-- content_for :extra_javascript do
-  :javascript
-    ST.poolTool.init();
+      / Button: Add new device
+      - if @relation == :company_admin_own_site
+        = link_to t("homepage.index.post_new_listing"), new_listing_path, :class => "new-listing-link", :id => "createNewDevice"
 
-- content_for :title_header do
-  - if @belongs_to_company
-    %h1#pooltool-header= t("pool_tool.headline")
-  - else
-    %h1#pooltool-header= t("pool_tool.headline_visitor", :owner => @pooltool_owner.organization_name)
-  #pooltool-subheader= t("pool_tool.subheadline")
+      / Button: Return to my own pool
+      - if @relation != :company_admin_own_site && @relation != :company_employee
+        = link_to t("pool_tool.show.own_pool"), person_poolTool_path(@current_user.get_company), class: "pooltool-button own-pool-button"
 
+      / Button: Show legend
+      - if @belongs_to_company
+        - if @current_user.pool_tool_show_legend.to_i == 0
+          %p{class: "showLegend pooltool-button", id: "showLegendId"}= t("pool_tool.show.show_legend")
+        - else
+          %p{class: "showLegend pooltool-button", id: "showLegendId"}= t("pool_tool.show.hide_legend")
 
-
-#poolTool_Wrapper
-  / Pool Tool 'Choose theme'
-  .row
-    .poolTool_themes
-      .poolTool_theme#theme_white
-      .poolTool_theme#theme_dark
-      .poolTool_theme#theme_red
-
-
-
-  / Pool Tool Top level buttons
-  .row
-    / Pool Tool Search
-    .poolTool_search_container{:style=>"float:left;"}
-      = text_field_tag 'poolTool_search', nil, placeholder: t("pool_tool.show.search_devices")
-    #remove_search
-      x
-
-
-    / Button: Add new Booking
-    - if listings != []
-      #addNewBookingWrapper{:style=>"float:left;"}
-        %button#addNewBooking.primary-button
-          = @add_booking_text
-
-
-    / Button: New booking
-    = link_to @external_booking_text, @external_booking_link, :class => "new-external-booking-link", :id => "createNewExternalBooking"
-
-    / Button: Add new device
-    - if @relation == :company_admin_own_site
-      = link_to t("homepage.index.post_new_listing"), new_listing_path, :class => "new-listing-link", :id => "createNewDevice"
-
-
-  / Pool Tool 'Add new booking form'
-  .row
-    .col-12
-      #addNewBookingForm.newBookingForm
-        = form_tag person_transactions_path, :action => :create, url: person_transactions_path, id: "poolTool_form" do
-
-          %input{:type => 'hidden', :name => 'poolTool', :value => 'true'}
-          %input{:type => 'hidden', :name => 'message', :value => t('pool_tool.show.booked_with_poolTool')}
-
-          - if @current_user.is_company_admin_of?(@pooltool_owner) || @current_user.has_admin_rights_in?(@current_community)
-            .row
-              #employee_wrapper.col-5
-                = label_tag :employees, t('pool_tool.show.choose_employee')
-                = collection_select :employee, :username, @pooltool_owner.employees, :username, :full_name, {:prompt => t('pool_tool.show.please_select')}, {id: "dd_employee"}
-
-              #poolTool_or.col-1
-                = t('pool_tool.show.or')
-
-              #renter_wrapper.col-5
-                = label_tag :renter, t('pool_tool.show.enter_other_reason').html_safe
-                = text_field_tag :renter, nil, maxlength: 40, id: "tf_device_renter", placeholder: t('pool_tool.show.example'), style: "width:100%;"
-
-          - else
-            %input{:type => 'hidden', :name => 'employee[username]', :value => @current_user.username, :id => "dd_employee"}
-            %input{:type => 'hidden', :name => 'renter', :value => "24afsdiouAFdsf123kljadf", :id => "tf_device_renter"}
-
-          #description_wrapper.col-11
-            = label_tag :description, t('pool_tool.show.description').html_safe, id: "lbl_description"
-            = text_area_tag :description, nil, rows: 5, id: "ta_description"
-
-          #device_wrapper.row
-            .col-12
-              .home-fluid-thumbnail-grid-pooltool
-                .home-fluid-thumbnail-grid
-                  - if @current_community.only_pool_tool
-                    = label_tag :description, t('pool_tool.show.devices_only_poolTool').html_safe
-                  -else
-                    = label_tag :description, t('pool_tool.show.devices').html_safe
-                  = render :partial => "radio_grid_item", :collection => listings, :as => :listing
-            .clear-floating
-
-          #datepicker_wrapper.row
-            .input-daterange.input-group.clearfix#datepicker{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
-              .datepicker-start-wrapper.col-3
-                = label_tag t(".booking_from")
-                %input.input-sm.form-control.required#start-on{:type => 'text', :name => "start_on", :placeholder => t("datepicker.format"), :data => { :output => "booking-start-output" } }
-                %input#booking-start-output{:type => 'hidden', :name => 'start_on'}
-
-              .datepicker-end-wrapper.col-3
-                = label_tag t(".booking_to")
-                %input.input-sm.form-control.required#end-on{:type => 'text', :name => "end_on", :placeholder => t("datepicker.format"), :data => { :output => "booking-end-output" }}
-                %input#booking-end-output{:type => 'hidden', :name => 'end_on'}
-
-          .clear-floating
-
-          #submit_wrapper.row
-            .col-3
-              = submit_tag(t('pool_tool.show.create'), id: "pooltool_submit_new_transaction", class: "primary-button pooltool_create_booking")
-
-
-  / Pool Tool Gantt Calendar
-  .poolTool_gantt_container
-    .gantt
-
-
-  / If there are devices
-  - unless transactions == [] && listings == []
-    / Pool Tool Options
-    .poolTool_options
-      = check_box_tag 'mine', 'yes', false, :class => 'pooltool_options only_mine'
-      = label_tag t('pool_tool.show.only_mine'), nil, :id => 'only_mine_label', :class => 'pooltool_options_label'
-
+      / Button: Options
       - if @current_user.is_organization? && @belongs_to_company
-        = link_to pooltool_person_settings_path(@current_user), :id => "pooltool_options_link" do
-          = image_tag "pooltool/pooltool_options.png", :alt => t("pool_tool.show.options"), :title => t("pool_tool.show.options"), :id => "pooltool_options_image"
+        = link_to t("pool_tool.show.options"), pooltool_person_settings_path(@current_user), class: "pooltool-button"
+
+      / Link to other Pools
+      - if @belongs_to_company && @current_user.get_company.followers != []
+        #other-pools
+          %p#other-shared-pools= t("pool_tool.show.other_pools")
+          - column_width = 12
+          - column_width = 6 if @current_user.get_company.followers.count > 6
+          - @current_user.get_company.followers.each do |follower|
+            %div{class: "col-#{column_width} other-pool-columns"}
+              - if follower.is_organization
+                = link_to follower.organization_name, person_poolTool_path(follower), class: ".other-pool-link"
+                %br
+
+  .col-9#pooltool-main-window
+    / Show 'colorbox' modal/popover if user clicked in gantt chart on a booking
+    #modifyBookingLinkWrapper
+      %a#modifyBookingLink.inline{:href => "#modifyBookingContent"}-
+    #modifyBookingWrapper
+      #modifyBookingContent
+        .row#modifyBookingContent_row1
+          #poolTool_popover_deviceImage_wrapper
+            = image_tag("logos/mobile/default.png", alt: "device image", id: "poolTool_popover_deviceImage")
+          #poolTool_popover_deviceName_wrapper
+            #poolTool_popover_deviceName= "DummyText_Device1"
+
+            - if !@current_community.only_pool_tool
+              #poolTool_popover_availability= "DummyText_Intern"
 
 
-    / Devices I have at the moment
-    - if @belongs_to_company && @current_user.has_to_give_back_device?(@current_community)
-      .poolTool_devices_i_have
-        %p{:class=>"pool_tool_header"}
-          = t('pool_tool.show.devices_i_have_borrowed')
+        .row#modifyBookingContent_row2
+          .modifyBookingContent_lbl#lbl_renter_reason= t('pool_tool.show.modify_booking.renter_reason')
+          .modifyBookingContent_lbl#lbl_starts_on= t('pool_tool.show.modify_booking.starts_on')
+          .modifyBookingContent_lbl#lbl_ends_on= t('pool_tool.show.modify_booking.ends_on')
 
-        / Div wrapper. The rest is javascript magic
-        #my_devices.row
+        .row#modifyBookingContent_row3
+          #poolTool_popover_renter
+            DummyText_HermannWagner
+          #datepicker_wrapper2
+            .input-daterange.input-group#datepicker2{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
+              .row{:style => "margin-bottom:0px;"}
+                .datepicker-start-wrapper#datepicker2-start-wrapper
+                  %input.input-sm.form-control.required#start-on2{:type => 'text', :name => "start_on2", :placeholder => t("datepicker.format"), :data => { :output => "booking-start-output" } }
+                  %input#booking-start-output2{:type => 'hidden', :name => 'start_on2'}
+
+                .datepicker-end-wrapper#datepicker2-end-wrapper
+                  %input.input-sm.form-control.required#end-on2{:type => 'text', :name => "end_on2", :placeholder => t("datepicker.format"), :data => { :output => "booking-end-output" }}
+                  %input#booking-end-output2{:type => 'hidden', :name => 'end_on2'}
+
+        .row#modifyBookingContent_row4
+          .modifyBookingContent_lbl#modifyBookingContent_description= t('pool_tool.show.modify_booking.description')
+
+        .row#modifyBookingContent_row5
+          #poolTool_popover_description
+            = text_area_tag :ta_popover_description, nil, rows: 4, id: "ta_popover_description"
+          #poolTool_popover_buttons
+            #btn_delete.icon-remove-circle
+            #btn_update.icon-save
 
 
-    / Devices others have at the moment - not working yet..only show admin
-    - if @belongs_to_company && @current_user.is_organization? && @current_user.has_admin_rights_in?(@current_community)
-      .poolTool_devices_others_have
-        %p{:class=>"pool_tool_header"}
-          = t('pool_tool.show.devices_others_borrowed')
 
-        / Div wrapper. The rest is javascript magic
-        #other_devices.row
+    / Pool Tool Main code
+    - content_for :extra_javascript do
+      :javascript
+        ST.poolTool.init();
+
+    - content_for :title_header do
+      - if @belongs_to_company
+        %h1#pooltool-header= t("pool_tool.headline")
+      - else
+        %h1#pooltool-header= t("pool_tool.headline_visitor", :owner => @pooltool_owner.organization_name)
+      #pooltool-subheader= t("pool_tool.subheadline")
+
+
+
+    #poolTool_Wrapper
+      / Pool Tool 'Add new booking form'
+      .row
+        .col-12
+          #addNewBookingForm.newBookingForm
+            = form_tag person_transactions_path, :action => :create, url: person_transactions_path, id: "poolTool_form" do
+
+              %input{:type => 'hidden', :name => 'poolTool', :value => 'true'}
+              %input{:type => 'hidden', :name => 'message', :value => t('pool_tool.show.booked_with_poolTool')}
+
+              - if @current_user.is_company_admin_of?(@pooltool_owner) || @current_user.has_admin_rights_in?(@current_community)
+                .row
+                  #employee_wrapper.col-5
+                    = label_tag :employees, t('pool_tool.show.choose_employee')
+                    = collection_select :employee, :username, @pooltool_owner.employees, :username, :full_name, {:prompt => t('pool_tool.show.please_select')}, {id: "dd_employee"}
+
+                  #poolTool_or.col-1
+                    = t('pool_tool.show.or')
+
+                  #renter_wrapper.col-5
+                    = label_tag :renter, t('pool_tool.show.enter_other_reason').html_safe
+                    = text_field_tag :renter, nil, maxlength: 40, id: "tf_device_renter", placeholder: t('pool_tool.show.example'), style: "width:100%;"
+
+              - else
+                %input{:type => 'hidden', :name => 'employee[username]', :value => @current_user.username, :id => "dd_employee"}
+                %input{:type => 'hidden', :name => 'renter', :value => "24afsdiouAFdsf123kljadf", :id => "tf_device_renter"}
+
+              #description_wrapper.col-11
+                = label_tag :description, t('pool_tool.show.description').html_safe, id: "lbl_description"
+                = text_area_tag :description, nil, rows: 5, id: "ta_description"
+
+              #device_wrapper.row
+                .col-12
+                  .home-fluid-thumbnail-grid-pooltool
+                    .home-fluid-thumbnail-grid
+                      - if @current_community.only_pool_tool
+                        = label_tag :description, t('pool_tool.show.devices_only_poolTool').html_safe
+                      -else
+                        = label_tag :description, t('pool_tool.show.devices').html_safe
+                      = render :partial => "radio_grid_item", :collection => listings, :as => :listing
+                .clear-floating
+
+              #datepicker_wrapper.row
+                .input-daterange.input-group.clearfix#datepicker{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
+                  .datepicker-start-wrapper.col-3
+                    = label_tag t(".booking_from")
+                    %input.input-sm.form-control.required#start-on{:type => 'text', :name => "start_on", :placeholder => t("datepicker.format"), :data => { :output => "booking-start-output" } }
+                    %input#booking-start-output{:type => 'hidden', :name => 'start_on'}
+
+                  .datepicker-end-wrapper.col-3
+                    = label_tag t(".booking_to")
+                    %input.input-sm.form-control.required#end-on{:type => 'text', :name => "end_on", :placeholder => t("datepicker.format"), :data => { :output => "booking-end-output" }}
+                    %input#booking-end-output{:type => 'hidden', :name => 'end_on'}
+
+              .clear-floating
+
+              #submit_wrapper.row
+                .col-3
+                  = submit_tag(t('pool_tool.show.create'), id: "pooltool_submit_new_transaction", class: "primary-button pooltool_create_booking")
+
+
+      / Pool Tool Gantt Calendar
+      .poolTool_gantt_container
+        .gantt
+
+
+      / If there are devices
+      - unless transactions == [] && listings == []
+        / Show only mine
+        .poolTool_options
+          = check_box_tag 'mine', 'yes', false, :class => 'pooltool_options only_mine'
+          = label_tag t('pool_tool.show.only_mine'), nil, :id => 'only_mine_label', :class => 'pooltool_options_label'
+
+          / Pool Tool 'Choose theme'
+          .poolTool_themes
+            .poolTool_theme#theme_white
+            .poolTool_theme#theme_dark
+            .poolTool_theme#theme_red
+
+
+        / Devices I have at the moment
+        - if @belongs_to_company && @current_user.has_to_give_back_device?(@current_community)
+          .poolTool_devices_i_have
+            %p{:class=>"pool_tool_header"}
+              = t('pool_tool.show.devices_i_have_borrowed')
+
+            / Div wrapper. The rest is javascript magic
+            #my_devices.row
+              #my-device-table-wrapper
+                %table#my-device-table
+                  %tr#my-device-table-head
+                    %th= t("pool_tool.show.device_title")
+                    %th.user_booking_img_entry= t("pool_tool.show.device_image")
+                    %th= t("pool_tool.show.return_on")
+                    %th= t("pool_tool.show.overdue")
+                    %th= t("pool_tool.show.action")
+
+
+        / Devices others have at the moment - not working yet..only show admin
+        - if @belongs_to_company && @current_user.is_organization? && @current_user.has_admin_rights_in?(@current_community)
+          .poolTool_devices_others_have
+            %p{:class=>"pool_tool_header"}
+              = t('pool_tool.show.devices_others_borrowed')
+
+            / Div wrapper. The rest is javascript magic
+            #other_devices.row
