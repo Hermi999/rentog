@@ -2190,6 +2190,9 @@ de:
       unsuccessful_unsubscribe_info_text: "Der Grund könnte sein, dass der Link für das Abbestellen alt oder kaputt war. Kontaktiere uns durch den Feedback Button auf der linken Seite; wir können deine E-Mails abstellen. Oder logge dich ein, um deine E-Mail-Einstellungen zu ändern."
     profile:
       about_you: "Über dich"
+      main_product: "Hauptprodukt"
+      main_product1: "Marktplatz"
+      main_product2: "Pool Tool"
       city: Stadt
       family_name: Nachname
       given_name: Vorname

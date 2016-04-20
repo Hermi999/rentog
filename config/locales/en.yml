@@ -2194,6 +2194,9 @@ en:
       unsuccessful_unsubscribe_info_text: "The unsubscribe link has expired. Log in to change your email subscription settings."
     profile:
       about_you: "About you"
+      main_product: "Main product"
+      main_product1: "Marketplace"
+      main_product2: "Pool Tool"
       city: City
       family_name: "Last name"
       given_name: "First name"

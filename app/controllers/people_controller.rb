@@ -462,6 +462,7 @@ class PeopleController < Devise::RegistrationsController
         :organization_name,
         :street_address,
         :phone_number,
+        :main_product,
         :location_alias,
         :image,
         :description,
