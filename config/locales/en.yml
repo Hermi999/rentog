@@ -2444,7 +2444,7 @@ en:
       addNewBooking: "Book internal device"
       addNewBooking_visitor: "Book from this pool"
       addNewDevice: "Add a new device"
-      newExternalBooking: "Book external device"
+      newExternalBooking: "Book external devices"
       newExternalBooking_visitor: "All available devices"
       createSharedPool: "Create Shared Pool"
       or: "or"

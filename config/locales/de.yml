@@ -2438,7 +2438,7 @@ de:
       addNewBooking: "Buche internes Gerät"
       addNewBooking_visitor: "Buche von diesem Pool"
       addNewDevice: "Erstelle ein neues Gerät"
-      newExternalBooking: "Buche externes Gerät"
+      newExternalBooking: "Buche externe Geräte"
       newExternalBooking_visitor: "Alle verfügbaren Geräte"
       createSharedPool: "Shared Pool erstellen"
       or: "oder"
