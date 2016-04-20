@@ -462,6 +462,7 @@ class PeopleController < Devise::RegistrationsController
         :organization_name,
         :street_address,
         :phone_number,
+        :location_alias,
         :image,
         :description,
         { location: [:address, :google_address, :latitude, :longitude] },

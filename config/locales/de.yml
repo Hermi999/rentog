@@ -2198,6 +2198,7 @@ de:
       first_name_only: "(wird anderen Benutzern nicht angezeigt)"
       location_description: "Du kannst entweder deinen exakten Standort oder nur deine Postleitzahl angeben. Bitte füge mindestens deine Postleitzahl hinzu. Du kannst auch einen Standort aus der Karte auswählen."
       phone_number: Telefonnummer
+      location_alias: "Standortname"
       profile_picture: Profilbild
       postal_code: Postleitzahl
       profile_page: "auf deiner Profil-Seite"

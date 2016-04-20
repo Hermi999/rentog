@@ -53,11 +53,11 @@
       = link_to @external_booking_text, @external_booking_link, :class => "new-external-booking-link", :id => "createNewExternalBooking"
 
       / Button: Add new device
-      - if @relation == :company_admin_own_site
+      - if @relation == :company_admin_own_site || @relation == :rentog_admin
         = link_to t("homepage.index.post_new_listing"), new_listing_path, :class => "new-listing-link", :id => "createNewDevice"
 
       / Button: Return to my own pool
-      - if @relation != :company_admin_own_site && @relation != :company_employee
+      - if !@belongs_to_company
         = link_to t("pool_tool.show.own_pool"), person_poolTool_path(@current_user.get_company), class: "pooltool-button own-pool-button"
 
       / Button: Show legend

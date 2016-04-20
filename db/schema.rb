@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160416121932) do
+ActiveRecord::Schema.define(version: 20160420194054) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -707,6 +707,7 @@ ActiveRecord::Schema.define(version: 20160416121932) do
     t.string   "person_id",      limit: 255
     t.string   "location_type",  limit: 255
     t.integer  "community_id",   limit: 4
+    t.string   "location_alias", limit: 255, default: ""
   end
 
   add_index "locations", ["community_id"], name: "index_locations_on_community_id", using: :btree

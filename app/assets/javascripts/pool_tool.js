@@ -1239,6 +1239,9 @@ window.ST.poolTool = (function() {
         // Stop spinner
         window.ST.pooToolSpinner.stop();
 
+        // Show sidebar
+        $('#pooltool-side-bar').animate({opacity: 1.0},1500);
+
         // Show page content (pooltool, buttons, ...)
         $('#poolTool_Wrapper').animate({opacity: 1.0},1500);
 

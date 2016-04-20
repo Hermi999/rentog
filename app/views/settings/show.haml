@@ -44,6 +44,30 @@
             googlemapMarkerInit("settings_map_canvas","person_location","person_street_address", true, #{tribe_latitude}, #{tribe_longitude});
             });
 
+    -# Location alias
+    .inline-label-container
+      = form.label :location_alias, t("settings.profile.location_alias"), :class => "inline"
+      %small
+        = t('settings.profile.location_alias_hint')
+
+    - _disabled = true if @person.location.address == nil
+    = form.text_field :location_alias, :class => "text_field", :maxlength => "25", :disabled => _disabled
+    - content_for :extra_javascript do
+      :javascript
+        $('#person_street_address').change(function(){
+          if ($('#person_street_address').val() !== ""){
+            $('#person_location_alias').prop('disabled', false);
+          }else{
+            $('#person_location_alias').prop('disabled', true);
+            $('#person_location_alias').val("");
+          }
+        });
+
+        $('#settings_map_canvas').click(function(){
+          $('#person_location_alias').prop('disabled', false);
+        });
+
+
     -# Phone number
     .inline-label-container
       = form.label :phone_number, t("settings.profile.phone_number"), :class => "inline"

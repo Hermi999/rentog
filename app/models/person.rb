@@ -379,11 +379,18 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def location_alias
+    if location
+      return location.location_alias
+    else
+      return nil
+    end
+  end
+
   def update_attributes(params)
     if params[:preferences]
       super(params)
     else
-
       #Handle location information
       if params[:location]
         if self.location && self.location.address != params[:street_address]
@@ -395,13 +402,21 @@ class Person < ActiveRecord::Base
         # the google_address field will store the longer string for the exact position.
         params[:location][:address] = params[:street_address] if params[:street_address]
 
-        self.location = Location.new(params[:location])
+        self.location = Location.new(params[:location].merge("location_alias" => params[:location_alias]))
         params[:location].each {|key| params[:location].delete(key)}
         params.delete(:location)
+        params.delete(:location_alias)
+
+      else
+        # Update the location alias if it has a value and location is not changed
+        if params[:location_alias] && params[:location_alias] != "" && self.location
+          self.location.location_alias = params[:location_alias]
+          params.delete(:location_alias)
+        end
       end
 
       save
-      super(params.except("password2", "street_address"))
+      super(params.except("password2", "street_address", "location_alias"))
     end
   end
 

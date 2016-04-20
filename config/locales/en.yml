@@ -2201,6 +2201,7 @@ en:
       first_name_with_initial: "(only first letter shown to other users)"
       first_name_only: "(not shown to other users)"
       location_description: "You can give either your exact location or, for example, only your zip code. Please add at least your zip code. You can also select a location from the map below."
+      location_alias: "Location alias"
       phone_number: "Phone number"
       profile_picture: "Profile picture"
       postal_code: "Postal code"
@@ -2212,6 +2213,7 @@ en:
       visible_to_registered_users: "(visible to users that have logged in)"
       default_in_listing: "(used only as a default when creating a new listing)"
       invisible: "(not shown to other users)"
+      location_alias_hint: "You can enter the name of your department here (f.g.: Rentog Development, Vienna)"
       image_is_processing: "Your profile picture is being prepared. Please, reload the page after a while."
     pooltool:
       employee_has_to_give_back_listing: "Employees have to give back device via the pool tool"
