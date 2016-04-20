@@ -3,7 +3,8 @@ require 'rest_client'
 class SessionsController < ApplicationController
 
   skip_filter :check_confirmations_and_verifications
-  skip_filter :cannot_access_without_joining, :only => [ :destroy, :confirmation_pending ]
+  skip_filter :cannot_access_without_joining, only: [ :destroy, :confirmation_pending ]
+  skip_filter :check_main_product, only: [:destroy]
 
   before_filter :redirect_if_already_logged_in, :only => [:new]
 

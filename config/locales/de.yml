@@ -2209,6 +2209,7 @@ de:
       visible_to_registered_users: "(sichtbar für angemeldete Benutzer)"
       default_in_listing: "(wird nur beim Erstellen eines neuen Eintrags als Standardeinstellung benutzt)"
       invisible: "(wird anderen Benutzern nicht angezeigt)"
+      location_alias_hint: "In dieses Feld kannst du den Namen deines Standortes oder deiner Abteilung eingeben (z.B.: Rentog, Wien)"
       image_is_processing: "Dein Profilbild wird verarbeitet. Bitte lade die Seite nach einer Weile neu."
     pooltool:
       employee_has_to_give_back_listing: "Mitarbeiter muss Gerät aktiv im Pool Tool zurückgeben"
