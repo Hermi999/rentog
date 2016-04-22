@@ -406,7 +406,9 @@
                             // Location
                                 // check if device can be found in the listingDateLocation varable
                                 // this is only possible if the device has an active booking at the moment
-                                var loc_alias = gon.listingDateLocation[(new Date()).toDateString()][(entry.listing_id).toString()]
+                                if (gon.listingDateLocation[(new Date()).toDateString()]){
+                                    var loc_alias = gon.listingDateLocation[(new Date()).toDateString()][(entry.listing_id).toString()]
+                                }
 
                                 if (loc_alias === null || typeof loc_alias === "undefined"){
                                     loc_alias = "<span class='no_loc_available'>" + gon.no_location_available + "</span>";

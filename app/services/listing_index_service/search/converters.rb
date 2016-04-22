@@ -51,7 +51,7 @@ module ListingIndexService::Search::Converters
               thumb: l.author.image.present? ? l.author.image.url(:thumb) : nil
             },
             is_deleted: l.author.deleted?,
-            location_alias: l.author.location.location_alias,
+            location_alias: Maybe(l.author.location).location_alias.or_else(nil),
           }.merge(num_of_reviews_hash(l, includes))
         }
       else
