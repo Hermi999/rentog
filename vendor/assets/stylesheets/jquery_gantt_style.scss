@@ -287,6 +287,7 @@
         width: 168px;
         font-weight: bold;
         padding-left: 4px;
+        border-right: 1px dashed #C5C5C5;
     }
     .name:hover {
         border-left: 3px solid rgb(255, 195, 39);
@@ -297,6 +298,7 @@
         font-style:italic;
         padding-left:5px;
         cursor: pointer;
+        border-right: 1px dashed #C5C5C5;
     }
     .desc:hover{
         font-weight: bold;
@@ -306,7 +308,9 @@
         font-size: 0.7em;
         font-style: italic;
         display: none;
+        padding-left:5px;
         cursor: pointer;
+        border-right: 1px dashed #C5C5C5;
     }
     .load {
         width: 55px;
