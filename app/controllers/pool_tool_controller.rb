@@ -247,36 +247,43 @@ class PoolToolController < ApplicationController
     end
 
 
-    def get_transactions_with_listings_from_other_companies
-      # 1 FIND OUT WHICH EXTERNAL LISTINGS WHERE BOOKED BY COMPANY MEMBERS
+    def get_transactions_with_listings_from_other_companies()
+      # dont retrieve transaction which are in the following state
+      transaction_not_invalid = "(current_state <> 'rejected' OR current_state is null) AND
+                                 (current_state <> 'errored'  OR current_state is null) AND
+                                 (current_state <> 'canceled' OR current_state is null)"
 
-        # 1a Get the ids of all company members
-        all_users = @pooltool_owner.get_company_members
-        user_ids = []
-        all_users.each do |user|
-          user_ids << user.id
+      # only retrieve transactions of companies who trust the pooltool owner
+      follower_ids = []
+      @pooltool_owner.followers.each{|person| follower_ids<<person.id}
+
+      if !@pooltool_owner.company_option.pool_tool_show_all_available_devices
+        # 1 FIND OUT WHICH EXTERNAL LISTINGS WHERE BOOKED BY COMPANY MEMBERS
+          # 1a Get the ids of all company members
+          all_users = @pooltool_owner.get_company_members
+          user_ids = []
+          all_users.each do |user|
+            user_ids << user.id
+          end
+
+          # 1b Get all extern transactions this users will have in future, are currently active, valied and or are not closed (device not returned)
+          company_external_transactions = Transaction.joins(:booking).where(" transactions.starter_id IN (?) AND
+                                                                              transactions.community_id = ? AND
+                                                                              transactions.listing_author_id <> ? AND
+                                                                              #{transaction_not_invalid} AND
+                                                                              (bookings.end_on > ? OR bookings.device_returned = false)",
+                                                                              user_ids, @current_community.id, @pooltool_owner, DateTime.now)
+
+
+          # 1c Extract the extern listings from the extern transactions
+          ext_listings_ids = []
+          company_external_transactions.each do |ext_trans|
+            ext_listings_ids << Listing.find(ext_trans.listing_id).id
+          end
+          ext_listings_ids = ext_listings_ids.uniq    # remove duplicates
+          @ext_listings_count = ext_listings_ids.count
+
         end
-
-        transaction_not_invalid = "(current_state <> 'rejected' OR current_state is null) AND
-                                   (current_state <> 'errored'  OR current_state is null) AND
-                                   (current_state <> 'canceled' OR current_state is null)"
-
-        # 1b Get all extern transactions this users will have in future, are currently active, valied and or are not closed (device not returned)
-        company_external_transactions = Transaction.joins(:booking).where(" transactions.starter_id IN (?) AND
-                                                                            transactions.community_id = ? AND
-                                                                            transactions.listing_author_id <> ? AND
-                                                                            #{transaction_not_invalid} AND
-                                                                            (bookings.end_on > ? OR bookings.device_returned = false)",
-                                                                            user_ids, @current_community.id, @pooltool_owner, DateTime.now)
-
-
-        # 1c Extract the extern listings from the extern transactions
-        ext_listings_ids = []
-        company_external_transactions.each do |ext_trans|
-          ext_listings_ids << Listing.find(ext_trans.listing_id).id
-        end
-        ext_listings_ids = ext_listings_ids.uniq    # remove duplicates
-        @ext_listings_count = ext_listings_ids.count
 
 
       # 2 GET ALL THE TRANSACTION, BOOKING & LISTING DETAILS FOR ALL LISTINGS WITH OPEN TRANSACTIONS FOR THIS COMPANY
@@ -296,16 +303,21 @@ class PoolToolController < ApplicationController
                                                                                           people.username as renting_entity_username,
                                                                                           people.organization_name as renting_entity_organame,
                                                                                           people.id as renter_id")
-                                                                                .where("  listings.id IN (?) AND
+                                                                                .where("  listings.author_id IN (?) AND
                                                                                           transactions.community_id = ? AND
                                                                                           #{transaction_not_invalid} AND
                                                                                           listings.open = '1' AND
                                                                                           (bookings.end_on > ? OR bookings.device_returned = false) AND
                                                                                           (listings.valid_until IS NULL OR valid_until > ?) AND
                                                                                           (listings.availability = 'all' OR listings.availability = 'trusted')",
-                                                                                          ext_listings_ids, @current_community.id, DateTime.now, DateTime.now)
+                                                                                          follower_ids, @current_community.id, DateTime.now, DateTime.now)
                                                                                 .order("  listings.id asc")
 
+        if !@pooltool_owner.company_option.pool_tool_show_all_available_devices
+          company_external_transactions2 = company_external_transactions2.where("listings.id IN (?)", ext_listings_ids)
+        end
+
+        company_external_transactions2
     end
 
 
