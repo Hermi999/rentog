@@ -25,31 +25,32 @@
           <br><br>
 
     / renting listings
-    .row.profile-row
-      %h2.people-header
-        / if no listings at all
-        - if renting_listings.total_entries == 0 && selling_listings.total_entries == 0 && ad_listings.total_entries == 0
-          - if current_user?(@person) && params[:show_closed]
-            = t(".no_listings")
-          - else
-            = t(".no_open_listings")
+    - if @person.is_organization
+      .row.profile-row
+        %h2.people-header
+          / if no listings at all
+          - if renting_listings.total_entries == 0 && selling_listings.total_entries == 0 && ad_listings.total_entries == 0
+            - if current_user?(@person) && params[:show_closed]
+              = t(".no_listings")
+            - else
+              = t(".no_open_listings")
 
-        / Renting listings available
-        - if renting_listings.total_entries > 0
-          = t(".renting_listings")
-          (
-          - if current_user?(@person) && params[:show_closed]
-            = pluralize(renting_listings.total_entries, t(".listing"), t(".listings"))
-          - else
-            = pluralize(renting_listings.total_entries, t(".open_listing"), t(".open_listings"))
-          )
+          / Renting listings available
+          - if renting_listings.total_entries > 0
+            = t(".renting_listings")
+            (
+            - if current_user?(@person) && params[:show_closed]
+              = pluralize(renting_listings.total_entries, t(".listing"), t(".listings"))
+            - else
+              = pluralize(renting_listings.total_entries, t(".open_listing"), t(".open_listings"))
+            )
 
-          %span.people-show-closed-link
-            - if current_user?(@person)
-              - if params[:show_closed]
-                = link_to t("people.profile_listings.show_only_open"), person_path(@person)
-              - else
-                = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
+            %span.people-show-closed-link
+              - if current_user?(@person)
+                - if params[:show_closed]
+                  = link_to t("people.profile_listings.show_only_open"), person_path(@person)
+                - else
+                  = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
 
     - if renting_listings.total_entries > 0
 

@@ -89,13 +89,14 @@
       = loc.hidden_field :longitude, :value => @person.location.longitude
 
     -# Main Product
-    = form.label :main_product, t("settings.profile.main_product"), :class => "input"
-    = form.radio_button :main_product, "marketplace"
-    = form.label :main_product_marketplace, t("settings.profile.main_product1"), :class => "inline"
-    = form.radio_button :main_product, "pooltool"
-    = form.label :main_product_pooltool, t("settings.profile.main_product2"), :class => "inline"
-    %br
-    %br
+    - if @current_user.is_organization
+      = form.label :main_product, t("settings.profile.main_product"), :class => "input"
+      = form.radio_button :main_product, "marketplace"
+      = form.label :main_product_marketplace, t("settings.profile.main_product1"), :class => "inline"
+      = form.radio_button :main_product, "pooltool"
+      = form.label :main_product_pooltool, t("settings.profile.main_product2"), :class => "inline"
+      %br
+      %br
 
     -# Submit Button
     = form.button t("settings.save_information"), :class => "send_button"

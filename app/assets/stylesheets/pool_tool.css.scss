@@ -591,6 +591,9 @@
 .only_mine{
   float: left;
 }
+.show_location{
+  float: left;
+}
 .pooltool_options{
   margin-right: 5px;
   margin-left: 10px;
@@ -602,7 +605,11 @@
   margin-right: 10px;
   display:inline;
 }
-#only_mine_label{
+.poolTool_options_wrapper{
+  height:20px;
+}
+.poolTool_option_wrapper{
+  float:left;
 }
 
 .no-open-bookings {

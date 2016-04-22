@@ -307,6 +307,14 @@ $listing-author-avatar-height: 108;
   font-weight: bold;
 }
 
+.location_alias_header{
+  font-weight: bold;
+  margin-right: 15px;
+}
+.location_alias_text{
+  font-size: 0.95em;
+}
+
 
 .notyetavailable{
   position: absolute;
@@ -331,3 +339,4 @@ $listing-author-avatar-height: 108;
   color: white;
   font-weight: bold;
 }
+

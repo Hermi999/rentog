@@ -30,6 +30,7 @@ module ListingIndexService::Search::Converters
         latitude: m_location.latitude.or_else(nil),
         longitude: m_location.longitude.or_else(nil),
         address: m_location.address.or_else(nil),
+        location_alias: m_location.location_alias.or_else(nil),
       }
     else
       {}

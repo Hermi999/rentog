@@ -29,7 +29,6 @@ module ListingIndexService::Search::DatabaseSearchHelper
         query.currently_open
       end
 
-
     success_result(listings.total_entries, listings, includes)
   end
 

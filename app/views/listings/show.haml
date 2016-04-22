@@ -188,6 +188,9 @@
               = t(".feedback")
 
     - if @listing.origin_loc && @listing.origin_loc.address != ""
+      - if !@listing.origin_loc.location_alias.empty?
+        %span.location_alias_header Location:
+        %span.location_alias_text= @listing.origin_loc.location_alias
       .row
         .col-12
           #googlemap

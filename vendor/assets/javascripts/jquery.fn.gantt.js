@@ -370,8 +370,10 @@
 
                         window.ST.poolToolRows++;
 
-                        // desc = availability
+
                         if (entry.desc) {
+
+                            // desc = availability
                             var header = "",text = "";
                             switch(entry.desc){
                                 case 'intern':
@@ -399,8 +401,30 @@
                             popover_html += "<p><b>" + header + "</b></p>";
                             popover_html += text;
                             entries.push('<script type="text/javascript">$("#RowdId_" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
+
+
+                            // Location
+                                // check if device can be found in the listingDateLocation varable
+                                // this is only possible if the device has an active booking at the moment
+                                var loc_alias = gon.listingDateLocation[(new Date()).toDateString()][(entry.listing_id).toString()]
+
+                                if (loc_alias === null || typeof loc_alias === "undefined"){
+                                    loc_alias = "<span class='no_loc_available'>" + gon.no_location_available + "</span>";
+                                    if (entry.location_alias){
+                                        loc_alias = entry.location_alias;
+                                    }
+                                }
+                                entries.push('<div class="row_g location ' + extern_listing_class + ' row' + i + ' " id="location' + i + '">');
+                                entries.push('<span class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + loc_alias + '</span>');
+                                entries.push('</div>');
+
+                                var popover_html2 = "";
+                                popover_html2 += gon.location_alias_description;
+                                entries.push('<script type="text/javascript">$("#location" + ' + i + ').webuiPopover({content: "' + popover_html2 + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
                         }
 
+
+                        // utilization incl. popover
                         if (gon.belongs_to_company){
                             var load = window.ST.poolTool.calculateLoadFactor(entry);
 
@@ -410,12 +434,12 @@
                                     entries.push('<span class="fn-label ' + load.load_class + '">' + load.weekday_load + '%</span>');
                                     entries.push('</div>');
 
-                                    var popover_html = "";
-                                    popover_html += "<p><b>" + gon.utilization_header + "</b></p>";
-                                    popover_html += "<p class='popover_desc'>" + gon.utilization_desc_1 + ":</p> <p class='popover_text'>" + load.count_booked_weekdays + " " + gon.utilization_text_outOf + " " + load.count_weekdays + " " + gon.utilization_text_days + "</p> <p class='popover_percent'>(" + load.weekday_load + "%)</p>";
-                                    popover_html += "<p class='popover_desc'>" + gon.utilization_desc_2 + ":</p> <p class='popover_text'>" + load.count_booked_days + " " + gon.utilization_text_outOf + " " + load.count_days + " " + gon.utilization_text_days + "</p> <p class='popover_percent'>(" + load.day_load + "%)</p>";
-                                    popover_html += "<p class='popover_small'>*" + gon.utilization_start_date + load.utilization_start.toLocaleDateString() + "</p>";
-                                    entries.push('<script type="text/javascript">$("#load" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "utilization"});</script>');
+                                    var popover_html3 = "";
+                                    popover_html3 += "<p><b>" + gon.utilization_header + "</b></p>";
+                                    popover_html3 += "<p class='popover_desc'>" + gon.utilization_desc_1 + ":</p> <p class='popover_text'>" + load.count_booked_weekdays + " " + gon.utilization_text_outOf + " " + load.count_weekdays + " " + gon.utilization_text_days + "</p> <p class='popover_percent'>(" + load.weekday_load + "%)</p>";
+                                    popover_html3 += "<p class='popover_desc'>" + gon.utilization_desc_2 + ":</p> <p class='popover_text'>" + load.count_booked_days + " " + gon.utilization_text_outOf + " " + load.count_days + " " + gon.utilization_text_days + "</p> <p class='popover_percent'>(" + load.day_load + "%)</p>";
+                                    popover_html3 += "<p class='popover_small'>*" + gon.utilization_start_date + load.utilization_start.toLocaleDateString() + "</p>";
+                                    entries.push('<script type="text/javascript">$("#load" + ' + i + ').webuiPopover({content: "' + popover_html3 + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "utilization"});</script>');
                                 }else{
                                     entries.push('<div class="row_g ' + extern_listing_class + ' load load_placeholder row' + i + '"></div>');
                                 }

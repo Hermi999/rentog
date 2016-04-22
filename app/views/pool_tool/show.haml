@@ -212,10 +212,14 @@
 
       / If there are devices
       - unless transactions == [] && listings == []
-        / Show only mine
-        .poolTool_options
-          = check_box_tag 'mine', 'yes', false, :class => 'pooltool_options only_mine'
-          = label_tag t('pool_tool.show.only_mine'), nil, :id => 'only_mine_label', :class => 'pooltool_options_label'
+        / Pool tool options
+        .poolTool_options_wrapper
+          .poolTool_option_wrapper
+            = check_box_tag 'mine', 'yes', false, :class => 'pooltool_options only_mine'
+            = label_tag t('pool_tool.show.only_mine'), nil, :id => 'only_mine_label', :class => 'pooltool_options_label'
+          .poolTool_option_wrapper
+            = check_box_tag 'show_location', 'yes', false, :class => 'pooltool_options show_location'
+            = label_tag t('pool_tool.show.location'), nil, :id => 'show_location_label', :class => 'pooltool_options_label'
 
           / Pool Tool 'Choose theme'
           .poolTool_themes

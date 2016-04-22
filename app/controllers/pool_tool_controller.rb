@@ -26,7 +26,7 @@ class PoolToolController < ApplicationController
         availability: temp_avail
       }
 
-      includes = [:author, :listing_images]
+      includes = [:author, :listing_images, :location]
       listings = ListingIndexService::API::Api.listings.search(community_id: @current_community.id, search: search, includes: includes).and_then { |res|
         Result::Success.new(
           ListingIndexViewUtils.to_struct(
@@ -46,7 +46,8 @@ class PoolToolController < ApplicationController
                                   availability: listing.availability,
                                   listing_id: listing.id,
                                   created_at: listing.created_at,
-                                  image: small_image }
+                                  image: small_image,
+                                  location_alias: listing.location_alias }
       end
 
 
@@ -94,6 +95,7 @@ class PoolToolController < ApplicationController
 
         transaction['name'] = transaction['title']
         transaction['desc'] = availability
+        transaction['location_alias'] = Location.where(listing_id: transaction['listing_id']).first.location_alias
         transaction['already_booked_dates'] = Listing.already_booked_dates(transaction['listing_id'], @current_community)
 
         # set the transaction specific values of the first element in the transaction array of this listing
@@ -423,6 +425,10 @@ class PoolToolController < ApplicationController
 
     # set the values of the first element in the transaction array of this listing
     def set_transaction_element_values(transaction, tr_starter)
+      if tr_starter[:renter].location
+        location_alias = tr_starter[:renter].location.location_alias
+      end
+
       {
         'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",
         'to' => "/Date(" + transaction['end_on'].to_time.to_i.to_s + "000)/",
@@ -431,6 +437,7 @@ class PoolToolController < ApplicationController
         'transaction_id' => transaction['transaction_id'],
         'renter_id' => transaction['renter_id'],
         'renter_company_id' => tr_starter[:renter].get_company.id,
+        'renter_location_alias' => location_alias,
         'description' => transaction['description'],
         'confirmed' => @transaction_confirmed
       }
@@ -524,6 +531,8 @@ class PoolToolController < ApplicationController
         any_employee: t("pool_tool.show.any_employee"),
         other_reason: t("pool_tool.show.other_reason"),
         only_mine: t("pool_tool.show.only_mine"),
+        show_location: t("pool_tool.show.show_location"),
+        no_location_available: t("pool_tool.show.no_location_available"),
         no_devices_borrowed: t("pool_tool.show.no_devices_borrowed"),
         return_now: t("pool_tool.show.return_now"),
         utilization_header: t("pool_tool.load_popover.utilization_header"),
@@ -532,6 +541,7 @@ class PoolToolController < ApplicationController
         utilization_text_outOf: t("pool_tool.load_popover.utilization_text_outOf"),
         utilization_text_days: t("pool_tool.load_popover.utilization_text_days"),
         utilization_start_date: t("pool_tool.load_popover.utilization_start_date"),
+        location_alias_description: t("pool_tool.load_popover.location_alias_description"),
         availability_desc_header_trusted: t("pool_tool.load_popover.availability_desc_header_trusted"),
         availability_desc_header_intern: t("pool_tool.load_popover.availability_desc_header_intern"),
         availability_desc_header_all: t("pool_tool.load_popover.availability_desc_header_all"),

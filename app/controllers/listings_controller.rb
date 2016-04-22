@@ -479,6 +479,7 @@ class ListingsController < ApplicationController
   end
 
   def update
+    # delete custom listing origin if user has cleared the field
     if (params[:listing][:origin] && (params[:listing][:origin_loc_attributes][:address].empty? || params[:listing][:origin].blank?))
       params[:listing].delete("origin_loc_attributes")
       if @listing.origin_loc
@@ -988,7 +989,8 @@ class ListingsController < ApplicationController
         :address,
         :google_address,
         :latitude,
-        :longitude
+        :longitude,
+        :location_alias
       ).merge(
         location_type: :origin_loc
       )

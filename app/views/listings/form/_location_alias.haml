@@ -1,0 +1,21 @@
+- if @listing.get_listing_type == "intern" || @listing.get_listing_type == "trusted"
+  = form.fields_for :origin_loc, include_id: false do |loc|
+    = loc.label :origin, t(".location_alias"), :class => "input"
+    = loc.text_field :location_alias, :value => @listing.origin_loc.location_alias
+
+  - content_for :extra_javascript do
+    :javascript
+      if ($('#listing_origin').val() == ""){
+        $('#listing_origin_loc_attributes_location_alias').prop('disabled', true);
+      }
+      $('#listing_origin').change(function(){
+        if ($('#listing_origin').val() == ""){
+          $('#listing_origin_loc_attributes_location_alias').val("");
+          $('#listing_origin_loc_attributes_location_alias').prop('disabled', true);
+        }else{
+          $('#listing_origin_loc_attributes_location_alias').prop('disabled', false);
+        }
+      });
+      $('#listing_map_canvas').click(function(){
+        $('#listing_origin_loc_attributes_location_alias').prop('disabled', false);
+      });

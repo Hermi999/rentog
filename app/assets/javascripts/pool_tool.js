@@ -45,6 +45,7 @@ window.ST.poolTool = (function() {
     $('.page-content').append(window.ST.pooToolSpinner.el);
     changeDesign();
     initializeCheckOrientation();
+    initializeListingDateLocationService();
     initializeGantt();
     initializeDatepickers();
     initialize_poolTool_createTransaction_form(gon.locale, gon.choose_employee_or_renter_msg);
@@ -300,6 +301,18 @@ window.ST.poolTool = (function() {
     }
   }
 
+  // Show location aliases
+  function show_location_alias(){
+    if($('.show_location').prop('checked')){
+      $('.fn-gantt .leftPanel').css('width', "400px");
+      $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', "400px");
+      $('.location').show();
+    }else{
+      $('.location').hide();
+      $('.fn-gantt .leftPanel').css('width', "279px");
+      $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', "279px");
+    }
+  }
 
   // Initialize the pool tool options, like "Show only mine", ...
   function initialize_poolTool_options(){
@@ -317,6 +330,23 @@ window.ST.poolTool = (function() {
       }else{
         $('.only_mine').prop('checked',true);
         $('.only_mine').change();
+      }
+    });
+
+    // Show location alias
+    $('.show_location').prop('checked', false);
+
+    $('.show_location').on('change', function(){
+      show_location_alias();
+    });
+
+    $('#show_location_label').on('click',function(ev){
+      if ($('.show_location').prop('checked')){
+        $('.show_location').prop('checked',false);
+        $('.show_location').change();
+      }else{
+        $('.show_location').prop('checked',true);
+        $('.show_location').change();
       }
     });
 
@@ -606,87 +636,91 @@ window.ST.poolTool = (function() {
     var next_month_ms = Math.round(next_month.getTime());
     gon.showPoolToolOverlay = false;
 
-    // Add listings which have no transaction yet
-    var empty_arr = [];
-    for (var j=0; j<gon.open_listings.length; j++){
-      var already_there = false;
-      for (var k=0; k<source.length; k++){
-        // If listing is already within the source array, then there are
-        // transactions. In this case only copy the image url
-        if (gon.open_listings[j].name === source[k].name){
-          already_there = true;
+    // Find listings within all open listings which have no transaction yet and
+    // add them to the "empty_arr" Array. For Listings which have transactions
+    // we just copy the listing image url
+      var empty_arr = [];
+      for (var j=0; j<gon.open_listings.length; j++){
+        var already_there = false;
+        for (var k=0; k<source.length; k++){
+          // If listing is already within the source array, then there are
+          // transactions. In this case only copy the image url
+          if (gon.open_listings[j].name === source[k].name){
+            already_there = true;
 
-          // copy image url
-          source[k].image = gon.open_listings[j].image;
-        }
-      }
-
-      // If not already there store the listing without transactions in empty_arr
-      if (!already_there){
-        empty_arr.push({
-          name: gon.open_listings[j].name,
-          desc: gon.open_listings[j].desc,
-          created_at: gon.open_listings[j].created_at,
-          availability: gon.open_listings[j].availability,
-          listing_id: gon.open_listings[j].listing_id,
-          image: gon.open_listings[j].image,
-          values: [{
-            from: "/Date(" + today_ms + ")/",
-            to: "/Date(" + next_month_ms + ")/",
-            customClass: "ganttHidden"
-          }]
-        });
-      }
-    }
-
-    // Attach listings without transactions to source array
-    // Attach them after the internal, trusted, all listings, but before the external listings
-    var temp_arr = [];
-    var extern_exist = false;
-
-    // if there are already listings with transactions
-    if (source.length > 0){
-      for (var xx=0; xx<source.length; xx++){
-        // if we are not already at the "extern" listings (extern listings
-        // always are at the bottom of the array)
-        if (source[xx].desc !== "extern"){
-          temp_arr[xx] = source[xx];
-        }
-        // If we are at the extern listings
-        else{
-          // add all listings without transactions (in empty_arr) at the end of the temporary array
-          temp_arr = temp_arr.concat(empty_arr);
-
-          // copy all references to extern listings
-          for (var ww=xx; ww<source.length; ww++){
-            temp_arr[ww+empty_arr.length] = source[ww];
+            // copy image url
+            source[k].image = gon.open_listings[j].image;
           }
-          extern_exist = true;
-          break;
+        }
+
+        // If not already there store the listing without transactions in empty_arr
+        if (!already_there){
+          empty_arr.push({
+            name: gon.open_listings[j].name,
+            desc: gon.open_listings[j].desc,
+            location_alias: gon.open_listings[j].location_alias,
+            created_at: gon.open_listings[j].created_at,
+            availability: gon.open_listings[j].availability,
+            listing_id: gon.open_listings[j].listing_id,
+            image: gon.open_listings[j].image,
+            values: [{
+              from: "/Date(" + today_ms + ")/",
+              to: "/Date(" + next_month_ms + ")/",
+              customClass: "ganttHidden"
+            }]
+          });
         }
       }
-      // If there were not extern listings, then attach the listings without
-      // transactions to the end now
-      if (!extern_exist){
-        temp_arr = temp_arr.concat(empty_arr);
+
+    // Attach listings without transactions to source array (array with the listings which have transactions)
+    // Attach them after the internal, trusted, all listings, but before the external listings
+      var temp_arr = [];
+      var extern_exist = false;
+
+      // if there are already listings with transactions
+      if (source.length > 0){
+        for (var xx=0; xx<source.length; xx++){
+          // if we are not already at the "extern" listings (extern listings
+          // always are at the bottom of the array)
+          if (source[xx].desc !== "extern"){
+            temp_arr[xx] = source[xx];
+          }
+          // If we are at the extern listings
+          else{
+            // add all listings without transactions (in empty_arr) at the end of the temporary array
+            temp_arr = temp_arr.concat(empty_arr);
+
+            // copy all references to extern listings
+            for (var ww=xx; ww<source.length; ww++){
+              temp_arr[ww+empty_arr.length] = source[ww];
+            }
+            extern_exist = true;
+            break;
+          }
+        }
+        // If there were not extern listings, then attach the listings without
+        // transactions to the end now
+        if (!extern_exist){
+          temp_arr = temp_arr.concat(empty_arr);
+        }
+
+        source = temp_arr;
+      }
+      // no transactions yet, but maybe already listings
+      else{
+        source = empty_arr;
       }
 
-      source = temp_arr;
-    }
-    // no transactions yet, but maybe already listings
-    else{
-      source = empty_arr;
-    }
 
     // If source is still empty (because company has no open listings and no other company follows),
     // then add dummy listings
-    if (source.length < 1) {
-      source = addDummyListings();
-      if (gon.owner_has_followers === true){
-        $(".poolTool_gantt_container *").css('pointer-events', 'none');
-        gon.showPoolToolOverlay = true;
+      if (source.length < 1) {
+        source = addDummyListings();
+        if (gon.owner_has_followers === true){
+          $(".poolTool_gantt_container *").css('pointer-events', 'none');
+          gon.showPoolToolOverlay = true;
+        }
       }
-    }
 
     // Add hidden element to gantt-source
     addHiddenGanttElement(source, today_minus_3_ms, next_month_ms);
@@ -698,6 +732,38 @@ window.ST.poolTool = (function() {
     updateGanttChart();
 
     prettyPrint();
+  }
+
+  // Creates an object which hold the device location alias for a specific date and
+  // adds this object to the global gon variable.
+  // This is needed because we need to show where the device is at a certain date.
+  // All listings with transactions are stored within the gon.devices variable.
+  // Each transaction has a 'starter' and this user has maybe has configured a
+  // location. If this is the case for the time of the transaction the device
+  // is at the users location (alias)
+  function initializeListingDateLocationService(){
+    var listingDateLocation = {};
+
+    gon.devices.forEach(function(dev_with_trans){
+      // go through each transaction of listing
+      dev_with_trans.values.forEach(function(trans){
+        // we create listing-location objects where the key is always a date string
+        var from_date = new Date(parseInt(trans.from.replace("/Date(","").replace(")/","")));
+        var to_date = new Date(parseInt(trans.to.replace("/Date(","").replace(")/","")));
+        var date_arr = getDatesBetweenRange(from_date, to_date);
+
+        date_arr.forEach(function(date){
+          // save the listing-location also as associative array with the listing_id as the key
+          // this is possible because for one day a listing can only have on booking
+          if (typeof listingDateLocation[date.toDateString()] === "undefined") {
+            listingDateLocation[date.toDateString()] = {};
+          };
+          listingDateLocation[date.toDateString()][(dev_with_trans.listing_id).toString()] = trans.renter_location_alias;
+        });
+      });
+    });
+
+    gon.listingDateLocation = listingDateLocation;
   }
 
 
@@ -1277,8 +1343,9 @@ window.ST.poolTool = (function() {
           $('.nav-zoomOut').css('opacity', 0.4);
         }
 
-        // update gantt chart bookings depending on the 'Show only mine' checkbox
+        // update gantt chart bookings with respect to the options the user set
         show_only_mine();
+        show_location_alias();
 
         // Change sidebar height
         if ($('#side-bar-row').height() < $('#poolTool_Wrapper').height()){

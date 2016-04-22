@@ -1590,6 +1590,8 @@ de:
         attachment_limit_reached: "Mehr Dateien hinzufügen? <br>Jetzt Ihren Account upgraden!"
       location:
         location: Standort
+      location_alias:
+        location_alias: Standort Alias (wird als Standort im Pool Tool angezeigt)
       price:
         price: Preis
         per: pro
@@ -2430,6 +2432,8 @@ de:
       legend_trustedCompany_text: "Buchungen von vertrauten Unternehmen oder deren Mitarbeitern. Diese Buchungen sind nur für Geräte mit der Verfügbarkeit 'Vertraute Unternehmen' möglich."
       legent_anyCompany_text: "Buchungen von auf Rentog registrierten Unternehmen, denen dein Unternehmens noch nicht vertraut. Diese Buchungen sind nur für Geräte mit der Verfügbarkeit 'Global' möglich."
       only_mine: "Zeige nur meine"
+      location: "Zeige aktuellen Standort"
+      no_location_available: "Nicht verfügbar"
       options: "Pool Tool Optionen"
       could_not_create_new_booking: "Error: Aktion fehlgeschlagen! Bitte überprüfe deine Internet-Verbindung."
       booking_from: "Von"
@@ -2486,6 +2490,7 @@ de:
       utilization_text_outOf: "von"
       utilization_text_days: "Tagen"
       utilization_start_date: "Anfangsdatum für die Auslastungs-Berechnung: "
+      location_alias_description: "Der aktuelle Standort ist während einer Buchung der Standortname des Mieters und ansonsten der Standortname des Unternehmens dem das Gerät gehört. 'Nicht verfügbar' wird angezeigt, wenn das Unternehmen oder die buchende Person keinen Standortnamen im Profil eingetragen hat."
       availability_desc_header_trusted: "Vertraut"
       availability_desc_header_intern: "Intern"
       availability_desc_header_all: "Global"

@@ -1593,6 +1593,8 @@ en:
         attachment_limit_reached: "You want to upload more attachments? <br>Upgrade your Account now!"
       location:
         location: Location
+      location_alias:
+        location_alias: Location alias (is displayed as location in Pool Tool)
       price:
         price: Price
         per: per
@@ -2435,6 +2437,8 @@ en:
       legend_trustedCompany_text: "Booking of a trusted company or its employees. This is only possible for devices with availability 'Trusted'."
       legend_anyCompany_text: "Booking of a company which is signed up on Rentog, but is not explicitely trusted by your company. This is only possible for devices with availability 'Global'."
       only_mine: "Show only mine"
+      location: "Show current location"
+      no_location_available: "No location available"
       options: "Pool tool options"
       give_back_listing: "Users have to give back devices"
       could_not_create_new_booking: "Error: Action failed! Please check your if you still have an internet connection and refresh the page."
@@ -2492,6 +2496,7 @@ en:
       utilization_text_outOf: "out of"
       utilization_text_days: "days"
       utilization_start_date: "Start date for utilization calculation: "
+      location_alias_description: "During a booking is active the current location is the location alias of the person who rented the device. If the device is not rented today, then the current location is the location alias of the company which owns the device. 'Location not available' is shown if the renter or the owner has not provided a location alias."
       availability_desc_header_trusted: "Trusted"
       availability_desc_header_intern: "Intern"
       availability_desc_header_all: "All"

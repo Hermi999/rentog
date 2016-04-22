@@ -38,6 +38,15 @@
             color: $main_font_color;
             .fn-label{
                 color: $main_font_color;
+
+                .no_loc_available{
+                    @if $main_font_color == black{
+                        color: lighten($main_font_color, 50%);
+                    }
+                    @else{
+                        color: darken($main_font_color, 30%);
+                    }
+                }
             }
         }
         .leftPanel .pooltool_extern_listing{
@@ -256,6 +265,7 @@
 .fn-gantt .leftPanel {
     float: left;
     width: 279px;
+
     overflow: hidden;
     border-right: 1px solid #DDD;
     position: relative;
@@ -265,12 +275,13 @@
     .row0 {
         border-top: 1px solid #DDD;
     }
-    .name, .desc, .load {
+    .name, .desc, .load, .location {
         float: left;
         height: 24px;
         margin: 0px;
         border-bottom: 1px solid #DDD;
         background-color: #f6f6f6;
+        white-space: nowrap;
     }
     .name {
         width: 168px;
@@ -289,6 +300,13 @@
     }
     .desc:hover{
         font-weight: bold;
+    }
+    .location {
+        width: 120px;
+        font-size: 0.7em;
+        font-style: italic;
+        display: none;
+        cursor: pointer;
     }
     .load {
         width: 55px;
