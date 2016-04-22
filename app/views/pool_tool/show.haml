@@ -220,6 +220,9 @@
           .poolTool_option_wrapper
             = check_box_tag 'show_location', 'yes', false, :class => 'pooltool_options show_location'
             = label_tag t('pool_tool.show.location'), nil, :id => 'show_location_label', :class => 'pooltool_options_label'
+          .poolTool_option_wrapper
+            = check_box_tag 'show_author_name', 'yes', false, :class => 'pooltool_options show_author_name'
+            = label_tag t('pool_tool.show.author_name'), nil, :id => 'show_author_name_label', :class => 'pooltool_options_label'
 
           / Pool Tool 'Choose theme'
           .poolTool_themes

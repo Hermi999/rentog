@@ -2439,6 +2439,7 @@ en:
       legend_anyCompany_text: "Booking of a company which is signed up on Rentog, but is not explicitely trusted by your company. This is only possible for devices with availability 'Global'."
       only_mine: "Show only mine"
       location: "Show current location"
+      author_name: "Show owner"
       no_location_available: "No location available"
       options: "Pool tool options"
       give_back_listing: "Users have to give back devices"

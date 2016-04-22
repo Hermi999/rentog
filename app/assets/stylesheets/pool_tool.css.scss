@@ -594,6 +594,9 @@
 .show_location{
   float: left;
 }
+.show_author_name{
+  float:left;
+}
 .pooltool_options{
   margin-right: 5px;
   margin-left: 10px;
@@ -699,4 +702,9 @@
 .col-12.other-pool-columns{
   padding: 0px 0px 0px 7px;
   overflow: hidden;
+}
+
+.overdue_el{
+  color: #DE4949;
+  font-weight: bold;
 }

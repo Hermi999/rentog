@@ -47,6 +47,7 @@ class PoolToolController < ApplicationController
                                   listing_id: listing.id,
                                   created_at: listing.created_at,
                                   image: small_image,
+                                  listing_author_organization_name: listing.author.organization_name,
                                   location_alias: listing.location_alias || listing.author.location_alias }
       end
 

@@ -403,6 +403,12 @@
                             entries.push('<script type="text/javascript">$("#RowdId_" + ' + i + ').webuiPopover({content: "' + popover_html + '", arrow: true, width:"360px", placement: "right", animation:"pop", trigger:"click", style: "availability_desc"});</script>');
 
 
+                            // Author name (organization name)
+                            entries.push('<div class="row_g author_name ' + extern_listing_class + ' row' + i + ' " id="author_name' + i + '">');
+                            entries.push('<span class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + entry.listing_author_organization_name + '</span>');
+                            entries.push('</div>');
+
+
                             // Location
                                 // check if device can be found in the listingDateLocation varable
                                 // this is only possible if the device has an active booking at the moment

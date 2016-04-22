@@ -33,6 +33,11 @@ var opts = {
 };
 window.ST.pooToolSpinner = new Spinner(opts).spin();
 
+// store calendar options settings in global var
+gon.calendar_opts = {
+  show_location_alias: false,
+  show_author_name: false
+};
 
 
 window.ST.poolTool = (function() {
@@ -53,7 +58,7 @@ window.ST.poolTool = (function() {
     initialize_poolTool_options();
     initialize_poolTool_search();
 
-    // Show devices the current logged in user has in his hands
+    // devices the current logged in user has in his hands
     if (gon.user_active_bookings !== null){
       show_my_borrowed_devices();
     }
@@ -137,19 +142,14 @@ window.ST.poolTool = (function() {
               .html(title))
             .append($('<td class="user_booking_img_entry">')
               .html('<img src="' + image + '" class="user_booking_img" />'))
-            .append($('<td id="overdue_'+ i +'">')
-              .html(end_on))
             .append($('<td>')
+              .html(end_on))
+            .append($('<td id="overdue_'+ i +'" class="overdue_el">')
               .html(overdue + " days"))
             .append($('<td>')
               .append($('<button class="return_now" id="return_now_' + i + '" />')
                 .html(gon.return_now)))
           );
-
-        // Remove overdue element if it's < 1 days
-        if(overdue < 1){
-          $('#overdue_' + i).remove();
-        }
 
         // Store image url with row
         $('#open_booking_' + transaction_id).data('image_src', image);
@@ -303,14 +303,35 @@ window.ST.poolTool = (function() {
 
   // Show location aliases
   function show_location_alias(){
-    if($('.show_location').prop('checked')){
-      $('.fn-gantt .leftPanel').css('width', "400px");
-      $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', "400px");
+    if($('.show_location').prop('checked') && gon.calendar_opts.show_location_alias === false){
+      gon.calendar_opts.show_location_alias = true;
+      var old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+      $('.fn-gantt .leftPanel').css('width', (old_width + 121) + "px");
+      $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width + 121) + "px");
       $('.location').show();
-    }else{
+    }else if(gon.calendar_opts.show_location_alias === true){
+      gon.calendar_opts.show_location_alias = false;
+      var old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
       $('.location').hide();
-      $('.fn-gantt .leftPanel').css('width', "279px");
-      $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', "279px");
+      $('.fn-gantt .leftPanel').css('width', (old_width - 121) + "px");
+      $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width - 121) + "px");
+    }
+  }
+
+  // Show author name
+  function show_author_name(){
+    if($('.show_author_name').prop('checked') && gon.calendar_opts.show_author_name === false){
+      gon.calendar_opts.show_author_name = true;
+      var old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+      $('.fn-gantt .leftPanel').css('width', (old_width + 100) + "px");
+      $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width + 100) + "px");
+      $('.author_name').show();
+    }else if(gon.calendar_opts.show_author_name === true){
+      gon.calendar_opts.show_author_name = false;
+      var old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+      $('.author_name').hide();
+      $('.fn-gantt .leftPanel').css('width', (old_width - 100) + "px");
+      $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width - 100) + "px");
     }
   }
 
@@ -347,6 +368,23 @@ window.ST.poolTool = (function() {
       }else{
         $('.show_location').prop('checked',true);
         $('.show_location').change();
+      }
+    });
+
+    // Show author name alias
+    $('.show_author_name').prop('checked', false);
+
+    $('.show_author_name').on('change', function(){
+      show_author_name();
+    });
+
+    $('#show_author_name_label').on('click',function(ev){
+      if ($('.show_author_name').prop('checked')){
+        $('.show_author_name').prop('checked',false);
+        $('.show_author_name').change();
+      }else{
+        $('.show_author_name').prop('checked',true);
+        $('.show_author_name').change();
       }
     });
 
@@ -659,6 +697,7 @@ window.ST.poolTool = (function() {
             name: gon.open_listings[j].name,
             desc: gon.open_listings[j].desc,
             location_alias: gon.open_listings[j].location_alias,
+            listing_author_organization_name: gon.open_listings[j].listing_author_organization_name,
             created_at: gon.open_listings[j].created_at,
             availability: gon.open_listings[j].availability,
             listing_id: gon.open_listings[j].listing_id,
@@ -1346,6 +1385,7 @@ window.ST.poolTool = (function() {
         // update gantt chart bookings with respect to the options the user set
         show_only_mine();
         show_location_alias();
+        show_author_name();
 
         // Change sidebar height
         if ($('#side-bar-row').height() < $('#poolTool_Wrapper').height()){

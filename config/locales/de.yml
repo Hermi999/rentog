@@ -2434,6 +2434,7 @@ de:
       legent_anyCompany_text: "Buchungen von auf Rentog registrierten Unternehmen, denen dein Unternehmens noch nicht vertraut. Diese Buchungen sind nur für Geräte mit der Verfügbarkeit 'Global' möglich."
       only_mine: "Zeige nur meine"
       location: "Zeige aktuellen Standort"
+      author_name: "Zeige Besitzer"
       no_location_available: "Nicht verfügbar"
       options: "Pool Tool Optionen"
       could_not_create_new_booking: "Error: Aktion fehlgeschlagen! Bitte überprüfe deine Internet-Verbindung."
