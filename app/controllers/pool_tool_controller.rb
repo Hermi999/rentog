@@ -47,7 +47,7 @@ class PoolToolController < ApplicationController
                                   listing_id: listing.id,
                                   created_at: listing.created_at,
                                   image: small_image,
-                                  location_alias: listing.location_alias }
+                                  location_alias: listing.location_alias || listing.author.location_alias }
       end
 
 
@@ -92,10 +92,12 @@ class PoolToolController < ApplicationController
         counter = counter + 1
 
         availability = transaction['availability'] || "extern"
+        loc_alias = Location.where(listing_id: transaction['listing_id']).first.location_alias
+        loc_alias = Maybe(Location.where(person_id: transaction['listing_author_id']).first).location_alias.or_else(nil) if loc_alias == nil || loc_alias == ""
 
         transaction['name'] = transaction['title']
         transaction['desc'] = availability
-        transaction['location_alias'] = Location.where(listing_id: transaction['listing_id']).first.location_alias
+        transaction['location_alias'] = loc_alias
         transaction['already_booked_dates'] = Listing.already_booked_dates(transaction['listing_id'], @current_community)
 
         # set the transaction specific values of the first element in the transaction array of this listing

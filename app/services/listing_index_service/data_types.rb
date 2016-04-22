@@ -47,7 +47,8 @@ module ListingIndexService::DataTypes
     [:is_organization, :bool, default: false],
     [:avatar, entity: AvatarImage],
     [:is_deleted, :bool, default: false],
-    [:num_of_reviews, :fixnum, default: 0]
+    [:num_of_reviews, :fixnum, default: 0],
+    [:location_alias, :string]
   )
 
   Listing = EntityUtils.define_builder(

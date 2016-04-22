@@ -31,7 +31,8 @@ module ListingIndexViewUtils
     :is_organization,
     :avatar,
     :is_deleted,
-    :num_of_reviews)
+    :num_of_reviews,
+    :location_alias)
 
   ListingImage = Struct.new(
     :thumb,
@@ -54,7 +55,8 @@ module ListingIndexViewUtils
               l[:author][:avatar][:thumb]
             ),
             l[:author][:is_deleted],
-            l[:author][:num_of_reviews]
+            l[:author][:num_of_reviews],
+            l[:author][:location_alias]
           )
         else
           nil
