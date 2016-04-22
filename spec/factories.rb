@@ -105,6 +105,7 @@ FactoryGirl.define do
     build_association(:company)
     employee_has_to_give_back_listing true
     employee_can_see_statistics true
+    pool_tool_show_all_available_devices false
   end
 
   factory :listing do

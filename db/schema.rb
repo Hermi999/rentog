@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160420194054) do
+ActiveRecord::Schema.define(version: 20160422184118) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -285,13 +285,14 @@ ActiveRecord::Schema.define(version: 20160420194054) do
   add_index "community_translations", ["community_id"], name: "index_community_translations_on_community_id", using: :btree
 
   create_table "company_options", force: :cascade do |t|
-    t.boolean  "employee_has_to_give_back_listing",             default: true
-    t.boolean  "employee_can_see_statistics",                   default: true
-    t.boolean  "pool_tool_modify_past",                         default: false
-    t.boolean  "pool_tool_group_booking_enabled",               default: false
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
-    t.string   "company_id",                        limit: 255
+    t.boolean  "employee_has_to_give_back_listing",                default: true
+    t.boolean  "employee_can_see_statistics",                      default: true
+    t.boolean  "pool_tool_modify_past",                            default: false
+    t.boolean  "pool_tool_group_booking_enabled",                  default: false
+    t.datetime "created_at",                                                       null: false
+    t.datetime "updated_at",                                                       null: false
+    t.string   "company_id",                           limit: 255
+    t.boolean  "pool_tool_show_all_available_devices",             default: false
   end
 
   create_table "contact_requests", force: :cascade do |t|
