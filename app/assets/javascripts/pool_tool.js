@@ -303,15 +303,17 @@ window.ST.poolTool = (function() {
 
   // Show location aliases
   function show_location_alias(){
+    var old_width = 0;
+
     if($('.show_location').prop('checked') && gon.calendar_opts.show_location_alias === false){
       gon.calendar_opts.show_location_alias = true;
-      var old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+      old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
       $('.fn-gantt .leftPanel').css('width', (old_width + 121) + "px");
       $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width + 121) + "px");
       $('.location').show();
     }else if(gon.calendar_opts.show_location_alias === true){
       gon.calendar_opts.show_location_alias = false;
-      var old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+      old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
       $('.location').hide();
       $('.fn-gantt .leftPanel').css('width', (old_width - 121) + "px");
       $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width - 121) + "px");
@@ -320,15 +322,16 @@ window.ST.poolTool = (function() {
 
   // Show author name
   function show_author_name(){
+    var old_width = 0;
     if($('.show_author_name').prop('checked') && gon.calendar_opts.show_author_name === false){
       gon.calendar_opts.show_author_name = true;
-      var old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+      old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
       $('.fn-gantt .leftPanel').css('width', (old_width + 100) + "px");
       $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width + 100) + "px");
       $('.author_name').show();
     }else if(gon.calendar_opts.show_author_name === true){
       gon.calendar_opts.show_author_name = false;
-      var old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+      old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
       $('.author_name').hide();
       $('.fn-gantt .leftPanel').css('width', (old_width - 100) + "px");
       $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width - 100) + "px");
@@ -793,7 +796,7 @@ window.ST.poolTool = (function() {
           // this is possible because for one day a listing can only have on booking
           if (typeof listingDateLocation[date.toDateString()] === "undefined") {
             listingDateLocation[date.toDateString()] = {};
-          };
+          }
           listingDateLocation[date.toDateString()][(dev_with_trans.listing_id).toString()] = trans.renter_location_alias;
         });
       });

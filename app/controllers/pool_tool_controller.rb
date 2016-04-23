@@ -93,7 +93,7 @@ class PoolToolController < ApplicationController
         counter = counter + 1
 
         availability = transaction['availability'] || "extern"
-        loc_alias = Location.where(listing_id: transaction['listing_id']).first.location_alias
+        loc_alias = Maybe(Location.where(listing_id: transaction['listing_id']).first).location_alias.or_else(nil)
         loc_alias = Maybe(Location.where(person_id: transaction['listing_author_id']).first).location_alias.or_else(nil) if loc_alias == nil || loc_alias == ""
 
         transaction['name'] = transaction['title']
@@ -260,7 +260,7 @@ class PoolToolController < ApplicationController
       follower_ids = []
       @pooltool_owner.followers.each{|person| follower_ids<<person.id}
 
-      if !@pooltool_owner.company_option.pool_tool_show_all_available_devices
+      if !Maybe(@pooltool_owner.company_option).pool_tool_show_all_available_devices.or_else(true)
         # 1 FIND OUT WHICH EXTERNAL LISTINGS WHERE BOOKED BY COMPANY MEMBERS
           # 1a Get the ids of all company members
           all_users = @pooltool_owner.get_company_members
@@ -316,7 +316,7 @@ class PoolToolController < ApplicationController
                                                                                           follower_ids, @current_community.id, DateTime.now, DateTime.now)
                                                                                 .order("  listings.id asc")
 
-        if !@pooltool_owner.company_option.pool_tool_show_all_available_devices
+        if !Maybe(@pooltool_owner.company_option).pool_tool_show_all_available_devices.or_else(true)
           company_external_transactions2 = company_external_transactions2.where("listings.id IN (?)", ext_listings_ids)
         end
 
@@ -573,8 +573,8 @@ class PoolToolController < ApplicationController
         pool_tool_preferences: {
           pooltool_user_has_to_give_back_device: @current_user.has_to_give_back_device?(@current_community),
           pool_tool_modify_past: @current_user.is_allowed_to_book_in_past?,
-          show_device_owner_per_default: @pooltool_owner.company_option.show_device_owner_per_default,
-          show_device_location_per_default: @pooltool_owner.company_option.show_device_location_per_default
+          show_device_owner_per_default: Maybe(@current_user.get_company.company_option).show_device_owner_per_default.or_else(false),
+          show_device_location_per_default: Maybe(@current_user.get_company.company_option).show_device_location_per_default.or_else(false)
 
         }
       })
