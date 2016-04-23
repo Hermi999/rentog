@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160422184118) do
+ActiveRecord::Schema.define(version: 20160422235655) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -293,6 +293,8 @@ ActiveRecord::Schema.define(version: 20160422184118) do
     t.datetime "updated_at",                                                       null: false
     t.string   "company_id",                           limit: 255
     t.boolean  "pool_tool_show_all_available_devices",             default: false
+    t.boolean  "show_device_owner_per_default",                    default: false
+    t.boolean  "show_device_location_per_default",                 default: false
   end
 
   create_table "contact_requests", force: :cascade do |t|

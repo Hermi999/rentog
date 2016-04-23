@@ -2226,6 +2226,8 @@ en:
       pool_tool_modify_past: "Users can create and modifiy bookings in the past"
       pool_tool_group_booking_enabled: "Users can book more than one device with one booking"
       pool_tool_show_all_available_devices: "Show also external devices from other companies which trust me within the Pool Tool calendar"
+      show_device_owner_per_default: "Show device owner per default in the Pool Tool calendar"
+      show_device_location_per_default: "Show the current location of the devices per default in the Pool Tool calendar"
     save_information: "Save information"
   shipping_address:
     shipping_address: "Shipping address"

@@ -2222,6 +2222,8 @@ de:
       pool_tool_modify_past: "Benutzer können im Pool Tool Einträge in der Vergangenheit anlegen/ändern"
       pool_tool_group_booking_enabled: "Benutzer können im Pool Tool mehrere Geräte in einer Buchung buchen"
       pool_tool_show_all_available_devices: "Zeige auch externe Geräte von anderen Unternehmen, die mir vertrauen, im Pool Tool Kalender"
+      show_device_owner_per_default: "Zeige standardmäßig den Gerätebesitzer im Pool Tool Kalender"
+      show_device_location_per_default: "Zeige standardmäßig den aktuelle Gerätestandort im Pool Tool Kalender"
     save_information: "Informationen speichern"
   shipping_address:
     shipping_address: Lieferadresse

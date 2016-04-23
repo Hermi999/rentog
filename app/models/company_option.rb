@@ -11,6 +11,8 @@
 #  updated_at                           :datetime         not null
 #  company_id                           :string(255)
 #  pool_tool_show_all_available_devices :boolean          default(FALSE)
+#  show_device_owner_per_default        :boolean          default(FALSE)
+#  show_device_location_per_default     :boolean          default(FALSE)
 #
 
 class CompanyOption < ActiveRecord::Base
@@ -25,6 +27,8 @@ class CompanyOption < ActiveRecord::Base
     "employee_has_to_give_back_listing",
     "pool_tool_modify_past",
     "pool_tool_show_all_available_devices",
+    "show_device_owner_per_default",
+    "show_device_location_per_default",
     #"employee_can_see_statistics",
     #"pool_tool_group_booking_enabled"
   ]

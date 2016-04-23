@@ -338,11 +338,10 @@ window.ST.poolTool = (function() {
   // Initialize the pool tool options, like "Show only mine", ...
   function initialize_poolTool_options(){
     // Show only my bookings (the current user)
-    $('.only_mine').prop('checked', false);
-
     $('.only_mine').on('change', function(){
       show_only_mine();
     });
+    $('.only_mine').prop('checked', false);
 
     $('#only_mine_label').on('click',function(ev){
       if ($('.only_mine').prop('checked')){
@@ -355,11 +354,10 @@ window.ST.poolTool = (function() {
     });
 
     // Show location alias
-    $('.show_location').prop('checked', false);
-
     $('.show_location').on('change', function(){
       show_location_alias();
     });
+    $('.show_location').prop('checked', gon.pool_tool_preferences.show_device_location_per_default);
 
     $('#show_location_label').on('click',function(ev){
       if ($('.show_location').prop('checked')){
@@ -372,11 +370,10 @@ window.ST.poolTool = (function() {
     });
 
     // Show author name alias
-    $('.show_author_name').prop('checked', false);
-
     $('.show_author_name').on('change', function(){
       show_author_name();
     });
+    $('.show_author_name').prop('checked', gon.pool_tool_preferences.show_device_owner_per_default);
 
     $('#show_author_name_label').on('click',function(ev){
       if ($('.show_author_name').prop('checked')){

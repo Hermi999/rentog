@@ -572,7 +572,10 @@ class PoolToolController < ApplicationController
 
         pool_tool_preferences: {
           pooltool_user_has_to_give_back_device: @current_user.has_to_give_back_device?(@current_community),
-          pool_tool_modify_past: @current_user.is_allowed_to_book_in_past?
+          pool_tool_modify_past: @current_user.is_allowed_to_book_in_past?,
+          show_device_owner_per_default: @pooltool_owner.company_option.show_device_owner_per_default,
+          show_device_location_per_default: @pooltool_owner.company_option.show_device_location_per_default
+
         }
       })
     end
