@@ -866,6 +866,8 @@ window.ST.poolTool = (function() {
         $('#poolTool_search').css("background-color", "white");
         $('#poolTool_search').css("color", "black");
         updateGanttChart(source);
+        gon.search_source = source;
+        search_update_booking_dialog();
         $('.home-fluid-thumbnail-grid-item').show();
       }
     }
@@ -874,7 +876,7 @@ window.ST.poolTool = (function() {
       searchTermOld = term;
 
       search_update_gantt(term, source);
-      search_update_booking_dialog(term);
+      search_update_booking_dialog();
     }
   }
 
@@ -886,6 +888,9 @@ window.ST.poolTool = (function() {
         var remove1 = false;
         var remove2 = false;
         var remove3 = false;
+        var remove4 = false;
+        var remove5 = true;
+        var remove6 = true;
 
         // device name
         if (source[x].name){
@@ -913,7 +918,43 @@ window.ST.poolTool = (function() {
           }
         }
 
-        if (remove1 && remove2 && remove3){
+        // device owner
+        if (source[x].listing_author_organization_name){
+          var result_name = source[x].listing_author_organization_name.match(re);
+
+          if (result_name === null){
+            remove4 = true;
+          }
+        }
+
+        // current device location
+        var loc_alias = null;
+        if (source[x].listing_id && gon.listingDateLocation[(new Date()).toDateString()]){
+            var loc_alias = gon.listingDateLocation[(new Date()).toDateString()][(source[x].listing_id).toString()]
+        }
+        if (loc_alias){
+          var result_name = loc_alias.match(re);
+
+          if (result_name === null){
+            remove6 = true;
+          }else{
+            remove6 = false;
+          }
+        }
+
+        // default device location
+        if ((typeof loc_alias === "undefined" || loc_alias === null) && source[x].location_alias){
+          var result_name = source[x].location_alias.match(re);
+
+          if (result_name === null){
+            remove5 = true;
+          }else{
+            remove5 = false;
+          }
+        }
+
+
+        if (remove1 && remove2 && remove3 && remove4 && remove5 && remove6){
           source.splice(x, 1);
           x = x-1;
         }
@@ -929,47 +970,46 @@ window.ST.poolTool = (function() {
       }
 
       updateGanttChart(source);
+      gon.search_source = source;
     }
   }
 
   // Search the listings in the booking dialog and remove rest
-  function search_update_booking_dialog(term){
+  function search_update_booking_dialog(){
     var listings = $('.home-fluid-thumbnail-grid-item');
-    var re = new RegExp(term, "i");
 
     // show all
     listings.show();
 
     // hide specific
     listings.each(function(index, element){
-      var title = $(element).data("listingtitle");
-      var availability = $(element).data("listingavailability");
       var listingid = $(element).data("listingid");
+      var visible = false;
 
-      var remove1 = false;
-      var remove2 = false;
-      var remove3 = false;
+      gon.search_source.forEach(function(el){
+        if (el.listing_id === listingid){
+          visible = true;
+        }
+      });
 
-      // listing title
-      if (title.match(re) === null){
-        remove1 = true;
-      }
-
-      // listing availability
-      if (availability.match(re) === null){
-        remove2 = true;
-      }
-
-      // listing id
-      if (("id=" + listingid) !== term){
-        remove3 = true;
-      }
-
-      // remove listing element
-      if (remove1 && remove2 && remove3){
+      if (!visible){
         $(element).hide();
       }
     });
+
+    // How many elements are still visible
+    var count_visible = 0;
+    listings.each(function(index, el){
+      if($(el).css('display') == "block"){
+        count_visible += 1;
+      }
+    });
+
+    if (count_visible === 0){
+      $('#addNewBooking').prop('disabled', true);
+    }else{
+      $('#addNewBooking').prop('disabled', false);
+    }
 
     // check first visible element
     $("input[type='radio'][name='listing_id'").each(function(index,element){
