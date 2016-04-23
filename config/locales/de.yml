@@ -1591,7 +1591,7 @@ de:
       location:
         location: Standort
       location_alias:
-        location_alias: Standort Alias (wird als Standort im Pool Tool angezeigt)
+        location_alias: Standortname (wird als Standort im Pool Tool angezeigt)
       price:
         price: Preis
         per: pro
@@ -1764,6 +1764,8 @@ de:
       shipping_price_additional: "Versand (%{price}, weitere Artikel: + %{shipping_price_additional})"
       pickup: Abholung/Übergabe
       pickup_no_price: Abholung/Übergabe
+      current_location: "Aktueller Aufenthaltsort:"
+      default_location: "Lager Standortname:"
     unit_types:
       piece: Stück
       hour: Stunde

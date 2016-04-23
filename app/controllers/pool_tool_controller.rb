@@ -440,9 +440,16 @@ class PoolToolController < ApplicationController
 
     # set the values of the first element in the transaction array of this listing
     def set_transaction_element_values(transaction, tr_starter)
-      if tr_starter[:renter].location
-        location_alias = tr_starter[:renter].location.location_alias
-      end
+      location_alias =
+        if tr_starter[:renter].location
+          if tr_starter[:renter].location.location_alias && tr_starter[:renter].location.location_alias != ""
+            tr_starter[:renter].location.location_alias
+          else
+            tr_starter[:renter].get_company.location.location_alias
+          end
+        else
+          Maybe(tr_starter[:renter].get_company.location).location_alias.or_else(nil)
+        end
 
       {
         'from' => "/Date(" + transaction['start_on'].to_time.to_i.to_s + "000)/",

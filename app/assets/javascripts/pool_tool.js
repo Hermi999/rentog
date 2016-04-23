@@ -4,46 +4,46 @@
 
 window.ST = window.ST || {};
 
-if (typeof gon !== 'undefined'){
-  window.ST.poolToolTheme  = gon.theme || "theme_dark";
-}
-window.ST.poolToolRows   = 0;
-window.ST.poolToolImages = [];
-var opts = {
-  lines: 13,             // The number of lines to draw
-  length: 0,             // The length of each line
-  width: 20,             // The line thickness
-  radius: 80,            // The radius of the inner circle
-  scale: 1.25,           // Scales overall size of the spinner
-  corners: 1,            // Corner roundness (0..1)
-  color: '#1f90a4',      // #rgb or #rrggbb or array of colors
-  opacity: 0.05,         // Opacity of the lines
-  rotate: 0,             // The rotation offset
-  direction: 1,          // 1: clockwise, -1: counterclockwise
-  speed: 1,              // Rounds per second
-  trail: 60,             // Afterglow percentage
-  fps: 20,               // Frames per second when using setTimeout() as a fallback for CSS
-  zIndex: 2e9,           // The z-index (defaults to 2000000000)
-  className: 'spinner',  // The CSS class to assign to the spinner
-  top: '49%',            // Top position relative to parent
-  left: '50%',           // Left position relative to parent
-  shadow: false,         // Whether to render a shadow
-  hwaccel: false,        // Whether to use hardware acceleration
-  position: 'absolute'   // Element positioning
-};
-window.ST.pooToolSpinner = new Spinner(opts).spin();
-
-// store calendar options settings in global var
-gon.calendar_opts = {
-  show_location_alias: false,
-  show_author_name: false
-};
-
-
 window.ST.poolTool = (function() {
   var searchTimeout, searchTermOld = "";
 
   console.log("===== Pool Tool Code called =====");
+
+  if (typeof gon !== 'undefined'){
+    window.ST.poolToolTheme  = gon.theme || "theme_dark";
+
+    // store calendar options settings in global var
+    gon.calendar_opts = {
+      show_location_alias: false,
+      show_author_name: false
+    };
+  }
+  window.ST.poolToolRows   = 0;
+  window.ST.poolToolImages = [];
+  var opts = {
+    lines: 13,             // The number of lines to draw
+    length: 0,             // The length of each line
+    width: 20,             // The line thickness
+    radius: 80,            // The radius of the inner circle
+    scale: 1.25,           // Scales overall size of the spinner
+    corners: 1,            // Corner roundness (0..1)
+    color: '#1f90a4',      // #rgb or #rrggbb or array of colors
+    opacity: 0.05,         // Opacity of the lines
+    rotate: 0,             // The rotation offset
+    direction: 1,          // 1: clockwise, -1: counterclockwise
+    speed: 1,              // Rounds per second
+    trail: 60,             // Afterglow percentage
+    fps: 20,               // Frames per second when using setTimeout() as a fallback for CSS
+    zIndex: 2e9,           // The z-index (defaults to 2000000000)
+    className: 'spinner',  // The CSS class to assign to the spinner
+    top: '49%',            // Top position relative to parent
+    left: '50%',           // Left position relative to parent
+    shadow: false,         // Whether to render a shadow
+    hwaccel: false,        // Whether to use hardware acceleration
+    position: 'absolute'   // Element positioning
+  };
+  window.ST.pooToolSpinner = new Spinner(opts).spin();
+
 
   // Initialize the whole pool tool (jquery gantt chart, date pickers, add new booking form, ...)
   function init(){
@@ -305,12 +305,14 @@ window.ST.poolTool = (function() {
   function show_location_alias(){
     var old_width = 0;
 
-    if($('.show_location').prop('checked') && gon.calendar_opts.show_location_alias === false){
-      gon.calendar_opts.show_location_alias = true;
-      old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
-      $('.fn-gantt .leftPanel').css('width', (old_width + 121) + "px");
-      $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width + 121) + "px");
-      $('.location').show();
+    if($('.show_location').prop('checked')){
+      if (gon.calendar_opts.show_location_alias === false){
+        gon.calendar_opts.show_location_alias = true;
+        old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+        $('.fn-gantt .leftPanel').css('width', (old_width + 121) + "px");
+        $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width + 121) + "px");
+        $('.location').show();
+      }
     }else if(gon.calendar_opts.show_location_alias === true){
       gon.calendar_opts.show_location_alias = false;
       old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
@@ -323,12 +325,14 @@ window.ST.poolTool = (function() {
   // Show author name
   function show_author_name(){
     var old_width = 0;
-    if($('.show_author_name').prop('checked') && gon.calendar_opts.show_author_name === false){
-      gon.calendar_opts.show_author_name = true;
-      old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
-      $('.fn-gantt .leftPanel').css('width', (old_width + 100) + "px");
-      $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width + 100) + "px");
-      $('.author_name').show();
+    if($('.show_author_name').prop('checked')){
+      if (gon.calendar_opts.show_author_name === false){
+        gon.calendar_opts.show_author_name = true;
+        old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+        $('.fn-gantt .leftPanel').css('width', (old_width + 100) + "px");
+        $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width + 100) + "px");
+        $('.author_name').show();
+      }
     }else if(gon.calendar_opts.show_author_name === true){
       gon.calendar_opts.show_author_name = false;
       old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
@@ -1383,6 +1387,8 @@ window.ST.poolTool = (function() {
         }
 
         // update gantt chart bookings with respect to the options the user set
+        gon.calendar_opts.show_location_alias = false;
+        gon.calendar_opts.show_author_name = false;
         show_only_mine();
         show_location_alias();
         show_author_name();

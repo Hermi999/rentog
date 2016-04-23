@@ -187,12 +187,32 @@
             .listing-author-activity-description
               = t(".feedback")
 
+
+    / Current and default location map
     - if @listing.origin_loc && @listing.origin_loc.address != ""
+      %span.location_alias_header= t(".default_location")
       - if !@listing.origin_loc.location_alias.empty?
-        %span.location_alias_header Location:
         %span.location_alias_text= @listing.origin_loc.location_alias
+
+      - elsif !Maybe(@listing.author.location).location_alias.or_else("").empty?
+        %span.location_alias_text= @listing.author.location.location_alias
+
+    - if (booker_id = @listing.is_booked_today_from) != nil
+      - if (booker = Person.find(booker_id)).location
+        .current_loc
+          %span.location_alias_header= t(".current_location")
+          %span.location_alias_text= booker.location.location_alias
+
+    - if (booker and booker.location and booker.location.address) || (@listing.origin_loc and @listing.origin_loc.address != "")
       .row
         .col-12
           #googlemap
-            = render :partial => "googlemap", :locals => { :listing => @listing}
-            = render :partial => "origin", :locals => { :origin_loc => @listing.origin_loc }
+            - if booker and booker.location
+              - location = booker.location
+            - else
+              - location = @listing.origin_loc
+
+            = render :partial => "googlemap", :locals => { :listing => @listing, :listing_location =>  location}
+            = render :partial => "origin", :locals => { :origin_loc => location}
+
+

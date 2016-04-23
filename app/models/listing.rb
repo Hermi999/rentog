@@ -320,6 +320,26 @@ class Listing < ActiveRecord::Base
     end
   end
 
+  # wah
+  def is_booked_today_from
+    # skip invalid transactions
+    transaction_not_invalid = "(transactions.current_state not like 'rejected' AND
+                               transactions.current_state not like 'errored' AND
+                               transactions.current_state not like 'canceled' OR
+                               transactions.current_state IS NULL)"
+
+    tr = Transaction.joins(:listing, :booking)
+                     .select("transactions.starter_id as starter_id, transactions.id as tr_id")
+                     .where("listings.id = ? AND
+                             bookings.start_on <= ? AND
+                             bookings.end_on >= ? AND
+                             #{transaction_not_invalid}",
+                             id, Date.today, Date.today).first
+
+    Maybe(tr)[:starter_id].or_else(nil)
+  end
+
+
 
   private
 

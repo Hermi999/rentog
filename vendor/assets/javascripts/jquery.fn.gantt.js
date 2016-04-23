@@ -416,9 +416,20 @@
                                     var loc_alias = gon.listingDateLocation[(new Date()).toDateString()][(entry.listing_id).toString()]
                                 }
 
-                                if (loc_alias === null || typeof loc_alias === "undefined"){
+                                // device isn't booked today
+                                if (typeof loc_alias === "undefined"){
                                     loc_alias = "<span class='no_loc_available'>" + gon.no_location_available + "</span>";
+
                                     if (entry.location_alias){
+                                        loc_alias = entry.location_alias;
+                                    }
+                                }
+                                // booker has given no location
+                                else if (loc_alias === null){
+                                    loc_alias = "<span class='no_loc_available'>" + gon.no_location_available + "</span>";
+
+                                    // IF booker is a company member, then use the location alias from the device or the company
+                                    if (entry.location_alias && (entry.customClass === "gantt_ownEmployee" || entry.customClass === "gantt_otherReason")){
                                         loc_alias = entry.location_alias;
                                     }
                                 }
