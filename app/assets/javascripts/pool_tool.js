@@ -920,9 +920,9 @@ window.ST.poolTool = (function() {
 
         // device owner
         if (source[x].listing_author_organization_name){
-          var result_name = source[x].listing_author_organization_name.match(re);
+          var result_author_name = source[x].listing_author_organization_name.match(re);
 
-          if (result_name === null){
+          if (result_author_name === null){
             remove4 = true;
           }
         }
@@ -930,12 +930,12 @@ window.ST.poolTool = (function() {
         // current device location
         var loc_alias = null;
         if (source[x].listing_id && gon.listingDateLocation[(new Date()).toDateString()]){
-            var loc_alias = gon.listingDateLocation[(new Date()).toDateString()][(source[x].listing_id).toString()]
+            var loc_alias = gon.listingDateLocation[(new Date()).toDateString()][(source[x].listing_id).toString()];
         }
         if (loc_alias){
-          var result_name = loc_alias.match(re);
+          var result_loc_alias = loc_alias.match(re);
 
-          if (result_name === null){
+          if (result_loc_alias === null){
             remove6 = true;
           }else{
             remove6 = false;
@@ -944,9 +944,9 @@ window.ST.poolTool = (function() {
 
         // default device location
         if ((typeof loc_alias === "undefined" || loc_alias === null) && source[x].location_alias){
-          var result_name = source[x].location_alias.match(re);
+          var result_default_loc_alias = source[x].location_alias.match(re);
 
-          if (result_name === null){
+          if (result_default_loc_alias === null){
             remove5 = true;
           }else{
             remove5 = false;
@@ -1000,7 +1000,7 @@ window.ST.poolTool = (function() {
     // How many elements are still visible
     var count_visible = 0;
     listings.each(function(index, el){
-      if($(el).css('display') == "block"){
+      if($(el).css('display') === "block"){
         count_visible += 1;
       }
     });
