@@ -1007,8 +1007,10 @@ window.ST.poolTool = (function() {
 
     if (count_visible === 0){
       $('#addNewBooking').prop('disabled', true);
+      $('#addNewBooking').css('opacity', 0.3);
     }else{
       $('#addNewBooking').prop('disabled', false);
+      $('#addNewBooking').css('opacity', 1.0);
     }
 
     // check first visible element
