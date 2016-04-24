@@ -14,7 +14,7 @@ class PoolToolController < ApplicationController
     # BUTTONS TEXTs
     addjustButtonText
 
-    # OPEN LISTINGS OF THE COMPANY
+    # SEARCH INTERNAL OPEN LISTINGS OF THE COMPANY
       temp_avail = Listing::TRUSTED_AVAILABILITY_OPTIONS
       temp_avail = Listing::VALID_AVAILABILITY_OPTIONS if @belongs_to_company
 
@@ -40,10 +40,9 @@ class PoolToolController < ApplicationController
 
       open_listings_array = []
 
+      # OPEN LISTINGS OF COMPANIES WHO TRUST THE POOL TOOL OWNER
       # If company admin wants it, then also show devices of companies who trust the owner in the pool tool
       if @belongs_to_company && Maybe(@pooltool_owner.company_option).pool_tool_show_all_available_devices.or_else(false)
-
-        # OPEN LISTINGS OF COMPANIES WHO TRUST THE POOL TOOL OWNER
         follower_ids = []
         @pooltool_owner.followers.each{|person| follower_ids<<person.id}
 
@@ -69,6 +68,7 @@ class PoolToolController < ApplicationController
         end
       end
 
+      # ADD THE INTERNAL OPEN LISTINGS OF COMPANY
       listings.each do |listing|
         small_image = listing.listing_images.first.small_3x2 if listing.listing_images.first
         open_listings_array << {  name: listing.title,
@@ -168,7 +168,7 @@ class PoolToolController < ApplicationController
     # Variables which should be send to JavaScript
     poolTool_gon_vars(devices, open_listings_array)
 
-    render locals: { listings: listings, transactions: transactions }
+    render locals: { listings: listings, open_listings_array: open_listings_array, transactions: transactions }
   end
 
   # get the current theme of the user from the db
