@@ -698,7 +698,7 @@ window.ST.poolTool = (function() {
 
         // If not already there store the listing without transactions in empty_arr
         if (!already_there){
-          _tmp = {
+          var _tmp = {
                   name: gon.open_listings[j].name,
                   desc: gon.open_listings[j].desc,
                   location_alias: gon.open_listings[j].location_alias,
@@ -713,7 +713,7 @@ window.ST.poolTool = (function() {
                     to: "/Date(" + next_month_ms + ")/",
                     customClass: "ganttHidden"
                   }]
-                }
+                };
 
           if (gon.open_listings[j].desc === "extern"){
             extern_empty_arr.push(_tmp);    // Store extern devices with no transactions
@@ -942,7 +942,7 @@ window.ST.poolTool = (function() {
         // current device location
         var loc_alias = null;
         if (source[x].listing_id && gon.listingDateLocation[(new Date()).toDateString()]){
-            var loc_alias = gon.listingDateLocation[(new Date()).toDateString()][(source[x].listing_id).toString()];
+            loc_alias = gon.listingDateLocation[(new Date()).toDateString()][(source[x].listing_id).toString()];
         }
         if (loc_alias){
           var result_loc_alias = loc_alias.match(re);
