@@ -340,6 +340,21 @@ class Listing < ActiveRecord::Base
   end
 
 
+  # wah
+  def possible_subscripers_with_name
+    new_arr = []
+    if author && author.employees
+      author.employees.each do |employee|
+        new_arr << [employee.full_name + " (" + employee.emails.first.address + ")", employee.emails.first.address]
+      end
+      new_arr
+    end
+  end
+
+  def current_subscripers
+    ["hank@hank.com", "hhh@hhh.at"]
+  end
+
 
   private
 

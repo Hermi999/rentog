@@ -1,3 +1,4 @@
-= form.hidden_field(:category_id, :value => @listing.category_id)
-= form.hidden_field(:listing_shape_id, :value => @listing.listing_shape_id)
-= form.button t(".save_listing"), :class => "send_button"
+- if !params[:edit_custom_fields]
+  = form.hidden_field(:category_id, :value => @listing.category_id)
+  = form.hidden_field(:listing_shape_id, :value => @listing.listing_shape_id)
+  = form.button t(".save_listing"), :class => "send_button"

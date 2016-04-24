@@ -1,0 +1,16 @@
+.device_events{style: "margin-bottom:40px;"}
+  = form.label :device_events, t('.headline')
+
+  - if @listing.possible_subscripers_with_name
+    %select{class: "js-example-basic-multiple", multiple: "multiple"}
+      = options_for_select(@listing.possible_subscripers_with_name, @listing.current_subscripers)
+  - else
+    = t('.no_employees_yet')
+
+
+- content_for :extra_javascript do
+  :javascript
+    $(".js-example-basic-multiple").select2({
+      placeholder: "Select user emails",
+      maximumSelectionLength: 5
+    });

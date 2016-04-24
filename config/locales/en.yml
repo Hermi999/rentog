@@ -1594,7 +1594,10 @@ en:
       location:
         location: Location
       location_alias:
-        location_alias: Location alias (is displayed as location in Pool Tool)
+        location_alias: "Location alias (is displayed as location in Pool Tool)"
+      device_events:
+        headline: "Subscripe employees who should get notifications"
+        no_employees_yet: "You have no employees yet"
       price:
         price: Price
         per: per
@@ -2035,6 +2038,7 @@ en:
       show_all_trusted_people: "Show all trusted companies"
       no_trusted_people: "No trusted companies (Shared Pool)"
       they_no_trusted_people: "No trusted companies (Shared Pool)"
+      settings: "Settings"
     companies_with_trust:
       they_trust_you_plural: "%{count} other companies trust you (Shared Pool)"
       they_trust_you_singular: "%{count} other company trusts you (Shared Pool)"

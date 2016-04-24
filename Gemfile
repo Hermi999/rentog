@@ -29,6 +29,7 @@ gem "passenger", "~> 5.0.18"
 gem "mysql2", "~> 0.3.14"
 gem 'haml', "~> 4.0.5"
 gem 'sass', "  ~> 3.2.9"
+gem "select2-rails", "~> 4.0.1"
 
 gem 'rest-client', '~> 1.8.0'
 

@@ -56,7 +56,7 @@ class FollowersController < ApplicationController
     @relationship.payment_necessary = (params["follower_relationship"]["payment_necessary"] == "true")
     @relationship.save
 
-    redirect_to person_path(@relationship.person)
+    redirect_to person_path(@current_user)
   end
 
 

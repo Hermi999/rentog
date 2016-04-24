@@ -8,6 +8,6 @@ class CompanyOptionsController < ApplicationController
 
     @current_user.company_option.update_attributes(options_hash)
 
-    redirect_to :back
+    redirect_to person_poolTool_path(@current_user.get_company)
   end
 end

@@ -85,5 +85,6 @@
 //= require invitation
 //= require tracking
 //= require trusted_relationship
+//= require select2
 //
 //= require_self

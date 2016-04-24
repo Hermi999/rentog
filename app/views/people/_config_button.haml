@@ -1,2 +1,2 @@
 - if defined?(trusted_relation) && trusted_relation
-  = link_to "Einstellungen", edit_person_follower_path(@current_user, trusted_relation), :class => "config-button"
+  = link_to t("people.trusted_companies.settings"), edit_person_follower_path(@current_user, trusted_relation), :class => "config-button"

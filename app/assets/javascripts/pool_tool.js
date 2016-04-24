@@ -682,12 +682,13 @@ window.ST.poolTool = (function() {
     // add them to the "empty_arr" Array. For Listings which have transactions
     // we just copy the listing image url
       var empty_arr = [];
+      var extern_empty_arr = [];
       for (var j=0; j<gon.open_listings.length; j++){
         var already_there = false;
         for (var k=0; k<source.length; k++){
           // If listing is already within the source array, then there are
           // transactions. In this case only copy the image url
-          if (gon.open_listings[j].name === source[k].name){
+          if (gon.open_listings[j].listing_id === source[k].listing_id){
             already_there = true;
 
             // copy image url
@@ -697,21 +698,28 @@ window.ST.poolTool = (function() {
 
         // If not already there store the listing without transactions in empty_arr
         if (!already_there){
-          empty_arr.push({
-            name: gon.open_listings[j].name,
-            desc: gon.open_listings[j].desc,
-            location_alias: gon.open_listings[j].location_alias,
-            listing_author_organization_name: gon.open_listings[j].listing_author_organization_name,
-            created_at: gon.open_listings[j].created_at,
-            availability: gon.open_listings[j].availability,
-            listing_id: gon.open_listings[j].listing_id,
-            image: gon.open_listings[j].image,
-            values: [{
-              from: "/Date(" + today_ms + ")/",
-              to: "/Date(" + next_month_ms + ")/",
-              customClass: "ganttHidden"
-            }]
-          });
+          _tmp = {
+                  name: gon.open_listings[j].name,
+                  desc: gon.open_listings[j].desc,
+                  location_alias: gon.open_listings[j].location_alias,
+                  listing_author_organization_name: gon.open_listings[j].listing_author_organization_name,
+                  listing_author_id: gon.open_listings[j].listing_author_id,
+                  created_at: gon.open_listings[j].created_at,
+                  availability: gon.open_listings[j].availability,
+                  listing_id: gon.open_listings[j].listing_id,
+                  image: gon.open_listings[j].image,
+                  values: [{
+                    from: "/Date(" + today_ms + ")/",
+                    to: "/Date(" + next_month_ms + ")/",
+                    customClass: "ganttHidden"
+                  }]
+                }
+
+          if (gon.open_listings[j].desc === "extern"){
+            extern_empty_arr.push(_tmp);    // Store extern devices with no transactions
+          }else{
+            empty_arr.push(_tmp);           // Store intern devices with no transactions
+          }
         }
       }
 
@@ -733,11 +741,14 @@ window.ST.poolTool = (function() {
             // add all listings without transactions (in empty_arr) at the end of the temporary array
             temp_arr = temp_arr.concat(empty_arr);
 
-            // copy all references to extern listings
+            // copy all references to extern listings with transactions
             for (var ww=xx; ww<source.length; ww++){
               temp_arr[ww+empty_arr.length] = source[ww];
             }
             extern_exist = true;
+
+            // copy all external devices without transaction at the end
+            temp_arr = temp_arr.concat(extern_empty_arr);
             break;
           }
         }
@@ -745,13 +756,14 @@ window.ST.poolTool = (function() {
         // transactions to the end now
         if (!extern_exist){
           temp_arr = temp_arr.concat(empty_arr);
+          temp_arr = temp_arr.concat(extern_empty_arr);
         }
 
         source = temp_arr;
       }
       // no transactions yet, but maybe already listings
       else{
-        source = empty_arr;
+        source = empty_arr.concat(extern_empty_arr);
       }
 
 
