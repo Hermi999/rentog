@@ -1219,32 +1219,32 @@ $.format = $.validator.format;
 (function($) {
 	// only implement if not provided by jQuery core (since 1.4)
 	// TODO verify if jQuery 1.4's implementation is compatible with older jQuery special-event APIs
-	if (!jQuery.event.special.focusin && !jQuery.event.special.focusout && document.addEventListener) {
-		$.each({
-			focus: 'focusin',
-			blur: 'focusout'
-		}, function( original, fix ){
-			$.event.special[fix] = {
-				setup:function() {
-					this.addEventListener( original, handler, true );
-				},
-				teardown:function() {
-					this.removeEventListener( original, handler, true );
-				},
-				handler: function(e) {
-					var args = arguments;
-					args[0] = $.event.fix(e);
-					args[0].type = fix;
-					return $.event.handle.apply(this, args);
-				}
-			};
-			function handler(e) {
-				e = $.event.fix(e);
-				e.type = fix;
-				return $.event.handle.call(this, e);
-			}
-		});
-	}
+	// if (!jQuery.event.special.focusin && !jQuery.event.special.focusout && document.addEventListener) {
+	// 	$.each({
+	// 		focus: 'focusin',
+	// 		blur: 'focusout'
+	// 	}, function( original, fix ){
+	// 		$.event.special[fix] = {
+	// 			setup:function() {
+	// 				this.addEventListener( original, handler, true );
+	// 			},
+	// 			teardown:function() {
+	// 				this.removeEventListener( original, handler, true );
+	// 			},
+	// 			handler: function(e) {
+	// 				var args = arguments;
+	// 				args[0] = $.event.fix(e);
+	// 				args[0].type = fix;
+	// 				return $.event.handle.apply(this, args);
+	// 			}
+	// 		};
+	// 		function handler(e) {
+	// 			e = $.event.fix(e);
+	// 			e.type = fix;
+	// 			return $.event.handle.call(this, e);
+	// 		}
+	// 	});
+	// }
 	$.extend($.fn, {
 		validateDelegate: function(delegate, type, handler) {
 			return this.bind(type, function(event) {
