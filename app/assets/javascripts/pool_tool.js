@@ -308,14 +308,14 @@ window.ST.poolTool = (function() {
     if($('.show_location').prop('checked')){
       if (gon.calendar_opts.show_location_alias === false){
         gon.calendar_opts.show_location_alias = true;
-        old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+        old_width = parseInt($('.fn-gantt .leftPanel').css('width'));
         $('.fn-gantt .leftPanel').css('width', (old_width + 121) + "px");
         $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width + 121) + "px");
         $('.location').show();
       }
     }else if(gon.calendar_opts.show_location_alias === true){
       gon.calendar_opts.show_location_alias = false;
-      old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+      old_width = parseInt($('.fn-gantt .leftPanel').css('width'));
       $('.location').hide();
       $('.fn-gantt .leftPanel').css('width', (old_width - 121) + "px");
       $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width - 121) + "px");
@@ -328,14 +328,14 @@ window.ST.poolTool = (function() {
     if($('.show_author_name').prop('checked')){
       if (gon.calendar_opts.show_author_name === false){
         gon.calendar_opts.show_author_name = true;
-        old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+        old_width = parseInt($('.fn-gantt .leftPanel').css('width'));
         $('.fn-gantt .leftPanel').css('width', (old_width + 100) + "px");
         $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width + 100) + "px");
         $('.author_name').show();
       }
     }else if(gon.calendar_opts.show_author_name === true){
       gon.calendar_opts.show_author_name = false;
-      old_width = Number.parseInt($('.fn-gantt .leftPanel').css('width'));
+      old_width = parseInt($('.fn-gantt .leftPanel').css('width'));
       $('.author_name').hide();
       $('.fn-gantt .leftPanel').css('width', (old_width - 100) + "px");
       $('.fn-wide, .fn-wide:hover, .fn-wide .fn-label').css('width', (old_width - 100) + "px");

@@ -575,7 +575,7 @@ window.ST = window.ST || {};
 
       for (var i=0; i < $('.custom_field_enabler').length; i++){
         attributes.push({
-          id: Number.parseInt($('.custom_field_enabler')[i].id),
+          id: parseInt($('.custom_field_enabler')[i].id),
           value: $('.custom_field_enabler')[i].checked
         });
       }
