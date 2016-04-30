@@ -94,6 +94,7 @@
             = image_tag("logos/mobile/default.png", alt: "device image", id: "poolTool_popover_deviceImage")
           #poolTool_popover_deviceName_wrapper
             #poolTool_popover_deviceName= "DummyText_Device1"
+            %span#poolTool_popover_transactionId= "ID: 123435678"
 
             - if !@current_community.only_pool_tool
               #poolTool_popover_availability= "DummyText_Intern"

@@ -1001,6 +1001,23 @@ de:
       reduce_email_footer_text: "Zu viele E-Mails? %{settings_link} oder %{unsubscribe_link}"
       settings_link_text: "Bearbeite hier deine E-Mail-Grundeinstellungen."
       unsubscribe_link_text: "bestelle die E-Mails ab."
+    device_event_notifications:
+     mail_title: "%{title_link} Geräte-Events"
+     subject: "Geräte-Event Benachrichtigung"
+     email_text: "Neue Benachrichtigungen für Gerät %{listing_title}"
+     email_footer: "Du empfängst diese Email, weil den Geräte-Administrator (%{fullname_with_link}) dich für die Benachrichtigungen für dieses Gerät angemeldet hat."
+     event_description_listing_created: "%{fullname_with_link} hat ein neue Gerät mit dem Titel %{listing_title} <b>erstellt</b>"
+     event_description_listing_closed: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} <b>pausiert</b>"
+     event_description_listing_updated: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} <b>aktualisiert</b>"
+     event_description_booking_created: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} vom %{start_date} bis zum %{end_date} <b>gebucht</b>. Die Buchung hat die <a href='%{booking_url}'>ID %{booking_id}</a>."
+     event_description_booking_created_for_employee: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} für den Mitarbeiter %{employee} vom %{start_date} bis zum %{end_date} <b>gebucht</b>. Die Buchung hat die <a href='%{booking_url}'>ID %{booking_id}</a>."
+     event_description_booking_updated: "%{fullname_with_link} hat die Buchung für das Gerät %{listing_title} mit der <a href='%{booking_url}'>ID %{booking_id}</a> (%{start_date} - %{end_date}) <b>aktualisiert</b>."
+     event_description_booking_deleted: "%{fullname_with_link} hat die Buchung für das Gerät %{listing_title} mit der <a href='%{booking_url}'>ID %{booking_id}</a> (%{start_date} - %{end_date}) <b>gelöscht</b>."
+     event_description_booking_accepted: ""
+     event_description_booking_declined: ""
+     event_description_device_returned: ""
+     event_description_device_still_not_returned: ""
+     event_description_device_return_soon: ""
     device_return_notifications:
       mail_title: "%{title_link} Erinnerung für Geräterückgabe"
       subject: "Erinnerung für die Geräterückgabe"
@@ -1516,6 +1533,8 @@ de:
       edit_listing: "Eintrag bearbeiten"
     edit_links:
       close_listing: "Eintrag deaktivieren"
+      delete_listing: "Eintrag löschen"
+      do_you_really_want_to_delete: "Möchtest du das Gerät wirklich löschen?"
       edit_listing: "Eintrag bearbeiten"
       book_with_pooltool: "Gerät buchen über Pool Tool"
       reopen_listing: "Eintrag wieder aktivieren"
@@ -1591,9 +1610,11 @@ de:
       location:
         location: Standort
       location_alias:
-        location_alias: Standortname (wird als Standort im Pool Tool angezeigt)
+        location_alias: Standortname
+        info_text: "Der Standortname wird als (Lager-) Standort im Pool Tool angezeigt. Damit ist für jeden Mitarbeiter sofort ersichtlich wo das Gerät normalerweise aktuell befindet."
       device_events:
-        headline: "Mitarbeiter, die Benachrichtigungen für dieses Gerät bekommen"
+        headline: "Abonennten"
+        info_text: "Benutzer die Sie hier eintragen, werden über Geräte-Buchungen informiert. Damit bleiben Mitarbeiter in der Logistik, Wartung, usw. immer im Informationsfluss."
         no_employees_yet: "Du hast noch keine Mitarbeiter angelegt."
       price:
         price: Preis

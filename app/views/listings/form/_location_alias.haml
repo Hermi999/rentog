@@ -1,6 +1,7 @@
 - if @listing.get_listing_type == "intern" || @listing.get_listing_type == "trusted"
   = form.fields_for :origin_loc, include_id: false do |loc|
     = loc.label :origin, t(".location_alias"), :class => "input"
+    = render partial: "layouts/info_text", locals: { text: t(".info_text") }
     = loc.text_field :location_alias, :value => @listing.origin_loc.location_alias
 
   - content_for :extra_javascript do

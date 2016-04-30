@@ -135,6 +135,11 @@
           = icon_tag("lock", ["icon-part"])
           .text-part= t("listings.edit_links.close_listing")
 
+      .listing-view-admin-link
+        %a.icon-with-text-container{href: person_listing_path(@current_user, @listing), data: { method: "delete", confirm: t("listings.edit_links.do_you_really_want_to_delete")}}
+          = icon_tag("minus", ["icon-part"])
+          .text-part= t("listings.edit_links.delete_listing")
+
       - if @listing.get_listing_type != "sell"
         .listing-view-admin-link
           %a.icon-with-text-container{href: person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s}

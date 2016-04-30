@@ -6,6 +6,7 @@ window.ST = window.ST || {};
 
 window.ST.poolTool = (function() {
   var searchTimeout, searchTermOld = "";
+  var search_booking_id = 0;
 
   console.log("===== Pool Tool Code called =====");
 
@@ -842,10 +843,17 @@ window.ST.poolTool = (function() {
     // get url params
     var listing_id = getUrlParameter('listing_id');
     if (typeof listing_id !== "undefined"){
-      $('#poolTool_search').val("id=" + listing_id);
-      search("id=" + listing_id);
+      $('#poolTool_search').val("LID=" + listing_id);
+      search("LID=" + listing_id);
       $('#addNewBooking').click();
     }
+
+    var booking_id = getUrlParameter('booking_id');
+    if (typeof booking_id !== "undefined"){
+      $('#poolTool_search').val("BID=" + booking_id);
+      search("BID=" + booking_id);
+    }
+
 
     // if user searches
     $('#poolTool_search').keyup(function(){
@@ -867,28 +875,72 @@ window.ST.poolTool = (function() {
 
   // Search for the given term within the source of jquery GanttChart &
   // updates the ganttchart
-  function search(term){
+  function search(term, force_search){
     var source = jQuery.extend(true, [], gon.source);  // deep copy - we don't change the gon.source array
+    force_search = force_search || false;
 
-    // Show all devices again
-    if (term.length < 3){
-      term = "";
-      if (searchTermOld !== term){
+    // Search for booking id (actually tx id)
+    if (term.startsWith("BID=")){
+      searchTermOld = term;
+      var booking_id = term.substr(4);
+      search_for_id_update_gantt(booking_id, source);
+    }
+    else{
+      search_booking_id = 0;
+
+      // Show all devices again
+      if (term.length < 3){
+        term = "";
+        if (searchTermOld !== term || force_search){
+          searchTermOld = term;
+          $('#poolTool_search').css("background-color", "white");
+          $('#poolTool_search').css("color", "black");
+          updateGanttChart(source);
+          gon.search_source = source;
+          search_update_booking_dialog();
+          $('.home-fluid-thumbnail-grid-item').show();
+        }
+      }
+
+      if (searchTermOld !== term || force_search){
         searchTermOld = term;
-        $('#poolTool_search').css("background-color", "white");
-        $('#poolTool_search').css("color", "black");
-        updateGanttChart(source);
-        gon.search_source = source;
+
+        search_update_gantt(term, source);
         search_update_booking_dialog();
-        $('.home-fluid-thumbnail-grid-item').show();
+      }
+    }
+  }
+
+  // Only show the listing which contains the booking with the given booking id
+  function search_for_id_update_gantt(booking_id, source){
+    for (var x = 0; x < source.length-1; x++){
+      var booking_found = false;
+      for (var y = 0; y < source[x].values.length; y++){
+        if ((source[x].values[y].transaction_id + gon.tx_offset) === parseInt(booking_id)){
+          search_booking_id = source[x].values[y].transaction_id;
+          booking_found = true;
+        }else{
+          source[x].values.splice(y, 1);
+          y = y - 1;
+        }
+      }
+      if (!booking_found){
+        source.splice(x, 1);
+        x = x - 1;
       }
     }
 
-    if (searchTermOld !== term){
-      searchTermOld = term;
+    updateGanttChart(source);
+    gon.search_source = source;
 
-      search_update_gantt(term, source);
-      search_update_booking_dialog();
+    if (source.length < 2){
+      // red
+      $('#poolTool_search').css("background-color", "rgb(241, 188, 188)");
+      $('#poolTool_search').css("color", "rgb(130,30,30)");
+    }else{
+      // green
+      $('#poolTool_search').css("background-color", "rgb(189, 241, 202)");
+      $('#poolTool_search').css("color", "green");
     }
   }
 
@@ -925,7 +977,7 @@ window.ST.poolTool = (function() {
 
         // listing_id
         if (source[x].listing_id){
-          if ("id=" + source[x].listing_id !== term){
+          if ("LID=" + source[x].listing_id !== term){
             remove3 = true;
           }
         }
@@ -1081,9 +1133,12 @@ window.ST.poolTool = (function() {
         }else{
           $('#poolTool_popover_deviceImage').attr('src', "/assets/logos/mobile/default.png");
         }
+
+        var header = gon["availability_desc_header_" + info.listing.availability]
         $('#poolTool_popover_deviceName').html(info.listing.name);
+        $('#poolTool_popover_transactionId').html("ID: " + (info.booking.transaction_id + gon.tx_offset));
         $('#poolTool_popover_renter').html(info.booking.label);
-        $('#poolTool_popover_availability').html(info.listing.availability);
+        $('#poolTool_popover_availability').html(header);
         $('#ta_popover_description').val(info.booking.description);
 
         // Open Popover
@@ -1277,7 +1332,7 @@ window.ST.poolTool = (function() {
                     updateDatepicker(booked_d);
 
                     // Update the gantt chart (with the new source)
-                    updateGanttChart();
+                    updateGanttChart_with_search();
 
                     // Update the 'borrowed devices' by also removing the current
                     // booking from the active bookings array and calling the
@@ -1447,6 +1502,11 @@ window.ST.poolTool = (function() {
         show_location_alias();
         show_author_name();
 
+        // Show booking card if booking search active
+        if(search_booking_id > 0){
+          $('#bar_' + search_booking_id).click();
+        }
+
         // Change sidebar height
         if ($('#side-bar-row').height() < $('#poolTool_Wrapper').height()){
           $('#pooltool-side-bar').height($('#poolTool_Wrapper').height());
@@ -1456,6 +1516,13 @@ window.ST.poolTool = (function() {
 
       }
     });
+  }
+
+  // This function actually initializes and updates the jquery gantt chart, but also
+  // keeps the search term in mind.
+  function updateGanttChart_with_search(){
+    var value = $('#poolTool_search').val();
+    search(value, true);
   }
 
   function updateGanttDatepickerBorrowedDevices(transaction_id, listing_id, s_new, e_new, s, e, title, desc, showinborroweddevices){
@@ -1522,7 +1589,7 @@ window.ST.poolTool = (function() {
     updateDatepicker(booked_d);
 
     // Update gantt chart
-    updateGanttChart();
+    updateGanttChart_with_search();
 
     if (showinborroweddevices){
       // Update the 'borrowed devices' by adding the changed
@@ -1863,6 +1930,7 @@ window.ST.poolTool = (function() {
   return {
     init: init,
     updateGanttChart: updateGanttChart,
+    updateGanttChart_with_search: updateGanttChart_with_search,
     calculateLoadFactor: calculateLoadFactor,
     update_my_borrowed_devices: update_my_borrowed_devices
   };

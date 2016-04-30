@@ -22,6 +22,24 @@ namespace :sharetribe do
     end
   end
 
+
+  # this job should be called every 30 minutes. In this way the subscribers don't
+  # get too many emails (eg. if a users changes a booking a few times)
+  namespace :device_event_notifications do
+    desc "Sends an email to listing subscribers if there are any listing events"
+    task :deliver => :environment do |t, args|
+      PersonMailer.deliver_device_event_notifications
+    end
+
+    desc "Test the device event notifiaction emails"
+    task :test => :environment do |t, args|
+      # Test the device return notifications
+      # The admin needs to have active and open bookings for this to work
+      admin = Person.where(:organization_name => "Administrator").first
+      PersonMailer.deliver_device_event_notifications(admin.id)
+    end
+  end
+
   def random_location_around(coordinate_string, location_type)
     lat = coordinate_string.split(",")[0].to_f + rand*2*MAX_LOC_DIFF - MAX_LOC_DIFF
     lon =  coordinate_string.split(",")[1].to_f + rand*2*MAX_LOC_DIFF - MAX_LOC_DIFF

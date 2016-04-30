@@ -1127,7 +1127,7 @@ function initialize_poolTool_createTransaction_form(locale, renter_or_employee_r
         addButton.removeClass('delete-button');
 
         // Update gantt chart
-        window.ST.poolTool.updateGanttChart();
+        window.ST.poolTool.updateGanttChart_with_search();
 
         // Update the 'borrowed devices' by adding the changed
         // transaction as new booking. This change booking is

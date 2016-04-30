@@ -1,16 +1,24 @@
 .device_events{style: "margin-bottom:40px;"}
   = form.label :device_events, t('.headline')
+  = render partial: "layouts/info_text", locals: { text: t(".info_text") }
 
-  - if @listing.possible_subscripers_with_name
-    %select{class: "js-example-basic-multiple", multiple: "multiple"}
-      = options_for_select(@listing.possible_subscripers_with_name, @listing.current_subscripers)
+  - subscr = @listing.possible_subscribers_with_name(@current_user)
+  - if subscr != []
+    = form.select(:subscribers, options_for_select(subscr, @listing.community_current_subscribers), {}, {class: "js-example-basic-multiple", multiple: "multiple"})
+
+    / At the moment we need the js code twice: once for a new listing (with lazy loading) and once for an existing one
+    - content_for :extra_javascript do
+      :javascript
+        jQuery(".js-example-basic-multiple").select2({
+          placeholder: "Enter emails",
+          maximumSelectionLength: 5
+        });
+
+    :javascript
+      jQuery(".js-example-basic-multiple").select2({
+        placeholder: "Enter emails",
+        maximumSelectionLength: 5
+      });
+
   - else
     = t('.no_employees_yet')
-
-
-- content_for :extra_javascript do
-  :javascript
-    $(".js-example-basic-multiple").select2({
-      placeholder: "Select user emails",
-      maximumSelectionLength: 5
-    });

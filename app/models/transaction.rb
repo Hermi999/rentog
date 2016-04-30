@@ -79,6 +79,7 @@ class Transaction < ActiveRecord::Base
   belongs_to :starter, :class_name => "Person", :foreign_key => "starter_id"
   belongs_to :conversation
   has_many :testimonials
+  has_many :booking_events, class_name: "ListingEvents"
 
   delegate :author, to: :listing
   delegate :title, to: :listing, prefix: true
@@ -90,6 +91,8 @@ class Transaction < ActiveRecord::Base
   monetize :minimum_commission_cents, with_model_currency: :minimum_commission_currency
   monetize :unit_price_cents, with_model_currency: :unit_price_currency
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :unit_price_currency
+
+  TX_OFFSET = 9876
 
   scope :for_person, -> (person){
     joins(:listing)

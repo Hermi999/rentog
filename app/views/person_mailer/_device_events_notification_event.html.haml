@@ -1,0 +1,30 @@
+%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "padding-bottom:5px;padding-top: 5px;", :width => "100%"}
+  %tbody
+    -# Event description
+    %tr
+      %td{:valign => "top"}
+        %li{:style => "text-justify: none; margin:0px; padding:0px"}
+          - employee_url = nil
+          - booking_start_on = nil
+          - booking_end_on = nil
+          - booking_id = nil
+
+          - if event.booking_id
+            - booking = Booking.find(event.booking_id)
+            - booking_start_on = booking.start_on
+            - booking_end_on = booking.end_on
+            - booking_id = booking.tx.id + Transaction::TX_OFFSET   # use the transaction id, because this one is also used in pool tool
+            - booking_url = person_poolTool_url(@listing.author, @url_params) + "&booking_id=" + booking_id.to_s
+
+          - if event.event_name == "booking_created_for_employee"
+            - employee = Person.find(event.processor_id)
+            - employee_url = link_to(employee.given_name_or_username, person_url(employee, @url_params))
+            - processor = employee.get_company
+          - else
+            - processor = Person.find(event.processor_id)
+
+          - processor_url = link_to(processor.given_name_or_username, person_url(processor, @url_params))
+
+          = t("emails.device_event_notifications.event_description_#{event.event_name}", :fullname_with_link => processor_url, :listing_title => link_to(@listing.title, listing_url(@listing.id, @url_params)), :employee => employee_url, :start_date => booking_start_on, :end_date => booking_end_on, :booking_url => booking_url, :booking_id => booking_id).html_safe
+
+

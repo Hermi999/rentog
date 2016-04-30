@@ -254,7 +254,12 @@ class TransactionsController < ApplicationController
           })
       }
     ).on_success { |(_, (_, _, _, process), _, tx)|
-      #after_create_actions!(process: process, transaction: tx[:transaction], community_id: @current_community.id)
+      # wah - add this event to the events table
+      if @current_user.id == starter_id
+        ListingEvent.create({processor_id: @current_user.id, listing_id: params[:listing_id], booking_id: Booking.last.id, event_name: "booking_created"})
+      else
+        ListingEvent.create({processor_id: starter_id, listing_id: params[:listing_id], booking_id: Booking.last.id, event_name: "booking_created_for_employee"})
+      end
 
       # Renter json-response with the new data stored in the db
       render :json => {
@@ -296,6 +301,8 @@ class TransactionsController < ApplicationController
       } and return
     end
 
+    ListingEvent.create({processor_id: @current_user.id, listing_id: @booking.tx.listing_id , booking_id: @booking.id, event_name: "booking_updated"})
+
     # Update booking with the corresponding transaction id
     @booking[:start_on] = start_day
     @booking[:end_on] = end_day
@@ -318,10 +325,16 @@ class TransactionsController < ApplicationController
   # wah: Only for Pool Tool
   def destroy
 
+    # wah - add this event to the events table
+    if @current_user
+      ListingEvent.create({processor_id: @current_user.id, listing_id: @booking.tx.listing_id, booking_id: @booking.id, event_name: "booking_deleted"})
+    end
+
     # Delete booking with the corresponding transaction id
-    @booking.delete
-    @booking.tx.conversation.delete
-    @booking.tx.delete
+    #@booking.delete
+    #@booking.tx.conversation.delete
+    #@booking.tx.delete
+    @booking.tx.update_attribute(:current_state, :canceled)
 
     # Render response
     render :json => {

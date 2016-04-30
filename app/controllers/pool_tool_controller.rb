@@ -48,6 +48,7 @@ class PoolToolController < ApplicationController
 
         ext_open_listings = Listing.where("listings.author_id IN (?) AND
                                            listings.open = '1' AND
+                                           listings.deleted = '0' AND
                                            (listings.valid_until IS NULL OR valid_until > ?) AND
                                            (listings.availability = 'all' OR listings.availability = 'trusted')",
                                            follower_ids, Date.today)
@@ -260,6 +261,7 @@ class PoolToolController < ApplicationController
                                                                               people.organization_name as renting_entity_organame,
                                                                               people.id as renter_id")
                                                                     .where("  listings.author_id = ? AND
+                                                                              listings.deleted = '0' AND
                                                                               transactions.community_id = ? AND
                                                                               #{transaction_not_invalid} AND
                                                                               listings.open = '1' AND
@@ -332,6 +334,7 @@ class PoolToolController < ApplicationController
                                                                                           people.organization_name as renting_entity_organame,
                                                                                           people.id as renter_id")
                                                                                 .where("  listings.id IN (?) AND
+                                                                                          listings.deleted = '0' AND
                                                                                           transactions.community_id = ? AND
                                                                                           #{transaction_not_invalid} AND
                                                                                           listings.open = '1' AND
@@ -595,6 +598,7 @@ class PoolToolController < ApplicationController
         legend_ownEmployee_text: t("pool_tool.show.legend_ownEmployee_text"),
         legend_trustedCompany_text: t("pool_tool.show.legend_trustedCompany_text"),
         legend_anyCompany_text: t("pool_tool.show.legend_anyCompany_text"),
+        tx_offset: Transaction::TX_OFFSET,
 
         pool_tool_preferences: {
           pooltool_user_has_to_give_back_device: @current_user.has_to_give_back_device?(@current_community),

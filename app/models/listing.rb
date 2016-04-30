@@ -77,6 +77,7 @@ class Listing < ActiveRecord::Base
   has_many :custom_field_values, :dependent => :destroy
   has_many :custom_dropdown_field_values, :class_name => "DropdownFieldValue"
   has_many :custom_checkbox_field_values, :class_name => "CheckboxFieldValue"
+  has_many :listing_events
 
   has_one :location, :dependent => :destroy
   has_one :origin_loc, -> { where('location_type = ?', 'origin_loc') }, :class_name => "Location", :dependent => :destroy
@@ -84,6 +85,7 @@ class Listing < ActiveRecord::Base
   accepts_nested_attributes_for :origin_loc, :destination_loc
 
   has_and_belongs_to_many :followers, :class_name => "Person", :join_table => "listing_followers"
+  has_and_belongs_to_many :subscribers, :class_name => "Person", :join_table => "listing_subscribers"
 
   belongs_to :category
 
@@ -341,18 +343,20 @@ class Listing < ActiveRecord::Base
 
 
   # wah
-  def possible_subscripers_with_name
-    new_arr = []
-    if author && author.employees
-      author.employees.each do |employee|
-        new_arr << [employee.full_name + " (" + employee.emails.first.address + ")", employee.emails.first.address]
+  def possible_subscribers_with_name(current_user)
+    _author = author || (current_user)
+    new_arr = [[_author.full_name + " (" + _author.emails.first.address + ")", _author.id]]
+
+    if _author
+      _author.employees.each do |employee|
+        new_arr << [employee.full_name + " (" + employee.emails.first.address + ")", employee.id]
       end
-      new_arr
     end
+    new_arr
   end
 
-  def current_subscripers
-    ["hank@hank.com", "hhh@hhh.at"]
+  def community_current_subscribers
+    subscribers.map {|subscr| subscr.id}
   end
 
 

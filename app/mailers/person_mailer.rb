@@ -17,6 +17,86 @@ class PersonMailer < ActionMailer::Base
 
   add_template_helper(EmailTemplateHelper)
 
+
+  # This method will be called by the device_event_notifications rake task about
+  # every 30 minutes as is expected to deliver all new listing events like bookings
+  # create, delete, ... to the subscribers of the listing
+  def self.deliver_device_event_notifications(user_id=nil)
+    newEvents = ListingEvent.where(:send_to_subscribers => false)
+
+    # get events per listing
+    listings_and_events = []
+
+    newEvents.each do |event|
+      _already_there = -1
+
+      listings_and_events.each_with_index do |listing_and_events, index|
+        if event.listing_id == listing_and_events[:listing].id
+          _already_there = index
+        end
+      end
+
+      if _already_there > -1
+        listings_and_events[_already_there][:events] << event
+      else
+        listings_and_events << {listing: event.listing, events: [event]}
+      end
+
+      # set send_to_subscribers of each listing_event to true
+      # event.update_attribute(:send_to_subscribers, true)
+    end
+
+    # send one email per user and listing
+    listings_and_events.each do |listing_and_events|
+      listing_and_events[:listing].subscribers.each do |subscriber_to_notify|
+        if user_id == nil
+          PersonMailer.device_event_notifications(subscriber_to_notify, listing_and_events).deliver
+        elsif user_id == subscriber_to_notify.id
+          PersonMailer.device_event_notifications(subscriber_to_notify, listing_and_events).deliver
+        end
+      end
+    end
+  end
+
+  def device_event_notifications(subscriber_to_notify, listing_and_events)
+    @recipient = Person.find(subscriber_to_notify)
+    @listing = listing_and_events[:listing]
+    @events = listing_and_events[:events]
+    @community = Community.first
+
+    with_locale(@recipient.locale, @community.locales.map(&:to_sym), @community.id) do
+
+      # Set url params for all the links in the emails
+      @url_params = {}
+      @url_params[:host] = "#{@community.full_domain}"
+      @url_params[:locale] = @recipient.locale
+      @url_params[:ref] = "device_event"
+      @url_params.freeze # to avoid accidental modifications later
+
+      # Community name link
+      @title_link_text = t("emails.community_updates.title_link_text",
+                           :community_name => @community.full_name(@recipient.locale))
+
+      subject = t("emails.device_event_notifications.subject")
+
+      # mail delivery method
+      if APP_CONFIG.mail_delivery_method == "postmark"
+        # Postmark doesn't support bulk emails, so use Sendmail for this
+        delivery_method = :sendmail
+      else
+        delivery_method = APP_CONFIG.mail_delivery_method.to_sym unless Rails.env.test?
+      end
+
+      # Send email
+      premailer_mail(:to => @recipient.confirmed_notification_emails_to,
+                     :from => community_specific_sender(@community),
+                     :subject => subject,
+                     :delivery_method => delivery_method) do |format|
+        format.html { render :layout => 'email_blank_layout' }
+      end
+    end
+  end
+
   # This task is expected to be run on daily scheduling
   # It iterates through all overdue and currently active listings to send out
   # user notifications. The overdue bookings are also stored into the overdue
@@ -214,6 +294,7 @@ class PersonMailer < ActionMailer::Base
 
     users_to_notify_of_overdue
   end
+
 
   def device_return_notifications(user_to_notify)
     @recipient = user_to_notify[:user]

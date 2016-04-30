@@ -16,7 +16,7 @@ class ListingsController < ApplicationController
   before_filter :save_current_path, :only => :show
   before_filter :ensure_authorized_to_view, :only => [ :show, :follow, :unfollow ]
 
-  before_filter :only => [ :close ] do |controller|
+  before_filter :only => [ :close, :destroy ] do |controller|
     controller.ensure_current_user_is_listing_author t("layouts.notifications.only_listing_author_can_close_a_listing")
   end
 
@@ -370,6 +370,17 @@ class ListingsController < ApplicationController
   def create
     params[:listing].delete("origin_loc_attributes") if params[:listing][:origin_loc_attributes][:address].blank?
 
+    # wah: store subscribers and remove them from the params array
+    subscribers = []
+    if params[:listing][:subscribers]
+      params[:listing][:subscribers].each do |subscr|
+        subscribers << Person.find(subscr) if subscr != ""
+      end
+
+      params[:listing].delete("subscribers")
+    end
+
+
     shape = get_shape(Maybe(params)[:listing][:listing_shape_id].to_i.or_else(nil))
 
     listing_params = ListingFormViewUtils.filter(params[:listing], shape)
@@ -381,6 +392,7 @@ class ListingsController < ApplicationController
       flash[:error] = t("listings.error.something_went_wrong", error_code: validation_result.data.join(', '))
       return redirect_to new_listing_path
     end
+
 
     listing_params = normalize_price_params(listing_params)
     m_unit = select_unit(listing_unit, shape)
@@ -395,11 +407,15 @@ class ListingsController < ApplicationController
 
     @listing = Listing.new(listing_params)
     @listing.author = @current_user
+    @listing.subscribers = subscribers if subscribers != []
 
     ActiveRecord::Base.transaction do
       if @listing.save
         # wah - listing is saved even if attachment fails
         save_listing_attachments(params)
+
+        # wah - add this event to the events table
+        ListingEvent.create({processor_id: @current_user.id, listing_id: @listing.id, event_name: "listing_created"})
 
         upsert_field_values!(@listing, params[:custom_fields])
 
@@ -487,6 +503,17 @@ class ListingsController < ApplicationController
       end
     end
 
+    # wah: store subscribers and remove them from the params array
+    subscribers = []
+    if params[:listing][:subscribers]
+      params[:listing][:subscribers].each do |subscr|
+        subscribers << Person.find(subscr) if subscr != ""
+      end
+
+      params[:listing].delete("subscribers")
+    end
+
+
     shape = get_shape(params[:listing][:listing_shape_id])
 
     listing_params = ListingFormViewUtils.filter(params[:listing], shape)
@@ -521,7 +548,12 @@ class ListingsController < ApplicationController
     upsert_field_values!(@listing, params[:custom_fields])
 
     if update_successful
+      @listing.subscribers = subscribers
       @listing.location.update_attributes(params[:location]) if @listing.location
+
+      # wah - add this event to the events table
+      ListingEvent.create({processor_id: @current_user.id, listing_id: @listing.id, event_name: "listing_updated"})
+
       flash[:notice] = t("layouts.notifications.listing_updated_successfully")
       Delayed::Job.enqueue(ListingUpdatedJob.new(@listing.id, @current_community.id))
       redirect_to @listing
@@ -561,6 +593,10 @@ class ListingsController < ApplicationController
     community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
 
     @listing.update_attribute(:open, false)
+
+    # wah - add this event to the events table
+    ListingEvent.create({processor_id: @current_user.id, listing_id: @listing.id, event_name: "listing_closed"})
+
     respond_to do |format|
       format.html {
         redirect_to @listing
@@ -569,6 +605,11 @@ class ListingsController < ApplicationController
         render :layout => false, locals: {payment_gateway: payment_gateway, process: process, country_code: community_country_code }
       }
     end
+  end
+
+  def destroy
+    Listing.find(params[:id]).update_attribute(:deleted, true)
+    redirect_to root and return
   end
 
   def move_to_top

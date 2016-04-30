@@ -1002,6 +1002,23 @@ en:
       reduce_email_footer_text: "Too much email? %{settings_link} or %{unsubscribe_link}."
       settings_link_text: "Edit your email settings here"
       unsubscribe_link_text: unsubscribe
+    device_event_notifications:
+     mail_title: "%{title_link} Device event notification"
+     subject: "Device event notification"
+     email_text: "New notifications for the device %{listing_title}:"
+     email_footer: "You are receiving this email, because your company administrator (%{fullname_with_link}) has added you to the subscribers of this listing."
+     event_description_listing_created: "%{fullname_with_link} has <b>created</b> a new device with title %{listing_title}"
+     event_description_listing_closed: "%{fullname_with_link} has <b>closed</b> the device %{listing_title}"
+     event_description_listing_updated: "%{fullname_with_link} has <b>updated</b> the device %{listing_title}"
+     event_description_booking_created: "%{fullname_with_link} has <b>booked</b> the device %{listing_title} from %{start_date} to %{end_date}. The booking has the <a href='%{booking_url}'>ID %{booking_id}</a>."
+     event_description_booking_created_for_employee: "%{fullname_with_link} has <b>booked</b> the device %{listing_title} for the companies employee %{employee} from %{start_date} to %{end_date}. The booking has the <a href='%{booking_url}'>ID %{booking_id}</a>."
+     event_description_booking_updated: "%{fullname_with_link} has <b>updated</b> the booking from %{start_date} to %{end_date} for device %{listing_title}. The booking has the <a href='%{booking_url}'>ID %{booking_id}</a>."
+     event_description_booking_deleted: "%{fullname_with_link} has <b>deleted</b> the booking from %{start_date} to %{end_date} for device %{listing_title}. The booking has the <a href='%{booking_url}'>ID %{booking_id}</a>."
+     event_description_booking_accepted: ""
+     event_description_booking_declined: ""
+     event_description_device_returned: ""
+     event_description_device_still_not_returned: ""
+     event_description_device_return_soon: ""
     device_return_notifications:
       mail_title: "%{title_link} Device return reminder"
       subject: "Device return reminder"
@@ -1012,9 +1029,9 @@ en:
       return_device: "Return device"
       create_new_booking: "Create new booking"
     pre_device_return_notification:
-      mail_title: "%{title_link} Pre device return reminder"
+      mail_title: "%{title_link} pre device return reminder"
       subject: "Pre device return reminder"
-      email_text: "You have to return the following devicecs on %{return_day}, %{return_date}:"
+      email_text: "You have to return the following devices on %{return_day}, %{return_date}:"
       description: "Description"
       no_description_available: "No description available"
       due_on: "Due on:"
@@ -1519,6 +1536,8 @@ en:
       edit_listing: "Edit listing"
     edit_links:
       close_listing: "Close listing"
+      delete_listing: "Delete listing"
+      do_you_really_want_to_delete: "Do you really want to delete this listing?"
       edit_listing: "Edit listing"
       book_with_pooltool: "Book device with Pool Tool"
       reopen_listing: "Reopen listing"
@@ -1594,9 +1613,11 @@ en:
       location:
         location: Location
       location_alias:
-        location_alias: "Location alias (is displayed as location in Pool Tool)"
+        location_alias: "Location alias"
+        info_text: "The location alias is displayed as location in Pool Tool so that every employee knows where the default storage location is."
       device_events:
-        headline: "Subscripe employees who should get notifications"
+        headline: "Subscribe employees who should get notifications"
+        info_text: "Users you enter here will be informed about all bookings and device returns. In this way the employees in the logistics, maintainance and other divisions always stay up-to-date."
         no_employees_yet: "You have no employees yet"
       price:
         price: Price

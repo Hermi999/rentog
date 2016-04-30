@@ -374,24 +374,9 @@
                         if (entry.desc) {
 
                             // desc = availability
-                            var header = "",text = "";
-                            switch(entry.desc){
-                                case 'intern':
-                                    text = gon.availability_desc_text_intern;
-                                    header = gon.availability_desc_header_intern;
-                                    break;
-                                case 'trusted':
-                                    text = gon.availability_desc_text_trusted
-                                    header = gon.availability_desc_header_trusted;
-                                    break;
-                                case 'all':
-                                    text = gon.availability_desc_text_all;
-                                    header = gon.availability_desc_header_all;
-                                    break;
-                                case 'extern':
-                                    text = gon.availability_desc_text_extern;
-                                    header = gon.availability_desc_header_extern;
-                            }
+                            var text = gon["availability_desc_text_" + entry.desc]
+                            var header = gon["availability_desc_header_" + entry.desc]
+
 
                             entries.push('<div class="row_g desc ' + extern_listing_class + ' row' + i + ' " id="RowdId_' + i + '" data-id="' + entry.id + '">');
                             entries.push('<span class="fn-label' + (entry.cssClass ? ' ' + entry.cssClass : '') + '">' + header + '</span>');
@@ -1204,10 +1189,10 @@
             // **Progress Bar**
             // Return an element representing a progress of position within
             // the entire chart
-            createProgressBar: function (days, cls, desc, label, dataObj) {
+            createProgressBar: function (days, cls, desc, label, transaction_id, dataObj) {
                 var cellWidth = tools.getCellSize();
                 var barMarg = tools.getProgressBarMargin() || 0;
-                var bar = $('<div class="bar" />')
+                var bar = $('<div class="bar" id="bar_' + transaction_id + '"/>')
                                 .append($('<div class="fn-label" />')
                                     .html(label)
                                     .append($('<div class="bar_hover" />')
@@ -1321,6 +1306,7 @@
                                                 day.customClass ? day.customClass : "",
                                                 day.desc ? day.desc : "",
                                                 day.label ? day.label : "",
+                                                day.transaction_id ? day.transaction_id : 0,
                                                 day.dataObj ? day.dataObj : dataObj
                                             );
 
@@ -1364,6 +1350,7 @@
                                              day.customClass ? day.customClass : "",
                                              day.desc ? day.desc : "",
                                              day.label ? day.label : "",
+                                             day.transaction_id ? day.transaction_id : 0,
                                             day.dataObj ? day.dataObj : dataObj
                                         );
 
@@ -1404,6 +1391,7 @@
                                         day.customClass ? day.customClass : "",
                                         day.desc ? day.desc : "",
                                         day.label ? day.label : "",
+                                        day.transaction_id ? day.transaction_id : 0,
                                         day.dataObj ? day.dataObj : dataObj
                                     );
 
@@ -1430,6 +1418,7 @@
                                                 day.customClass ? day.customClass : "",
                                                 day.desc ? day.desc : "",
                                                 day.label ? day.label : "",
+                                                day.transaction_id ? day.transaction_id : 0,
                                                 day.dataObj ? day.dataObj : dataObj
                                         );
 

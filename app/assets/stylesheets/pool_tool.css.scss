@@ -422,6 +422,19 @@
 #poolTool_popover_deviceName{
   @include big-type;
 }
+#poolTool_popover_transactionId{
+  position: absolute;
+  top: 0;
+  right: 80px;
+  background-color: #BF6767;
+  color: white;
+  padding: 1px 10px;
+  border-radius: 0 0 10px 10px;
+  border-bottom: 2px solid #7D1111;
+  border-right: 2px solid #7D1111;
+  border-left: 2px solid #7D1111;
+  font-size: 0.8em;
+}
 #poolTool_popover_availability{
   font-style: italic;
 }

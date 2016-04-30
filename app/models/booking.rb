@@ -21,6 +21,7 @@
 class Booking < ActiveRecord::Base
 
   belongs_to :tx, class_name: "Transaction", foreign_key: "transaction_id"
+  has_many :booking_events, class_name: "ListingEvents"
 
   attr_accessible :transaction_id, :end_on, :start_on, :reason, :description, :device_returned
 

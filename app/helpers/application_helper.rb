@@ -234,7 +234,7 @@ module ApplicationHelper
       "rent" => "icon-money",
       "rent_out" => "icon-money",
       "job" => "icon-briefcase",
-
+      "minus" => "icon-minus-sign",
       "testimonial" => "icon-star",
       "star" => "icon-star",
       "like" => "icon-thumbs-up",

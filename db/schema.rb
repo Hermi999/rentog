@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160422235655) do
+ActiveRecord::Schema.define(version: 20160429165442) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -586,6 +586,17 @@ ActiveRecord::Schema.define(version: 20160422235655) do
     t.integer  "is_read",    limit: 4,     default: 0
   end
 
+  create_table "listing_events", force: :cascade do |t|
+    t.string   "processor_id",        limit: 255,                 null: false
+    t.integer  "booking_id",          limit: 4
+    t.integer  "listing_id",          limit: 4
+    t.string   "event_name",          limit: 255
+    t.boolean  "send_to_subscribers",             default: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.integer  "transaction_id",      limit: 4
+  end
+
   create_table "listing_followers", id: false, force: :cascade do |t|
     t.string  "person_id",  limit: 255
     t.integer "listing_id", limit: 4
@@ -629,6 +640,13 @@ ActiveRecord::Schema.define(version: 20160422235655) do
   add_index "listing_shapes", ["community_id", "deleted", "sort_priority"], name: "multicol_index", using: :btree
   add_index "listing_shapes", ["community_id"], name: "index_listing_shapes_on_community_id", using: :btree
   add_index "listing_shapes", ["name"], name: "index_listing_shapes_on_name", using: :btree
+
+  create_table "listing_subscribers", force: :cascade do |t|
+    t.integer  "listing_id", limit: 4
+    t.string   "person_id",  limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "listing_units", force: :cascade do |t|
     t.string   "unit_type",         limit: 32, null: false
