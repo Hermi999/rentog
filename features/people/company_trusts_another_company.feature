@@ -18,8 +18,7 @@ Feature: Company trusts and untrusts another company
     And I should see "Trust only admin"
     And I should see "Always confirm"
     When I press "Save"
-    Then I should see "Siemens" within ".profile-title"
-    When I go to my profile page
+    Then I should see "Bosch" within ".profile-title"
     Then I should see "Siemens" within "#profile-followed-people-list"
     And "kassi_testperson2@example.com" should have 1 email
 

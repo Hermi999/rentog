@@ -25,7 +25,7 @@ Feature: User edits an existing booking
       And I should see disabled element "#btn_delete"
       And I should see "Listing2" within "#cboxLoadedContent"
       And I should see "Bosch" within "#cboxLoadedContent"
-      And I should see "intern" within "#cboxLoadedContent"
+      And I should see "Intern" within "#cboxLoadedContent"
     # done
 
   Scenario: Update existing Booking with Employee
@@ -117,7 +117,7 @@ Scenario: Employee can not update booking of anyone else
       And I should not see element "#btn_delete"
       And I should see "Listing2" within "#cboxLoadedContent"
       And I should see "Bosch" within "#cboxLoadedContent"
-      And I should see "intern" within "#cboxLoadedContent"
+      And I should see "Intern" within "#cboxLoadedContent"
     # done
 
 Scenario: Trusted company can not update booking of others than own company members
@@ -131,13 +131,13 @@ Scenario: Trusted company can not update booking of others than own company memb
      When I go to the pool tool page of "kassi_testperson2"
       And I wait for 2 seconds
 
-    # company admin booking
+    # company admin booking should be view only
      When I click on first element "div" with text "private" and within ".gantt_privateBooking"
      Then I should see element "#cboxLoadedContent"
       And I should not see element "#btn_update"
       And I should not see element "#btn_delete"
 
-    # company employee booking
+    # company employee booking should be view only
     When I click element "#cboxClose"
       And I click on second element "div" with text "private" and within ".gantt_privateBooking"
      Then I should see element "#cboxLoadedContent"

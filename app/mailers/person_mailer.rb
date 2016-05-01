@@ -23,27 +23,21 @@ class PersonMailer < ActionMailer::Base
   # create, delete, ... to the subscribers of the listing
   def self.deliver_device_event_notifications(user_id=nil)
     newEvents = ListingEvent.where(:send_to_subscribers => false)
-
-    # get events per listing
-    listings_and_events = []
+    listings_and_events = []    # get events per listing
 
     newEvents.each do |event|
-      _already_there = -1
-
+      already_there = -1
       listings_and_events.each_with_index do |listing_and_events, index|
         if event.listing_id == listing_and_events[:listing].id
-          _already_there = index
+          already_there = index
         end
       end
 
-      if _already_there > -1
-        listings_and_events[_already_there][:events] << event
+      if already_there > -1
+        listings_and_events[already_there][:events] << event
       else
         listings_and_events << {listing: event.listing, events: [event]}
       end
-
-      # set send_to_subscribers of each listing_event to true
-      # event.update_attribute(:send_to_subscribers, true)
     end
 
     # send one email per user and listing
@@ -66,26 +60,9 @@ class PersonMailer < ActionMailer::Base
 
     with_locale(@recipient.locale, @community.locales.map(&:to_sym), @community.id) do
 
-      # Set url params for all the links in the emails
-      @url_params = {}
-      @url_params[:host] = "#{@community.full_domain}"
-      @url_params[:locale] = @recipient.locale
-      @url_params[:ref] = "device_event"
-      @url_params.freeze # to avoid accidental modifications later
-
-      # Community name link
-      @title_link_text = t("emails.community_updates.title_link_text",
-                           :community_name => @community.full_name(@recipient.locale))
-
+      delivery_method = set_url_params_and_delivery_method("device_event")
+      @title_link_text = t("emails.community_updates.title_link_text", :community_name => @community.full_name(@recipient.locale))
       subject = t("emails.device_event_notifications.subject")
-
-      # mail delivery method
-      if APP_CONFIG.mail_delivery_method == "postmark"
-        # Postmark doesn't support bulk emails, so use Sendmail for this
-        delivery_method = :sendmail
-      else
-        delivery_method = APP_CONFIG.mail_delivery_method.to_sym unless Rails.env.test?
-      end
 
       # Send email
       premailer_mail(:to => @recipient.confirmed_notification_emails_to,
@@ -304,25 +281,9 @@ class PersonMailer < ActionMailer::Base
     with_locale(@recipient.locale, @community.locales.map(&:to_sym), @community.id) do
 
       # Set url params for all the links in the emails
-      @url_params = {}
-      @url_params[:host] = "#{@community.full_domain}"
-      @url_params[:locale] = @recipient.locale
-      @url_params[:ref] = "device_return"
-      @url_params.freeze # to avoid accidental modifications later
-
-      # Community name link
-      @title_link_text = t("emails.community_updates.title_link_text",
-                           :community_name => @community.full_name(@recipient.locale))
-
+      delivery_method = set_url_params_and_delivery_method("device_return")
+      @title_link_text = t("emails.community_updates.title_link_text", :community_name => @community.full_name(@recipient.locale))
       subject = t("emails.device_return_notifications.subject")
-
-      # mail delivery method
-      if APP_CONFIG.mail_delivery_method == "postmark"
-        # Postmark doesn't support bulk emails, so use Sendmail for this
-        delivery_method = :sendmail
-      else
-        delivery_method = APP_CONFIG.mail_delivery_method.to_sym unless Rails.env.test?
-      end
 
       # Send email
       premailer_mail(:to => @recipient.confirmed_notification_emails_to,
@@ -341,26 +302,9 @@ class PersonMailer < ActionMailer::Base
 
     with_locale(@recipient.locale, @community.locales.map(&:to_sym), @community.id) do
 
-      # Set url params for all the links in the emails
-      @url_params = {}
-      @url_params[:host] = "#{@community.full_domain}"
-      @url_params[:locale] = @recipient.locale
-      @url_params[:ref] = "device_return_pre_notification"
-      @url_params.freeze # to avoid accidental modifications later
-
-      # Community name link
-      @title_link_text = t("emails.community_updates.title_link_text",
-                           :community_name => @community.full_name(@recipient.locale))
-
+      delivery_method = set_url_params_and_delivery_method("device_return_pre_notification")
+      @title_link_text = t("emails.community_updates.title_link_text", :community_name => @community.full_name(@recipient.locale))
       subject = t("emails.pre_device_return_notification.subject")
-
-      # mail delivery method
-      if APP_CONFIG.mail_delivery_method == "postmark"
-        # Postmark doesn't support bulk emails, so use Sendmail for this
-        delivery_method = :sendmail
-      else
-        delivery_method = APP_CONFIG.mail_delivery_method.to_sym unless Rails.env.test?
-      end
 
       # Send email
       premailer_mail(:to => @recipient.confirmed_notification_emails_to,
@@ -778,15 +722,9 @@ class PersonMailer < ActionMailer::Base
     @recipient = person
     recipient = person
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
-
       @current_community = community
-
       @regular_email = regular_email
-      @url_params = {}
-      @url_params[:host] = "#{community.full_domain}"
-      @url_params[:locale] = recipient.locale
-      @url_params[:ref] = "welcome_email"
-      @url_params.freeze # to avoid accidental modifications later
+      set_url_params_and_delivery_method("welcome_email")
       @test_email = test_email
 
       if @recipient.has_admin_rights_in?(community) && !@test_email
@@ -840,5 +778,22 @@ class PersonMailer < ActionMailer::Base
       else
         "#{t("feedback.anonymous_user")}"
       end
+  end
+
+  def set_url_params_and_delivery_method(url_ref)
+    # Set url params for all the links in the emails
+    @url_params = {}
+    @url_params[:host] = "#{@community.full_domain}"
+    @url_params[:locale] = @recipient.locale
+    @url_params[:ref] = url_ref
+    @url_params.freeze # to avoid accidental modifications later
+
+    # mail delivery method
+    if APP_CONFIG.mail_delivery_method == "postmark"
+      # Postmark doesn't support bulk emails, so use Sendmail for this
+      delivery_method = :sendmail
+    else
+      delivery_method = APP_CONFIG.mail_delivery_method.to_sym unless Rails.env.test?
+    end
   end
 end

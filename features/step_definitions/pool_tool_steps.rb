@@ -53,11 +53,11 @@ end
 
 Given /^there exists an external booking for company "([^"]*)" from company "([^"]*)" and listing "([^"]*)" with length (\d+) days and offset (\d+) days$/ do |author_username, starter_username, listing_title, length, offset|
   listing_id = Listing.where(:title => listing_title).first.id
-  starter_id = Person.where(:username => starter_username).first.id
+  starter = Person.where(:username => starter_username).first
   author_id = Person.where(:username => author_username).first.id
   start_date = Date.today + offset.to_i
   end_date = start_date + length.to_i
-  booking_fields = {:start_on=>start_date, :end_on=>end_date}
+  booking_fields = {:start_on=>start_date, :end_on=>end_date, :reason=>starter.organization_name}
 
   TransactionService::Transaction.create(
   {
@@ -65,7 +65,7 @@ Given /^there exists an external booking for company "([^"]*)" from company "([^
       community_id: @current_community.id,
       listing_id: listing_id,
       listing_title: listing_title,
-      starter_id: starter_id,
+      starter_id: starter.id,
       listing_author_id: author_id,
       listing_quantity: (length.to_i + 1),
       content: nil,

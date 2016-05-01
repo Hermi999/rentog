@@ -533,7 +533,8 @@ describe TransactionsController, type: :controller do
           tr_count = Transaction.all.count
           post :destroy, { person_id: @company.username, id: @transaction_id }
           expect(response.status).to eq(200)
-          expect(Transaction.all.count).to eq(tr_count - 1)
+          expect(Transaction.all.count).to eq(tr_count)
+          expect(Transaction.find(@transaction_id).current_state).to eq("canceled")
           resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
           expect(resp).to include({ "status" => "success"})
         end
@@ -543,7 +544,8 @@ describe TransactionsController, type: :controller do
           tr_count = Transaction.all.count
           post :destroy, { person_id: @company.username, id: @transaction_id }
           expect(response.status).to eq(200)
-          expect(Transaction.all.count).to eq(tr_count - 1)
+          expect(Transaction.all.count).to eq(tr_count)
+          expect(Transaction.find(@transaction_id).current_state).to eq("canceled")
           resp = eval(response.body.gsub(/:/, '=>'))  # Response string to hash
           expect(resp).to include({ "status" => "success"})
         end

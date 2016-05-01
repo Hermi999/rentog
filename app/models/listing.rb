@@ -344,11 +344,11 @@ class Listing < ActiveRecord::Base
 
   # wah
   def possible_subscribers_with_name(current_user)
-    _author = author || (current_user)
-    new_arr = [[_author.full_name + " (" + _author.emails.first.address + ")", _author.id]]
+    temp_author = author || (current_user)
+    new_arr = [[temp_author.full_name + " (" + temp_author.emails.first.address + ")", temp_author.id]]
 
-    if _author
-      _author.employees.each do |employee|
+    if temp_author
+      temp_author.employees.each do |employee|
         new_arr << [employee.full_name + " (" + employee.emails.first.address + ")", employee.id]
       end
     end

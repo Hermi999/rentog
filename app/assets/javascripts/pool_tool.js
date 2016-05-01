@@ -1134,7 +1134,7 @@ window.ST.poolTool = (function() {
           $('#poolTool_popover_deviceImage').attr('src', "/assets/logos/mobile/default.png");
         }
 
-        var header = gon["availability_desc_header_" + info.listing.availability]
+        var header = gon["availability_desc_header_" + info.listing.availability];
         $('#poolTool_popover_deviceName').html(info.listing.name);
         $('#poolTool_popover_transactionId').html("ID: " + (info.booking.transaction_id + gon.tx_offset));
         $('#poolTool_popover_renter').html(info.booking.label);
