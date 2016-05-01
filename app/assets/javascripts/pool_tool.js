@@ -1395,6 +1395,8 @@ window.ST.poolTool = (function() {
             })
               .success(function(data){
                 if (data.status === "success"){
+                  $('#poolTool_search').val("");
+
                   // update gantt view & source
                   // Update datepicker
                   updateGanttDatepickerBorrowedDevices(transaction_id, listing_id, s_new, e_new, s, e, title, desc, true);

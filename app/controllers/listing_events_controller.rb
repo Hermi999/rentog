@@ -1,6 +1,6 @@
 class ListingEventsController < ApplicationController
 
-  before_filter :ensure_is_authorized_to_view, :only => [ :show]
+  before_filter :ensure_is_authorized_to_view
 
 
   def show
