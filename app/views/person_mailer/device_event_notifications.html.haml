@@ -28,6 +28,14 @@
                             %tr
                               %td
                                 = render :partial => "device_events_notification_event", :collection => @events, :as => :event
+
+                    %tr
+                      %td{:width => "5%"}
+                      %td{:valign => "top", :width => "90%"}
+                        %div{:style => "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px;line-height:20px; padding: 10px 0;text-align:left;"}
+                          %p
+                            = t("emails.device_event_notifications.all_device_notifications", :device_history_link => person_listing_events_url(@recipient.get_company, @url_params) + "&listing_id=" + @listing.id.to_s).html_safe
+
                     %tr
                       %td{:width => "5%"}
                       %td{:valign => "top", :width => "90%"}

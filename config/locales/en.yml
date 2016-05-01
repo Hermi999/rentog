@@ -1005,7 +1005,8 @@ en:
     device_event_notifications:
      mail_title: "%{title_link} Device event notification"
      subject: "Device event notification"
-     email_text: "New notifications for the device %{listing_title}:"
+     email_text: "There are new events for the device %{listing_title}:"
+     all_device_notifications: "You can view all notifications of this and the other devices <a href='%{device_history_link}'>here</a>."
      email_footer: "You are receiving this email, because your company administrator (%{fullname_with_link}) has added you to the subscribers of this listing."
      event_description_listing_created: "%{fullname_with_link} has <b>created</b> a new device with title %{listing_title}"
      event_description_listing_closed: "%{fullname_with_link} has <b>closed</b> the device %{listing_title}"
