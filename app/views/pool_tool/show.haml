@@ -67,6 +67,10 @@
         - else
           %p{class: "showLegend pooltool-button", id: "showLegendId"}= t("pool_tool.show.hide_legend")
 
+        / button: Show device events
+        = link_to t("pool_tool.show.show_device_history"), person_listing_events_path(@current_user.get_company), :class => "pooltool-button", :id => "show_device_history"
+
+
       / Button: Options
       - if @current_user.is_organization? && @belongs_to_company
         = link_to t("pool_tool.show.options"), pooltool_person_settings_path(@current_user), class: "pooltool-button"

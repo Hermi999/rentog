@@ -31,4 +31,5 @@ class ListingEvent < ActiveRecord::Base
 
     ListingEvent.where('listing_id IN (?)', company_listing_ids).order(:created_at => :desc).limit(limit).offset(offset)
   end
+
 end

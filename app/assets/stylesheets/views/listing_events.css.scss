@@ -282,7 +282,7 @@
   background: white;
   border-radius: 0.25em;
   padding: 1em;
-  box-shadow: 0 3px 0 #d7e4ed;
+  box-shadow: 0 0 10px #BBBBBB;
 }
 .cd-timeline-content:after {
   content: "";
@@ -549,6 +549,7 @@
 
 .select2-results__option{
   height: 41px;
+  overflow: hidden;
 }
 
 #cd-timeline-no-events{

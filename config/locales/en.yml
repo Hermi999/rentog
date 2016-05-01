@@ -2510,6 +2510,7 @@ en:
       filter_devices: "Filter devices"
       other_pools: "Pools of other companies"
       own_pool: "Go back to my pool"
+      show_device_history: "Device event history"
       modify_booking:
         renter_reason: "Renter/Reason"
         availability: "Availability"
@@ -2546,6 +2547,7 @@ en:
     market_details: "On the <b>Rentog Marketplace</b> you can sell, rent and buy Test- and Measurement devices. When you log in on Rentog, you will be redirected directly to the marketplace home page."
     pooltool_details: "With the <b>Rentog Pool Tool</b> you can manage your companies Test- and Measurement devices internally or even through company borders. When you log in on Rentog, you will be redirected to your companies Pool Tool page, where you see all the companies devices within an interactive calendar."
   listing_events:
+    you_have_to_be_company_member: "You have to be a company member to view the device events."
     headline: "Device event history"
     booking_event: "Booking event"
     listing_event: "Device event"

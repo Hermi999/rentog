@@ -2504,6 +2504,7 @@ de:
       filter_devices: "Geräte filtern"
       other_pools: "Pools anderer Firmen"
       own_pool: "Zurück zu meinem Pool"
+      show_device_history: "Geräteevent-Historie"
       modify_booking:
         renter_reason: "Mieter/Grund"
         availability: "Verfügbarkeit"
@@ -2540,6 +2541,7 @@ de:
     market_details: "Am <b>Rentog Marktplatz</b> können Sie Test- und Messgeräte kaufen, verkaufen, mieten und vermieten. Jedes Mal wenn Sie sich einloggen werden sie direkt auf die Marktplatz-Seite weitergeleitet."
     pooltool_details: "Mit dem <b>Rentog Pool Tool</b> können Sie Ihre Test- und Messgeräte innerhalb Ihre Unternehmens verwalten bzw. Ihren Gerätepool mit anderen Abteilungen oder auch Firmen zusammenlegen. Jedes Mal wenn Sie sich einloggen, werden sie automatisch auf den Pool Tool Geräte-Kalender weitergeleitet."
   listing_events:
+    you_have_to_be_company_member: "Du musst ein Mitarbeiter des Unternehmens sein um die Geräte-Events des anderen Unternehmens sehen zu können."
     headline: "Geräte-Events"
     booking_event: "Buchungsspezifisch"
     listing_event: "Gerätespezifisch"

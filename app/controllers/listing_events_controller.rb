@@ -1,10 +1,12 @@
 class ListingEventsController < ApplicationController
 
+  before_filter :ensure_is_authorized_to_view, :only => [ :show]
+
+
   def show
     @company_listing_ids_with_titles = [""]
     @listing_images = {}
 
-    @author = Person.where(:username => params['person_id']).first
     search = {
         author_id: @author.id,
         include_closed: true,
@@ -33,10 +35,24 @@ class ListingEventsController < ApplicationController
 
 
   def getMoreListingEvents
-    @author = Person.where(:username => params['person_id']).first
-
     respond_to do |format|
       format.js { render :partial => "timeline_block", :locals => { :offset => params[:offset], :listing_id => params[:listing_id] } and return }
     end
   end
+
+
+  private
+
+    def ensure_is_authorized_to_view
+      @author = Person.where(:username => params['person_id']).first
+
+      # ALLOWED
+        return if @current_user.get_company == @author
+
+      # NOT ALLOWED
+        # with error message
+        flash[:error] = t("listing_events.you_have_to_be_company_member")
+        redirect_to root
+        return false
+    end
 end
