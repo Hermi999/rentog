@@ -13,6 +13,20 @@ window.ST.listingEvents = (function() {
     var timelineBlocks = $('.cd-timeline-block'),
         offset = 0.8;
 
+    // helper functions
+    function formatState (state) {
+      if (!state.id || !window.listing_images[state.element.value]) { return state.text; }
+      var $state = $(
+        '<span class="timeline-listing-img-wrapper"><img src=' + window.listing_images[state.element.value] + ' class="timeline-listing-img" /><span class="timeline-listing-text">' + state.text + '</span></span>'
+      );
+      return $state;
+    };
+
+    function suc_func(){
+      $('.cd-container').empty();
+    }
+
+
     //hide timeline blocks which are outside the viewport
     hideBlocks(timelineBlocks, offset);
 
@@ -52,7 +66,7 @@ window.ST.listingEvents = (function() {
     // if listing id was given as url parameter
     var _listing_id = getUrlParameter('listing_id');
     if (typeof _listing_id !== "undefined"){
-      listing_id = _listing_id
+      listing_id = _listing_id;
       $("#listings_listing_id option[value='"+ listing_id +"']").attr('selected',true);
     }
 
@@ -74,33 +88,26 @@ window.ST.listingEvents = (function() {
         getElementsWithOffset(0, username, suc_func);
       }
     });
-
-
-    // helper functions
-    function formatState (state) {
-      if (!state.id || !window.listing_images[state.element.value]) { return state.text; }
-      var $state = $(
-        '<span class="timeline-listing-img-wrapper"><img src=' + window.listing_images[state.element.value] + ' class="timeline-listing-img" /><span class="timeline-listing-text">' + state.text + '</span></span>'
-      );
-      return $state;
-    };
-
-    function suc_func(){
-      $('.cd-container').empty();
-    }
   }
 
 
   function hideBlocks(blocks, offset) {
     blocks.each(function(){
-      ( $(this).offset().top > $(window).scrollTop()+$(window).height()*offset ) && $(this).find('.cd-timeline-img, .cd-timeline-content').addClass('is-hidden');
+      if ($(this).offset().top > $(window).scrollTop()+$(window).height()*offset)
+      {
+        $(this).find('.cd-timeline-img, .cd-timeline-content').addClass('is-hidden');
+      }
     });
   }
 
 
   function showBlocks(blocks, offset) {
     blocks.each(function(){
-      ( $(this).offset().top <= $(window).scrollTop()+$(window).height()*offset && $(this).find('.cd-timeline-img').hasClass('is-hidden') ) && $(this).find('.cd-timeline-img, .cd-timeline-content').removeClass('is-hidden').addClass('bounce-in');
+      if ($(this).offset().top <= $(window).scrollTop()+$(window).height()*offset){
+        if ($(this).find('.cd-timeline-img').hasClass('is-hidden')){
+          $(this).find('.cd-timeline-img, .cd-timeline-content').removeClass('is-hidden').addClass('bounce-in');
+        }
+      }
     });
   }
 
