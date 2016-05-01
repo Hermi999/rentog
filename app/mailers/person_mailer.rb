@@ -722,7 +722,7 @@ class PersonMailer < ActionMailer::Base
     @recipient = person
     recipient = person
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
-      @current_community = community
+      @community = @current_community = community
       @regular_email = regular_email
       set_url_params_and_delivery_method("welcome_email")
       @test_email = test_email

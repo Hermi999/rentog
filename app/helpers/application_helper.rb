@@ -166,7 +166,7 @@ module ApplicationHelper
       "map" => "icon-map-marker",
       "thumbnails" => "icon-th",
       "new_listing" => "icon-plus-sign-alt",
-
+      "new" => "icon-plus-sign-alt",
       "search"  => "icon-search",
       "list" => "icon-reorder",
 

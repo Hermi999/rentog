@@ -11,8 +11,8 @@
 
           - if event.booking_id
             - booking = Booking.find(event.booking_id)
-            - booking_start_on = booking.start_on
-            - booking_end_on = booking.end_on
+            - booking_start_on = I18n.l(booking.start_on)
+            - booking_end_on = I18n.l(booking.end_on)
             - booking_id = booking.tx.id + Transaction::TX_OFFSET   # use the transaction id, because this one is also used in pool tool
             - booking_url = person_poolTool_url(@listing.author, @url_params) + "&booking_id=" + booking_id.to_s
 

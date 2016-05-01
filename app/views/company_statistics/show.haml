@@ -1,0 +1,11 @@
+- content_for :extra_javascript do
+  :javascript
+    ST.companyStatistics.init();
+
+- content_for :title_header do
+  %h1#companyStatistics-header= t("pool_tool.headline")
+
+
+#companyStatistics_Wrapper
+  .row
+    .col-12

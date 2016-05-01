@@ -1,0 +1,40 @@
+- offset ||= 0
+- listing_id ||= false
+
+- if listing_id
+  - events = ListingEvent.events_of_listing(listing_id, offset, 10)
+- else
+  - events = ListingEvent.events_of_all_company_listings(@author, offset, 10)
+
+- events.each_with_index do |event, index|
+  - employee_url = nil
+  - booking_start_on = nil
+  - booking_end_on = nil
+  - booking_id = nil
+
+  - if event.booking_id
+    - booking = Booking.find(event.booking_id)
+    - booking_start_on = I18n.l(booking.start_on)
+    - booking_end_on = I18n.l(booking.end_on)
+    - booking_id = booking.tx.id + Transaction::TX_OFFSET   # use the transaction id, because this one is also used in pool tool
+    - booking_url = person_poolTool_url(event.listing.author) + "?booking_id=" + booking_id.to_s
+
+  - if event.event_name == "booking_created_for_employee"
+    - employee = Person.find(event.processor_id)
+    - employee_url = link_to(employee.given_name_or_username, person_url(employee))
+    - processor = employee.get_company
+  - else
+    - processor = Person.find(event.processor_id)
+
+  - processor_url = link_to(processor.given_name_or_username, person_url(processor))
+
+  .cd-timeline-block{:data => {:listing_id => event.listing.id, :processor_id => processor.id, :employee_id => Maybe(employee).id.or_else("")}}
+    .cd-timeline-img{:class => "cd-#{event.event_name}"}
+      /%img{:src => "img/cd-icon-picture.svg", :alt =>"Picture"}
+      = icon_tag(t("listing_events.event_icon_#{event.event_name}"), ["cd-listing-events-icon"])
+    .cd-timeline-content
+      %h2= t("listing_events.event_title_#{event.event_name}")
+      %p= t("listing_events.event_description_#{event.event_name}", :fullname_with_link => processor_url, :listing_title => link_to(event.listing.title, listing_url(event.listing.id)), :employee => employee_url, :start_date => booking_start_on, :end_date => booking_end_on, :booking_url => booking_url, :booking_id => booking_id).html_safe
+
+      /%a.cd-read-more{:href => "#0"} Read more
+      %span.cd-date= I18n.l(event.created_at)

@@ -1,0 +1,25 @@
+- content_for :extra_javascript do
+  :javascript
+    ST.listingEvents.init("#{@author.username}");
+    var listing_images = #{@listing_images.to_json};
+
+
+
+- content_for :title_header do
+  %h1#listingEvents-header= t("listing_events.headline")
+
+#listingEvents_listingSelection
+  = select(:listings, :listing_id, @company_listing_ids_with_titles, {}, {class: "js-example-basic-single"})
+
+
+#listingEvents_Wrapper
+  .cd-timeline-legend
+    .cd-timeline-legend-blue= t("listing_events.listing_event")
+    .cd-timeline-legend-green= t("listing_events.device_return_event")
+    .cd-timeline-legend-yellow= t("listing_events.booking_event")
+
+  %section#cd-timeline.cd-container
+    =render :partial => "timeline_block", :locals => {:listing_id => listing_id}
+
+  %section#cd-timeline-no-events= t("listing_events.no_events")
+  %section#cd-timeline-oldest-event= t("listing_events.oldest_event")

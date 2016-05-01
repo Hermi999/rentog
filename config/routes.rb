@@ -882,6 +882,10 @@ Kassi::Application.routes.draw do
 
         resource :inbox, :only => [:show]
 
+        resource :listing_events, :only => [:show]
+        get :more_listing_events, to: 'listing_events#getMoreListingEvents'
+        resource :company_statistics, :only => [:show]
+
         resources :messages, :controller => :conversations do
           collection do
             # This is only a redirect from old route, changed 2014-09-11
