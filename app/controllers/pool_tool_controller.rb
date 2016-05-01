@@ -3,9 +3,6 @@ class PoolToolController < ApplicationController
   before_filter :get_visitor_pool_tool_owner_relation, :only => [ :show]
   before_filter :ensure_is_authorized_to_view, :only => [ :show]
 
-  VALID_TRANSACTION_STATUSES = [nil, "", "confirmed", "confirmed_free", "pending",
-                                "pending_free", "pending_ext", "preauthorized",
-                                "accepted", "paid"]
 
   def show
     # Is admin or employee of company (or rentog admin)?
@@ -241,7 +238,8 @@ class PoolToolController < ApplicationController
       temp_avail2 = "(listings.availability = 'all' OR listings.availability = 'trusted')" if !@belongs_to_company
       transaction_not_invalid = "(current_state <> 'rejected' OR current_state is null) AND
                                  (current_state <> 'errored'  OR current_state is null) AND
-                                 (current_state <> 'canceled' OR current_state is null)"
+                                 (current_state <> 'canceled' OR current_state is null) AND
+                                 (transactions.deleted = '0')"
 
       transactions = Transaction.joins(:listing, :booking, :starter).select(" transactions.id as transaction_id,
                                                                               listings.id as listing_id,
@@ -286,7 +284,8 @@ class PoolToolController < ApplicationController
       # dont retrieve transaction which are in the following state
       transaction_not_invalid = "(current_state <> 'rejected' OR current_state is null) AND
                                  (current_state <> 'errored'  OR current_state is null) AND
-                                 (current_state <> 'canceled' OR current_state is null)"
+                                 (current_state <> 'canceled' OR current_state is null) AND
+                                 (transactions.deleted = '0')"
 
 
       # 1 FIND OUT WHICH EXTERNAL LISTINGS WHERE BOOKED BY COMPANY MEMBERS

@@ -334,7 +334,9 @@ class TransactionsController < ApplicationController
     #@booking.delete
     #@booking.tx.conversation.delete
     #@booking.tx.delete
-    @booking.tx.update_attribute(:current_state, :canceled)
+    #@booking.tx.update_attribute(:current_state, :canceled)
+    #MarketplaceService::Transaction::Command.transition_to(@booking.tx.id, "canceled")
+    @booking.tx.update_attribute(:deleted, true)
 
     # Render response
     render :json => {

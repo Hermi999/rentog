@@ -335,6 +335,7 @@ class Listing < ActiveRecord::Base
                      .where("listings.id = ? AND
                              bookings.start_on <= ? AND
                              bookings.end_on >= ? AND
+                             transactions.deleted = '0' AND
                              #{transaction_not_invalid}",
                              id, Date.today, Date.today).first
 
@@ -374,6 +375,7 @@ class Listing < ActiveRecord::Base
                  .select("bookings.start_on as start_on, bookings.end_on as end_on, transactions.id as tr_id")
                  .where("listings.id = ? AND
                          transactions.community_id = ? AND
+                         transactions.deleted = '0' AND
                          #{transaction_not_invalid}",
                          listing_id, current_community)
                  .order("bookings.end_on asc")
