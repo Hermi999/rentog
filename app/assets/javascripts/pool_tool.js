@@ -880,7 +880,7 @@ window.ST.poolTool = (function() {
     force_search = force_search || false;
 
     // Search for booking id (actually tx id)
-    if (term.startsWith("BID=")){
+    if (term.indexOf("BID=") === 0){
       searchTermOld = term;
       var booking_id = term.substr(4);
       search_for_id_update_gantt(booking_id, source);

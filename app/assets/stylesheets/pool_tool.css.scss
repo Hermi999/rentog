@@ -211,7 +211,10 @@
   float:left;
   margin-right:10px;
   margin-bottom:0px;
-  padding: 0px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  height:auto;
+  line-height:1em;
 }
 
 #createNewDevice{
@@ -681,6 +684,12 @@
   width: 100%;
   padding-top: 10px;
   padding-left: 10px;
+
+  display: none;
+
+  @include media(small-desktop){
+      display: block;
+  }
 }
 #my-device-table{
   width: 95%;
@@ -703,6 +712,8 @@
 
 .return_now{
   margin: 0px;
+  padding-top: 0.5625em;
+  padding-bottom: 0.5625em;
 }
 
 #other-shared-pools{
