@@ -38,6 +38,8 @@ class PersonMailer < ActionMailer::Base
       else
         listings_and_events << {listing: event.listing, events: [event]}
       end
+
+      event.update_attribute :send_to_subscribers, true
     end
 
     # send one email per user and listing
@@ -45,7 +47,7 @@ class PersonMailer < ActionMailer::Base
       listing_and_events[:listing].subscribers.each do |subscriber_to_notify|
         if user_id == nil
           PersonMailer.device_event_notifications(subscriber_to_notify, listing_and_events).deliver
-        elsif user_id == subscriber_to_notify.id
+        elsif user_id == subscriber_to_notify.id  # for test
           PersonMailer.device_event_notifications(subscriber_to_notify, listing_and_events).deliver
         end
       end
