@@ -1,11 +1,68 @@
+- content_for :large_page_specific_javascript do
+  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
+
 - content_for :extra_javascript do
   :javascript
-    ST.companyStatistics.init();
+    ST.companyStatistics.init(#{@averageDeviceBookingPeriod}, #{@peopleWithMostBookings}, #{@peopleWithMostBookedDays}, #{@devicesWithMostBookings}, #{@devicesWithMostBookedDays}, #{@bookingCompanyUnits}, #{@deviceLivetime}, #{@userDeviceRelationship}, #{@deviceBookingDensityPerDay});
 
 - content_for :title_header do
-  %h1#companyStatistics-header= t("pool_tool.headline")
+  %h1#companyStatistics-header= t("company_statistics.headline")
 
+#noDataYet= t("company_statistics.noDataYet")
 
 #companyStatistics_Wrapper
   .row
     .col-12
+      .gchart
+        .gchart-text-wrapper
+          %p.gchart-title= t("company_statistics.averageDeviceBookingPeriod_title")
+          %p.gchart-description= t("company_statistics.averageDeviceBookingPeriod_desc")
+        #g-chart-averageDeviceBookingPeriod
+
+      .gchart
+        .gchart-text-wrapper
+          %p.gchart-title= t("company_statistics.peopleWithMostBookings_title")
+          %p.gchart-description= t("company_statistics.peopleWithMostBookings_desc")
+        #g-chart-peopleWithMostBookings
+
+      .gchart
+        .gchart-text-wrapper
+          %p.gchart-title= t("company_statistics.peopleWithMostBookedDays_title")
+          %p.gchart-description= t("company_statistics.peopleWithMostBookedDays_desc")
+        #g-chart-peopleWithMostBookedDays
+
+      .gchart
+        .gchart-text-wrapper
+          %p.gchart-title= t("company_statistics.devicesWithMostBookings_title")
+          %p.gchart-description= t("company_statistics.devicesWithMostBookings_desc")
+        #g-chart-devicesWithMostBookings
+
+      .gchart
+        .gchart-text-wrapper
+          %p.gchart-title= t("company_statistics.devicesWithMostBookedDays_title")
+          %p.gchart-description= t("company_statistics.devicesWithMostBookedDays_desc")
+        #g-chart-devicesWithMostBookedDays
+
+      .gchart
+        .gchart-text-wrapper
+          %p.gchart-title= t("company_statistics.bookingCompanyUnits_title")
+          %p.gchart-description= t("company_statistics.bookingCompanyUnits_desc")
+        #g-chart-bookingCompanyUnits
+
+      .gchart
+        .gchart-text-wrapper
+          %p.gchart-title= t("company_statistics.deviceLivetime_title")
+          %p.gchart-description= t("company_statistics.deviceLivetime_desc")
+        #g-chart-deviceLivetime
+
+      .gchart
+        .gchart-text-wrapper
+          %p.gchart-title= t("company_statistics.userDeviceRelationship_title")
+          %p.gchart-description= t("company_statistics.userDeviceRelationship_desc")
+        #g-chart-userDeviceRelationship
+
+      .gchart
+        .gchart-text-wrapper
+          %p.gchart-title= t("company_statistics.deviceBookingDensityPerDay_title")
+          %p.gchart-description= t("company_statistics.deviceBookingDensityPerDay_desc")
+        #g-chart-deviceBookingDensityPerDay

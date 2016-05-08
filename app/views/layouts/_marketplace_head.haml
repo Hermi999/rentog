@@ -67,6 +67,9 @@
 / Modernizr, in the head tag, right after stylesheets, for best performance:
 = javascript_include_tag "modernizr.min"
 
+/ Large Javascript, which is used just on specific pages
+= content_for :large_page_specific_javascript
+
 / Android pre Jellybean has an ugly bug, which prevents font-size 0 technique from
 / removing the spaces between inline-blocks. Remove this piece of code when pre Jellybean becomes unsupported
 :javascript

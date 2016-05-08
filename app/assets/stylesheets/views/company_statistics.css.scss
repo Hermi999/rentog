@@ -1,1 +1,39 @@
 @import "mixins/all";
+
+#noDataYet{
+  display: none;
+  color: #B74848;
+  font-size: 1.3em;
+  font-weigth: bold;
+  padding: 10px;
+  box-shadow: 0 0 15px #80A6BC;
+  background-color: #F8F0DA;
+}
+.gchart{
+  border: 1px solid #ccc;
+  overflow: hidden;
+  box-shadow: 0 0 5px grey;
+  margin: 50px 2%;
+}
+.gchart:hover{
+  box-shadow: 0 0 15px grey;
+}
+.gchart-text-wrapper{
+  padding: 20px 25px 0px 25px;
+}
+.gchart-title{
+  font-size: 1.3em;
+  font-weight: bold;
+  margin: 0px;
+}
+.gchart-description{
+  margin: 10px 0 0 0;
+}
+#g-chart-deviceBookingDensityPerDay{
+  width: 800px;
+  padding: 30px 20px;
+}
+#g-chart-deviceLivetime,
+#g-chart-userDeviceRelationship{
+  margin: 25px;
+}
