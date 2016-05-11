@@ -1393,6 +1393,7 @@ en:
       listing_attachment_error: "Invalid file type or size."
       listing_attachment_max_upload_limit: "You've uploaded more than 1GB. Please contact us to increase you upload limit."
       listing_attachment_userplan_error: "You have reached the maximum upload amount for this device. <a href='%{link}'>Upgrade your account</a>."
+      import_listings_file_error: "Invalid file type or size."
       contact_admin_link_text: "contact the admin"
       test_welcome_email_delivered_to: "A test email was sent to %{email}."
       something_went_wrong: "Something went wrong"
@@ -1737,6 +1738,8 @@ en:
       community_not_configured_for_payments: "%{service_name} hasn't been configured for payments, so you cannot post new listings yet. Please %{contact_admin_link} for details."
       payment_settings_link: "payment settings"
       community_not_configured_for_payments_admin: "%{service_name} hasn't been configured for payments, so you cannot post new listings yet. Go to %{payment_settings_link} to fill in the payment details."
+      import_from_file: "import existing listings from file..."
+      import_from_file_or: "or"
     quantity:
       hour: "Number of hours:"
       day: "Number of days:"
@@ -2630,3 +2633,5 @@ en:
     userDeviceRelationship_column_title: "Bookings"
     deviceBookingDensityPerDay_title: "Device booking density"
     deviceBookingDensityPerDay_desc: "This chart shows on which days there were especially many bookings. The darker the color, the more devices were booked on a certain day."
+  import_listings:
+    headline: "Import devices from file"

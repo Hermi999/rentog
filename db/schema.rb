@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429165442) do
+ActiveRecord::Schema.define(version: 20160511133954) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -524,6 +524,16 @@ ActiveRecord::Schema.define(version: 20160429165442) do
   add_index "follower_relationships", ["follower_id"], name: "index_follower_relationships_on_follower_id", using: :btree
   add_index "follower_relationships", ["person_id", "follower_id"], name: "index_follower_relationships_on_person_id_and_follower_id", unique: true, using: :btree
   add_index "follower_relationships", ["person_id"], name: "index_follower_relationships_on_person_id", using: :btree
+
+  create_table "import_listings_files", force: :cascade do |t|
+    t.string   "author_id",               limit: 255
+    t.string   "attachment_file_name",    limit: 255
+    t.string   "attachment_content_type", limit: 255
+    t.integer  "attachment_file_size",    limit: 4
+    t.datetime "attachment_updated_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
 
   create_table "invitations", force: :cascade do |t|
     t.string   "code",         limit: 255

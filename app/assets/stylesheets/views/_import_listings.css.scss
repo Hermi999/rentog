@@ -1,0 +1,50 @@
+@import "mixins/all";
+
+.import-listings-red{
+  color: red!important;
+}
+
+.description_create_file_example{
+  margin-top: 15px;
+  background-color: #F5D4B4;
+  border: 2px solid #EDAB6B;
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px #EDAB6B;
+  text-align: center;
+}
+
+
+#importListings-upload-btn{
+  margin-top: 0;
+  padding: 2px 20px;
+  background-color: black;
+  float: right;
+}
+
+.import-listings-desc-table{
+  margin-top: 20px;
+  margin-bottom: 30px;
+  font-size: 0.8em;
+
+  thead{
+    background-color: rgb(189, 215, 222);
+  }
+
+  td{
+    color: #535252;
+  }
+
+  td:first-child{
+    font-weight: bold;
+    color: black;
+  }
+}
+
+.import-listings-second-head{
+  visibility: hidden;
+
+  @include media(tablet){
+    visibility: visible;
+  }
+}

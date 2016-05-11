@@ -209,6 +209,7 @@ class Person < ActiveRecord::Base
   validates :pool_tool_color_schema, :inclusion => THEME_WHITELIST
   validate :community_email_type_is_correct
 
+  has_many :import_listings_file, :foreign_key => "author_id", :dependent => :destroy
   has_attached_file :image, :styles => {
                       :medium => "288x288#",
                       :small => "108x108#",

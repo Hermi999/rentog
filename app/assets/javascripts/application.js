@@ -75,6 +75,7 @@
 //= require listing_images
 //= require listing_events
 //= require company_statistics
+//= require import_listings
 //= require location_search
 //= require datepicker
 //= require follow
