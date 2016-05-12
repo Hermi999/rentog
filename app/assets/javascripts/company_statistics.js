@@ -5,16 +5,16 @@
 window.ST = window.ST || {};
 
 window.ST.companyStatistics = (function() {
-  function init(averageDeviceBookingPeriod_arr, peopleWithMostBookings_arr, peopleWithMostBookedDays_arr, devicesWithMostBookings_arr, devicesWithMostBookedDays_arr, bookingCompanyUnits_arr, deviceLivetime_arr, userDeviceRelationship_arr, deviceBookingDensityPerDay_arr){
-    averageDeviceBookingPeriod_arr = averageDeviceBookingPeriod_arr || [];
-    peopleWithMostBookings_arr     = peopleWithMostBookings_arr || [];
-    peopleWithMostBookedDays_arr   = peopleWithMostBookedDays_arr || [];
-    devicesWithMostBookings_arr    = devicesWithMostBookings_arr || [];
-    devicesWithMostBookedDays_arr  = devicesWithMostBookedDays_arr || [];
-    bookingCompanyUnits_arr        = bookingCompanyUnits_arr || [];
-    deviceLivetime_arr             = deviceLivetime_arr || [];
-    userDeviceRelationship_arr     = userDeviceRelationship_arr || [];
-    deviceBookingDensityPerDay_arr = deviceBookingDensityPerDay_arr || [];
+  function init(){
+    averageDeviceBookingPeriod_arr = gon.data.averageDeviceBookingPeriod || [];
+    peopleWithMostBookings_arr     = gon.data.peopleWithMostBookings || [];
+    peopleWithMostBookedDays_arr   = gon.data.peopleWithMostBookedDays || [];
+    devicesWithMostBookings_arr    = gon.data.devicesWithMostBookings || [];
+    devicesWithMostBookedDays_arr  = gon.data.devicesWithMostBookedDays || [];
+    bookingCompanyUnits_arr        = gon.data.bookingCompanyUnits || [];
+    deviceLivetime_arr             = gon.data.deviceLivetime || [];
+    userDeviceRelationship_arr     = gon.data.userDeviceRelationship || [];
+    deviceBookingDensityPerDay_arr = gon.data.deviceBookingDensityPerDay || [];
 
 
     if (averageDeviceBookingPeriod_arr.length <= 1){

@@ -319,9 +319,9 @@ class StatisticsService
         # count bookings/booking days for each year
         entry[:transactions].each do |tr|
           if z == :count_bookings
-            temp[highest_year - tr[:start_on].year + 1] += 1
+            temp[tr[:start_on].year - lowest_year + 1] += 1
           elsif z == :sum_of_booked_days
-            temp[highest_year - tr[:start_on].year + 1] += (tr[:end_on] - tr[:start_on]).to_i + 1
+            temp[tr[:start_on].year - lowest_year + 1] += (tr[:end_on] - tr[:start_on]).to_i + 1
           end
         end
 

@@ -22,10 +22,19 @@
   float: right;
 }
 
+#importListings-upload-btn:hover{
+    background-color: #444;
+    color: #F3B6B6;
+  }
+
 .import-listings-desc-table{
   margin-top: 20px;
   margin-bottom: 30px;
   font-size: 0.8em;
+
+  table{
+    box-shadow: 0 0 7px grey;
+  }
 
   thead{
     background-color: rgb(189, 215, 222);

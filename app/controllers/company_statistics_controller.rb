@@ -6,24 +6,20 @@ class CompanyStatisticsController < ApplicationController
 
   def show
     statistics = StatisticsService.new(@company_owner.id, @current_community.id)
-
-    time = Benchmark.measure {
-      @averageDeviceBookingPeriod = statistics.averageDeviceBookingPeriod
-      @peopleWithMostBookings     = statistics.peopleWithMostBookings
-      @peopleWithMostBookedDays   = statistics.peopleWithMostBookedDays
-      @devicesWithMostBookings    = statistics.devicesWithMostBookings
-      @devicesWithMostBookedDays  = statistics.devicesWithMostBookedDays
-      @bookingCompanyUnits        = statistics.bookingCompanyUnits
-      @deviceLivetime             = statistics.deviceLivetime
-      @userDeviceRelationship     = statistics.userDeviceRelationship
-      @deviceBookingDensityPerDay = statistics.deviceBookingDensityPerDay
+    data = {
+      averageDeviceBookingPeriod: statistics.averageDeviceBookingPeriod,
+      peopleWithMostBookings: statistics.peopleWithMostBookings,
+      peopleWithMostBookedDays: statistics.peopleWithMostBookedDays,
+      devicesWithMostBookings: statistics.devicesWithMostBookings,
+      devicesWithMostBookedDays: statistics.devicesWithMostBookedDays,
+      bookingCompanyUnits: statistics.bookingCompanyUnits,
+      deviceLivetime: statistics.deviceLivetime,
+      userDeviceRelationship: statistics.userDeviceRelationship,
+      deviceBookingDensityPerDay: statistics.deviceBookingDensityPerDay
     }
 
-    puts "********************************************************"
-    puts "CompanyStatisticsController elapsed real time:" + time.real.to_s
-    puts "********************************************************"
-
     gon.push({
+      data: data,
       averageDeviceBookingPeriod_hAxis_title: t("company_statistics.averageDeviceBookingPeriod_hAxis_title"),
       averageDeviceBookingPeriod_vAxis_title: t("company_statistics.averageDeviceBookingPeriod_vAxis_title"),
       peopleWithMostBookings_hAxis_title: t("company_statistics.peopleWithMostBookings_hAxis_title"),

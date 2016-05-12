@@ -3,7 +3,7 @@
 
 - content_for :extra_javascript do
   :javascript
-    ST.companyStatistics.init(#{@averageDeviceBookingPeriod}, #{@peopleWithMostBookings}, #{@peopleWithMostBookedDays}, #{@devicesWithMostBookings}, #{@devicesWithMostBookedDays}, #{@bookingCompanyUnits}, #{@deviceLivetime}, #{@userDeviceRelationship}, #{@deviceBookingDensityPerDay});
+    ST.companyStatistics.init();
 
 - content_for :title_header do
   %h1#companyStatistics-header= t("company_statistics.headline")
