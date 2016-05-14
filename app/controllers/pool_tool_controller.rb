@@ -36,6 +36,7 @@ class PoolToolController < ApplicationController
 
 
       open_listings_array = []
+      listing_ids_of_companies_who_trust_me = []
 
       # OPEN LISTINGS OF COMPANIES WHO TRUST THE POOL TOOL OWNER
       # If company admin wants it, then also show devices of companies who trust the owner in the pool tool
@@ -50,9 +51,9 @@ class PoolToolController < ApplicationController
                                            (listings.availability = 'all' OR listings.availability = 'trusted')",
                                            follower_ids, Date.today)
 
-
         # Only use certain fields in JS for internal and external devices
         ext_open_listings.each do |listing|
+          listing_ids_of_companies_who_trust_me << listing.id
           small_image = listing.listing_images.first.image.url(:small_3x2) if listing.listing_images.first
           open_listings_array << {  name: listing.title,
                                     desc: "extern",
@@ -85,7 +86,7 @@ class PoolToolController < ApplicationController
 
     # GET ALL COMPANY TRANSACTIONS WITH LISTINGS OF OTHER COMPANIES
     extern_transactions = []
-    extern_transactions = get_transactions_with_listings_from_other_companies if @belongs_to_company
+    extern_transactions = get_transactions_with_listings_from_other_companies(listing_ids_of_companies_who_trust_me) if @belongs_to_company
 
     # Combine them and turn them into array
     transactions = intern_transactions + extern_transactions
@@ -280,7 +281,7 @@ class PoolToolController < ApplicationController
     end
 
 
-    def get_transactions_with_listings_from_other_companies()
+    def get_transactions_with_listings_from_other_companies(listing_ids_of_companies_who_trust_me)
       # dont retrieve transaction which are in the following state
       transaction_not_invalid = "(current_state <> 'rejected' OR current_state is null) AND
                                  (current_state <> 'errored'  OR current_state is null) AND
@@ -310,9 +311,12 @@ class PoolToolController < ApplicationController
         company_external_transactions.each do |ext_trans|
           ext_listings_ids << Listing.find(ext_trans.listing_id).id
         end
-        ext_listings_ids = ext_listings_ids.uniq    # remove duplicates
-        @ext_listings_count = ext_listings_ids.count
 
+        # 1d Add listing ids from all companies who trust me & remove duplicates
+        ext_listings_ids += listing_ids_of_companies_who_trust_me
+        ext_listings_ids = ext_listings_ids.uniq
+
+        @ext_listings_count = ext_listings_ids.count
 
 
       # 2 GET ALL THE TRANSACTION, BOOKING & LISTING DETAILS FOR ALL LISTINGS WITH OPEN TRANSACTIONS FOR THIS COMPANY
