@@ -231,7 +231,7 @@ class PersonMailer < ActionMailer::Base
               # If the current booking ends later, then take over it's attributes
               if listing[:return_on] < booking.end_on
                 listing[:transaction_id] = booking.transaction_id
-                listing[:return_on] = booking.end_on,
+                listing[:return_on] = booking.end_on
                 listing[:return_token] = booking.device_return_token
               end
 
