@@ -10,9 +10,10 @@
 
   .row
     .col-6
-      = form_for :import_file, :url => import_listings_upload_import_file_path do |form|
-        = form.file_field :import_file, name: "import_file[file][]"
-        = form.button "Submit", id: "importListings-upload-btn"
+      .importListings-form
+        = form_for :import_file, :url => import_listings_upload_import_file_path do |form|
+          = form.file_field :import_file, name: "import_file[file][]"
+          = form.button "Submit", id: "importListings-upload-btn"
 
   %br
 

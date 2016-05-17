@@ -820,8 +820,9 @@ Kassi::Application.routes.draw do
     namespace :import_listings do
       get :new_import
       post :upload_import_file
-      get :show_import_delta
       post :create_listings_from_file
+      post :update_listings_from_file
+      post :update_and_create_listings_from_file
     end
 
     resources :listing_images do

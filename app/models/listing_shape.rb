@@ -65,4 +65,26 @@ class ListingShape < ActiveRecord::Base
       end
     end
   end
+
+  def self.get_shape_from_name(name)
+    name =
+      if name.nil? || (name.downcase.include? "privat") || (name.downcase.include? "trusted")
+        "name LIKE '%private%'"
+      elsif name.downcase.include? "vermieten" or
+         name.downcase.include? "rent"
+        "name LIKE '%rent%' OR name LIKE '%vermieten%'"
+      elsif name.downcase.include? "kaufen" or
+            name.downcase.include? "buy" or
+            name.downcase.include? "sell"
+        "name LIKE '%buy%' OR name LIKE '%sell%' OR name LIKE '%kaufen%'"
+      elsif name.downcase.include? "vermarkten" or
+            name.downcase.include? "ad"
+        "name LIKE '%vermarkten%' OR name LIKE '%ad%'"
+      else
+        return nil
+        ""
+      end
+
+    ListingShape.where("deleted = 0 AND (#{name})")
+  end
 end

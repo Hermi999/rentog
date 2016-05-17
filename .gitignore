@@ -17,6 +17,7 @@ old_databases.sql
 .bundle
 .sass-cache/
 capybara*
+public/system/importfiles
 public/system/favicons
 public/system/images
 public/system/attachments

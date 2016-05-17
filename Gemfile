@@ -106,6 +106,8 @@ gem 'demoji', "~> 0.0.5"
 gem 'faraday', '~> 0.9.1'
 gem 'faraday_middleware', '~> 0.10.0'
 
+gem 'roo', '~> 2.4.0'
+
 group :staging, :production do
   # Daemons gem installed because otherwise delayed worker won't work on beanstalk
   gem 'daemons', '~> 1.2.3'

@@ -2635,3 +2635,5 @@ en:
     deviceBookingDensityPerDay_desc: "This chart shows on which days there were especially many bookings. The darker the color, the more devices were booked on a certain day."
   import_listings:
     headline: "Import devices from file"
+  upload_import_file:
+      headline: "Import devices from file - Changes"

@@ -1,0 +1,79 @@
+- content_for :extra_javascript do
+  :javascript
+    ST.importListings.init();
+
+- content_for :title_header do
+  %h1#importListings-header= t(".headline")
+
+
+.upload_import_file_wrapper
+  - if @import_listings.invalid_attributes != []
+    %li{:class=>"could-not-import"}
+      = "Can not import the following listing attributes: "
+      = @import_listings.invalid_attributes.map(&:inspect).join(', ')
+
+  - if @import_listings.invalid_rows
+    %li{:class=>"could-not-import"}
+      = "Can not import some rows because of errors with the given attributes (see rows with red background color for details)"
+
+  - if @import_listings.error_text != nil
+    .import-failed
+      = "Import failed: #{@import_listings.error_text}"
+  - else
+    .import-legend
+      .row
+        .col-2#import-legend-new
+          New device will be created
+        .col-2#import-legend-update
+          Existing device will be updated
+        .col-2#import-legend-failed
+          Import of this line failed
+
+    .table
+      .thead
+        - @import_listings.listing_data[0].each do |_attr|
+          - if _attr[0] == :description
+            .th{:class => "wide"}= _attr[0]
+          - else
+            .th= _attr[0]
+      .tbody
+        - @import_listings.listing_data.each_with_index do |_data, index|
+          - unless index == 0
+
+            - if _data[:invalid] != nil
+              - td_invalid = "invalid-row"
+
+            .tr
+              - _data.each do |_attr|
+                - if _attr[0] == :invalid || _attr[0] == :update
+                  / Attr not displayed
+                - elsif _attr[0] == :description
+                  - if _attr[1] == nil
+                    .td{:class => "td-scroll attr_no_used #{td_invalid}"}
+                  - elsif _data[:update]
+                    .td{:class => "td-scroll listing_update #{td_invalid}"}= _attr[1]
+                  - else
+                    .td{:class => "td-scroll #{td_invalid}"}= _attr[1]
+                - elsif _attr[1] == "#mand_attr_missing"
+                  .td{:class => "mand_attr_missing #{td_invalid}"}= "Mandatory attribute missing"
+                - elsif _attr[1] == nil
+                  .td{:class => "attr_no_used #{td_invalid}"}
+                - elsif _data[:update]
+                  .td{:class => "listing_update #{td_invalid}"}= _attr[1]
+                - else
+                  .td{:class => "#{td_invalid}"}= _attr[1]
+
+                /.td{:class => "td-scroll", :id => "test"}
+                /  .oldVal Old value
+                /  %hr
+                /  .newVal New value
+
+    #large_text
+
+    .clear
+    .import-file-btn-wrapper
+      = link_to "Abort", import_listings_new_import_path, {:id => "import-file-abort-btn", :class => "button"}
+      = link_to "Only create new devices", import_listings_create_listings_from_file_path, {:method => :post, :id => "import-file-create-btn" ,:class => "button"}
+      = link_to "Only update existing devices", import_listings_update_listings_from_file_path, {:method => :post, :id => "import-file-update-btn" ,:class => "button"}
+      = link_to "Update and create devices", import_listings_update_and_create_listings_from_file_path, {:method => :post, :id => "import-file-update-create-btn" ,:class => "button"}
+

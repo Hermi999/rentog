@@ -22,6 +22,12 @@
   float: right;
 }
 
+.importListings-form{
+  border: 1px dotted rgb(180, 180, 180);
+  padding: 10px;
+  box-shadow: 0px 0px 10px;
+}
+
 #importListings-upload-btn:hover{
     background-color: #444;
     color: #F3B6B6;
@@ -55,5 +61,137 @@
 
   @include media(tablet){
     visibility: visible;
+  }
+}
+
+
+.upload_import_file_wrapper{
+
+  .could-not-import, .import-failed{
+    margin: 0 0 15px 30px;
+    color: red;
+    font-size: 1.1em;
+  }
+  .import-legend{
+    margin-top:35px;
+    text-align: center;
+  }
+  #import-legend-new{
+    padding-left: 0.75em  ;
+    background-color: white;
+    border: 1px solid rgb(173, 173, 173);
+    box-shadow: 0px 0px 10px grey;
+    font-size: 0.7em;
+    font-weight: bold;
+  }
+  #import-legend-update{
+    background-color: rgb(245, 217, 176);
+    border: 1px solid rgb(173, 173, 173);
+    box-shadow: 0px 0px 10px grey;
+    font-size: 0.7em;
+    font-weight: bold;
+  }
+  #import-legend-failed{
+    background-color: rgb(245, 171, 171);
+    border: 1px solid rgb(173, 173, 173);
+    box-shadow: 0px 0px 10px grey;
+    font-size: 0.7em;
+    font-weight: bold;
+  }
+
+  .attr_no_used{
+    opacity: 0.5;
+    background-color: #e0dede;
+  }
+  .listing_update{
+    background-color: #F5D9B0;
+  }
+  .table{
+    width: 3000px;
+    margin-top: 8px;
+  }
+  .thead{
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  .tr{
+    float: left;
+    width: 100%;
+  }
+  .td.invalid-row{
+    background-color: #F5ABAB;
+  }
+  .td.mand_attr_missing{
+    background-color: #BA4A4A;
+    color: white;
+    font-weight: bold;
+  }
+  .table .tr .td,
+  .table .thead .th{
+    border: 1px solid #CECECE;
+    padding: 4px 8px;
+    width: 150px;
+    font-size: 0.7em;
+    float:left;
+  }
+  .table .thead .th{
+    background-color: rgb(73, 74, 73);
+    color: white;
+  }
+  .table .tr .td{
+    height: 60px;
+  }
+  .table .thead .wide{
+    width: 300px;
+  }
+  .table .tr .td-scroll{
+    overflow-y: scroll;
+    width: 300px;
+  }
+  .oldVal{
+    color: red;
+  }
+  .newVal{
+    color: green;
+  }
+
+  #large_text{
+    z-index: 101;
+    width: 40%;
+    min-height: 30%;
+    border: 2px solid black;
+    box-shadow: 0 0 15px grey;
+    position:absolute;
+    top: 30%;
+    left: 30%;
+    background-color: white;
+    display: none;
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 0.9em;
+  }
+  .clear{
+    clear:both;
+  }
+  .import-file-btn-wrapper{
+    margin-top: 15px;
+  }
+  #import-file-abort-btn{
+    background-color: #D77;
+    display: inline;
+    &:hover{
+      background-color: #D44;
+    }
+  }
+  #import-file-create-btn,
+  #import-file-update-btn{
+    display: inline;
+  }
+  #import-file-update-create-btn{
+    display: inline;
+    background-color: #27B18E;
+    &:hover{
+      background-color: #219C7D;
+    }
   }
 }

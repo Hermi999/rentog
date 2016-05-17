@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160511133954) do
+ActiveRecord::Schema.define(version: 20160515133730) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -527,10 +527,10 @@ ActiveRecord::Schema.define(version: 20160511133954) do
 
   create_table "import_listings_files", force: :cascade do |t|
     t.string   "author_id",               limit: 255
-    t.string   "attachment_file_name",    limit: 255
-    t.string   "attachment_content_type", limit: 255
-    t.integer  "attachment_file_size",    limit: 4
-    t.datetime "attachment_updated_at"
+    t.string   "importfile_file_name",    limit: 255
+    t.string   "importfile_content_type", limit: 255
+    t.integer  "importfile_file_size",    limit: 4
+    t.datetime "importfile_updated_at"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
   end

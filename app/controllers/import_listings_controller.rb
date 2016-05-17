@@ -3,16 +3,30 @@ class ImportListingsController < ApplicationController
   end
 
   def upload_import_file
+    # redirect if save file is not possible
     unless save_import_file(params)
       redirect_to import_listings_new_import_path and return
     end
 
-  end
-
-  def show_import_delta
+    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user
   end
 
   def create_listings_from_file
+    # create listings based on last imported file
+    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user
+    @import_listings.createListings
+  end
+
+  def update_listings_from_file
+    # create listings based on last imported file
+    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user
+    @import_listings.updateListings
+  end
+
+  def update_and_create_listings_from_file
+    # create listings based on last imported file
+    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user
+    @import_listings.updateAndCreateListings
   end
 
 
@@ -20,23 +34,23 @@ class ImportListingsController < ApplicationController
     def save_import_file(params)
       return false if params[:import_file].nil?
 
-      # wah: Store & Remove attachment from params hash
+      # wah: Store & Remove file from params hash
       import_file = params[:import_file][:file]
 
-      # wah: Create new attachment object
-      @attachment = ImportListingsFile.new
-      @attachment.attachment = import_file[0]
-      @attachment.author_id = @current_user.id
+      # wah: Create new file object
+      @upload = ImportListingsFile.new
+      @upload.importfile = import_file[0]
+      @upload.author_id = @current_user.id
 
-      if @attachment.save
+      if @upload.save
         # wah: Add import file to person
-        @current_user.import_listings_file << @attachment
+        @current_user.import_listings_file << @upload
       else
-        if @attachment.errors && @attachment.errors.first[0] != :attachment_content_type
-          if @attachment.errors.first[0] == :max_upload_limit
+        if @upload.errors && @upload.errors.first[0] != :importfile_content_type
+          if @upload.errors.first[0] == :max_upload_limit
             flash[:error] = t("layouts.notifications.listing_attachment_max_upload_limit").html_safe
           else
-            flash[:error] = @attachment.errors.first[1]
+            flash[:error] = @upload.errors.first[1]
           end
         else
           flash[:error] = t("layouts.notifications.import_listings_file_error")
