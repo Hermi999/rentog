@@ -2634,6 +2634,14 @@ en:
     deviceBookingDensityPerDay_title: "Device booking density"
     deviceBookingDensityPerDay_desc: "This chart shows on which days there were especially many bookings. The darker the color, the more devices were booked on a certain day."
   import_listings:
-    headline: "Import devices from file"
-  upload_import_file:
+    new_import:
+      headline: "Import devices from file"
+      description_text1: "On this page you can automatically create new devices and/or update existing devices with data stored in an excel file. This is especially useful if all your devices are already stored within a <b>CRM</b> or <b>ERP</b> tool and you do not want to manually create and update the data in both tools."
+      help_header: "How it works"
+      description_text2: "To use the import please proceed as following:"
+      description_create_file_text1: "For the import you need an Excel document which contains all the devices and their attributes you want to update/create. The first row on the first sheet has to be filled with the device attribute names. The order of the attributes doesn't matter, but the attribute names have to be written correct. In the table below you can see all the valid attribute names you can use and their possible values. As soon as you've created the excel file, you can already import it and Rentog creates & updates your devices automatically. Before something is created or overwritten you can have a look at the data which is going to be imported."
+      description_create_file_example: "You can download the following file as a template: <a href = '/import_template.xlsx'>Import Template</a>"
+    upload_import_file:
       headline: "Import devices from file - Changes"
+    create_listings_from_file:
+      headline: "Import result"

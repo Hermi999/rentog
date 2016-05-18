@@ -1,0 +1,17 @@
+- content_for :title_header do
+  %h1#createListingsFromFile-header= t(".headline")
+
+- if @result != []
+  - @result.each do |res|
+    %p= "Could not create/update device with title #{res.title} because of the following reason: #{res.messages.to_s}"
+- else
+  %p= "Imported all devices successful."
+
+.link-wrapper
+  %ul
+    %li
+      =link_to "Import another file", import_listings_new_import_path
+    %li
+      =link_to "Pool Tool Calendar View", person_poolTool_path(@current_user.get_company)
+
+

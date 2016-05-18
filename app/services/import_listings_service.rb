@@ -23,28 +23,34 @@ class ImportListingsService
     end
   end
 
-  def updateAndCreateListings
-    updateListings
-    createListings
+  def updateAndCreateListings(current_user, current_community)
+    result1 = updateListings(current_user, current_community)
+    result2 = createListings(current_user, current_community)
+
+    result1 + result2
   end
 
   def updateListings
 
   end
 
-  def createListings
+  def createListings(current_user, current_community)
+    result = []
     listing_data.each_with_index do |_data, index|
-      if index != 0 && _data[:invalid] == nil
-        createListing _data
+      if index != 0 && _data[:invalid] == nil && _data[:update] == nil
+        if (res = createListing(_data, current_user, current_community)) != nil
+          result << res
+        end
       end
     end
+    result
   end
 
 
   private
 
     def getAllValidAttributes
-      _validAttr = [{name: "device_name"}, {name: "description"}, {name: "price"}]
+      _validAttr = [{name: "device_name"}, {name: "description"}, {name: "price"}, {name: "visibility"}]
       CustomFieldName.select('id, value, custom_field_id').where(locale: 'en').as_json.each do |_attr|
         _validAttr << {name: _attr["value"].split("(")[0].downcase.gsub(" ", "_"), custom_field_id: _attr["custom_field_id"].to_i}
       end
@@ -129,96 +135,106 @@ class ImportListingsService
     end
 
     # create a new listing based on the excel data
-    def createListing(listing_data)
-      listing_data.each do |attr|
+    def createListing(listing_data, current_user, current_community)
+      listing_attributes = {}
+      listing_attributes_custom_fields = {}
 
-        # wah: store subscribers and remove them from the params array
-        subscribers = []
-        if listing_data.subscribers
-          listing_data.subscribers.each do |subscr|
-            subscribers << Person.find(subscr) if subscr != ""
+      listing_data.each do |_attr|
+        case _attr[0]
+        when :device_name
+          listing_attributes[:title] = _attr[1]
+        when :visibility
+          if _attr[1] == "intern" || _attr[1] == "trusted"
+            listing_attributes[:availability] = _attr[1]
           end
-
-          listing_data.delete("subscribers")
-        end
-
-        #shape = get_shape(Maybe(params)[:listing][:listing_shape_id].to_i.or_else(nil))
-        shape =
-          if listing_data.visibility
-            ListingShape.get_shape_from_name(listing_data.visibility)
-          else
-            ListingShape.get_shape_from_name("intern")
-          end
-
-        # listing_params = ListingFormViewUtils.filter(params[:listing], shape)
-        _unit_input = { type: "day",name_tr_key: null,kind: "time", selector_tr_key: null, quantity_selector: "day" }
-        listing_unit = _unit_input.map { |u| ListingViewUtils::Unit.deserialize(u) }
-        # listing_params = ListingFormViewUtils.filter_additional_shipping(listing_params, listing_unit)
-        # validation_result = ListingFormViewUtils.validate(listing_params, shape, listing_unit)
-
-        # unless validation_result.success
-        #   flash[:error] = t("listings.error.something_went_wrong", error_code: validation_result.data.join(', '))
-        #   return redirect_to new_listing_path
-        # end
-
-        listing_params = normalize_price_params(listing_params)
-        m_unit = select_unit(listing_unit, shape)
-
-
-
-        listing_params = listing_params.merge(
-            community_id: @current_community.id,
-            listing_shape_id: shape[:id],
-            transaction_process_id: shape[:transaction_process_id],
-            shape_name_tr_key: shape[:name_tr_key],
-            action_button_tr_key: shape[:action_button_tr_key],
-        ).merge(unit_to_listing_opts(m_unit)).except(:unit)
-
-        @listing = Listing.new(listing_params)
-        @listing.author = @current_user
-        @listing.subscribers = subscribers if subscribers != []
-
-        ActiveRecord::Base.transaction do
-          if @listing.save
-            # wah - listing is saved even if attachment fails
-            save_listing_attachments(params)
-
-            # wah - add this event to the events table
-            ListingEvent.create({processor_id: @current_user.id, listing_id: @listing.id, event_name: "listing_created"})
-
-            upsert_field_values!(@listing, params[:custom_fields])
-
-            listing_image_ids =
-              if params[:listing_images]
-                params[:listing_images].collect { |h| h[:id] }.select { |id| id.present? }
-              else
-                logger.error("Listing images array is missing", nil, {params: params})
-                []
-              end
-
-            ListingImage.where(id: listing_image_ids, author_id: @current_user.id).update_all(listing_id: @listing.id)
-
-            Delayed::Job.enqueue(ListingCreatedJob.new(@listing.id, @current_community.id))
-            if @current_community.follow_in_use?
-              Delayed::Job.enqueue(NotifyFollowersJob.new(@listing.id, @current_community.id), :run_at => NotifyFollowersJob::DELAY.from_now)
+        when :description, :price
+          listing_attributes[_attr[0]] = _attr[1]
+        else
+          @valid_attributes_from_db.each do |valid_attr|
+            if _attr[0].to_s == valid_attr[:name]
+              listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] = _attr[1]
             end
-
-            flash[:notice] = t(
-              "layouts.notifications.listing_created_successfully",
-              :new_listing_link => view_context.link_to(t("layouts.notifications.create_new_listing"),new_listing_path)
-            ).html_safe
-            redirect_to @listing, status: 303 and return
-          else
-            logger.error("Errors in creating listing: #{@listing.errors.full_messages.inspect}")
-            flash[:error] = t(
-              "layouts.notifications.listing_could_not_be_saved",
-              :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), new_user_feedback_path, :class => "flash-error-link")
-            ).html_safe
-            redirect_to new_listing_path and return
           end
         end
+      end
+
+      # at the moment we just have one category ("default")
+      listing_attributes[:category_id] = Category.first.id.to_s
+
+      # wah: store subscribers and remove them from the params array
+      subscribers = []
+      if listing_data[:subscribers]
+        listing_data[:subscribers].each do |subscr|
+          subscribers << Person.find(subscr) if subscr != ""
+        end
+      end
+
+      #shape = get_shape(Maybe(params)[:listing][:listing_shape_id].to_i.or_else(nil))
+      shape_id = nil
+      if listing_data[:visibility]
+        shape_id = Maybe(ListingShape.get_shape_from_name(listing_data[:visibility])).id.or_else(nil)
+      end
+      if shape_id == nil
+        shape_id = ListingShape.get_shape_from_name("private").id
+      end
+      shape = get_shape(shape_id.to_i,current_community)
+
+      # listing_params = ListingFormViewUtils.filter(params[:listing], shape)
+      _unit_input = { type: "day", name_tr_key: nil, kind: "time", selector_tr_key: nil, quantity_selector: "day" }
+      listing_unit = _unit_input  #.map { |u| ListingViewUtils::Unit.deserialize(u) }
+      # listing_params = ListingFormViewUtils.filter_additional_shipping(listing_params, listing_unit)
+      # validation_result = ListingFormViewUtils.validate(listing_params, shape, listing_unit)
+
+      # unless validation_result.success
+      #   flash[:error] = t("listings.error.something_went_wrong", error_code: validation_result.data.join(', '))
+      #   return redirect_to new_listing_path
+      # end
+
+      listing_attributes = normalize_price_params(listing_attributes)
+      m_unit = select_unit(listing_unit, shape)
 
 
+      listing_attributes = listing_attributes.merge(
+          community_id: current_community.id,
+          listing_shape_id: shape[:id],
+          transaction_process_id: shape[:transaction_process_id],
+          shape_name_tr_key: shape[:name_tr_key],
+          action_button_tr_key: shape[:action_button_tr_key],
+      ).merge(unit_to_listing_opts(m_unit)).except(:unit)
+
+      listing = Listing.new(listing_attributes)
+      listing.author = current_user
+      listing.subscribers = subscribers if subscribers != []
+
+      ActiveRecord::Base.transaction do
+        if listing.save
+          # wah - listing is saved even if attachment fails
+          #save_listing_attachments(params)
+
+          # wah - add this event to the events table
+          ListingEvent.create({processor_id: current_user.id, listing_id: listing.id, event_name: "listing_created"})
+
+          upsert_field_values!(listing, listing_attributes_custom_fields)
+
+          #listing_image_ids =
+          #  if params[:listing_images]
+          #    params[:listing_images].collect { |h| h[:id] }.select { |id| id.present? }
+          #  else
+          #    logger.error("Listing images array is missing", nil, {params: params})
+          #    []
+          #  end
+
+          #ListingImage.where(id: listing_image_ids, author_id: current_user.id).update_all(listing_id: listing.id)
+
+          Delayed::Job.enqueue(ListingCreatedJob.new(listing.id, current_community.id))
+          if current_community.follow_in_use?
+            Delayed::Job.enqueue(NotifyFollowersJob.new(listing.id, current_community.id), :run_at => NotifyFollowersJob::DELAY.from_now)
+          end
+
+          return nil
+        else
+          return listing.errors
+        end
       end
     end
 
@@ -259,4 +275,86 @@ class ImportListingsService
           unit_selector_tr_key: nil
       })
     end
+
+    def get_shape(listing_shape_id, current_community)
+      shape_find_opts = {
+        community_id: current_community.id,
+        listing_shape_id: listing_shape_id
+      }
+
+      shape_res = ListingService::API::Api.shapes.get(shape_find_opts)
+
+      if shape_res.success
+        shape_res.data
+      else
+        raise ArgumentError.new(shape_res.error_msg) unless shape_res.success
+      end
+    end
+
+    # Note! Requires that parent listing is already saved to DB. We
+  # don't use association to link to listing but directly connect to
+  # listing_id.
+  def upsert_field_values!(listing, custom_field_params)
+    custom_field_params ||= {}
+
+    # Delete all existing
+    custom_field_value_ids = listing.custom_field_values.map(&:id)
+    CustomFieldOptionSelection.where(custom_field_value_id: custom_field_value_ids).delete_all
+    CustomFieldValue.where(id: custom_field_value_ids).delete_all
+
+    field_values = custom_field_params.map do |custom_field_id, answer_value|
+      custom_field_value_factory(listing.id, custom_field_id, answer_value) unless is_answer_value_blank(answer_value)
+    end.compact
+
+    # Insert new custom fields in a single transaction
+    CustomFieldValue.transaction do
+      field_values.each(&:save!)
+    end
+  end
+
+  def is_answer_value_blank(value)
+    if value.kind_of?(Hash)
+      value["(3i)"].blank? || value["(2i)"].blank? || value["(1i)"].blank?  # DateFieldValue check
+    else
+      value.blank?
+    end
+  end
+
+  def custom_field_value_factory(listing_id, custom_field_id, answer_value)
+    question = CustomField.find(custom_field_id)
+
+    answer = question.with_type do |question_type|
+      case question_type
+      when :dropdown
+        option_id = answer_value.to_i
+        answer = DropdownFieldValue.new
+        answer.custom_field_option_selections = [CustomFieldOptionSelection.new(:custom_field_value => answer, :custom_field_option_id => answer_value)]
+        answer
+      when :text
+        answer = TextFieldValue.new
+        answer.text_value = answer_value
+        answer
+      when :numeric
+        answer = NumericFieldValue.new
+        answer.numeric_value = ParamsService.parse_float(answer_value)
+        answer
+      when :checkbox
+        answer = CheckboxFieldValue.new
+        answer.custom_field_option_selections = answer_value.map { |value| CustomFieldOptionSelection.new(:custom_field_value => answer, :custom_field_option_id => value) }
+        answer
+      when :date_field
+        answer = DateFieldValue.new
+        answer.date_value = Time.utc(answer_value["(1i)"].to_i,
+                                     answer_value["(2i)"].to_i,
+                                     answer_value["(3i)"].to_i)
+        answer
+      else
+        raise ArgumentError.new("Unimplemented custom field answer for question #{question_type}")
+      end
+    end
+
+    answer.question = question
+    answer.listing_id = listing_id
+    return answer
+  end
 end

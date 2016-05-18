@@ -85,6 +85,6 @@ class ListingShape < ActiveRecord::Base
         ""
       end
 
-    ListingShape.where("deleted = 0 AND (#{name})")
+    ListingShape.where("deleted = 0 AND (#{name})")[0]
   end
 end
