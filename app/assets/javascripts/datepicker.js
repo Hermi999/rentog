@@ -2,7 +2,23 @@ window.ST = window.ST || {};
 
 (function(module) {
 
-  module.initializeFromToDatePicker = function(rangeCongainerId, booked_dates, tf_start_on, tf_end_on, booking_start_output, booking_end_output, datepicker_start_date) {
+  module.set_datepicker_language = function(obj){
+    if (obj.locale !== 'en') {
+      $.fn.datepicker.dates[obj.locale] = {
+        days: obj.translated_days,
+        daysShort: obj.translated_days_short,
+        daysMin: obj.translated_days_min,
+        months: obj.translated_months,
+        monthsShort: obj.translated_months_short,
+        today: obj.today,
+        weekStart: obj.week_start,
+        clear: obj.clear,
+        format: obj.format
+      };
+    }
+  };
+
+  module.initializeDatePickerWithBookings = function(rangeCongainerId, booked_dates, tf_start_on, tf_end_on, booking_start_output, booking_end_output, datepicker_start_date) {
     var dateRage = $(rangeCongainerId);
     var dateLocale = dateRage.data('locale');
     var start_date = datepicker_start_date || null;
@@ -114,4 +130,73 @@ window.ST = window.ST || {};
 
     return picker;
   };
+
+  module.initialize_datepicker = function(dateRange_id, tf_start_on_id, tf_end_on_id, date_end_output, date_start_output, datepicker_start_date){
+    var dateRange = $(dateRange_id);
+    var dateLocale = dateRange.data('locale');
+    var start_date = datepicker_start_date || null;
+
+    if(datepicker_start_date === "today"){
+      start_date = new Date(new Date().setHours(1,0,0,0));
+    }
+
+    var options = {
+      calendarWeeks: true,
+      startDate: start_date,
+      autoclose: true,
+      todayHighlight: true,
+      inputs: [$(tf_start_on_id), $(tf_end_on_id)],
+      language: dateLocale
+    };
+
+    // Initialize Datepicker on dateRange
+    var picker = dateRange.datepicker(options);
+
+
+    // Define what to do with end date when start Date is picked
+    $(tf_start_on_id).on('changeDate', function(selected){
+      // Set Start Date of "end-on" datepicker
+        if (selected.date){
+          var startDate = new Date(selected.date.valueOf());
+          var aktEndDate = $(tf_end_on_id).datepicker('getDate') || new Date("2099");
+          //startDate.setDate(startDate.getDate(new Date(selected.date.valueOf())));
+
+          $(tf_end_on_id).datepicker('setStartDate', startDate);
+
+          // If current end_date is before new start date, then set
+          // end date to start date
+          if (aktEndDate < startDate || aktEndDate > new Date("2098")){
+            $(tf_end_on_id).datepicker('setDate', startDate);
+          }else{
+            $(tf_end_on_id).datepicker('setEndDate', new Date("2099/01/01"));
+          }
+        }
+      });
+
+    // Do not allow manual input
+    $(tf_start_on_id).keydown(function(e){
+      e.preventDefault();
+    });
+    $(tf_end_on_id).keydown(function(e){
+      e.preventDefault();
+    });
+
+    var outputElements = {};
+    outputElements[date_start_output] = $("#" + date_start_output);
+    outputElements[date_end_output] = $("#" + date_end_output);
+
+    picker.on('changeDate', function(e) {
+      // Add new date to hidden form elements
+      var newDate = e.dates[0];
+      if (newDate){
+        var outputElementId = $(e.target).data("output");
+        var outputElement = outputElements[outputElementId];
+        outputElement.val(module.utils.toISODate(newDate));
+      }
+    });
+
+    return picker;
+  };
+
+
 })(window.ST);

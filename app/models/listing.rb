@@ -273,7 +273,7 @@ class Listing < ActiveRecord::Base
   # returns either of the following: "intern", "trusted", "all", nil
   def get_listing_marker
     type = get_listing_type
-    if type == "rent"
+    if type == "rent" || type == "sell"
       "all"
     elsif type == "intern" || type == "trusted"
       type
@@ -311,7 +311,8 @@ class Listing < ActiveRecord::Base
          temp_listing_shape_name.downcase.include? "rent"
         "rent"
       elsif temp_listing_shape_name.downcase.include? "kaufen" or
-            temp_listing_shape_name.downcase.include? "buy"
+            temp_listing_shape_name.downcase.include? "buy" or
+            temp_listing_shape_name.downcase.include? "sell"
         "sell"
       elsif temp_listing_shape_name.downcase.include? "vermarkten" or
             temp_listing_shape_name.downcase.include? "ad"

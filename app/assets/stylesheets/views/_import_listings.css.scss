@@ -121,7 +121,7 @@
   .td.invalid-row{
     background-color: #F5ABAB;
   }
-  .td.mand_attr_missing{
+  .td.attr_error{
     background-color: #BA4A4A;
     color: white;
     font-weight: bold;
@@ -133,6 +133,8 @@
     width: 150px;
     font-size: 0.7em;
     float:left;
+    overflow: hidden;
+    line-height: 1.2em;
   }
   .table .thead .th{
     background-color: rgb(73, 74, 73);
@@ -193,5 +195,28 @@
     &:hover{
       background-color: #219C7D;
     }
+  }
+}
+
+.create-listings-from-file-wrapper{
+  .link-wrapper{
+    margin-top:60px;
+
+    li{
+      list-style-type: circle;
+    }
+  }
+  .link-wrapper-header{
+    font-weight: bold;
+  }
+  .error{
+    color: red;
+  }
+  .success{
+    color: rgb(64, 146, 64);
+  }
+  .nothing-imported{
+    font-weight: bold;
+    color: red;
   }
 }

@@ -106,7 +106,10 @@ gem 'demoji', "~> 0.0.5"
 gem 'faraday', '~> 0.9.1'
 gem 'faraday_middleware', '~> 0.10.0'
 
-gem 'roo', '~> 2.4.0'
+gem 'roo', '~> 2.4.0'               # excel import
+#gem 'axlsx', '~> 2.0', '>= 2.0.1'   # excel export
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
+
 
 group :staging, :production do
   # Daemons gem installed because otherwise delayed worker won't work on beanstalk

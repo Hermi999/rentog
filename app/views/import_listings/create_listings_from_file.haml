@@ -1,17 +1,27 @@
 - content_for :title_header do
   %h1#createListingsFromFile-header= t(".headline")
 
-- if @result != []
-  - @result.each do |res|
-    %p= "Could not create/update device with title #{res.title} because of the following reason: #{res.messages.to_s}"
-- else
-  %p= "Imported all devices successful."
+.create-listings-from-file-wrapper
+  - if @result != []
+    %ul.error
+      - @result.each do |res|
+        - if res.class.to_s == "Array"
+          %li= t(".could_not_create_or_update", title: res.title, message: rel.message.to_s).html_safe
 
-.link-wrapper
-  %ul
-    %li
-      =link_to "Import another file", import_listings_new_import_path
-    %li
-      =link_to "Pool Tool Calendar View", person_poolTool_path(@current_user.get_company)
+    %ul.success
+      - @result.each do |res|
+        - if res.class.to_s == "String"
+          %li= t(".successfully_imported_device", title: res).html_safe
+  - else
+    %p.nothing-imported= t(".nothing_imported").html_safe
+
+  .link-wrapper
+    .link-wrapper-header
+      Nächste Aktion:
+    %ul
+      %li
+        =link_to t(".import_another_file").html_safe, import_listings_new_import_path
+      %li
+        =link_to t(".pooltool_calendar_view").html_safe, person_poolTool_path(@current_user.get_company)
 
 

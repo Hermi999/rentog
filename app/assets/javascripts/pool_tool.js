@@ -581,19 +581,7 @@ window.ST.poolTool = (function() {
   // Also add an eventlistener for updating the datepicker if the user changes
   // the listing in the 'add new booking form'
   function initializeDatepickers(){
-    if (gon.locale !== 'en') {
-      $.fn.datepicker.dates[gon.locale] = {
-        days: gon.translated_days,
-        daysShort: gon.translated_days_short,
-        daysMin: gon.translated_days_min,
-        months: gon.translated_months,
-        monthsShort: gon.translated_months_short,
-        today: gon.today,
-        weekStart: gon.week_start,
-        clear: gon.clear,
-        format: gon.format
-      };
-    }
+    window.ST.set_datepicker_language(gon);
 
     // Get booked dates for
     // Set the first listing as checked and initialize datepicker with the booked dates of this listing
@@ -615,8 +603,8 @@ window.ST.poolTool = (function() {
       start_date = new Date(new Date().setHours(0,0,0,0));
     }
 
-    window.ST.initializeFromToDatePicker('#datepicker', booked_dates, '#start-on', '#end-on', "#booking-start-output", "#booking-end-output", start_date);
-    window.ST.initializeFromToDatePicker('#datepicker2', booked_dates, '#start-on2', '#end-on2', "#booking-start-output2", "#booking-end-output2");   // don't use start today, because the datepicker will remove the old dates
+    window.ST.initializeDatePickerWithBookings('#datepicker', booked_dates, '#start-on', '#end-on', "#booking-start-output", "#booking-end-output", start_date);
+    window.ST.initializeDatePickerWithBookings('#datepicker2', booked_dates, '#start-on2', '#end-on2', "#booking-start-output2", "#booking-end-output2");   // don't use start today, because the datepicker will remove the old dates
 
 
     // EVENT LISTENER: If the user changes the listing selected listing in the
@@ -653,13 +641,13 @@ window.ST.poolTool = (function() {
       start_date = new Date(new Date().setHours(0,0,0,0));
     }
 
-    window.ST.initializeFromToDatePicker('#datepicker', booked_dates, '#start-on', '#end-on', "#booking-start-output", "#booking-end-output", start_date);
+    window.ST.initializeDatePickerWithBookings('#datepicker', booked_dates, '#start-on', '#end-on', "#booking-start-output", "#booking-end-output", start_date);
     $('#datepicker').datepicker('update');
   }
 
   // Initializes the second Datebicker with the 'booked_dates' array
   function updateDatepicker2(booked_dates, start_date){
-    window.ST.initializeFromToDatePicker('#datepicker2', booked_dates, '#start-on2', '#end-on2', "#booking-start-output2", "#booking-end-output2", start_date);
+    window.ST.initializeDatePickerWithBookings('#datepicker2', booked_dates, '#start-on2', '#end-on2', "#booking-start-output2", "#booking-end-output2", start_date);
     $('#datepicker2').datepicker('update');
   }
 

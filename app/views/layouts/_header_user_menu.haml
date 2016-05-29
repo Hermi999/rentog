@@ -56,6 +56,11 @@
   //  = icon_tag("list", ["icon-with-text"])
   //  = t("header.manage_listings")
 
+  - if @current_user.is_organization || @current_community.employees_can_create_listings
+    = link_to import_export_path do
+      = icon_tag("import_export", ["icon-with-text"])
+      = t("layouts.logged_in.import_export")
+
   = link_to person_settings_path(user) do
     = icon_tag("settings", ["icon-with-text"])
     = t("layouts.logged_in.settings")

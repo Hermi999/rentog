@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/randym/axlsx.git
+  revision: d136835f3a3a54831ad2c7c793a51d3a57273892
+  specs:
+    axlsx (2.1.0.pre)
+      htmlentities (~> 4.3.4)
+      mimemagic (~> 0.3)
+      nokogiri (>= 1.6.6)
+      rubyzip (~> 1.1.7)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -375,6 +385,7 @@ GEM
     method_source (0.8.2)
     middleware (0.1.0)
     mime-types (2.99.1)
+    mimemagic (0.3.1)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     monetize (1.1.0)
@@ -631,6 +642,7 @@ DEPENDENCIES
   asset_sync
   aws-sdk (~> 2)
   aws-sdk-v1 (~> 1.66.0)
+  axlsx!
   better_errors (~> 2.1.1)
   braintree (~> 2.30.0)
   capybara (~> 2.6.2)

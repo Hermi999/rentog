@@ -9,25 +9,25 @@
 .upload_import_file_wrapper
   - if @import_listings.invalid_attributes != []
     %li{:class=>"could-not-import"}
-      = "Can not import the following listing attributes: "
+      = t(".cannot_import_following_listings").html_safe
       = @import_listings.invalid_attributes.map(&:inspect).join(', ')
 
   - if @import_listings.invalid_rows
     %li{:class=>"could-not-import"}
-      = "Can not import some rows because of errors with the given attributes (see rows with red background color for details)"
+      = t(".cannot_import_rows").html_safe
 
   - if @import_listings.error_text != nil
     .import-failed
-      = "Import failed: #{@import_listings.error_text}"
+      = t(".import_failed", error_text: @import_listings.error_text).html_safe
   - else
     .import-legend
       .row
         .col-2#import-legend-new
-          New device will be created
+          = t(".import_legend_new").html_safe
         .col-2#import-legend-update
-          Existing device will be updated
+          = t(".import_legend_update").html_safe
         .col-2#import-legend-failed
-          Import of this line failed
+          = t(".import_legend_failed").html_safe
 
     .table
       .thead
@@ -45,7 +45,11 @@
 
             .tr
               - _data.each do |_attr|
-                - if _attr[0] == :invalid || _attr[0] == :update
+                - if _attr[0] == :device_name && _data[:invalid] != nil && _data[:invalid].class.to_s == "Hash"
+                  - _attr[1] = _data[:invalid][:msg] + " \n" + _attr[1]
+
+
+                - if _attr[0] == :invalid || _attr[0] == :update || _attr[0] == :listing_id
                   / Attr not displayed
                 - elsif _attr[0] == :description
                   - if _attr[1] == nil
@@ -55,13 +59,16 @@
                   - else
                     .td{:class => "td-scroll #{td_invalid}"}= _attr[1]
                 - elsif _attr[1] == "#mand_attr_missing"
-                  .td{:class => "mand_attr_missing #{td_invalid}"}= "Mandatory attribute missing"
+                  .td{:class => "attr_error #{td_invalid}"}= t(".mandatory_attribute_missing")
                 - elsif _attr[1] == nil
                   .td{:class => "attr_no_used #{td_invalid}"}
-                - elsif _data[:update]
+                - elsif _data[:update] && _data[:invalid] == nil
                   .td{:class => "listing_update #{td_invalid}"}= _attr[1]
                 - else
-                  .td{:class => "#{td_invalid}"}= _attr[1]
+                  - if _attr[0] == :device_name && _data[:invalid] != nil && _data[:invalid].class.to_s == "Hash"
+                    .td{:class => "attr_error #{td_invalid}"}= _attr[1]
+                  - else
+                    .td{:class => "#{td_invalid}"}= _attr[1]
 
                 /.td{:class => "td-scroll", :id => "test"}
                 /  .oldVal Old value
@@ -72,8 +79,8 @@
 
     .clear
     .import-file-btn-wrapper
-      = link_to "Abort", import_listings_new_import_path, {:id => "import-file-abort-btn", :class => "button"}
-      = link_to "Only create new devices", import_listings_create_listings_from_file_path, {:method => :post, :id => "import-file-create-btn" ,:class => "button"}
-      = link_to "Only update existing devices", import_listings_update_listings_from_file_path, {:method => :post, :id => "import-file-update-btn" ,:class => "button"}
-      = link_to "Update and create devices", import_listings_update_and_create_listings_from_file_path, {:method => :post, :id => "import-file-update-create-btn" ,:class => "button"}
+      = link_to t(".link_to_abort"), import_listings_new_import_path, {:id => "import-file-abort-btn", :class => "button"}
+      = link_to t(".link_to_only_create_new"), import_listings_create_listings_from_file_path, {:method => :post, :id => "import-file-create-btn" ,:class => "button"}
+      = link_to t(".link_to_only_update_existing"), import_listings_update_listings_from_file_path, {:method => :post, :id => "import-file-update-btn" ,:class => "button"}
+      = link_to t(".link_to_create_update"), import_listings_update_and_create_listings_from_file_path, {:method => :post, :id => "import-file-update-create-btn" ,:class => "button"}
 

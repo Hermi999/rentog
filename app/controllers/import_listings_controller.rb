@@ -15,18 +15,21 @@ class ImportListingsController < ApplicationController
     # create listings based on last imported file
     @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user
     @result = @import_listings.createListings(@current_user, @current_community)
+    render locals: {type: "create"}
   end
 
   def update_listings_from_file
     # create listings based on last imported file
     @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user
     @result = @import_listings.updateListings(@current_user, @current_community)
+    render :create_listings_from_file, locals: {type: "update"}
   end
 
   def update_and_create_listings_from_file
     # create listings based on last imported file
     @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user
     @result = @import_listings.updateAndCreateListings(@current_user, @current_community)
+    render :create_listings_from_file, locals: {type: "create"}
   end
 
 

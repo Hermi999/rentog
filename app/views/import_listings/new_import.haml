@@ -13,7 +13,7 @@
       .importListings-form
         = form_for :import_file, :url => import_listings_upload_import_file_path do |form|
           = form.file_field :import_file, name: "import_file[file][]"
-          = form.button "Submit", id: "importListings-upload-btn"
+          = form.button t(".submit_button"), id: "importListings-upload-btn"
 
   %br
 
@@ -24,106 +24,33 @@
   .row.import-listings-desc-table
     .col-6
       %table
+        - table1_rows = 12
         %thead
           %tr
-            %th Attribut
-            %th Bedeutung
-            %th Notwendig
+            %th= t(".desc_table_th1").html_safe
+            %th= t(".desc_table_th2").html_safe
+            %th= t(".desc_table_th3").html_safe
         %tbody
-          %tr
-            %td device_name
-            %td Name, Modellbezeichnung des Geräts. Der hier eingetragene Text wird immer beim Gerät angezeigt.
-            %td Ja
-          %tr
-            %td condition
-            %td Zustand des Geräts. Mögliche Werte: <br><b>brand_new</b> - Fabriksneues Gerät <br><b>like_new</b> - Neuwertiges Gerät<br> <b>good</b> - Gerät im guten Zustand<br><b>used</b> - Gerät im gebrauchten Zustand
-            %td Ja
-          %tr
-            %td serial_number
-            %td Eindeutige Identifikationsnummer. Muss für jedes Gerät verschieden sein. Default: "".
-            %td Nein
-          %tr
-            %td price
-            %td Preis um welchen Sie das Gerät verkaufen oder vermieten. Default: 0.
-            %td Nein
-          %tr
-            %td type
-            %td Gerätetyp. Beispiel: Oszilloskop. Default: "".
-            %td Nein.
-          %tr
-            %td width
-            %td Geräteabmessung: Breite. Default: 0mm
-            %td Nein
-          %tr
-            %td height
-            %td Geräteabmessung: Höhe. Default: 0mm
-            %td Nein
-          %tr
-            %td depth
-            %td Geräteabmessung: Tiefe. Default: 0mm
-            %td Nein
-          %tr
-            %td model
-            %td Modellbezeichner, wenn es vom Gerät verschiedene Modelle/Varianten gibt. <br>Default: "".
-            %td Nein
-          %tr
-            %td last_calibration
-            %td Datum der letzten Kalibrierung. Default: "".
-            %td Nein
-          %tr
-            %td next_calibration
-            %td Datum der nächsten Kalibrierung. Default: "".
-            %td Nein
-          %tr
-            %td location_alias
-            %td Standortname des Geräts (nicht die Adresse). Default: "".
-            %td Nein
+          - (1..table1_rows).each do |row|
+            %tr
+              %td= t(".t1_row#{row}_attr").html_safe
+              %td= t(".t1_row#{row}_desc").html_safe
+              %td= t(".t1_row#{row}_mand").html_safe
+
     .col-6
       %table
+        - table2_rows = 9
         %thead.import-listings-second-head
           %tr
-            %th Attribut
-            %th Bedeutung
-            %th Notwendig
+            %th= t(".desc_table_th1").html_safe
+            %th= t(".desc_table_th2").html_safe
+            %th= t(".desc_table_th3").html_safe
         %tbody
-          %tr
+          - (1..table2_rows).each do |row|
             %tr
-            %td manufacturer
-            %td Der Hersteller des Geräts.
-            %td Ja
-          %tr
-            %td visibility
-            %td Für welche Benutzer das Gerät sichtbar ist. Mögliche Werte: <br><b>private</b> - Nur Mitarbeiter des Unternehmens können die Geräte sehen & buchen. <br><b>trusted</b> - Sichbar für Mitarbeiter und Benutzern denen Sie vertrauen. <br><b>global</b> - Sichbar für alle Rentog Besucher.
-            %td Ja
-          %tr
-            %td description
-            %td Ausführliche Beschreibung des Geräts. Default: "".
-            %td Nein
-          %tr
-            %td subscriber_emails
-            %td Perosnen, die Email-Benachrichtigungen erhalten sollen, wenn ein Geräte-Event auftritt (zb: Buchung, Änderung). Default: "".
-            %td Nein
-          %tr
-            %td weight
-            %td Gewicht des Geräts. Default: 0kg.
-            %td
-          %tr
-            %td responsible_person
-            %td Geräte-Verantwortlicher. Default: "".
-            %td Nein
-          %tr
-            %td responsible_department
-            %td Abteilung, welcher das Gerät gehört. Default: "".
-            %td Nein
-          %tr
-            %td original_price
-            %td Kaufpreis bzw. Neupreis des Geräts. Default: 0.
-            %td Nein
-          %tr
-            %td year_of_production
-            %td Anschaffungsjahr oder Produktionsjahr. Default: "".
-            %td Nein
-
+              %td= t(".t2_row#{row}_attr").html_safe
+              %td= t(".t2_row#{row}_desc").html_safe
+              %td= t(".t2_row#{row}_mand").html_safe
 
 
   .description_create_file_example= t(".description_create_file_example").html_safe
