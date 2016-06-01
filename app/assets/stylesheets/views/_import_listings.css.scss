@@ -107,7 +107,7 @@
     background-color: #F5D9B0;
   }
   .table{
-    width: 3000px;
+    width: 4000px;
     margin-top: 8px;
   }
   .thead{
@@ -219,4 +219,9 @@
     font-weight: bold;
     color: red;
   }
+}
+.import-from-file-link{
+  display: block;
+  margin-top: 10px;
+  font-size: 1.2em;
 }

@@ -55,10 +55,11 @@ class ImportListingsService
   private
 
     def getAllValidAttributes
-      _validAttr = [{name: "device_name"}, {name: "description"}, {name: "price"}, {name: "visibility"}]
+      _validAttr = [{name: "device_name"}, {name: "description"}, {name: "price"}, {name: "visibility"}, {name: "device_closed"}]
       CustomFieldName.select('id, value, custom_field_id').where(locale: 'en').as_json.each do |_attr|
         _validAttr << {name: _attr["value"].split("(")[0].downcase.gsub(" ", "_").chomp('_'), custom_field_id: _attr["custom_field_id"].to_i}
       end
+      _validAttr << {name: "delete"}
       _validAttr
     end
 
@@ -161,11 +162,17 @@ class ImportListingsService
       # arrays
       listing_data.each do |_attr|
         case _attr[0]
+        when :delete
+          # "delete" listing
+          listing.update_attribute(:deleted, true)
+          return listing.title
         when :device_name
           listing_attributes[:title] = _attr[1]
+        when :device_closed
+          listing_attributes[:open] = (_attr[1] == 0)
         when :visibility
-          if _attr[1] == "intern" || _attr[1] == "trusted"
-            listing_attributes[:availability] = _attr[1]
+          if _attr[1].downcase == "intern" || _attr[1].downcase == "trusted"
+            listing_attributes[:availability] = _attr[1].downcase
           end
         when :description, :price
           listing_attributes[_attr[0]] = _attr[1]
@@ -240,9 +247,11 @@ class ImportListingsService
         case _attr[0]
         when :device_name
           listing_attributes[:title] = _attr[1]
+        when :device_closed
+          listing_attributes[:open] = (_attr[1] == 0)
         when :visibility
-          if _attr[1] == "intern" || _attr[1] == "trusted"
-            listing_attributes[:availability] = _attr[1]
+          if _attr[1].downcase == "intern" || _attr[1].downcase == "trusted"
+            listing_attributes[:availability] = _attr[1].downcase
           end
         when :description, :price
           listing_attributes[_attr[0]] = _attr[1]
@@ -423,10 +432,19 @@ class ImportListingsService
     answer = question.with_type do |question_type|
       case question_type
       when :dropdown
-        option_id = answer_value.to_i
-        answer = DropdownFieldValue.new
-        answer.custom_field_option_selections = [CustomFieldOptionSelection.new(:custom_field_value => answer, :custom_field_option_id => answer_value)]
-        answer
+        option_id = nil
+        if answer_value != ""
+          text_val = "%" + answer_value.gsub("_", " ").gsub("\u2013", "-") + "%"
+          option_id = Maybe(CustomFieldOptionTitle.where("value LIKE ?", text_val).first).custom_field_option_id.or_else(nil)
+        end
+
+        if option_id
+          answer = DropdownFieldValue.new
+          answer.custom_field_option_selections = [CustomFieldOptionSelection.new(:custom_field_value => answer, :custom_field_option_id => option_id)]
+          answer
+        else
+          return nil
+        end
       when :text
         answer = TextFieldValue.new
         answer.text_value = answer_value
@@ -441,9 +459,7 @@ class ImportListingsService
         answer
       when :date_field
         answer = DateFieldValue.new
-        answer.date_value = Time.utc(answer_value["(1i)"].to_i,
-                                     answer_value["(2i)"].to_i,
-                                     answer_value["(3i)"].to_i)
+        answer.date_value = answer_value.to_time.getutc
         answer
       else
         raise ArgumentError.new("Unimplemented custom field answer for question #{question_type}")

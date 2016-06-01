@@ -18,6 +18,7 @@ old_databases.sql
 .sass-cache/
 capybara*
 public/system/importfiles
+public/system/exportfiles
 public/system/favicons
 public/system/images
 public/system/attachments

@@ -513,7 +513,6 @@ class ListingsController < ApplicationController
       params[:listing].delete("subscribers")
     end
 
-
     shape = get_shape(params[:listing][:listing_shape_id])
 
     listing_params = ListingFormViewUtils.filter(params[:listing], shape)
