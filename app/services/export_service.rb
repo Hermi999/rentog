@@ -79,18 +79,21 @@ class ExportService
       sheet.add_row ["internal_device_id", "device_name", "device_owner", "renter", "reason", "start_on", "end_on", "booking_description", "device_location", "device_location_alias", "booking_created_on", "booking_last_changed"]
 
       transactions.each do |b|
-        # wah: not good. Change transactions query to a join:   Transaction.joins(:listing, :booking, :starter).select("").where("")
-        if b.booking.end_on > start_date && b.booking.start_on < end_date
-          _internal_device_id = b.seller.get_company.organization_name + "_dev_" + (11982 + b.listing_id).to_s
-          _dev_owner = b.seller.get_company.organization_name
-          _renter = b.starter.given_name + " " + b.starter.family_name  if b.starter.is_employee?
-          _renter = b.starter.organization_name                         if b.starter.is_organization
-          _loc_alias = Maybe(b.starter.location).location_alias.or_else(nil)
-          _loc = Maybe(b.starter.location).address.or_else(nil)
-          _booking_created_at = b.booking.created_at
-          _booking_updated_at = b.booking.updated_at
+        if b.listing
 
-          sheet.add_row [_internal_device_id, b.listing.title, _dev_owner, _renter, b.booking.reason, I18n.l(b.booking.start_on), I18n.l(b.booking.end_on), b.booking.description, _loc, _loc_alias, _booking_created_at, _booking_updated_at]
+          # wah: not good. Change transactions query to a join:   Transaction.joins(:listing, :booking, :starter).select("").where("")
+          if b.booking.end_on > start_date && b.booking.start_on < end_date
+            _internal_device_id = b.seller.get_company.organization_name + "_dev_" + (11982 + b.listing_id).to_s
+            _dev_owner = b.seller.get_company.organization_name
+            _renter = b.starter.given_name + " " + b.starter.family_name  if b.starter.is_employee?
+            _renter = b.starter.organization_name                         if b.starter.is_organization
+            _loc_alias = Maybe(b.starter.location).location_alias.or_else(nil)
+            _loc = Maybe(b.starter.location).address.or_else(nil)
+            _booking_created_at = b.booking.created_at
+            _booking_updated_at = b.booking.updated_at
+
+            sheet.add_row [_internal_device_id, b.listing.title, _dev_owner, _renter, b.booking.reason, I18n.l(b.booking.start_on), I18n.l(b.booking.end_on), b.booking.description, _loc, _loc_alias, _booking_created_at, _booking_updated_at]
+          end
         end
       end
     end
