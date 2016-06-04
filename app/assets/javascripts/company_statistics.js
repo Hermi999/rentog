@@ -25,17 +25,6 @@ window.ST.companyStatistics = (function() {
     // Load Charts and the corechart package.
     google.charts.load('current', {'packages':['corechart','calendar', 'timeline', 'sankey']});
 
-    // Draw the charts
-    google.charts.setOnLoadCallback(averageDeviceBookingPeriod);
-    google.charts.setOnLoadCallback(deviceBookingDensityPerDay);
-    google.charts.setOnLoadCallback(peopleWithMostBookings);
-    google.charts.setOnLoadCallback(peopleWithMostBookedDays);
-    google.charts.setOnLoadCallback(devicesWithMostBookings);
-    google.charts.setOnLoadCallback(devicesWithMostBookedDays);
-    google.charts.setOnLoadCallback(bookingCompanyUnits);
-    google.charts.setOnLoadCallback(deviceLivetime);
-    google.charts.setOnLoadCallback(userDeviceRelationship);
-
     // Callback that draws the pie chart for the averageDeviceBookingPeriod
     function averageDeviceBookingPeriod() {
       var data = google.visualization.arrayToDataTable(averageDeviceBookingPeriod_arr);
@@ -220,6 +209,17 @@ window.ST.companyStatistics = (function() {
       };
       chart.draw(dataTable, options);
     }
+
+    // Draw the charts
+    google.charts.setOnLoadCallback(averageDeviceBookingPeriod);
+    google.charts.setOnLoadCallback(deviceBookingDensityPerDay);
+    google.charts.setOnLoadCallback(peopleWithMostBookings);
+    google.charts.setOnLoadCallback(peopleWithMostBookedDays);
+    google.charts.setOnLoadCallback(devicesWithMostBookings);
+    google.charts.setOnLoadCallback(devicesWithMostBookedDays);
+    google.charts.setOnLoadCallback(bookingCompanyUnits);
+    google.charts.setOnLoadCallback(deviceLivetime);
+    google.charts.setOnLoadCallback(userDeviceRelationship);
   }
 
   return {
