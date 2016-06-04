@@ -1,6 +1,6 @@
 /* Tell jshint that there exists a global called gon */
 /* globals gon, getUrlParameter, console */
-/* jshint unused: false */
+/* jshint unused: false, $ */
 
 window.ST = window.ST || {};
 
@@ -13,7 +13,7 @@ window.ST.importexport = (function(module) {
     $('#export-button').click(function(ev){
       var params = "";
       if ($('#date-start-output').val() !== "" && $('#date-end-output').val() !== ""){
-        params = "?start_on=" + $('#date-start-output').val() + "&end_on=" + $('#date-end-output').val()
+        params = "?start_on=" + $('#date-start-output').val() + "&end_on=" + $('#date-end-output').val();
       }
       window.location.href = "/" + gon.locale + "/export" + params;
     });

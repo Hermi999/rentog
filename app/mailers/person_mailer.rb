@@ -4,6 +4,7 @@ include ApplicationHelper
 include ListingsHelper
 include TruncateHtmlHelper
 
+# rubocop:disable ClassLength
 class PersonMailer < ActionMailer::Base
   include MailUtils
 

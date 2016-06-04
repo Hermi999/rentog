@@ -171,6 +171,7 @@ class StatisticsService
   end
 
   private
+
     def getDataFromDb(company_id, community_id)
       transaction_not_invalid = "(current_state <> 'rejected' OR current_state is null) AND
                                  (current_state <> 'errored'  OR current_state is null) AND

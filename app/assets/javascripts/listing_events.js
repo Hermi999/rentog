@@ -20,7 +20,7 @@ window.ST.listingEvents = (function() {
         '<span class="timeline-listing-img-wrapper"><img src=' + window.listing_images[state.element.value] + ' class="timeline-listing-img" /><span class="timeline-listing-text">' + state.text + '</span></span>'
       );
       return $state;
-    };
+    }
 
     function suc_func(){
       $('.cd-container').empty();

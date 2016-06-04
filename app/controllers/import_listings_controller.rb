@@ -34,6 +34,7 @@ class ImportListingsController < ApplicationController
 
 
   private
+
     def save_import_file(params)
       return false if params[:import_file].nil?
 

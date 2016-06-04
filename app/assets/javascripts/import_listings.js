@@ -1,7 +1,6 @@
 /* Tell jshint that there exists a global called gon */
-/* globals gon, getUrlParameter, console */
+/* globals gon, getUrlParameter, console, $ */
 /* jshint unused: false */
-
 window.ST = window.ST || {};
 
 window.ST.importListings = (function() {
@@ -13,10 +12,10 @@ window.ST.importListings = (function() {
 
     $.fn.hasScrollBar = function() {
         return this.get(0).scrollHeight > this.height();
-    }
+    };
 
     $('.td-scroll').hover(function(ev){
-      if($(ev.currentTarget).text() != ""){
+      if($(ev.currentTarget).text() !== ""){
         $('#large_text').html($(ev.currentTarget).html());
         $('#large_text').css('left', $(ev.currentTarget).position().left);
         $('#large_text').css('top', $(ev.currentTarget).position().top + $(ev.currentTarget).height() + 10);

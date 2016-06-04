@@ -15,7 +15,7 @@ class ImportListingsService
     # valid attributes found and all mandatory attributes are there
     if checkAttributeRequirements
       parse_args = {}
-      @valid_attributes.each{ |_attr| parse_args[_attr[:name].to_sym] = _attr[:name] }
+      @valid_attributes.each{ |x_attr| parse_args[x_attr[:name].to_sym] = x_attr[:name] }
       @listing_data = @import_file.parse(parse_args)   # empty fields -> nil
 
       checkListingAttributeRequirements
@@ -32,10 +32,10 @@ class ImportListingsService
 
   def updateListings(current_user, current_community)
     result = []
-    listing_data.each_with_index do |_data, index|
+    listing_data.each_with_index do |x_data, index|
       # only update if this listing is marked as "updateable"
-      if index != 0 && _data[:invalid] == nil && _data[:update] == true
-        result << updateListing(_data, current_user, current_community)
+      if index != 0 && x_data[:invalid] == nil && x_data[:update] == true
+        result << updateListing(x_data, current_user, current_community)
       end
     end
     result
@@ -43,9 +43,9 @@ class ImportListingsService
 
   def createListings(current_user, current_community)
     result = []
-    listing_data.each_with_index do |_data, index|
-      if index != 0 && _data[:invalid] == nil && _data[:update] == nil
-        result << createListing(_data, current_user, current_community)
+    listing_data.each_with_index do |x_data, index|
+      if index != 0 && x_data[:invalid] == nil && x_data[:update] == nil
+        result << createListing(x_data, current_user, current_community)
       end
     end
     result
@@ -55,22 +55,22 @@ class ImportListingsService
   private
 
     def getAllValidAttributes
-      _validAttr = [{name: "device_name"}, {name: "description"}, {name: "price"}, {name: "visibility"}, {name: "device_closed"}]
-      CustomFieldName.select('id, value, custom_field_id').where(locale: 'en').as_json.each do |_attr|
-        _validAttr << {name: _attr["value"].split("(")[0].downcase.gsub(" ", "_").chomp('_'), custom_field_id: _attr["custom_field_id"].to_i}
+      x_validAttr = [{name: "device_name"}, {name: "description"}, {name: "price"}, {name: "visibility"}, {name: "device_closed"}]
+      CustomFieldName.select('id, value, custom_field_id').where(locale: 'en').as_json.each do |x_attr|
+        x_validAttr << {name: x_attr["value"].split("(")[0].downcase.gsub(" ", "_").chomp('_'), custom_field_id: x_attr["custom_field_id"].to_i}
       end
-      _validAttr << {name: "delete"}
-      _validAttr
+      x_validAttr << {name: "delete"}
+      x_validAttr
     end
 
     def getAllMandatoryAttributes
-      _mandAttr = [{name: "device_name"}]
-      _validAttr = CustomFieldName.where(locale: 'en').each do |_attr|
-        if _attr.custom_field.required
-          _mandAttr << {name: _attr.value.split("(")[0].downcase.gsub(" ", "_").chomp('_'), custom_field_id: _attr.custom_field_id.to_i }
+      x_mandAttr = [{name: "device_name"}]
+      x_validAttr = CustomFieldName.where(locale: 'en').each do |x_attr|
+        if x_attr.custom_field.required
+          x_mandAttr << {name: x_attr.value.split("(")[0].downcase.gsub(" ", "_").chomp('_'), custom_field_id: x_attr.custom_field_id.to_i }
         end
       end
-      _mandAttr
+      x_mandAttr
     end
 
     def getValidAndInvalidAttributes
@@ -78,9 +78,9 @@ class ImportListingsService
       @valid_attributes = []
       @valid_attributes_from_db.each{ |attr_from_db| @valid_attributes << attr_from_db if attributes.include? attr_from_db[:name]}
 
-      _attr = []
-      @valid_attributes.each {|x| _attr << x[:name]}
-      @invalid_attributes = attributes - _attr
+      x_attr = []
+      @valid_attributes.each {|x| x_attr << x[:name]}
+      @invalid_attributes = attributes - x_attr
     end
 
     def checkAttributeRequirements
@@ -90,9 +90,9 @@ class ImportListingsService
       elsif (@mandatory_attributes_from_db & @valid_attributes) != @mandatory_attributes_from_db
         missing_attr = @mandatory_attributes_from_db - (@mandatory_attributes_from_db & @valid_attributes)
 
-        _attr_txt = ""
-        missing_attr.each {|_attr| _attr_txt += _attr[:name] + ", "}
-        @error_text = "Mandatory attributes #{_attr_txt[0..-3]} is/are missing"
+        x_attr_txt = ""
+        missing_attr.each {|x_attr| x_attr_txt += x_attr[:name] + ", "}
+        @error_text = "Mandatory attributes #{x_attr_txt[0..-3]} is/are missing"
         return false
       end
 
@@ -131,13 +131,11 @@ class ImportListingsService
               old_listing = entry.listing
               if old_listing && !old_listing.deleted && old_listing.title == listing[:device_name] && old_listing.author == current_user.get_company
                 # listing is already marked as "update"...means that there are multiple entries in the excel file with the same title and serial
-                if listing[:update]
-                  if listing[:invalid]
+                if listing[:update] && listing[:invalid]
                     listing[:invalid][:msg] += ", " + listing[:device_name]
-                  else
-                    listing[:invalid] = {type:"multiple_same_devices", msg: "There are more than 1 device with the same serial number registered for your company: "}
-                    listing[:invalid][:msg] += name_of_first_dev + ", " + listing[:device_name]
-                  end
+                elsif listing[:update]
+                  listing[:invalid] = {type: "multiple_same_devices", msg: "There are more than 1 device with the same serial number registered for your company: "}
+                  listing[:invalid][:msg] += name_of_first_dev + ", " + listing[:device_name]
                 else
                   listing[:update] = true
                   listing[:listing_id] = old_listing.id
@@ -160,26 +158,26 @@ class ImportListingsService
       # make sure that only valid attributes (which are in the db) are updated.
       # We store them into the "listing_attributes" and "listing_attributes_custom_fields"
       # arrays
-      listing_data.each do |_attr|
-        case _attr[0]
+      listing_data.each do |x_attr|
+        case x_attr[0]
         when :delete
           # "delete" listing
           listing.update_attribute(:deleted, true)
           return listing.title
         when :device_name
-          listing_attributes[:title] = _attr[1]
+          listing_attributes[:title] = x_attr[1]
         when :device_closed
-          listing_attributes[:open] = (_attr[1] == 0)
+          listing_attributes[:open] = (x_attr[1] == 0)
         when :visibility
-          if _attr[1].downcase == "intern" || _attr[1].downcase == "trusted"
-            listing_attributes[:availability] = _attr[1].downcase
+          if x_attr[1].downcase == "intern" || x_attr[1].downcase == "trusted"
+            listing_attributes[:availability] = x_attr[1].downcase
           end
         when :description, :price
-          listing_attributes[_attr[0]] = _attr[1]
+          listing_attributes[x_attr[0]] = x_attr[1]
         else
           @valid_attributes_from_db.each do |valid_attr|
-            if _attr[0].to_s == valid_attr[:name]
-              listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] = _attr[1]
+            if x_attr[0].to_s == valid_attr[:name]
+              listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] = x_attr[1]
             end
           end
         end
@@ -202,8 +200,8 @@ class ImportListingsService
       end
       shape = get_shape(shape_id.to_i,current_community)
 
-      _unit_input = { type: "day", name_tr_key: nil, kind: "time", selector_tr_key: nil, quantity_selector: "day" }
-      listing_unit = _unit_input
+      x_unit_input = { type: "day", name_tr_key: nil, kind: "time", selector_tr_key: nil, quantity_selector: "day" }
+      listing_unit = x_unit_input
 
       listing_attributes = normalize_price_params(listing_attributes)
       m_unit = select_unit(listing_unit, shape)
@@ -243,22 +241,22 @@ class ImportListingsService
       # make sure that only valid attributes (which are in the db) are created.
       # We store them into the "listing_attributes" and "listing_attributes_custom_fields"
       # arrays
-      listing_data.each do |_attr|
-        case _attr[0]
+      listing_data.each do |x_attr|
+        case x_attr[0]
         when :device_name
-          listing_attributes[:title] = _attr[1]
+          listing_attributes[:title] = x_attr[1]
         when :device_closed
-          listing_attributes[:open] = (_attr[1] == 0)
+          listing_attributes[:open] = (x_attr[1] == 0)
         when :visibility
-          if _attr[1].downcase == "intern" || _attr[1].downcase == "trusted"
-            listing_attributes[:availability] = _attr[1].downcase
+          if x_attr[1].downcase == "intern" || x_attr[1].downcase == "trusted"
+            listing_attributes[:availability] = x_attr[1].downcase
           end
         when :description, :price
-          listing_attributes[_attr[0]] = _attr[1]
+          listing_attributes[x_attr[0]] = x_attr[1]
         else
           @valid_attributes_from_db.each do |valid_attr|
-            if _attr[0].to_s == valid_attr[:name]
-              listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] = _attr[1]
+            if x_attr[0].to_s == valid_attr[:name]
+              listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] = x_attr[1]
             end
           end
         end
@@ -286,8 +284,8 @@ class ImportListingsService
       shape = get_shape(shape_id.to_i,current_community)
 
       # listing_params = ListingFormViewUtils.filter(params[:listing], shape)
-      _unit_input = { type: "day", name_tr_key: nil, kind: "time", selector_tr_key: nil, quantity_selector: "day" }
-      listing_unit = _unit_input  #.map { |u| ListingViewUtils::Unit.deserialize(u) }
+      x_unit_input = { type: "day", name_tr_key: nil, kind: "time", selector_tr_key: nil, quantity_selector: "day" }
+      listing_unit = x_unit_input  #.map { |u| ListingViewUtils::Unit.deserialize(u) }
       # listing_params = ListingFormViewUtils.filter_additional_shipping(listing_params, listing_unit)
       # validation_result = ListingFormViewUtils.validate(listing_params, shape, listing_unit)
 

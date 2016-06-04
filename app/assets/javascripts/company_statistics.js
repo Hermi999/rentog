@@ -1,20 +1,20 @@
 /* Tell jshint that there exists a global called gon */
-/* globals gon, getUrlParameter, console */
+/* globals gon, getUrlParameter, console, google, $ */
 /* jshint unused: false */
 
 window.ST = window.ST || {};
 
 window.ST.companyStatistics = (function() {
   function init(){
-    averageDeviceBookingPeriod_arr = gon.data.averageDeviceBookingPeriod || [];
-    peopleWithMostBookings_arr     = gon.data.peopleWithMostBookings || [];
-    peopleWithMostBookedDays_arr   = gon.data.peopleWithMostBookedDays || [];
-    devicesWithMostBookings_arr    = gon.data.devicesWithMostBookings || [];
-    devicesWithMostBookedDays_arr  = gon.data.devicesWithMostBookedDays || [];
-    bookingCompanyUnits_arr        = gon.data.bookingCompanyUnits || [];
-    deviceLivetime_arr             = gon.data.deviceLivetime || [];
-    userDeviceRelationship_arr     = gon.data.userDeviceRelationship || [];
-    deviceBookingDensityPerDay_arr = gon.data.deviceBookingDensityPerDay || [];
+    var averageDeviceBookingPeriod_arr = gon.data.averageDeviceBookingPeriod || [];
+    var peopleWithMostBookings_arr     = gon.data.peopleWithMostBookings || [];
+    var peopleWithMostBookedDays_arr   = gon.data.peopleWithMostBookedDays || [];
+    var devicesWithMostBookings_arr    = gon.data.devicesWithMostBookings || [];
+    var devicesWithMostBookedDays_arr  = gon.data.devicesWithMostBookedDays || [];
+    var bookingCompanyUnits_arr        = gon.data.bookingCompanyUnits || [];
+    var deviceLivetime_arr             = gon.data.deviceLivetime || [];
+    var userDeviceRelationship_arr     = gon.data.userDeviceRelationship || [];
+    var deviceBookingDensityPerDay_arr = gon.data.deviceBookingDensityPerDay || [];
 
 
     if (averageDeviceBookingPeriod_arr.length <= 1){
@@ -60,7 +60,7 @@ window.ST.companyStatistics = (function() {
     // Callback that draws the pie chart for the peopleWithMostBookings
     function peopleWithMostBookings(){
       var data = google.visualization.arrayToDataTable(peopleWithMostBookings_arr);
-      var height = 100 + 20*peopleWithMostBookings_arr.length
+      var height = 100 + 20*peopleWithMostBookings_arr.length;
 
       var options = {
         height: height,
@@ -78,7 +78,7 @@ window.ST.companyStatistics = (function() {
     // Callback that draws the pie chart for the peopleWithMostBookedDays
     function peopleWithMostBookedDays(){
       var data = google.visualization.arrayToDataTable(peopleWithMostBookedDays_arr);
-      var height = 100 + 20*peopleWithMostBookedDays_arr.length
+      var height = 100 + 20*peopleWithMostBookedDays_arr.length;
 
       var options = {
         height: height,
@@ -96,7 +96,7 @@ window.ST.companyStatistics = (function() {
     // Callback that draws the pie chart for the devicesWithMostBookings
     function devicesWithMostBookings(){
       var data = google.visualization.arrayToDataTable(devicesWithMostBookings_arr);
-      var height = 100 + 20*devicesWithMostBookings_arr.length
+      var height = 100 + 20*devicesWithMostBookings_arr.length;
 
       var options = {
         height: height,
@@ -114,7 +114,7 @@ window.ST.companyStatistics = (function() {
     // Callback that draws the pie chart for the devicesWithMostBookedDays
     function devicesWithMostBookedDays(){
       var data = google.visualization.arrayToDataTable(devicesWithMostBookedDays_arr);
-      var height = 100 + 20*devicesWithMostBookedDays_arr.length
+      var height = 100 + 20*devicesWithMostBookedDays_arr.length;
 
       var options = {
         height: height,
@@ -163,7 +163,7 @@ window.ST.companyStatistics = (function() {
 
       dataTable.addRows(rows);
 
-      var height = 100 + 35*deviceLivetime_arr.length
+      var height = 100 + 35*deviceLivetime_arr.length;
       var options = {
         height: height
       };
@@ -179,10 +179,10 @@ window.ST.companyStatistics = (function() {
       data.addColumn('number', gon.userDeviceRelationship_column_title);
       data.addRows(userDeviceRelationship_arr);
 
-      var height = 100 + 40*userDeviceRelationship_arr.length
+      var height = 100 + 40*userDeviceRelationship_arr.length;
       var options = {
         height: height
-      }
+      };
 
       // Instantiates and draws our chart, passing in some options.
       var chart = new google.visualization.Sankey(document.getElementById('g-chart-userDeviceRelationship'));
@@ -197,7 +197,7 @@ window.ST.companyStatistics = (function() {
 
       var rows = [], lowest_year=3000, highest_year=0;
       deviceBookingDensityPerDay_arr.forEach(function(el){
-        _date = new Date(el[0]);
+        var _date = new Date(el[0]);
         rows.push([ _date, el[1] ]);
 
         if(lowest_year > _date.getYear()){
