@@ -63,6 +63,22 @@ class Admin::CommunityMembershipsController < ApplicationController
     end
   end
 
+  def promote_supervisor
+    if params[:add_supervisor]
+      params[:add_supervisor].each do |id|
+        Person.find(id).update_attribute(:is_domain_supervisor, true)
+      end
+    end
+
+    if params[:remove_supervisor]
+      params[:remove_supervisor].each do |id|
+        Person.find(id).update_attribute(:is_domain_supervisor, false)
+      end
+    end
+
+    render nothing: true, status: 200
+  end
+
   def posting_allowed
     @current_community.community_memberships.where(person_id: params[:allowed_to_post]).update_all("can_post_listings = 1")
     @current_community.community_memberships.where(person_id: params[:disallowed_to_post]).update_all("can_post_listings = 0")

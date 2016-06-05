@@ -41,6 +41,7 @@
             %th{:style => "text-align: center"}= render partial: "layouts/sort_link", locals: { column: "posting_allowed", direction: sort_link_direction("posting_allowed"), title: t("admin.communities.manage_members.posting_allowed") }
           %th= render partial: "layouts/sort_link", locals: { column: "orga", direction: sort_link_direction("orga"), title: t("admin.communities.manage_members.organization") }
           %th= t("admin.communities.manage_members.admin")
+          %th= t("admin.communities.manage_members.supervisor")
           %th= t("admin.communities.manage_members.ban_user")
       %tbody
         - @memberships.each do |membership|
@@ -68,6 +69,8 @@
                   = icon_tag("cross")
 
               %td{:style => "text-align: center"}= check_box_tag "is_admin[#{member.id}]", member.id, member.is_admin_of?(@community), :class => "admin-members-is-admin", :disabled => member.eql?(@current_user)
+
+              %td{:style => "text-align: center"}= check_box_tag "is_domain_supervisor[#{member.id}]", member.id, member.is_domain_supervisor, :class => "supervisor-members-is-supervisor", :disabled => member.eql?(@current_user)
 
               %td{:style => "text-align: center"}
                 = link_to(icon_tag("cross"), ban_admin_community_community_membership_path(@current_community.id, membership.id), method: :put, :data => {:confirm => t("admin.communities.manage_members.ban_user_confirmation")}, :class => "admin-members-remove-user")

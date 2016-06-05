@@ -46,6 +46,7 @@
 #  user_plan_features                 :string(255)
 #  main_product                       :string(255)
 #  credits                            :integer          default(0)
+#  is_domain_supervisor               :boolean          default(FALSE)
 #
 # Indexes
 #

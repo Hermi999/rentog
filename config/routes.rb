@@ -737,6 +737,7 @@ Kassi::Application.routes.draw do
           end
           collection do
             post :promote_admin
+            post :promote_supervisor
             post :posting_allowed
           end
         end

@@ -269,6 +269,7 @@ de:
         organization_name: "Firmenname"
         join_date: Beigetreten
         admin: Administrator
+        supervisor: Supervisor
         posting_allowed: "Veröffentlichen von Einträgen erlaubt"
         ban_user: "Nutzer sperren"
         saving_user_status: Speichern...

@@ -270,6 +270,7 @@ en:
         organization_name: "Company name"
         join_date: Joined
         admin: Admin
+        supervisor: Supervisor
         posting_allowed: "Verified user?"
         ban_user: "Ban user"
         saving_user_status: Saving...
