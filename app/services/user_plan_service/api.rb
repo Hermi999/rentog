@@ -4,6 +4,17 @@ module UserPlanService
     def initialize()
     end
 
+    # Set the plan of a new created user to "free".
+    # If there exists already an ultimate user with the same domain, then set
+    # the plan also to ultimate.
+    def set_plan_of_new_user(user)
+      if same_domain_as_existing_ultimate?(user)
+        set_plan_and_feature_plan_levels(user, :ultimate)
+      else
+        set_plan_and_feature_plan_levels(user, :free)
+      end
+    end
+
     # sets the plan level of all featues of the user - this should be the standard method to be called.
     # Because most of the time the user should be a "premium", "ultimate", "free" user and should not have
     # individual plans for the different features.
@@ -65,6 +76,16 @@ module UserPlanService
       level = temp[feature.to_s]
     end
 
+    def get_all_domains_with_level(level)
+      domains = []
+      users_with_certain_level = get_all_users_with_level(level)
+      users_with_certain_level.each do |user|
+        user.confirmed_notification_emails.each do |email|
+          domains << email.address.split("@").last
+        end
+      end
+      domains
+    end
 
     private
 
@@ -81,6 +102,17 @@ module UserPlanService
         end
         user.user_plan_features = val.to_json
         user.save unless user.new_record?
+      end
+
+      # checks if a new pool admin has the same domain as an existin "ultimate" pool admin
+      def same_domain_as_existing_ultimate?(user)
+        domains = get_all_domains_with_level "ultimate"
+        domains.include?(user.emails.first.address.split("@").last)
+      end
+
+      # returns all users with a certain user plan level
+      def get_all_users_with_level(level)
+        Person.where(is_organization: true, user_plan: level)
       end
 
   end

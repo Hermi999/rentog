@@ -643,7 +643,7 @@ class PeopleController < Devise::RegistrationsController
 
     # wah: Set user plan
     user_plan = UserPlanService::Api.new
-    user_plan.set_plan_and_feature_plan_levels(person, :free)
+    user_plan.set_plan_of_new_user(person)
 
     if person.save!
       sign_in(resource_name, resource)
