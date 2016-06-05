@@ -1,6 +1,5 @@
 class PoolToolController < ApplicationController
   # Filters
-  before_filter :get_visitor_pool_tool_owner_relation, :only => [ :show]
   before_filter :ensure_is_authorized_to_view, :only => [ :show]
 
 
@@ -226,12 +225,6 @@ class PoolToolController < ApplicationController
         redirect_to person_poolTool_path(@current_user.company) if @relation == :untrusted_company_employee
         redirect_to login_path                                  if @relation == :logged_out_user
         return false
-    end
-
-
-    # Get the relation between the owner of the site and the current visitor
-    def get_visitor_pool_tool_owner_relation
-      @relation = get_site_owner_visitor_relation(@site_owner, @current_user)
     end
 
 

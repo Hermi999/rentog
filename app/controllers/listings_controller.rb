@@ -186,7 +186,7 @@ class ListingsController < ApplicationController
     @selected_tribe_navi_tab = "home"
 
     # wah
-    @relation = get_relation
+    get_relation
 
     # redirect if intern listing
     if @listing.availability == "intern"    &&
@@ -319,8 +319,8 @@ class ListingsController < ApplicationController
     #initialize_user_plan_restrictions
     #initialize_user_plan_restrictions3
 
-    relation = get_relation
-    @is_member_of_company = (relation == :company_admin_own_site || relation == :company_employee || relation == :rentog_admin_own_site)
+    get_relation
+    @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site)
 
     category_tree = CategoryViewUtils.category_tree(
       categories: ListingService::API::Api.categories.get_all(community_id: @current_community.id)[:data],
@@ -375,8 +375,8 @@ class ListingsController < ApplicationController
 
   def create
     # set listing author to site owner if admin or supervisor create listing
-    relation = get_relation
-    if relation == :rentog_admin || relation == :domain_supervisor
+    get_relation
+    if @relation == :rentog_admin || @relation == :domain_supervisor
       if !params[:listing][:person_id].empty?
         listing_author = Person.find(params[:listing][:person_id])
       end
@@ -468,7 +468,7 @@ class ListingsController < ApplicationController
   end
 
   def edit
-    relation = get_relation
+    get_relation
 
     initialize_user_plan_restrictions
     initialize_user_plan_restrictions3
@@ -1232,13 +1232,9 @@ class ListingsController < ApplicationController
   end
 
   # wah
-  # returns one of the following relations:
-  # logged_out_user, company_admin_own_site, enpoyee_own_site, company_employee, full_trusted_company_admin, trust_company,
-  # full_trusted_company_employee, trust_employee, unverified_company, untrusted_company_employee,
-  # untrusted_company_admin
+  # overwrite site_owner & relation because for the listing we can also get this information directly from the listing
   def get_relation
-    visitor = @current_user
     @site_owner = Maybe(@listing).author.or_else(nil) || Person.find(params[:person_id])
-    get_site_owner_visitor_relation(@site_owner, visitor)
+    @relation = get_site_owner_visitor_relation(@site_owner, @current_user)
   end
 end

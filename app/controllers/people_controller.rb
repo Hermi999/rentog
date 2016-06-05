@@ -16,22 +16,11 @@ class PeopleController < Devise::RegistrationsController
   # Skip auth token check as current jQuery doesn't provide it automatically
   skip_before_filter :verify_authenticity_token, :only => [:activate, :deactivate]
 
-  before_filter do
-    @site_owner = Person.find(params[:id])
-  end
-
   helper_method :show_closed?
 
   def show
-    # @person is the person which owns the profile
-    @person = Person.find(params[:person_id] || params[:id])
-
-    # Get the relation between the profile owner and the current visitor
-    relation = get_site_owner_visitor_relation(@person, @current_user)
-
-
-    raise PersonDeleted if @person.deleted?
-    PersonViewUtils.ensure_person_belongs_to_community!(@person, @current_community)
+    raise PersonDeleted if @site_owner.deleted?
+    PersonViewUtils.ensure_person_belongs_to_community!(@site_owner, @current_community)
 
 
     # WORKAROUND: create path for showing more than 6 employees
@@ -39,23 +28,23 @@ class PeopleController < Devise::RegistrationsController
 
     redirect_to root and return if @current_community.private? && !@current_user
     @selected_tribe_navi_tab = "members"
-    @community_membership = CommunityMembership.find_by_person_id_and_community_id_and_status(@person.id, @current_community.id, "accepted")
+    @community_membership = CommunityMembership.find_by_person_id_and_community_id_and_status(@site_owner.id, @current_community.id, "accepted")
 
 
     # Restrict (depending on viewer):
     #   - which listings are viewed on profile page
-    if relation == :logged_out
+    if @relation == :logged_out
       availability = ["all", nil, ""]
 
-    elsif relation == :company_admin_own_site ||
-          relation == :company_employee ||
-          relation == :rentog_admin
+    elsif @relation == :company_admin_own_site ||
+          @relation == :company_employee ||
+          @relation == :rentog_admin
       availability = ["all", "trusted", "intern", nil, ""]
 
-    elsif relation == :full_trusted_company_admin ||
-          relation == :trusted_company_admin ||
-          relation == :full_trusted_company_employee ||
-          relation == :trusted_company_employee
+    elsif @relation == :full_trusted_company_admin ||
+          @relation == :trusted_company_admin ||
+          @relation == :full_trusted_company_employee ||
+          @relation == :trusted_company_employee
       availability = ["all", "trusted", nil, ""]
 
     else
@@ -63,9 +52,9 @@ class PeopleController < Devise::RegistrationsController
     end
 
 
-    include_closed = @current_user == @person && params[:show_closed]
+    include_closed = @current_user == @site_owner && params[:show_closed]
     search = {
-      author_id: @person.id,
+      author_id: @site_owner.id,
       include_closed: include_closed,
       page: 1,
       per_page: 1000,                # wah 'show all listings' not working at the moment
@@ -158,11 +147,11 @@ class PeopleController < Devise::RegistrationsController
     }.data
 
 
-    followed_people = followed_people_in_community(@person, @current_community)
-    followers = @person.followers
-    received_testimonials = TestimonialViewUtils.received_testimonials_in_community(@person, @current_community)
-    received_positive_testimonials = TestimonialViewUtils.received_positive_testimonials_in_community(@person, @current_community)
-    feedback_positive_percentage = @person.feedback_positive_percentage_in_community(@current_community)
+    followed_people = followed_people_in_community(@site_owner, @current_community)
+    followers = @site_owner.followers
+    received_testimonials = TestimonialViewUtils.received_testimonials_in_community(@site_owner, @current_community)
+    received_positive_testimonials = TestimonialViewUtils.received_positive_testimonials_in_community(@site_owner, @current_community)
+    feedback_positive_percentage = @site_owner.feedback_positive_percentage_in_community(@current_community)
 
     render locals: { renting_listings: renting_listings,
                      selling_listings: selling_listings,
@@ -170,7 +159,7 @@ class PeopleController < Devise::RegistrationsController
                      other_listings: other_listings,
                      followed_people: followed_people,
                      followers: followers,
-                     company_member: (relation == :company_admin_own_site || relation == :company_employee || @current_user == @person),
+                     company_member: (@relation == :company_admin_own_site || @relation == :company_employee || @current_user == @site_owner),
                      received_testimonials: received_testimonials,
                      received_positive_testimonials: received_positive_testimonials,
                      feedback_positive_percentage: feedback_positive_percentage
@@ -526,22 +515,22 @@ class PeopleController < Devise::RegistrationsController
   end
 
   def destroy
-    has_unfinished = TransactionService::Transaction.has_unfinished_transactions(@current_user.id)
+    has_unfinished = TransactionService::Transaction.has_unfinished_transactions(@site_owner.id)
     return redirect_to root if has_unfinished
 
-    communities = @current_user.community_memberships.map(&:community_id)
+    communities = @site_owner.community_memberships.map(&:community_id)
 
     # Do all delete operations in transaction. Rollback if any of them fails
     ActiveRecord::Base.transaction do
-      UserService::API::Users.delete_user(@current_user.id)
-      MarketplaceService::Listing::Command.delete_listings(@current_user.id)
+      UserService::API::Users.delete_user(@site_owner.id)
+      MarketplaceService::Listing::Command.delete_listings(@site_owner.id)
 
       communities.each { |community_id|
-        PaypalService::API::Api.accounts.delete(community_id: @current_community.id, person_id: @current_user.id)
+        PaypalService::API::Api.accounts.delete(community_id: @current_community.id, person_id: @site_owner.id)
       }
     end
 
-    sign_out @current_user
+    sign_out @site_owner
     report_analytics_event(['user', "deleted", "by user"]);
     flash[:warning] = t("layouts.notifications.account_deleted")
     redirect_to root
@@ -697,14 +686,12 @@ class PeopleController < Devise::RegistrationsController
 
 
   def change_active_status(status)
-    @person = Person.find(params[:id])
-    #@person.update_attribute(:active, 0)
-    @person.update_attribute(:active, (status.eql?("activated") ? true : false))
-    @person.listings.update_all(:open => false) if status.eql?("deactivated")
+    @site_owner.update_attribute(:active, (status.eql?("activated") ? true : false))
+    @site_owner.listings.update_all(:open => false) if status.eql?("deactivated")
     flash[:notice] = t("layouts.notifications.person_#{status}")
     respond_to do |format|
       format.html {
-        redirect_to @person
+        redirect_to @site_owner
       }
       format.js {
         render :layout => false

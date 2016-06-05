@@ -20,8 +20,8 @@ class SettingsController < ApplicationController
 
   def account
     @selected_left_navi_link = "account"
-    @person.emails.build
-    marketplaces = @person.community_memberships
+    @site_owner.emails.build
+    marketplaces = @site_owner.community_memberships
                    .map { |m| Maybe(m.community).name(I18n.locale).or_else(nil) }
                    .compact
     has_unfinished = TransactionService::Transaction.has_unfinished_transactions(@site_owner.id)
@@ -46,7 +46,14 @@ class SettingsController < ApplicationController
   end
 
   def unsubscribe
-    @person_to_unsubscribe = find_person_to_unsubscribe(@site_owner, params[:auth])
+    case @relation
+      when :rentog_admin, :domain_supervisor
+        person = @site_owner
+      else
+        person = @current_user
+      end
+
+    @person_to_unsubscribe = find_person_to_unsubscribe(person, params[:auth])
 
     if @person_to_unsubscribe && @person_to_unsubscribe.username == params[:person_id] && params[:email_type].present?
       if params[:email_type] == "community_updates"
@@ -69,14 +76,14 @@ class SettingsController < ApplicationController
   private
 
   def add_location_to_person
-    unless @person.location
-      @person.build_location(:address => @person.street_address)
-      @person.location.search_and_fill_latlng
+    unless @site_owner.location
+      @site_owner.build_location(:address => @site_owner.street_address)
+      @site_owner.location.search_and_fill_latlng
     end
   end
 
-  def find_person_to_unsubscribe(site_owner, auth_token)
-    site_owner || Maybe(AuthToken.find_by_token(auth_token)).person.or_else { nil }
+  def find_person_to_unsubscribe(person, auth_token)
+    person || Maybe(AuthToken.find_by_token(auth_token)).person.or_else { nil }
   end
 
 end

@@ -39,8 +39,6 @@ class CompanyStatisticsController < ApplicationController
     # button in the pool tool side bar for it. This way the admin can send
     # the link to his employees
     def ensure_is_authorized_to_view
-      @relation = get_site_owner_visitor_relation(@site_owner, @current_user)
-
       # ALLOWED
         return if @relation == :rentog_admin ||
                   @relation == :rentog_admin_own_site ||

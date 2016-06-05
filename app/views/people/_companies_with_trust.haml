@@ -2,7 +2,7 @@
 .row
   %h2.people-header
     - if followers.count > 0
-      - if current_user?(@person)
+      - if current_user?(@site_owner)
         - if followers.count == 1
           = t(".they_trust_you_singular", :count => followers.count)
         - else
@@ -13,7 +13,7 @@
         - else
           = t(".they_they_trust_you_plural", :count => followers.count, :company => person.organization_name)
     - else
-      - if current_user?(@person)
+      - if current_user?(@site_owner)
         = t(".no_trusted_people")
       - else
         = t(".they_no_trusted_people")

@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
     :perform_redirect,
     :fetch_logged_in_user,
     :fetch_site_owner,
+    :fetch_visitor_site_owner_relation,
     :save_current_host_with_port,
     :fetch_community_membership,
     :redirect_removed_locale,
@@ -191,8 +192,14 @@ class ApplicationController < ActionController::Base
   end
 
   def fetch_site_owner
-    if params['person_id']
-      @site_owner = Person.where(:username => params['person_id']).first
+    if params['person_id'] || params['id']
+      @site_owner = Person.where(:username => (params['person_id'] || params['id'])).first || @current_user
+    end
+  end
+
+  def fetch_visitor_site_owner_relation
+    if @site_owner
+      @relation = get_site_owner_visitor_relation(@site_owner, @current_user)
     end
   end
 
@@ -206,9 +213,8 @@ class ApplicationController < ActionController::Base
 
   # A before filter for views that only authorized users can access
   def ensure_authorized(error_message)
+    binding.pry
     if logged_in?
-      @person = Person.find(params[:person_id] || params[:id])
-      @relation = get_site_owner_visitor_relation(@person, @current_user)
 
       # ALLOWED
         return if @relation == :rentog_admin ||

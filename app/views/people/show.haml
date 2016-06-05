@@ -1,36 +1,36 @@
 - content_for :javascript do
-  initialize_profile_view("#{@person.username}", #{company_member});
+  initialize_profile_view("#{@site_owner.username}", #{company_member});
 
 - content_for :title_header do
   %h1
-    %span.profile-title= @person.name(@current_community) + (@community_customization && @community_customization.storefront_label ? @community_customization.storefront_label : "")
+    %span.profile-title= @site_owner.name(@current_community) + (@community_customization && @community_customization.storefront_label ? @community_customization.storefront_label : "")
 
 .row
   .col-8
 
     .row.relative
       .people-image-mobile
-        = huge_avatar_thumb(@person)
+        = huge_avatar_thumb(@site_owner)
       .profile-action-buttons-mobile
         = render :partial => "profile_action_buttons"
 
     .row
-      - if @person.description && !@person.description.blank?
+      - if @site_owner.description && !@site_owner.description.blank?
         - text_with_line_breaks do
-          = @person.description
-      - elsif current_user?(@person)
-        = link_to person_settings_path(@person) do
+          = @site_owner.description
+      - elsif current_user?(@site_owner)
+        = link_to person_settings_path(@site_owner) do
           = icon_tag("new_listing", ["icon-with-text"])
           = t(".add_description")
           <br><br>
 
     / renting listings
-    - if @person.is_organization
+    - if @site_owner.is_organization
       .row.profile-row
         %h2.people-header
           / if no listings at all
           - if renting_listings.total_entries == 0 && selling_listings.total_entries == 0 && ad_listings.total_entries == 0
-            - if current_user?(@person) && params[:show_closed]
+            - if current_user?(@site_owner) && params[:show_closed]
               = t(".no_listings")
             - else
               = t(".no_open_listings")
@@ -39,18 +39,18 @@
           - if renting_listings.total_entries > 0
             = t(".renting_listings")
             (
-            - if current_user?(@person) && params[:show_closed]
+            - if current_user?(@site_owner) && params[:show_closed]
               = pluralize(renting_listings.total_entries, t(".listing"), t(".listings"))
             - else
               = pluralize(renting_listings.total_entries, t(".open_listing"), t(".open_listings"))
             )
 
             %span.people-show-closed-link
-              - if current_user?(@person)
+              - if current_user?(@site_owner)
                 - if params[:show_closed]
-                  = link_to t("people.profile_listings.show_only_open"), person_path(@person)
+                  = link_to t("people.profile_listings.show_only_open"), person_path(@site_owner)
                 - else
-                  = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
+                  = link_to t("people.profile_listings.show_also_closed"), person_path(@site_owner, :show_closed => true)
 
     - if renting_listings.total_entries > 0
 
@@ -64,7 +64,7 @@
 
       #profile-listings-list
         - limit = 1000
-        = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: renting_listings}
+        = render :partial => 'listings/profile_listings', :locals => {person: @site_owner, limit: limit, listings: renting_listings}
 
 
 
@@ -74,22 +74,22 @@
         %h2.people-header
           = t(".ad_listings")
           (
-          - if current_user?(@person) && params[:show_closed]
+          - if current_user?(@site_owner) && params[:show_closed]
             = pluralize(ad_listings.total_entries, t(".listing"), t(".listings"))
           - else
             = pluralize(ad_listings.total_entries, t(".open_listing"), t(".open_listings"))
           )
 
           %span.people-show-closed-link
-            - if current_user?(@person)
+            - if current_user?(@site_owner)
               - if params[:show_closed]
-                = link_to t("people.profile_listings.show_only_open"), person_path(@person)
+                = link_to t("people.profile_listings.show_only_open"), person_path(@site_owner)
               - else
-                = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
+                = link_to t("people.profile_listings.show_also_closed"), person_path(@site_owner, :show_closed => true)
 
       #profile-listings-list
       - limit = 1000
-      = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: ad_listings}
+      = render :partial => 'listings/profile_listings', :locals => {person: @site_owner, limit: limit, listings: ad_listings}
 
 
     / selling listings
@@ -98,23 +98,23 @@
         %h2.people-header
           = t(".selling_listings")
           (
-          - if current_user?(@person) && params[:show_closed]
+          - if current_user?(@site_owner) && params[:show_closed]
             = pluralize(selling_listings.total_entries, t(".listing"), t(".listings"))
           - else
             = pluralize(selling_listings.total_entries, t(".open_listing"), t(".open_listings"))
           )
 
           %span.people-show-closed-link
-            - if current_user?(@person)
+            - if current_user?(@site_owner)
               - if params[:show_closed]
-                = link_to t("people.profile_listings.show_only_open"), person_path(@person)
+                = link_to t("people.profile_listings.show_only_open"), person_path(@site_owner)
               - else
-                = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
+                = link_to t("people.profile_listings.show_also_closed"), person_path(@site_owner, :show_closed => true)
 
 
       #profile-listings-list
         - limit = 1000
-        = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: selling_listings}
+        = render :partial => 'listings/profile_listings', :locals => {person: @site_owner, limit: limit, listings: selling_listings}
 
 
     / other listings
@@ -123,39 +123,39 @@
         %h2.people-header
           = t(".other_listings")
           (
-          - if current_user?(@person) && params[:show_closed]
+          - if current_user?(@site_owner) && params[:show_closed]
             = pluralize(other_listings.total_entries, t(".listing"), t(".listings"))
           - else
             = pluralize(other_listings.total_entries, t(".open_listing"), t(".open_listings"))
           )
 
           %span.people-show-closed-link
-            - if current_user?(@person)
+            - if current_user?(@site_owner)
               - if params[:show_closed]
-                = link_to t("people.profile_listings.show_only_open"), person_path(@person)
+                = link_to t("people.profile_listings.show_only_open"), person_path(@site_owner)
               - else
-                = link_to t("people.profile_listings.show_also_closed"), person_path(@person, :show_closed => true)
+                = link_to t("people.profile_listings.show_also_closed"), person_path(@site_owner, :show_closed => true)
 
 
       #profile-listings-list
         - limit = 1000
-        = render :partial => 'listings/profile_listings', :locals => {person: @person, limit: limit, listings: other_listings}
+        = render :partial => 'listings/profile_listings', :locals => {person: @site_owner, limit: limit, listings: other_listings}
 
 
 
     / Trusted companies & followed people
     - if @current_community.follow_in_use?
       .row.profile-row
-        - if @person.is_organization
-          = render :partial => "trusted_companies", :locals => { :person => @person, followed_people: followed_people, :limit => 6 }
+        - if @site_owner.is_organization
+          = render :partial => "trusted_companies", :locals => { :person => @site_owner, followed_people: followed_people, :limit => 6 }
         - else
-          = render :partial => "followed_people", :locals => { :person => @person, followed_people: followed_people, :limit => 6 }
+          = render :partial => "followed_people", :locals => { :person => @site_owner, followed_people: followed_people, :limit => 6 }
 
     / Companies who trust this company
     -if @current_community.follow_in_use?
       .row.profile-row
-        - if @person.is_organization
-          = render :partial => "companies_with_trust", :locals => { :person => @person, followers: followers, :limit => 6 }
+        - if @site_owner.is_organization
+          = render :partial => "companies_with_trust", :locals => { :person => @site_owner, followers: followers, :limit => 6 }
 
 
     / Feedback
@@ -172,27 +172,27 @@
             #profile-testimonials-list
               = render :partial => "testimonials", :locals => {:received_testimonials => received_testimonials, :limit => 3}
 
-    - if ( @current_user && (@current_community.others_can_see_employees? || @current_user.is_admin_of?(@current_community) || current_user?(@person)) && @person.is_organization )
+    - if ( @current_user && (@current_community.others_can_see_employees? || @current_user.is_admin_of?(@current_community) || current_user?(@site_owner)) && @site_owner.is_organization )
       - limit = 8
-      = render :partial => 'show_employees', :locals => { :company => @person, :limit => 6 }
+      = render :partial => 'show_employees', :locals => { :company => @site_owner, :limit => 6 }
 
   / Profile image
   .col-4
     .row
       .people-image
-        = huge_avatar_thumb(@person)
+        = huge_avatar_thumb(@site_owner)
 
     .row
       .profile-action-buttons-desktop
         = render :partial => "profile_action_buttons"
 
-    - if !@person.is_organization
+    - if !@site_owner.is_organization
       .row
         %h2
           =t("people.show.employer")
-        = link_to medium_avatar_thumb(@person.get_company), person_path(@person.get_company)
+        = link_to medium_avatar_thumb(@site_owner.get_company), person_path(@site_owner.get_company)
         %p
-          =link_to(@person.get_company.organization_name, person_path(@person.get_company))
+          =link_to(@site_owner.get_company.organization_name, person_path(@site_owner.get_company))
 
 - content_for :extra_javascript do
   :javascript
