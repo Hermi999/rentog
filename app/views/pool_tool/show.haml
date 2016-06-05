@@ -9,7 +9,7 @@
 
 / Lock Screen and show 'no listing' message if the company has no listings yet
 / and no transactions and no followers and no followed users
-- if transactions == [] && listings == [] && @current_user.followers == []
+- if transactions == [] && listings == [] && @current_user.followers == [] && !@current_user.is_supervisor?
   - content_for :javascript do
     $('body').css('overflow', 'hidden');
 
@@ -22,9 +22,9 @@
         = t('pool_tool.show.ifYouCompanyAdmin')
         %ul
           %li#create_new_listing
-            = t('pool_tool.show.createListingHere', :listing_path => new_listing_path).html_safe
+            = t('pool_tool.show.createListingHere', :listing_path => new_listing_path(@site_owner)).html_safe
           %li#reopen_listing
-            = t('pool_tool.show.reopen_listing', :person_path => person_path(@pooltool_owner)).html_safe
+            = t('pool_tool.show.reopen_listing', :person_path => person_path(@site_owner)).html_safe
 
         %span{:style => "font-size: 0.9em; margin-top:20px; display:block;"}
           = t('pool_tool.show.do_not_want_to_create_listing', :link => get_wp_url("blog/2016/03/10/create-shared-pool")).html_safe
@@ -43,18 +43,19 @@
 
 
       / Button: Add new Booking
-      - if listings != []
+      - if listings != [] && !@current_user.is_supervisor?
         #addNewBookingWrapper{:style=>"float:left;"}
           %button#addNewBooking.primary-button
             = @add_booking_text
 
 
-      / Button: New booking
-      = link_to @external_booking_text, @external_booking_link, :class => "new-external-booking-link", :id => "createNewExternalBooking"
+      / Button: New external booking
+      -if !(@relation == :rentog_admin || @relation == :domain_supervisor)
+        = link_to @external_booking_text, @external_booking_link, :class => "new-external-booking-link", :id => "createNewExternalBooking"
 
       / Button: Add new device
-      - if @relation == :company_admin_own_site || @relation == :rentog_admin
-        = link_to t("homepage.index.post_new_listing"), new_listing_path, :class => "new-listing-link", :id => "createNewDevice"
+      - if @relation == :company_admin_own_site || @relation == :rentog_admin || @relation == :rentog_admin_own_site || @relation == :domain_supervisor
+        = link_to t("homepage.index.post_new_listing"), new_listing_path(@site_owner), :class => "new-listing-link", :id => "createNewDevice"
 
       / Button: Return to my own pool
       - if !@belongs_to_company
@@ -69,24 +70,24 @@
 
 
       / Button: Company statistics
-      - if @relation == :company_admin_own_site || @relation == :rentog_admin
-        = link_to t("pool_tool.show.company_statistics"), person_company_statistics_path(@current_user), :class => "pooltool-button", :id => "company_statistics"
+      - if @relation == :company_admin_own_site || @relation == :rentog_admin || @relation == :rentog_admin_own_site
+        = link_to t("pool_tool.show.company_statistics"), person_company_statistics_path(@site_owner), :class => "pooltool-button", :id => "company_statistics"
 
       / button: Show device events
       - if @belongs_to_company
-        = link_to t("pool_tool.show.show_device_history"), person_listing_events_path(@current_user.get_company), :class => "pooltool-button", :id => "show_device_history"
+        = link_to t("pool_tool.show.show_device_history"), person_listing_events_path(@site_owner), :class => "pooltool-button", :id => "show_device_history"
 
       / Button: Options
       - if @current_user.is_organization? && @belongs_to_company
-        = link_to t("pool_tool.show.options"), pooltool_person_settings_path(@current_user), class: "pooltool-button"
+        = link_to t("pool_tool.show.options"), pooltool_person_settings_path(@site_owner), class: "pooltool-button"
 
       / Link to other Pools
-      - if @belongs_to_company && @current_user.get_company.followers != []
+      - if @belongs_to_company && @site_owner.get_company.followers != []
         #other-pools
           %p#other-shared-pools= t("pool_tool.show.other_pools")
           - column_width = 12
-          - column_width = 6 if @current_user.get_company.followers.count > 6
-          - @current_user.get_company.followers.each do |follower|
+          - column_width = 6 if @site_owner.get_company.followers.count > 6
+          - @site_owner.get_company.followers.each do |follower|
             %div{class: "col-#{column_width} other-pool-columns"}
               - if follower.is_organization
                 = link_to follower.organization_name, person_poolTool_path(follower), class: ".other-pool-link"
@@ -146,10 +147,10 @@
         ST.poolTool.init();
 
     - content_for :title_header do
-      - if @belongs_to_company
+      - if @is_member_of_company
         %h1#pooltool-header= t("pool_tool.headline")
       - else
-        %h1#pooltool-header= t("pool_tool.headline_visitor", :owner => @pooltool_owner.organization_name)
+        %h1#pooltool-header.other_company_is_site_owner= t("pool_tool.headline") + " (#{@site_owner.organization_name})"
       #pooltool-subheader= t("pool_tool.subheadline")
 
 
@@ -164,11 +165,11 @@
               %input{:type => 'hidden', :name => 'poolTool', :value => 'true'}
               %input{:type => 'hidden', :name => 'message', :value => t('pool_tool.show.booked_with_poolTool')}
 
-              - if @current_user.is_company_admin_of?(@pooltool_owner) || @current_user.has_admin_rights_in?(@current_community)
+              - if @current_user.is_company_admin_of?(@site_owner) || @current_user.has_admin_rights_in?(@current_community)
                 .row
                   #employee_wrapper.col-5
                     = label_tag :employees, t('pool_tool.show.choose_employee')
-                    = collection_select :employee, :username, @pooltool_owner.employees, :username, :full_name, {:prompt => t('pool_tool.show.please_select')}, {id: "dd_employee"}
+                    = collection_select :employee, :username, @site_owner.employees, :username, :full_name, {:prompt => t('pool_tool.show.please_select')}, {id: "dd_employee"}
 
                   #poolTool_or.col-1
                     = t('pool_tool.show.or')
@@ -242,7 +243,7 @@
 
 
         / Devices I have at the moment
-        - if @belongs_to_company && @current_user.has_to_give_back_device?(@current_community)
+        - if @is_member_of_company && @current_user.has_to_give_back_device?(@current_community)
           .poolTool_devices_i_have
             %p{:class=>"pool_tool_header"}
               = t('pool_tool.show.devices_i_have_borrowed')
@@ -260,7 +261,7 @@
 
 
         / Devices others have at the moment - not working yet..only show admin
-        - if @belongs_to_company && @current_user.is_organization? && @current_user.has_admin_rights_in?(@current_community)
+        - if @relation == :company_admin_own_site
           .poolTool_devices_others_have
             %p{:class=>"pool_tool_header"}
               = t('pool_tool.show.devices_others_borrowed')

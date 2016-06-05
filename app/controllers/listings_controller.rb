@@ -186,13 +186,13 @@ class ListingsController < ApplicationController
     @selected_tribe_navi_tab = "home"
 
     # wah
-    relation = get_relation
+    @relation = get_relation
 
     # redirect if intern listing
     if @listing.availability == "intern"    &&
-       !relation == :company_admin_own_site &&
-       !relation == :rentog_admin           &&
-       !relation == :company_employee
+       !@relation == :company_admin_own_site &&
+       !@relation == :rentog_admin           &&
+       !@relation == :company_employee
 
         flash[:error] = t("transactions.listing_is_intern")
         redirect_to root and return
@@ -224,7 +224,7 @@ class ListingsController < ApplicationController
     show_price = true
     show_date = true
 
-    case relation
+    case @relation
       when :rentog_admin
         show_price = true
         show_date = false
@@ -319,6 +319,9 @@ class ListingsController < ApplicationController
     #initialize_user_plan_restrictions
     #initialize_user_plan_restrictions3
 
+    relation = get_relation
+    @is_member_of_company = (relation == :company_admin_own_site || relation == :company_employee || relation == :rentog_admin_own_site)
+
     category_tree = CategoryViewUtils.category_tree(
       categories: ListingService::API::Api.categories.get_all(community_id: @current_community.id)[:data],
       shapes: get_shapes,
@@ -338,6 +341,7 @@ class ListingsController < ApplicationController
     return redirect_to action: :new unless request.xhr?
 
     @listing = Listing.new
+    @site_owner = Person.where(id: params[:person_id]).first || @current_user
 
     initialize_user_plan_restrictions
     return unless initialize_user_plan_restrictions2
@@ -356,6 +360,8 @@ class ListingsController < ApplicationController
   def edit_form_content
     return redirect_to action: :edit unless request.xhr?
 
+    @site_owner = Person.where(id: params[:person_id]).first || @current_user
+
     initialize_user_plan_restrictions
     return unless initialize_user_plan_restrictions2
 
@@ -368,6 +374,17 @@ class ListingsController < ApplicationController
 
 
   def create
+    # set listing author to site owner if admin or supervisor create listing
+    relation = get_relation
+    if relation == :rentog_admin || relation == :domain_supervisor
+      if !params[:listing][:person_id].empty?
+        listing_author = Person.find(params[:listing][:person_id])
+      end
+    end
+
+    @listing_author = listing_author || @current_user
+
+    params[:listing].delete("person_id")  # this is only needed for creating a new device as an admin or supervisor
     params[:listing].delete("origin_loc_attributes") if params[:listing][:origin_loc_attributes][:address].blank?
 
     # wah: store subscribers and remove them from the params array
@@ -406,7 +423,7 @@ class ListingsController < ApplicationController
     ).merge(unit_to_listing_opts(m_unit)).except(:unit)
 
     @listing = Listing.new(listing_params)
-    @listing.author = @current_user
+    @listing.author = @listing_author
     @listing.subscribers = subscribers if subscribers != []
 
     ActiveRecord::Base.transaction do
@@ -451,6 +468,8 @@ class ListingsController < ApplicationController
   end
 
   def edit
+    relation = get_relation
+
     initialize_user_plan_restrictions
     initialize_user_plan_restrictions3
 
@@ -495,6 +514,8 @@ class ListingsController < ApplicationController
   end
 
   def update
+    params[:listing].delete("person_id")  # this is only needed for creating a new device as an admin or supervisor
+
     # delete custom listing origin if user has cleared the field
     if (params[:listing][:origin] && (params[:listing][:origin_loc_attributes][:address].empty? || params[:listing][:origin].blank?))
       params[:listing].delete("origin_loc_attributes")
@@ -1121,7 +1142,7 @@ class ListingsController < ApplicationController
         # wah: Create new attachment object
         @attachment = ListingAttachment.new
         @attachment.attachment = attachm
-        @attachment.author_id = @current_user.id
+        @attachment.author_id = Maybe(@listing.author).id.or_else(nil) || @listing_author.id
         @attachment.listing_id = @listing.id
 
         if @attachment.save
@@ -1217,7 +1238,7 @@ class ListingsController < ApplicationController
   # untrusted_company_admin
   def get_relation
     visitor = @current_user
-    site_owner = @listing.author
-    get_site_owner_visitor_relation(site_owner, visitor)
+    @site_owner = Maybe(@listing).author.or_else(nil) || Person.find(params[:person_id])
+    get_site_owner_visitor_relation(@site_owner, visitor)
   end
 end

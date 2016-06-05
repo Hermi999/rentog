@@ -16,7 +16,7 @@
 %div{:id => "header", :class => "#{header}"}
   .header-wrapper
     .header-right.header-padding.visible-tablet
-      - if post_listing_allowed && (!Community.first.only_pool_tool || @current_user)
+      - if post_listing_allowed && (!Community.first.only_pool_tool || @current_user) && !(@current_user && @current_user.is_supervisor?)
         = link_to t("homepage.index.post_new_listing"), new_listing_path, :class => "new-listing-link", :id => "new-listing-link"
 
     .header-right.visible-tablet
@@ -31,6 +31,12 @@
         = render :partial => "layouts/header_user_menu", locals: {unread_count: unread_count, user: user}
 
       = render :partial => "layouts/header_right_visible_tablet", locals: {unread_count: unread_count, user: user}
+
+      - if @current_user.is_domain_supervisor
+        .header-right
+          - inactive = "superuser-inactive" if !@current_user.supervisor_mode_active
+          #supervisor-mode.header-text-link.header-hover{class: inactive}= link_to "S", person_change_supervisor_mode_path(@current_user), method: :post, :title => "Supervisor Mode"
+
 
     - unless @current_user
       .header-right

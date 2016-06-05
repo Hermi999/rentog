@@ -5,7 +5,7 @@ class CompanyStatisticsController < ApplicationController
   before_filter :ensure_is_authorized_to_view
 
   def show
-    statistics = StatisticsService.new(@company_owner.id, @current_community.id)
+    statistics = StatisticsService.new(@site_owner.id, @current_community.id)
     data = {
       averageDeviceBookingPeriod: statistics.averageDeviceBookingPeriod,
       peopleWithMostBookings: statistics.peopleWithMostBookings,
@@ -39,10 +39,15 @@ class CompanyStatisticsController < ApplicationController
     # button in the pool tool side bar for it. This way the admin can send
     # the link to his employees
     def ensure_is_authorized_to_view
-      @company_owner = Person.where(:username => params['person_id']).first
+      @relation = get_site_owner_visitor_relation(@site_owner, @current_user)
 
       # ALLOWED
-        return if @current_user.get_company == @company_owner
+        return if @relation == :rentog_admin ||
+                  @relation == :rentog_admin_own_site ||
+                  @relation == :domain_supervisor ||
+                  @relation == :company_admin_own_site
+
+      @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site)
 
       # NOT ALLOWED
         # with error message

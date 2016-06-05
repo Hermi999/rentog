@@ -16,6 +16,10 @@ class PeopleController < Devise::RegistrationsController
   # Skip auth token check as current jQuery doesn't provide it automatically
   skip_before_filter :verify_authenticity_token, :only => [:activate, :deactivate]
 
+  before_filter do
+    @site_owner = Person.find(params[:id])
+  end
+
   helper_method :show_closed?
 
   def show
@@ -432,7 +436,7 @@ class PeopleController < Devise::RegistrationsController
 
   def update
     # Check if new company name and if, then if it already exists
-    if params[:person][:organization_name] && (params[:person][:organization_name] != @current_user.organization_name)
+    if params[:person][:organization_name] && (params[:person][:organization_name] != @site_owner.organization_name)
       unless Person.organization_name_available?(params[:person][:organization_name])
         flash[:error] = t("people.show.organization_is_in_use")
         redirect_to :back and return
@@ -610,6 +614,19 @@ class PeopleController < Devise::RegistrationsController
   def deactivate
     change_active_status("deactivated")
   end
+
+  def change_supervisor_mode
+    if @current_user.is_domain_supervisor
+      old_val = @current_user.supervisor_mode_active
+      @current_user.update_attribute(:supervisor_mode_active, !old_val)
+    end
+
+    redirect_to root and return
+  end
+
+
+
+
 
   private
 

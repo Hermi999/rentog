@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
     :fetch_community_plan_expiration_status,
     :perform_redirect,
     :fetch_logged_in_user,
+    :fetch_site_owner,
     :save_current_host_with_port,
     :fetch_community_membership,
     :redirect_removed_locale,
@@ -189,6 +190,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def fetch_site_owner
+    if params['person_id']
+      @site_owner = Person.where(:username => params['person_id']).first
+    end
+  end
+
   # A before filter for views that only users that are logged in can access
   def ensure_logged_in(warning_message)
     return if logged_in?
@@ -201,7 +208,13 @@ class ApplicationController < ActionController::Base
   def ensure_authorized(error_message)
     if logged_in?
       @person = Person.find(params[:person_id] || params[:id])
-      return if current_user?(@person)
+      @relation = get_site_owner_visitor_relation(@person, @current_user)
+
+      # ALLOWED
+        return if @relation == :rentog_admin ||
+                  @relation == :rentog_admin_own_site ||
+                  @relation == :domain_supervisor ||
+                  @relation == :company_admin_own_site
     end
 
     # This is reached only if not authorized
@@ -625,7 +638,14 @@ class ApplicationController < ActionController::Base
     relation =
       if visitor
         if visitor.has_admin_rights_in?(@current_community)
-          :rentog_admin                                 # rentog admin is visisiting the site
+          if site_owner == visitor
+            :rentog_admin_own_site
+          else
+            :rentog_admin                                 # rentog admin is visisiting the site
+          end
+
+        elsif visitor.is_supervisor?
+          :domain_supervisor
 
         elsif visitor.is_organization
           if @current_community.require_verification_to_post_listings &&

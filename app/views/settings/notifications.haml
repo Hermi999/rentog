@@ -2,9 +2,12 @@
   initialize_update_notification_settings_form("#{I18n.locale}","#{@person.id.to_s}");
 
 - content_for :title_header do
-  %h1= t("layouts.no_tribe.settings")
+  - if @is_member_of_company
+    %h1= t("layouts.no_tribe.settings")
+  - else
+    %h1.other_company_is_site_owner= t("layouts.no_tribe.settings") + " (#{@site_owner.organization_name})"
 
-= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(@current_user, @current_community) }
+= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(@site_owner, @current_community) }
 
 #person_settings_form.left-navi-section.settings-section.notification-settings
   = form_for @person do |form|

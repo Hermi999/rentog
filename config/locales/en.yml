@@ -2446,7 +2446,6 @@ en:
     next_month: "Next Month"
     date: "Date:"
     headline: "Pool Management Tool"
-    headline_visitor: "%{owner}'s device pool"
     subheadline: "For Internal and Renting devices"
     add_booking: "Book internal device"
     cancel_booking: "Cancel"

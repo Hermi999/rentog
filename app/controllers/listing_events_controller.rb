@@ -45,9 +45,14 @@ class ListingEventsController < ApplicationController
 
     def ensure_is_authorized_to_view
       @author = Person.where(:username => params['person_id']).first
+      @relation = get_site_owner_visitor_relation(@site_owner, @current_user)
+      @is_member_of_company = @relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site
 
       # ALLOWED
-        return if @current_user.get_company == @author
+        return if @relation == :rentog_admin ||
+                  @relation == :rentog_admin_own_site ||
+                  @relation == :domain_supervisor ||
+                  @relation == :company_admin_own_site
 
       # NOT ALLOWED
         # with error message

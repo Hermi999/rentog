@@ -470,18 +470,6 @@ window.ST.poolTool = (function() {
     $('.header-wrapper').addClass('fullscreen');
     $('.title-header-wrapper').addClass('fullscreen');
     $('.page-content .wrapper').addClass('fullscreen');
-
-    // Change background-color if on another companies pool tool
-    if (!gon.belongs_to_company){
-      var color_background = "rgb(243, 196, 188)";
-      var color_title_container = "rgb(231, 78, 53)";
-
-      $('body').css('background-color', color_background);
-      $('.page-content').css('background-color', color_background);
-      $('.wrapper').css('background-color', color_background);
-      $('.title-container').css('background-color', color_title_container);
-      $('.marketplace-title-header>h1').css("color", "white");
-    }
   }
 
 
@@ -758,7 +746,7 @@ window.ST.poolTool = (function() {
 
     // If source is still empty (because company has no open listings and no other company follows),
     // then add dummy listings
-      if (source.length < 1) {
+      if (source.length < 1 && !gon.is_supervisor) {
         source = addDummyListings();
         if (gon.owner_has_followers === true){
           $(".poolTool_gantt_container *").css('pointer-events', 'none');

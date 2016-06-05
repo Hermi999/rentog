@@ -47,6 +47,7 @@
 #  main_product                       :string(255)
 #  credits                            :integer          default(0)
 #  is_domain_supervisor               :boolean          default(FALSE)
+#  supervisor_mode_active             :boolean          default(FALSE)
 #
 # Indexes
 #

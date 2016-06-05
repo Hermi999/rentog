@@ -5,10 +5,7 @@
       - custom_field.with_type do |field_type|
         / Edit mode
         - if (params[:edit_custom_fields] && custom_field.required == false)
-          - if @current_user.is_employee?
-            - company = @current_user.company
-          - else
-            - company = @current_user
+          - company = @site_owner.get_company
 
           - value = company.custom_fields.where(:id => custom_field).first
 
@@ -18,7 +15,7 @@
           = render :partial => "listings/form/custom_field_partials/#{field_type}", :locals => { :custom_field => custom_field, :custom_field_value => listing.answer_for(custom_field) }
 
         - else
-          - if custom_field.required || custom_field.companies.where(:id => @current_user.id).first
+          - if custom_field.required || custom_field.companies.where(:id => @site_owner.id).first
             / Show custom field. But only if its required or the company has activated it
             = label "custom_fields", "#{custom_field.id}".to_sym, "#{custom_field.name(I18n.locale)}#{custom_field.required ? '*' : ''}"
             = render :partial => "listings/form/custom_field_partials/#{field_type}", :locals => { :custom_field => custom_field, :custom_field_value => listing.answer_for(custom_field) }

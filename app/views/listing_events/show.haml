@@ -4,9 +4,12 @@
     var listing_images = #{@listing_images.to_json};
 
 
-
 - content_for :title_header do
-  %h1#listingEvents-header= t("listing_events.headline")
+  - if @is_member_of_company
+    %h1#listingEvents-header= t("listing_events.headline")
+  - else
+    %h1#listingEvents-header.other_company_is_site_owner= t("listing_events.headline") + " (#{@site_owner.organization_name})"
+
 
 #listingEvents_listingSelection
   = select(:listings, :listing_id, @company_listing_ids_with_titles, {}, {class: "js-example-basic-single"})

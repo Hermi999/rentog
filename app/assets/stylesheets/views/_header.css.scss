@@ -91,6 +91,20 @@ $elementSpacing: lines(0.5);
   }
 }
 
+#supervisor-mode {
+  font-size: 1.8em;
+  font-weight: bold;
+  line-height: 2.2em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+.superuser-inactive a{
+  color: #6B6B6B;
+  &:hover {
+    color: #8F8E8E;
+  }
+}
+
 @mixin header-menu-button($bgcolor) {
   @include button($bgcolor);
   @include header-block;

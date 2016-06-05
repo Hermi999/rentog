@@ -6,7 +6,14 @@ class CustomFieldsPeopleController < ApplicationController
 
   def update
     data = params[:values]
-    company = @current_user.get_company
+
+    person_id = data[(data.length-1).to_s][:person_id]
+
+    if person_id.empty?
+      company = @current_user.get_company
+    else
+      company = Person.find(person_id)
+    end
 
     data.each_with_index do |element, index|
       # DoS protect: Limit how many custom fields a client can send
@@ -26,7 +33,7 @@ class CustomFieldsPeopleController < ApplicationController
 
       # Add association
       if !already_there and element[1]["value"] == "true"
-        @current_user.get_company.custom_fields << CustomField.where(:id => element[1]["id"].to_i)
+        company.custom_fields << CustomField.where(:id => element[1]["id"].to_i)
       end
     end
 

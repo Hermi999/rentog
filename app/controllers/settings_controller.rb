@@ -8,8 +8,12 @@ class SettingsController < ApplicationController
     controller.ensure_authorized t("layouts.notifications.you_are_not_authorized_to_view_this_content")
   end
 
+  before_filter do
+    @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site)
+  end
+
   def show
-    flash.now[:notice] = t("settings.profile.image_is_processing") if @current_user.image.processing?
+    flash.now[:notice] = t("settings.profile.image_is_processing") if @site_owner.image.processing?
     @selected_left_navi_link = "profile"
     add_location_to_person
   end
@@ -20,7 +24,7 @@ class SettingsController < ApplicationController
     marketplaces = @person.community_memberships
                    .map { |m| Maybe(m.community).name(I18n.locale).or_else(nil) }
                    .compact
-    has_unfinished = TransactionService::Transaction.has_unfinished_transactions(@current_user.id)
+    has_unfinished = TransactionService::Transaction.has_unfinished_transactions(@site_owner.id)
 
     render locals: {marketplaces: marketplaces, has_unfinished: has_unfinished}
   end
@@ -34,7 +38,7 @@ class SettingsController < ApplicationController
   end
 
   def pooltool
-    if @current_user && @current_user.is_organization?
+    if @site_owner && @site_owner.is_organization?
       @selected_left_navi_link = "pooltool"
     else
       redirect_to root and return
@@ -42,7 +46,7 @@ class SettingsController < ApplicationController
   end
 
   def unsubscribe
-    @person_to_unsubscribe = find_person_to_unsubscribe(@current_user, params[:auth])
+    @person_to_unsubscribe = find_person_to_unsubscribe(@site_owner, params[:auth])
 
     if @person_to_unsubscribe && @person_to_unsubscribe.username == params[:person_id] && params[:email_type].present?
       if params[:email_type] == "community_updates"
@@ -71,8 +75,8 @@ class SettingsController < ApplicationController
     end
   end
 
-  def find_person_to_unsubscribe(current_user, auth_token)
-    current_user || Maybe(AuthToken.find_by_token(auth_token)).person.or_else { nil }
+  def find_person_to_unsubscribe(site_owner, auth_token)
+    site_owner || Maybe(AuthToken.find_by_token(auth_token)).person.or_else { nil }
   end
 
 end

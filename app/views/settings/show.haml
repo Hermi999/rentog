@@ -5,9 +5,13 @@
   = javascript_include_tag "https://maps.google.com/maps/api/js?sensor=true"
 
 - content_for :title_header do
-  %h1= t("layouts.no_tribe.settings")
+  - if @is_member_of_company
+    %h1= t("layouts.no_tribe.settings")
+  - else
+    %h1.other_company_is_site_owner= t("layouts.no_tribe.settings") + " (#{@site_owner.organization_name})"
 
-= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(@current_user, @current_community) }
+
+= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(@site_owner, @current_community) }
 
 #person_settings_form.left-navi-section.settings-section
   %p
@@ -89,7 +93,7 @@
       = loc.hidden_field :longitude, :value => @person.location.longitude
 
     -# Main Product
-    - if @current_user.is_organization
+    - if @site_owner.is_organization
       = form.label :main_product, t("settings.profile.main_product"), :class => "input"
       = form.radio_button :main_product, "marketplace"
       = form.label :main_product_marketplace, t("settings.profile.main_product1"), :class => "inline"

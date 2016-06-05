@@ -2442,7 +2442,6 @@ de:
     next_month: "Nächstes Monat"
     date: "Datum:"
     headline: "Pool Management Tool"
-    headline_visitor: "Gerätepool von %{owner}"
     subheadline: "Für Interne und Vermietgeräte"
     cancel_booking: "Abbrechen"
     event_hint: "Du kannst hier Reservierungen für Messgeräte hinzufügen."

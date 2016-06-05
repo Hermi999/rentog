@@ -1,3 +1,18 @@
+// change background color of site based on relation
+function change_background_based_on_relation(){
+  if ($(".other_company_is_site_owner").length){
+    var color_background = "rgb(230, 239, 253)";
+    var color_title_container = "rgb(128, 153, 191)";
+
+    $('body').css('background-color', color_background);
+    $('.page-content').css('background-color', color_background);
+    $('.wrapper').css('background-color', color_background);
+    $('.title-container').css('background-color', color_title_container);
+    $('.marketplace-title-header>h1').css("color", "white");
+  }
+};
+change_background_based_on_relation();
+
 
 // Get environment, production or development
 var getEnvironment = function(){

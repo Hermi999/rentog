@@ -2,9 +2,12 @@
   initialize_update_account_info_form("#{I18n.locale}","#{t(".change")}","#{t("common.cancel")}","#{t("people.new.email_is_in_use")}", "#{t("people.new.notification_is_mandatory", service_name: service_name)}");
 
 - content_for :title_header do
-  %h1= t("layouts.no_tribe.settings")
+  - if @is_member_of_company
+    %h1= t("layouts.no_tribe.settings")
+  - else
+    %h1.other_company_is_site_owner= t("layouts.no_tribe.settings") + " (#{@site_owner.organization_name})"
 
-= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(@current_user, @current_community) }
+= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(@site_owner, @current_community) }
 
 #person_settings_form.left-navi-section.settings-section.account-settings
   -# Username
@@ -74,7 +77,7 @@
                         = icon_tag("check", ["icon-fix"])
                     - else
                       = t(".email.status_pending")
-                      %small= link_to(t(".email.confirmation_resend"), send_confirmation_person_email_path(@current_user, email), :method => :post, :class => "account-settings-email-row-resend-link")
+                      %small= link_to(t(".email.confirmation_resend"), send_confirmation_person_email_path(@site_owner, email), :method => :post, :class => "account-settings-email-row-resend-link")
 
         .account-settings-email-row.account-new-email-link
           = link_to t(".email.add_new_with_plus"), "#", id: "account-new-email"
@@ -128,7 +131,7 @@
     %p
       = t("settings.account.delete_information_others_involved")
 
-    = form_tag url_for(:controller => :people, :action => :destroy, :id => @current_user.id), :method => :delete do
+    = form_tag url_for(:controller => :people, :action => :destroy, :id => @site_owner.id), :method => :delete do
       = button_tag t('.delete_account_button'), :class => (has_unfinished ? 'disabled-button' : ''), :disabled => has_unfinished, :id => "delete_account_button", :data => {:confirm => t('.delete_account_confirmation_popup')}
 
     - if has_unfinished

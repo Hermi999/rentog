@@ -17,7 +17,7 @@
       = icon_tag("calendar", ["icon-with-text"])
       = t("layouts.logged_in.poolTool")
 
-  - unless @current_community.only_pool_tool
+  - if !@current_community.only_pool_tool && !@current_user.is_supervisor?
     = link_to marketplace_path do
       = icon_tag("notifications", ["icon-with-text"])
       = t("header.marketplace")
@@ -31,30 +31,29 @@
       = icon_tag("new_listing", ["icon-with-text"])
       = t("header.invite")
 
-  - if @current_user.is_organization || @current_community.employee_has_own_profile
-    = link_to person_path(user) do
-      = icon_tag("user", ["icon-with-text"])
-      = t("header.profile")
-  - else
-    = link_to person_path(user.company) do
-      = icon_tag("user", ["icon-with-text"])
-      = t("header.company_profile")
+  - unless @current_user.is_supervisor?
+    - if @current_user.is_organization || @current_community.employee_has_own_profile
+      = link_to person_path(user) do
+        = icon_tag("user", ["icon-with-text"])
+        = t("header.profile")
+    - else
+      = link_to person_path(user.company) do
+        = icon_tag("user", ["icon-with-text"])
+        = t("header.company_profile")
 
-  = link_to person_inbox_path(@current_user) do
-    = icon_tag("mail", ["icon-with-text"])
-    = t("layouts.conversations.messages")
-    - if unread_count > 0
-      .mobile-badge{:class => get_badge_class(unread_count)}
-        = unread_count
+  - unless @current_user.is_supervisor?
+    = link_to person_inbox_path(@current_user) do
+      = icon_tag("mail", ["icon-with-text"])
+      = t("layouts.conversations.messages")
+      - if unread_count > 0
+        .mobile-badge{:class => get_badge_class(unread_count)}
+          = unread_count
 
-  - if @current_user.is_organization || @current_community.employees_can_create_listings
-    = link_to new_listing_path, :class => "hidden-tablet" do
-      = icon_tag("new_listing", ["icon-with-text"])
-      = t("homepage.index.post_new_listing")
-
-  //= link_to person_path(user, :show_closed => true) do
-  //  = icon_tag("list", ["icon-with-text"])
-  //  = t("header.manage_listings")
+  - unless @current_user.is_supervisor?
+    - if @current_user.is_organization || @current_community.employees_can_create_listings
+      = link_to new_listing_path, :class => "hidden-tablet" do
+        = icon_tag("new_listing", ["icon-with-text"])
+        = t("homepage.index.post_new_listing")
 
   - if @current_user.is_organization || @current_community.employees_can_create_listings
     = link_to import_export_path do

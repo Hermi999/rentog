@@ -5,8 +5,9 @@ class PoolToolController < ApplicationController
 
 
   def show
-    # Is admin or employee of company (or rentog admin)?
-    @belongs_to_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin)
+    # Is admin or employee of company or domain supervisor (or rentog admin)?
+    @belongs_to_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin || @relation == :domain_supervisor || @relation == :rentog_admin_own_site)
+    @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site)
 
     # BUTTONS TEXTs
     addjustButtonText
@@ -16,7 +17,7 @@ class PoolToolController < ApplicationController
       temp_avail = Listing::VALID_AVAILABILITY_OPTIONS if @belongs_to_company
 
       search = {
-        author_id: @pooltool_owner.id,
+        author_id: @site_owner.id,
         include_closed: false,
         page: 1,
         per_page: 1000,
@@ -40,9 +41,9 @@ class PoolToolController < ApplicationController
 
       # OPEN LISTINGS OF COMPANIES WHO TRUST THE POOL TOOL OWNER
       # If company admin wants it, then also show devices of companies who trust the owner in the pool tool
-      if @belongs_to_company && Maybe(@pooltool_owner.company_option).pool_tool_show_all_available_devices.or_else(false)
+      if @belongs_to_company && Maybe(@site_owner.company_option).pool_tool_show_all_available_devices.or_else(false)
         follower_ids = []
-        @pooltool_owner.followers.each{|person| follower_ids<<person.id}
+        @site_owner.followers.each{|person| follower_ids<<person.id}
 
         ext_open_listings = Listing.where("listings.author_id IN (?) AND
                                            listings.open = '1' AND
@@ -93,7 +94,7 @@ class PoolToolController < ApplicationController
     transaction_array = transactions.as_json
 
     # wah: Get all possible company ids of companies which can be shown in pool tool
-    possible_company_ids = [@pooltool_owner] + @pooltool_owner.followers
+    possible_company_ids = [@site_owner] + @site_owner.followers
     possible_companies = Person.where(:id => possible_company_ids)
 
 
@@ -205,6 +206,8 @@ class PoolToolController < ApplicationController
     def ensure_is_authorized_to_view
       # ALLOWED
       return if @relation == :rentog_admin ||
+                @relation == :rentog_admin_own_site ||
+                @relation == :domain_supervisor ||
                 @relation == :company_admin_own_site ||
                 @relation == :company_employee ||
                 @relation == :trusted_company_admin ||
@@ -228,9 +231,7 @@ class PoolToolController < ApplicationController
 
     # Get the relation between the owner of the site and the current visitor
     def get_visitor_pool_tool_owner_relation
-      # Get company who's pool tool page is accessed
-      @pooltool_owner = Person.where(:username => params['person_id']).first
-      @relation = get_site_owner_visitor_relation(@pooltool_owner, @current_user)
+      @relation = get_site_owner_visitor_relation(@site_owner, @current_user)
     end
 
 
@@ -266,7 +267,7 @@ class PoolToolController < ApplicationController
                                                                               listings.open = '1' AND
                                                                               #{temp_avail2} AND
                                                                               (listings.valid_until IS NULL OR valid_until > ?)",
-                                                                              @pooltool_owner.id, @current_community.id, DateTime.now)
+                                                                              @site_owner.id, @current_community.id, DateTime.now)
                                                                     .order("  listings.id asc")
 
 
@@ -291,7 +292,7 @@ class PoolToolController < ApplicationController
 
       # 1 FIND OUT WHICH EXTERNAL LISTINGS WHERE BOOKED BY COMPANY MEMBERS
         # 1a Get the ids of all company members
-        all_users = @pooltool_owner.get_company_members
+        all_users = @site_owner.get_company_members
         user_ids = []
         all_users.each do |user|
           user_ids << user.id
@@ -303,7 +304,7 @@ class PoolToolController < ApplicationController
                                                                             transactions.listing_author_id <> ? AND
                                                                             #{transaction_not_invalid} AND
                                                                             (bookings.end_on > ? OR bookings.device_returned = false)",
-                                                                            user_ids, @current_community.id, @pooltool_owner, DateTime.now)
+                                                                            user_ids, @current_community.id, @site_owner, DateTime.now)
 
 
         # 1c Extract the extern listings from the extern transactions
@@ -374,10 +375,10 @@ class PoolToolController < ApplicationController
                   relation = "privateBooking"
         elsif renter.is_organization
           # Company is renting listing
-          if @pooltool_owner.follows?(renter)
+          if @site_owner.follows?(renter)
             # Other company is trusted by the company
             relation = "trustedCompany"
-          elsif renter == @pooltool_owner
+          elsif renter == @site_owner
             relation = "otherReason"
           else
             # Other company is not trusted by the company
@@ -385,7 +386,7 @@ class PoolToolController < ApplicationController
           end
         else
           # Any Employee is renting listing
-          if renter.is_employee_of?(@pooltool_owner.id)
+          if renter.is_employee_of?(@site_owner.id)
             # Own employee is renting listing
             relation = "ownEmployee"
           else
@@ -453,7 +454,7 @@ class PoolToolController < ApplicationController
       #   - the listing author is not the pool tool ower and
       #   - the booking is not related to a company member
       if @belongs_to_company &&
-         transaction['listing_author_id'] != @pooltool_owner.id &&
+         transaction['listing_author_id'] != @site_owner.id &&
          tr_starter[:relation] == "privateBooking"
 
             transaction['description'] = 'private'
@@ -495,7 +496,7 @@ class PoolToolController < ApplicationController
         @add_booking_text = t('pool_tool.show.addNewBooking')
 
         # If no company trusts me
-        if @pooltool_owner.followers == []
+        if @site_owner.followers == []
           @external_booking_text = t('pool_tool.show.createSharedPool')
           @external_booking_link = get_wp_url("blog/2016/03/10/create-shared-pool")
         else
@@ -554,13 +555,14 @@ class PoolToolController < ApplicationController
         week_start: t("datepicker.week_start", default: 0),
         clear: t("datepicker.clear"),
         format: t("datepicker.format"),
-        pooltool_owner_id: @pooltool_owner.id,
+        pooltool_owner_id: @site_owner.id,
         current_user_id: @current_user.id,
         current_user_username: @current_user.username,
         current_user_email: @current_user.emails.first.address,
-        is_admin: @current_user.is_company_admin_of?(@pooltool_owner) || @current_user.has_admin_rights_in?(@current_community),
+        is_admin: @current_user.is_company_admin_of?(@site_owner) || @current_user.has_admin_rights_in?(@current_community),
+        is_supervisor: @current_user.is_supervisor?,
         belongs_to_company: @belongs_to_company,
-        owner_has_followers: (@pooltool_owner.followers != []),
+        owner_has_followers: (@site_owner.followers != []),
         theme: @current_user.pool_tool_color_schema,
         legend_status: @current_user.pool_tool_show_legend,
         show_legend: t("pool_tool.show.show_legend"),

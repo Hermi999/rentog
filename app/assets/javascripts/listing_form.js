@@ -151,7 +151,8 @@ window.ST = window.ST || {};
   // Ajax call to display listing form after categories and
   // listing shape has been selected
   function display_new_listing_form(selected_attributes, locale) {
-    var new_listing_path = '/' + locale + '/listings/new_form_content';
+    var person_id = $('#hidden_person_id').text();
+    var new_listing_path = '/' + locale + '/listings/new_form_content?person_id=' + person_id;
     $.get(new_listing_path, selected_attributes, function(data) {
       var new_url = window.location.href + "?edit_custom_fields=1";
       if (window.location.href.indexOf("?") > -1){
@@ -579,6 +580,8 @@ window.ST = window.ST || {};
           value: $('.custom_field_enabler')[i].checked
         });
       }
+
+      attributes.push({person_id: $('#hidden_person_id').text()});
 
       $.ajax({
           type: "POST",

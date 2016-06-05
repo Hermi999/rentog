@@ -47,6 +47,7 @@
 #  main_product                       :string(255)
 #  credits                            :integer          default(0)
 #  is_domain_supervisor               :boolean          default(FALSE)
+#  supervisor_mode_active             :boolean          default(FALSE)
 #
 # Indexes
 #
@@ -481,9 +482,23 @@ class Person < ActiveRecord::Base
     EmailService.can_delete_email(self.emails, email, self.communities.collect(&:allowed_emails))[:result]
   end
 
-  # Returns true if the person has global admin rights in Sharetribe.
+  # Returns true if the person has global admin rights in Rentog.
   def is_admin?
     is_admin == 1
+  end
+
+  # Returns true if person is a supervisor and in supervisor mode
+  def is_supervisor?
+    supervisor_mode_active && is_domain_supervisor
+  end
+
+  # Returns trus if person is a employee
+  def is_employee?
+    !is_organization
+  end
+
+  def is_employee_of?(company_id)
+    !is_organization && company.id.eql?(company_id)
   end
 
   # Starts following a listing
@@ -731,14 +746,6 @@ class Person < ActiveRecord::Base
     if employment
       employment.active?
     end
-  end
-
-  def is_employee_of?(company_id)
-    !is_organization && company.id.eql?(company_id)
-  end
-
-  def is_employee?()
-    !is_organization
   end
 
   def has_to_give_back_device?(community)
