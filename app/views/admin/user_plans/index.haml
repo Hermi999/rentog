@@ -13,6 +13,7 @@
   %table
     %tr
       %th{:style => "background-color: rgba(255, 0, 0, 0.24)"} Company
+      %th{:style => "background-color: rgba(255, 255, 0, 0.24)"} Overall User Plan
 
       - @user_plan_service.get_plan_features_levels(@all_companies.first).each do |feature|
         %th= feature[0]
@@ -20,6 +21,11 @@
     - @all_companies.each do |company|
       %tr
         %td{:style => "background-color: rgba(255, 0, 0, 0.24)"}= company.organization_name
+        %td{:style => "background-color: rgba(255, 255, 0, 0.24)"}
+          = company.user_plan
+          %br
+          = select("overall_user_plan", company.id, UserPlanService::DataTypes::LEVELS, {:prompt => true},{:class => "user_plans_dropdown"})
+
         - @user_plan_service.get_plan_features_levels(company).each do |feature|
           %td
             = feature[1][:name] + " (" + feature[1][:value].to_s + ")"
