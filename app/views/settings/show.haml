@@ -1,5 +1,5 @@
 - content_for :javascript do
-  initialize_update_profile_info_form("#{I18n.locale}","#{@person.id.to_s}", #{@current_community.real_name_required?});
+  initialize_update_profile_info_form("#{I18n.locale}","#{@site_owner.id.to_s}", #{@current_community.real_name_required?});
 
 - content_for :extra_javascript do
   = javascript_include_tag "https://maps.google.com/maps/api/js?sensor=true"
@@ -16,10 +16,10 @@
 #person_settings_form.left-navi-section.settings-section
   %p
     = t("settings.profile.these_fields_are_shown_in_your")
-    = link_to(t("settings.profile.profile_page"), @person) + "."
+    = link_to(t("settings.profile.profile_page"), @site_owner) + "."
 
-  = form_for @person do |form|
-    - if @person.is_organization
+  = form_for @site_owner do |form|
+    - if @site_owner.is_organization
       = form.label :organization_name, t("settings.profile.organization_name")
       = form.text_field :organization_name, :class => "text_field", :maxlength => "30"
     - else
@@ -54,7 +54,7 @@
       %small
         = t('settings.profile.location_alias_hint')
 
-    - _disabled = true if @person.location.address == nil
+    - _disabled = true if @site_owner.location.address == nil
     = form.text_field :location_alias, :class => "text_field", :maxlength => "25", :disabled => _disabled
     - content_for :extra_javascript do
       :javascript
@@ -87,10 +87,10 @@
     = form.label :description, t("settings.profile.about_you"), :class => "input"
     = form.text_area :description, :class => "update_profile_description_text_area"
     = form.fields_for :location do |loc|
-      = loc.hidden_field :address, :value => @person.location.address
-      = loc.hidden_field :google_address, :value => @person.location.google_address
-      = loc.hidden_field :latitude, :value => @person.location.latitude
-      = loc.hidden_field :longitude, :value => @person.location.longitude
+      = loc.hidden_field :address, :value => @site_owner.location.address
+      = loc.hidden_field :google_address, :value => @site_owner.location.google_address
+      = loc.hidden_field :latitude, :value => @site_owner.location.latitude
+      = loc.hidden_field :longitude, :value => @site_owner.location.longitude
 
     -# Main Product
     - if @site_owner.is_organization

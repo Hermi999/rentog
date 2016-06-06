@@ -8,6 +8,10 @@ class PeopleController < Devise::RegistrationsController
     controller.ensure_authorized t("layouts.notifications.you_are_not_authorized_to_view_this_content")
   end
 
+  before_filter :only => [:show] do
+    render nothing: true, status: 404 and return unless @site_owner
+  end
+
   before_filter :ensure_is_admin, :only => [ :activate, :deactivate ]
 
   skip_filter :check_confirmations_and_verifications, :only => [ :update, :destroy]

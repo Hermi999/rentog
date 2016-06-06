@@ -1234,7 +1234,7 @@ class ListingsController < ApplicationController
   # wah
   # overwrite site_owner & relation because for the listing we can also get this information directly from the listing
   def get_relation
-    @site_owner = Maybe(@listing).author.or_else(nil) || Person.find(params[:person_id])
+    @site_owner = Maybe(@listing).author.or_else(nil) || Person.where(id: params[:person_id]).first || @current_user
     @relation = get_site_owner_visitor_relation(@site_owner, @current_user)
   end
 end
