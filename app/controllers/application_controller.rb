@@ -213,7 +213,6 @@ class ApplicationController < ActionController::Base
 
   # A before filter for views that only authorized users can access
   def ensure_authorized(error_message)
-    binding.pry
     if logged_in?
 
       # ALLOWED
