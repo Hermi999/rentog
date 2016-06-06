@@ -219,7 +219,8 @@ class ApplicationController < ActionController::Base
         return if @relation == :rentog_admin ||
                   @relation == :rentog_admin_own_site ||
                   @relation == :domain_supervisor ||
-                  @relation == :company_admin_own_site
+                  @relation == :company_admin_own_site ||
+                  @relation == :employee_own_site
     end
 
     # This is reached only if not authorized

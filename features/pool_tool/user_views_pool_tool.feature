@@ -72,7 +72,7 @@ Feature: User tries to view the pool tool
     And I am logged in as "kassi_testperson2"
     And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson3"
-    Then I should see "Continental's device pool"
+    Then I should see "Pool Management Tool (Continental)"
     And I should see "Listing_trusted"
     And I should see "Listing_all"
     And I should not see "Listing_intern"
@@ -83,7 +83,7 @@ Feature: User tries to view the pool tool
     And I am logged in as "employee_testperson2"
     And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson3"
-    Then I should see "Continental's device pool"
+    Then I should see "Pool Management Tool (Continental)"
     And I should see "Listing_trusted"
     And I should see "Listing_all"
     And I should not see "Listing_intern"

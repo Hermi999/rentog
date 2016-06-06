@@ -9,7 +9,7 @@ class SettingsController < ApplicationController
   end
 
   before_filter do
-    @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site)
+    @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site || @relation == :employee_own_site)
   end
 
   def show
