@@ -9,7 +9,7 @@ class PeopleController < Devise::RegistrationsController
   end
 
   before_filter :only => [:show] do
-    render nothing: true, status: 404 and return unless @site_owner
+    render nothing: true, status: 404 unless @site_owner
   end
 
   before_filter :ensure_is_admin, :only => [ :activate, :deactivate ]
