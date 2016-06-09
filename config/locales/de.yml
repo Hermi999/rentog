@@ -2507,7 +2507,10 @@ de:
       return_now: 'Jetzt zurückgeben'
       filter_devices: "Geräte filtern"
       other_pools: "Pools anderer Firmen"
+      other_pools_in_domain: "Alle Pools in der Domäne"
       own_pool: "Zurück zu meinem Pool"
+      import_devices: "Importiere Geräte"
+      export_devices: "Exportiere Geräte"
       show_device_history: "Geräte-Historie"
       company_statistics: "Statistiken"
       modify_booking:

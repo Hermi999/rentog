@@ -3,7 +3,10 @@
 
 - content_for :title_header do
   %h1
-    %span.profile-title= @site_owner.name(@current_community) + (@community_customization && @community_customization.storefront_label ? @community_customization.storefront_label : "")
+    - if @is_member_of_company
+      %span.profile-title= @site_owner.name(@current_community) + (@community_customization && @community_customization.storefront_label ? @community_customization.storefront_label : "")
+    - else
+      %span.profile-title.other_company_is_site_owner= @site_owner.name(@current_community) + (@community_customization && @community_customization.storefront_label ? @community_customization.storefront_label : "")
 
 .row
   .col-8

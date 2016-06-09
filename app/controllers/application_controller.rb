@@ -198,9 +198,7 @@ class ApplicationController < ActionController::Base
   end
 
   def fetch_visitor_site_owner_relation
-    if @site_owner
-      @relation = get_site_owner_visitor_relation(@site_owner, @current_user)
-    end
+    @relation = get_site_owner_visitor_relation(@site_owner, @current_user)
   end
 
   # A before filter for views that only users that are logged in can access
@@ -650,7 +648,7 @@ class ApplicationController < ActionController::Base
             :rentog_admin                                 # rentog admin is visisiting the site
           end
 
-        elsif visitor.is_supervisor?
+        elsif (site_owner.nil? && visitor.is_supervisor?) || visitor.is_supervisor_of?(site_owner)
           :domain_supervisor
 
         elsif visitor.is_organization
@@ -659,8 +657,8 @@ class ApplicationController < ActionController::Base
             :unverified_company                         # Created company account but rentog admin has not verified yet
           elsif site_owner == visitor
             :company_admin_own_site                     # company admin is on own companies site
-          elsif site_owner.follows?(visitor)
-            @trusted_relation = site_owner.inverse_follower_relationships.where(:person_id => visitor.get_company.id).first
+          elsif Maybe(site_owner).follows?(visitor).or_else(false)
+            @trusted_relation = Maybe(site_owner).inverse_follower_relationships.where(:person_id => visitor.get_company.id).first.or_else(false)
             rel = FollowerRelationship.get_company_user_relation(@trusted_relation)
             (rel + "ed_company_admin").to_sym           # company the site owner (fully) trusts
           else
@@ -668,10 +666,10 @@ class ApplicationController < ActionController::Base
           end
 
         elsif visitor.is_employee?
-          if visitor.is_employee_of?(site_owner.id)
+          if visitor.is_employee_of?(Maybe(site_owner).id.or_else(false))
             :company_employee                           # employee of site owner
-          elsif site_owner.follows?(visitor.company)
-            @trusted_relation = site_owner.inverse_follower_relationships.where(:person_id => visitor.get_company.id).first
+          elsif Maybe(site_owner).follows?(visitor.company).or_else(false)
+            @trusted_relation = Maybe(site_owner).inverse_follower_relationships.where(:person_id => visitor.get_company.id).first.or_else(false)
             rel = FollowerRelationship.get_company_user_relation(@trusted_relation)
             (rel + "ed_company_employee").to_sym        # employee the site owner (fully) trusts
           elsif site_owner == visitor

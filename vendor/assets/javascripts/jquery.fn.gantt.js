@@ -266,7 +266,7 @@
                 content.append(core.navigation(element));
 
                 // append legend
-                if (gon.belongs_to_company){
+                if (gon.belongs_to_company && gon.is_supervisor === false){
                     content.append(core.legend);
                     $('#showLegendId').on('vclick', function () {
                         $('.legend').toggle();
@@ -359,7 +359,7 @@
 
                     // External listing
                     var extern_listing_class = "";
-                    if (entry.listing_author_id && gon.pooltool_owner_id !== entry.listing_author_id){
+                    if (entry.listing_author_id && gon.pooltool_owner_id !== entry.listing_author_id && entry.is_supervisor === false){
                         extern_listing_class = "pooltool_extern_listing";
                     }
 

@@ -2,6 +2,35 @@
 
 %body
 
+  - if ENV["RAILS_ENV"] == "development"
+    #development-infos
+      #development-infos-close x
+      %b= "DEVELOPMENT-INFORMATIONS"
+      %table
+        %tr
+          %td= "Person ID:"
+          %td= Maybe(@current_user).id.or_else("-")
+        %tr
+          %td= "Username:"
+          %td= Maybe(@current_user).username.or_else("-")
+        %tr
+          %td= "Full name:"
+          %td= Maybe(@current_user).full_name.or_else("-")
+        %tr
+          %td= "Emails:"
+          %td
+            - if @current_user
+              = @current_user.confirmed_notification_emails.map(&:address)
+            - else
+              -
+        %tr
+          %td= "Site Owner:"
+          %td= Maybe(Maybe(@site_owner).organization_name.or_else(nil)).or_else("-")
+        %tr
+          %td= "Relation:"
+          %td= Maybe(@relation).or_else("-")
+
+
   %noscript
     .noscript-padding
       -# Noscript content will be positioned here

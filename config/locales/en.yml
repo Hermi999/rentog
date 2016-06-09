@@ -2513,7 +2513,10 @@ en:
       overdue: "Overdue"
       filter_devices: "Filter devices"
       other_pools: "Pools of other companies"
+      other_pools_in_domain: "All pools in domain"
       own_pool: "Go back to my pool"
+      import_devices: "Import Devices"
+      export_devices: "Export Devices"
       show_device_history: "Device event history"
       company_statistics: "Statistics"
       modify_booking:

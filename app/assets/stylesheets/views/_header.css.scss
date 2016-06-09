@@ -119,6 +119,12 @@ $elementSpacing: lines(0.5);
 .new-external-booking-link {
   @include header-menu-button(#2CA77C);
 }
+.import-devices-link {
+  @include header-menu-button(#2992C3);
+}
+.export-devices-link{
+  @include header-menu-button(#CCA549);
+}
 
 .header-menu-container {
   display: block;

@@ -1,6 +1,6 @@
 - content_for :javascript do
-  / initialize_update_notification_settings_form("#{I18n.locale}","#{@person.id.to_s}");
-  /initialize_update_company_settings_form("#{I18n.locale}","#{@person.id.to_s}")
+  / initialize_update_notification_settings_form("#{I18n.locale}","#{@site_owner.id.to_s}");
+  /initialize_update_company_settings_form("#{I18n.locale}","#{@site_owner.id.to_s}")
 
 - content_for :title_header do
   - if @is_member_of_company
@@ -11,8 +11,8 @@
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(@site_owner, @current_community) }
 
 #person_settings_form.left-navi-section.settings-section.pooltool-settings
-  - c_o = @person.company_option
-  = form_for c_o, url: person_company_options_path(@person) do |form|
+  - c_o = @site_owner.company_option
+  = form_for c_o, url: person_company_options_path(@site_owner) do |form|
 
     = render :partial => "pooltool_checkbox", :collection => CompanyOption::COMPANY_OPTIONS, :as => :pooltool_option_type
 

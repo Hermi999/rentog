@@ -1325,17 +1325,6 @@ function initialize_reset_password_form() {
 }
 
 function initialize_profile_view(profile_id, belongs_to_company) {
-  if (!belongs_to_company){
-    var color_background = "rgb(252, 241, 239)";
-    var color_title_container = "rgb(231, 78, 53)";
-
-    $('body').css('background-color', color_background);
-    $('.page-content').css('background-color', color_background);
-    $('.wrapper').css('background-color', color_background);
-    $('.title-container').css('background-color', color_title_container);
-    $('.marketplace-title-header>h1').css("color", "white");
-  }
-
   $('#load-more-listings a').on("click", function() {
     var request_path = $(this).data().url;
     $.get(request_path, function(data) {

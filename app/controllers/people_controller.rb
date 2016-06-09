@@ -26,6 +26,7 @@ class PeopleController < Devise::RegistrationsController
     raise PersonDeleted if @site_owner.deleted?
     PersonViewUtils.ensure_person_belongs_to_community!(@site_owner, @current_community)
 
+    @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site)
 
     # WORKAROUND: create path for showing more than 6 employees
     @employees_path = request.original_url + '/followed_people?type=employees'

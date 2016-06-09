@@ -492,6 +492,17 @@ class Person < ActiveRecord::Base
     supervisor_mode_active && is_domain_supervisor
   end
 
+  def is_supervisor_of?(site_owner)
+    supervisor_domains = self.get_domains
+    site_owner_domains = Maybe(site_owner).get_domains.or_else([])
+
+    self.is_supervisor? && (supervisor_domains & site_owner_domains).any?
+  end
+
+  def belongs_to_same_domain?(person)
+    self.get_companies_with_same_domain.include?(person.get_company)
+  end
+
   # Returns trus if person is a employee
   def is_employee?
     !is_organization
@@ -783,6 +794,25 @@ class Person < ActiveRecord::Base
   def get_company_members
     comp = self.get_company
     [comp] + comp.employees
+  end
+
+  def get_domains
+    self.confirmed_notification_email_addresses.map {|address| address.split("@").last}
+  end
+
+  def get_companies_with_same_domain
+    supervisor_domains = self.get_domains
+
+    supervisor_domains.map! {|domain| "%" + domain}
+    domain_emails = Email.where('address LIKE ?', supervisor_domains)
+
+    companies_in_same_domain = []
+    domain_emails.each do |email|
+      if Email.confirmed?(email.address) && email.person.is_organization
+        companies_in_same_domain << email.person
+      end
+    end
+    companies_in_same_domain
   end
 
 end

@@ -39,7 +39,15 @@ class ExportController < ApplicationController
       end
     end
 
-    @ex = ExportService.new(@current_user, path_to_file, start_date, end_date)
+    # if domain supervisor, then get all the pool in the domain
+    companies =
+      if @relation == :domain_supervisor
+        @current_user.get_companies_with_same_domain
+      else
+        [@current_user]
+      end
+
+    @ex = ExportService.new(companies, path_to_file, start_date, end_date)
 
     send_file(path_to_file, filename: file_name, type: "application/vnd.ms-excel")
   end

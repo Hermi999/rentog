@@ -9,7 +9,7 @@
 
 / Lock Screen and show 'no listing' message if the company has no listings yet
 / and no transactions and no followers and no followed users
-- if transactions == [] && listings == [] && @current_user.followers == [] && !@current_user.is_supervisor?
+- if transactions == [] && open_listings_array == [] && @current_user.followers == [] && !@current_user.is_supervisor?
   - content_for :javascript do
     $('body').css('overflow', 'hidden');
 
@@ -43,7 +43,7 @@
 
 
       / Button: Add new Booking
-      - if listings != [] && !@current_user.is_supervisor?
+      - if open_listings_array != [] && !@current_user.is_supervisor?
         #addNewBookingWrapper{:style=>"float:left;"}
           %button#addNewBooking.primary-button
             = @add_booking_text
@@ -54,15 +54,23 @@
         = link_to @external_booking_text, @external_booking_link, :class => "new-external-booking-link", :id => "createNewExternalBooking"
 
       / Button: Add new device
-      - if @relation == :company_admin_own_site || @relation == :rentog_admin || @relation == :rentog_admin_own_site || @relation == :domain_supervisor
+      - if @relation == :company_admin_own_site || @relation == :rentog_admin || @relation == :rentog_admin_own_site
         = link_to t("homepage.index.post_new_listing"), new_listing_path(@site_owner), :class => "new-listing-link", :id => "createNewDevice"
+
+      / Button: Import devices
+      - if @relation == :domain_supervisor
+        = link_to t("pool_tool.show.import_devices"),  import_listings_new_import_path, :class => "import-devices-link", :id => "importListings"
+
+      / Button: Export devices
+      - if @relation == :domain_supervisor
+        = link_to t("pool_tool.show.export_devices"),  import_export_path, :class => "export-devices-link", :id => "exportListings"
 
       / Button: Return to my own pool
       - if !@belongs_to_company
         = link_to t("pool_tool.show.own_pool"), person_poolTool_path(@current_user.get_company), class: "pooltool-button own-pool-button"
 
       / Button: Show legend
-      - if @belongs_to_company
+      - if @belongs_to_company && @relation != :domain_supervisor
         - if @current_user.pool_tool_show_legend.to_i == 0
           %p{class: "showLegend pooltool-button", id: "showLegendId"}= t("pool_tool.show.show_legend")
         - else
@@ -81,8 +89,8 @@
       - if @current_user.is_organization? && @belongs_to_company
         = link_to t("pool_tool.show.options"), pooltool_person_settings_path(@site_owner), class: "pooltool-button"
 
-      / Link to other Pools
-      - if @belongs_to_company && @site_owner.get_company.followers != []
+      / Link to Pools of Companies who trust the pool tool owner
+      - if (@belongs_to_company && @site_owner.get_company.followers.any?) && @relation != :domain_supervisor
         #other-pools
           %p#other-shared-pools= t("pool_tool.show.other_pools")
           - column_width = 12
@@ -91,6 +99,18 @@
             %div{class: "col-#{column_width} other-pool-columns"}
               - if follower.is_organization
                 = link_to follower.organization_name, person_poolTool_path(follower), class: ".other-pool-link"
+                %br
+
+      / Link to Pool sin same domain
+      - if @relation == :domain_supervisor && @companies_in_same_domain.any?
+        #other-pools
+          %p#other-shared-pools= t("pool_tool.show.other_pools_in_domain")
+          - column_width = 12
+          - column_width = 6 if @companies_in_same_domain.count > 6
+          - @companies_in_same_domain.each do |comp|
+            %div{class: "col-#{column_width} other-pool-columns"}
+              - if comp.is_organization && comp != @current_user.get_company
+                = link_to comp.organization_name, person_poolTool_path(comp), class: ".other-pool-link"
                 %br
 
   .col-9#pooltool-main-window
@@ -150,7 +170,7 @@
       - if @is_member_of_company
         %h1#pooltool-header= t("pool_tool.headline")
       - else
-        %h1#pooltool-header.other_company_is_site_owner= t("pool_tool.headline") + " (#{@site_owner.organization_name})"
+        %h1#pooltool-header.other_company_is_site_owner= t("pool_tool.headline") + " - #{@site_owner.organization_name}"
       #pooltool-subheader= t("pool_tool.subheadline")
 
 
@@ -194,7 +214,7 @@
                         = label_tag :description, t('pool_tool.show.devices_only_poolTool').html_safe
                       -else
                         = label_tag :description, t('pool_tool.show.devices').html_safe
-                      = render :partial => "radio_grid_item", :collection => listings, :as => :listing
+                      = render :partial => "radio_grid_item", :collection => company_listings, :as => :listing
                 .clear-floating
 
               #datepicker_wrapper.row
@@ -225,9 +245,10 @@
       - unless transactions == [] && open_listings_array == []
         / Pool tool options
         .poolTool_options_wrapper
-          .poolTool_option_wrapper
-            = check_box_tag 'mine', 'yes', false, :class => 'pooltool_options only_mine'
-            = label_tag "pooltool_only_mine_label", t('pool_tool.show.only_mine'), :id => 'only_mine_label', :class => 'pooltool_options_label'
+          - if @relation != :domain_supervisor && @relation != :rentog_admin
+            .poolTool_option_wrapper
+              = check_box_tag 'mine', 'yes', false, :class => 'pooltool_options only_mine'
+              = label_tag "pooltool_only_mine_label", t('pool_tool.show.only_mine'), :id => 'only_mine_label', :class => 'pooltool_options_label'
           .poolTool_option_wrapper
             = check_box_tag 'show_location', 'yes', false, :class => 'pooltool_options show_location'
             = label_tag "pooltool_show_location_label", t('pool_tool.show.location'), :id => 'show_location_label', :class => 'pooltool_options_label'
@@ -261,7 +282,7 @@
 
 
         / Devices others have at the moment - not working yet..only show admin
-        - if @relation == :company_admin_own_site
+        - if @relation == :rentog_admin_own_site
           .poolTool_devices_others_have
             %p{:class=>"pool_tool_header"}
               = t('pool_tool.show.devices_others_borrowed')

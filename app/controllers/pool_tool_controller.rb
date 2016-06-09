@@ -8,166 +8,180 @@ class PoolToolController < ApplicationController
     @belongs_to_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin || @relation == :domain_supervisor || @relation == :rentog_admin_own_site)
     @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site)
 
-    # BUTTONS TEXTs
+    # CHANGE BUTTONS TEXTs
     addjustButtonText
 
-    # SEARCH INTERNAL OPEN LISTINGS OF THE COMPANY
-      temp_avail = Listing::TRUSTED_AVAILABILITY_OPTIONS
-      temp_avail = Listing::VALID_AVAILABILITY_OPTIONS if @belongs_to_company
-
-      search = {
-        author_id: @site_owner.id,
-        include_closed: false,
-        page: 1,
-        per_page: 1000,
-        availability: temp_avail
-      }
-
-      includes = [:author, :listing_images, :location]
-      listings = ListingIndexService::API::Api.listings.search(community_id: @current_community.id, search: search, includes: includes).and_then { |res|
-        Result::Success.new(
-          ListingIndexViewUtils.to_struct(
-          result: res,
-          includes: includes,
-          page: search[:page],
-          per_page: search[:per_page],
-        ))
-      }.data
 
 
+    ### OPEN LISTINGS ###
       open_listings_array = []
-      listing_ids_of_companies_who_trust_me = []
+      listing_ids_of_other_companies = []
 
-      # OPEN LISTINGS OF COMPANIES WHO TRUST THE POOL TOOL OWNER
-      # If company admin wants it, then also show devices of companies who trust the owner in the pool tool
-      if @belongs_to_company && Maybe(@site_owner.company_option).pool_tool_show_all_available_devices.or_else(false)
-        follower_ids = []
-        @site_owner.followers.each{|person| follower_ids<<person.id}
+      # IF USER IS SUPERVISOR OF POOL OWNER
+      if @relation == :domain_supervisor
+        @companies_in_same_domain = @current_user.get_companies_with_same_domain
 
-        ext_open_listings = Listing.where("listings.author_id IN (?) AND
-                                           listings.open = '1' AND
-                                           listings.deleted = '0' AND
-                                           (listings.valid_until IS NULL OR valid_until > ?) AND
-                                           (listings.availability = 'all' OR listings.availability = 'trusted')",
-                                           follower_ids, Date.today)
+        # get all the domains listings and their ids
+        all_domain_listings = get_listings_of_companies(@companies_in_same_domain.map(&:id))
+        listing_ids_of_other_companies = all_domain_listings.map(&:id)
 
-        # Only use certain fields in JS for internal and external devices
-        ext_open_listings.each do |listing|
-          listing_ids_of_companies_who_trust_me << listing.id
-          small_image = listing.listing_images.first.image.url(:small_3x2) if listing.listing_images.first
+        # Filter attributes for JS
+        all_domain_listings.each do |listing|
+            small_image = listing.listing_images.first.image.url(:small_3x2) if listing.listing_images.first
+            open_listings_array << {  name: listing.title,
+                                      desc: listing.availability,
+                                      listing_author_id: listing.author_id,
+                                      availability: listing.availability,
+                                      listing_id: listing.id,
+                                      created_at: listing.created_at,
+                                      image: small_image,
+                                      listing_author_organization_name: listing.author.organization_name,
+                                      location_alias: Maybe(listing.location).location_alias.or_else(nil) || Maybe(listing.author.location).location_alias.or_else(nil) }
+          end
+      else
+
+        # get the open listings of the pool owner (only trusted and global if visitor who does not belong to company)
+        company_listings = get_pool_owners_open_listings
+
+        # If company admin wants it this way, then also show devices of companies who trust the owner in the pool tool
+        if @belongs_to_company && Maybe(@site_owner.company_option).pool_tool_show_all_available_devices.or_else(false)
+
+          # get the open listings of companies who trust the pool owner
+          ext_open_listings = get_listings_of_other_companies
+
+          # get all the external listing ids
+          listing_ids_of_other_companies = ext_open_listings.map(&:id)
+
+          # Only use certain fields in JS for internal and external devices
+          ext_open_listings.each do |listing|
+            small_image = listing.listing_images.first.image.url(:small_3x2) if listing.listing_images.first
+            open_listings_array << {  name: listing.title,
+                                      desc: "extern",
+                                      listing_author_id: listing.author_id,
+                                      availability: listing.availability,
+                                      listing_id: listing.id,
+                                      created_at: listing.created_at,
+                                      image: small_image,
+                                      listing_author_organization_name: listing.author.organization_name,
+                                      location_alias: Maybe(listing.location).location_alias.or_else(nil) || Maybe(listing.author.location).location_alias.or_else(nil) }
+          end
+        end
+
+        # ADD THE INTERNAL OPEN LISTINGS OF COMPANY
+        company_listings.each do |listing|
+          small_image = listing.listing_images.first.small_3x2 if listing.listing_images.first
           open_listings_array << {  name: listing.title,
-                                    desc: "extern",
-                                    listing_author_id: listing.author_id,
+                                    desc: listing.availability,
                                     availability: listing.availability,
                                     listing_id: listing.id,
                                     created_at: listing.created_at,
                                     image: small_image,
                                     listing_author_organization_name: listing.author.organization_name,
-                                    location_alias: Maybe(listing.location).location_alias.or_else(nil) || Maybe(listing.author.location).location_alias.or_else(nil) }
+                                    location_alias: listing.location_alias || listing.author.location_alias }
         end
       end
 
-      # ADD THE INTERNAL OPEN LISTINGS OF COMPANY
-      listings.each do |listing|
-        small_image = listing.listing_images.first.small_3x2 if listing.listing_images.first
-        open_listings_array << {  name: listing.title,
-                                  desc: listing.availability,
-                                  availability: listing.availability,
-                                  listing_id: listing.id,
-                                  created_at: listing.created_at,
-                                  image: small_image,
-                                  listing_author_organization_name: listing.author.organization_name,
-                                  location_alias: listing.location_alias || listing.author.location_alias }
-      end
-
-
-    # GET ALL COMPANY TRANSACTIONS WITH OWN LISTINGS
-    intern_transactions = get_transactions_with_own_listings
-
-    # GET ALL COMPANY TRANSACTIONS WITH LISTINGS OF OTHER COMPANIES
-    extern_transactions = []
-    extern_transactions = get_transactions_with_listings_from_other_companies(listing_ids_of_companies_who_trust_me) if @belongs_to_company
-
-    # Combine them and turn them into array
-    transactions = intern_transactions + extern_transactions
-    transaction_array = transactions.as_json
-
-    # wah: Get all possible company ids of companies which can be shown in pool tool
-    possible_company_ids = [@site_owner] + @site_owner.followers
-    possible_companies = Person.where(:id => possible_company_ids)
-
-
-    # Convert all the transaction into a jquery-Gantt readable source.
-    # wah: This might be shifted to the client (javascript) in future, since
-    # it would reduce load on the server
-    devices = []
-    act_transaction = {}
-    prev_listing_id = 0, counter = -1
-
-    transaction_array.each do |transaction|
-
-      # get the status of the transaction (pending or confirmed)
-      get_transaction_status(transaction)
-
-      # returns what relation a specific transaction has to the company
-      tr_starter = get_transaction_starter_and_relation(transaction)
-
-      # Update the title and the description of the booking according to
-      # the different transaction types
-      edit_tr_title_and_description(transaction, tr_starter, possible_companies)
-
-
-      if prev_listing_id != transaction['listing_id']
-        # new Listing, new transaction
-        counter = counter + 1
-
-        availability = transaction['availability'] || "extern"
-        loc_alias = Maybe(Location.where(listing_id: transaction['listing_id']).first).location_alias.or_else(nil)
-        loc_alias = Maybe(Location.where(person_id: transaction['listing_author_id']).first).location_alias.or_else(nil) if loc_alias == nil || loc_alias == ""
-
-        transaction['name'] = transaction['title']
-        transaction['desc'] = availability
-        transaction['location_alias'] = loc_alias
-        transaction['already_booked_dates'] = Listing.already_booked_dates(transaction['listing_id'], @current_community)
-
-        # set the transaction specific values of the first element in the transaction array of this listing
-        transaction['values'] = [set_transaction_element_values(transaction, tr_starter)]
-
-        if availability == "extern"
-          temp_listing = Listing.where(:id => transaction['listing_id']).first
-          transaction['image'] = temp_listing.listing_images.first.image.url(:small_3x2) if temp_listing.listing_images.first
-        end
-
-        # Remove unused keys from hash
-        transaction.except!('title', 'start_on', 'end_on', 'renting_entity_username', 'renting_entity_organame', 'transaction_id', 'renter_family_name', 'renter_given_name', 'renter_id')
-
-        prev_listing_id = transaction['listing_id']
-        act_transaction = transaction
-        devices << transaction
+    ### TRANSACTIONS ###
+      # IF USER IS SUPERVISOR OF POOL OWNER
+      if @relation == :domain_supervisor
+        transactions = get_domain_transactions(listing_ids_of_other_companies)
+        transaction_array = transactions.as_json
 
       else
-        # Previous Listing, new transaction
-        # add transaction specific values to the transaction array of this listing
-        newTrans = set_transaction_element_values(transaction, tr_starter)
-        devices[counter]['values'] << newTrans
-      end
-    end
+        # GET ALL THE POOL OWNERS TRANSACTIONS WITH OWN LISTINGS
+        intern_transactions = get_transactions_with_own_listings
 
-    # OPEN BOOKINGS OF CURRENT USER (if belongs to company)
-    # Get only bookings which are booked by the user AND are currently in state
-    # active (that means the user hadn't give them back) AND are past, but the
-    # user did not return them
-      @user_bookings_array = []
-      if @belongs_to_company
-        user_bookings1 = intern_transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
-        user_bookings2 = extern_transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
-        @user_bookings_array = user_bookings1.as_json + user_bookings2.as_json
+        # GET ALL POOL OWNERS TRANSACTIONS WITH LISTINGS OF OTHER COMPANIES
+        extern_transactions = []
+        extern_transactions = get_transactions_with_listings_from_other_companies(listing_ids_of_other_companies) if @belongs_to_company
+
+        # Combine them and turn them into array
+        transactions = intern_transactions + extern_transactions
+        transaction_array = transactions.as_json
       end
+
+
+    ### JAVASCRIPT DATA TRANSFORMATION
+      # Convert all the transaction into a jquery-Gantt readable source.
+      # wah: This might be shifted to the client (javascript) in future, since
+      # it would reduce load on the server
+      devices = []
+      act_transaction = {}
+      prev_listing_id = 0, counter = -1
+
+      # wah: Get all possible company ids of companies which can be shown in pool tool
+      possible_companies =
+        if @relation == :domain_supervisor
+          @companies_in_same_domain
+        else
+          Person.where(:id => ([@site_owner] + @site_owner.followers))
+        end
+
+
+      transaction_array.each do |transaction|
+
+        # get the status of the transaction (pending or confirmed)
+        get_transaction_status(transaction)
+
+        # returns what relation a specific transaction has to the company
+        tr_starter = get_transaction_starter_and_relation(transaction)
+
+        # Update the title and the description of the booking according to
+        # the different transaction types
+        edit_tr_title_and_description(transaction, tr_starter, possible_companies)
+
+
+        if prev_listing_id != transaction['listing_id']
+          # new Listing, new transaction
+          counter = counter + 1
+
+          availability = transaction['availability'] || "extern"
+          loc_alias = Maybe(Location.where(listing_id: transaction['listing_id']).first).location_alias.or_else(nil)
+          loc_alias = Maybe(Location.where(person_id: transaction['listing_author_id']).first).location_alias.or_else(nil) if loc_alias == nil || loc_alias == ""
+
+          transaction['name'] = transaction['title']
+          transaction['desc'] = availability
+          transaction['location_alias'] = loc_alias
+          transaction['already_booked_dates'] = Listing.already_booked_dates(transaction['listing_id'], @current_community)
+
+          # set the transaction specific values of the first element in the transaction array of this listing
+          transaction['values'] = [set_transaction_element_values(transaction, tr_starter)]
+
+          if availability == "extern"
+            temp_listing = Listing.where(:id => transaction['listing_id']).first
+            transaction['image'] = temp_listing.listing_images.first.image.url(:small_3x2) if temp_listing.listing_images.first
+          end
+
+          # Remove unused keys from hash
+          transaction.except!('title', 'start_on', 'end_on', 'renting_entity_username', 'renting_entity_organame', 'transaction_id', 'renter_family_name', 'renter_given_name', 'renter_id')
+
+          prev_listing_id = transaction['listing_id']
+          act_transaction = transaction
+          devices << transaction
+
+        else
+          # Previous Listing, new transaction
+          # add transaction specific values to the transaction array of this listing
+          newTrans = set_transaction_element_values(transaction, tr_starter)
+          devices[counter]['values'] << newTrans
+        end
+      end
+
+    ### DEVICE RETURN - OPEN BOOKINGS OF CURRENT USER (if member of company) ###
+      # Get only bookings which are booked by the user AND are currently in state
+      # active (that means the user hadn't give them back) AND are past, but the
+      # user did not return them
+        @user_bookings_array = []
+        if @is_member_of_company
+          user_bookings1 = intern_transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
+          user_bookings2 = extern_transactions.where("people.id = ? AND ((bookings.start_on <= ? AND bookings.end_on >= ? AND bookings.device_returned = false) OR (bookings.end_on < ? AND bookings.device_returned = false))", @current_user.id, Date.today, Date.today, Date.today)
+          @user_bookings_array = user_bookings1.as_json + user_bookings2.as_json
+        end
 
     # Variables which should be send to JavaScript
     poolTool_gon_vars(devices, open_listings_array)
 
-    render locals: { listings: listings, open_listings_array: open_listings_array, transactions: transactions }
+    render locals: { company_listings: company_listings, open_listings_array: open_listings_array, transactions: transactions }
   end
 
   # get the current theme of the user from the db
@@ -228,9 +242,102 @@ class PoolToolController < ApplicationController
     end
 
 
-    def get_transactions_with_own_listings
+    def get_pool_owners_open_listings
+      # If the visitor does not "belong" to the company, then hide internal listings
+      temp_avail =
+        if @belongs_to_company
+          Listing::VALID_AVAILABILITY_OPTIONS
+        else
+          Listing::TRUSTED_AVAILABILITY_OPTIONS
+        end
+
+      search = {
+        author_id: @site_owner.id,
+        include_closed: false,
+        page: 1,
+        per_page: 1000,
+        availability: temp_avail
+      }
+
+      includes = [:author, :listing_images, :location]
+      company_listings = ListingIndexService::API::Api.listings.search(community_id: @current_community.id, search: search, includes: includes).and_then { |res|
+        Result::Success.new(
+          ListingIndexViewUtils.to_struct(
+          result: res,
+          includes: includes,
+          page: search[:page],
+          per_page: search[:per_page],
+        ))
+      }.data
+    end
+
+    def get_listings_of_other_companies
+      follower_ids = []
+      @site_owner.followers.each{|person| follower_ids<<person.id}
+
+      ext_open_listings = Listing.where("listings.author_id IN (?) AND
+                                         listings.open = '1' AND
+                                         listings.deleted = '0' AND
+                                         (listings.valid_until IS NULL OR valid_until > ?) AND
+                                         (listings.availability = 'all' OR listings.availability = 'trusted')",
+                                         follower_ids, Date.today)
+    end
+
+    def get_listings_of_companies(ids)
+      ext_open_listings = Listing.where("listings.author_id IN (?) AND
+                                         listings.open = '1' AND
+                                         listings.deleted = '0' AND
+                                         (listings.valid_until IS NULL OR valid_until > ?) AND
+                                         (listings.availability = 'all' OR listings.availability = 'intern' OR listings.availability = 'trusted')",
+                                         ids, Date.today)
+    end
+
+    def get_domain_transactions(domain_pool_ids)
+      transaction_not_invalid = "(current_state <> 'rejected' OR current_state is null) AND
+                                 (current_state <> 'errored'  OR current_state is null) AND
+                                 (current_state <> 'canceled' OR current_state is null) AND
+                                 (transactions.deleted = '0')"
+
       temp_avail2 = "(listings.availability = 'all' OR listings.availability = 'intern' OR listings.availability = 'trusted')"
-      temp_avail2 = "(listings.availability = 'all' OR listings.availability = 'trusted')" if !@belongs_to_company
+
+      transactions = Transaction.joins(:listing, :booking, :starter).select(" transactions.id as transaction_id,
+                                                                              listings.id as listing_id,
+                                                                              listings.author_id as listing_author_id,
+                                                                              listings.title as title,
+                                                                              listings.availability as availability,
+                                                                              listings.created_at,
+                                                                              bookings.start_on as start_on,
+                                                                              bookings.end_on as end_on,
+                                                                              bookings.reason as reason,
+                                                                              bookings.description as description,
+                                                                              bookings.device_returned as device_returned,
+                                                                              transactions.current_state as transaction_status,
+                                                                              people.given_name as renter_given_name,
+                                                                              people.family_name as renter_family_name,
+                                                                              people.username as renting_entity_username,
+                                                                              people.organization_name as renting_entity_organame,
+                                                                              people.id as renter_id")
+                                                                    .where("  listings.id IN (?) AND
+                                                                              listings.deleted = '0' AND
+                                                                              transactions.community_id = ? AND
+                                                                              #{transaction_not_invalid} AND
+                                                                              listings.open = '1' AND
+                                                                              #{temp_avail2} AND
+                                                                              (listings.valid_until IS NULL OR valid_until > ?)",
+                                                                              domain_pool_ids, @current_community.id, DateTime.now)
+                                                                    .order("  listings.id asc")
+
+    end
+
+
+    def get_transactions_with_own_listings
+      temp_avail2 =
+        if @belongs_to_company
+          "(listings.availability = 'all' OR listings.availability = 'intern' OR listings.availability = 'trusted')"
+        else
+          "(listings.availability = 'all' OR listings.availability = 'trusted')"
+        end
+
       transaction_not_invalid = "(current_state <> 'rejected' OR current_state is null) AND
                                  (current_state <> 'errored'  OR current_state is null) AND
                                  (current_state <> 'canceled' OR current_state is null) AND
@@ -275,7 +382,7 @@ class PoolToolController < ApplicationController
     end
 
 
-    def get_transactions_with_listings_from_other_companies(listing_ids_of_companies_who_trust_me)
+    def get_transactions_with_listings_from_other_companies(listing_ids_of_other_companies)
       # dont retrieve transaction which are in the following state
       transaction_not_invalid = "(current_state <> 'rejected' OR current_state is null) AND
                                  (current_state <> 'errored'  OR current_state is null) AND
@@ -307,7 +414,7 @@ class PoolToolController < ApplicationController
         end
 
         # 1d Add listing ids from all companies who trust me & remove duplicates
-        ext_listings_ids += listing_ids_of_companies_who_trust_me
+        ext_listings_ids += listing_ids_of_other_companies
         ext_listings_ids = ext_listings_ids.uniq
 
         @ext_listings_count = ext_listings_ids.count
@@ -348,24 +455,44 @@ class PoolToolController < ApplicationController
       # How is the relation between the company & the renter of this one listing?
         renter = Person.where(id: transaction["renter_id"]).first
 
-        # If the current user DOES belong to company and the booking is not one from his company
+        # If is this is a not verified request
         if @transaction_confirmed == false
           relation = "rentingRequest"
-        elsif @belongs_to_company &&                                               # current user does belong to pool tool company
-           transaction['listing_author_id'] != @current_user.get_company.id &&  # listing author is not the company the current user belongs to
-           @current_user != renter &&                                           # Current user is not the initiator of this transaction
-          !@current_user.employs?(renter) &&                                    # current user does not employee initiator of this transaction
-           @current_user.company != renter &&                                   # Current user is not employee of the renter
-           @current_user.get_company != renter.get_company                      # Current user is not from same company as renter
+
+        # If the current user DOES belong to company AND the listing is from another company AND the booking is from another company
+        elsif @belongs_to_company &&                                              # current user does belong to pool tool company
+           transaction['listing_author_id'] != @current_user.get_company.id &&    # listing author is not the company the current user belongs to
+           @current_user != renter &&                                             # current user is not the initiator of this transaction
+          !@current_user.employs?(renter) &&                                      # current user does not employee initiator of this transaction
+           @current_user.company != renter &&                                     # current user is not employee of the renter
+           @current_user.get_company != renter.get_company &&                     # current user is not from same company as renter
+           @relation != :rentog_admin &&                                          # current user is not a Rentog admin
+           @relation != :domain_supervisor                                        # current user is not a Domain Supervisor
                   relation = "privateBooking"
 
-        # If the current user DOES NOT belong to company and the booking is not one from his company
-        elsif !@belongs_to_company &&                          # current user does not belong to pool tool company
-               @current_user != renter &&                      # Current user is not the initiator of this transaction
-              !@current_user.employs?(renter) &&               # current user does not employee initiator of this transaction
-               @current_user.company != renter &&              # Current user is not employee of the renter
-               @current_user.get_company != renter.get_company # Current user is not from same company as renter
+        # If the current user DOES NOT belong to company AND the booking is from another company
+        elsif !@belongs_to_company &&                                             # current user does not belong to pool tool company
+               @current_user != renter &&                                         # Current user is not the initiator of this transaction
+              !@current_user.employs?(renter) &&                                  # current user does not employee initiator of this transaction
+               @current_user.company != renter &&                                 # current user is not employee of the renter
+               @current_user.get_company != renter.get_company &&                 # current user is not from same company as renter
+               @relation != :rentog_admin &&                                      # current user is not a Rentog admin
+               @relation != :domain_supervisor                                    # current user is not a Domain Supervisor
                   relation = "privateBooking"
+
+        # if the current user is a domain supervisor AND the listing does not belong to his domain AND the renter does not belong to his domain
+        elsif @relation == :domain_supervisor &&                                  # current user is a Domain Supervisor
+              !@current_user.belongs_to_same_domain?(renter) &&                    # current user is NOT in same domain like the renter
+              !@current_user.get_companies_with_same_domain.map(&:id).include?(transaction['listing_author_id'])   # listing author is not in the same domain
+                  relation = "privateBooking"
+
+        elsif @relation == :domain_supervisor
+          if @current_user.belongs_to_same_domain?(renter)
+            relation = "sameDomain"
+          else
+            relation = "otherDomain"
+          end
+
         elsif renter.is_organization
           # Company is renting listing
           if @site_owner.follows?(renter)
@@ -484,6 +611,8 @@ class PoolToolController < ApplicationController
       }
     end
 
+    # Depending if the user is already member of a shared pool or not and if the
+    # visitor is part of the company, the button text is changed
     def addjustButtonText
       if @belongs_to_company
         @add_booking_text = t('pool_tool.show.addNewBooking')
@@ -553,7 +682,7 @@ class PoolToolController < ApplicationController
         current_user_username: @current_user.username,
         current_user_email: @current_user.emails.first.address,
         is_admin: @current_user.is_company_admin_of?(@site_owner) || @current_user.has_admin_rights_in?(@current_community),
-        is_supervisor: @current_user.is_supervisor?,
+        is_supervisor: @current_user.is_supervisor_of?(@site_owner),
         belongs_to_company: @belongs_to_company,
         owner_has_followers: (@site_owner.followers != []),
         theme: @current_user.pool_tool_color_schema,

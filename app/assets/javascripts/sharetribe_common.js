@@ -1,3 +1,13 @@
+function closeDevelopmentInfos(){
+  if ($('#development-infos-close').length > 0){
+    $('#development-infos-close').click(function(){
+      $('#development-infos').fadeOut();
+    });
+  }
+}
+closeDevelopmentInfos();
+
+
 // change background color of site based on relation
 function change_background_based_on_relation(){
   if ($(".other_company_is_site_owner").length){

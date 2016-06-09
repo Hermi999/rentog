@@ -1,7 +1,7 @@
 require 'axlsx'
 
 class ExportService
-  def initialize(current_user, path_to_file, start_date, end_date)
+  def initialize(companies, path_to_file, start_date, end_date)
     # check if dir exists
     dir = File.dirname(path_to_file)
     FileUtils.mkdir_p(dir) unless File.directory?(dir)
@@ -20,10 +20,11 @@ class ExportService
     end
 
     # get data from db
-    company_members = current_user.get_company_members
-    devices = Listing.where(author_id: current_user.get_company.id, deleted: false)
+    company_members = []
+    companies.each {|comp| company_members += comp.get_company_members}
+    devices = Listing.where('author_id IN (?) AND deleted = 0', companies.map(&:id))
     valid_listing_attributes = getAllValidAttributes
-    transactions = Transaction.where(listing_author_id: current_user.get_company.id, deleted: false)
+    transactions = Transaction.where('listing_author_id IN (?) AND deleted = 0', companies.map(&:id))
 
     # create new export file
     @p = Axlsx::Package.new
@@ -102,7 +103,7 @@ class ExportService
 
     # worksheet people
     @wb.add_worksheet(:name => "People") do |sheet|
-      sheet.add_row ["first_name", "last_name", "email", "location", "location_alias", "phone_number", "description", "role", "trusts/follows", "trusted_by/followed_by"]
+      sheet.add_row ["first_name", "last_name", "email", "location", "location_alias", "phone_number", "description", "role", "trusts/follows", "trusted_by/followed_by", "belongs_to_company"]
 
       company_members.each do |member|
         role =
@@ -115,7 +116,8 @@ class ExportService
         x_loc_alias = Maybe(member.location).location_alias.or_else(nil)
         x_followers = member.followers.pluck(:organization_name).join(", ") if member.followers != []
         x_followed  = member.followed_people.pluck(:organization_name).join(", ") if member.followed_people != []
-        sheet.add_row [member.given_name, member.family_name, member.emails.first.address, x_loc, x_loc_alias, member.phone_number, member.description, role, x_followed, x_followers]
+        x_belongs_to = member.get_company.organization_name if member.is_employee?
+        sheet.add_row [member.given_name, member.family_name, member.emails.first.address, x_loc, x_loc_alias, member.phone_number, member.description, role, x_followed, x_followers, x_belongs_to]
       end
     end
 
