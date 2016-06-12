@@ -1,6 +1,6 @@
 class StatisticsService
-  def initialize(company_id, community_id)
-    @rawData = getDataFromDb(company_id, community_id)
+  def initialize(company_ids, community_id)
+    @rawData = getDataFromDb(company_ids, community_id)
     @perListingData = getDataPerListing
     @perPersonData = getDataPerPerson
   end
@@ -172,7 +172,7 @@ class StatisticsService
 
   private
 
-    def getDataFromDb(company_id, community_id)
+    def getDataFromDb(company_ids, community_id)
       transaction_not_invalid = "(current_state <> 'rejected' OR current_state is null) AND
                                  (current_state <> 'errored'  OR current_state is null) AND
                                  (current_state <> 'canceled' OR current_state is null) AND
@@ -198,10 +198,10 @@ class StatisticsService
                                                                               people.organization_name as renting_entity_organame,
                                                                               people.is_organization as renter_is_organization,
                                                                               people.id as renter_id")
-                                                                    .where("  listings.author_id = ? AND
+                                                                    .where("  listings.author_id IN (?) AND
                                                                               transactions.community_id = ? AND
                                                                               #{transaction_not_invalid}",
-                                                                              company_id, community_id)
+                                                                              company_ids, community_id)
                                                                     .order("  listings.id asc")
     end
 

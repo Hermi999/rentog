@@ -78,8 +78,13 @@
 
 
       / Button: Company statistics
-      - if @relation == :company_admin_own_site || @relation == :rentog_admin || @relation == :rentog_admin_own_site
-        = link_to t("pool_tool.show.company_statistics"), person_company_statistics_path(@site_owner), :class => "pooltool-button", :id => "company_statistics"
+      - if @relation == :company_admin_own_site || @relation == :rentog_admin || @relation == :rentog_admin_own_site || @relation == :domain_supervisor
+        - if @domain_supervisor_on_overview_site
+          - param = {domain_view: "1"}
+        - else
+          - param = {}
+
+        = link_to t("pool_tool.show.company_statistics"), person_company_statistics_path(@site_owner, param), :class => "pooltool-button", :id => "company_statistics"
 
       / button: Show device events
       - if @belongs_to_company

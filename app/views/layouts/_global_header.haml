@@ -51,7 +51,10 @@
       If necessary, the buttons will overlap with the logo. Buttons should be on top, that's
       keep the logo here after buttons
     .header-left.header-logo-container
-      = link_to get_header_logo_link, :class => "header-logo", :id => "header-logo" do
+
+      - domain_view = {domain_view: "1"} if @relation == :domain_supervisor
+
+      = link_to get_header_logo_link(domain_view), :class => "header-logo", :id => "header-logo" do
         %i.visible-tablet{:class => "#{logo_class}"}
           -# Logo is here, it's a CSS background
 

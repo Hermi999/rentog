@@ -976,9 +976,13 @@ module ApplicationHelper
     "https://rentog.com/" + temp_locale + path
   end
 
-  def get_header_logo_link
+  def get_header_logo_link(domain_view=nil)
     if @current_user
-      root
+      if domain_view
+        person_poolTool_path(@current_user, domain_view)
+      else
+        root
+      end
     else
       get_wp_url("")
     end

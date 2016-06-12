@@ -2583,6 +2583,7 @@ de:
     oldest_event: "Die Eventübersicht wurde am 1. Mai 2016 aktiviert. Es gibt daher keine älteren Events."
   company_statistics:
     headline: "Geräte- und Buchungs- Statistiken"
+    headline_domain_view: "Geräte- und Buchungsstatistiken für die Domäne"
     noDataYet: "Noch keine Daten in Form von Buchungen verfügbar!"
     averageDeviceBookingPeriod_title: "Durchschnittliche Buchungsdauer"
     averageDeviceBookingPeriod_desc: "Das Histogramm zeigt die durchschnittliche Buchungsdauer eines jeden Geräts und gruppiert Geräte, welche eine ähnlich lange durchschnittliche Buchungsdauer haben."

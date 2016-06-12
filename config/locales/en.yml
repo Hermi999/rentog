@@ -2601,6 +2601,7 @@ en:
     oldest_event: "This feature was activated on 01st May, 2016. There are no older events available."
   company_statistics:
     headline: "Company Statistics"
+    headline_domain_view: "Domain Statitics"
     noDataYet: "No booking data available yet!"
     averageDeviceBookingPeriod_title: "Average booking period"
     averageDeviceBookingPeriod_desc: "This histogram shows the everage booking period of each device and groups devices with a similar everage timespan together."

@@ -659,7 +659,7 @@ class ListingsController < ApplicationController
 
   def ensure_current_user_is_listing_author(error_message)
     @listing = Listing.find(params[:id])
-    return if current_user?(@listing.author) || @relation == :rentog_admin || @relation == :domain_supervisor
+    return if current_user?(@listing.author) || @relation == :rentog_admin || @relation == :rentog_admin_own_site || @relation == :domain_supervisor
     flash[:error] = error_message
     redirect_to @listing and return
   end
