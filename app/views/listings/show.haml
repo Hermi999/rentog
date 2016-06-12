@@ -132,13 +132,13 @@
             = render :partial => "comment_form"
 
   %aside.col-4
-    - if disable_marketplace_requests && @listing.get_listing_type != 'intern' && @listing.get_listing_type != 'trusted' && (@current_user == nil || @relation != :rentog_admin && @relation != :company_admin_own_site)
+    - if disable_marketplace_requests && @listing.get_listing_type != 'intern' && @listing.get_listing_type != 'trusted' && (@current_user == nil || @relation != :rentog_admin && @relation != :company_admin_own_site && @relation != :domain_supervisor)
       .notyetavailable
         .notyetavailabletext
           This is the Beta - Version of the Rentog Marketplace, so it's not possible to get in contact with the sellers yet.
           %br
           %br
-          The full version of Rentog will go online very soon (in April 2016).
+          The full version of Rentog will go online very soon (in July 2016).
 
     - if @listing.price && show_price
       .row
@@ -151,7 +151,7 @@
                 = text
 
     / Listing actions
-    - if !disable_marketplace_requests || @listing.get_listing_type == 'intern' || @listing.get_listing_type == 'trusted' || (@current_user == nil || @relation == :rentog_admin || @relation == :company_admin_own_site)
+    - if !disable_marketplace_requests || @listing.get_listing_type == 'intern' || @listing.get_listing_type == 'trusted' || (@current_user == nil || @relation == :rentog_admin || @relation == :company_admin_own_site || @relation == :domain_supervisor)
       .row-with-divider
         .col-12
           #listing-message-links

@@ -45,7 +45,7 @@ class ExportService
         x_price = dev.price_cents.to_f / 100
         x_loc = Maybe(dev.location).address.or_else(nil)
         x_loc_alias = Maybe(dev.location).location_alias.or_else(nil)
-        x_row = [x_internal_id, dev.title, !dev.open, dev.author.organization_name, dev.description, x_price, x_visibility, x_loc, x_loc_alias, dev.created_at, dev.updated_at]
+        x_row = [x_internal_id, dev.title, !dev.open, dev.author.organization_name, dev.author.username, dev.description, x_price, x_visibility, x_loc, x_loc_alias, dev.created_at, dev.updated_at]
 
         # go through each valid listing attribute and each custom field of the listing
         # if the listing has no custom field for a valid listing attribute then fill in a blank
@@ -86,6 +86,7 @@ class ExportService
           if b.booking.end_on > start_date && b.booking.start_on < end_date
             x_internal_device_id = b.seller.get_company.organization_name + "_dev_" + (11982 + b.listing_id).to_s
             x_dev_owner = b.seller.get_company.organization_name
+            x_pool_id = b.seller.username
             x_renter = b.starter.given_name + " " + b.starter.family_name  if b.starter.is_employee?
             x_renter = b.starter.organization_name                         if b.starter.is_organization
             x_loc_alias = Maybe(b.starter.location).location_alias.or_else(nil)
@@ -133,7 +134,7 @@ class ExportService
   end
 
   def getAllValidAttributes
-    x_validAttr = [{name: "internal_id"}, {name: "device_name"}, {name: "device_closed"}, {name: "device_owner"}, {name: "description"}, {name: "price"}, {name: "visibility"}, {name: "location"}, {name: "location_alias"}, {name: "device_create_at"}, {name: "device_last_changed"}]
+    x_validAttr = [{name: "internal_id"}, {name: "device_name"}, {name: "device_closed"}, {name: "device_owner"}, {name: "pool_id"}, {name: "description"}, {name: "price"}, {name: "visibility"}, {name: "location"}, {name: "location_alias"}, {name: "device_create_at"}, {name: "device_last_changed"}]
     CustomFieldName.select('id, value, custom_field_id').where(locale: 'en').as_json.each do |x_attr|
       x_attr_name = x_attr["value"].split("(")[0].downcase.gsub(" ", "_").chomp('_')
       x_validAttr << {name: x_attr_name, custom_field_id: x_attr["custom_field_id"].to_i}

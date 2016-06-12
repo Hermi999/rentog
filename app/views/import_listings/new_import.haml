@@ -21,6 +21,31 @@
   %p.importListings-description-text2= t(".description_text2").html_safe
   .description_create_file_text1= t(".description_create_file_text1").html_safe
 
+  - if @relation == :domain_supervisor
+    %br
+    %h3.importListings-supervisor-header= t(".supervisor_header").html_safe
+    %p.importListings-supervisor-desc= t(".supervisor_text").html_safe
+
+    - domain_members = @current_user.get_companies_with_same_domain
+    - if domain_members.any?
+      .row
+        .col-4
+          %table{:style => "font-size: 0.8em; box-shadow: 0px 0px 7px #808080;"}
+            %thead
+              %tr{:style => "background-color: rgb(246, 192, 192);"}
+                %th= "Pool name"
+                %th= "Pool ID"
+            %tbody
+              - domain_members.each do |member|
+                %tr
+                  %td= member.organization_name
+                  %td= member.username
+    - else
+      =t(".no_pools_in_domain_yet")
+    %br
+
+
+  %h3= t(".attributes_header")
   .row.import-listings-desc-table
     .col-6
       %table
@@ -31,6 +56,12 @@
             %th= t(".desc_table_th2").html_safe
             %th= t(".desc_table_th3").html_safe
         %tbody
+          - if @relation == :domain_supervisor
+            %tr{:style => "background-color: rgb(246, 192, 192);"}
+              %td= t(".t1_row0_attr").html_safe
+              %td= t(".t1_row0_desc").html_safe
+              %td= t(".t1_row0_mand").html_safe
+
           - (1..table1_rows).each do |row|
             %tr
               %td= t(".t1_row#{row}_attr").html_safe

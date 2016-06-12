@@ -1,6 +1,5 @@
 - is_author = current_user?(@listing.author)
-- is_marketplace_admin = Maybe(@current_user).has_admin_rights_in?(@current_community).or_else(false)
-- is_authorized = is_author || is_marketplace_admin
+- is_authorized = is_author || @relation == :rentog_admin || @relation == :domain_supervisor
 
 - if @listing.closed?
   .listing-view-admin-links
@@ -140,13 +139,13 @@
           = icon_tag("minus", ["icon-part"])
           .text-part= t("listings.edit_links.delete_listing")
 
-      - if @listing.get_listing_type != "sell"
+      - if @listing.get_listing_type != "sell" && @relation != :domain_supervisor
         .listing-view-admin-link
           %a.icon-with-text-container{href: person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s}
             = icon_tag("calendar", ["icon-part"])
             .text-part= t("listings.edit_links.book_with_pooltool")
 
-      - if is_marketplace_admin
+      - if @relation == :rentog_admin
         .listing-view-admin-link
           = link_to move_to_top_person_listing_path(@current_user, @listing), data: { method: "put" } do
             .icon-with-text-container

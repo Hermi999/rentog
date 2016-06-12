@@ -11,7 +11,7 @@ class ListingVisibilityGuard
   end
 
   def visible?
-     authorized_to_view? && (open? || is_author?)
+     authorized_to_view? && (open? || is_author? || @user.has_admin_rights_in?(@community) || @user.is_supervisor_of?(@listing.author))
   end
 
   def authorized_to_view?
@@ -24,9 +24,9 @@ class ListingVisibilityGuard
         public_community?
 
       elsif trusted_listing?
-        user_and_listing_belong_to_same_company? || listing_author_follows_users_company?
+        user_and_listing_belong_to_same_company? || listing_author_follows_users_company? || @user.is_supervisor_of?(@listing.author)
       else
-        user_and_listing_belong_to_same_company?
+        user_and_listing_belong_to_same_company? || @user.is_supervisor_of?(@listing.author)
       end
     end
   end

@@ -29,6 +29,9 @@
         %tr
           %td= "Relation:"
           %td= Maybe(@relation).or_else("-")
+        %tr
+          %td= "User plan:"
+          %td= Maybe(@current_user).user_plan.or_else("-")
 
 
   %noscript

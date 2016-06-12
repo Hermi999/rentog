@@ -750,7 +750,8 @@ class TransactionsController < ApplicationController
 
     # Ensure that user can only verify his own or his employees bookings
       if @relation == :rentog_admin ||
-         @relation == :company_admin_own_site
+         @relation == :company_admin_own_site ||
+         @relation == :domain_supervisor
         # Rentog admin and Listing owner (Company admin) can modify all pool tool bookings
 
       elsif @current_user == transaction_starter

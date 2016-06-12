@@ -6,7 +6,7 @@ class ImportListingsService
   def initialize(filepath, current_user)
     @invalid_rows = false
     @valid_attributes_from_db = getAllValidAttributes
-    @mandatory_attributes_from_db = getAllMandatoryAttributes
+    @mandatory_attributes_from_db = getAllMandatoryAttributes(current_user)
 
     # Open the new file
     @import_file = Roo::Spreadsheet.open(filepath, extension: :xlsx)
@@ -23,29 +23,29 @@ class ImportListingsService
     end
   end
 
-  def updateAndCreateListings(current_user, current_community)
-    result1 = updateListings(current_user, current_community)
-    result2 = createListings(current_user, current_community)
+  def updateAndCreateListings(current_user, current_community, relation)
+    result1 = updateListings(current_user, current_community, relation)
+    result2 = createListings(current_user, current_community, relation)
 
     result1 + result2
   end
 
-  def updateListings(current_user, current_community)
+  def updateListings(current_user, current_community, relation)
     result = []
-    listing_data.each_with_index do |x_data, index|
+    @listing_data.each_with_index do |x_data, index|
       # only update if this listing is marked as "updateable"
       if index != 0 && x_data[:invalid] == nil && x_data[:update] == true
-        result << updateListing(x_data, current_user, current_community)
+        result << updateListing(x_data, current_user, current_community, relation)
       end
     end
     result
   end
 
-  def createListings(current_user, current_community)
+  def createListings(current_user, current_community, relation)
     result = []
-    listing_data.each_with_index do |x_data, index|
+    @listing_data.each_with_index do |x_data, index|
       if index != 0 && x_data[:invalid] == nil && x_data[:update] == nil
-        result << createListing(x_data, current_user, current_community)
+        result << createListing(x_data, current_user, current_community, relation)
       end
     end
     result
@@ -55,7 +55,7 @@ class ImportListingsService
   private
 
     def getAllValidAttributes
-      x_validAttr = [{name: "device_name"}, {name: "description"}, {name: "price"}, {name: "visibility"}, {name: "device_closed"}]
+      x_validAttr = [{name: "device_name"}, {name: "pool_id"}, {name: "description"}, {name: "price"}, {name: "visibility"}, {name: "device_closed"}, {name: "subscriber_emails"}]
       CustomFieldName.select('id, value, custom_field_id').where(locale: 'en').as_json.each do |x_attr|
         x_validAttr << {name: x_attr["value"].split("(")[0].downcase.gsub(" ", "_").chomp('_'), custom_field_id: x_attr["custom_field_id"].to_i}
       end
@@ -63,8 +63,10 @@ class ImportListingsService
       x_validAttr
     end
 
-    def getAllMandatoryAttributes
+    def getAllMandatoryAttributes(current_user)
       x_mandAttr = [{name: "device_name"}]
+      x_mandAttr << {name: "pool_id"} if current_user.is_supervisor?
+
       x_validAttr = CustomFieldName.where(locale: 'en').each do |x_attr|
         if x_attr.custom_field.required
           x_mandAttr << {name: x_attr.value.split("(")[0].downcase.gsub(" ", "_").chomp('_'), custom_field_id: x_attr.custom_field_id.to_i }
@@ -84,7 +86,7 @@ class ImportListingsService
     end
 
     def checkAttributeRequirements
-      if @valid_attributes == []
+      if @valid_attributes.empty?
         @error_text = "No valid attributes found"
         return false
       elsif (@mandatory_attributes_from_db & @valid_attributes) != @mandatory_attributes_from_db
@@ -127,9 +129,9 @@ class ImportListingsService
 
             all_entries_with_this_serial_num = CustomFieldValue.where(:custom_field_id => serial_custom_field_id, :text_value => listing[:serial_number])
             all_entries_with_this_serial_num.each do |entry|
-              # check if listing is not deleted, the title is the same and if the listing belongs to users company
+              # check if listing is not deleted, the title is the same and if the listing belongs to users company or the supervisors domain
               old_listing = entry.listing
-              if old_listing && !old_listing.deleted && old_listing.title == listing[:device_name] && old_listing.author == current_user.get_company
+              if old_listing && !old_listing.deleted && old_listing.title == listing[:device_name] && (old_listing.author == current_user.get_company || current_user.is_supervisor_of?(old_listing.author) && old_listing.author.username == listing[:pool_id])
                 # listing is already marked as "update"...means that there are multiple entries in the excel file with the same title and serial
                 if listing[:update] && listing[:invalid]
                     listing[:invalid][:msg] += ", " + listing[:device_name]
@@ -150,9 +152,10 @@ class ImportListingsService
 
 
     # if listing with serial number is already in db, then update the existing listing
-    def updateListing(listing_data, current_user, current_community)
+    def updateListing(listing_data, current_user, current_community, relation)
       listing_attributes = {}
       listing_attributes_custom_fields = {}
+      subscribers = []
       listing = Listing.find(listing_data[:listing_id])
 
       # make sure that only valid attributes (which are in the db) are updated.
@@ -166,6 +169,15 @@ class ImportListingsService
           return listing.title
         when :device_name
           listing_attributes[:title] = x_attr[1]
+        when :pool_id
+          # no need for this one here...listings is uniquely identified via listing_id
+        when :subscriber_emails
+          x_attr[1].split(",").each do |subscr|
+            p = Maybe(Email.where(address: subscr.strip).first).person.or_else(nil)
+            if p.is_employee_of?(listing.author_id) || p == listing.author
+              subscribers << p
+            end
+          end
         when :device_closed
           listing_attributes[:open] = (x_attr[1] == 0)
         when :visibility
@@ -180,14 +192,6 @@ class ImportListingsService
               listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] = x_attr[1]
             end
           end
-        end
-      end
-
-      # wah: store subscribers and remove them from the params array
-      subscribers = []
-      if listing_data[:subscribers]
-        listing_data[:subscribers].each do |subscr|
-          subscribers << Person.find(subscr) if subscr != ""
         end
       end
 
@@ -220,7 +224,7 @@ class ImportListingsService
       upsert_field_values!(listing, listing_attributes_custom_fields)
 
       if update_successful
-        listing.subscribers = subscribers
+        listing.subscribers = listing.subscribers | subscribers.compact
         #listing.location.update_attributes(params[:location]) if @listing.location
 
         # wah - add this event to the events table
@@ -234,9 +238,11 @@ class ImportListingsService
     end
 
     # create a new listing based on the excel data
-    def createListing(listing_data, current_user, current_community)
+    def createListing(listing_data, current_user, current_community, relation)
       listing_attributes = {}
       listing_attributes_custom_fields = {}
+      subscribers = []
+      author_username = nil
 
       # make sure that only valid attributes (which are in the db) are created.
       # We store them into the "listing_attributes" and "listing_attributes_custom_fields"
@@ -245,6 +251,17 @@ class ImportListingsService
         case x_attr[0]
         when :device_name
           listing_attributes[:title] = x_attr[1]
+        when :pool_id
+          if relation == :domain_supervisor
+            author_username = x_attr[1]
+          end
+        when :subscriber_emails
+          x_attr[1].split(",").each do |subscr|
+            p = Maybe(Email.where(address: subscr.strip).first).person.or_else(nil)
+            if p.is_employee_of?(listing.author_id) || p == listing.author
+              subscribers << p
+            end
+          end
         when :device_closed
           listing_attributes[:open] = (x_attr[1] == 0)
         when :visibility
@@ -262,16 +279,13 @@ class ImportListingsService
         end
       end
 
+      # check if pool id (author username) is given, if this is the supervisor
+      if relation == :domain_supervisor && author_username.nil?
+        return {title: listing_attributes[:title], message: "Listings does no have the mandatory attribute 'pool_id'"}
+      end
+
       # at the moment we just have one category ("default")
       listing_attributes[:category_id] = Category.first.id.to_s
-
-      # wah: store subscribers and remove them from the params array
-      subscribers = []
-      if listing_data[:subscribers]
-        listing_data[:subscribers].each do |subscr|
-          subscribers << Person.find(subscr) if subscr != ""
-        end
-      end
 
       #shape = get_shape(Maybe(params)[:listing][:listing_shape_id].to_i.or_else(nil))
       shape_id = nil
@@ -307,8 +321,8 @@ class ImportListingsService
       ).merge(unit_to_listing_opts(m_unit)).except(:unit)
 
       listing = Listing.new(listing_attributes)
-      listing.author = current_user
-      listing.subscribers = subscribers if subscribers != []
+      listing.author = Person.where(username: author_username).first || current_user
+      listing.subscribers = subscribers.compact if subscribers.compact.any?
 
       ActiveRecord::Base.transaction do
         if listing.save

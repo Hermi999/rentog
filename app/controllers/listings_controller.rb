@@ -43,10 +43,9 @@ class ListingsController < ApplicationController
           PersonViewUtils.ensure_person_belongs_to_community!(@person, @current_community)
 
           # Do not show internal listings if current logged in user is not ...
-          if  !@current_user ||                                          # logged in or
-              !@current_user.is_employee_of?(@person.id) &&              # not an employee of the company and
-              !@current_user.has_admin_rights_in?(@current_community) && # not the rentog admin and
-              !current_user?(@person)                                    # not the company admin himself
+          if  !@relation == :company_employee &&              # not an employee of the company and
+              !@relation == :rentog_admin &&                  # not the rentog admin and
+              !@relation == :company_admin_own_site           # not the company admin himself
             availability = ["all", "trusted"]
           end
 
@@ -189,10 +188,11 @@ class ListingsController < ApplicationController
     get_relation
 
     # redirect if intern listing
-    if @listing.availability == "intern"    &&
-       !@relation == :company_admin_own_site &&
-       !@relation == :rentog_admin           &&
-       !@relation == :company_employee
+    if @listing.availability == "intern"      &&
+       !@relation == :company_admin_own_site  &&
+       !@relation == :rentog_admin            &&
+       !@relation == :company_employee        &&
+       !@relation == :domain_supervisor
 
         flash[:error] = t("transactions.listing_is_intern")
         redirect_to root and return
@@ -231,7 +231,7 @@ class ListingsController < ApplicationController
         rent_button = "pooltool"
         form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
 
-      when :company_admin_own_site
+      when :company_admin_own_site || :domain_supervisor
         rent_button = "pooltool"
         form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
 
@@ -659,7 +659,7 @@ class ListingsController < ApplicationController
 
   def ensure_current_user_is_listing_author(error_message)
     @listing = Listing.find(params[:id])
-    return if current_user?(@listing.author) || @current_user.has_admin_rights_in?(@current_community)
+    return if current_user?(@listing.author) || @relation == :rentog_admin || @relation == :domain_supervisor
     flash[:error] = error_message
     redirect_to @listing and return
   end
@@ -842,7 +842,7 @@ class ListingsController < ApplicationController
 
     raise ListingDeleted if @listing.deleted?
 
-    unless @listing.visible_to?(@current_user, @current_community) || (@current_user && @current_user.has_admin_rights_in?(@current_community))
+    unless @listing.visible_to?(@current_user, @current_community) || @relation == :rentog_admin
       if @current_user
         if @listing.closed?
           flash[:error] = t("layouts.notifications.listing_closed")
@@ -941,7 +941,7 @@ class ListingsController < ApplicationController
     # employee can't create listings
     if @current_user && !@current_user.is_organization
       if !@current_community.employees_can_create_listings
-        unless @current_user.has_admin_rights_in?(@current_community)
+        unless @relation == :rentog_admin
           flash[:error] = t("listings.error.employees_do_not_post")
           redirect_to marketplace_path and return
         end
@@ -950,7 +950,7 @@ class ListingsController < ApplicationController
 
     # admin-verification is needed for companies
     if @current_community.require_verification_to_post_listings?
-      unless @current_user.has_admin_rights_in?(@current_community) || @current_community_membership.can_post_listings?
+      unless @relation == :rentog_admin || @current_community_membership.can_post_listings?
         redirect_to verification_required_listings_path
       end
     end

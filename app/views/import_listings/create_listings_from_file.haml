@@ -2,11 +2,11 @@
   %h1#createListingsFromFile-header= t(".headline")
 
 .create-listings-from-file-wrapper
-  - if @result != []
+  - if @result.any?
     %ul.error
       - @result.each do |res|
-        - if res.class.to_s == "Array"
-          %li= t(".could_not_create_or_update", title: res.title, message: rel.message.to_s).html_safe
+        - if res.class.to_s == "Array" || res.class.to_s == "Hash"
+          %li= t(".could_not_create_or_update", title: res[:title], message: res[:message].to_s).html_safe
 
     %ul.success
       - @result.each do |res|
