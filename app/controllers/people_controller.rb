@@ -615,7 +615,7 @@ class PeopleController < Devise::RegistrationsController
       @current_user.update_attribute(:supervisor_mode_active, !old_val)
     end
 
-    redirect_to root and return
+    redirect_to person_poolTool_path(@current_user, domain_view: "1") and return
   end
 
 

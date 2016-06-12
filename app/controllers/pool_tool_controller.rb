@@ -8,6 +8,8 @@ class PoolToolController < ApplicationController
     @belongs_to_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin || @relation == :domain_supervisor || @relation == :rentog_admin_own_site)
     @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site)
 
+    @domain_supervisor_on_overview_site = @relation == :domain_supervisor && params[:domain_view]
+
     # CHANGE BUTTONS TEXTs
     addjustButtonText
 
@@ -17,10 +19,12 @@ class PoolToolController < ApplicationController
       open_listings_array = []
       listing_ids_of_other_companies = []
 
-      # IF USER IS SUPERVISOR OF POOL OWNER
       if @relation == :domain_supervisor
         @companies_in_same_domain = @current_user.get_companies_with_same_domain
+      end
 
+      # IF USER IS SUPERVISOR OF POOL OWNER and HE IS IN OVERVIEW MODE
+      if @domain_supervisor_on_overview_site
         # get all the domains listings and their ids
         all_domain_listings = get_listings_of_companies(@companies_in_same_domain.map(&:id))
         listing_ids_of_other_companies = all_domain_listings.map(&:id)
@@ -83,7 +87,7 @@ class PoolToolController < ApplicationController
 
     ### TRANSACTIONS ###
       # IF USER IS SUPERVISOR OF POOL OWNER
-      if @relation == :domain_supervisor
+      if @domain_supervisor_on_overview_site
         transactions = get_domain_transactions(listing_ids_of_other_companies)
         transaction_array = transactions.as_json
 
@@ -111,7 +115,7 @@ class PoolToolController < ApplicationController
 
       # wah: Get all possible company ids of companies which can be shown in pool tool
       possible_companies =
-        if @relation == :domain_supervisor
+        if @domain_supervisor_on_overview_site
           @companies_in_same_domain
         else
           Person.where(:id => ([@site_owner] + @site_owner.followers))

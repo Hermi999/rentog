@@ -13,7 +13,13 @@ function change_background_based_on_relation(){
   if ($(".other_company_is_site_owner").length){
     var color_background = "rgb(230, 239, 253)";
     var color_title_container = "rgb(128, 153, 191)";
+  }
+  if ($(".domain_view").length){
+    var color_background = "rgb(205, 233, 230)";
+    var color_title_container = "#2CB4A6";
+  }
 
+  if (typeof(color_background) !== "undefined"){
     $('body').css('background-color', color_background);
     $('.page-content').css('background-color', color_background);
     $('.wrapper').css('background-color', color_background);

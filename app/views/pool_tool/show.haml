@@ -107,9 +107,12 @@
           %p#other-shared-pools= t("pool_tool.show.other_pools_in_domain")
           - column_width = 12
           - column_width = 6 if @companies_in_same_domain.count > 6
-          - @companies_in_same_domain.each do |comp|
-            %div{class: "col-#{column_width} other-pool-columns"}
-              - if comp.is_organization && comp != @current_user.get_company
+
+          %div{class: "col-#{column_width} other-pool-columns"}
+            = link_to "Domain view", person_poolTool_path(@current_user, :domain_view => "1"), class: ".other-pool-link", style: "color: rgb(44, 180, 166);"
+            %br
+            - @companies_in_same_domain.each do |comp|
+              - if comp.is_organization
                 = link_to comp.organization_name, person_poolTool_path(comp), class: ".other-pool-link"
                 %br
 
@@ -169,8 +172,11 @@
     - content_for :title_header do
       - if @is_member_of_company
         %h1#pooltool-header= t("pool_tool.headline")
+      - elsif @domain_supervisor_on_overview_site
+        %h1#pooltool-header.domain_view= t("pool_tool.show.domain_view")
       - else
         %h1#pooltool-header.other_company_is_site_owner= t("pool_tool.headline") + " - #{@site_owner.organization_name}"
+
       #pooltool-subheader= t("pool_tool.subheadline")
 
 

@@ -2524,6 +2524,7 @@ de:
       device_return_successful_email_flash: "Das Gerät <b>%{title}</b> wurde erfolgreich zurückgegeben."
       device_return_fail_email_flash: "Das Gerät <b>%{title}</b> ist bereits zurückgegeben."
       search_devices: "'Gerätename', 'Intern'"
+      domain_view: "Domänenansicht"
     load_popover:
       utilization_header: "Auslastung bis heute"
       utilization_desc_1: "Nur wochentags"
