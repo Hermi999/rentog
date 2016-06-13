@@ -733,3 +733,10 @@
   color: #DE4949;
   font-weight: bold;
 }
+
+.domain-pool-link{
+  color: rgb(44, 180, 166);
+  &:hover{
+    color: #1E8C80;
+  }
+}

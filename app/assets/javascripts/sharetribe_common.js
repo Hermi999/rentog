@@ -11,7 +11,8 @@ closeDevelopmentInfos();
 // change background color of site based on relation
 function change_background_based_on_relation(){
   if ($(".other_company_is_site_owner").length){
-    var color_background = "rgb(230, 239, 253)";
+    //var color_background = "rgb(230, 239, 253)";
+    var color_background = "rgb(241, 246, 255)";
     var color_title_container = "rgb(128, 153, 191)";
   }
   if ($(".domain_view").length){

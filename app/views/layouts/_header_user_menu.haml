@@ -26,10 +26,11 @@
   /  = icon_tag("lock", ["icon-with-text"])
   /  = t("header.restrictedMarketplace")
 
-  - with_invite_link do
-    = link_to new_invitation_path do
-      = icon_tag("new_listing", ["icon-with-text"])
-      = t("header.invite")
+  - unless @current_user.is_supervisor?
+    - with_invite_link do
+      = link_to new_invitation_path do
+        = icon_tag("new_listing", ["icon-with-text"])
+        = t("header.invite")
 
   - unless @current_user.is_supervisor?
     - if @current_user.is_organization || @current_community.employee_has_own_profile

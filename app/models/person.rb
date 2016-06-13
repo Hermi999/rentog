@@ -492,9 +492,9 @@ class Person < ActiveRecord::Base
     supervisor_mode_active && is_domain_supervisor
   end
 
-  def is_supervisor_of?(site_owner)
+  def is_supervisor_of?(person)
     supervisor_domains = self.get_domains
-    site_owner_domains = Maybe(site_owner).get_domains.or_else([])
+    site_owner_domains = Maybe(person).get_domains.or_else([])
 
     self.is_supervisor? && (supervisor_domains & site_owner_domains).any?
   end

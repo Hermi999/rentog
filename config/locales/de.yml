@@ -221,9 +221,9 @@ de:
         private: "Diese Community ist privat (nur registrierte Benutzer können den Inhalt sehen)"
         require_verification_to_post_listings: "Nur von Administratoren verifizierte Benutzer können neue Einträge veröffentlichen"
         profile_preferences: "Profileinstellungen"
-        others_can_see_employees: "Zeige die eignene Mitarbeiter anderen auf der Unternehmens-Profilseite"
+        others_can_see_employees: "Zeige den anderen Rentog-Usern die eignenen Pool-Benutzer auf der Profilseite"
         only_pool_tool: "Nur das Pool-Tool ist aktiv. Keine anderen Dienste."
-        employee_has_own_profile: "Mitarbeiter hat ein eigenes Profil."
+        employee_has_own_profile: "Pool-Benutzer hat ein eigenes Profil."
         search_preferences: ~
         default_search_type: ~
         keyword_search: ~
@@ -234,7 +234,7 @@ de:
         listing_preferences: Eintragseinstellungen
         transaction_preferences: Transaktionseinstellungen
         poolTool_preferences: "Pool Tool Einstellungen"
-        pooltool_employee_has_to_give_back_device: "Mitarbeiter muss ein Gerät aktiv zurückgeben indem er auf einen Button klickt"
+        pooltool_employee_has_to_give_back_device: "Benutzer muss ein gebuchtes Gerät aktiv zurückgeben indem er auf einen Button klickt"
         show_listing_publishing_date: "Datum der Veröffentlichung des Eintrags auf der Artikelseite darstellen"
         show_category_in_listing_list: "Die Art der Kategorien in der Übersicht darstellen"
         hide_expiration_date: "Einträge müssen kein Ablaufdatum haben"
@@ -551,7 +551,7 @@ de:
     default_community_slogan: "Rentog. Der Test- und Messgeräte Marktplatz"
     default_community_description: "Kaufen, Verkaufen, Mieten & Vermieten von Test- und Messgeräten"
     sharedPool_slogan: "Rentog Shared Pool"
-    sharedPool_description: "Durchstöbere und buche Geräte Unternehmen denen du vertraust"
+    sharedPool_description: "Durchstöbere und buche Geräte von anderen Pools"
     cancel: Abbrechen
     fields_that_are_mandatory: "Mit einem Stern (*) gekennzeichnete Felder sind Pflichtfelder."
     or: oder
@@ -1006,13 +1006,13 @@ de:
      mail_title: "%{title_link} Geräte-Events"
      subject: "Geräte-Event Benachrichtigung"
      email_text: "Neue Benachrichtigungen für Gerät %{listing_title}"
-     email_footer: "Du empfängst diese Email, weil den Geräte-Administrator (%{fullname_with_link}) dich für die Benachrichtigungen für dieses Gerät angemeldet hat."
+     email_footer: "Du empfängst diese Email, weil der Pool-Administrator (%{fullname_with_link}) dich für die Benachrichtigungen für dieses Gerät angemeldet hat."
      all_device_notifications: "Du kannst alle Benachrichtigungen zu diesem und allen anderen Geräten <a href='%{device_history_link}'>hier</a> ansehen."
      event_description_listing_created: "%{fullname_with_link} hat ein neue Gerät mit dem Titel %{listing_title} <b>erstellt</b>"
      event_description_listing_closed: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} <b>pausiert</b>"
      event_description_listing_updated: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} <b>aktualisiert</b>"
      event_description_booking_created: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} vom %{start_date} bis zum %{end_date} <b>gebucht</b>. Die Buchung hat die <a href='%{booking_url}'>ID %{booking_id}</a>."
-     event_description_booking_created_for_employee: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} für den Mitarbeiter %{employee} vom %{start_date} bis zum %{end_date} <b>gebucht</b>. Die Buchung hat die <a href='%{booking_url}'>ID %{booking_id}</a>."
+     event_description_booking_created_for_employee: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} für den Pool-Benutzer %{employee} vom %{start_date} bis zum %{end_date} <b>gebucht</b>. Die Buchung hat die <a href='%{booking_url}'>ID %{booking_id}</a>."
      event_description_booking_updated: "%{fullname_with_link} hat die Buchung für das Gerät %{listing_title} mit der <a href='%{booking_url}'>ID %{booking_id}</a> (%{start_date} - %{end_date}) <b>aktualisiert</b>."
      event_description_booking_deleted: "%{fullname_with_link} hat die Buchung für das Gerät %{listing_title} mit der <a href='%{booking_url}'>ID %{booking_id}</a> (%{start_date} - %{end_date}) <b>gelöscht</b>."
      event_description_booking_accepted: ""
@@ -1180,7 +1180,7 @@ de:
     requests: Anfragen
     search_kassi: "Suchen %{service_name}"
     create_new_marketplace: "Entwerfe einen neuen Marktplatz"
-    company_profile: "Mein Unternehmen"
+    company_profile: "Mein Gerätepool"
     contact_us: Kontakt
     profile: "Profil & Geräte"
     manage_listings: "Einträge verwalten"
@@ -1192,7 +1192,7 @@ de:
     menu: Menü
   footer:
     company:
-        header: Unternehmen
+        header: Allgemeines
         contact: Kontakt
         about: Impressum
         terms: AGB
@@ -1288,16 +1288,16 @@ de:
       email: E-Mail-Adresse(n)
       message: "Eine persönliche Nachricht"
       send_invitation: "Einladung senden"
-      add_email_addresses_description: "Füge die E-Mail-Adressen der Leute, die du einladen möchtest, in das obere Feld ein. Wenn du mehrere E-Mail-Adressen hinzufügst, unterteile sie mit einem Komma.<br>Die eingeladenen Leute erhalten auch einen Link auf deine Profilseite, damit können Sie deinem Unternehmen vertrauen oder dir Nachrichten auf Rentog senden."
+      add_email_addresses_description: "Füge die E-Mail-Adressen der Leute, die du einladen möchtest, in das obere Feld ein. Wenn du mehrere E-Mail-Adressen hinzufügst, unterteile sie mit einem Komma.<br>Die eingeladenen Leute erhalten auch einen Link auf deine Profilseite, damit können Sie deinem Pool und dessen Benutzern vertrauen oder dir Nachrichten auf Rentog senden."
       add_lots_of_email_addresses: "Wenn du sehr viele Einladungen verschicken möchtest, solltest du lieber ein Email-Tool verwenden. Lies %{this_article_link}, um mehr über geeignete Email-Dienste zu erfahren."
       this_article_link: "diesen Artikel"
       label_invite_any: "Lade ein anderes Unternehmen / eine andere Person ein"
-      label_invite_employee: "Füge einen neuen Mitarbeiter deinem Unternehmen hinzu"
-      label_invite_shared_pool: "Anfrage für Shared Pool Benutzung bei bestehendem Rentog User"
+      label_invite_employee: "Füge einen neuen Pool-Benutzer zu deinem Pool hinzu"
+      label_invite_shared_pool: "Anfrage für Shared Pool Benutzung bei bestehendem Pool Administrator"
       auto_filled: "(Die Buttons und Links auf dein Profil werden automatisch erstellt.)"
       invitation_emails_field_placeholder: "freund1@beispiel.com, freund2@beispiel.com, ..."
       invitation_message_field_placeholder1: "Hi. \nWir verwenden ab jetzt firmenintern Rentog um unsere Testgeräte zu verwalten. Bitte registriere dich!"
-      invitation_message_field_placeholder2: "Hi. \nBitte füge mich zu deinem Shared Pool hinzu. Dazu klicke einfach auf einen der beiden Links oberhalb um zu meinem Profil zu kommen und anschließend auf den Button 'Vertrauen'.\nDadurch kann ich deine Geräte sehen und buchen. \n\nSolltest dein Unternehmen / deine Abteilung noch kein Rentog Profil erstellt haben, dann klicke auf den Button unterhalb."
+      invitation_message_field_placeholder2: "Hi. \nBitte füge meinen Gerätepool zu deinem Shared Pool hinzu. Dazu klicke einfach auf einen der beiden Links oberhalb um zur Profilseite meines Pools zu kommen und anschließend auf den Button 'Vertrauen'.\nDadurch können alle Pool-Benutzer meines Gerätepools deine Geräte sehen und buchen. \n\nSolltest dein Unternehmen / deine Abteilung noch kein Profil auf Rentog erstellt haben, dann klicke auf den Button unterhalb."
       errors_in_emails: "Überprüfe, ob die eingegebenen E-Mail-Adressen korrekt sind. Wenn du mehrere E-Mail-Adressen eingegeben hast, trenne sie mit einem Komma."
     list_item:
       review: Bewertung
@@ -1348,7 +1348,7 @@ de:
       to_see_what_others_have_suggested: "um zu sehen, was andere Benutzer vorgeschlagen haben und um die für die Ideen zu stimmen."
       your_email_address: "Deine E-Mail-Adresse (um dich zu kontaktieren)"
       connect: "Jetzt registrieren"
-      invite_your_friends: "Vertraute Unternehmen einladen"
+      invite_your_friends: "Andere Unternehmen/Abteilungen einladen"
       invite_your_neighbors: "Lade Nachbarn ein!"
       invite_your_friends_description: "Je mehr Leute im %{service_name} sind, desto nützlicher ist es."
       invite_your_friends_invite_only_description: "Andere Leute können %{service_name} nur beitreten, wenn sie eingeladen werden."
@@ -1497,7 +1497,7 @@ de:
       you_must_log_in_to_accept_or_reject: "Du musst dich einloggen, um die Transaktion zu akzeptieren oder abzubrechen"
       you_must_log_in_to_confirm_or_cancel: "Du musst dich einloggen, um die Transaktion abzubrechen oder zu bestätigen"
       you_need_to_confirm_your_account_first: "Du musst zuerst deine E-Mail bestätigen."
-      you_must_be_added_to_a_company: "Du musst nur mehr durch deinen Unternehmens-Administrator verifiziert werden. Es wurde dazu eine automatische Nachricht an ihm gesendet."
+      you_must_be_added_to_a_company: "Du musst nur mehr durch deinen Pool-Administrator verifiziert werden. Es wurde dazu eine automatische Nachricht an ihm gesendet."
       you_must_fill_all_the_fields: "Du musst alle Felder ausfüllen"
       you_unfollowed_listing: "Du folgst diesem Eintrag nicht länger"
       joining_community_failed: "Der Beitritt dieser Community ist fehlgeschlagen"
@@ -1551,11 +1551,11 @@ de:
       open_in_google_maps: "In Google Maps öffnen"
     error:
       something_went_wrong: "Etwas ist schief gelaufen, Fehlercode: %{error_code}"
-      employees_do_not_post: "Mitarbeiter sind aktuell nicht berechtigt neue Geräte auf Rentog zu erstellen."
+      employees_do_not_post: "Pool-Benutzer sind aktuell nicht berechtigt neue Geräte auf Rentog zu erstellen."
     follow_links:
       follow: "Erhalte E-Mails bei neuen Kommentaren"
       unfollow: "Diesem Eintrag nicht mehr folgen"
-    cannot_book: "Dieses Gerät kann nur von Unternehmen gebucht werden, denen der Besitzer <b>vertraut</b> sind.<br> Kontaktiere den Vermieter und bitte ihn deinem Unternehmen zu <b>vertrauen</b>."
+    cannot_book: "Dieses Gerät kann nur von Rentog Benutzern gebucht werden, denen der Vermieter <b>vertraut</b> sind.<br> Kontaktiere den Vermieter und bitte ihm dir oder deinem Gerätepool zu <b>vertrauen</b>."
     form:
       enable_custom_fields: "Aktivieren & deaktivieren von Feldern"
       add_more_fields: "+ Füge weitere Attribute hinzu"
@@ -1615,11 +1615,11 @@ de:
         location: Standort
       location_alias:
         location_alias: Standortname
-        info_text: "Der Standortname wird als (Lager-) Standort im Pool Tool angezeigt. Damit ist für jeden Mitarbeiter sofort ersichtlich wo das Gerät normalerweise aktuell befindet."
+        info_text: "Der Standortname wird als (Lager-) Standort im Pool Tool angezeigt. Damit ist für jeden Benutzer sofort ersichtlich wo das Gerät normalerweise aktuell befindet."
       device_events:
         headline: "Abonennten"
         info_text: "Benutzer die Sie hier eintragen, werden über Geräte-Buchungen informiert. Damit bleiben Mitarbeiter in der Logistik, Wartung, usw. immer im Informationsfluss."
-        no_employees_yet: "Du hast noch keine Mitarbeiter angelegt."
+        no_employees_yet: "Du hast noch keine Pool-Benutzer angelegt."
       price:
         price: Preis
         per: pro
@@ -1673,9 +1673,9 @@ de:
         public: "Öffentlich (sichtbar auch für nicht-eingeloggte Nutzer)"
       availability:
         availability: "Verfügbarkeit (Bestimmt wer diesen Eintrag buchen kann)"
-        intern: "Nur deine Mitarbeiter"
-        trusted: "Unternehmen, denen du vertraust und deine Mitarbeiter"
-        all: "Alle anderen Unternehmen und deine Mitarbeiter"
+        intern: "Nur deine Pool-Benutzer"
+        trusted: "Benutzer von Pools, denen du vertraust und deine eigenen Pool-Benutzer"
+        all: "Alle registrierten Rentog Benutzer"
     help_texts:
       help_share_type_title: "Art des Angebots oder der Anfrage"
       help_tags_title: Tags
@@ -1786,8 +1786,8 @@ de:
       price:
         per_quantity_unit: "pro %{quantity_unit}"
         per_day: "pro Tag"
-      request_by_company: "Anfrage bei Unternehmens-Admin"
-      book_via_pooltool: "Buche mittels Pool Tool"
+      request_by_company: "Anfrage bei Pool-Admin"
+      book_via_pooltool: "Buche vom Gerätepool"
       delivery: Lieferart
       shipping: "Versand (+%{price})"
       shipping_no_price: Versand
@@ -1947,9 +1947,9 @@ de:
       inactive_description: "Der Benutzer hat aufgehört, %{service_name} zu verwenden. Du kannst diesen Benutzer weder kontaktieren, noch kannst Du ihn bewerten oder Kommentare hinterlassen."
     new:
       create_new_account: "Unternehmens-Konto erstellen"
-      create_new_employee: "Mitarbeiter-Konto erstellen"
-      or_signup_as_employee: "oder als Mitarbeiter registrieren"
-      or_create_a_new_company: "oder ein neues Unternehmen erstellen"
+      create_new_employee: "Pool-Benutzer-Konto erstellen"
+      or_signup_as_employee: "oder als Pool-Benutzer registrieren"
+      or_create_a_new_company: "oder ein neues Unternehmens-Konto erstellen"
       email: E-Mail-Adresse
       email_is_in_use: "Die angegebene E-Mail-Adresse wird bereits genutzt."
       email_is_in_use_or_not_allowed: "Diese E-Mail-Adresse ist nicht erlaubt oder bereits in Verwendung. Wenn Du Dich nicht einloggen kannst, kontaktiere uns bitte."
@@ -1957,8 +1957,8 @@ de:
       email_restriction_instructions:
         one: "Diese Community ist nur für %{community_name}. Um beitreten zu können, brauchst du eine '%{allowed_emails}' E-Mail-Adresse. "
         other: "Diese Community ist nur für %{community_name}. Um beitreten zu können, brauchst du eine E-Mail-Adresse, die belegt, dass deine Teilnahme erlaubt ist."
-      organization_email: "Die Email-Adresse deines Unternehmens-Administrators"
-      orga_not_available: "Dieses Unternehmen ist noch nicht verfügbar."
+      organization_email: "Die Email-Adresse des Geräte-Administrators"
+      orga_not_available: "Es gibt keinen Pool-Administrator mit dieser Email-Adresse."
       family_name: Nachname
       given_name: Vorname
       i_accept_the: "Ich akzeptiere die"
@@ -1968,9 +1968,9 @@ de:
       not_required: ", nicht erforderlich"
       notification_is_mandatory: "Du musst wenigstens eine Email Adresse wählen, um Mitteilungen erhalten zu können. Wenn Du keine Emails von %{service_name} erhalten möchtest, kannst Du dies in den Einstellungen unter Benachrichtigungen anpassen."
       organization_name: "Firmenname"
-      organization_is_in_use: "Es existiert bereits ein Unternehmen mit dem ausgewählten Namen. Bitte registriere dich als Mitarbeiter dieses Unternehmens."
+      organization_is_in_use: "Es existiert bereits ein Unternehmen mit dem ausgewählten Namen auf Rentog. Bitte prüfen Sie unternehmensintern wer dieses Unternehmensprofil für Ihr Unternehmen auf Rentog erstellt hat. Danach können Sie sich entweder als Pool-Benutzer dieses Unternehmens registrieren oder bei Bedarf ein zweites Unternehmensprofil anlegen und den Abteilungs- oder Standortnamen hinten anfügen. Beispiel: 'Rentog - Sales Vienna'"
       organization_name_not_chosen: "Bitte wähle das Unternehmen für welches du arbeitest."
-      organization_doesnt_exists: "Das angegebene Unternehmen existiert nicht"
+      organization_doesnt_exists: "Es gibt keinen Pool-Administrator mit dieser Email-Adresse"
       password_again: "Passwort bestätigen"
       show_my_name_to_others: "Anderen %{service_name} Benutzern meinen richtigen Namen anzeigen"
       sign_up: "Ein neues Konto bei %{service_name} erstellen"
@@ -1982,13 +1982,13 @@ de:
       create_account_with_facebook: "Lege einen Account mit Facebook an"
       OR: ODER
       signup_with_email: "Registriere Dich mit Deiner E-Mail-Adresse"
-      message_to_company_owner: "(Diese Nachricht wurde von RENTOG automatisch generiert) Eine Person mit den Namen %{name} und der Email-Adresse %{email} hat soeben einen neuen Account erstellt und behaupted ein Mitarbeiter deines Unternehmens zu sein. Wenn dies der Wahrheit entspricht, so füge die Person bitte auf deiner Profilseite %{profile} zu deinen Mitarbeitern hinzu."
+      message_to_company_owner: "(Diese Nachricht wurde von RENTOG automatisch generiert) Eine Person mit den Namen %{name} und der Email-Adresse %{email} hat soeben einen neuen Account erstellt und behaupted ein legitimer Pool-Benutzer deines Gerätepools zu sein. Wenn dies der Wahrheit entspricht, so füge die Person bitte auf deiner Profilseite %{profile} zu deinen Pool-Benutzern hinzu."
       help_texts:
         person_email: "Bitte gib eine gültige Email-Adresse ein"
-        person_organization_name: "Bitte gib den Namen deines Unternehmens ein"
-        person_organization_email: "Bitte gib die Email-Adresse ein, die dein Unternehmens-Administrator auf Rentog verwendet"
+        person_organization_name: "Bitte gib den Namen deines Unternehmens ein. Gibt es mehrere Gerätepools in deinem Unternehmen, dann gib bitte auch noch den Namen deiner Abteilung oder den Standortnamen ein. Beispiel: 'Rentog - R&D Vienna'"
+        person_organization_email: "Bitte gib die Email-Adresse ein, die dein Gerätppool-Administrator auf Rentog verwendet"
         person_password1: "Verwende ein starkes Passwort mit mindestens 8 Zeichen."
-        signup_employee: "Wenn du die Email-Adresse weißt, die dein Unternehmens-Administrator auf Rentog verwendet, so kannst du einen neuen Mitarbeiter hier direkt hinzufügen ..."
+        signup_employee: "Wenn du die Email-Adresse weißt, die dein Gerätepool-Administrator auf Rentog verwendet, so kannst du einen neuen Pool-Benutzer hier direkt hinzufügen ..."
     not_member:
       explanation_text: "Du befindest dich derzeit bei %{community}. Du hast versucht, das Profil eines Benutzers aus einer anderen Community anzuzeigen. Du kannst dieses Profil nicht über %{community} direkt einsehen."
       read_more_about_kassi_communities: "Lies mehr über Sharetribe-Communities"
@@ -2028,9 +2028,9 @@ de:
       open_listings: "aktive Einträge"
       no_listings: "Keine Einträge"
       legend_header: "Für die zu vermietenden Geräte gelten folgende Sichtbarkeiten:"
-      legend_intern: "Intern - Nur für Mitarbeiter"
-      legend_trusted: "Vertraut - Verfügbar für vertraute Unternehmen"
-      legend_global: "Global - Verfügbar für registrierte User"
+      legend_intern: "Intern - Nur für eigene Pool-Benutzer"
+      legend_trusted: "Vertraut - Verfügbar für Benutzer von vertrauten Pools"
+      legend_global: "Global - Verfügbar für jeden registrierten User"
       renting_listings: "Zu vermietende Geräte"
       selling_listings: "Zu verkaufende Geräte"
       other_listings: "Alle anderen Einträge"
@@ -2041,11 +2041,12 @@ de:
       show_all_open_listings: "Zeige alle offenen Einträge an"
       show_all_reviews: "Alle Bewertungen anzeigen"
       organization_is_in_use: "The organization name you entered is already in use."
-      employee_limit_reached: "Sie haben das Limit an Mitarbeitern für diesen Accounttyp erreicht. Jetzt Account upgraden!"
-      employee_limit_reached_invite: "Sie haben das Limit an Mitarbeitern für diesen Accounttyp erreicht und können daher keine weiteren Mitarbeiter einladen. Jetzt Account upgraden!"
-      followers_limit_reached: "Das andere Unternehmen kann mit dem aktuellen Account-Typ keine weiteren Unternehmen mehr in seinem 'Shared Pool' aufnehmen. Bitte kontaktieren Sie das andere Unternehmen, damit es den Account upgradet!"
-      followed_limit_reached: "Mit dem aktuellen Kontotyp können Sie keine (weiteren) Unternehmen zu Ihrem 'Shared Pool' hinzufügen. Jetzt Ihren Account upgraden!"
-      followed_limit_reached2: "Mit dem aktuellen Kontotyp können Sie keine (weiteren) Unternehmen zu Ihrem 'Shared Pool' hinzufügen. <a href='%{link}'>Jetzt Ihren Account upgraden!</a>"
+      employee_limit_reached: "Sie haben das Limit an Pool-Benutzern für diesen Accounttyp erreicht. Jetzt Account upgraden!"
+      employee_limit_reached_invite: "Sie haben das Limit an Pool-Benutzern für diesen Accounttyp erreicht und können daher keine weiteren Pool-Benutzer einladen. Jetzt Account upgraden!"
+      followers_limit_reached: "Der andere Gerätepool kann mit dem aktuellen Account-Typ keine weiteren Pools mehr in seinem 'Shared Pool' aufnehmen. Bitte kontaktieren Sie den Administrator des anderen Pools, damit es den Account upgradet!"
+      followed_limit_reached: "Mit dem aktuellen Kontotyp können Sie keine (weiteren) Pools mehr zu Ihrem 'Shared Pool' hinzufügen. Jetzt Ihren Account upgraden!"
+      followed_limit_reached2: "Mit dem aktuellen Kontotyp können Sie keine (weiteren) Pools zu Ihrem 'Shared Pool' hinzufügen. <a href='%{link}'>Jetzt Ihren Account upgraden!</a>"
+      profilepage: Profilseite
     followed_people:
       you_follow_plural: "Du folgst %{count} Personen"
       you_follow_singular: "Du folgst %{count} Person"
@@ -2054,22 +2055,22 @@ de:
       show_all_followed_people: "Zeige alle gefolgten Personen"
       no_followed_people: "Keine gefolgten Personen"
     trusted_companies:
-      you_trust_plural: "Du vertraust %{count} anderen Unternehmen (Shared Pool)"
-      you_trust_singular: "Du vertraust %{count}nem anderen Unternehmen (Shared Pool)"
-      they_trust_plural: "Vertraut %{count} Unternehmen (Shared Pool)"
-      they_trust_singular: "Vertraut %{count}nem Unternehmen (Shared Pool)"
-      show_all_trusted_people: "Zeige alle Unternehmen denen du vertraust"
-      no_trusted_people: "Es gibt aktuell keine Unternehmen denen du vertraust (Shared Pool)"
-      they_no_trusted_people: "Vertraut aktuell keinem anderen Unternehmen (Shared Pool)"
+      you_trust_plural: "Du vertraust %{count} anderen Gerätepools (Shared Pool)"
+      you_trust_singular: "Du vertraust %{count}nem anderen Gerätepool (Shared Pool)"
+      they_trust_plural: "Vertraut %{count} anderen Gerätepools (Shared Pool)"
+      they_trust_singular: "Vertraut %{count}nem anderen Gerätepool (Shared Pool)"
+      show_all_trusted_people: "Zeige alle anderen Gerätepools denen du vertraust"
+      no_trusted_people: "Es gibt aktuell keine anderen Gerätepools denen du vertraust (Shared Pool)"
+      they_no_trusted_people: "Vertraut aktuell keinem anderen Gerätepool (Shared Pool)"
       settings: "Einstellungen"
     companies_with_trust:
-      they_trust_you_plural: "%{count} andere Unternehmen vertrauen dir (Shared Pool)"
-      they_trust_you_singular: "%{count} anderes Unternehmen vertraut dir (Shared Pool)"
-      they_they_trust_you_plural: "%{count} andere Unternehmen vertrauen %{company} (Shared Pool)"
-      they_they_trust_you_singular: "%{count} anderes Unternehmen vertraut %{company} (Shared Pool)"
-      show_all_trusted_people: "Zeige alle Unternehmen die dir vertrauen"
-      no_trusted_people: "Es gibt aktuell keine Unternehmen die dir vertrauen (Shared Pool)"
-      they_no_trusted_people: "Wird von keinem anderen Unternehmen aktuell vertraut (Shared Pool)"
+      they_trust_you_plural: "%{count} andere Pool-Administratoren vertrauen deinen Pool-Benutzern (Shared Pool)"
+      they_trust_you_singular: "%{count} anderer Pool-Administrator vertraut deinen Pool-Benutzern (Shared Pool)"
+      they_they_trust_you_plural: "%{count} andere Pool-Administratoren vertrauen %{company} und seinen Pool-Benutzern (Shared Pool)"
+      they_they_trust_you_singular: "%{count} anderer Pool-Administrator vertraut %{company} und seinen Pool-Benutzern (Shared Pool)"
+      show_all_trusted_people: "Zeige alle Pool-Administratoren die deinen Pool-Benutzern vertrauen"
+      no_trusted_people: "Es gibt aktuell keine Pool-Administratoren die deinen Pool-Benutzern vertrauen (Shared Pool)"
+      they_no_trusted_people: "Wird von keinem anderen Pool-Administrator aktuell vertraut (Shared Pool)"
     follow_button:
       following: Folgend
       follow: Folgen
@@ -2078,41 +2079,41 @@ de:
       trusted: Vertraut
       trust: "Vertrauen"
       untrust: "Vertrauen aufheben"
-      untrust_warning: "Wenn Sie Ihr Vertrauen zu diesem Unternehmen aufheben, so wird keiner seiner Mitarbeiter mehr in der Lage sein Ihre privaten, geteilten Geräte zu sehen oder zu buchen. Bestehende Buchungen bleiben aber aufrecht. Diese können Sie manuell im Pool Tool entfernen."
-      successfully_trusted: "Vertrauen aktiviert. Das andere Unternehmen kann jetzt Ihre privaten Geräte, welche als 'Shared' gekennzeichnet sind, sehen und buchen!"
-      successfully_untrusted: "Vertrauen aufgehoben. Das andere Unternehmen kann jetzt ihre privaten Geräte, welche als 'Shared' gekennzeichnet sind, nicht mehr sehen oder buchen!"
-      message_to_trusted_company: "(Diese Nachricht wurde von RENTOG automatisch generiert) \nDas Unternehmen %{name} mit der Email %{email} vertraut Ihrem Unternehmen. \n\nDas bedeutet, dass Sie und Ihre Mitarbeiter auf alle internen, geteilten Geräte von %{name} zugreifen und buchen können. Wenn Sie dem anderen Unternehmen auch vertrauen, klicken Sie einfach auf den Button 'Vertrauen' auf der Profilseite des anderen Unternehmen klicken: %{profile}"
-      message_to_untrusted_company: "(Diese Nachricht wurde von RENTOG automatisch generiert) \nDas Unternehmen %{name} mit der Email %{email} hat Ihren Unternehmen das Vertrauen entzogen. \n\nDas bedeutet, dass Sie und Ihre Mitarbeiter keinen Zugriff mehr auf die internen, geteilten Geräte von %{name} haben. Zukünftige Geräte-Buchungen beim anderen Unternehmen sind von der Aktion nicht betroffen. Es besteht jedoch die Möglichkeit, dass der Unternehmensadmin des anderen Unternehmen diese Buchungen über sein Pool Tool cancellt. In diesem Fall wird der Bucher des Geräts (Sie oder Ihr Mitarbeiter) in einer separaten Nachricht davon in Kenntnis gesetzt."
-      trust_info_text: "Das Vertrauen von anderen Unternehmen ist nur relevant für <b>Pool Tool Benutzer</b>, die Ihren Geräte Pool mit einem anderen Unternehmen der einer anderen Abteilung teilen möchten."
+      untrust_warning: "Wenn Sie Ihr Vertrauen zu diesem Gerätepool aufheben, so wird keiner seiner Pool-Benutzer mehr in der Lage sein Ihre privaten, geteilten Geräte zu sehen oder zu buchen. Bestehende Buchungen bleiben aber aufrecht. Diese können Sie manuell im Pool Tool entfernen."
+      successfully_trusted: "Vertrauen aktiviert. Die Benutzer des anderen Gerätepools können jetzt Ihre privaten Geräte, welche als 'Shared' gekennzeichnet sind, sehen und buchen!"
+      successfully_untrusted: "Vertrauen aufgehoben. Die Benutzer des anderen Gerätepools können jetzt ihre privaten Geräte, welche als 'Shared' gekennzeichnet sind, nicht mehr sehen oder buchen!"
+      message_to_trusted_company: "(Diese Nachricht wurde von RENTOG automatisch generiert) \nDas Gerätepool %{name} mit der Pool-Administrator-Email %{email} vertraut den Benutzern ihres Gerätepools ab jetzt. \n\nDas bedeutet, dass Sie und Ihre Pool-Benutzer auf alle internen, geteilten Geräte des Pools von %{name} zugreifen und buchen können. Wenn Sie dem anderen Gerätepool auch vertrauen, klicken Sie einfach auf den Button 'Vertrauen' auf der Profilseite des anderen Gerätepools: %{profile}"
+      message_to_untrusted_company: "(Diese Nachricht wurde von RENTOG automatisch generiert) \nDas Gerätepool %{name} mit der Pool-Administrator-Email %{email} hat den Benutzern Ihres Gerätepools das Vertrauen entzogen. \n\nDas bedeutet, dass Sie und Ihre Pool-Benutzer keinen Zugriff mehr auf die internen, geteilten Geräte des Pools von %{name} haben. Bereits getätigte Geräte-Buchungen beim anderen Gerätepool sind von der Aktion nicht betroffen. Es besteht jedoch die Möglichkeit, dass der Pool-Administrator des anderen Gerätepools diese Buchungen cancellt. In diesem Fall wird der Bucher des Geräts (Sie oder einer Ihrer Pool-Benutzer) in einer separaten Nachricht davon in Kenntnis gesetzt."
+      trust_info_text: "Das Vertrauen von anderen Gerätepools ist nur relevant für <b>Rentog Pool Tool Benutzer</b>, die Ihren Gerätepool mit einem anderen Unternehmen/Abteilungen/Standorten teilen möchten."
     employ_button:
-      employee: Mitarbeiter
+      employee: Pool-Benutzer
       employ: Annehmen
       unemploy: Entfernen
-      warning: "Bist du sicher, dass du %{employee} von deinen Mitarbeitern entfernen möchtest? Wenn ja, dann wird sein Account gesperrt und er kann nur noch sein Profil löschen."
+      warning: "Bist du sicher, dass du %{employee} von deinen Pool-Benutzern entfernen möchtest? Wenn ja, dann wird sein Account gesperrt und er kann nur noch sein Profil löschen."
     show_employees:
-      employees_singular: " %{count} Mitarbeiter"
-      employees_plural: " %{count} Mitarbeiter"
-      no_employees: " Keine Mitarbeiter"
-      show_all_employees: "Zeige alle Mitarbeiter"
+      employees_singular: " %{count} Pool-Benutzer"
+      employees_plural: " %{count} Pool-Benutzer"
+      no_employees: " Keine Pool-Benutzer"
+      show_all_employees: "Zeige alle Pool-Benutzer"
     followers:
       edit:
         title: "Konfiguration des Vertrauensverhältnisses mit <a href='%{company_link}'>%{company}</a>"
-        only_pooltool: "Das Vertrauen von anderen Unternehmen ist nur relevant für Pool Tool Benutzer, die Ihren Geräte Pool mit einem anderen Unternehmen der einer anderen Abteilung teilen möchten."
-        header_text: "Das andere Unternehmen kann Geräte sehen und buchen, welche Sie für vertraute Unternehmen freigegeben haben<br>Auf dieser Seite können Sie nun die Details einstellen, wie Mitarbeiter des anderen Unternehmens auf Ihre Geräte zugreifen (buchen) können."
+        only_pooltool: "Das Vertrauen von anderen Gerätepools ist nur relevant für Rentog Pool Tool Benutzer, die Ihren Gerätepool mit einem anderen Unternehmen/Abteilungen/Standorten teilen möchten."
+        header_text: "Die Pool-Benutzer des anderen Gerätepools können Geräte sehen und buchen, welche Sie für vertraute Gerätepools freigegeben haben<br>Auf dieser Seite können Sie nun die Details einstellen, wie Pool-Benutzer des anderen Gerätepools auf Ihre Geräte zugreifen (buchen) dürfen."
         trust_level_header: "Vertrauen & Buchungsprozess"
-        trust_level_desc: "Mit den Optionen von unterhalb können Sie entscheiden wie Mitarbeiter des anderen Unternehmen Ihre Geräte buchen können."
-        trust_level1_header: "Admin & Mitarbeiter buchen ohne Bestätigung"
+        trust_level_desc: "Mit den Optionen von unterhalb können Sie entscheiden wie Pool-Benutzer des anderen Gerätepools Ihre Geräte buchen können."
+        trust_level1_header: "Admin & Pool-Benutzer buchen ohne Bestätigung"
         trust_level2_header: "Admin bucht ohne Bestätigung"
         trust_level3_header: "Bestätigung immer erforderlich"
-        trust_level1_desc: "Der Unternehmensadministrator als auch jeder Mitarbeiter des anderen Unternehmens dürfen Ihre Geräte direkt buchen (also ohne dass sie explizit jeder Buchung zustimmen)."
-        trust_level2_desc: "Nur der Unternehmensadministrator des anderen Unternehmen darf Ihre Geräte direkt buchen. Jeder Buchung eines externen Mitarbeiters müssen Sie explizit zustimmen.<br>"
-        trust_level3_desc: "Jede Buchungsanfrage muss von Ihnen als Unternehmensadministrator bestätigt werden. Mit dieser Option ist es auch möglich, dass Geräte versendet werden bzw. Geld für eine Buchung verlangt werden kann, da Sie als zuständige Person direkt in jede Buchung involviert sind."
+        trust_level1_desc: "Der Pool-Administrator als auch jeder Pool-Benutzer des anderen Gerätepools dürfen Ihre Geräte direkt buchen (also ohne dass sie explizit jeder Buchung zustimmen)."
+        trust_level2_desc: "Nur der Pool-Administrator des anderen Gerätepools darf Ihre Geräte direkt buchen. Jeder Buchung eines externen Pool-Benutzers müssen Sie explizit zustimmen.<br>"
+        trust_level3_desc: "Jede Buchungsanfrage muss von Ihnen als Pool-Administrator bestätigt werden. Mit dieser Option ist es auch möglich, dass Geräte versendet werden bzw. Geld für eine Buchung verlangt werden kann, da Sie als zuständige Person direkt in jede Buchung involviert sind."
         shipment_header: "Versand"
-        shipment_necessary_desc: "Hier können Sie einstellen ob die Geräte zum anderen Unternehmen/zur anderen Abteilung versendet werdne müssen. Wenn Sie 'Ja' wählen, so werden unsere Versand-Featues aktiviert die Sie beim Versand unterstützen bzw. können Sie auswählen ob wir den Versand übernehmen sollen."
+        shipment_necessary_desc: "Hier können Sie einstellen ob die Geräte zum anderen Gerätepool/zur anderen Abteilung versendet werden müssen. Wenn Sie 'Ja' wählen, so werden unsere Versand-Featues aktiviert die Sie beim Versand unterstützen bzw. können Sie auswählen ob wir den Versand übernehmen sollen."
         shipment_necessary1_header: "Ja"
         shipment_necessary2_header: "Nein"
         payment_header: "Zahlung"
-        payment_necessary_desc: "Wählen Sie ob das andere Unternehmen für die Verwendung Ihrer Geräte etwas bezahlen soll. Das andere Unternehmen sieht den Tagespreis und wir berechnen automatisch die Gesamtkosten, inkl. Versand.<br><b><i>Im Moment bieten wir noch kein Bezahlsystem über unsere Plattform an, wir arbeiten aber schon daran.</i></b>"
+        payment_necessary_desc: "Wählen Sie ob das andere Gerätepool für die Verwendung Ihrer Geräte etwas bezahlen muss. Das andere Gerätepool sieht den Tagespreis und wir berechnen automatisch die Gesamtkosten, inkl. Versand.<br><b><i>Im Moment bieten wir noch kein Bezahlsystem über unsere Plattform an, wir arbeiten aber schon daran.</i></b>"
         payment_necessary1_header: "Ja"
         payment_necessary2_header: "Nein"
         save: "Speichern"
@@ -2154,18 +2155,18 @@ de:
       your_current_email_is: "Deine E-Mail-Adresse ist %{email}."
       change_email: Ändern
       confirm_your_email: "Bestätige deine E-Mail"
-      company_needs_to_verify: "Dein Unternehmens-Administrator muss dich verifizieren"
+      company_needs_to_verify: "Der Pool-Administrator muss dich verifizieren"
       account_confirmation_instructions: "Du wirst in Kürze eine E-Mail mit einem Link erhalten, den Du anklicken musst, um die angegebene E-Mail-Adresse zu bestätigen. Nach der Bestätigung Deiner E-Mail ist die Registrierung bei %{service_name} abgeschlossen."
       account_confirmation_instructions_title_admin: "Willkommen auf Deinem Marktplatz!"
       your_marketplace_has_now_been_created: ~
       account_confirmation_instructions_admin: ~
     employee_not_verified_confirmation_form:
       new_member: "Bist du ein neues Mitglied?"
-      new_member_details: "Um Vertrauen und Sicherheit zwischen den registrierten Unternehmen auf Rentog zu gewährleisten, müssen alle neuen Mitarbeiter eines Unternehmens zuerst vom Unternehmens-Administrator manuell verifiziert werden. Durch diese Maßnahme wird sichergestellt, dass sich Niemand als Mitarbeiter eines Unternehmens ausgibt, für welches er gar nicht arbeitet.</br></br>Die Unternehmen selbst werden von den Rentog Administratoren geprüft."
+      new_member_details: "Um Vertrauen und Sicherheit zwischen den registrierten Benutzern auf Rentog zu gewährleisten, müssen alle neuen Pool-Benutzer eines Gerätepools zuerst vom Pool-Administrator manuell verifiziert werden. Durch diese Maßnahme wird sichergestellt, dass sich Niemand als Pool-Benutzer eines Gerätepools ausgibt, für welches er gar nicht legitimiert ist.</br></br>Die Unternehmen und Pool-Administratoren selbst werden von den Rentog Administratoren geprüft."
       existing_member: "Bist du ein bestehendes Mitglied?"
-      existing_member_details: "Wenn du ein bestehender Mitarbeiter eines Unternehmens bist und plötzlich diese Seite siehst, so hat dich dein Unternehmens-Administrator von seinem Unternehmen entfernt. Sollte dies ein Fehler oder Missverständnis sein, so bitte deinen Unternehmens-Administrator die Aktion rückgängig zu machen."
-      changed_email: "Du hast das Unternehmen gewechstelt und möchtest deine Email-Adresse auch beim neuen Unternehmen verwenden?"
-      changed_email_details: "Arbeitest du jetzt bei einem anderen Unternehmen, willst aber immer noch dieselbe Email-Adresse auf Rentog verwenden, so lösche diesen Account (siehe unterhalb) und erstelle danach einfach einen neuen Account mit deiner gewünschten Email-Adresse."
+      existing_member_details: "Wenn du ein bestehender Pool-Benutzer eines Gerätepools bist und plötzlich diese Seite siehst, so hat dich dein Pool-Administrator von seinem Gerätepool entfernt. Sollte dies ein Fehler oder Missverständnis sein, so bitte deinen Pool-Administrator die Aktion rückgängig zu machen."
+      changed_email: "Du hast das Unternehmen/Abteilung/Standort gewechselt und möchtest deine Email-Adresse auch beim neuen Gerätepool verwenden?"
+      changed_email_details: "Arbeitest du jetzt bei einem anderen Unternehmen/Abteilung/Standort, willst aber immer noch dieselbe Email-Adresse auf Rentog verwenden, so lösche diesen Account (siehe unterhalb) und erstelle danach einfach einen neuen Account mit deiner gewünschten Email-Adresse."
   settings:
     account:
       change: Ändern
@@ -2231,7 +2232,7 @@ de:
       city: Stadt
       family_name: Nachname
       given_name: Vorname
-      organization_name: Firma
+      organization_name: Firma (- Abteilung / Standort)
       first_name_with_initial: "(anderen Benutzern wird nur der erste Buchstabe angezeigt)"
       first_name_only: "(wird anderen Benutzern nicht angezeigt)"
       location_description: "Du kannst entweder deinen exakten Standort oder nur deine Postleitzahl angeben. Bitte füge mindestens deine Postleitzahl hinzu. Du kannst auch einen Standort aus der Karte auswählen."
@@ -2250,11 +2251,11 @@ de:
       location_alias_hint: "In dieses Feld kannst du den Namen deines Standortes oder deiner Abteilung eingeben (z.B.: Rentog, Wien)"
       image_is_processing: "Dein Profilbild wird verarbeitet. Bitte lade die Seite nach einer Weile neu."
     pooltool:
-      employee_has_to_give_back_listing: "Mitarbeiter muss Gerät aktiv im Pool Tool zurückgeben"
-      employee_can_see_statistics: "Mitarbeiter kann Statistiken sehen"
+      employee_has_to_give_back_listing: "Benutzer müssen Geräte aktiv im Pool Tool zurückgeben"
+      employee_can_see_statistics: "Die eigenen Pool-Benutzer können Statistiken sehen"
       pool_tool_modify_past: "Benutzer können im Pool Tool Einträge in der Vergangenheit anlegen/ändern"
       pool_tool_group_booking_enabled: "Benutzer können im Pool Tool mehrere Geräte in einer Buchung buchen"
-      pool_tool_show_all_available_devices: "Zeige auch externe Geräte von anderen Unternehmen, die mir vertrauen, im Pool Tool Kalender"
+      pool_tool_show_all_available_devices: "Zeige auch externe Geräte von anderen Gerätepools, die meinem Pool vertrauen, im Kalender"
       show_device_owner_per_default: "Zeige standardmäßig den Gerätebesitzer im Pool Tool Kalender"
       show_device_location_per_default: "Zeige standardmäßig den aktuelle Gerätestandort im Pool Tool Kalender"
     save_information: "Informationen speichern"
@@ -2388,10 +2389,10 @@ de:
         one: "%{count} Tag"
         other: "%{count} Tage"
   transactions:
-    employees_cannot_make_transactions: "Mitarbeiter können keine Buchungen durchführen. Bitte sende eine Anfrage an deinen Unternehmens-Administrator, damit dieser eine Buchung für die tätigt."
-    company_not_verified: "Nur Unternehmen die von den Rentog-Administratoren verifiziert wurden können Buchungen durchführen. Dein Unternehmen wurde bis jetzt noch nicht verifiziert. Wir werden uns um kürze darum kümmern!"
-    listing_is_intern: "Dieser Eintrag ist 'intern' und kann von anderen Unternehmen nicht betrachtet oder gebucht werden."
-    listing_is_only_for_trusted_companies: "Dieser Eintrag ist nur für 'vertraute' Unternehmen. Bitte kontaktiere das andere Unternehmen, damit dieses dich zu seinen vertrauten Unternehmen hinzufügt."
+    employees_cannot_make_transactions: "Pool-Benutzer können keine Buchungen durchführen. Bitte sende eine Anfrage an deinen Pool-Administrator, damit dieser eine Buchung für die tätigt."
+    company_not_verified: "Nur Unternehmens- / Administrator- Accounts die von den Rentog-Administratoren verifiziert wurden können Buchungen durchführen. Dein Account wurde bis jetzt noch nicht verifiziert. Wir werden uns um kürze darum kümmern!"
+    listing_is_intern: "Dieser Eintrag ist 'intern' und kann von anderen Rentog-Benutzern nicht betrachtet oder gebucht werden."
+    listing_is_only_for_trusted_companies: "Dieser Eintrag ist nur für Benutzer / Gerätepools denen der Geräte-Administrator vertraut. Bitte kontaktieren Sie den Geräte-Administrator, damit dieser Sie zu seinen vertrauten Benutzern hinzufügt."
     already_booked_for_this_date: "Entweder hast du versucht an einem Tag zu buchen an dem bereits eine Buchung besteht, oder das Anfangsdatum war hinter dem Enddatum! Bitte versuche es noch einmal."
     initiate:
       booked_days: "Gebuchte Tage:"
@@ -2436,8 +2437,8 @@ de:
   person_messages:
     renting_request: "Hallo Administrator. Ich möchte gerne folgendes Gerät (%{device_link}) vom %{start_date} bis zum %{end_date} mieten. Bitte kontaktiere den Besitzer dieses Geräts!"
   pool_tool:
-    you_have_to_be_company_member: "Du musst ein Mitarbeiter des Unternehmens sein um das Pool Tool sehen zu können!"
-    not_allowed__to_make_pool_tool_change: "Du hast keine Berechtigung Pool Tool Buchungen mit diesem Unternehmen durchzuführen!"
+    you_have_to_be_company_member: "Du musst ein Pool-Benutzer des Gerätepools um auf das Pool zugreifen zu können!"
+    not_allowed__to_make_pool_tool_change: "Du hast keine Berechtigung Buchungen mit Geräten dieses Pools durchzuführen!"
     previous_month: "Vorheriges Monat"
     next_month: "Nächstes Monat"
     date: "Datum:"
@@ -2457,15 +2458,15 @@ de:
       show_legend: "Zeige Legende"
       hide_legend: "Verberge Legende"
       legend: "Legende"
-      trusted_company: "Vertrautes Untern."
-      any_company: "Anderes Untern."
-      own_employee: "Mitarbeiter"
-      any_employee: "Vertrauter Mitarbeiter"
-      other_reason: "Admin"
-      legend_otherReason_text: "Buchung des Unternehmens-Administrators. Dieser kann Geräte direkt buchen um zum Beispiel Wartungs- oder Kalibrierungsaufgaben durchzuführen. Diese Buchungen werden nicht in der Auslastungsauswertung berücksichtigt."
-      legend_ownEmployee_text: "Buchung eines eigenen Mitarbeiters."
-      legend_trustedCompany_text: "Buchungen von vertrauten Unternehmen oder deren Mitarbeitern. Diese Buchungen sind nur für Geräte mit der Verfügbarkeit 'Vertraute Unternehmen' möglich."
-      legent_anyCompany_text: "Buchungen von auf Rentog registrierten Unternehmen, denen dein Unternehmens noch nicht vertraut. Diese Buchungen sind nur für Geräte mit der Verfügbarkeit 'Global' möglich."
+      trusted_company: "Vertrauter Benutzer"
+      any_company: "Rentog Benutzer"
+      own_employee: "Pool-Benutzer"
+      any_employee: "----"
+      other_reason: "Pool-Admin"
+      legend_otherReason_text: "Buchung des Administrators dieses Pools. Dieser kann Geräte direkt buchen um zum Beispiel Wartungs- oder Kalibrierungsaufgaben durchzuführen. Diese Buchungen werden nicht in der Auslastungsauswertung berücksichtigt."
+      legend_ownEmployee_text: "Buchung eines Benutzers dieses Pools."
+      legend_trustedCompany_text: "Buchungen von Pool-Benutzern oder Pool-Administratoren eines Pools dem dein Gerätepool-Administrator vertraut. Diese Buchungen sind nur für Geräte mit der Verfügbarkeit 'Vertraute Gerätepools' möglich."
+      legend_anyCompany_text: "Buchungen von auf Rentog registrierten Benutzern, denen dein Gerätepool-Administrator noch nicht vertraut. Diese Buchungen sind nur für Geräte mit der Verfügbarkeit 'Global' möglich."
       only_mine: "Zeige nur meine"
       location: "Zeige aktuellen Standort"
       author_name: "Zeige Besitzer"
@@ -2474,12 +2475,12 @@ de:
       could_not_create_new_booking: "Error: Aktion fehlgeschlagen! Bitte überprüfe deine Internet-Verbindung."
       booking_from: "Von"
       booking_to: "Bis"
-      choose_employee_or_renter: "Entweder einen Mitarbeiter oder einen anderen Grund angeben"
-      no_open_devices: "Dein Unternehmen hat noch keine Vermiet-Geräte gebucht oder erstellt."
-      ifYouCompanyAdmin: "Wenn du der Unternehmens-Administrator bist, ..."
+      choose_employee_or_renter: "Entweder einen Pool-Benutzer oder einen anderen Grund angeben"
+      no_open_devices: "Dein Gerätepool-Administrator hat noch keine Vermiet-Geräte gebucht oder erstellt."
+      ifYouCompanyAdmin: "Wenn du der Gerätepool-Administrator bist, ..."
       createListingHere: "dann kannst du neue Vermiet-Geräte <a href='%{listing_path}'>hier</a> erstellen"
       reopen_listing: "und es gibt bereits Vermiet-Geräte, diese aber 'geschlossen' sind, so kannst du sie <a href='%{person_path}'>hier</a> wieder öffnen"
-      do_not_want_to_create_listing: "Wenn du keine eigenen Geräte anlegen, sondern nur Geräte von anderen Unternehmen (die dir vertrauen) auf Rentog buchen möchtest, dann erfahre hier wie's funktioniert: <a href='%{link}'>Erstelle Shared Pool</a>"
+      do_not_want_to_create_listing: "Wenn du keine eigenen Geräte anlegen, sondern nur Geräte von anderen Gerätepools (die dir vertrauen) auf Rentog buchen möchtest, dann erfahre hier wie's funktioniert: <a href='%{link}'>Erstelle Shared Pool</a>"
       addNewBooking: "Buche internes Gerät"
       addNewBooking_visitor: "Buche von diesem Pool"
       addNewDevice: "Erstelle ein neues Gerät"
@@ -2487,7 +2488,7 @@ de:
       newExternalBooking_visitor: "Alle verfügbaren Geräte"
       createSharedPool: "Shared Pool erstellen"
       or: "oder"
-      choose_employee: "Wähle einen Mitarbeiter"
+      choose_employee: "Wähle einen Pool-Benutzer"
       please_select: "Bitte wählen..."
       booked_with_poolTool: 'Booked with PoolTool'
       enter_other_reason: "Anderer Grund (<span id='reason_counter'>40</span> Zeichen verfügbar)"
@@ -2506,8 +2507,8 @@ de:
       device_image: "Abbildung"
       return_now: 'Jetzt zurückgeben'
       filter_devices: "Geräte filtern"
-      other_pools: "Pools anderer Firmen"
-      other_pools_in_domain: "Alle Pools in der Domäne"
+      other_pools: "Andere Gerätepools"
+      other_pools_in_domain: "Alle Domänen-Pools"
       own_pool: "Zurück zu meinem Pool"
       import_devices: "Importiere Geräte"
       export_devices: "Exportiere Geräte"
@@ -2525,6 +2526,7 @@ de:
       device_return_fail_email_flash: "Das Gerät <b>%{title}</b> ist bereits zurückgegeben."
       search_devices: "'Gerätename', 'Intern'"
       domain_view: "Domänenansicht"
+      profile: "Pool Profilseite"
     load_popover:
       utilization_header: "Auslastung bis heute"
       utilization_desc_1: "Nur wochentags"
@@ -2532,25 +2534,25 @@ de:
       utilization_text_outOf: "von"
       utilization_text_days: "Tagen"
       utilization_start_date: "Anfangsdatum für die Auslastungs-Berechnung: "
-      location_alias_description: "Der aktuelle Standort ist während einer Buchung der Standortname des Mieters und ansonsten der Standortname des Unternehmens dem das Gerät gehört. 'Nicht verfügbar' wird angezeigt, wenn das Unternehmen oder die buchende Person keinen Standortnamen im Profil eingetragen hat."
+      location_alias_description: "Der aktuelle Standort ist während einer Buchung der Standortname des Mieters und ansonsten der Standortname des Gerätepools dem das Gerät gehört. 'Nicht verfügbar' wird angezeigt, wenn das Gerätepool oder die buchende Person keinen Standortnamen im Profil eingetragen hat."
       availability_desc_header_trusted: "Vertraut"
       availability_desc_header_intern: "Intern"
       availability_desc_header_all: "Global"
       availability_desc_header_extern: "Extern"
-      availability_desc_text_trusted: "Dieses Gerät ist für vertraute Unternehmen sichtbar und kann von diesen gebucht werden."
-      availability_desc_text_intern: "Dieses Gerät ist nur für Ihre eigenen Mitarbeitern sichbar und kann von diesen gebucht werden."
-      availability_desc_text_all: "Dieses Geräte ist am globalen Marktplatz sichtbar und kann dort von allen auf Rentog registrierten Unternehmen gebucht werden."
-      availability_desc_text_extern: "Dieses Geräte gehört einem anderen Unternehmen. Es ist hier sichtbar, da einer Ihrer Mitarbeiter es aktuell oder in Zukunft gebucht hat."
+      availability_desc_text_trusted: "Dieses Gerät ist für Benutzer von vertrauten Gerätepools sichtbar und kann von diesen gebucht werden."
+      availability_desc_text_intern: "Dieses Gerät ist nur für Ihre eigenen Pool-Benutzer sichbar und kann von diesen gebucht werden."
+      availability_desc_text_all: "Dieses Geräte ist am globalen Marktplatz sichtbar und kann dort von allen auf Rentog registrierten Benutzern gebucht werden."
+      availability_desc_text_extern: "Dieses Geräte gehört einem anderen Gerätepool. Es ist hier sichtbar, da einer Ihrer Pool-Benutzer es aktuell oder in Zukunft gebucht hat."
   choose_product:
     headline: "Wählen Sie das Produkt, welches Sie hauptsächlich verwenden werden"
-    text1: "Ganz egal welches Produkt Sie jetzt auswählen, sie können mit diesem Benutzerkonto alle unsere Services verwenden. Diese Auswahl dient nur dazu um gewisse Voreinstellungen für Sie (und Ihre Mitarbeiter) richtig zu setzen."
+    text1: "Ganz egal welches Produkt Sie jetzt auswählen, sie können mit diesem Benutzerkonto alle unsere Services verwenden. Diese Auswahl dient nur dazu um gewisse Voreinstellungen für Sie (und Ihre Pool-Benutzer) richtig zu setzen."
     text2: "Sie können Ihre Wahl jederzeit auf der Seite <b>Einstellungen</b> ändern."
     marketplace: "Marktplatz"
     pooltool: "Pool Tool"
     market_details: "Am <b>Rentog Marktplatz</b> können Sie Test- und Messgeräte kaufen, verkaufen, mieten und vermieten. Jedes Mal wenn Sie sich einloggen werden sie direkt auf die Marktplatz-Seite weitergeleitet."
-    pooltool_details: "Mit dem <b>Rentog Pool Tool</b> können Sie Ihre Test- und Messgeräte innerhalb Ihre Unternehmens verwalten bzw. Ihren Gerätepool mit anderen Abteilungen oder auch Firmen zusammenlegen. Jedes Mal wenn Sie sich einloggen, werden sie automatisch auf den Pool Tool Geräte-Kalender weitergeleitet."
+    pooltool_details: "Mit dem <b>Rentog Pool Tool</b> können Sie Ihre Test- und Messgeräte innerhalb Ihres Unternehmens verwalten bzw. Ihren Gerätepool mit anderen Abteilungen oder auch Firmen zusammenlegen. Jedes Mal wenn Sie sich einloggen, werden sie automatisch auf den Pool Tool Geräte-Kalender weitergeleitet."
   listing_events:
-    you_have_to_be_company_member: "Du musst ein Mitarbeiter des Unternehmens sein um die Geräte-Events des anderen Unternehmens sehen zu können."
+    you_have_to_be_company_member: "Du musst ein Pool-Benutzer des Gerätepools sein um die Geräte-Events sehen zu können."
     headline: "Geräte-Events"
     booking_event: "Buchungsspezifisch"
     listing_event: "Gerätespezifisch"
@@ -2559,7 +2561,7 @@ de:
     event_title_listing_closed: "Gerät pausiert"
     event_title_listing_updated: "Gerät editiert"
     event_title_booking_created: "Gerätebuchung"
-    event_title_booking_created_for_employee: "Gerätebuchung für Mitarbeiter"
+    event_title_booking_created_for_employee: "Gerätebuchung für Pool-Benutzer"
     event_title_booking_updated: "Gerätebuchung editiert"
     event_title_booking_deleted: "Gerätebuchung gelöscht"
     event_title_booking_accepted: "Gerätebuchung aktzeptiert"
@@ -2571,7 +2573,7 @@ de:
     event_description_listing_closed: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} <b>pausiert</b>"
     event_description_listing_updated: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} <b>aktualisiert</b>"
     event_description_booking_created: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} vom %{start_date} bis zum %{end_date} <b>gebucht</b>. Die Buchung hat die <a href='%{booking_url}'>ID %{booking_id}</a>."
-    event_description_booking_created_for_employee: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} für den Mitarbeiter %{employee} vom %{start_date} bis zum %{end_date} <b>gebucht</b>. Die Buchung hat die <a href='%{booking_url}'>ID %{booking_id}</a>."
+    event_description_booking_created_for_employee: "%{fullname_with_link} hat das Gerät mit dem Titel %{listing_title} für den Pool-Benutzer %{employee} vom %{start_date} bis zum %{end_date} <b>gebucht</b>. Die Buchung hat die <a href='%{booking_url}'>ID %{booking_id}</a>."
     event_description_booking_updated: "%{fullname_with_link} hat die Buchung für das Gerät %{listing_title} mit der <a href='%{booking_url}'>ID %{booking_id}</a> (%{start_date} - %{end_date}) <b>aktualisiert</b>."
     event_description_booking_deleted: "%{fullname_with_link} hat die Buchung für das Gerät %{listing_title} mit der <a href='%{booking_url}'>ID %{booking_id}</a> (%{start_date} - %{end_date}) <b>gelöscht</b>."
     event_description_booking_accepted: ""
@@ -2592,7 +2594,7 @@ de:
     averageDeviceBookingPeriod_hAxis_title: "Durchschnittliche Buchungsdauer [Tage]"
     averageDeviceBookingPeriod_vAxis_title: "Geräteanzahl"
     peopleWithMostBookings_title: "Personen mit den meisten Buchungen"
-    peopleWithMostBookings_desc: "Zeigt die 10 Personen mit den meisten Gerätebuchungen insgesamt. Die verschiedenen Farben zeigen das Jahr in dem eine Buchung stattgefunden hat. Die Dauer der einzelnen Buchungen wird in diesem Diagramm nicht berücksichtigt (siehe dazu 'Mitarbeiter mit den meisten Buchungstagen')."
+    peopleWithMostBookings_desc: "Zeigt die 10 Personen mit den meisten Gerätebuchungen insgesamt. Die verschiedenen Farben zeigen das Jahr in dem eine Buchung stattgefunden hat. Die Dauer der einzelnen Buchungen wird in diesem Diagramm nicht berücksichtigt (siehe dazu 'Pool-Benutzer mit den meisten Buchungstagen')."
     peopleWithMostBookings_table_header_0: "Person"
     peopleWithMostBookings_hAxis_title: "Gerätebuchungen"
     peopleWithMostBookedDays_title: "Personen mit den meisten Buchungstagen"
@@ -2683,7 +2685,7 @@ de:
       t2_row1_desc: "Der Hersteller des Geräts."
       t2_row1_mand: "Ja."
       t2_row2_attr: "visibility<br> <span style='font-size:0.9em'>(= availability + listing type)</span>"
-      t2_row2_desc: "Für welche Benutzer das Gerät sichtbar ist. Mögliche Werte: <br><b>private</b> - Nur Mitarbeiter des Unternehmens können die Geräte sehen & buchen. <br><b>trusted</b> - Sichbar für Mitarbeiter und Benutzern denen Sie vertrauen. <br><b>sell</b> - Gerät wird verkauft und ist sichtbar für alle Rentog-Benutzer.<br><b>rent</b> - Gerät wird vermietet und ist sichtbar für all Rentog-Benutzer."
+      t2_row2_desc: "Für welche Benutzer das Gerät sichtbar ist. Mögliche Werte: <br><b>private</b> - Nur Pool-Benutzer des Gerätepools können die Geräte sehen & buchen. <br><b>trusted</b> - Sichbar für ihre Pool-Benutzer und externe Benutzer denen Sie vertrauen. <br><b>sell</b> - Gerät wird verkauft und ist sichtbar für alle Rentog-Benutzer.<br><b>rent</b> - Gerät wird vermietet und ist sichtbar für all Rentog-Benutzer."
       t2_row2_mand: "Ja."
       t2_row3_attr: "description"
       t2_row3_desc: "Ausführliche Beschreibung des Geräts. Default: ''."

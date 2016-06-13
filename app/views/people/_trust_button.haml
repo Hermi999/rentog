@@ -1,40 +1,41 @@
-- content_for :javascript do
-  window.ST.untrust_warning = "#{t(".untrust_warning")}";
+- if @relation != :domain_supervisor && @relation != :domain_supervisor_of_other_company
+  - content_for :javascript do
+    window.ST.untrust_warning = "#{t(".untrust_warning")}";
 
--# Size of the trust button
-- trust_button_style = "trust-button"
-- if defined?(size) && size == "small"
-  - trust_button_style = "trust-button-small"
+  -# Size of the trust button
+  - trust_button_style = "trust-button"
+  - if defined?(size) && size == "small"
+    - trust_button_style = "trust-button-small"
 
 
-.trust-button-container
-  - if @current_user.follows?(person)
-    = link_to person_follower_path(person, @current_user), :method => "delete", :remote => true, :class => "#{trust_button_style} untrust button-hoverable" do
-      .content.hover-content
-        = t(".untrust")
-      .content.default-content
-        = t(".trusted")
+  .trust-button-container
+    - if @current_user.follows?(person)
+      = link_to person_follower_path(person, @current_user), :method => "delete", :remote => true, :class => "#{trust_button_style} untrust button-hoverable" do
+        .content.hover-content
+          = t(".untrust")
+        .content.default-content
+          = t(".trusted")
 
-    - if @create_relationship
-      :javascript
-        // Show message
-        //$("body").append("<div class='central_info_message'>#{t(".successfully_trusted")}</div>");
-        //$('.central_info_message').fadeOut(18000);
+      - if @create_relationship
+        :javascript
+          // Show message
+          //$("body").append("<div class='central_info_message'>#{t(".successfully_trusted")}</div>");
+          //$('.central_info_message').fadeOut(18000);
 
-  - else
-    = link_to [ person, :followers ], :method => "post", :class => "#{trust_button_style}" do
-      .content
-        = t(".trust")
+    - else
+      = link_to [ person, :followers ], :method => "post", :class => "#{trust_button_style}" do
+        .content
+          = t(".trust")
 
-    - if @destroy_relationship
-      :javascript
-        // Hide config button
-        $('.config-button').hide();
-        $("body").append("<div class='central_info_message'>#{t(".successfully_untrusted")}</div>");
-        $('.central_info_message').fadeOut(18000);
+      - if @destroy_relationship
+        :javascript
+          // Hide config button
+          $('.config-button').hide();
+          $("body").append("<div class='central_info_message'>#{t(".successfully_untrusted")}</div>");
+          $('.central_info_message').fadeOut(18000);
 
-    .info_text{:style => "font-size: 0.9em; color: #BB7C36; display:none;"}= t(".trust_info_text").html_safe
-    - content_for :extra_javascript do
-      :javascript
-        $('.profile-action-buttons-desktop .#{trust_button_style}').hover(function(){$('.info_text').show();}, function(){$('.info_text').hide();});
+      .info_text{:style => "font-size: 0.9em; color: #BB7C36; display:none;"}= t(".trust_info_text").html_safe
+      - content_for :extra_javascript do
+        :javascript
+          $('.profile-action-buttons-desktop .#{trust_button_style}').hover(function(){$('.info_text').show();}, function(){$('.info_text').hide();});
 

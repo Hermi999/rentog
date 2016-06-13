@@ -94,6 +94,10 @@
       - if @current_user.is_organization? && @belongs_to_company
         = link_to t("pool_tool.show.options"), pooltool_person_settings_path(@site_owner), class: "pooltool-button"
 
+      / Link to Pool Admins profile
+      - if @relation == :domain_supervisor || @relation == :rentog_admin || @relation == :rentog_admin_own_site
+        = link_to t("pool_tool.show.profile"), person_path(@site_owner), class: "pooltool-button"
+
       / Link to Pools of Companies who trust the pool tool owner
       - if (@belongs_to_company && @site_owner.get_company.followers.any?) && @relation != :domain_supervisor
         #other-pools
@@ -103,7 +107,7 @@
           - @site_owner.get_company.followers.each do |follower|
             %div{class: "col-#{column_width} other-pool-columns"}
               - if follower.is_organization
-                = link_to follower.organization_name, person_poolTool_path(follower), class: ".other-pool-link"
+                = link_to follower.organization_name, person_poolTool_path(follower), class: "other-pool-link"
                 %br
 
       / Link to Pool sin same domain
@@ -114,7 +118,7 @@
           - column_width = 6 if @companies_in_same_domain.count > 6
 
           %div{class: "col-#{column_width} other-pool-columns"}
-            = link_to "Domain view", person_poolTool_path(@current_user, :domain_view => "1"), class: ".other-pool-link", style: "color: rgb(44, 180, 166);"
+            = link_to "Domain view", person_poolTool_path(@current_user, :domain_view => "1"), class: "domain-pool-link"
             %br
             - @companies_in_same_domain.each do |comp|
               - if comp.is_organization

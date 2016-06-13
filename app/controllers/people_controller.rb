@@ -440,8 +440,8 @@ class PeopleController < Devise::RegistrationsController
     # If setting new location, delete old one first
     if params[:person] && params[:person][:location] && (params[:person][:location][:address].empty? || params[:person][:street_address].blank?)
       params[:person].delete("location")
-      if @person.location
-        @person.location.delete
+      if @site_owner.location
+        @site_owner.location.delete
       end
     end
 
@@ -451,7 +451,7 @@ class PeopleController < Devise::RegistrationsController
       redirect_to :back and return
     end
 
-    @person.set_emails_that_receive_notifications(params[:person][:send_notifications])
+    @site_owner.set_emails_that_receive_notifications(params[:person][:send_notifications])
 
     begin
       person_params = params.require(:person).permit(
@@ -491,26 +491,26 @@ class PeopleController < Devise::RegistrationsController
         person_params[:location] = loc.merge(location_type: :person)
       }
 
-      if @person.update_attributes(person_params)
-        if params[:person][:password]
+      if @site_owner.update_attributes(person_params)
+        if params[:person][:password] && @relation != :rentog_admin && @relation != :domain_supervisor
           #if password changed Devise needs a new sign in.
           sign_in @person, :bypass => true
         end
 
         if params[:person][:email_attributes] && params[:person][:email_attributes][:address]
           # A new email was added, send confirmation email to the latest address
-          Email.send_confirmation(@person.emails.last, @current_community)
+          Email.send_confirmation(@site_owner.emails.last, @current_community)
         end
 
         flash[:notice] = t("layouts.notifications.person_updated_successfully")
 
         # Send new confirmation email, if was changing for that
         if params["request_new_email_confirmation"]
-            @person.send_confirmation_instructions(request.host_with_port, @current_community)
+            @site_owner.send_confirmation_instructions(request.host_with_port, @current_community)
             flash[:notice] = t("layouts.notifications.email_confirmation_sent_to_new_address")
         end
       else
-        flash[:error] = t("layouts.notifications.#{@person.errors.first}")
+        flash[:error] = t("layouts.notifications.#{@site_owner.errors.first}")
       end
     rescue RestClient::RequestFailed => e
       flash[:error] = t("layouts.notifications.update_error")

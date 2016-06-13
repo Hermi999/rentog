@@ -8,18 +8,26 @@
 
   -# If logged in
   - if @current_user
-    -# If company admin views a profile
-    -if @current_user.is_organization
-      - if current_user?(person)
+    - # If company or rentog admin or domain supervisor views a profile
+    - if @current_user.is_organization
+      - # if domain supervisor views a profile which does not belong to his domain
+      - if @relation == :domain_supervisor_of_other_company
+        - # no buttons
+
+      - elsif (@relation == :domain_supervisor && @current_user.is_supervisor_of?(person)) || @relation == :rentog_admin
+        - # if rentog admin or domain supervisor views a profile
+        = render :partial => "people/edit_profile_button", :locals => { :person => person }
+
+        -if origin == "show_employees"
+          -# If Rentog admin views a companies profile and this renders an employee
+          = render :partial => "people/employ_button", :locals => { :person => person, :company => company }
+
+      - elsif current_user?(person)
         -# If company admin views another profile and this renders the company itself
-        = render :partial => "people/edit_profile_button"
+        = render :partial => "people/edit_profile_button", :locals => { :person => person }
 
       - elsif (defined? company && current_user?(company)) && origin == "show_employees"
         -# If company admin views its own profile and this renders an employee
-        = render :partial => "people/employ_button", :locals => { :person => person, :company => company }
-
-      - elsif @current_user.has_admin_rights_in?(@current_community) && origin == "show_employees"
-        -# If Rentog admin views a companies profile and this renders an employee
         = render :partial => "people/employ_button", :locals => { :person => person, :company => company }
 
       - elsif origin == "trusted_companies"
@@ -41,7 +49,7 @@
       -# If employee views a profile
       - if current_user?(person)
         -# If employee views another profile and this renders the employee itself
-        = render :partial => "people/edit_profile_button"
+        = render :partial => "people/edit_profile_button", :locals => { :person => person }
 
       -else
         = render :partial => "people/follow_button", :locals => { :person => person }

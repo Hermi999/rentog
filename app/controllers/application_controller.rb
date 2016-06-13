@@ -648,8 +648,11 @@ class ApplicationController < ActionController::Base
             :rentog_admin                                 # rentog admin is visisiting the site
           end
 
-        elsif (site_owner.nil? && visitor.is_supervisor?) || visitor.is_supervisor_of?(site_owner)
+        elsif (site_owner.nil? && visitor.is_supervisor?) || visitor.is_supervisor_of?(Maybe(site_owner).get_company.or_else(nil))
           :domain_supervisor
+
+        elsif visitor.is_supervisor?
+          :domain_supervisor_of_other_company
 
         elsif visitor.is_organization
           if @current_community.require_verification_to_post_listings &&

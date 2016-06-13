@@ -6,7 +6,7 @@
     - if @is_member_of_company
       %span.profile-title= @site_owner.name(@current_community) + (@community_customization && @community_customization.storefront_label ? @community_customization.storefront_label : "")
     - else
-      %span.profile-title.other_company_is_site_owner= @site_owner.name(@current_community) + (@community_customization && @community_customization.storefront_label ? @community_customization.storefront_label : "")
+      %span.profile-title.other_company_is_site_owner= "Profile page - " + @site_owner.name(@current_community) + (@community_customization && @community_customization.storefront_label ? @community_customization.storefront_label : "")
 
 .row
   .col-8
@@ -175,9 +175,11 @@
             #profile-testimonials-list
               = render :partial => "testimonials", :locals => {:received_testimonials => received_testimonials, :limit => 3}
 
-    - if ( @current_user && (@current_community.others_can_see_employees? || @current_user.is_admin_of?(@current_community) || current_user?(@site_owner)) && @site_owner.is_organization )
-      - limit = 8
-      = render :partial => 'show_employees', :locals => { :company => @site_owner, :limit => 6 }
+    / If logged in and organization
+    - if @current_user && @site_owner.is_organization
+      - if (@current_community.others_can_see_employees? || @relation == :rentog_admin || @relation == :rentog_admin_own_site || @relation == :company_admin_own_site || @relation == :domain_supervisor)
+        - limit = 8
+        = render :partial => 'show_employees', :locals => { :company => @site_owner, :limit => 6 }
 
   / Profile image
   .col-4
