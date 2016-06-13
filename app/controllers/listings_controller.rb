@@ -258,9 +258,9 @@ class ListingsController < ApplicationController
           form_path = new_transaction_path(listing_id: @listing.id)
         else
           form_path = new_person_person_message_path(@current_user.company)
+          special_action_button_label = t("listings.show.request_by_company")
         end
         rent_button = "rent"
-        special_action_button_label = t("listings.show.request_by_company")
 
       when :full_trusted_company_admin
         show_price = @trusted_relation.payment_necessary

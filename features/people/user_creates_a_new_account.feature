@@ -181,7 +181,7 @@ Feature: User creates a new account
     And I fill in "Email address" with random email
     And I check "person_terms"
     And I press "Create company employee"
-    Then I should see "The company you've given does not exist"
+    Then I should see "There is no device administrator with this email registered on Rentog"
 
   @subdomain2
   Scenario: Seeing info of community's email restriction

@@ -13,20 +13,20 @@ Feature: User joins with invitation
     And community "test" requires invite to join
     And I am not logged in
     And I am on the signup page
-    And I follow "signup as an employee"
+    And I follow "or signup as pool user"
     And there is an employee invitation for community "test" and email "123@abcd.at" with code "GH1JX8"
     When I fill in "Invitation code" with "GH1JX8"
     And I remove the focus
     #Then there should be an active ajax request
     When ajax requests are completed
     And I fill in "First name" with "Testmanno"
-    And I fill in "Your company admins email address" with "kassi_testperson2@example.com"
+    And I fill in "Email address of your device administrator" with "kassi_testperson2@example.com"
     And I fill in "Last name" with "Namez"
     And I fill in "person_password1" with "testtest"
     And I fill in "Confirm password" with "testtest"
     And I fill in "Email address" with "123@abcd.at"
     And I check "person_terms"
-    And I press "Create company employee"
+    And I press "Create a pool user account"
     Then I should not see "The invitation code is not valid."
     And I should not see "This field is required."
     And Most recently created user should be member of "test" community with status "pending_email_confirmation" and its latest consent accepted with invitation code "GH1JX8"
@@ -86,15 +86,15 @@ Feature: User joins with invitation
     And community "test" requires invite to join
     And I am not logged in
     And I am on the signup page
-    And I follow "signup as an employee"
+    And I follow "or signup as pool user"
     And I fill in "First name" with "Testmanno"
     And I fill in "Last name" with "Namez"
-    And I fill in "Your company admins email address" with "kassi_testperson2@example.com"
+    And I fill in "Email address of your device administrator" with "kassi_testperson2@example.com"
     And I fill in "person_password1" with "testtest"
     And I fill in "Confirm password" with "testtest"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create company employee"
+    And I press "Create a pool user account"
     Then I should see "This field is required."
 
 
@@ -126,15 +126,15 @@ Feature: User joins with invitation
     And community "test" requires invite to join
     And I am not logged in
     And I am on the signup page
-    And I follow "signup as an employee"
+    And I follow "or signup as pool user"
     And there is an invitation for community "test" with code "GH1JX8" with 0 usages left
     When I fill in "Invitation code" with "gh1jx8"
-    And I fill in "Your company admins email address" with "kassi_testperson2@example.com"
+    And I fill in "Email address of your device administrator" with "kassi_testperson2@example.com"
     And I fill in "person_password1" with "testtest"
     And I fill in "Confirm password" with "testtest"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create company employee"
+    And I press "Create a pool user account"
     Then I should see "The invitation code is not valid."
 
   @javascript
@@ -144,7 +144,7 @@ Feature: User joins with invitation
     And I am on the signup page
     Then I should not see "Invitation code"
     Given I am on the signup page
-    And I follow "signup as an employee"
+    And I follow "or signup as pool user"
     Then I should not see "Invitation code"
     Given community "test" requires invite to join
     And I am on the signup page

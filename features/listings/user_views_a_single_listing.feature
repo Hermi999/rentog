@@ -99,8 +99,8 @@ Feature: User views a single listing
     When I log in as "employee_testperson1"
     And I follow "Omicron"
     Then I should see "Omicron"
-    And I should see "Rent via your company"
-    And I press "Rent via your company"
+    And I should see "Request to pool admin"
+    And I press "Request to pool admin"
     # Bosch is company, Siemens renter
     Then I should see "Send message to Bosch"
 

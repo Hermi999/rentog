@@ -132,7 +132,7 @@ describe PeopleController, type: :controller do
       # First try: Should not work, because company does not exist
       post :create, {:person => {:username => username, :password => "testtest", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_email: "Siem@bosch.at"}, :community => "test"}
       expect(Person.find_by_username(username)).to be_nil
-      expect(flash[:error].to_s).to include("The company you've given does not exist")
+      expect(flash[:error].to_s).to include("There is no device administrator with this email registered on Rentog")
 
       # Second try: Should work, because we use a already created company
       post :create, {:person => {:username => username, :password => "testtest", :email => "#{username}@example.com", :given_name => "", :family_name => "", signup_as: "employee", organization_email: "abc@xyz.com"}, :community => "test"}

@@ -1789,7 +1789,7 @@ en:
       price:
         per_quantity_unit: "per %{quantity_unit}"
         per_day: "per day"
-      request_by_company: "Request to pool administrator"
+      request_by_company: "Request to pool admin"
       book_via_pooltool: "Book from device pool"
       delivery: "Delivery method"
       shipping: "Shipping (+%{price})"

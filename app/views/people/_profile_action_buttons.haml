@@ -6,7 +6,7 @@
     .content
       = t("people.show.contact", :person => @site_owner.given_name_or_username)
 
-- if @current_community.follow_in_use? && @relation != :company_admin_own_site && @relation != :employee_own_site && @relation != :rentog_admin_own_site && @relation != :domain_supervisor
+- if @current_user && @current_community.follow_in_use? && @relation != :company_admin_own_site && @relation != :employee_own_site && @relation != :rentog_admin_own_site && @relation != :domain_supervisor
   - if @site_owner.is_organization && @current_user.is_organization
     - if (trusted_relation = FollowerRelationship.where(:follower_id => @current_user.id, :person_id => @site_owner.id).first)
       = render :partial => "config_button", :locals => { :person => @site_owner, :trusted_relation => trusted_relation }

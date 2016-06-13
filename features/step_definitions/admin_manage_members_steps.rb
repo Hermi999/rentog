@@ -84,7 +84,7 @@ end
 
 When(/^I remove employee$/) do
   steps %Q{
-    When I follow "Employee"
+    When I follow "Pool User"
   }
   steps %Q{
     And I confirm alert popup

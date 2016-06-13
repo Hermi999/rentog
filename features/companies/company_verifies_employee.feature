@@ -21,11 +21,11 @@ Feature: Company verifies employee
     # Verify employee
     When I follow "Accept"
     And I wait for 1 seconds
-    Then I should see "Employee"
+    Then I should see "Pool User"
 
     # Check if employees profile isn't locked
     Given I am logged in as "employee_1"
-    Then I should not see "Your company administrator needs to verify you"
+    Then I should not see "Your pool administrator needs to verify you"
 
     # Remove employee
     Given I am logged in as "company_1"
@@ -38,6 +38,6 @@ Feature: Company verifies employee
 
     # Check if employees profile is locked
     Given I am logged in as "employee_1"
-    Then I should see "You have to be verified by your company admin."
+    Then I should see "You have to be verified by your the pool administrator."
     And I go to the marketplace page
-    Then I should see "Your company administrator needs to verify you"
+    Then I should see "Your pool administrator needs to verify you"

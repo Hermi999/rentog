@@ -494,7 +494,7 @@ class PeopleController < Devise::RegistrationsController
       if @site_owner.update_attributes(person_params)
         if params[:person][:password] && @relation != :rentog_admin && @relation != :domain_supervisor
           #if password changed Devise needs a new sign in.
-          sign_in @person, :bypass => true
+          sign_in @site_owner, :bypass => true
         end
 
         if params[:person][:email_attributes] && params[:person][:email_attributes][:address]

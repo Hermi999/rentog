@@ -24,10 +24,10 @@ Feature: Admin verifies employee for a company
 
     When I follow "Accept"
     And I wait for 1 seconds
-    Then I should see "Employee"
+    Then I should see "Pool user"
 
     Given I am logged in as "employee_1"
-    Then I should not see "Your company administrator needs to verify you"
+    Then I should not see "Your pool administrator needs to verify you"
 
     Given I am logged in as "admin_1"
     And I am on the profile page of "company_1"
@@ -38,6 +38,6 @@ Feature: Admin verifies employee for a company
     Then I should see "Accept"
 
     Given I am logged in as "employee_1"
-    Then I should see "You have to be verified by your company admin."
+    Then I should see "You have to be verified by your the pool administrator."
     And I go to the marketplace page
-    Then I should see "Your company administrator needs to verify you"
+    Then I should see "Your pool administrator needs to verify you"

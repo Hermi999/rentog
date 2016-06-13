@@ -13,9 +13,9 @@ Feature: Company trusts and untrusts another company
   Scenario: Company trusts another company
     When I go to the profile page of "kassi_testperson2"
     And I follow "Trust"
-    Then I should see "Configure your relationship with company Siemens"
-    And I should see "Trust admin & employees"
-    And I should see "Trust only admin"
+    Then I should see "Configure your relationship with device pool Siemens"
+    And I should see "Trust pool admin & pool users"
+    And I should see ""
     And I should see "Always confirm"
     When I press "Save"
     Then I should see "Bosch" within ".profile-title"
@@ -36,10 +36,10 @@ Feature: Company trusts and untrusts another company
     And I will confirm all following confirmation dialogs in this page if I am running PhantomJS
     And I confirm alert popup
     Then I should see "Trust" within ".profile-action-buttons-desktop"
-    And I should see "Successfully removed trusted status from other company"
+    And I should see "Successfully removed trusted status from other device pool"
     And I should not see "Trusted" within ".profile-action-buttons-desktop"
     When I go to my profile page
-    Then I should see "No trusted companies"
+    Then I should see "No trusted device pool"
     And "kassi_testperson2@example.com" should have 1 email
 
     # Other company gets notification
