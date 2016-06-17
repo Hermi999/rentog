@@ -47,12 +47,12 @@ Feature: User views profile page
     And I should see "bike"
 
     # Following others
-    And I should see "You trust 2 companies"
+    And I should see "You trust 2 other device pools"
     And I should see "Siemens" within "#profile-followed-people-list"
     And I should see "Kassi T" within "#profile-followed-people-list"
 
     # Employees
-    And I should see "3 employees"
+    And I should see "3 pool users"
     And I should see "Kassi T" within "#profile-employees-list"
     And I should see "Hermann T" within "#profile-employees-list"
 
@@ -134,19 +134,19 @@ Feature: User views profile page
     # Trusted user cant see employees if its allowed globally
     Given the community allows others to view the employees of a company
     When I refresh the page
-    Then I should see "3 employees"
+    Then I should see "3 pool users"
     And I should see "Kassi T" within "#profile-employees-list"
     And I should see "Hermann T" within "#profile-employees-list"
 
     # Trusted user cant see employees
     Given the community does not allow others to view the employees of a company
     When I refresh the page
-    Then I should not see "3 employees"
+    Then I should not see "3 pool users"
 
     # Trusted user with admin rights can see employees
     Given "kassi_testperson2" has admin rights in community "test"
     When I refresh the page
-    Then I should see "3 employees"
+    Then I should see "3 pool users"
     And I should see "Kassi T" within "#profile-employees-list"
     And I should see "Hermann T" within "#profile-employees-list"
 
@@ -189,14 +189,14 @@ Feature: User views profile page
     # Trusted user cant see employees if its allowed globally
     Given the community allows others to view the employees of a company
     When I refresh the page
-    Then I should see "3 employees"
+    Then I should see "3 pool users"
     And I should see "Kassi T" within "#profile-employees-list"
     And I should see "Hermann T" within "#profile-employees-list"
 
     # Trusted user cant see employees
     Given the community does not allow others to view the employees of a company
     When I refresh the page
-    Then I should not see "employees"
+    Then I should not see "pool users"
 
 
 
@@ -235,13 +235,13 @@ Feature: User views profile page
     # Trusted user cant see employees if its allowed globally
     Given the community allows others to view the employees of a company
     When I refresh the page
-    Then I should see "2 employees"
+    Then I should see "2 pool users"
     And I should see "Kassi T" within "#profile-employees-list"
 
     # Trusted user cant see employees
     Given the community does not allow others to view the employees of a company
     When I refresh the page
-    Then I should not see "employees"
+    Then I should not see "pool users"
 
 
 
@@ -278,18 +278,18 @@ Feature: User views profile page
     And I should not see "massage"
 
     # Following others
-    And I should see "2 trusted companies"
+    And I should see "2 trusted device pools"
     And I should see "Siemens" within "#profile-followed-people-list"
     And I should see "Kassi T" within "#profile-followed-people-list"
 
     # Employees
     # Logged out user cant see employees
-    And I should not see "employees"
+    And I should not see "pool users"
 
     # Logged out user still cant see employees
     Given the community "test" allows others to view the employees of a company
     When I refresh the page
-    Then I should not see "employees"
+    Then I should not see "pool users"
 
 
 

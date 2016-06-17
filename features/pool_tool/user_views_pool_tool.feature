@@ -51,7 +51,7 @@ Feature: User tries to view the pool tool
     When I click "#header-user-display-name"
     When I follow "Pool Tool"
     Then I should see "Pool Management Tool"
-    And I should see "Your company has no devices rented or devices created for renting yet"
+    And I should see "Your device pool has no devices created for renting and also the pool users have not booked any other devices yet"
     And I should see "create a new renting listing here"
     When I follow "here" within "#create_new_listing"
     Then I should see "Post a new listing"
@@ -94,18 +94,18 @@ Feature: User tries to view the pool tool
     And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson2"
     Then I should be on the login page
-    And I should see "You must be a company member"
+    And I should see "You must be a pool member to"
 
   Scenario: Can not access another companies Pool Tool as untrusted employee
     Given I am logged in as "employee_testperson3"
     And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson2"
     Then I should be on my companies pool tool page
-    And I should see "You must be a company member"
+    And I should see "You must be a pool member to"
 
   Scenario: Can not access another companies Pool Tool as untrusted company admin
     Given I am logged in as "kassi_testperson3"
     And I am on the marketplace page
     When I go to the pool tool page of "kassi_testperson2"
     Then I should be on my pool tool page
-    And I should see "You must be a company member"
+    And I should see "You must be a pool member to"

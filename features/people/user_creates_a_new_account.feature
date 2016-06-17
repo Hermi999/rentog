@@ -41,7 +41,7 @@ Feature: User creates a new account
     When I am on the marketplace page
     And I follow "Omicron"
     Then I should see "Rent"
-    And I should not see "Only companies verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
+    And I should not see "Only accounts verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
 
     # Unconfirmed company can't create a listing or make transaction
     Given only verified users can post listings in this community
@@ -52,7 +52,7 @@ Feature: User creates a new account
 
     When I am on the marketplace page
     And I follow "Omicron"
-    And I should see "Only companies verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
+    And I should see "Only accounts verified by the Rentog Admin can make transactions. You are not verified yet. This will be done soon by the admin!"
 
     # After log in as admin and verification of the company, the company can post listings
     When I log out
@@ -78,12 +78,12 @@ Feature: User creates a new account
     When I click "#signup_employee"
     And I fill in "First name" with "Siemens"
     And I fill in "Last name" with "Namez"
-    And I fill in "Your company admins email address" with "kassi_testperson2@example.com"
+    And I fill in "Email address of your device administrator" with "kassi_testperson2@example.com"
     And I fill in "person_password1" with "testtesttest"
     And I fill in "Confirm password" with "testtesttest"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create company employee"
+    And I press "Create a pool user account"
 
     # email confirmation
     Then I should see "Please confirm your email"
@@ -97,13 +97,13 @@ Feature: User creates a new account
     And Most recently created user should be member of "test" community with its latest consent accepted
 
     # company admin verification
-    Then I should see "You have to be verified by your company admin."
-    And I should see "Your company administrator needs to verify you"
+    Then I should see "You have to be verified by your the pool administrator."
+    And I should see "Your pool administrator needs to verify you"
     And I go to the marketplace page
-    Then I should see "Your company administrator needs to verify you"
+    Then I should see "Your pool administrator needs to verify you"
     When the company-admin verifies employee
     And I go to the marketplace page
-    Then I should not see "Your company administrator needs to verify you"
+    Then I should not see "Your pool administrator needs to verify you"
 
   # wah: Rentog does not use usernames at the moment
   #
@@ -180,7 +180,7 @@ Feature: User creates a new account
     And I fill in "Confirm password" with "testtesttest"
     And I fill in "Email address" with random email
     And I check "person_terms"
-    And I press "Create company employee"
+    And I press "Create a pool user account"
     Then I should see "There is no device administrator with this email registered on Rentog"
 
   @subdomain2
