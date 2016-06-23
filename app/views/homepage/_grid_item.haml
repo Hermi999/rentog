@@ -21,12 +21,17 @@
         - cond = get_listing_condition(listing)
         .home-fluid-thumbnail-grid-details
           .row
-            - if cond
-              .col-6{:style => "padding: 0px"}
-                .grid-item-type.grid-item-details{:class => "grid-item-type-" + cond[:condition].to_s}= cond[:title]
+            .col-5{:style => "padding: 0px"}
+              .grid-item-details{:class => "grid-item-type-" + cond[:condition].to_s}= cond[:title] || "-"
 
-            .col-6{:style => "padding: 0px"}
-              .grid-item-share.grid-item-details= t('homepage.share')
+            .col-5{:style => "padding: 0px"}
+              - country = Maybe(ISO3166::Country.find_country_by_name(Maybe(listing.author.location_address).split(",").last.gsub(/[^a-zÖÜÄüöä\s]/i, '').strip.or_else(nil))).translation(I18n.locale).or_else("-")
+              - if country.length > 12
+                - country = country[0..11] + " ..."
+              .grid-item-details= country
+
+            .col-2{:style => "padding: 0px"}
+              .grid-item-share.grid-item-details= "S"
               = render :partial => "share_dialog", :locals => {listing: listing, view: "grid"}
 
 

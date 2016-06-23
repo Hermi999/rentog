@@ -52,6 +52,7 @@ module ListingIndexService::Search::Converters
             },
             is_deleted: l.author.deleted?,
             location_alias: Maybe(l.author.location).location_alias.or_else(nil),
+            location_address: Maybe(l.author.location).address.or_else(nil),
           }.merge(num_of_reviews_hash(l, includes))
         }
       else

@@ -9,16 +9,17 @@ $home-thumbnail-grid-avatar-padding: 6px;
 $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid-avatar-padding * 2);
 
 .listing_wrapper{
-  box-shadow: 1px 1px 5px rgb(123, 123, 123);
+  box-shadow: 0 0 2px #7b7b7b;
+  &:hover{
+    #box-shadow: 0px 0px 10px black;
+  }
 }
-.listing_wrapper:hover{
-  box-shadow: 4px 4px 15px black;
-}
+
 .listing_wrapper.own_listing{
-  box-shadow: 0px 0px 15px #0054FF;
+  box-shadow: 0px 0px 10px #FF9800;
 
   &:hover{
-    box-shadow: 0px 0px 25px #0054FF;
+    #box-shadow: 0px 0px 25px #0054FF;
   }
 }
 
@@ -74,39 +75,49 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
 }
 
 .grid-item-details{
-  padding: 4px;
+  padding: 4px 0 4px 8px;
   font-weight: bold;
   text-align: center;
-  margin: 6px;
-  border: 1px solid rgba(0, 0, 0, 0.28);
   line-height: 18px;
-  font-size: 0.7em;
+  font-size: 0.6em;
+  text-align: left;
 }
-.grid-item-type{
-  cursor: default;
-  border-radius: 20px;
-  border: 1px inset #FFF;
-}
+
 .grid-item-share{
   cursor: pointer;
-  background-color: white;
-  box-shadow: 1px 1px 4px #777;
-}
-.grid-item-share:hover{
-  box-shadow: 1px 1px 5px #000;
+  background-color: #4A4A4A;
+  color: white;
+  text-align: center;
+  padding-left: 0px;
+  padding-right: 0px;
+
+  &:hover{
+    background-color: #5D5D5D;
+    color: white;
+  }
 }
 
 .grid-item-type-fabriksneu{
-  background-color: #C3F0C3;
+  border-right: 1px dashed rgba(0, 0, 0, 0.28);
+  background-color: #42B342;
+  color: white;
 }
 .grid-item-type-neuwertig{
-  background-color: #F8CCA2;
+  border-right: 1px dashed rgba(0, 0, 0, 0.28);
+  #background-color: #F8CCA2;
 }
 .grid-item-type-gut{
-  background-color: #F0ECC3;
+  border-right: 1px dashed rgba(0, 0, 0, 0.28);
+  #background-color: #F0ECC3;
 }
 .grid-item-type-gebraucht{
-  background-color: #C4E2F0;
+  border-right: 1px dashed rgba(0, 0, 0, 0.28);
+  #background-color: #C4E2F0;
+}
+.grid-item-type-defekt{
+  border-right: 1px dashed rgba(0, 0, 0, 0.28);
+  background-color: #EC5555;
+  color: white;
 }
 
 .share-dialog-grid-view{
