@@ -7,7 +7,7 @@
 - content_for :extra_javascript do
   :javascript
     window.ST.listing();
-  = javascript_include_tag "https://maps.google.com/maps/api/js?sensor=true"
+  = javascript_include_tag "https://maps.google.com/maps/api/js?key=AIzaSyA2ZiyghTraCZ3ilRWBoe4Tm2R3QUMJGdo"
 
 - content_for :title, raw(@listing.title)
 - content_for :meta_author, @listing.author.name(@current_community)

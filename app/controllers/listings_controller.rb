@@ -143,8 +143,8 @@ class ListingsController < ApplicationController
   # for google maps view homepage
   def listing_bubble
     if params[:id]
-      # get the listing conditions and store them in attributes
-      @conditions = ListingConditions.get_listing_conditions
+      # get the listing condition id
+      @custom_field_id = Maybe(CustomFieldName.where(:value => "Zustand").first).custom_field_id.to_i.or_else(nil)
 
       @listing = Listing.find(params[:id])
       if @listing.visible_to?(@current_user, @current_community)
@@ -162,8 +162,8 @@ class ListingsController < ApplicationController
 
   # Used to show multiple listings in one bubble for google maps view on homepage
   def listing_bubble_multiple
-    # get the listing conditions and store them in attributes
-    @conditions = ListingConditions.get_listing_conditions
+    # get the listing condition id
+      @custom_field_id = Maybe(CustomFieldName.where(:value => "Zustand").first).custom_field_id.to_i.or_else(nil)
 
     ids = numbers_str_to_array(params[:ids])
 

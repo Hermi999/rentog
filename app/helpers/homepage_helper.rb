@@ -27,42 +27,14 @@ module HomepageHelper
     (@current_user.nil? && !Community.first.only_pool_tool) || (@current_user && @current_user.is_organization) || (@current_user && @current_community.employees_can_create_listings)
   end
 
+
   def get_listing_condition(listing)
-    return_val = nil
+     custom_field_value_id = Maybe(CustomFieldValue.where(listing_id: listing.id, custom_field_id: @custom_field_id).first).id.or_else(nil)
+     custom_field_option_id = Maybe(CustomFieldOptionSelection.where(custom_field_value_id: custom_field_value_id).first).custom_field_option_id.or_else(nil)
 
-    if @conditions[:all_selected_condition_field_options]
-      @conditions[:all_selected_condition_field_options].each do |selected_condition_field_option|
-        if selected_condition_field_option.listing_id == listing.id
-
-          title = CustomFieldOption.find(selected_condition_field_option.custom_field_option_id).title(I18n.locale)
-
-          case selected_condition_field_option.custom_field_option_id
-            when @conditions[:condition_field_option_ids][:fabriksneu]
-              return_val = {
-                :condition => :fabriksneu,
-                :title => title
-              }
-            when @conditions[:condition_field_option_ids][:neuwertig]
-              return_val = {
-                :condition => :neuwertig,
-                :title => title
-              }
-            when @conditions[:condition_field_option_ids][:gut]
-              return_val = {
-                :condition => :gut,
-                :title => title
-              }
-            when @conditions[:condition_field_option_ids][:gebraucht]
-              return_val = {
-                :condition => :gebraucht,
-                :title => title
-              }
-            else
-          end
-        end
-      end
-    end
-
-    return_val
+    return {
+      :title => Maybe(CustomFieldOption.where(id: custom_field_option_id).first).title(I18n.locale).or_else(nil),
+      :condition => Maybe(CustomFieldOption.where(id: custom_field_option_id).first).title("de").downcase.to_sym.or_else(nil)
+    }
   end
 end

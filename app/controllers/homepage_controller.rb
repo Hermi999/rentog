@@ -9,8 +9,8 @@ class HomepageController < ApplicationController
 
 
   def index
-    # get the listing conditions and store them in attributes
-    @conditions = ListingConditions.get_listing_conditions
+    # get the listing condition id
+    @custom_field_id = Maybe(CustomFieldName.where(:value => "Zustand").first).custom_field_id.to_i.or_else(nil)
 
     @homepage = true
     @restrictedMarketplace = params[:restrictedMarketplace]
