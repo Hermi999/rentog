@@ -99,7 +99,7 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
 
 .grid-item-type-fabriksneu{
   border-right: 1px dashed rgba(0, 0, 0, 0.28);
-  background-color: #42B342;
+  background-color: #1BB11B;
   color: white;
 }
 .grid-item-type-neuwertig{
@@ -124,24 +124,21 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
   position: absolute;
   background-color: #383838;
   z-index: 10;
-  min-height: 40px;
-  padding: 2px 8px;
+  font-size: 0.6em;
+  padding: 3px 8px 0 8px;
   color: white;
   width: 100%;
   display: none;
+  line-height: 2em;
 
-  top: 35px;
-
-  @include media(tablet){
-    top: 0px;
-    left: 0px;
-  }
+  top: 0px;
+  left: 0px;
 }
 .link-dialog-grid-view{
   position: absolute;
   background-color: #383838;
   z-index: 11;
-  min-height: 40px;
+  font-size: 0.6em!important;
   width: 100%;
   left: 0px;
   top: 0px;
@@ -151,31 +148,48 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
 .share-buttons{
   display: block;
   border-radius: 4px;
-  width: 30px;
+  width: 25%;
   padding: 0px;
   float:left;
+  text-align: center;
+
+  a{
+    color: #D4B14F;
+    &:hover{
+      color: #E4C56E;
+    }
+  }
 }
 .homepage-listing-linkedin-button{
-  margin: 2px 4px!important;
+  margin: 0px 0px!important;
   font-size:2.0em;
 }
 .homepage-listing-tweet-button{
-  margin: 2px 4px!important;
+  margin: 0px 0px!important;
   font-size: 2.0em;
 }
 .homepage-listing-email-button{
-  margin: 2px 4px!important;
+  margin: 0px 0px!important;
   font-size: 2.0em;
 }
 .homepage-listing-link-button{
-  margin: 4px 8px!important;
+  margin: 2px 0px!important;
   font-size: 1.8em;
 }
 
 input[type=text].link-input{
-  width: 93%;
-  float: right;
-  margin: 6px;
-  padding: 3px;
+  width: 96%;
+  margin: 4px;
+  padding: 1px 2%;
   min-height: 0px;
+}
+
+
+.home-col-2{
+  width: 16.66667%;
+  float: left;
+}
+.home-col-5{
+  width: 41.66667%;
+  float: left;
 }
