@@ -77,10 +77,12 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
 .grid-item-details{
   padding: 4px 0 4px 8px;
   font-weight: bold;
-  text-align: center;
   line-height: 18px;
   font-size: 0.6em;
   text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .grid-item-share{

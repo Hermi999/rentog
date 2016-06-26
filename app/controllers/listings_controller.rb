@@ -480,7 +480,7 @@ class ListingsController < ApplicationController
         @listing.build_origin_loc()
     end
 
-    @custom_field_questions = @listing.category.custom_fields.where(community_id: @current_community.id)
+    @custom_field_questions = @listing.category.custom_fields.where(community_id: @current_community.id) & @listing.listing_shape.custom_fields
     @numeric_field_ids = numeric_field_ids(@custom_field_questions)
 
     shape = select_shape(get_shapes, @listing.listing_shape_id)
@@ -720,16 +720,17 @@ class ListingsController < ApplicationController
   end
 
   def form_content
-    @listing.category = @current_community.categories.find(params[:subcategory].blank? ? params[:category] : params[:subcategory])
-    @custom_field_questions = @listing.category.custom_fields
-    @numeric_field_ids = numeric_field_ids(@custom_field_questions)
-
     shape = get_shape(Maybe(params)[:listing_shape].to_i.or_else(nil))
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: shape[:transaction_process_id])
 
     # PaymentRegistrationGuard needs this to be set before posting
     @listing.transaction_process_id = shape[:transaction_process_id]
     @listing.listing_shape_id = shape[:id]
+
+    # determine custom fields based on listing category and listing shape
+    @listing.category = @current_community.categories.find(params[:subcategory].blank? ? params[:category] : params[:subcategory])
+    @custom_field_questions = @listing.category.custom_fields & @listing.listing_shape.custom_fields
+    @numeric_field_ids = numeric_field_ids(@custom_field_questions)
 
     payment_type = MarketplaceService::Community::Query.payment_type(@current_community.id)
     allow_posting, error_msg = payment_setup_status(

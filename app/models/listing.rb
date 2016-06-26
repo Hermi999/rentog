@@ -88,6 +88,7 @@ class Listing < ActiveRecord::Base
   has_and_belongs_to_many :subscribers, :class_name => "Person", :join_table => "listing_subscribers"
 
   belongs_to :category
+  belongs_to :listing_shape
 
   monetize :price_cents, :allow_nil => true, with_model_currency: :currency
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :currency

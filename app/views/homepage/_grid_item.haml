@@ -26,8 +26,6 @@
 
             .colFix-5{:style => "padding: 0px"}
               - country = Maybe(ISO3166::Country.find_country_by_name(Maybe(listing.author.location_address).split(",").last.gsub(/[^a-zÖÜÄüöä\s]/i, '').strip.or_else(nil))).translation(I18n.locale).or_else("-")
-              - if country.length > 10
-                - country = country[0..9] + " ..."
               .grid-item-details= country
 
             .colFix-2{:style => "padding: 0px"}

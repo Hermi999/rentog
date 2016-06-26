@@ -12,6 +12,15 @@ window.ST.initializeCustomFieldsSelectionClickHandlers = function() {
   });
 };
 
+window.ST.initializeCustomFieldsSelectionClickHandlers = function() {
+  $(".select-all-listing-shapes").click(function() {
+    $(".custom-field-listing-shape-checkbox").prop("checked", true);
+  });
+  $(".deselect-all-listing-shapes").click(function() {
+    $(".custom-field-listing-shape-checkbox").prop("checked", false);
+  });
+};
+
 /**
   Custom field order manager.
 

@@ -19,17 +19,20 @@ $custom-field-option-height: lines(1.5); // Used to center label text vertically
   line-height: $custom-field-option-height;
 }
 
-.custom-field-categories-checkbox-container {
+.custom-field-categories-checkbox-container,
+.custom-field-listing-shapes-checkbox-container {
   float: left;
   min-width: lines(9.5);
 }
 
-.custom-field-category-checkbox {
+.custom-field-category-checkbox,
+.custom-field-listing-shape-checkbox {
   display: inline-block;
   width: auto;
 }
 
-.custom-field-category-checkbox-label {
+.custom-field-category-checkbox-label,
+.custom-field-listing-shape-checkbox-label {
   display: inline-block;
   width: auto;
   font-weight: normal;

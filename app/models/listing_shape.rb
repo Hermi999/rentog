@@ -39,9 +39,14 @@ class ListingShape < ActiveRecord::Base
   has_and_belongs_to_many :categories, -> { order("sort_priority") }, join_table: "category_listing_shapes"
   has_many :listing_units
 
+  # wah
+  has_many :listingshape_custom_fields, :dependent => :destroy
+  has_many :custom_fields, -> { order("sort_priority") }, :through => :listingshape_custom_fields
+
   def self.columns
     super.reject { |c| c.name == "transaction_type_id" || c.name == "price_quantity_placeholder" }
   end
+
 
   def get_standardized_listingshape_name
     # If private listing, then check availability

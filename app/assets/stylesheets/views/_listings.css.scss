@@ -346,3 +346,7 @@ $listing-author-avatar-height: 108;
   font-style: italic;
   font-size: 1.2em;
 }
+.checkbox-group-container{
+  max-height: 155px;
+  overflow-y: scroll;
+}

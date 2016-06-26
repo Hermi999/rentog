@@ -28,6 +28,10 @@ class CustomField < ActiveRecord::Base
   has_many :category_custom_fields, dependent: :destroy
   has_many :categories, through: :category_custom_fields
 
+  # wah
+  has_many :listingshape_custom_fields, dependent: :destroy
+  has_many :listing_shapes, through: :listingshape_custom_fields
+
   has_many :answers, class_name: "CustomFieldValue", dependent: :destroy
 
   has_many :options, class_name: "CustomFieldOption"
@@ -57,6 +61,11 @@ class CustomField < ActiveRecord::Base
   def category_attributes=(attributes)
     category_custom_fields.clear
     attributes.each { |category| category_custom_fields.build(category) }
+  end
+
+  def listingshape_attributes=(attributes)
+    listingshape_custom_fields.clear
+    attributes.each { |listingshape| listingshape_custom_fields.build(listingshape) }
   end
 
   def name(locale="en")

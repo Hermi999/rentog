@@ -29,6 +29,10 @@ class Admin::CustomFieldsController < ApplicationController
     [:category_id, :fixnum, :to_integer, :mandatory]
   )
 
+  ListingShapeAttributesSpec = EntityUtils.define_builder(
+    [:listing_shape_id, :fixnum, :to_integer, :mandatory]
+  )
+
   OptionAttribute = EntityUtils.define_builder(
     [:id, :mandatory],
     [:sort_priority, :fixnum, :to_integer, :mandatory],
@@ -38,6 +42,7 @@ class Admin::CustomFieldsController < ApplicationController
   CUSTOM_FIELD_SPEC = [
     [:name_attributes, :hash, :mandatory],
     [:category_attributes, collection: CategoryAttributeSpec],
+    [:listingshape_attributes, collection: ListingShapeAttributesSpec],
     [:sort_priority, :fixnum, :optional],
     [:required, :bool, :optional, default: false, transform_with: CHECKBOX_TO_BOOLEAN],
     [:search_filter, :bool, :optional, default: false, transform_with: CHECKBOX_TO_BOOLEAN]
