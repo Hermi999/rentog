@@ -107,6 +107,7 @@
 }
 
 .home-list-item {
+  display: flex;
   overflow: hidden;
   position: relative;
   padding-bottom: lines(0.5);
@@ -116,21 +117,16 @@
   margin-bottom: lines(0.5);
   border-bottom: 1px solid $border;
   height: lines(4);
-  box-shadow: 2px 2px 5px #808080;
 
   @include media(tablet) {
     height: lines(6);
   }
-
-  &:hover {
-    box-shadow: 5px 5px 15px black;
-  }
 }
 .home-list-item.own_listing{
-  box-shadow: 0px 0px 15px #0054FF;
+  box-shadow: 0px 0px 5px #FF9800;
 
   &:hover{
-    box-shadow: 0px 0px 25px #0054FF;
+    box-shadow: 0px 0px 15px #FF9800;
   }
 }
 
@@ -139,14 +135,8 @@ $image-height: image-height($image-width);
 $image-padding: lines(1);
 $home-list-image-size-mobile: lines(3);
 $home-list-image-padding-mobile: lines(1);
-.home-list-image-container {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
 
 .home-list-image-container-desktop {
-  @extend .home-list-image-container;
   height: $image-height;
   width: $image-width;
   display: none;
@@ -157,7 +147,6 @@ $home-list-image-padding-mobile: lines(1);
 }
 
 .home-list-image-container-mobile {
-  @extend .home-list-image-container;
   width: $home-list-image-size-mobile;
   height: $home-list-image-size-mobile;
   display: block;
@@ -168,11 +157,20 @@ $home-list-image-padding-mobile: lines(1);
 }
 
 .home-list-image {
-  box-shadow: 1px 1px 4px grey;
+  box-shadow: 0px 0px 1px grey;
   width: 100%;
   height: 100%;
+  line-height: 20px;
+  font-size: 13px;
+  text-align: center;
   display: block;
+  color: grey;
   @include border-radius($default-border-radius);
+
+  @include media(tablet){
+    line-height: 100px;
+    font-size: 16px;
+  }
 }
 
 .home-no-image {
@@ -184,34 +182,22 @@ $home-list-image-padding-mobile: lines(1);
   // FIXME Tee parempi no image
 }
 
-.home-list-details-with-image {
-  margin-left: $home-list-image-size-mobile + $home-list-image-padding-mobile;
-
-  @include media(tablet) {
-    margin-left: $image-width + $image-padding;
-  }
-}
 
 $home-list-avatar-size: em(40);
 $home-list-avatar-size-mobile: em(30);
 $home-list-avatar-padding: lines(0.25);
 .home-list-title {
+  overflow: hidden;
+  max-height: 24px;
   margin: 0;
   padding: 0;
   font-weight: 700;
   @include normal-type;
   line-height: lines(0.65);
-  padding-bottom: lines(0.25);
 
   @include media(tablet) {
     @include big-type;
   }
-
-  // Add bottom margin so that the avatar fits there nicely
-  @include media(desktop) {
-    padding-bottom: (ems-to($home-list-avatar-size, $big-type) + (2 * ems-to($home-list-avatar-padding, $big-type)) - em(3));
-  }
-
 }
 
 .home-share-type-link {
@@ -224,15 +210,6 @@ $home-list-avatar-padding: lines(0.25);
   top: em($padding-fine-tuning * -1);
 }
 
-.home-list-details-right {
-  width: 142px;
-  float: right;
-  display: none;
-  margin-left: lines(1);
-  @include media(desktop) {
-    display: block;
-  }
-}
 
 .home-list-avatar {
   position: absolute;
@@ -254,160 +231,100 @@ $home-list-avatar-padding: lines(0.25);
 
 }
 
-.home-list-buttons{
-  left: 11.5em;
-  float: left;
-  position: absolute;
-  width: 250px;
-  bottom: lines(0.5);
-
-  @include media(large-mobile){
-    left: 6.3em;
-  }
-
-  @include media(tablet){
-    left: 13em;
-  }
-}
-.home-list-details{
-  width: 80px;
-  float: left;
+.home-list-type{
+  line-height: 18px;
+  font-size: 0.7em;
   padding: 4px;
   font-weight: bold;
   text-align: center;
-  margin: 6px;
-  margin-bottom: 0px;
-  border: 1px solid rgba(0, 0, 0, 0.28);
-  line-height: 18px;
-  font-size: 0.7em;
-
-  @include media(tablet){
-    width: 110px;
-  }
-}
-.home-list-type{
   cursor: default;
-  border-radius: 7px;
-  border: 1px inset #FFF;
+  border-radius: 5px;
+  border: 1px solid #D0D0D0;
+  background-color: #E2E2E2;
+  color: #505050;
 }
 .home-list-share{
+  line-height: 18px;
+  font-size: 0.7em;
+  padding: 4px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5px;
+  max-width: 110px;
+
   cursor: pointer;
-  background-color: white;
-  width: 50px;
+  background-color: #585858;
+  color: white;
   box-shadow: 1px 1px 3px #777;
 
-  @include media(large-mobile){
-    width: 80px;
-  }
-
   &:hover{
+    background-color: #787878;
     box-shadow: 1px 1px 5px #000;
   }
 }
 
 
-.home-list-author {
-  vertical-align: top;
-  position: absolute;
-  bottom: lines(0.5);
-}
-
-.home-list-author-with-listing-image {
-  left: 0;
-
-  @include media(large-mobile) {
-    left: $home-list-image-size-mobile + $home-list-image-padding-mobile;
-  }
-
-  @include media(tablet) {
-    left: $image-width + $image-padding;
-  }
-}
-
-.home-list-author-without-listing-image {
-  left: lines(0.5);
-}
-
-.home-list-author-details {
-  float: left;
-  margin-left: $home-list-avatar-size + (2 * $home-list-avatar-padding);
-  height: 40px;
-  line-height: 22px;
-  max-width: lines(10);
-
-  display: none;
-
-  @include media(large-mobile) {
-    display: block;
-  }
-}
-
 .home-list-author-reviews {
   @include small-type;
 }
 
-.home-list-price-mobile {
-  position: absolute;
-  bottom: lines(0.75, 24);
-  @include media(large-mobile) {
-    text-align: right;
-    right: 10px;
-    padding-top: 10px;
-    bottom: lines(1.5, 36);
-  }
-  @include media(tablet) {
-    bottom: lines(1.5, 36);
-  }
-  @include media(desktop) {
-    display: none;
-  }
-}
 
-.home-list-price-value-mobile {
-  font-size: 24px;
-  & > .smaller {
-    font-size: 18px;
-  }
-  @include media(large-mobile) {
-    font-size: 36px;
-    & > .smaller {
-      font-size: 24px;
-    }
-  }
-}
-
-.home-list-price-mobile-with-listing-image {
-  left: 104px;
-
-  @include media(large-mobile) {
-    left: auto;
-  }
-}
-
-.home-list-price-mobile-without-listing-image {
-  @include media(large-mobile) {
-    left: auto;
-  }
-}
 
 .home-list-price {
   text-align: right;
+  margin-top: 3px;
+
+  @include media(mobile){
+    margin-top: -5px;
+  }
 }
 
 .home-list-price-value {
-  font-size: em(44);
+  font-size: em(26);
   line-height: 1;
   font-weight: 400;
+
+  @include media(tiny-mobile){
+    font-size: em(24);
+  }
+  @include media(mobile){
+    font-size: em(36);
+  }
 }
 
 .home-list-listing-shape-value {
-  font-size: em(32);
+  margin-top: 15px;
+  font-size: em(22);
   line-height: 1;
   font-weight: 400;
+  @include media(tiny-mobile){
+    font-size: em(20);
+  }
+  @include media(mobile){
+    font-size: em(28);
+    margin-top: 10px;
+  }
+  @include media(tablet){
+    margin-top:17px;
+  }
 }
 
 .home-list-price-quantity {
   @include ellipsis;
+  margin-top:16px;
+  text-align: right;
+  font-size: 0.9em;
+  min-height: 12px;
+}
+.home-list-price-quantity-mobile{
+  @include ellipsis;
+  margin-top:-5px;
+  text-align: right;
+  font-size: 0.9em;
+
+  @include media(tablet){
+    display: none;
+  }
 }
 
 .home-no-listings {
@@ -483,17 +400,18 @@ $home-list-avatar-padding: lines(0.25);
   position: absolute;
   background-color: #383838;
   z-index: 10;
-  min-height: 40px;
+  min-height: 20px;
   padding: 2px 8px 0px 5px;
   color: white;
   display: none;
 
-  top: -36px;
-  left: 0px;
+  top: 55px;
+  left: 90px;
+  font-size: 0.7em;
 
   @include media(tablet){
-    top: 0px;
-    left: 230px;
+    top: 100px;
+    left: 205px;
   }
 }
 .link-dialog-list-view{
@@ -501,16 +419,70 @@ $home-list-avatar-padding: lines(0.25);
   border: 2px solid #D6D6D6;
   background-color: #383838;
   z-index: 11;
-  min-height: 40px;
+  min-height: 20px;
   width: 180px;
   font-size: 0.8em;
   display:none;
 
-  top: -36px;
-  left: 0px;
+  top: 55px;
+  left: 90px;
 
   @include media(tablet){
-    top: 0px;
-    left: 230px;
+    top: 100px;
+    left: 205px;
+  }
+}
+
+
+.home-list-image-wrapper{
+  float: left;
+  height: 4.6em;
+  width: 4.6em;
+  margin-right: 1%;
+
+  @include media(tablet){
+    height: 7.6em;
+    width: 11.3em;
+  }
+}
+
+.home-list-listing-details-wrapper{
+  width: 100%;
+
+  .row{
+    margin-bottom: 0px;
+  }
+}
+
+.row#share_cond_price{
+  margin-top: 7px;
+
+  @include media(mobile){
+    font-size: 0.8em;
+  }
+
+  @include media(tablet){
+    margin-top: 0px;
+  }
+
+  .colFix-4{
+    margin-top: 0px;
+    padding-left: 1px;
+    padding-right: 1px;
+
+    @include media(tablet){
+      margin-top: 12px;
+      padding-left: 0.75em;
+      padding-right: 0.75em;
+    }
+  }
+}
+.author-and-location{
+  font-size: 0.8em;
+  max-height: 24px;
+  overflow: hidden;
+
+  @include media(tiny-mobile){
+    max-height: 15px;
   }
 }

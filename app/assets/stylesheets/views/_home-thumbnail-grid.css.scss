@@ -99,25 +99,25 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
 
 .grid-item-type-fabriksneu{
   border-right: 1px dashed rgba(0, 0, 0, 0.28);
-  background-color: #1BB11B;
-  color: white;
+  background-color: #1BB11B!important;
+  color: white!important;
 }
 .grid-item-type-neuwertig{
   border-right: 1px dashed rgba(0, 0, 0, 0.28);
-  #background-color: #F8CCA2;
+  #background-color: #F8CCA2!important;
 }
 .grid-item-type-gut{
   border-right: 1px dashed rgba(0, 0, 0, 0.28);
-  #background-color: #F0ECC3;
+  #background-color: #F0ECC3!important;
 }
 .grid-item-type-gebraucht{
   border-right: 1px dashed rgba(0, 0, 0, 0.28);
-  #background-color: #C4E2F0;
+  #background-color: #C4E2F0!important;
 }
 .grid-item-type-defekt{
   border-right: 1px dashed rgba(0, 0, 0, 0.28);
-  background-color: #EC5555;
-  color: white;
+  background-color: #EC5555!important;
+  color: white!important;
 }
 
 .share-dialog-grid-view{
@@ -182,14 +182,4 @@ input[type=text].link-input{
   margin: 4px;
   padding: 1px 2%;
   min-height: 0px;
-}
-
-
-.home-col-2{
-  width: 16.66667%;
-  float: left;
-}
-.home-col-5{
-  width: 41.66667%;
-  float: left;
 }

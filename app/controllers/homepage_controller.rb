@@ -10,7 +10,8 @@ class HomepageController < ApplicationController
 
   def index
     # get the listing condition id
-    @custom_field_id = Maybe(CustomFieldName.where(:value => "Zustand").first).custom_field_id.to_i.or_else(nil)
+    @condition_field_id = Maybe(CustomFieldName.where(:value => "Zustand").first).custom_field_id.to_i.or_else(nil)
+    @shipment_field_id = Maybe(CustomFieldName.where(:value => "Shipment to").first).custom_field_id.to_i.or_else(nil)
 
     @homepage = true
     @restrictedMarketplace = params[:restrictedMarketplace]

@@ -21,16 +21,16 @@
         - cond = get_listing_condition(listing)
         .home-fluid-thumbnail-grid-details
           .row
-            .home-col-5{:style => "padding: 0px"}
+            .colFix-5{:style => "padding: 0px"}
               .grid-item-details{:class => "grid-item-type-" + cond[:condition].to_s}= cond[:title] || "-"
 
-            .home-col-5{:style => "padding: 0px"}
+            .colFix-5{:style => "padding: 0px"}
               - country = Maybe(ISO3166::Country.find_country_by_name(Maybe(listing.author.location_address).split(",").last.gsub(/[^a-zÖÜÄüöä\s]/i, '').strip.or_else(nil))).translation(I18n.locale).or_else("-")
               - if country.length > 10
                 - country = country[0..9] + " ..."
               .grid-item-details= country
 
-            .home-col-2{:style => "padding: 0px"}
+            .colFix-2{:style => "padding: 0px"}
               .grid-item-share.grid-item-details= "S"
               = render :partial => "share_dialog", :locals => {listing: listing, view: "grid"}
 

@@ -2341,3 +2341,32 @@ figure.fluidratio {
   text-align: center;
   font-size: 1.2em;
 }
+
+.hide-on-mobile{
+  display: none;
+
+  @include media(tablet) {
+    display: initial;
+  }
+}
+.hide-on-small-desktop{
+  display: none;
+
+  @include media(small-desktop) {
+    display: initial;
+  }
+}
+.hide-on-tiny-mobile{
+  display: initial;
+
+  @include media(tiny-mobile) {
+    display: none;
+  }
+}
+.show-on-tiny-mobile{
+  display: none;
+
+  @include media(tiny-mobile) {
+    display: initial;
+  }
+}

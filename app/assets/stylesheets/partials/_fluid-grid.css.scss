@@ -7,34 +7,56 @@ $bottom-gutter: lines(0.5);
   Given `prefix`, `gutter` and `cols`, the mixin creates
   a grid system
 */
-@mixin create-fluid-grid($prefix, $gutter, $cols) {
+@mixin create-fluid-grid($prefix, $gutter, $cols, $fluid) {
   $col-width: percentage(1 / $cols);
 
   @for $i from 1 through $cols {
     .#{$prefix}-#{$i} {
-      width: 100%;
-      margin-bottom: lines(0.5);
 
-      &:last-child {
-        margin-bottom: 0;
+      @if $fluid{
+        width: 100%;
+        margin-bottom: lines(0.5);
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        // Set min-height 1px, so that the element will be rendered, even though it's empty.
+        // This reduces load time flickering.
+        // (There might be some cleaner way to do this.)
+        min-height: 1px;
+
+        @include media(tablet) {
+          width: $col-width * $i;
+          float: left;
+          padding-left: $gutter;
+          padding-right: $gutter;
+          margin-bottom: 0;
+        }
       }
-
-      // Set min-height 1px, so that the element will be rendered, even though it's empty.
-      // This reduces load time flickering.
-      // (There might be some cleaner way to do this.)
-      min-height: 1px;
-
-      @include media(tablet) {
+      @else{
+        min-height: 1px;
         width: $col-width * $i;
         float: left;
         padding-left: $gutter;
         padding-right: $gutter;
         margin-bottom: 0;
-      }
+     }
     }
   }
 
-  @include media(tablet) {
+  @if $fluid{
+    @include media(tablet) {
+      [class*=col-]:first-child {
+        padding-left: 0;
+      }
+
+      [class*=col-]:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+  @else{
     [class*=col-]:first-child {
       padding-left: 0;
     }
@@ -71,4 +93,5 @@ $bottom-gutter: lines(0.5);
     .col-3
       = "I'm 1/4 of the total available size"
 */
-@include create-fluid-grid("col", lines(0.5), 12);
+@include create-fluid-grid("col", lines(0.5), 12, true);
+@include create-fluid-grid("colFix", lines(0.5), 12, false);

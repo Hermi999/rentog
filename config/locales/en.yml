@@ -1305,6 +1305,9 @@ en:
     list_item:
       review: review
       reviews: reviews
+      from: from
+      shipment_to: "Shipment to"
+      wishlist: "Add to list"
     news_item:
       show_less: "Show less"
       show_more: "Show more"

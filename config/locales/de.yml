@@ -1302,6 +1302,9 @@ de:
     list_item:
       review: Bewertung
       reviews: Bewertungen
+      from: aus
+      shipment_to: "Versand nach"
+      wishlist: "<span class='hide-on-small-desktop'>Auf den </span>Merkzettel"
     news_item:
       show_less: "Weniger anzeigen"
       show_more: "Mehr anzeigen"

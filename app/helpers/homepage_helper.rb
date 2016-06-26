@@ -29,12 +29,27 @@ module HomepageHelper
 
 
   def get_listing_condition(listing)
-     custom_field_value_id = Maybe(CustomFieldValue.where(listing_id: listing.id, custom_field_id: @custom_field_id).first).id.or_else(nil)
-     custom_field_option_id = Maybe(CustomFieldOptionSelection.where(custom_field_value_id: custom_field_value_id).first).custom_field_option_id.or_else(nil)
+    cust_field_val = Maybe(CustomFieldValue.where(listing_id: listing.id, custom_field_id: @condition_field_id).first).or_else(nil)
+    sel_opt = cust_field_val.selected_options.first if cust_field_val
+    if sel_opt
+      title = sel_opt.title(I18n.locale)
+      condition = sel_opt.title("de").downcase.to_sym
+    end
 
     return {
-      :title => Maybe(CustomFieldOption.where(id: custom_field_option_id).first).title(I18n.locale).or_else(nil),
-      :condition => Maybe(CustomFieldOption.where(id: custom_field_option_id).first).title("de").downcase.to_sym.or_else(nil)
+      :title => title,
+      :condition => condition
     }
+  end
+
+  def get_listing_shipment_to(listing)
+    custom_field_value = CustomFieldValue.select("id").where(listing_id: listing.id, custom_field_id: @shipment_field_id).first
+    val = custom_field_value.selected_options.map { |selected_option| selected_option.title(I18n.locale) }.join(", ") if custom_field_value
+
+    unless val
+      val = "n/a"
+    end
+
+    val
   end
 end
