@@ -145,6 +145,7 @@ class ListingsController < ApplicationController
     if params[:id]
       # get the listing condition id
       @condition_field_id = Maybe(CustomFieldName.where(:value => "Zustand").first).custom_field_id.to_i.or_else(nil)
+      @restrictedMarketplace = request.referer.include?("restrictedMarketplace")
 
       @listing = Listing.find(params[:id])
       if @listing.visible_to?(@current_user, @current_community)
@@ -163,7 +164,8 @@ class ListingsController < ApplicationController
   # Used to show multiple listings in one bubble for google maps view on homepage
   def listing_bubble_multiple
     # get the listing condition id
-      @condition_field_id = Maybe(CustomFieldName.where(:value => "Zustand").first).custom_field_id.to_i.or_else(nil)
+    @condition_field_id = Maybe(CustomFieldName.where(:value => "Zustand").first).custom_field_id.to_i.or_else(nil)
+    @restrictedMarketplace = request.referer.include?("restrictedMarketplace")
 
     ids = numbers_str_to_array(params[:ids])
 

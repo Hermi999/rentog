@@ -186,9 +186,10 @@ $bubbleDetailsMargin: em(5, $googleMapsFontSize);
 .bubble-details .bubble-price {
   @include details-item-position(right, left);
 
-  line-height: em(30, 14);
-  font-size: 14px;
-  padding-right: em(10, 16);
+  line-height: 1.1em;
+  font-size: 13px;
+  margin-top: -3px;
+  padding-right: 5px;
 
   @extend .bubble-details-text-overflow;
 }
@@ -196,15 +197,16 @@ $bubbleDetailsMargin: em(5, $googleMapsFontSize);
 .bubble-details2 .bubble-price2 {
   @include details-item-position2(right, left);
 
-  line-height: em(30, 14);
-  font-size: 14px;
-  padding-right: em(10, 16);
+  line-height: 1.1em;
+  margin-top: -3px;
+  font-size: 13px;
+  padding-right: 5px;
 
   @extend .bubble-details-text-overflow;
 }
 
 .bubble-price-quantity {
-  font-size: 11px;
+  font-size: 9px;
 }
 
 .bubble-author {
@@ -212,6 +214,7 @@ $bubbleDetailsMargin: em(5, $googleMapsFontSize);
 
   > a {
     line-height: em(30, 11);
+    margin-left: 5px;
 
     // Add ellipsis (...) for too long name
     @extend .bubble-details-text-overflow;
@@ -254,6 +257,16 @@ span.bubble-title-link {
   box-sizing: border-box;
 }
 
+.map{
+  .grid-item-type-fabriksneu,
+  .grid-item-type-neuwertig,
+  .grid-item-type-gut,
+  .grid-item-type-gebraucht,
+  .grid-item-type-defekt{
+    border: none;
+  }
+}
+
 .bubble-item-share{
   width: 40px!important;
   cursor: pointer;
@@ -263,8 +276,8 @@ span.bubble-title-link {
 }
 .bubble-item-button{
   color: #000;
-  box-shadow: 1px 1px 3px #999;
-  border: 1px solid #808080;
+  border: 1px solid #D2D2D2;
+  background-color: #E8E8E8;
   width: 45px;
   margin: 5px 1px 5px 4px;
   padding: 0px 5px 0 5px;
@@ -280,7 +293,7 @@ span.bubble-title-link {
   background-color: #383838;
   z-index: 10;
   min-height: 40px;
-  padding: 4px 8px 0px 5px;
+  padding: 8px 8px 0px 5px;
   color: white;
   display: none;
 

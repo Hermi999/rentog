@@ -188,6 +188,8 @@ $home-list-avatar-size-mobile: em(30);
 $home-list-avatar-padding: lines(0.25);
 .home-list-title {
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   max-height: 24px;
   margin: 0;
   padding: 0;
