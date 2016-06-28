@@ -187,9 +187,6 @@ $home-list-avatar-size: em(40);
 $home-list-avatar-size-mobile: em(30);
 $home-list-avatar-padding: lines(0.25);
 .home-list-title {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   max-height: 24px;
   margin: 0;
   padding: 0;
@@ -203,13 +200,12 @@ $home-list-avatar-padding: lines(0.25);
 }
 
 .home-share-type-link {
-  @include share-type-link;
-  // Magic number, this just looks better
-  $padding-fine-tuning: 4;
-  padding: em(4) em(8);
-
-  position: relative;
-  top: em($padding-fine-tuning * -1);
+  /*overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 85%;
+  display: inline-block;
+  color: #23a3b9;*/
 }
 
 

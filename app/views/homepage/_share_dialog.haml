@@ -5,13 +5,13 @@
 
 .share-dialog{class: "share-dialog-#{view}-view"}
   .share-buttons.homepage-listing-tweet-button
-    = link_to("https://twitter.com/intent/tweet?url=#{listing_url}&text=#{URI.encode(listing.title)}&via=#{@current_community.twitter_handle}", target: '_blank') do
+    = link_to("https://twitter.com/intent/tweet?url=#{listing_url}&text=#{URI.encode(listing.title).gsub("&", "%26")}&via=#{@current_community.twitter_handle}", target: '_blank') do
       = icon_tag("twitter", ["image-twitter"])
   .share-buttons.homepage-listing-linkedin-button
-    = link_to "https://www.linkedin.com/shareArticle?mini=true&url=#{listing_url}&title=#{URI.encode(listing.title)}&summary=#{URI.encode(t('homepage.linkedin_summary'))}&source=https://rentog.com", target: '_blank' do
+    = link_to "https://www.linkedin.com/shareArticle?mini=true&url=#{listing_url}&title=#{URI.encode(listing.title).gsub("&", "%26")}&summary=#{URI.encode(t('homepage.linkedin_summary')).gsub("&", "%26")}&source=https://rentog.com", target: '_blank' do
       = icon_tag("linkedin", ["image-linkedin"])
   .share-buttons.homepage-listing-email-button
-    = link_to "mailto:?Subject=#{URI.encode(listing.title + I18n.t("homepage.email_subject"))}&body=#{URI.encode(t("homepage.email_body") + listing_url)}" do
+    = link_to "mailto:?Subject=#{URI.encode(listing.title + I18n.t("homepage.email_subject")).gsub("&", "%26")}&body=#{URI.encode(t("homepage.email_body") + listing_url).gsub("&", "%26")}" do
       = icon_tag("mail", ["image-email"])
   .share-buttons.homepage-listing-link-button
     = link_to "" do

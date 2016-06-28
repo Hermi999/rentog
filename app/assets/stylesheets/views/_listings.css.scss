@@ -34,6 +34,10 @@
 // Social buttons
 .listing-social {
   @include clearfix();
+
+  background-color: rgb(228, 227, 227);
+  padding: 10px 5px;
+  border: 1px dashed #BBB;
 }
 
 .listing-fb-like-button,

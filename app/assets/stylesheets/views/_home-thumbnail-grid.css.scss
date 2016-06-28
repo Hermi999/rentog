@@ -27,7 +27,7 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
   padding: 10px;
 }
 .home-fluid-thumbnail-grid-narrow {
-  @include create-fluid-thumbnail-grid(home, 1, 1, 2, 3, 3, 3, 3, 3);
+  @include create-fluid-thumbnail-grid(home, 1, 2, 2, 3, 3, 3, 3, 4);
 }
 
 .home-fluid-thumbnail-grid-wide {
@@ -83,6 +83,7 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  background-color: #e8e8e8;
 }
 
 .grid-item-share{

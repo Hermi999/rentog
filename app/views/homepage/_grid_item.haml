@@ -20,7 +20,7 @@
       - else
         - cond = get_listing_condition(listing)
         .home-fluid-thumbnail-grid-details
-          .row
+          .row{style: "background-color: #4A4A4A;"}
             .colFix-5{:style => "padding: 0px"}
               .grid-item-details{:class => "grid-item-type-" + cond[:condition].to_s}= cond[:title] || "-"
 

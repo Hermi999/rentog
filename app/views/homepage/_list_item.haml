@@ -31,14 +31,9 @@
     .home-list-listing-details-wrapper
       .row
         /Title
-        .colFix-12{style: "padding-left: 0.5em;"}
+        .colFix-12{style: "padding-left: 0.5em; max-height: 24px; overflow: hidden;"}
           %h2.home-list-title
-            = link_to listing_path(listing.url) do
-              = listing.title
-              - if @current_community.show_category_in_listing_list
-                %a.home-share-type-link{:href => root(:transaction_type => shape_name_map[listing.listing_shape_id], :view => :list)}
-                  = icon_tag(listing.icon_name, ["icon-fix"])
-                  = shape_name(listing)
+            = link_to listing.title, listing_path(listing.url), {class: "home-share-type-link"}
 
 
       / Author and/or Authors location + Merkzettel
