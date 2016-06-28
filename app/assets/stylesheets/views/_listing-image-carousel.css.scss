@@ -4,6 +4,7 @@
 .listing-image-carousel {
   position: relative;
   overflow: hidden;
+  border-radius: 8px 8px 0 0;
 
   &:hover > .listing-image-navi {
     display: block;
@@ -91,7 +92,7 @@
 // Image frame with 3/2 aspect ratio
 .listing-image-frame {
   @include block-with-aspect-ratio(3/2);
-  background-color: $body;
+  background-color: transparent;
   position: absolute;
   top: 0px;
   left: 0px;

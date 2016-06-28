@@ -75,6 +75,98 @@ body {
   }
 }
 
+#js-notifications-wrapper{
+  position: fixed;
+  right: -320px;
+  top: 90px;
+  height: 50px;
+  width: 85%;
+  padding: 9px 13px;
+  z-index: 10000;
+  border-radius: 7px 0 0 16px;
+  font-weight: bold;
+  border: 2px solid #5D5D5D;
+  box-shadow: 0 0 15px #292929;
+
+  @include media(mobile){
+    width: 300px;
+  }
+}
+.js-notification-success{
+  background-color: #4CAF50;
+  color: white;
+}
+.js-notification-alert{
+  background-color: #F44336;
+  color: white;
+}
+.js-notification-info{
+  background-color: #00BCD4;
+  color: white;
+}
+.js-notification-warning{
+  background-color: #FF9800;
+  color: white;
+}
+
+#listing-side-bar-wrapper{
+  position: fixed;
+  right: 0px;
+  width: 100%;
+  max-width: 600px;
+  z-index: 9999;
+  color: white;
+  top: -5px;
+  bottom: -5px;
+  background-color: rgba(44, 43, 43, 0.90);
+  border: 3px solid #ABABAB;
+  box-shadow: 0px 0px 15px #000;
+}
+
+#listing-side-bar-close{
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 3px white;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+#listing-request-form-wrapper {
+  padding: 10%;
+}
+
+.listing-request-checkbox-wrapper{
+  margin: 10px 0 0 10px;
+}
+.listing-request-checkbox{
+  display: block;
+  height: 15px;
+  width: 15px;
+  float: left;
+  margin-top: 6px;
+  margin-right: 8px;
+}
+.listing-request-checkbox-label{
+  display: block;
+  height: 20px;
+  padding-top: 0px;
+  margin-top: 0px;
+}
+#listing-request-button{
+  margin-top: 30px;
+  padding: 7px;
+  width: 50%;
+}
+
+#listing_request_country{
+  width: 100%;
+  height: 40px;
+}
+
+
 .page-content {
   padding-top: lines(0.5);
 
@@ -2320,19 +2412,6 @@ figure.fluidratio {
   background-color: #D88300;
   color: white;
   border: 3px solid #B34C00;
-  border-radius: 5px;
-  padding: 20px;
-  top: 40%;
-  left: 15%;
-  width: 70%;
-  text-align: center;
-  font-size: 1.2em;
-}
-.central_success_message{
-  position: fixed;
-  background-color: green;
-  color: white;
-  border: 3px solid dark-green;
   border-radius: 5px;
   padding: 20px;
   top: 40%;

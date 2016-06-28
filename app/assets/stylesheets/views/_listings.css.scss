@@ -6,6 +6,10 @@
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
+.listing-image-container {
+  border-radius: 10px;
+  box-shadow: 0 0 8px grey;
+}
 
 .listing_attribute_question{
   display: block;
@@ -18,10 +22,10 @@
 .listing_attribute{
   width: 100%;
   float: left;
-  border: 1px solid #E0E0E0;
   background-color: #F6F4F4;
-  padding: 3px 12px !important;
-  box-shadow: 1px 1px 1px #AAA;
+  padding: 8px 12px !important;
+  box-shadow: 0 0 1px #AAA;
+  margin-bottom: 0px;
 }
 .listing_published_date{
   background-color: #535353;
@@ -353,4 +357,8 @@ $listing-author-avatar-height: 108;
 .checkbox-group-container{
   max-height: 155px;
   overflow-y: scroll;
+}
+
+.link-dialog-listing-view{
+  display: none;
 }

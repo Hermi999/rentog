@@ -1,4 +1,4 @@
-- disable_marketplace_requests = !Rails.env.test?
+- disable_marketplace_requests = false #!Rails.env.test?
 
 
 - content_for :javascript do
@@ -36,7 +36,7 @@
 .row
   .col-8.listing-details-container
     .row
-      .col-12
+      .col-12.listing-image-container
         - with_image_frame(@listing) do |reason, listing_images|
           - if reason == :images_ok
             .listing-image-carousel
@@ -94,7 +94,7 @@
           - custom_field_value.with_type do |question_type|
             = render :partial => "listings/custom_field_partials/#{question_type}", :locals => { :custom_field_value => custom_field_value }
 
-    - if @current_community.show_listing_publishing_date?
+    - if @current_community.show_listing_publishing_date? || @relation == :rentog_admin || @relation == :rentog_admin_own_site || @relation == :company_admin_own_site || @relation == :domain_supervisor || @relation == :company_employee
       .row.listing_attribute.listing_published_date
         .col-12
           .icon-with-text-container
@@ -104,19 +104,9 @@
                 = t(".listing_created_at")
                 = l @listing.created_at, :format => :short_date
 
-    - if !@current_community.private? && !@current_community.disable_facebook_twitter
-      .row
-        .col-12
-          .listing-social
-            .listing-fb-like-button
-              = facebook_like(current_user?(@listing.author))
-            .listing-tweet-button
-              = link_to("", "https://twitter.com/share", :class => "twitter-share-button", "data" => {count: "horizontal", via: (@current_community.twitter_handle || "Sharetribe"), text: @listing.title })
-              - content_for :extra_javascript do
-                :javascript
-                  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+    %div{style:"clear: both;"}
 
-    .row
+    .row{style: "margin-top: 10px;"}
       .col-12
         .listing-social
           = render :partial => "homepage/share_dialog", :locals => {listing: @listing, view: "listing"}

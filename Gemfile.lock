@@ -98,6 +98,7 @@ GEM
     chunky_png (1.2.6)
     climate_control (0.0.3)
       activesupport (>= 3.0)
+    clipboard-rails (1.5.10)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.0)
@@ -646,6 +647,7 @@ DEPENDENCIES
   better_errors (~> 2.1.1)
   braintree (~> 2.30.0)
   capybara (~> 2.6.2)
+  clipboard-rails
   coffee-rails (~> 4.0.1)
   compass (~> 0.13.alpha)
   compass-rails (~> 2.0)

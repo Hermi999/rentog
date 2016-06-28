@@ -7,6 +7,7 @@
 //= require jquery
 //= require jquery-ui/widget
 //= require jquery-ui/effect
+//= require jquery-ui/autocomplete
 
 //= require jquery_ujs
 //= require jquery.form
@@ -26,6 +27,7 @@
 //= require jquery.webui-popover
 //= require jquery.mobile.custom
 //= require spin.min
+//= require clipboard
 
 // require html5show.min
 
@@ -74,6 +76,7 @@
 //= require listing
 //= require listing_images
 //= require listing_events
+//= reuqire listing_request
 //= require company_statistics
 //= require import_listings
 //= require export

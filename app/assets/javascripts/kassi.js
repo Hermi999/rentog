@@ -266,6 +266,62 @@ function initialize_defaults(locale) {
   $('#login-toggle-button').click(function() {
     $('#upper_person_login').focus();
   });
+
+
+  // Initialize copy to clipboard
+  new Clipboard('.clipboard_btn');
+  $('.clipboard_btn').click(function(ev){
+    $('.js-notification-success').text("Copied successfully!");
+    $('.js-notification-success').stop(true,true).animate({ "right": "-5px" }).delay(5000).animate({ "right": "-320px" });
+  });
+
+
+  // Initialize 'close development infos'
+  if ($('#development-infos-close').length > 0){
+    $('#development-infos-close').click(function(){
+      $('#development-infos').fadeOut();
+    });
+  }
+
+
+  // Initialize 'close listing sidebar'
+  if ($('#listing-side-bar-close').length > 0){
+    $('#listing-side-bar-close').click(function(){
+      $('#listing-side-bar-wrapper').animate({ "right": "-620px" });;
+    });
+  }
+
+
+  // change background color of site based on relation
+  if ($(".other_company_is_site_owner").length){
+    //var color_background = "rgb(230, 239, 253)";
+    var color_background = "rgb(241, 246, 255)";
+    var color_title_container = "rgb(128, 153, 191)";
+  }
+  if ($(".domain_view").length){
+    var color_background = "rgb(205, 233, 230)";
+    var color_title_container = "#2CB4A6";
+  }
+
+  if (typeof(color_background) !== "undefined"){
+    $('body').css('background-color', color_background);
+    $('.page-content').css('background-color', color_background);
+    $('.wrapper').css('background-color', color_background);
+    $('.title-container').css('background-color', color_title_container);
+    $('.marketplace-title-header>h1').css("color", "white");
+  }
+
+
+  // Get environment, production or development
+  var getEnvironment = function(){
+    if (window.location.hostname === "tools.rentog.com"){
+      return "production";
+    }
+    else{
+      return "development";
+    }
+  };
+  var rentog_environment = getEnvironment();
 }
 
 function initialize_network_defaults(required_message, email_message) {

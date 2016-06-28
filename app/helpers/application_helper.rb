@@ -252,7 +252,8 @@ module ApplicationHelper
       "unlock" => "icon-unlock",
       "edit" => "icon-edit",
       "reply" => "icon-reply",
-      "renter" => "icon-users"
+      "renter" => "icon-users",
+      "copy" => "icon-copy"
     }
   }
 

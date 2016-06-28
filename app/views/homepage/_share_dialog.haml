@@ -3,7 +3,14 @@
 - else
   - listing_url = listing_url(listing)
 
-.share-dialog{class: "share-dialog-#{view}-view"}
+- if view == "listing"
+  - share_cls = "share-dialog-listing"
+  - link_cls  = "link-dialog-listing"
+- else
+  - share_cls = "share-dialog"
+  - link_cls  = "link-dialog"
+
+%div{class: "#{share_cls} share-dialog-#{view}-view"}
   .share-buttons.homepage-listing-tweet-button
     = link_to("https://twitter.com/intent/tweet?url=#{listing_url}&text=#{URI.encode(listing.title).gsub("&", "%26")}&via=#{@current_community.twitter_handle}", target: '_blank') do
       = icon_tag("twitter", ["image-twitter"])
@@ -16,5 +23,9 @@
   .share-buttons.homepage-listing-link-button
     = link_to "" do
       = icon_tag("link", ["image-link"])
-.link-dialog{class: "link-dialog-#{view}-view"}
-  %input{class: "link-input", type: "text", value: "#{listing_url}"}
+
+%div{class: "#{link_cls} link-dialog-#{view}-view"}
+  %input.link-input{id: "share_listing_url_#{listing.id}", type: "text", value: "#{listing_url}"}
+  - if view != "map"
+    .button.clipboard_btn{"data-clipboard-target" => "#share_listing_url_#{listing.id}", "aria-label" => "Copied!", alt: "Copy to clipboard"}
+      = icon_tag("copy", ["button-icon-copy"])

@@ -21,6 +21,7 @@ gem 'compass', '~> 0.13.alpha'
 
 gem 'jquery-rails', '3.1.3'     # JQUERY_VERSION "1.11.1", JQUERY_UJS_VERSION = "1.0.4"
 gem 'jquery-ui-rails', '5.0.5'
+gem 'clipboard-rails'
 gem 'gon', '~> 6.0.1'
 
 # gem 'heroku' install the Heroku toolbelt (https://toolbelt.heroku.com/) instead (as gem had some problems)
@@ -110,6 +111,7 @@ gem 'roo', '~> 2.4.0'               # excel import
 #gem 'axlsx', '~> 2.0', '>= 2.0.1'   # excel export
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 
+gem 'geocoder'
 
 group :staging, :production do
   # Daemons gem installed because otherwise delayed worker won't work on beanstalk

@@ -78,6 +78,7 @@ class Listing < ActiveRecord::Base
   has_many :custom_dropdown_field_values, :class_name => "DropdownFieldValue"
   has_many :custom_checkbox_field_values, :class_name => "CheckboxFieldValue"
   has_many :listing_events
+  has_many :listing_requests
 
   has_one :location, :dependent => :destroy
   has_one :origin_loc, -> { where('location_type = ?', 'origin_loc') }, :class_name => "Location", :dependent => :destroy
@@ -169,7 +170,7 @@ class Listing < ActiveRecord::Base
 
   # Overrides the to_param method to implement clean URLs
   def to_param
-    "#{id}-#{title.to_url}"
+    "#{id}-#{Maybe(title).to_url.or_else("replace-me")}"
   end
 
   def self.columns

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160626213634) do
+ActiveRecord::Schema.define(version: 20160628170101) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -632,6 +632,23 @@ ActiveRecord::Schema.define(version: 20160626213634) do
   end
 
   add_index "listing_images", ["listing_id"], name: "index_listing_images_on_listing_id", using: :btree
+
+  create_table "listing_requests", force: :cascade do |t|
+    t.integer  "listing_id",        limit: 4
+    t.string   "person_id",         limit: 255
+    t.string   "name",              limit: 255
+    t.string   "email",             limit: 255
+    t.string   "phone",             limit: 255
+    t.string   "country",           limit: 255
+    t.string   "message",           limit: 255
+    t.boolean  "contact_per_phone"
+    t.boolean  "get_further_docs"
+    t.boolean  "get_price_list"
+    t.boolean  "get_quotation"
+    t.datetime "reply_time"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
 
   create_table "listing_shapes", force: :cascade do |t|
     t.integer  "community_id",           limit: 4,                   null: false
