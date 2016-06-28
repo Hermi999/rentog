@@ -219,6 +219,7 @@ class HomepageController < ApplicationController
     else
     end
 
+    pushBackListingsWithoutImage(res)
 
     res.and_then { |res|
       Result::Success.new(
@@ -231,6 +232,23 @@ class HomepageController < ApplicationController
     }
 
   end
+
+  # wah
+  def pushBackListingsWithoutImage(res)
+    with_image = []
+    without_image = []
+
+    res.data[:listings].each do |listing_data|
+      if listing_data[:listing_images] && listing_data[:listing_images] != []
+        with_image << listing_data
+      else
+        without_image << listing_data
+      end
+    end
+
+    res.data[:listings] = with_image + without_image
+  end
+
 
   def filter_range(price_min, price_max)
     if (price_min && price_max)

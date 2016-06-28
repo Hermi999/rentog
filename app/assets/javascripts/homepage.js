@@ -23,6 +23,9 @@ $(function() {
   $('.grid-item-share').click(function(ev){
     $($(ev.target.parentNode).children()[1]).show();
   });
+  $('.share-listing').click(function(ev){
+    $($(ev.target.parentNode.parentNode).children()[1]).show();
+  });
   $('.home-list-share').click(function(ev){
     $(ev.target.nextElementSibling).show();
   });

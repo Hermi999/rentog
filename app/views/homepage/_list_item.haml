@@ -68,7 +68,7 @@
 
       / Shipment to
       .row.hide-on-mobile{style: "font-size: 0.8em; line-height: 1.3em; margin: 4px 0 7px 0;"}
-        .colFix-8{style: "max-height: 32px; overflow: hidden"}
+        .colFix-8{style: "max-height: 32px; overflow: hidden; min-height: 32px;"}
           %b= t(".shipment_to")
           - if(countries = get_listing_shipment_to(listing))
             = countries

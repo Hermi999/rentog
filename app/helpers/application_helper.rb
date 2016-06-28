@@ -182,6 +182,7 @@ module ApplicationHelper
       "directleft" => "icon-caret-left",
       "directright" => "icon-caret-right",
       "redirect" => "icon-share",
+      "share" => "icon-share",
       "mail" => "icon-envelope",
       "notifications" => "icon-globe",
       "login" => "icon-signin",

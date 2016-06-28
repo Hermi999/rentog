@@ -29,7 +29,7 @@
               .grid-item-details= country
 
             .colFix-2{:style => "padding: 0px"}
-              .grid-item-share.grid-item-details= "S"
+              .grid-item-share.grid-item-details= icon_tag("share", ["share-listing"])
               = render :partial => "share_dialog", :locals => {listing: listing, view: "grid"}
 
 
