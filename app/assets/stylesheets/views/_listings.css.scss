@@ -39,9 +39,11 @@
 .listing-social {
   @include clearfix();
 
-  background-color: rgb(228, 227, 227);
+  overflow: hidden;
+  background-color: #23a3b9;
   padding: 10px 5px;
-  border: 1px dashed #BBB;
+  box-shadow: 0 0 8px grey;
+  border-radius: 8px;
 }
 
 .listing-fb-like-button,
@@ -361,4 +363,81 @@ $listing-author-avatar-height: 108;
 
 .link-dialog-listing-view{
   display: none;
+}
+#listing_navigation{
+  font-size: 1.3em;
+  padding: 0px;
+  border-radius: 6px;
+  box-shadow: 0 0 2px;
+  background-color: rgb(199, 199, 199);
+  color: white;
+
+  .col-10{
+    padding: 10px 5px;
+  }
+
+  a{
+    padding: 10px 5px;
+    color: white;
+
+    &:hover{
+      color: #888;
+    }
+  }
+
+  #listing-nav-right{
+    width: 100%; display: block;
+    &:hover{
+      background-color: #888;
+      border-radius: 0 8px 8px 0;
+      color:white;
+    }
+  }
+  #listing-nav-left{
+    width: 100%; display: block;
+    &:hover{
+      background-color: #888;
+      border-radius: 8px 0 0 8px;
+      color:white;
+    }
+  }
+}
+#listing_back_button{
+}
+
+.listing-request-form-wrapper{
+  padding: 2% 5%;
+  background-color: #E4E3E3;
+  border-radius: 15px;
+  font-size: 0.9em;
+  box-shadow: 0 0 8px grey;
+}
+
+.listings-request-slider-bubble{
+  display: none;
+  text-align: center;
+  position: absolute;
+  top: 25%;
+  width: 110px;
+  height: 16%;
+  background-color: #23A3B9;
+  border: 1px solid white;
+  right: 3px;
+  box-shadow: 0 0 5px white;
+  color: white;
+  font-size: 1.3em;
+  border-right: 0px;
+  cursor:pointer;
+
+  &:hover{
+    box-shadow: 0 0 5px black;
+  }
+}
+
+#keyboard-navigation-button{
+  position: fixed;
+  top: 150px;
+  right: 50px;
+  color: black;
+  z-index: 9999;
 }

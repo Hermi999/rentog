@@ -65,7 +65,7 @@
       .wrapper
         = render :partial => "layouts/notifications"
         = render :partial => "layouts/js_notifications"
-        = render :partial => "layouts/listing_side_bar"
+
         = yield
 
   -#
@@ -80,6 +80,8 @@
           = hidden_field_tag param, value
       = hidden_field_tag "view", @view_type
       = content_for(:page_content)
+
+    = render :partial => "layouts/listing_side_bar", locals: {listing: nil}
   - else
     = content_for(:page_content)
 

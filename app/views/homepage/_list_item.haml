@@ -58,7 +58,7 @@
 
         - if !@restrictedMarketplace
           .colFix-3{style: "padding: 0px; text-align:right;"}
-            %a= t(".wishlist").html_safe
+            %a.listing_request_button{href: "#", data:{listing_id: listing.id}}= t(".listing_request")
 
 
       / Shipment to
@@ -67,6 +67,14 @@
           %b= t(".shipment_to")
           - if(countries = get_listing_shipment_to(listing))
             = countries
+
+        .colFix-1
+
+        - if !@restrictedMarketplace
+          .colFix-3{style: "padding: 0px; text-align:right;"}
+            %a= t(".wishlist").html_safe
+
+
 
 
       / Share, Condition & Price

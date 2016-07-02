@@ -189,6 +189,17 @@ class ListingsController < ApplicationController
     # wah
     get_relation
 
+    # add listing to recent listings
+    if cookies[:recent_listings]
+      recent_listings = cookies[:recent_listings].split("&")
+      recent_listings.delete @listing.id.to_s
+      recent_listings.delete_at 0 if recent_listings.length > 9
+      cookies[:recent_listings] = recent_listings + [@listing.id.to_s]
+    else
+      cookies[:recent_listings] = @listing.id.to_s
+    end
+
+
     # redirect if intern listing
     if @listing.availability == "intern"      &&
        !@relation == :company_admin_own_site  &&
@@ -262,7 +273,7 @@ class ListingsController < ApplicationController
           form_path = new_person_person_message_path(@current_user.company)
           special_action_button_label = t("listings.show.request_by_company")
         end
-        rent_button = "rent"
+        rent_button = "request"
 
       when :full_trusted_company_admin
         show_price = @trusted_relation.payment_necessary
@@ -276,14 +287,14 @@ class ListingsController < ApplicationController
         form_path = new_transaction_path(listing_id: @listing.id)
 
       when :untrusted_company_admin
-        rent_button = "rent"
+        rent_button = "request"
         form_path = new_transaction_path(listing_id: @listing.id)
 
       when :unverified_company
         flash.now[:error] = t("transactions.company_not_verified")
 
       when :logged_out_user
-        rent_button = "rent"
+        rent_button = "request"
         form_path = new_transaction_path(listing_id: @listing.id)
 
       else

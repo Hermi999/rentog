@@ -1,41 +1,9 @@
+/- content_for :large_page_specific_javascript do
+/  = javascript_include_tag "https://www.google.com/recaptcha/api.js"
+
 #listing-side-bar-wrapper
   #listing-side-bar-close
     x
 
   #listing-request-form-wrapper
-    - listing_req = ListingRequest.new
-
-    = form_for(listing_req, url: listing_listing_requests_path(Listing.new), remote: true) do |f|
-      = f.label "Name"
-      = f.text_field :name
-
-      = f.label "Email"
-      = f.text_field :email
-
-      = f.label "Phone"
-      = f.text_field :phone
-
-      = f.label "Country"
-      = f.select :country, options_for_select(ISO3166::Country.all_translated(I18n.locale).map{|val| [val] + [val]})
-
-      = f.label "Question/Message"
-      = f.text_area :message, rows: 5
-
-      .listing-request-checkbox-wrapper
-        = f.check_box :contact_per_phone, class: "listing-request-checkbox"
-        = f.label "Get contacted per phone", class: "listing-request-checkbox-label"
-
-      .listing-request-checkbox-wrapper
-        = f.check_box :get_further_docs, class: "listing-request-checkbox"
-        = f.label "Get further documents", class: "listing-request-checkbox-label"
-
-      .listing-request-checkbox-wrapper
-        = f.check_box :get_price_list, class: "listing-request-checkbox"
-        = f.label "Get device price list", class: "listing-request-checkbox-label"
-
-      .listing-request-checkbox-wrapper
-        = f.check_box :get_quotation, class: "listing-request-checkbox"
-        = f.label "Get quotation", class: "listing-request-checkbox-label"
-
-
-      = f.submit "Request", class: "button", id: "listing-request-button"
+    = render partial: "listings/listing_side_bar_form", locals: {listing: listing}

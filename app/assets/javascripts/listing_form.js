@@ -590,8 +590,7 @@ window.ST = window.ST || {};
           dataType: 'json',
           success: function(msg) {
             if (msg.success === "success"){
-              $('.js-notification-success').text("Saved successfully!");
-              $('.js-notification-success').stop(true,true).animate({ "right": "-5px" }).delay(5000).animate({ "right": "-320px" });
+              ST.js_notifications.triggerNotification("success", "Saved successfully!");
             }
           }
       });

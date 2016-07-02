@@ -1250,6 +1250,7 @@ en:
       some_private_requests_exist: "There are already <b>%{number_of_listings} requests</b>,"
     custom_filters:
       update_view: "Update view"
+      remove_all_filters: "Remove all filters"
       min: "Min:"
       max: "Max:"
     event_feed:
@@ -1308,6 +1309,7 @@ en:
       from: from
       shipment_to: "Shipment to"
       wishlist: "Add to list"
+      listing_request: "Quotation/Question"
     news_item:
       show_less: "Show less"
       show_more: "Show more"
@@ -1523,6 +1525,17 @@ en:
       payments: Payments
       pooltool: "Pool tool"
   listings:
+    listing_side_bar_form:
+      name: "Name*"
+      email: "Email*"
+      phone: "Phone"
+      country: "Country*"
+      message: "Question / Message"
+      get_contacted: "Get contacted per phone"
+      get_further: "Get further documents"
+      get_prices: "Get device price list"
+      get_quotation: "Get quotation"
+      request: "Request"
     bubble_listing_not_visible:
       listing_not_visible: "You do not have permission to view this listing."
     comment:
@@ -1757,6 +1770,10 @@ en:
     reply_link:
       listing_closed: "Listing is closed"
     show:
+      listing_request_success: "Your request has been received. <br><br>The seller will get in contact with you shortly."
+      limit_listing_requests: "You reached the maximum amount of 25 listing requests per day"
+      back_to_filter: "Back to your filter"
+      all_devices: "Show all devices"
       add_your_phone_number: "Add your phone number"
       add_profile_picture: "Add profile picture"
       comments: "Public discussion"

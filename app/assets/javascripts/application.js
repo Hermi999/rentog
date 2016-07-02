@@ -93,5 +93,6 @@
 //= require tracking
 //= require trusted_relationship
 //= require select2
+//= require not1f1cat1ons-0.1
 //
 //= require_self

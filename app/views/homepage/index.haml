@@ -7,8 +7,11 @@
   - description = community_description
 
 
+
 - content_for :javascript do
   initialize_homepage();
+  initialize_request_listing_form("#{t("listings.show.listing_request_success").html_safe}");
+
 
 - content_for :coverfade_class do
   = "without-text"

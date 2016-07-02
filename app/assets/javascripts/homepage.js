@@ -1,4 +1,35 @@
 $(function() {
+  // Initialize listing reqest
+  if($('.listing_wrapper')){
+    $('.listing_wrapper').hover(
+      function(ev){
+        $(ev.currentTarget).find('.listings-request-slider').show();
+      },
+      function(ev){
+        $(ev.currentTarget).find('.listings-request-slider').hide();
+      }
+    );
+  }
+
+  if($('.listings-request-slider').length > 0){
+    $('.listings-request-slider').click(function(ev){
+      ev.preventDefault();
+      listing_id = ev.currentTarget.dataset.listingid;
+      $('#listing_request_listing_id').val(listing_id);
+      $('#listing-side-bar-wrapper').animate({ "right": "0px" });
+    });
+  }
+
+  // Initialize listing request button listview
+  if ($('.listing_request_button').length > 0){
+    $('.listing_request_button').click(function(ev){
+      ev.preventDefault();
+      listing_id = ev.currentTarget.dataset.listingId;
+      $('#listing_request_listing_id').val(listing_id);
+      $('#listing-side-bar-wrapper').animate({ "right": "0px" });
+    });
+  }
+
   // Selectors
   var showFiltersButtonSelector = "#home-toolbar-show-filters";
   var filtersContainerSelector = "#home-toolbar-filters";
@@ -41,6 +72,6 @@ $(function() {
 
   $('.homepage-listing-link-button').click(function(ev){
     ev.preventDefault();
-    $(ev.target.parentNode.parentNode.parentNode.nextElementSibling).show();
+    $(ev.target.parentNode.parentNode.parentNode.nextElementSibling).toggle();
   });
 });

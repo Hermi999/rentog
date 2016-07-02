@@ -253,7 +253,8 @@ module ApplicationHelper
       "edit" => "icon-edit",
       "reply" => "icon-reply",
       "renter" => "icon-users",
-      "copy" => "icon-copy"
+      "copy" => "icon-copy",
+      "keyboard" => "icon-keyboard"
     }
   }
 

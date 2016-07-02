@@ -5,6 +5,7 @@
 @import "mixins/all";
 
 .fluid-thumbnail-grid-image-image-container {
+  overflow: hidden;
   position: relative;
   color: $background;
 
@@ -84,3 +85,21 @@
     border: 6px solid #FFB40A;
 }
 
+.listings-request-slider{
+  display: none;
+  text-align: center;
+  position: absolute;
+  top: 45%;
+  width: 80px;
+  height: 25%;
+  background-color: #23A3B9;
+  border: 1px solid white;
+  right: -1px; /*-85px;*/
+  box-shadow: 0 0 5px white;
+  color: white;
+
+  &:hover{
+    color: #ddd;
+    box-shadow: none;
+  }
+}

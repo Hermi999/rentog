@@ -19,7 +19,9 @@ window.ST.listingImages = function(images) {
   var equals = _.curry(_.isEqual, 2);
 
   function keyCode(e) {
-    return e.keyCode || e.which;
+    if(document.activeElement.localName === "body"){
+      return e.keyCode || e.which;
+    }
   }
 
   var keyCodeStream = $(document).asEventStream("keyup").map(keyCode);

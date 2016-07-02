@@ -1,4 +1,4 @@
-.bubble-item
+.bubble-item{data: {listingid: listing.id}}
   .bubble-image-container
     - if listing.has_image?
       = link_to(image_tag(listing.listing_images.first.image.url(:small_3x2), :alt => listed_listing_title(listing)), listing)
@@ -19,7 +19,6 @@
         = render :partial => "homepage/share_dialog", :locals => {listing: listing, view: "map"}
         :javascript
           $('.bubble-item-share').click(function(ev){
-            console.log(ev);
             $(ev.target.nextElementSibling).show();
           });
           $('.share-dialog').mouseleave(function(ev){
@@ -66,3 +65,25 @@
             %br
             = humanized_money_with_symbol(listing.price).upcase
 
+  .listings-request-slider-bubble{data: {listingid: listing.id}}
+    =t("listings.show.request")
+    :javascript
+      if($('.bubble-item')){
+        $('.bubble-item').hover(
+          function(ev){
+            $(ev.currentTarget).find('.listings-request-slider-bubble').show();
+          },
+          function(ev){
+            $(ev.currentTarget).find('.listings-request-slider-bubble').hide();
+          }
+        );
+      }
+
+      if($('.listings-request-slider-bubble').length > 0){
+        $('.listings-request-slider-bubble').click(function(ev){
+          ev.preventDefault();
+          listing_id = ev.currentTarget.dataset.listingid;
+          $('#listing_request_listing_id').val(listing_id);
+          $('#listing-side-bar-wrapper').animate({ "right": "0px" });
+        });
+      }

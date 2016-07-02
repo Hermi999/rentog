@@ -260,9 +260,34 @@ function initialize_defaults(locale) {
   $('.flash-notifications').click(function() {
     $('.flash-notifications').fadeOut('slow');
   });
+  // Admin backend notifications (sharetribe)
   $('.ajax-notification').click(function() {
     $('.ajax-notification').fadeOut('slow');
   });
+  // Rentog Javascript Notifications
+  var animation = {
+    show_duration: 500,
+    visible_duration: 6000,
+    hide_duration: 1000,
+    direction: "right"
+  };
+  var hidden_position = {
+    "position": "fixed",
+    "top":    "90px",
+    "right":   "-320px"
+  };
+  var visible_position = {
+    "position": "fixed",
+    "top":    "90px",
+    "right":   "-5px"
+  };
+
+  var default_style = {
+    "width":  "300px"
+  }
+
+  ST.js_notifications = new Not1f1cat1ons("js-notifications-wrapper", animation, hidden_position, visible_position, default_style);
+
   $('#login-toggle-button').click(function() {
     $('#upper_person_login').focus();
   });
@@ -271,8 +296,7 @@ function initialize_defaults(locale) {
   // Initialize copy to clipboard
   new Clipboard('.clipboard_btn');
   $('.clipboard_btn').click(function(ev){
-    $('.js-notification-success').text("Copied successfully!");
-    $('.js-notification-success').stop(true,true).animate({ "right": "-5px" }).delay(5000).animate({ "right": "-320px" });
+    ST.js_notifications.triggerNotification("success", "Copied successfully!");
   });
 
 
@@ -287,7 +311,7 @@ function initialize_defaults(locale) {
   // Initialize 'close listing sidebar'
   if ($('#listing-side-bar-close').length > 0){
     $('#listing-side-bar-close').click(function(){
-      $('#listing-side-bar-wrapper').animate({ "right": "-620px" });;
+      $('#listing-side-bar-wrapper').animate({ "right": "-620px" });
     });
   }
 
@@ -654,37 +678,53 @@ function style_action_selectors() {
 }
 
 // Send to server so that the Rentog admins get an email
-function sendLandingPageSignupToServer(type, email, phone, name, success_callback){
-  $.post("/de/user_feedbacks", {
-    type: type,
-    email: email,
-    name: name,
-    phone: phone
+function sendListingRequestToServer(email, phone, name, country, message, listing_id, get_further_docs, contact_per_phone, get_price_list, get_quotation, gRecaptchaResponse, success_callback){
+  var url = listing_id + "/listing_requests";
+  if (window.location.href.indexOf("listings") < 0){
+    url = "/listings/" + url;
+  }
+
+  $.post(url, {
+    gRecaptchaResponse: gRecaptchaResponse,
+    listing_request: {
+      email: email,
+      name: name,
+      phone: phone,
+      country: country,
+      message: message,
+      listing_id: listing_id,
+      get_further_docs: get_further_docs,
+      contact_per_phone: contact_per_phone,
+      get_price_list: get_price_list,
+      get_quotation: get_quotation
+    }
   }, function (data){
     // Network success
       // Server success
+      $('#listing-request-button').css('opacity', 1);
+
       if (data.response === "success"){
         success_callback();
       }
       // Server error
       else{
-        $('body').append("<div id='error_message'>Something went wrong on the server. Please reload the page and try again!</div>");
-        $('#error_message').stop(true,true);
-        $('#error_message').show();
-        $('#error_message').fadeOut(14000);
+        if(data.error_message){
+          ST.js_notifications.triggerNotification("alert", data.error_message);
+        }else{
+          ST.js_notifications.triggerNotification("alert", "Something went wrong on the server. <br>Please reload the page and try again!");
+        }
       }
   })
   .fail(function (){
-    $('body').append("<div id='error_message'>Something went wrong. Please check your internet connection, reload the page and try again!</div>");
-    $('#error_message').stop(true,true);
-    $('#error_message').show();
-    $('#error_message').fadeOut(14000);
+    $('#listing-request-button').css('opacity', 1);
+    ST.js_notifications.triggerNotification("alert", "Something went wrong. <br>Please check your internet connection, reload the page and try again!");
   });
 }
 
 
-function initialize_contact_me_form() {
-  var form_id = "#contact_me_form";
+function initialize_request_listing_form(success_message) {
+  var form_id = "#new_listing_request";
+
   $(form_id)
     .submit(function(e){
       e.preventDefault();
@@ -694,106 +734,47 @@ function initialize_contact_me_form() {
         error.insertAfter(element);
       },
       rules: {
-        "contact_me[email]": {required: true, email: true},
-        "contact_me[name]": {required: true},
-        "contact_me[phone]": {required: false}
+        "listing_request[email]": {required: true, email: true},
+        "listing_request[name]": {required: true},
+        "listing_request[phone]": {required: false},
+        "listing_request[country]": {required: true},
+        "listing_request[message]": {required: false},
+        "listing_request[listing_id]": {required: true},
+        "listing_request[get_further_docs]": {required: true},
+        "listing_request[contact_per_phone]": {required: true},
+        "listing_request[get_price_list]": {required: true},
+        "listing_request[get_quotation]": {required: true},
+        "g-recaptcha-response": {required: true}
       },
       submitHandler: function(form) {
         // Only if not filled out (by spam bot)
-        if (form.elements.contact_me_lastname.value === ""){
-          $('#contact_me_form').hide();
+        if (form.elements.listing_request_last1name.value === "" && $('#listing-request-button').css('opacity') != 0.5){
+
+          $('#listing-request-button').css('opacity', 0.5);
 
           // Send to server so that the Rentog admins get an email
-          sendLandingPageSignupToServer("Contact me!", form.elements.contact_me_email.value,
-                                                       form.elements.contact_me_phone.value,
-                                                       form.elements.contact_me_name.value,
-                                                       function(){
+          sendListingRequestToServer(form.elements.listing_request_email.value,
+                                     form.elements.listing_request_phone.value,
+                                     form.elements.listing_request_name.value,
+                                     form.elements.listing_request_country.value,
+                                     form.elements.listing_request_message.value,
+                                     form.elements.listing_request_listing_id.value,
+                                     form.elements.listing_request_get_further_docs.checked,
+                                     form.elements.listing_request_contact_per_phone.checked,
+                                     form.elements.listing_request_get_price_list.checked,
+                                     form.elements.listing_request_get_quotation.checked,
+                                     form.elements['g-recaptcha-response'].value,
+                                     function(){
             // Show user that everything is fine
-            $('#contact_me_success').animate({width: 'toggle'});
-            $('#contact_me_success').fadeOut(7000);
-
-            // track with mixpanel
-            if(track()){
-              mixpanel.track("Contact me", {
-                email: form.elements.contact_me_email.value,
-                phone: form.elements.contact_me_phone.value,
-                name: form.elements.contact_me_name.value,
-              });
-            }
+            ST.js_notifications.triggerNotification("success", success_message);
+            $('#listing-side-bar-close').click();
           });
         }
       }
     });
-}
 
-function initialize_newsletter_subscribe_form() {
-  var form_id = "#newsletter-subscribe-form";
-  $(form_id)
-    .submit(function(e){
-      e.preventDefault();
-    })
-    .validate({
-      errorPlacement: function(error, element) {
-        // Insert after button
-        error.insertAfter(element.next().next());
-      },
-      rules: {
-        "newsletter-subscribe[email]": {required: true, email: true},
-      },
-      submitHandler: function(form) {
-        // Only if not filled out (by spam bot)
-        if (form.elements['newsletter-subscribe-name'].value === ""){
-          // Send to server so that the Rentog admins get an email
-          sendLandingPageSignupToServer("Newsletter!", form.elements['newsletter-subscribe-email'].value, null, null, function(){
-            // Show user that everything is fine
-            $('#newsletter-subscribe-form').hide();
-            $('#newsletter-subscribe-success-wrapper').slideDown();
-          });
-
-          // track with mixpanel
-          if (track()){
-            mixpanel.track("Newsletter Subscribe", {
-              email: form.elements['newsletter-subscribe-email'].value
-            });
-          }
-        }
-      }
-    });
-}
-
-function initialize_voucher_subscribe_form() {
-  var form_id = "#voucher-subscribe-form";
-  $(form_id)
-    .submit(function(e){
-      e.preventDefault();
-    })
-    .validate({
-      errorPlacement: function(error, element) {
-        // Insert after button
-        error.insertAfter(element);
-      },
-      rules: {
-        "voucher-subscribe[email]": {required: true, email: true},
-      },
-      submitHandler: function(form) {
-        // Only if not filled out (by spam bot)
-        if (form.elements['voucher-subscribe-name'].value === ""){
-          // Send to server so that the Rentog admins get an email
-          sendLandingPageSignupToServer("Pool Tool Gutschein Anmeldung!", form.elements['voucher-subscribe-email'].value, null, null, function(){
-            // Show user that everything is fine
-            $('#voucher-subscribe-form').hide();
-            $('#voucher-subscribe-success-wrapper').fadeIn();
-          });
-
-          // Track with mixpanel
-          if(track()){
-            mixpanel.track("Voucher Subscribe", {
-              email: form.elements['voucher-subscribe-email'].value
-            });
-          }
-        }
-      }
-    });
+    // Focus listing details container. Not a text field. Otherwise keyboard events can not be triggered
+    $('#listing_request_message').blur();
 }
 
 
@@ -1423,11 +1404,6 @@ function initialize_profile_view(profile_id, belongs_to_company) {
 }
 
 function initialize_homepage() {
-  // wah: Remove me. Marketplace coming soon
-  //$("body").append("<div id='marketplace_cover' style='position:fixed; height:2000px; width:100%; top:0px; bottom:0px; z-index:100; background-color:rgba(53, 53, 53, 0.69);'> </div>")
-  //$("#marketplace_cover").append("<div style='position:fixed; top: 40%; background-color:rgba(249, 216, 165, 0.94); padding: 20px 50px; left:25%; right:25%; width:50%; text-align:center; color: #B72424; font-weight: 600; font-size: 1.3em; border-radius:10px;'>Sharing devices with other, trusted companies is comming soon! <br><span style='color:black;'>Return to</span> <a href='/'>Pool Tool</a></div>")
-
-
   // make map/list button change the value in the filter form and submit the form
   // in order to keep all filter values combinable and remembered
   $('.map-button').click(

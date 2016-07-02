@@ -72,9 +72,22 @@ class HomepageController < ApplicationController
       search_result.on_success { |listings|
         @listings = listings # TODO Remove
 
-        if @view_type == "grid" then
+        if params[:getListingIds]
+          cookies.permanent[:listings] = cookies[:listings].split("&") + listings.map(&:id)
+          cookies.permanent[:current_page] = cookies.permanent[:current_page].to_i + 1
+
+          respond_to do |format|
+            format.json { render :json => {listing_ids: listings.map(&:id)} }
+          end
+
+        elsif @view_type == "grid" then
+          cookies.permanent[:listings] = cookies[:listings].split("&") + listings.map(&:id)
+          cookies.permanent[:current_page] = cookies.permanent[:current_page].to_i + 1
           render :partial => "grid_item", :collection => @listings, :as => :listing
+
         else
+          cookies.permanent[:listings] = cookies[:listings].split("&") + listings.map(&:id)
+          cookies.permanent[:current_page] = cookies.permanent[:current_page].to_i + 1
           render :partial => "list_item", :collection => @listings, :as => :listing, locals: { shape_name_map: shape_name_map, testimonials_in_use: @current_community.testimonials_in_use }
         end
       }.on_error {
@@ -83,6 +96,21 @@ class HomepageController < ApplicationController
     else
       main_search = (feature_enabled?(:location_search) && search_engine == :zappy) ? MarketplaceService::API::Api.configurations.get(community_id: @current_community.id).data[:main_search] : :keyword
       search_result.on_success { |listings|
+
+        # wah: Store listings in cookie
+        cookies.permanent[:count_listing_pages] = listings.total_pages
+        cookies.permanent[:current_page] = 1
+        cookies.permanent[:listings] = listings.map(&:id)
+        if request.original_url.include?("transaction_type") ||
+           request.original_url.include?("category") ||
+           request.original_url.include?("price_min") ||
+           request.original_url.include?("price_max") ||
+           request.original_url.include?("&q=") ||
+           request.original_url.include?("filter_option")
+          cookies.permanent[:filter] = request.original_url
+        else
+          cookies.permanent[:filter] = ""
+        end
 
         @listings = listings
         render locals: {

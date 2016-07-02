@@ -1,8 +1,6 @@
-- disable_marketplace_requests = false #!Rails.env.test?
-
-
 - content_for :javascript do
   initialize_listing_view('#{I18n.locale}');
+  initialize_request_listing_form("#{t('.listing_request_success').html_safe}");
 
 - content_for :extra_javascript do
   :javascript
@@ -33,6 +31,38 @@
     %img.listing-image-thumbnail{src: "${url}"}
     .fade
 
+/ Keyboard navigation
+#keyboard-navigation-button
+  = icon_tag("terms", ["icon-with-text"])
+  = icon_tag("keyboard", ["icon-with-text"])
+
+/ Listing navigation
+.row#listing_navigation
+  - listing_ids = cookies[:listings].split("&")
+  - listing_index = listing_ids.find_index(@listing.id.to_s)
+  - listing_left = listing_ids[listing_index-1] if listing_index > 0
+  - listing_right = listing_ids[listing_index+1]
+  - forelast_listing = true if listing_index+1 == listing_ids.length - 1
+
+  .col-1{style: "text-align: center; font-weight: bold;"}
+    - if listing_left
+      = link_to "<", listing_path(listing_left), id: "listing-nav-left"
+
+  .col-10{style: "text-align: center;"}
+    - shape = ListingShape.where(id: @listing.listing_shape).first
+    = link_to t(".back_to_filter"), cookies[:filter], id: "listing_back_button" if cookies[:filter] != ""
+    = "|" if cookies[:filter] != ""
+    = link_to t(".all_devices"), marketplace_path
+    = "|" if @listing.listing_shape
+    = link_to t(shape.name_tr_key), marketplace_path(transaction_type: shape.name) if shape
+    = "|" if @listing.category
+    = link_to @listing.category.display_name(I18n.locale), marketplace_path(category: @listing.category) if @listing.category
+
+  .col-1{style: "text-align: center; font-weight: bold;"}
+    - if listing_right
+      = link_to ">", listing_path(listing_right), id: "listing-nav-right", data: {forelast_listing: forelast_listing}
+
+/ Listing details
 .row
   .col-8.listing-details-container
     .row
@@ -106,11 +136,6 @@
 
     %div{style:"clear: both;"}
 
-    .row{style: "margin-top: 10px;"}
-      .col-12
-        .listing-social
-          = render :partial => "homepage/share_dialog", :locals => {listing: @listing, view: "listing"}
-
     - unless (@listing.closed? && !current_user?(@listing.author)) || !@current_community.listing_comments_in_use
       .view-item
         #comments.discussion.overflow-allowed
@@ -127,14 +152,6 @@
             = render :partial => "comment_form"
 
   %aside.col-4
-    - if disable_marketplace_requests && @listing.get_listing_type != 'intern' && @listing.get_listing_type != 'trusted' && (@current_user == nil || @relation != :rentog_admin && @relation != :company_admin_own_site && @relation != :rentog_admin_own_site && @relation != :domain_supervisor)
-      .notyetavailable
-        .notyetavailabletext
-          This is the Beta - Version of the Rentog Marketplace, so it's not possible to get in contact with the sellers yet.
-          %br
-          %br
-          The full version of Rentog will go online very soon (in July 2016).
-
     - if @listing.price && show_price
       .row
         .col-12
@@ -146,26 +163,26 @@
                 = text
 
     / Listing actions
-    - if !disable_marketplace_requests || @listing.get_listing_type == 'intern' || @listing.get_listing_type == 'trusted' || (@current_user == nil || @relation == :rentog_admin || @relation == :company_admin_own_site || @relation == :rentog_admin_own_site || @relation == :domain_supervisor)
-      .row-with-divider
-        .col-12
-          #listing-message-links
-            = render :partial => "listing_actions", locals: { form_path: form_path, payment_gateway: payment_gateway, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code, rent_button: rent_button, special_action_button_label: special_action_button_label, show_date: show_date }
-
-    / Author image
     .row-with-divider
       .col-12
-        .listing-author
-          .listing-author-avatar
-            = medium_avatar_thumb(@listing.author, {:class => "listing-author-avatar-image"})
-          .listing-author-details
-            .listing-author-name
-              = link_to @listing.author.name(@current_community), @listing.author, :id => "listing-author-link", :class => "listing-author-name-link", :title => "#{@listing.author.name(@current_community)}"
-            - if @listing.author != @current_user
-              .listing-author-contact
-                %a#listing-contact{href: contact_to_listing_path(:listing_id => @listing.id.to_s), :class => "listing-author-contact-button"}
-                  .content
-                    = t(".contact")
+        #listing-message-links
+          = render :partial => "listing_actions", locals: { form_path: form_path, payment_gateway: payment_gateway, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code, rent_button: rent_button, special_action_button_label: special_action_button_label, show_date: show_date }
+
+    / Author image
+    - if @relation != :untrusted_company_admin && @relation != :untrusted_company_employee && @relation != :logged_out_user && @relation != :unverified_company && @relation != nil
+      .row-with-divider
+        .col-12
+          .listing-author
+            .listing-author-avatar
+              = medium_avatar_thumb(@listing.author, {:class => "listing-author-avatar-image"})
+            .listing-author-details
+              .listing-author-name
+                = link_to @listing.author.name(@current_community), @listing.author, :id => "listing-author-link", :class => "listing-author-name-link", :title => "#{@listing.author.name(@current_community)}"
+              - if @listing.author != @current_user
+                .listing-author-contact
+                  %a#listing-contact{href: contact_to_listing_path(:listing_id => @listing.id.to_s), :class => "listing-author-contact-button"}
+                    .content
+                      = t(".contact")
 
     - if @current_community.testimonials_in_use && received_testimonials.size > 0
       .row-with-divider.listing-author-activity
@@ -183,31 +200,31 @@
               = t(".feedback")
 
 
-    / Current and default location map
-    - if @listing.origin_loc && @listing.origin_loc.address != ""
-      %span.location_alias_header= t(".default_location")
-      - if !@listing.origin_loc.location_alias.empty?
-        %span.location_alias_text= @listing.origin_loc.location_alias
+    / Show Current and default location map only in pool tool
+    - case @relation
+      - when :rentog_admin, :rentog_admin_own_site, :domain_supervisor, :company_admin, :company_admin_own_site, :trusted_company_admin, :trusted_company_employee
+        - if @listing.origin_loc && @listing.origin_loc.address != ""
+          %span.location_alias_header= t(".default_location")
+          - if !@listing.origin_loc.location_alias.empty?
+            %span.location_alias_text= @listing.origin_loc.location_alias
 
-      - elsif !Maybe(@listing.author.location).location_alias.or_else("").empty?
-        %span.location_alias_text= @listing.author.location.location_alias
+          - elsif !Maybe(@listing.author.location).location_alias.or_else("").empty?
+            %span.location_alias_text= @listing.author.location.location_alias
 
-    - if (booker_id = @listing.is_booked_today_from) != nil
-      - if (booker = Person.find(booker_id)).location
-        .current_loc
-          %span.location_alias_header= t(".current_location")
-          %span.location_alias_text= booker.location.location_alias
+      - if (booker_id = @listing.is_booked_today_from) != nil
+        - if (booker = Person.find(booker_id)).location
+          .current_loc
+            %span.location_alias_header= t(".current_location")
+            %span.location_alias_text= booker.location.location_alias
 
-    - if (booker and booker.location and booker.location.address) || (@listing.origin_loc and @listing.origin_loc.address != "")
-      .row
-        .col-12
-          #googlemap
-            - if booker and booker.location
-              - location = booker.location
-            - else
-              - location = @listing.origin_loc
+      - if (booker and booker.location and booker.location.address) || (@listing.origin_loc and @listing.origin_loc.address != "")
+        .row
+          .col-12
+            #googlemap
+              - if booker and booker.location
+                - location = booker.location
+              - else
+                - location = @listing.origin_loc
 
-            = render :partial => "googlemap", :locals => { :listing => @listing, :listing_location =>  location}
-            = render :partial => "origin", :locals => { :origin_loc => location}
-
-
+              = render :partial => "googlemap", :locals => { :listing => @listing, :listing_location =>  location}
+              = render :partial => "origin", :locals => { :origin_loc => location}

@@ -1,0 +1,34 @@
+.listing-view-admin-links
+  .listing-view-admin-link
+    %a.icon-with-text-container{href: edit_listing_path(@listing)}
+      = icon_tag("edit", ["icon-part"])
+      .text-part= t("listings.edit_links.edit_listing")
+
+  .listing-view-admin-link
+    %a.icon-with-text-container{href: close_person_listing_path(@current_user, @listing), data: { method: "put", remote: "true"}}
+      = icon_tag("lock", ["icon-part"])
+      .text-part= t("listings.edit_links.close_listing")
+
+  .listing-view-admin-link
+    %a.icon-with-text-container{href: person_listing_path(@current_user, @listing), data: { method: "delete", confirm: t("listings.edit_links.do_you_really_want_to_delete")}}
+      = icon_tag("minus", ["icon-part"])
+      .text-part= t("listings.edit_links.delete_listing")
+
+  - if @listing.get_listing_type != "sell" && @relation != :domain_supervisor
+    .listing-view-admin-link
+      %a.icon-with-text-container{href: person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s}
+        = icon_tag("calendar", ["icon-part"])
+        .text-part= t("listings.edit_links.book_with_pooltool")
+
+  - if @relation == :rentog_admin
+    .listing-view-admin-link
+      = link_to move_to_top_person_listing_path(@current_user, @listing), data: { method: "put" } do
+        .icon-with-text-container
+          = icon_tag("star", ["icon-part"])
+          .text-part= t("listings.edit_links.move_to_top")
+
+    .listing-view-admin-link
+      = link_to show_in_updates_email_person_listing_path(@current_user, @listing), data: { method: "put", remote: "true" }, :id => "add-to-updates-email"  do
+        .icon-with-text-container
+          = icon_tag("mail", ["icon-part"])
+          .text-part#add-to-updates-email-text{data: {:"action-loading" => t("listings.edit_links.show_in_updates_email_loading"), :"action-error" => t("listings.edit_links.show_in_updates_email_error"), :"action-success"=> t("listings.edit_links.show_in_updates_email_success")}}= t("listings.edit_links.show_in_updates_email")

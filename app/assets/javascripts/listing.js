@@ -2,6 +2,67 @@ window.ST = window.ST || {};
 
 (function(module) {
   module.listing = function() {
+    // Initialize listing-request button
+    if ($('#listing-request-button-show-form').length > 0){
+      $('#listing-request-button-show-form').click(function(ev){
+        ev.preventDefault();
+        $('#listing-side-bar-wrapper').animate({ "right": "0px" });
+      });
+    }
+
+    // Initialize short keys
+    $("body").keypress(function(ev){
+      if(document.activeElement.localName === "body"){
+        console.log(ev.keyCode);
+
+        // b ... back to filter
+        if(ev.keyCode == 98){
+          window.location = $('#listing_back_button')[0].href;
+        }
+
+        // p ... previous
+        if(ev.keyCode == 112){
+          window.location = $('#listing-nav-left')[0].href;
+        }
+
+        // n ... next
+        if(ev.keyCode == 110){
+          window.location = $('#listing-nav-right')[0].href;
+        }
+      }
+    });
+
+    // Initialize Tooltips
+    $('#listing-nav-right').webuiPopover({content: "test", animation:'fade', placement:'top', trigger:'hover'});
+
+
+    // load listing ids from next page if on the page before the last listing
+    var current_page = Number(readCookie("current_page"));
+    if (readCookie("count_listing_pages") > 1 && Number(readCookie("count_listing_pages")) > current_page){
+
+      if ($('#listing-nav-right').data("forelast-listing") === true){
+
+      var jqxhr = $.get( location.protocol + "//" + location.host + "/marketplace?view=list&getListingIds=true&page=" + (current_page+1), function(data) {
+        var listings = readCookie("listings");
+        for (i in data.listing_ids){
+          listings += "&" + listing_ids[i];
+        }
+        createCookie("listings", listings, 999);
+        createCookie("current_page", current_page + 1, 999);
+      })
+        .done(function() {
+
+        })
+        .fail(function() {
+
+        })
+        .always(function() {
+
+        });
+      }
+    }
+
+
     $('#add-to-updates-email').on('click', function() {
       var text = $(this).find('#add-to-updates-email-text');
       var actionLoading = text.data('action-loading');

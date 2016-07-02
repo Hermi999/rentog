@@ -158,9 +158,9 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
   text-align: center;
 
   a{
-    color: #D4B14F;
+    color: white;
     &:hover{
-      color: #E4C56E;
+      color: #eee;
     }
   }
 }
@@ -191,7 +191,7 @@ input[type=text].link-input{
   width: 10%;
   padding: 1px 1%;
   display: inline;
-  background-color: #3C3C3C;
+  background-color: transparent;
   margin:0px;
 
   &:hover{

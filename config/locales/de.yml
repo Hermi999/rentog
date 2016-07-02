@@ -1248,6 +1248,7 @@ de:
       some_private_requests_exist: "Es gibt bereits <b>%{number_of_listings} Anfragen</b>,"
     custom_filters:
       update_view: "Filter aktualisieren"
+      remove_all_filters: "Alle Filter entfernen"
       min: "Min:"
       max: "Max:"
     event_feed:
@@ -1305,6 +1306,7 @@ de:
       from: aus
       shipment_to: "Versand nach"
       wishlist: "<span class='hide-on-small-desktop'>Auf den </span>Merkzettel"
+      listing_request: "Anfrage"
     news_item:
       show_less: "Weniger anzeigen"
       show_more: "Mehr anzeigen"
@@ -1520,6 +1522,17 @@ de:
       payments: Zahlungen
       pooltool: "Pool Tool"
   listings:
+    listing_side_bar_form:
+      name: "Name*"
+      email: "Email*"
+      phone: "Telefonnummer"
+      country: "Land*"
+      message: "Frage / Nachricht"
+      get_contacted: "Kontaktieren Sie mich am Telefon"
+      get_further: "Senden Sie mir weitere Dokumente"
+      get_prices: "Übermitteln Sie mir die Preisliste"
+      get_quotation: "Senden Sie mir ein Angebot"
+      request: "Anfragen"
     bubble_listing_not_visible:
       listing_not_visible: "Du hast keine Berechtigung, diesen Eintrag anzuschauen."
     comment:
@@ -1754,6 +1767,10 @@ de:
     reply_link:
       listing_closed: "Eintrag abgeschlossen"
     show:
+      listing_request_success: "Ihre Anfrage wurde versendet. <br><br>Der Verkäufer wird Sie in Kürze kontaktieren."
+      limit_listing_requests: "Sie haben die maximale Anzahl an 25 Anfragen pro Tag erreicht."
+      back_to_filter: "Zurück zu Ihrem Filter"
+      all_devices: "Zeige alle Geräte"
       add_your_phone_number: "Füge deine Telefonnummer hinzu"
       add_profile_picture: "Profilbild hinzufügen"
       comments: "Öffentliche Diskussion"

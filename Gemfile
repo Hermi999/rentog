@@ -112,6 +112,7 @@ gem 'roo', '~> 2.4.0'               # excel import
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 
 gem 'geocoder'
+gem "recaptcha", require: "recaptcha/rails"
 
 group :staging, :production do
   # Daemons gem installed because otherwise delayed worker won't work on beanstalk
