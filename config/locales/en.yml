@@ -1770,6 +1770,13 @@ en:
     reply_link:
       listing_closed: "Listing is closed"
     show:
+      keyboard_nav_key: "Key"
+      keyboard_nav_action: "Action"
+      keyboard_nav_n: "Next device"
+      keyboard_nav_p: "Previous device"
+      keyboard_nav_b: "Back to your filter"
+      keyboard_nav_right: "Next image"
+      keyboard_nav_left: "Previous image"
       listing_request_success: "Your request has been received. <br><br>The seller will get in contact with you shortly."
       limit_listing_requests: "You reached the maximum amount of 25 listing requests per day"
       back_to_filter: "Back to your filter"

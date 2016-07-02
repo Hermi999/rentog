@@ -33,8 +33,30 @@
 
 / Keyboard navigation
 #keyboard-navigation-button
-  = icon_tag("terms", ["icon-with-text"])
-  = icon_tag("keyboard", ["icon-with-text"])
+  = icon_tag("keyboard", ["keyboard-icon-button"])
+
+%table#keyboard-nav-table-content{style: "display: none;"}
+  %thead
+    %tr{style: "background-color: #B0D9E0;"}
+      %th= t(".keyboard_nav_key")
+      %th= t(".keyboard_nav_action")
+  %tbody
+    %tr
+      %td= "n"
+      %td= t(".keyboard_nav_n")
+    %tr
+      %td= "p"
+      %td= t(".keyboard_nav_p")
+    %tr
+      %td= "b"
+      %td= t(".keyboard_nav_b")
+    %tr
+      %td= icon_tag "directleft"
+      %td= t(".keyboard_nav_left")
+    %tr
+      %td= icon_tag "directright"
+      %td= t(".keyboard_nav_right")
+
 
 / Listing navigation
 .row#listing_navigation

@@ -33,7 +33,8 @@ window.ST = window.ST || {};
     });
 
     // Initialize Tooltips
-    $('#listing-nav-right').webuiPopover({content: "test", animation:'fade', placement:'top', trigger:'hover'});
+    var tableContent = $('#keyboard-nav-table-content').html();
+    $('#keyboard-navigation-button').webuiPopover({content: tableContent, animation:'fade', placement:'bottom-left', "data-placement": 'vertical', trigger:'click', style: "listing-popover-style"});
 
 
     // load listing ids from next page if on the page before the last listing

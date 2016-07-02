@@ -435,9 +435,14 @@ $listing-author-avatar-height: 108;
 }
 
 #keyboard-navigation-button{
-  position: fixed;
-  top: 150px;
-  right: 50px;
+  position: absolute;
+  top: 60px;
+  right: 15px;
   color: black;
-  z-index: 9999;
+  z-index: 9998;
+  font-size: 2em;
+  cursor: pointer;
+}
+.webui-popover-listing-popover-style{
+  background-color: white!important;
 }

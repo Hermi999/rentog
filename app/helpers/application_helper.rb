@@ -254,7 +254,7 @@ module ApplicationHelper
       "reply" => "icon-reply",
       "renter" => "icon-users",
       "copy" => "icon-copy",
-      "keyboard" => "icon-keyboard"
+      "keyboard" => "icon-keyboard",
     }
   }
 

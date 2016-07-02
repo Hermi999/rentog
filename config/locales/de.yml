@@ -1767,6 +1767,13 @@ de:
     reply_link:
       listing_closed: "Eintrag abgeschlossen"
     show:
+      keyboard_nav_key: "Taste"
+      keyboard_nav_action: "Aktion"
+      keyboard_nav_n: "Nächstes Gerät"
+      keyboard_nav_p: "Vorheriges Gerät"
+      keyboard_nav_b: "Zurück zum Filter"
+      keyboard_nav_right: "Nächstes Bild"
+      keyboard_nav_left: "Vorheriges Bild"
       listing_request_success: "Ihre Anfrage wurde versendet. <br><br>Der Verkäufer wird Sie in Kürze kontaktieren."
       limit_listing_requests: "Sie haben die maximale Anzahl an 25 Anfragen pro Tag erreicht."
       back_to_filter: "Zurück zu Ihrem Filter"
