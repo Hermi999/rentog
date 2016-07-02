@@ -143,9 +143,11 @@ class ListingsController < ApplicationController
   # for google maps view homepage
   def listing_bubble
     if params[:id]
-      # get the listing condition id
+      # get the custom field ids of some listing attributes
       @condition_field_id = Maybe(CustomFieldName.where(:value => "Zustand").first).custom_field_id.to_i.or_else(nil)
       @restrictedMarketplace = request.referer.include?("restrictedMarketplace")
+      @price_options_field_id = Maybe(CustomFieldName.where(:value => "Price options").first).custom_field_id.to_i.or_else(nil)
+
 
       @listing = Listing.find(params[:id])
       if @listing.visible_to?(@current_user, @current_community)
@@ -163,9 +165,10 @@ class ListingsController < ApplicationController
 
   # Used to show multiple listings in one bubble for google maps view on homepage
   def listing_bubble_multiple
-    # get the listing condition id
+    # get the custom field ids of some listing attributes
     @condition_field_id = Maybe(CustomFieldName.where(:value => "Zustand").first).custom_field_id.to_i.or_else(nil)
     @restrictedMarketplace = request.referer.include?("restrictedMarketplace")
+    @price_options_field_id = Maybe(CustomFieldName.where(:value => "Price options").first).custom_field_id.to_i.or_else(nil)
 
     ids = numbers_str_to_array(params[:ids])
 
@@ -185,6 +188,7 @@ class ListingsController < ApplicationController
   # The listings page
   def show
     @selected_tribe_navi_tab = "home"
+    @price_options_field_id = Maybe(CustomFieldName.where(:value => "Price options").first).custom_field_id.to_i.or_else(nil)
 
     # wah
     get_relation

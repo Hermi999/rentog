@@ -92,19 +92,29 @@
         .colFix-4.show-on-tiny-mobile
 
         / Price
+        - price_option = get_price_options(listing)
         .colFix-4{style: "font-size: 0.8em; margin-top:0px; padding-right: 0px;"}
           .home-list-price
             - if listing.price
 
-              .home-list-price-quantity.hide-on-mobile{:title => price_text}
-                = price_text || "&nbsp".html_safe
+              - if price_option[:val] && price_option[:val].include?("request")
+                .home-list-listing-shape-value
+                  = t("homepage.index.price_on_request")
 
-              .home-list-price-value
-                %span{style: "font-size: 0.6em;"}= currency_symbol
-                = " " + humanized_money(listing.price).upcase
+              - else
+                .home-list-price-quantity.hide-on-mobile{:title => price_text}
+                  = price_text || "&nbsp".html_safe
+                  - if price_option[:title]
+                    = ", " + price_option[:title]
 
-              .home-list-price-quantity-mobile{:title => price_text}
-                = price_text
+                .home-list-price-value
+                  %span{style: "font-size: 0.6em;"}= currency_symbol
+                  = " " + humanized_money(listing.price).upcase
+
+                .home-list-price-quantity-mobile{:title => price_text}
+                  = price_text
+                  - if price_option[:title]
+                    = ", " + price_option[:title]
 
             - else
               .home-list-listing-shape-value

@@ -10,6 +10,8 @@
 
 - modifier_image_marker ||= ""
 - closed_marker = "fluid-thumbnail-grid-image-closed-marker" if !listing.open
+- price_option = get_price_options(listing)
+
 
 = link_to(listing_path(listing.url), :class => "#{modifier_class} fluid-thumbnail-grid-image-item-link") do
   .fluid-thumbnail-grid-image-image-container{:class => "#{modifier_class}"}
@@ -22,13 +24,22 @@
 
     .fluid-thumbnail-grid-image-price-container{:class => "#{modifier_price}"}
       - if listing.price
-        %span.fluid-thumbnail-grid-image-price{:class => "#{modifier_price}"}
-          = humanized_money_with_symbol(listing.price).upcase
-          - price_unit = price_quantity_slash_unit(listing)
-        - if !price_unit.blank?
-          - price_text = " " + price_unit
-          %span.fluid-thumbnail-grid-image-quantity{:title => price_text}
-            = price_text
+        - if price_option[:val] && price_option[:val].include?("request")
+          = t("homepage.index.price_on_request")
+        - else
+          .price_wrapper{style: "line-height: 1.6em;"}
+            %span.fluid-thumbnail-grid-image-price{:class => "#{modifier_price}"}
+              = humanized_money_with_symbol(listing.price).upcase
+              - price_unit = price_quantity_slash_unit(listing)
+            - if !price_unit.blank?
+              - price_text = " " + price_unit
+              %span.fluid-thumbnail-grid-image-quantity{:title => price_text}
+                = price_text
+          - if price_option[:title]
+            .price_option_wrapper{style: "line-height: 1.1em; font-size: 0.9em;"}
+              = price_option[:title]
+
+
       - else
         %span.fluid-thumbnail-grid-image-type{:class => "#{modifier_class}"}
           = shape_name(listing)

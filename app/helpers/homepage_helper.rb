@@ -52,4 +52,19 @@ module HomepageHelper
 
     val
   end
+
+  def get_price_options(listing)
+    cust_field_val = Maybe(CustomFieldValue.where(listing_id: listing.id, custom_field_id: @price_options_field_id).first).or_else(nil)
+    sel_opt = cust_field_val.selected_options.first if cust_field_val
+
+    if sel_opt
+      title = sel_opt.title(I18n.locale).remove(I18n.t("listings.form.price.price")).strip
+      price_option = sel_opt.title("en").downcase
+    end
+
+    return {
+      title: title,
+      val: price_option
+    }
+  end
 end

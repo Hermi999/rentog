@@ -1,0 +1,119 @@
+%tr
+  %td{:align => "left", :style => "padding-top: 20px;"}
+    %font{body_font}
+      = t("emails.listing_request.hi")
+
+%tr
+  %td{:align => "left", :style => "padding-top: 15px;"}
+    %font{body_font}
+      = t("emails.listing_request.desc").html_safe
+      %br
+      %br
+      = t("emails.listing_request.here_is_the_request").html_safe
+      %br
+      %br
+
+%tr
+  %td
+    %table
+      %tbody
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.listing_request.name")
+          %td{:align => "left", :valign => "top"}
+            %font{body_font}
+              = @listing_request.name
+
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.listing_request.email")
+          %td{:align => "left", :valign => "top"}
+            %font{body_font}
+              = @listing_request.email
+
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.listing_request.phone")
+          %td{:align => "left", :valign => "top"}
+            %font{body_font}
+              = @listing_request.phone
+
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.listing_request.country")
+          %td{:align => "left", :valign => "top"}
+            %font{body_font}
+              = @listing_request.country
+
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.listing_request.contact_me")
+          %td{:align => "left", :valign => "top"}
+            %font{body_font}
+              - if @listing_request.contact_per_phone
+                = t("emails.listing_request.answer_yes")
+              - else
+                = t("emails.listing_request.answer_no")
+
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.listing_request.get_further_docs")
+          %td{:align => "left", :valign => "top"}
+            %font{body_font}
+              - if @listing_request.get_further_docs
+                = t("emails.listing_request.answer_yes")
+              - else
+                = t("emails.listing_request.answer_no")
+
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.listing_request.price_list")
+          %td{:align => "left", :valign => "top"}
+            %font{body_font}
+              - if @listing_request.get_price_list
+                = t("emails.listing_request.answer_yes")
+              - else
+                = t("emails.listing_request.answer_no")
+
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.listing_request.quotation")
+          %td{:align => "left", :valign => "top"}
+            %font{body_font}
+              - if @listing_request.get_quotation
+                = t("emails.listing_request.answer_yes")
+              - else
+                = t("emails.listing_request.answer_no")
+
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.listing_request.message")
+          %td{:align => "left", :valign => "top"}
+            %font{quote_font}
+              - text_with_line_breaks_for_email do
+                = @listing_request.message
+
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.listing_request.date")
+          %td{:align => "left", :valign => "top"}
+            %font{body_font}
+              - text_with_line_breaks_for_email do
+                = @listing_request.created_at
+
+%tr
+  %td{:align => "left", :style => "padding-top: 25px; font-weight: bold;"}
+    %font{body_font}
+      = t("emails.listing_request.contact_the_customer").html_safe
+      %br
+/= render :partial => "action_button", :locals => { :text => t("emails.invitation_to_kassi.join_now"), :url => url}

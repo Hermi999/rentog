@@ -607,6 +607,34 @@ class PersonMailer < ActionMailer::Base
     end
   end
 
+  def listing_request_to_seller(lr, community)
+    @listing_request = lr
+    mail_locale = @listing_request.author.locale
+    set_up_urls(nil, community)
+    @url_params[:locale] = mail_locale
+    with_locale(mail_locale, community.locales.map(&:to_sym), community.id) do
+      subject = t("emails.listing_request.new_listing_request")
+      premailer_mail(:to => @listing_request.author.confirmed_notification_emails_to,
+                     :from => community_specific_sender(community),
+                     :subject => subject,
+                     :reply_to => @listing_request.email)
+    end
+  end
+
+  def listing_request_to_customer(lr, community)
+    @listing_request = lr
+    mail_locale = @listing_request.locale
+    set_up_urls(nil, community)
+    @url_params[:locale] = mail_locale
+    with_locale(mail_locale, community.locales.map(&:to_sym), community.id) do
+      subject = t("emails.listing_request.new_listing_request_confirmation")
+      premailer_mail(:to => @listing_request.email,
+                     :from => community_specific_sender(community),
+                     :subject => subject,
+                     :reply_to => @listing_request.email)
+    end
+  end
+
   # A message from the community admin to a single community member
   def community_member_email(sender, recipient, email_subject, email_content, community)
     @email_type = "email_from_admins"

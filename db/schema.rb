@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160701165636) do
+ActiveRecord::Schema.define(version: 20160702161917) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -649,6 +649,7 @@ ActiveRecord::Schema.define(version: 20160701165636) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.string   "ip_address",        limit: 255
+    t.string   "locale",            limit: 255
   end
 
   create_table "listing_shapes", force: :cascade do |t|

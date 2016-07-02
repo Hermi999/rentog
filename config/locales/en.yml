@@ -953,6 +953,26 @@ en:
       you_have_a_new_comment: "%{author} has commented on your listing in %{service_name}"
       listing_you_follow_has_a_new_comment: "%{author} has commented on a listing you follow in %{service_name}"
       has_commented_listing_you_follow_in_kassi: "%{author} has commented on the listing '%{listing}' you are following in %{service_name}."
+    listing_request:
+      new_listing_request: "You have a new device request"
+      new_listing_request_confirmation: "You have successfully send a device request!"
+      hi: "Hi!"
+      desc: "You have a new request on <b>Rentog</b>!"
+      here_is_the_request: "Please find the details below:"
+      name: Name
+      email: Email
+      phone: Phone
+      country: "Country"
+      contact_me: "Contact me per phone"
+      get_further_docs: "Send me further documents"
+      price_list: "Send me the price list"
+      quotation: "I want a quotation"
+      message: "Message"
+      date: "Date & time"
+      answer_yes: "Yes"
+      answer_no: "No"
+      contact_the_customer: "Please get in contact with the potential buyer as soon as possible."
+      contacted_by_the_seller: "The seller will get in contact with you shortly."
     new_message:
       view_message: "View message"
       has_sent_you_a_message_in_kassi: "%{sender} has sent you a message in %{service_name}."
@@ -1258,6 +1278,7 @@ en:
     grid_item:
       processing_uploaded_image: "(Processing uploaded image...)"
     index:
+      price_on_request: "On Request"
       no_listings_with_your_search_criteria: "Sorry, no listings could be found for your search criteria. Maybe try other search terms?"
       no_listings_notification: "No listings. %{add_listing_link}."
       no_listings_notification_employee: "There are no listings yet."

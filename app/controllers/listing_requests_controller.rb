@@ -13,6 +13,9 @@ class ListingRequestsController < ApplicationController
       # translate country to english
       params[:listing_request][:country] = Maybe(ISO3166::Country.find_country_by_name(params[:listing_request][:country])).translation('en').or_else(nil)
 
+      # get locale of user
+      params[:listing_request][:locale] = I18n.locale
+
       # try to create new listing request
       lr = ListingRequest.new(listing_request_params)
 
@@ -21,6 +24,10 @@ class ListingRequestsController < ApplicationController
       # check Google Recapture response
       if verify_captcha(lr) && lr.save
 
+        # send emails to customer & seller
+        Delayed::Job.enqueue(ListingRequestJob.new(lr.id, @current_community.id))
+
+        # respond
         respond_to do |format|
           format.json { render :json => {response: "success"} }
         end
@@ -45,7 +52,7 @@ class ListingRequestsController < ApplicationController
   private
 
     def listing_request_params
-      params.require(:listing_request).permit(:listing_id, :name, :email, :country, :person_id, :phone, :message, :get_further_docs, :contact_per_phone, :get_price_list, :get_quotation, :ip_address)
+      params.require(:listing_request).permit(:listing_id, :name, :email, :country, :person_id, :phone, :message, :get_further_docs, :contact_per_phone, :get_price_list, :get_quotation, :ip_address, :locale)
     end
 
     def save_request_in_cookies

@@ -946,6 +946,26 @@ de:
       here_is_a_message_from: "Persönliche Nachricht von %{inviter}:"
       join_now: "Jetzt Mitglied werden"
       invitation_code: "Einladungscode %{code}"
+    listing_request:
+      new_listing_request: "You have a new device request"
+      hi: "Hallo!"
+      desc: "Sie haben eine neue Geräte-Anfrage auf <b>Rentog</b>!"
+      new_listing_request_confirmation: "Sie haben erfolgreich eine Geräte-Anfrage versendet."
+      here_is_the_request: "Nachfolgend finden Sie die Details der Anfrage:"
+      name: Name
+      email: Email
+      phone: Telefonnummer
+      country: "Land"
+      contact_me: "Kontaktieren Sie mich telefonisch"
+      get_further_docs: "Senden Sie mir weitere Dokumente"
+      price_list: "Senden Sie mir die Preisliste"
+      quotation: "Senden Sie mir ein Angebot"
+      message: "Nachricht"
+      date: "Datum und Uhrzeit"
+      answer_yes: "Ja"
+      answer_no: "Nein"
+      contact_the_customer: "Bitte kontaktieren Sie den potentiellen Kunden sobald wie möglich."
+      contacted_by_the_seller: "Der Verkäufer wird sich so bald als möglich mit Ihnen in Verbindung setzen."
     new_comment:
       has_commented_your_listing_in_kassi: "%{author} hat deinen Eintrag %{listing} kommentiert"
       view_comment: "Kommentar ansehen"
@@ -1256,6 +1276,7 @@ de:
     grid_item:
       processing_uploaded_image: "(Hochgeladenes Bild wird verarbeitet...)"
     index:
+      price_on_request: "Auf Anfrage"
       no_listings_with_your_search_criteria: "Wir konnten keine passenden Suchergebnisse finden."
       no_listings_notification: "Keine Einträge. %{add_listing_link}."
       no_listings_notification_employee: "Es gibt noch keine Einträge."

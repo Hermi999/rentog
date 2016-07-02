@@ -72,13 +72,25 @@
 
   .col-10{style: "text-align: center;"}
     - shape = ListingShape.where(id: @listing.listing_shape).first
-    = link_to t(".back_to_filter"), cookies[:filter], id: "listing_back_button" if cookies[:filter] != ""
-    = "|" if cookies[:filter] != ""
-    = link_to t(".all_devices"), marketplace_path
-    = "|" if @listing.listing_shape
-    = link_to t(shape.name_tr_key), marketplace_path(transaction_type: shape.name) if shape
-    = "|" if @listing.category
-    = link_to @listing.category.display_name(I18n.locale), marketplace_path(category: @listing.category) if @listing.category
+
+    .row{style: "margin-bottom: 0px"}
+      - cols = 3
+      - if cookies[:filter] != ""
+        %div{class: "col-#{cols}", style: "border-right: 1px solid white;"}
+          = link_to t(".back_to_filter"), cookies[:filter], id: "listing_back_button"
+      - else
+        - cols += 1
+
+      %div{class: "col-#{cols}", style: "border-right: 1px solid white;"}
+        = link_to t(".all_devices"), marketplace_path
+
+      - if shape
+        %div{class: "col-#{cols}", style: "border-right: 1px solid white;"}
+          = link_to t(shape.name_tr_key), marketplace_path(transaction_type: shape.name)
+
+      - if @listing.category
+        %div{class: "col-#{cols}"}
+          = link_to @listing.category.display_name(I18n.locale), marketplace_path(category: @listing.category)
 
   .col-1{style: "text-align: center; font-weight: bold;"}
     - if listing_right
@@ -174,15 +186,25 @@
             = render :partial => "comment_form"
 
   %aside.col-4
+    - price_option = get_price_options(@listing)
     - if @listing.price && show_price
       .row
         .col-12
           .listing-price
-            %span.listing-price-amount
-              = humanized_money_with_symbol(@listing.price).upcase
-            - with_quantity_and_vat_text(@current_community, @listing) do |text|
-              %span.listing-price-quantity
-                = text
+            - if price_option[:val] && price_option[:val].include?("request")
+              %span.listing-price-amount
+                = t("homepage.index.price_on_request")
+            -else
+              %span.listing-price-amount
+                = humanized_money_with_symbol(@listing.price).upcase
+              - with_quantity_and_vat_text(@current_community, @listing) do |text|
+                %span.listing-price-quantity
+                  = text
+                - if price_option[:title]
+                  %br
+                  %span.listing-price-quantity
+                    = price_option[:title]
+
 
     / Listing actions
     .row-with-divider
