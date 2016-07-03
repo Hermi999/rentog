@@ -72,6 +72,7 @@ When /^I add a new custom field "(.*?)"$/ do |field_name|
     And I fill in "custom_field[name_attributes][en]" with "#{field_name}"
     And I fill in "custom_field[name_attributes][fi]" with "Talon tyyppi"
     And I toggle category "Spaces"
+    And I toggle shape "selling"
     And I fill in "custom_field[option_attributes][new-1][title_attributes][en]" with "Room"
     And I fill in "custom_field[option_attributes][new-1][title_attributes][fi]" with "Huone"
     And I fill in "custom_field[option_attributes][new-2][title_attributes][en]" with "Appartment"
@@ -101,6 +102,7 @@ When /^I add a new numeric field "(.*?)" with min value (\d+) and max value (\d+
     And I fill in "custom_field[name_attributes][en]" with "#{field_name}"
     And I fill in "custom_field[name_attributes][fi]" with "Pinta-ala"
     And I toggle category "Spaces"
+    And I toggle shape "selling"
     And I set numeric field min value to #{min}
     And I set numeric field max value to #{max}
     And I press submit
@@ -113,6 +115,7 @@ When /^I add a new date field "(.*?)"$/ do |field_name|
     And I fill in "custom_field[name_attributes][en]" with "#{field_name}"
     And I fill in "custom_field[name_attributes][fi]" with "aika"
     And I toggle category "Spaces"
+    And I toggle shape "selling"
     And I press submit
   }
 end
@@ -125,6 +128,7 @@ When /^I add a new custom field "(.*?)" with invalid data$/ do |field_name|
     And I fill in "custom_field[option_attributes][new-1][title_attributes][fi]" with "Huone"
     And I fill in "custom_field[option_attributes][new-2][title_attributes][en]" with "Appartment"
     And I follow "custom-fields-add-option"
+    And I toggle shape "selling"
     And I fill in "custom_field[option_attributes][jsnew-1][title_attributes][en]" with "House"
     And I fill in "custom_field[option_attributes][jsnew-1][title_attributes][fi]" with "Talo"
     And I press submit
@@ -145,6 +149,7 @@ When /^I add a new checkbox field Amenities$/ do
     And I fill in "custom_field[option_attributes][jsnew-2][title_attributes][en]" with "Hot Tub"
     And I fill in "custom_field[option_attributes][jsnew-2][title_attributes][fi]" with "Poreamme"
     And I toggle category "Spaces"
+    And I toggle shape "selling"
     And I press submit
   }
 end
@@ -161,6 +166,7 @@ When /^I add a new checkbox field Amenities with invalid data$/ do
     And I follow "custom-fields-add-option"
     And I fill in "custom_field[option_attributes][jsnew-2][title_attributes][en]" with "Hot Tub"
     And I fill in "custom_field[option_attributes][jsnew-2][title_attributes][fi]" with "Poreamme"
+    And I toggle shape "selling"
     And I press submit
   }
 end
@@ -281,7 +287,7 @@ Given /^there is a custom dropdown field "(.*?)" in community "(.*?)"(?: in cate
   end
 
   custom_field.save!
-  custom_field.listing_shapes << ListingShape.where(deleted: false).last
+  custom_field.listing_shapes << ListingShape.where(deleted: false)
 
   @custom_fields ||= []
   @custom_fields << custom_field

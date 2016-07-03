@@ -18,7 +18,7 @@ Feature: Admin adds a custom field
   @javascript
   Scenario: Admin adds custom field with invalid data
     When I add a new custom field "House type" with invalid data
-    Then I should see 4 validation errors
+    Then I should see 3 validation errors
 
   @javascript
   Scenario: Admin adds numeric field
@@ -38,7 +38,7 @@ Feature: Admin adds a custom field
   @javascript
   Scenario: Admin adds checkbox field with invalid data
     When I add a new checkbox field Amenities with invalid data
-    Then I should see 3 validation errors
+    Then I should see 2 validation errors
 
   @javascript
   Scenario: Admin adds date field
