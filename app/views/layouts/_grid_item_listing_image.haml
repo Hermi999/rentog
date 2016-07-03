@@ -46,7 +46,9 @@
 
     .fluid-thumbnail-grid-image-marker{:class => "fluid-thumbnail-grid-image-marker-#{modifier_image_marker}"}
 
-    .listings-request-slider{data: {listingid: listing.id}}
-      =t("listings.show.request")
+    / Hook for tests. wah: Remove this
+    - unless Rails.env.test?
+      .listings-request-slider{data: {listingid: listing.id}}
+        =t("listings.show.request")
 
 

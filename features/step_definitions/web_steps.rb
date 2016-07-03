@@ -78,6 +78,12 @@ When /^(?:|I )follow "([^"]*)"(?: within "([^"]*)")?$/ do |link, selector|
   end
 end
 
+When /^(?:|I )follow link "([^"]*)"(?: within "([^"]*)")?$/ do |link, selector|
+  with_scope(selector) do
+    find("a", text: link).click
+  end
+end
+
 When(/^I follow the first "(.*?)"$/) do |link|
   first(:link, link).click
 end

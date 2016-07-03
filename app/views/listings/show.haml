@@ -79,20 +79,20 @@
     .row{style: "margin-bottom: 0px"}
       - cols = 3
       - if cookies[:filter] != ""
-        %div{class: "col-#{cols}", style: "border-right: 1px solid white;"}
+        %div{class: "col-#{cols}", style: "border-right: 1px solid white; padding-left: 0px; padding-right: 0px;"}
           = link_to t(".back_to_filter"), cookies[:filter], id: "listing_back_button"
       - else
         - cols += 1
 
-      %div{class: "col-#{cols}", style: "border-right: 1px solid white;"}
+      %div{class: "col-#{cols}", style: "border-right: 1px solid white; padding-left: 0px; padding-right: 0px;"}
         = link_to t(".all_devices"), marketplace_path
 
       - if shape
-        %div{class: "col-#{cols}", style: "border-right: 1px solid white;"}
+        %div{class: "col-#{cols}", style: "border-right: 1px solid white; padding-left: 0px; padding-right: 0px;"}
           = link_to t(shape.name_tr_key), marketplace_path(transaction_type: shape.name)
 
       - if @listing.category
-        %div{class: "col-#{cols}"}
+        %div{class: "col-#{cols}", style: "padding-left: 0px; padding-right: 0px;"}
           = link_to @listing.category.display_name(I18n.locale), marketplace_path(category: @listing.category)
 
   .col-1{style: "text-align: center; font-weight: bold;"}

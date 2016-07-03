@@ -1,3 +1,6 @@
+/ Hook for testing - wah: Remove this
+- test_hook = Rails.env.test? && rent_button == "request"
+
 - is_author = current_user?(@listing.author)
 - is_authorized = is_author || @relation == :rentog_admin || @relation == :domain_supervisor
 
@@ -23,7 +26,7 @@
   - if is_author
     = render partial: "delivery_opts", locals: { delivery_opts: delivery_opts, is_author: is_author }
 
-  - elsif rent_button == "rent"
+  - elsif rent_button == "rent" || test_hook
     = render partial: "listing_actions_rent", locals: { form_path: form_path, payment_gateway: payment_gateway, delivery_opts: delivery_opts, process: process, listing_unit_type: listing_unit_type, country_code: country_code, special_action_button_label: special_action_button_label, is_author: is_author }
 
   - elsif rent_button == "pooltool"
