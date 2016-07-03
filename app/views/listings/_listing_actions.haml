@@ -1,6 +1,3 @@
-/ Hook for testing - wah: Remove this
-- test_hook = Rails.env.test? && rent_button == "request"
-
 - is_author = current_user?(@listing.author)
 - is_authorized = is_author || @relation == :rentog_admin || @relation == :domain_supervisor
 
@@ -9,14 +6,17 @@
     .listing-view-admin-link
       .icon-with-text-container
         = icon_tag("lock", ["icon-part"])
-        .text-part= t("listings.reply_link.listing_closed")
+        .text-part{style: "display: inline;"}= t("listings.reply_link.listing_closed")
     - if is_authorized
       .listing-view-admin-link
         %a.action-link{href: edit_listing_path(@listing)}
           .icon-with-text-container
             = icon_tag("unlock", ["icon-part"])
-            .text-part= t("listings.edit_links.reopen_listing")
+            .text-part{style: "display: inline;"}= t("listings.edit_links.reopen_listing")
 - else
+  / Hook for testing - wah: Remove this
+  - test_hook = Rails.env.test? && Maybe(rent_button).or_else("request") == "request"
+
   .row{style: "margin-top: 10px;"}
     .col-12
       .listing-social

@@ -72,7 +72,6 @@ When /^I add a new custom field "(.*?)"$/ do |field_name|
     And I fill in "custom_field[name_attributes][en]" with "#{field_name}"
     And I fill in "custom_field[name_attributes][fi]" with "Talon tyyppi"
     And I toggle category "Spaces"
-    And I toggle shape "selling"
     And I fill in "custom_field[option_attributes][new-1][title_attributes][en]" with "Room"
     And I fill in "custom_field[option_attributes][new-1][title_attributes][fi]" with "Huone"
     And I fill in "custom_field[option_attributes][new-2][title_attributes][en]" with "Appartment"
@@ -102,7 +101,6 @@ When /^I add a new numeric field "(.*?)" with min value (\d+) and max value (\d+
     And I fill in "custom_field[name_attributes][en]" with "#{field_name}"
     And I fill in "custom_field[name_attributes][fi]" with "Pinta-ala"
     And I toggle category "Spaces"
-    And I toggle shape "selling"
     And I set numeric field min value to #{min}
     And I set numeric field max value to #{max}
     And I press submit
@@ -115,7 +113,6 @@ When /^I add a new date field "(.*?)"$/ do |field_name|
     And I fill in "custom_field[name_attributes][en]" with "#{field_name}"
     And I fill in "custom_field[name_attributes][fi]" with "aika"
     And I toggle category "Spaces"
-    And I toggle shape "selling"
     And I press submit
   }
 end
@@ -148,7 +145,6 @@ When /^I add a new checkbox field Amenities$/ do
     And I fill in "custom_field[option_attributes][jsnew-2][title_attributes][en]" with "Hot Tub"
     And I fill in "custom_field[option_attributes][jsnew-2][title_attributes][fi]" with "Poreamme"
     And I toggle category "Spaces"
-    And I toggle shape "selling"
     And I press submit
   }
 end
@@ -177,6 +173,7 @@ Given /^there is a custom field "(.*?)" in community "(.*?)" for category "(.*?)
     :category_custom_fields => [FactoryGirl.build(:category_custom_field, :category => find_category_by_name(category_name), :custom_field => @custom_field)],
   })
   @custom_field.save
+  @custom_field.listing_shapes << ListingShape.where(deleted: false).last
 end
 
 Given /^there is a numeric field "(.*?)" in community "(.*?)" for category "(.*?)" with min value "(.*?)" and max value "(.*?)"$/ do |name, community, category_name, min, max|
@@ -189,6 +186,7 @@ Given /^there is a numeric field "(.*?)" in community "(.*?)" for category "(.*?
     :max => max.to_i
   })
   @custom_field.save
+  @custom_field.listing_shapes << ListingShape.where(deleted: false).last
 end
 
 When /^I change custom field "(.*?)" name to "(.*?)"$/ do |old_name, new_name|
@@ -283,6 +281,7 @@ Given /^there is a custom dropdown field "(.*?)" in community "(.*?)"(?: in cate
   end
 
   custom_field.save!
+  custom_field.listing_shapes << ListingShape.where(deleted: false).last
 
   @custom_fields ||= []
   @custom_fields << custom_field
@@ -309,6 +308,7 @@ Given /^there is a custom text field "(.*?)" in community "(.*?)"(?: in category
   end
 
   custom_field.save!
+  custom_field.listing_shapes << ListingShape.where(deleted: false).last
 
   @custom_fields ||= []
   @custom_fields << custom_field
@@ -325,6 +325,7 @@ Given(/^there is a custom numeric field "(.*?)" in that community in category "(
   custom_field.category_custom_fields.build(:category => category)
 
   custom_field.save!
+  custom_field.listing_shapes << ListingShape.where(deleted: false).last
 
   @custom_fields ||= []
   @custom_fields << custom_field
@@ -339,6 +340,7 @@ Given(/^there is a custom date field "(.*?)" in that community in category "(.*?
   custom_field.category_custom_fields.build(:category => category)
 
   custom_field.save!
+  custom_field.listing_shapes << ListingShape.where(deleted: false).last
 
   @custom_fields ||= []
   @custom_fields << custom_field
