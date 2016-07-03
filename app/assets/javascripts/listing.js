@@ -1,4 +1,4 @@
-/* globals console, readCookie, writeCookie */
+/* globals console, readCookie, createCookie */
 
 window.ST = window.ST || {};
 
