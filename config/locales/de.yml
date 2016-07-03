@@ -1790,6 +1790,7 @@ de:
     show:
       keyboard_nav_key: "Taste"
       keyboard_nav_action: "Aktion"
+      keyboard_nav_a: "Zeige alle Geräte"
       keyboard_nav_n: "Nächstes Gerät"
       keyboard_nav_p: "Vorheriges Gerät"
       keyboard_nav_b: "Zurück zum Filter"
@@ -1798,6 +1799,7 @@ de:
       listing_request_success: "Ihre Anfrage wurde versendet. <br><br>Der Verkäufer wird Sie in Kürze kontaktieren."
       limit_listing_requests: "Sie haben die maximale Anzahl an 25 Anfragen pro Tag erreicht."
       back_to_filter: "Zurück zu Ihrem Filter"
+      show_my_devices: "Zeige meine Geräte"
       all_devices: "Zeige alle Geräte"
       add_your_phone_number: "Füge deine Telefonnummer hinzu"
       add_profile_picture: "Profilbild hinzufügen"
@@ -1831,6 +1833,7 @@ de:
       processing_uploaded_image: "(Bild wird bearbeitet ...)"
       price_excludes_vat: "(ohne Mehrwertsteuer)"
       listing_created_at: "Eintrag erfolgreich erstellt"
+      description_of_sales_conditions: "Beschreibung der Verkaufsbedingungen:"
       price:
         per_quantity_unit: "pro %{quantity_unit}"
         per_day: "pro Tag"
@@ -2285,13 +2288,17 @@ de:
       first_name_only: "(wird anderen Benutzern nicht angezeigt)"
       location_description: "Du kannst entweder deinen exakten Standort oder nur deine Postleitzahl angeben. Bitte füge mindestens deine Postleitzahl hinzu. Du kannst auch einen Standort aus der Karte auswählen."
       phone_number: Telefonnummer
+      website: "Unternehmens-Website"
+      contact_email: "Verkauf-Kontakt-Email"
+      description_of_sales_conditions: "Beschreibung der Verkaufsbedingungen"
       location_alias: "Standortname"
       profile_picture: Profilbild
       postal_code: Postleitzahl
       profile_page: "auf deiner Profil-Seite"
       profilemap: Kartenansicht
       street_address: Standort
-      these_fields_are_shown_in_your: "Diese Informationen sind für alle %{service_name} Mitglieder sichtbar"
+      these_fields_are_shown_in_your: "Einige dieser Informationen sind sichtbar"
+      these_fields_are_shown_in_your2: "Die Profilseite ist am Marktplatz aktuell für andere %{service_name} Mitglieder nicht direkt zugreifbar jedoch sichtbar für den Fall das Sie ihre Profilseite mit anderen teilen möchten (Änderungen vorbehalten). Bei Pool Tool Benutzern ist die Profilseite für Mitarbeiter und befreundete Unternehmen/Abteilungen zugreifbar."
       visible_to_everybody: "für jeden sichtbar"
       visible_to_registered_users: "(sichtbar für angemeldete Benutzer)"
       default_in_listing: "(wird nur beim Erstellen eines neuen Eintrags als Standardeinstellung benutzt)"

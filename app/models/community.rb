@@ -583,20 +583,15 @@ class Community < ActiveRecord::Base
       valid_types.delete "email_about_new_listings_by_followed_people"
     end
 
-    # wah: If only PoolTool, do not display many options
-    if Community.first.only_pool_tool
-      valid_types.delete "email_about_payment_reminders"
-      valid_types.delete "email_about_new_comments_to_own_listing"
-      valid_types.delete "email_when_conversation_accepted"
-      valid_types.delete "email_when_conversation_rejected"
-      valid_types.delete "email_about_new_received_testimonials"
-      valid_types.delete "email_about_accept_reminders"
-      valid_types.delete "email_about_confirm_reminders"
-      valid_types.delete "email_about_testimonial_reminders"
-      valid_types.delete "email_about_completed_transactions"
-      valid_types.delete "email_about_new_payments"
-      valid_types.delete "email_about_new_listings_by_followed_people"
-    end
+    # wah: hide some at the moment
+    valid_types.delete "email_about_payment_reminders"
+    #valid_types.delete "email_about_new_received_testimonials"
+    #valid_types.delete "email_about_accept_reminders"
+    #valid_types.delete "email_about_confirm_reminders"
+    valid_types.delete "email_about_testimonial_reminders"
+    #valid_types.delete "email_about_completed_transactions"
+    valid_types.delete "email_about_new_payments"
+    #valid_types.delete "email_about_new_listings_by_followed_people"
 
     valid_types
   end

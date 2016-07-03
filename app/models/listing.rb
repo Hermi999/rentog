@@ -275,7 +275,9 @@ class Listing < ActiveRecord::Base
   # returns either of the following: "intern", "trusted", "all", nil
   def get_listing_marker
     type = get_listing_type
-    if type == "rent" || type == "sell"
+    if type == "sell"
+      nil
+    elsif type == "rent"
       "all"
     elsif type == "intern" || type == "trusted"
       type

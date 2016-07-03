@@ -23,6 +23,9 @@ class PeopleController < Devise::RegistrationsController
   helper_method :show_closed?
 
   def show
+    cookies.permanent[:listings] = @site_owner.listings.map(&:id)
+    cookies.permanent[:listings_mode] = "profile"
+
     raise PersonDeleted if @site_owner.deleted?
     PersonViewUtils.ensure_person_belongs_to_community!(@site_owner, @current_community)
 
@@ -461,6 +464,9 @@ class PeopleController < Devise::RegistrationsController
         :street_address,
         :phone_number,
         :main_product,
+        :description_of_sales_conditions,
+        :website,
+        :contact_email,
         :location_alias,
         :image,
         :description,

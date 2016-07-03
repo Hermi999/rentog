@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160702161917) do
+ActiveRecord::Schema.define(version: 20160703173411) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -1092,6 +1092,9 @@ ActiveRecord::Schema.define(version: 20160702161917) do
     t.integer  "credits",                            limit: 4,     default: 0
     t.boolean  "is_domain_supervisor",                             default: false
     t.boolean  "supervisor_mode_active",                           default: false
+    t.string   "description_of_sales_conditions",    limit: 255
+    t.string   "contact_email",                      limit: 255
+    t.string   "website",                            limit: 255
   end
 
   add_index "people", ["authentication_token"], name: "index_people_on_authentication_token", using: :btree

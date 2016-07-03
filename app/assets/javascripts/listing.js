@@ -17,6 +17,11 @@ window.ST = window.ST || {};
       if(document.activeElement.localName === "body"){
         console.log(ev.keyCode);
 
+        // a ... show all devices
+        if(ev.keyCode === 97){
+          window.location = $('#show-all-devices')[0].href;
+        }
+
         // b ... back to filter
         if(ev.keyCode === 98){
           window.location = $('#listing_back_button')[0].href;

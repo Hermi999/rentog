@@ -1351,7 +1351,7 @@ en:
       map_button: Map
       grid_button: Grid
       list_button: List
-      all_listing_types: "All listing types"
+      all_listing_types: "Renting + Selling"
       all_categories: "All categories"
     errors:
       search_engine_not_responding: "Search is currently unavailable. Try searching again soon."
@@ -1793,6 +1793,7 @@ en:
     show:
       keyboard_nav_key: "Key"
       keyboard_nav_action: "Action"
+      keyboard_nav_a: "Show all devices"
       keyboard_nav_n: "Next device"
       keyboard_nav_p: "Previous device"
       keyboard_nav_b: "Back to your filter"
@@ -1801,6 +1802,7 @@ en:
       listing_request_success: "Your request has been received. <br><br>The seller will get in contact with you shortly."
       limit_listing_requests: "You reached the maximum amount of 25 listing requests per day"
       back_to_filter: "Back to your filter"
+      show_my_devices: "Show my devices"
       all_devices: "Show all devices"
       add_your_phone_number: "Add your phone number"
       add_profile_picture: "Add profile picture"
@@ -1834,6 +1836,7 @@ en:
       processing_uploaded_image: "(Processing uploaded image...)"
       price_excludes_vat: "(excludes VAT)"
       listing_created_at: "Listing created"
+      description_of_sales_conditions: "Description of sales conditions:"
       price:
         per_quantity_unit: "per %{quantity_unit}"
         per_day: "per day"
@@ -2290,12 +2293,16 @@ en:
       location_description: "You can give either your exact location or, for example, only your zip code. Please add at least your zip code. You can also select a location from the map below."
       location_alias: "Location alias"
       phone_number: "Phone number"
+      website: "Company Website"
+      contact_email: "Sales contact email"
+      description_of_sales_conditions: "Description of sales conditions"
       profile_picture: "Profile picture"
       postal_code: "Postal code"
       profile_page: "in your profile page"
       profilemap: Mapview
       street_address: Location
-      these_fields_are_shown_in_your: "This information is visible to all %{service_name} users"
+      these_fields_are_shown_in_your: "This information is visible on your"
+      these_fields_are_shown_in_your2: "Your profile page is not direct accessible for other marketplace useres at the moment, but if you want you can actively share your profile page with others (Technical changes reserved). The profile page for Pool Tool users is directly accessible for employees and connected companies/departments."
       visible_to_everybody: "visible to everybody"
       visible_to_registered_users: "(visible to users that have logged in)"
       default_in_listing: "(used only as a default when creating a new listing)"

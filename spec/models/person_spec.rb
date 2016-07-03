@@ -48,6 +48,9 @@
 #  credits                            :integer          default(0)
 #  is_domain_supervisor               :boolean          default(FALSE)
 #  supervisor_mode_active             :boolean          default(FALSE)
+#  description_of_sales_conditions    :string(255)
+#  contact_email                      :string(255)
+#  website                            :string(255)
 #
 # Indexes
 #

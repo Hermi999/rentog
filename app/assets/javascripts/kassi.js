@@ -775,6 +775,7 @@ function initialize_request_listing_form(success_message) {
 
     // Focus listing details container. Not a text field. Otherwise keyboard events can not be triggered
     $('#listing_request_message').blur();
+    $('textarea').blur();
 }
 
 

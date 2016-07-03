@@ -4,6 +4,8 @@ class PoolToolController < ApplicationController
 
 
   def show
+    cookies.permanent[:listings_mode] = "pooltool"
+
     # Is admin or employee of company or domain supervisor (or rentog admin)?
     @belongs_to_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin || @relation == :domain_supervisor || @relation == :rentog_admin_own_site)
     @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site)
@@ -42,10 +44,12 @@ class PoolToolController < ApplicationController
                                       listing_author_organization_name: listing.author.organization_name,
                                       location_alias: Maybe(listing.location).location_alias.or_else(nil) || Maybe(listing.author.location).location_alias.or_else(nil) }
           end
+        cookies.permanent[:listings] = all_domain_listings.map(&:id)
       else
 
         # get the open listings of the pool owner (only trusted and global if visitor who does not belong to company)
         company_listings = get_pool_owners_open_listings
+        cookies.permanent[:listings] = company_listings.map(&:id)
 
         # If company admin wants it this way, then also show devices of companies who trust the owner in the pool tool
         if @belongs_to_company && Maybe(@site_owner.company_option).pool_tool_show_all_available_devices.or_else(false)

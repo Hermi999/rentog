@@ -179,7 +179,7 @@ Given /^there is a custom field "(.*?)" in community "(.*?)" for category "(.*?)
     :category_custom_fields => [FactoryGirl.build(:category_custom_field, :category => find_category_by_name(category_name), :custom_field => @custom_field)],
   })
   @custom_field.save
-  @custom_field.listing_shapes << ListingShape.where(deleted: false).last
+  @custom_field.listing_shapes += ListingShape.where(deleted: false)
 end
 
 Given /^there is a numeric field "(.*?)" in community "(.*?)" for category "(.*?)" with min value "(.*?)" and max value "(.*?)"$/ do |name, community, category_name, min, max|
@@ -192,7 +192,7 @@ Given /^there is a numeric field "(.*?)" in community "(.*?)" for category "(.*?
     :max => max.to_i
   })
   @custom_field.save
-  @custom_field.listing_shapes << ListingShape.where(deleted: false).last
+  @custom_field.listing_shapes += ListingShape.where(deleted: false)
 end
 
 When /^I change custom field "(.*?)" name to "(.*?)"$/ do |old_name, new_name|
@@ -314,7 +314,7 @@ Given /^there is a custom text field "(.*?)" in community "(.*?)"(?: in category
   end
 
   custom_field.save!
-  custom_field.listing_shapes << ListingShape.where(deleted: false).last
+  custom_field.listing_shapes += ListingShape.where(deleted: false)
 
   @custom_fields ||= []
   @custom_fields << custom_field
@@ -331,7 +331,7 @@ Given(/^there is a custom numeric field "(.*?)" in that community in category "(
   custom_field.category_custom_fields.build(:category => category)
 
   custom_field.save!
-  custom_field.listing_shapes << ListingShape.where(deleted: false).last
+  custom_field.listing_shapes += ListingShape.where(deleted: false)
 
   @custom_fields ||= []
   @custom_fields << custom_field
@@ -346,7 +346,7 @@ Given(/^there is a custom date field "(.*?)" in that community in category "(.*?
   custom_field.category_custom_fields.build(:category => category)
 
   custom_field.save!
-  custom_field.listing_shapes << ListingShape.where(deleted: false).last
+  custom_field.listing_shapes += ListingShape.where(deleted: false)
 
   @custom_fields ||= []
   @custom_fields << custom_field

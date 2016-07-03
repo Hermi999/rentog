@@ -377,8 +377,12 @@ $listing-author-avatar-height: 108;
   .col-10{
     padding: 10px 5px;
   }
+  .col-3, .col-4{
+    overflow: hidden;
+  }
 
   a{
+    white-space: nowrap;
     padding: 10px 5px;
     color: white;
 

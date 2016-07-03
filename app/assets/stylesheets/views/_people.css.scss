@@ -103,13 +103,12 @@ $profile-pic-gutter-mobile: lines(0.5);
 
 
 .listing-legend-wrapper{
-  margin-bottom: 25px;
-  margin-top:-15px;
+  margin-bottom: 30px;
+  margin-top: -30px;
   background-color: rgba(202, 202, 202, 0.58);
-  border-radius: 10px;
-  padding: 3px 15px;
-  border: 2px inset;
-  opacity: 0.90;
+  padding: 6px 6px;
+  border-radius: 0 0 8px 8px;
+  opacity: 0.8;
 }
 .listing-legend-header{
   font-size: 0.8em;

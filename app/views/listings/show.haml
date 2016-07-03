@@ -42,6 +42,9 @@
       %th= t(".keyboard_nav_action")
   %tbody
     %tr
+      %td= "a"
+      %td= t(".keyboard_nav_a")
+    %tr
       %td= "n"
       %td= t(".keyboard_nav_n")
     %tr
@@ -60,6 +63,7 @@
 
 / Listing navigation
 .row#listing_navigation
+  - listing_type = Listing.get_listing_type(@listing)
   - listing_ids = Maybe(cookies[:listings]).split("&").or_else([])
   - listing_index = listing_ids.find_index(@listing.id.to_s)
   - if listing_index
@@ -78,22 +82,43 @@
 
     .row{style: "margin-bottom: 0px"}
       - cols = 3
-      - if cookies[:filter] != ""
+
+      / Back to your filter
+      - if cookies[:filter] && cookies[:filter] != "" && cookies[:listings_mode] != "pooltool" && cookies[:listings_mode] != "profile"
         %div{class: "col-#{cols}", style: "border-right: 1px solid white; padding-left: 0px; padding-right: 0px;"}
           = link_to t(".back_to_filter"), cookies[:filter], id: "listing_back_button"
       - else
         - cols += 1
 
-      %div{class: "col-#{cols}", style: "border-right: 1px solid white; padding-left: 0px; padding-right: 0px;"}
-        = link_to t(".all_devices"), marketplace_path
+      / All devices
+      - if cookies[:listings_mode] != "pooltool" && cookies[:listings_mode] != "profile"
+        - alldevs_link = marketplace_path
 
+        %div{class: "col-#{cols}", style: "border-right: 1px solid white; padding-left: 0px; padding-right: 0px;"}
+          = link_to t(".all_devices"), alldevs_link, id: "show-all-devices"
+
+        / Show my devices
+      - elsif cookies[:listings_mode] == "profile"
+        - alldevs_link = person_path(@current_user)
+
+        %div{class: "col-#{cols}", style: "border-right: 1px solid white; padding-left: 0px; padding-right: 0px;"}
+          = link_to t(".show_my_devices"), alldevs_link, id: "show-all-devices"
+
+      / Shape name
       - if shape
         %div{class: "col-#{cols}", style: "border-right: 1px solid white; padding-left: 0px; padding-right: 0px;"}
-          = link_to t(shape.name_tr_key), marketplace_path(transaction_type: shape.name)
+          - if listing_type != "intern" && listing_type != "trusted" && cookies[:listings_mode] != "pooltool" && cookies[:listings_mode] != "profile"
+            = link_to t(shape.name_tr_key), marketplace_path(transaction_type: shape.name)
+          - else
+            = t(shape.name_tr_key)
 
+      / Category name
       - if @listing.category
         %div{class: "col-#{cols}", style: "padding-left: 0px; padding-right: 0px;"}
-          = link_to @listing.category.display_name(I18n.locale), marketplace_path(category: @listing.category)
+          - if listing_type != "intern" && listing_type != "trusted" && cookies[:listings_mode] != "pooltool" && cookies[:listings_mode] != "profile"
+            = link_to @listing.category.display_name(I18n.locale), marketplace_path(category: @listing.category)
+          - else
+            = @listing.category.display_name(I18n.locale)
 
   .col-1{style: "text-align: center; font-weight: bold;"}
     - if listing_right
@@ -155,12 +180,22 @@
                     = icon_tag("terms", ["icon-with-text"])
                     = attachm.attachment_file_name
 
+    / Listing attributes
     - @listing.custom_field_values.each do |custom_field_value|
       .row.listing_attribute
         .col-12
           - custom_field_value.with_type do |question_type|
             = render :partial => "listings/custom_field_partials/#{question_type}", :locals => { :custom_field_value => custom_field_value }
 
+    / Description of Sales conditions
+    - unless @listing.author.description_of_sales_conditions.nil?
+      .row.listing_attribute
+        .col-12
+          %span.listing_attribute_question= t(".description_of_sales_conditions")
+          = @listing.author.description_of_sales_conditions
+
+
+    / Listing published date
     - if @current_community.show_listing_publishing_date? || @relation == :rentog_admin || @relation == :rentog_admin_own_site || @relation == :company_admin_own_site || @relation == :domain_supervisor || @relation == :company_employee
       .row.listing_attribute.listing_published_date
         .col-12
@@ -173,6 +208,8 @@
 
     %div{style:"clear: both;"}
 
+
+    / Discussion
     - unless (@listing.closed? && !current_user?(@listing.author)) || !@current_community.listing_comments_in_use
       .view-item
         #comments.discussion.overflow-allowed
