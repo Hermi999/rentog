@@ -60,11 +60,14 @@
 
 / Listing navigation
 .row#listing_navigation
-  - listing_ids = cookies[:listings].split("&")
+  - listing_ids = Maybe(cookies[:listings]).split("&").or_else([])
   - listing_index = listing_ids.find_index(@listing.id.to_s)
-  - listing_left = listing_ids[listing_index-1] if listing_index > 0
-  - listing_right = listing_ids[listing_index+1]
-  - forelast_listing = true if listing_index+1 == listing_ids.length - 1
+  - if listing_index
+    - listing_left = listing_ids[listing_index-1] if listing_index > 0
+    - listing_right = listing_ids[listing_index+1]
+    - forelast_listing = true if listing_index+1 == listing_ids.length - 1
+  - else
+    - forelast_listing = false
 
   .col-1{style: "text-align: center; font-weight: bold;"}
     - if listing_left

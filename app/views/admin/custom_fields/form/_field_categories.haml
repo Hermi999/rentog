@@ -36,5 +36,5 @@
   .custom-field-listing-shapes-container.clearfix#custom-field-listing-shapes-container
     - ListingShape.where(deleted: 0).each do |shape|
       .custom-field-listing-shapes-checkbox-container
-        = check_box_tag "custom_field[listingshape_attributes][][listing_shape_id]", "#{shape.id}", @custom_field.listing_shapes.include?(shape), :id => "#{shape.id}_checkbox", :class => "custom-field-listing-shape-checkbox"
+        = check_box_tag "custom_field[listingshape_attributes][][listing_shape_id]", "#{shape.id}", @custom_field.listing_shapes.include?(shape), :id => "#{shape.id}_checkbox_shape", :class => "custom-field-listing-shape-checkbox"
         = label_tag "#{shape.id}_checkbox_shape", shape.name, :class => "custom-field-listing-shape-checkbox-label"

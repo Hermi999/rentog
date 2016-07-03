@@ -10,9 +10,6 @@ window.ST.initializeCustomFieldsSelectionClickHandlers = function() {
   $(".deselect-all").click(function() {
     $(".custom-field-category-checkbox").prop("checked", false);
   });
-};
-
-window.ST.initializeCustomFieldsSelectionClickHandlers = function() {
   $(".select-all-listing-shapes").click(function() {
     $(".custom-field-listing-shape-checkbox").prop("checked", true);
   });
@@ -20,6 +17,7 @@ window.ST.initializeCustomFieldsSelectionClickHandlers = function() {
     $(".custom-field-listing-shape-checkbox").prop("checked", false);
   });
 };
+
 
 /**
   Custom field order manager.

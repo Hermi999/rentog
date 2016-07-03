@@ -1524,12 +1524,16 @@ function initialize_admin_listing_field_form_view(locale, form_id, option_count,
 
   var $form = $(form_id);
   var CATEGORY_CHECKBOX_NAME = "custom_field[category_attributes][][category_id]";
+  var LISTINGSHAPE_CHECKBOX_NAME = "custom_field[listingshape_attributes][][listing_shape_id]";
   var MIN_NAME = "custom_field[min]";
   var MAX_NAME = "custom_field[max]";
   var DECIMAL_CHECKBOX = "custom_field[allow_decimals]";
 
   var rules = {}
   rules[CATEGORY_CHECKBOX_NAME] = {
+    required: true
+  };
+  rules[LISTINGSHAPE_CHECKBOX_NAME] = {
     required: true
   };
   rules[MIN_NAME] = {

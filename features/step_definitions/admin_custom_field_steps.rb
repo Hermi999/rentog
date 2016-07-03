@@ -62,12 +62,17 @@ When /^I toggle category "(.*?)"$/ do |category|
   find(:css, "label", :text => category).click()
 end
 
+When /^I toggle shape "(.*?)"$/ do |listing_shape|
+  first(:css, "label", :text => listing_shape).click()
+end
+
 When /^I add a new custom field "(.*?)"$/ do |field_name|
   steps %Q{
     When I select "Dropdown" from "field_type"
     And I fill in "custom_field[name_attributes][en]" with "#{field_name}"
     And I fill in "custom_field[name_attributes][fi]" with "Talon tyyppi"
     And I toggle category "Spaces"
+    And I toggle shape "selling"
     And I fill in "custom_field[option_attributes][new-1][title_attributes][en]" with "Room"
     And I fill in "custom_field[option_attributes][new-1][title_attributes][fi]" with "Huone"
     And I fill in "custom_field[option_attributes][new-2][title_attributes][en]" with "Appartment"
@@ -97,6 +102,7 @@ When /^I add a new numeric field "(.*?)" with min value (\d+) and max value (\d+
     And I fill in "custom_field[name_attributes][en]" with "#{field_name}"
     And I fill in "custom_field[name_attributes][fi]" with "Pinta-ala"
     And I toggle category "Spaces"
+    And I toggle shape "selling"
     And I set numeric field min value to #{min}
     And I set numeric field max value to #{max}
     And I press submit
@@ -109,6 +115,7 @@ When /^I add a new date field "(.*?)"$/ do |field_name|
     And I fill in "custom_field[name_attributes][en]" with "#{field_name}"
     And I fill in "custom_field[name_attributes][fi]" with "aika"
     And I toggle category "Spaces"
+    And I toggle shape "selling"
     And I press submit
   }
 end
@@ -141,6 +148,7 @@ When /^I add a new checkbox field Amenities$/ do
     And I fill in "custom_field[option_attributes][jsnew-2][title_attributes][en]" with "Hot Tub"
     And I fill in "custom_field[option_attributes][jsnew-2][title_attributes][fi]" with "Poreamme"
     And I toggle category "Spaces"
+    And I toggle shape "selling"
     And I press submit
   }
 end
