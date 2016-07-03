@@ -32,8 +32,8 @@ class ListingRequest < ActiveRecord::Base
   validates :ip_address, presence: true
   validates :last1name, absence: true
   validates :listing_id, :name, :email, :country, presence: true
-  validates :contact_per_phone, presence:true, allow_blank: true
-  validates :get_further_docs, presence:true, allow_blank: true
-  validates :get_price_list, presence:true, allow_blank: true
-  validates :get_quotation, presence:true, allow_blank: true
+  validates :contact_per_phone, presence: true, allow_blank: true
+  validates :get_further_docs, presence: true, allow_blank: true
+  validates :get_price_list, presence: true, allow_blank: true
+  validates :get_quotation, presence: true, allow_blank: true
 end

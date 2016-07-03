@@ -1,3 +1,5 @@
+/* globals console, readCookie, writeCookie */
+
 window.ST = window.ST || {};
 
 (function(module) {
@@ -16,17 +18,17 @@ window.ST = window.ST || {};
         console.log(ev.keyCode);
 
         // b ... back to filter
-        if(ev.keyCode == 98){
+        if(ev.keyCode === 98){
           window.location = $('#listing_back_button')[0].href;
         }
 
         // p ... previous
-        if(ev.keyCode == 112){
+        if(ev.keyCode === 112){
           window.location = $('#listing-nav-left')[0].href;
         }
 
         // n ... next
-        if(ev.keyCode == 110){
+        if(ev.keyCode === 110){
           window.location = $('#listing-nav-right')[0].href;
         }
       }
@@ -43,10 +45,10 @@ window.ST = window.ST || {};
 
       if ($('#listing-nav-right').data("forelast-listing") === true){
 
-      var jqxhr = $.get( location.protocol + "//" + location.host + "/marketplace?view=list&getListingIds=true&page=" + (current_page+1), function(data) {
+      $.get( location.protocol + "//" + location.host + "/marketplace?view=list&getListingIds=true&page=" + (current_page+1), function(data) {
         var listings = readCookie("listings");
-        for (i in data.listing_ids){
-          listings += "&" + listing_ids[i];
+        for (var i in data.listing_ids){
+          listings += "&" + data.listing_ids[i];
         }
         createCookie("listings", listings, 999);
         createCookie("current_page", current_page + 1, 999);
