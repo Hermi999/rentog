@@ -50,7 +50,7 @@
   - content_for :title_header do
     %h1= title
 
-  = link_to t("listings.form.add_more_fields"), url_for(params.merge(:edit_custom_fields => 1)), class: "js-form-edit-custom-fields hidden"
+  = link_to t("listings.form.add_more_fields").html_safe, url_for(params.merge(:edit_custom_fields => 1)), class: "js-form-edit-custom-fields hidden"
 
   #new_listing_form.new-listing-form.centered-section
 

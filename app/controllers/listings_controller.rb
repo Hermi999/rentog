@@ -339,6 +339,8 @@ class ListingsController < ApplicationController
     get_relation
     @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site)
 
+    @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").first).custom_field_id.to_i.or_else(nil)
+
     category_tree = CategoryViewUtils.category_tree(
       categories: ListingService::API::Api.categories.get_all(community_id: @current_community.id)[:data],
       shapes: get_shapes,
@@ -375,6 +377,7 @@ class ListingsController < ApplicationController
 
 
   def edit_form_content
+
     return redirect_to action: :edit unless request.xhr?
 
     @site_owner = Person.where(id: params[:person_id]).first || @current_user
@@ -391,6 +394,9 @@ class ListingsController < ApplicationController
 
 
   def create
+    # wah: Check if Manufacturer field is empty, if yes -> create a new Manufacturer in db
+    handle_manufacturer
+
     # set listing author to site owner if admin or supervisor create listing
     get_relation
     if @relation == :rentog_admin || @relation == :domain_supervisor
@@ -485,6 +491,9 @@ class ListingsController < ApplicationController
   end
 
   def edit
+    @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").first).custom_field_id.to_i.or_else(nil)
+    @js_content_for = true
+
     get_relation
 
     initialize_user_plan_restrictions
@@ -531,6 +540,9 @@ class ListingsController < ApplicationController
   end
 
   def update
+    # wah: Check if Manufacturer field is empty, if yes -> create a new Manufacturer in db
+    handle_manufacturer
+
     params[:listing].delete("person_id")  # this is only needed for creating a new device as an admin or supervisor
 
     # delete custom listing origin if user has cleared the field
@@ -735,6 +747,8 @@ class ListingsController < ApplicationController
   end
 
   def form_content
+    @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").first).custom_field_id.to_i.or_else(nil)
+
     shape = get_shape(Maybe(params)[:listing_shape].to_i.or_else(nil))
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: shape[:transaction_process_id])
 
@@ -1254,5 +1268,23 @@ class ListingsController < ApplicationController
   def get_relation
     @site_owner = Maybe(@listing).author.or_else(nil) || Person.where(id: params[:person_id]).first || @current_user
     @relation = get_site_owner_visitor_relation(@site_owner, @current_user)
+  end
+
+  # wah
+  def handle_manufacturer
+    @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").first).custom_field_id.to_i.or_else(nil)
+    if params[:custom_fields][@hersteller_field_id.to_s] == ""
+      unless params[:manufacturer_temp].empty?
+        last_sort_prio = CustomFieldOption.where(custom_field_id: @hersteller_field_id).order(:sort_priority).last.sort_priority
+        new_custom_field_option = CustomFieldOption.new(custom_field_id: @hersteller_field_id, sort_priority: last_sort_prio + 1)
+        new_custom_field_option_title = CustomFieldOptionTitle.create(:locale => "en", :value => params[:manufacturer_temp])
+        new_custom_field_option.titles << new_custom_field_option_title
+        new_custom_field_option.save
+        new_custom_field_option_title.update_attribute(:custom_field_option_id, new_custom_field_option.id)
+
+        params[:custom_fields][@hersteller_field_id.to_s] = new_custom_field_option.id
+      end
+    end
+    params.delete("manufacturer_temp")
   end
 end

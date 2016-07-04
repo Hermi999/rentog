@@ -1,0 +1,14 @@
+- selected = Maybe(custom_field_value).selected_options.map { |selections| selections.first }.id.or_else(nil)
+- default = [t(".select_one___"), nil]
+- options = options_for_select([default] + custom_field.options.sort.collect { |opt| [opt.title(I18n.locale), opt.id] }, selected)
+= select "custom_fields", "#{custom_field.id}", options, {}, :class => " hidden"
+
+- value = custom_field_value ? custom_field_value.text_value : ""
+= text_field_tag "manufacturer_temp", value, :class => (custom_field.required? ? "required" : "")
+
+/ At the moment we need the js code twice: once for a new listing (with lazy loading) and once for an existing one
+- if @js_content_for
+  - content_for :extra_javascript do
+    = render :partial => "listings/form/custom_field_partials/dropdown_with_autocomplete_js", :locals => { :custom_field => custom_field }
+- else
+  = render :partial => "listings/form/custom_field_partials/dropdown_with_autocomplete_js", :locals => { :custom_field => custom_field }

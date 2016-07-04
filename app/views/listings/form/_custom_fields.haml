@@ -16,6 +16,13 @@
 
         - else
           - if custom_field.required || custom_field.companies.where(:id => @site_owner.id).first
+
             / Show custom field. But only if its required or the company has activated it
             = label "custom_fields", "#{custom_field.id}".to_sym, "#{custom_field.name(I18n.locale)}#{custom_field.required ? '*' : ''}"
-            = render :partial => "listings/form/custom_field_partials/#{field_type}", :locals => { :custom_field => custom_field, :custom_field_value => listing.answer_for(custom_field) }
+
+            / If manufacturer custom field
+            - if custom_field.id == @hersteller_field_id
+              = render :partial => "listings/form/custom_field_partials/dropdown_with_autocomplete", :locals => { :custom_field => custom_field, :custom_field_value => listing.answer_for(custom_field) }
+
+            - else
+              = render :partial => "listings/form/custom_field_partials/#{field_type}", :locals => { :custom_field => custom_field, :custom_field_value => listing.answer_for(custom_field) }

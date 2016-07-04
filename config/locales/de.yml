@@ -1595,7 +1595,7 @@ de:
     cannot_book: "Dieses Gerät kann nur von Rentog Benutzern gebucht werden, denen der Vermieter <b>vertraut</b> sind.<br> Kontaktiere den Vermieter und bitte ihm dir oder deinem Gerätepool zu <b>vertrauen</b>."
     form:
       enable_custom_fields: "Aktivieren & deaktivieren von Feldern"
-      add_more_fields: "+ Füge weitere Attribute hinzu"
+      add_more_fields: "+ Füge weitere Attribute zu diesem Eintragstyp hinzu"
       return_from_custom_fields: "<< Zurück"
       save_custom_fields: Speichern
       non_market_listings_limit_reached: "Sie haben das Limit für private Geräte mit Ihrem aktuellen Account Typ erreicht. Jetzt Account upgraden!"

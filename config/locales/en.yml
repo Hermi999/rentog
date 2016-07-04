@@ -1598,7 +1598,7 @@ en:
     cannot_book: "This listing can only be booked by users the owner <b>trusts</b>.<br> Please contact the owner and ask him to trust you or your device pool."
     form:
       enable_custom_fields: "Enable & disable custom fields"
-      add_more_fields: "+ Add more attributes"
+      add_more_fields: "+ Add more attributes for this listing type"
       return_from_custom_fields: "<< Return"
       save_custom_fields: Save
       non_market_listings_limit_reached: "You have reached your current limit for private devices. Upgrade your account now!"
