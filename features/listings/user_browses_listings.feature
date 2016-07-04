@@ -44,7 +44,7 @@ Feature: User browses listings
     And I should not see "saw"
     And I should not see "axe"
     And I should not see "toolbox"
-    When I choose to view only listing shape "All listing types"
+    When I choose to view only listing shape "Renting + Selling"
     And I should not see "car spare parts"
     And I should see "massage"
     And I should see "Helsinki - Turku"
@@ -94,7 +94,7 @@ Feature: User browses listings
     And I should not see "saw"
     And I should not see "axe"
     And I should not see "toolbox"
-    When I choose to view only listing shape "All listing types"
+    When I choose to view only listing shape "Renting + Selling"
     And I should not see "car spare parts"
     And I should see "massage"
     And I should see "Helsinki - Turku"
@@ -130,7 +130,7 @@ Feature: User browses listings
     And the Listing indexes are processed
 
     When I am on the marketplace page
-    When I choose to view only listing shape "All listing types"
+    When I choose to view only listing shape "Renting + Selling"
 
     Then I should see "items_all_requesting"
     And I should see "items_all_renting"
@@ -174,7 +174,7 @@ Feature: User browses listings
     And the Listing indexes are processed
 
     When I am on the restricted marketplace
-    When I choose to view only listing shape "All listing types"
+    When I choose to view only listing shape "Renting + Selling"
 
     Then I should not see "items_all_requesting"
     And I should not see "items_all_renting"

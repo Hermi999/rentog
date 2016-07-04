@@ -43,7 +43,7 @@ Feature: User views a single listing
     When I go to the listing page
     Then I should not see "services_intern_requesting"
     And I should see "You are not authorized to view this content"
-    And I should see "All listing types"
+    And I should see "Renting + Selling"
 
   @only_without_asi
   Scenario: Untrusted Company tries to view an intern listing
@@ -59,7 +59,7 @@ Feature: User views a single listing
     When I go to the listing page
     Then I should not see "services_intern_requesting"
     And I should see "You are not authorized to view this content"
-    And I should see "All listing types"
+    And I should see "Renting + Selling"
 
 
 

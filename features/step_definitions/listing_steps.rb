@@ -173,6 +173,7 @@ Given(/^there is a custom checkbox field "(.*?)" in that community in category "
   @category = find_category_by_name(category_name)
   @custom_field = FactoryGirl.build(:custom_checkbox_field, :community => @current_community, :names => [CustomFieldName.create(:value => field_title, :locale => "en")])
   @custom_field.category_custom_fields << FactoryGirl.build(:category_custom_field, :category => @category, :custom_field => @custom_field)
+  @custom_field.listing_shapes = ListingShape.where(:deleted => false)
 
   opts_table.hashes.each do |hash|
     title = CustomFieldOptionTitle.create(:value => hash[:title], :locale => "en")
