@@ -319,8 +319,32 @@ function initialize_defaults(locale) {
         listings = existing_listing_ids + "&" + listing_id;
         createCookie("wishlist", listings, 9999);
         ST.js_notifications.triggerNotification("success", "Done!");
+      }else{
+        ST.js_notifications.triggerNotification("warning", "Already there!");
       }
     }
+  });
+
+  $('.remove-from-wishlist').click(function(ev){
+    ev.preventDefault();
+
+    var listing_id = $(ev.currentTarget).data("listing-id");
+    var listings = "";
+    var existing_listing_ids = readCookie("wishlist");
+
+    existing_listing_ids_arr = existing_listing_ids.split("&");
+
+    for(var i in existing_listing_ids_arr){
+      if (Number(existing_listing_ids_arr[i]) === listing_id){
+        existing_listing_ids_arr.splice(Number(i), 1);
+        ST.js_notifications.triggerNotification("success", "Done!");
+        createCookie("wishlist", existing_listing_ids_arr.join("&"), 9999);
+        return;
+      }
+    }
+
+    ST.js_notifications.triggerNotification("alert", "Already removed!");
+
   });
 
 

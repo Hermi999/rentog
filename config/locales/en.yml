@@ -1330,6 +1330,7 @@ en:
       from: from
       shipment_to: "Shipment to"
       wishlist: "Add to list"
+      remove_from_wishlist: "Remove from list"
       listing_request: "Quotation/Question"
     news_item:
       show_less: "Show less"
@@ -1353,6 +1354,7 @@ en:
       list_button: List
       all_listing_types: "Renting + Selling"
       goto_wishlist: "Go to wishlist..."
+      return_to_marketplace: "Return to marketplace..."
       all_categories: "All categories"
     errors:
       search_engine_not_responding: "Search is currently unavailable. Try searching again soon."

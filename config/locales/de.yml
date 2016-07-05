@@ -1326,7 +1326,8 @@ de:
       reviews: Bewertungen
       from: aus
       shipment_to: "Versand nach"
-      wishlist: "<span class='hide-on-small-desktop'>Auf den </span>Merkzettel"
+      wishlist: "+ Merkzettel"
+      remove_from_wishlist: "- Merkzettel"
       listing_request: "Anfrage"
     news_item:
       show_less: "Weniger anzeigen"
@@ -1350,6 +1351,7 @@ de:
       list_button: Liste
       all_listing_types: "Verkaufen + Vermieten"
       goto_wishlist: "Gehe zum Merkzettel..."
+      return_to_marketplace: "Zurück zum Marktplatz..."
       all_categories: "Alle Kategorien"
     errors:
       search_engine_not_responding: "Die Suchfunktion ist derzeit nicht verfügbar. Bitte versuche es später noch einmal."

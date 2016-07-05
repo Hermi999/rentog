@@ -5,7 +5,7 @@ class HomepageController < ApplicationController
   before_filter :save_current_path, :except => :sign_in
 
   APP_DEFAULT_VIEW_TYPE = "grid"
-  VIEW_TYPES = ["grid", "list", "map"]
+  VIEW_TYPES = ["grid", "list", "map", "wishlist"]
 
 
   def index
@@ -16,6 +16,7 @@ class HomepageController < ApplicationController
     @shipment_field_id = Maybe(CustomFieldName.where(:value => "Shipment to").first).custom_field_id.to_i.or_else(nil)
     @price_options_field_id = Maybe(CustomFieldName.where(:value => "Price options").first).custom_field_id.to_i.or_else(nil)
 
+    @wishlist_listings = cookies[:wishlist].split("&")
 
     @homepage = true
     @restrictedMarketplace = params[:restrictedMarketplace]
@@ -64,11 +65,18 @@ class HomepageController < ApplicationController
         [:author, :listing_images, :num_of_reviews]
       when "map"
         [:author, :location]
+      when "wishlist"
+        [:author, :listing_images]
       else
         raise ArgumentError.new("Unknown view_type #{@view_type}")
       end
 
-    search_result = find_listings(params, per_page, compact_filter_params, includes.to_set)
+    if @view_type == "wishlist"
+      wishlist_listing_ids = cookies[:wishlist].split("&")
+      search_result = find_listings_with_ids(includes, wishlist_listing_ids)
+    else
+      search_result = find_listings(params, per_page, compact_filter_params, includes.to_set)
+    end
 
     shape_name_map = all_shapes.map { |s| [s[:id], s[:name]]}.to_h
 
@@ -264,6 +272,40 @@ class HomepageController < ApplicationController
       ))
     }
 
+  end
+
+  # wah
+  def find_listings_with_ids(includes, listing_ids)
+    availability = ["all", nil]
+
+    search = {
+      listing_ids: listing_ids,
+      locale: I18n.locale,
+      include_closed: false,
+      availability: availability,
+      per_page: 100
+    }
+
+    raise_errors = Rails.env.development?
+
+
+    res = ListingIndexService::API::Api.listings.search(
+      community_id: @current_community.id,
+      search: search,
+      includes: includes.to_set,
+      engine: search_engine,
+      raise_errors: raise_errors
+    )
+
+    res.and_then { |res|
+      Result::Success.new(
+        ListingIndexViewUtils.to_struct(
+        result: res,
+        includes: includes,
+        page: 1,
+        per_page: 100
+      ))
+    }
   end
 
   # wah

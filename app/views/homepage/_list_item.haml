@@ -72,7 +72,10 @@
 
         - if !@restrictedMarketplace
           .colFix-3{style: "padding: 0px; text-align:right; min-height: 32px;"}
-            = link_to t(".wishlist").html_safe, "#", class: "add-to-wishlist", data:{"listing-id" => listing.id}
+            - if @wishlist_listings && @wishlist_listings.include?(listing.id.to_s)
+              = link_to t(".remove_from_wishlist").html_safe, "#", class: "remove-from-wishlist", data:{"listing-id" => listing.id}
+            - else
+              = link_to t(".wishlist").html_safe, "#", class: "add-to-wishlist", data:{"listing-id" => listing.id}
 
 
 

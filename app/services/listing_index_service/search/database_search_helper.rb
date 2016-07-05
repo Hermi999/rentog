@@ -13,6 +13,7 @@ module ListingIndexService::Search::DatabaseSearchHelper
         community_id: community_id,
         author_id: search[:author_id],
         availability: search[:availability],  # wah_new
+        id: search[:listing_ids],
         deleted: 0
       })
 
