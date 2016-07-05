@@ -102,9 +102,9 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
 }
 
 .grid-item-type-fabriksneu{
-  border-right: 1px dashed rgba(0, 0, 0, 0.28);
-  background-color: #1BB11B!important;
-  color: white!important;
+  border: none;
+  border-right: 3px solid #1BB11B !important;
+  background-color: #DFFDDF!important;
 }
 .grid-item-type-neuwertig{
   border-right: 1px dashed rgba(0, 0, 0, 0.28);
@@ -119,10 +119,38 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
   #background-color: #C4E2F0!important;
 }
 .grid-item-type-defekt{
-  border-right: 1px dashed rgba(0, 0, 0, 0.28);
-  background-color: #EC5555!important;
-  color: white!important;
+  border: none;
+  border-right: 3px solid #ec5555 !important;
+  background-color: #FFDFDD!important;
 }
+
+.list-item-type-fabriksneu{
+  border: none!important;
+  border-left: 3px solid #1BB11B !important;
+  border-bottom: 3px solid #1BB11B !important;
+  background-color: #DFFDDF!important;
+  border-radius: 0 10px 0 10px!important;
+}
+.list-item-type-neuwertig{
+  border-right: 1px dashed rgba(0, 0, 0, 0.28);
+  #background-color: #F8CCA2!important;
+}
+.list-item-type-gut{
+  border-right: 1px dashed rgba(0, 0, 0, 0.28);
+  #background-color: #F0ECC3!important;
+}
+.list-item-type-gebraucht{
+  border-right: 1px dashed rgba(0, 0, 0, 0.28);
+  #background-color: #C4E2F0!important;
+}
+.list-item-type-defekt{
+  border: none!important;
+  border-left: 3px solid #ec5555 !important;
+  border-bottom: 3px solid #ec5555 !important;
+  background-color: #FFDFDD!important;
+  border-radius: 0 10px 0 10px!important;
+}
+
 
 .share-dialog-grid-view{
   position: absolute;

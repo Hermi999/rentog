@@ -187,7 +187,7 @@ $home-list-avatar-size: em(40);
 $home-list-avatar-size-mobile: em(30);
 $home-list-avatar-padding: lines(0.25);
 .home-list-title {
-  max-height: 24px;
+  max-height: 1em;
   margin: 0;
   padding: 0;
   font-weight: 700;
@@ -196,6 +196,7 @@ $home-list-avatar-padding: lines(0.25);
 
   @include media(tablet) {
     @include big-type;
+    max-height: 24px;
   }
 }
 
@@ -240,6 +241,10 @@ $home-list-avatar-padding: lines(0.25);
   border: 1px solid #D0D0D0;
   background-color: #E2E2E2;
   color: #505050;
+
+  @include media(large-mobile){
+    font-size: 0.9em;
+  }
 }
 .home-list-share{
   line-height: 18px;
@@ -254,6 +259,10 @@ $home-list-avatar-padding: lines(0.25);
   background-color: #585858;
   color: white;
   box-shadow: 1px 1px 3px #777;
+
+  @include media(large-mobile){
+    font-size: 0.9em;
+  }
 
   &:hover{
     background-color: #787878;
@@ -286,7 +295,27 @@ $home-list-avatar-padding: lines(0.25);
     font-size: em(24);
   }
   @include media(mobile){
+    font-size: em(31);
+  }
+  @include media(large-mobile){
     font-size: em(36);
+  }
+}
+
+.home-list-listing-on-request{
+  font-size: em(22);
+  line-height: 1;
+  font-weight: 400;
+
+  @include media(tiny-mobile){
+    font-size: em(20);
+  }
+  @include media(large-mobile){
+    font-size: em(28);
+    margin-top: 10px;
+  }
+  @include media(tablet){
+    margin-top:23px;
   }
 }
 
@@ -311,7 +340,7 @@ $home-list-avatar-padding: lines(0.25);
   @include ellipsis;
   margin-top:16px;
   text-align: right;
-  font-size: 0.9em;
+  font-size: 1.1em;
   min-height: 12px;
 }
 .home-list-price-quantity-mobile{
@@ -435,12 +464,12 @@ $home-list-avatar-padding: lines(0.25);
 .home-list-image-wrapper{
   float: left;
   height: 4.6em;
-  width: 4.6em;
+  min-width: 4.6em;
   margin-right: 1%;
 
   @include media(tablet){
     height: 7.6em;
-    width: 11.3em;
+    min-width: 11.3em;
   }
 }
 

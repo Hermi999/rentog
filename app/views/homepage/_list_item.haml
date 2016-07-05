@@ -31,7 +31,7 @@
     .home-list-listing-details-wrapper
       .row
         /Title
-        .colFix-12{style: "padding-left: 0.5em; max-height: 24px; overflow: hidden;"}
+        .colFix-12.home-list-title-col{style: "padding-left: 0.5em; overflow: hidden;"}
           %h2.home-list-title
             = link_to listing.title, listing_path(listing.url), {class: "home-share-type-link"}
 
@@ -44,12 +44,12 @@
           - if @restrictedMarketplace
             = link_to(person_path(id: listing.author.username), :class => "home-list-author-name") do
               = PersonViewUtils::person_entity_display_name(listing.author, @current_community.name_display_type)
-          %span.hide-on-mobile{style: "display: inline;"}
+          %span.hide-on-mobile-inline
             %b= t(".from")
             = country
 
           - if testimonials_in_use
-            %span.home-list-author-reviews.hide-on-mobile
+            %span.home-list-author-reviews.hide-on-mobile-inline
               - if listing.author.num_of_reviews > 0
                 = "("
                 = icon_tag("testimonial")
@@ -62,7 +62,7 @@
 
 
       / Shipment to
-      .row.hide-on-mobile{style: "font-size: 0.8em; line-height: 1.3em; margin: 4px 0 7px 0;"}
+      .row.hide-on-large-mobile-inline{style: "font-size: 0.8em; line-height: 1.3em; margin: 4px 0 7px 0;"}
         .colFix-8{style: "max-height: 32px; overflow: hidden; min-height: 32px;"}
           %b= t(".shipment_to")
           - if(countries = get_listing_shipment_to(listing))
@@ -80,16 +80,16 @@
       / Share, Condition & Price
       .row#share_cond_price
         / Share
-        .colFix-4.hide-on-tiny-mobile
+        .colFix-4.hide-on-mobile-block
           .home-list-share= t('homepage.share')
           = render :partial => "share_dialog", :locals => {listing: listing, view: "list"}
 
         / Condition
         .colFix-4
           - if (cond = get_listing_condition(listing))
-            .home-list-type{:class => "grid-item-type-" + cond[:condition].to_s}= cond[:title] || "n/a"
+            .home-list-type{:class => "list-item-type-" + cond[:condition].to_s}= cond[:title] || "n/a"
 
-        .colFix-4.show-on-tiny-mobile
+        .colFix-4.show-on-mobile-block
 
         / Price
         - price_option = get_price_options(listing)
@@ -98,14 +98,15 @@
             - if listing.price
 
               - if price_option[:val] && price_option[:val].include?("request")
-                .home-list-listing-shape-value
+                .home-list-listing-on-request
                   = t("homepage.index.price_on_request")
 
               - else
-                .home-list-price-quantity.hide-on-mobile{:title => price_text}
+                .home-list-price-quantity.hide-on-large-mobile-inline{:title => price_text}
                   = price_text || "&nbsp".html_safe
+                  = ", " if price_text && price_option[:title]
                   - if price_option[:title]
-                    = ", " + price_option[:title]
+                    = price_option[:title]
 
                 .home-list-price-value
                   %span{style: "font-size: 0.6em;"}= currency_symbol
