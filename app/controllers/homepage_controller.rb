@@ -76,6 +76,7 @@ class HomepageController < ApplicationController
       search_result.on_success { |listings|
         @listings = listings # TODO Remove
 
+        # needed for reloading the next listings in the listing navigation
         if params[:getListingIds]
           cookies.permanent[:listings] = cookies[:listings].split("&") + listings.map(&:id)
           cookies.permanent[:current_page] = cookies.permanent[:current_page].to_i + 1

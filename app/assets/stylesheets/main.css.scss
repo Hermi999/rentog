@@ -2410,6 +2410,37 @@ figure.fluidratio {
   font-size: 1.2em;
 }
 
+
+.hide-on-tiny-mobile-block{
+  display: block;
+
+  @include media(tiny-mobile) {
+    display: none;
+  }
+}
+.hide-on-tiny-mobile-inline{
+  display: inline;
+
+  @include media(tiny-mobile) {
+    display: none;
+  }
+}
+.show-on-tiny-mobile-block{
+  display: none;
+
+  @include media(tiny-mobile) {
+    display: block;
+  }
+}
+.show-on-tiny-mobile-inline{
+  display: none;
+
+  @include media(tiny-mobile) {
+    display: inline;
+  }
+}
+
+
 .hide-on-mobile-inline{
   display: none;
 
@@ -2454,51 +2485,34 @@ figure.fluidratio {
     display: block;
   }
 }
+.show-on-large-mobile-block{
+  display: block;
+
+  @include media(tablet) {
+    display: none;
+  }
+}
+.show-on-large-mobile-inline{
+  display: inline;
+
+  @include media(tablet) {
+    display: none;
+  }
+}
 
 
 .hide-on-small-desktop-inline{
   display: none;
 
-  @include media(small-desktop) {
+  @include media(desktop) {
     display: inline;
   }
 }
 .hide-on-small-desktop-block{
   display: none;
 
-  @include media(small-desktop) {
+  @include media(desktop) {
     display: block;
   }
 }
 
-
-.hide-on-tiny-mobile-block{
-  display: block;
-
-  @include media(tiny-mobile) {
-    display: none;
-  }
-}
-.hide-on-tiny-mobile-inline{
-  display: inline;
-
-  @include media(tiny-mobile) {
-    display: none;
-  }
-}
-
-
-.show-on-tiny-mobile-block{
-  display: none;
-
-  @include media(tiny-mobile) {
-    display: block;
-  }
-}
-.show-on-tiny-mobile-inline{
-  display: none;
-
-  @include media(tiny-mobile) {
-    display: inline;
-  }
-}

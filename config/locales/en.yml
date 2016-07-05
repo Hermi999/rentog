@@ -1352,6 +1352,7 @@ en:
       grid_button: Grid
       list_button: List
       all_listing_types: "Renting + Selling"
+      goto_wishlist: "Go to wishlist..."
       all_categories: "All categories"
     errors:
       search_engine_not_responding: "Search is currently unavailable. Try searching again soon."

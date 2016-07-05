@@ -63,16 +63,16 @@
 
       / Shipment to
       .row.hide-on-large-mobile-inline{style: "font-size: 0.8em; line-height: 1.3em; margin: 4px 0 7px 0;"}
-        .colFix-8{style: "max-height: 32px; overflow: hidden; min-height: 32px;"}
+        .colFix-8{style: "max-height: 32px; min-height: 32px; overflow: hidden;"}
           %b= t(".shipment_to")
           - if(countries = get_listing_shipment_to(listing))
             = countries
 
-        .colFix-1
+        .colFix-1{style: "min-height: 32px;"}
 
         - if !@restrictedMarketplace
-          .colFix-3{style: "padding: 0px; text-align:right;"}
-            %a= t(".wishlist").html_safe
+          .colFix-3{style: "padding: 0px; text-align:right; min-height: 32px;"}
+            = link_to t(".wishlist").html_safe, "#", class: "add-to-wishlist", data:{"listing-id" => listing.id}
 
 
 

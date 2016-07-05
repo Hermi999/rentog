@@ -292,6 +292,37 @@ function initialize_defaults(locale) {
     $('#upper_person_login').focus();
   });
 
+  // Initialize add to wishlist
+  $('.add-to-wishlist').click(function(ev){
+    ev.preventDefault();
+    var listing_id = $(ev.currentTarget).data("listing-id");
+    var listings = "";
+    var existing_listing_ids = readCookie("wishlist");
+
+    if (existing_listing_ids === null){
+      listings = listing_id;
+      createCookie("wishlist", listings, 9999);
+      ST.js_notifications.triggerNotification("success", "Done!");
+
+    }else{
+      existing_listing_ids_arr = existing_listing_ids.split("&");
+
+      var already_there = false;
+      for(var i in existing_listing_ids_arr){
+        if (Number(existing_listing_ids_arr[i]) === listing_id){
+          already_there = true;
+          break;
+        }
+      }
+
+      if (already_there == false){
+        listings = existing_listing_ids + "&" + listing_id;
+        createCookie("wishlist", listings, 9999);
+        ST.js_notifications.triggerNotification("success", "Done!");
+      }
+    }
+  });
+
 
   // Initialize copy to clipboard
   new Clipboard('.clipboard_btn');

@@ -267,7 +267,11 @@ class ListingsController < ApplicationController
       when :trusted_company_employee
         form_path = new_transaction_path(listing_id: @listing.id)
         show_price = @trusted_relation.payment_necessary
-        rent_button = "rent"
+        if @listing.get_listing_type == "rent"
+          rent_button = "rent"
+        else
+          rent_button = "request"
+        end
         form_path = new_transaction_path(listing_id: @listing.id)
 
       when :untrusted_company_employee
@@ -287,7 +291,11 @@ class ListingsController < ApplicationController
 
       when :trusted_company_admin
         show_price = @trusted_relation.payment_necessary
-        rent_button = "rent"
+        if @listing.get_listing_type == "rent"
+          rent_button = "rent"
+        else
+          rent_button = "request"
+        end
         form_path = new_transaction_path(listing_id: @listing.id)
 
       when :untrusted_company_admin

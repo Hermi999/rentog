@@ -61,8 +61,11 @@
           %span.home-toolbar-button-text
             = t("homepage.filters.#{view_type}_button")
 
+
     - if listing_shape_menu_enabled || @category_menu_enabled
       .home-toolbar-filters.home-toolbar-filters-mobile-hidden#home-toolbar-filters
+        = link_to t("homepage.filters.goto_wishlist"), {view: "wishlist"}, id: "goto-wishlist", class: "show-on-large-mobile-block"
+
         - if listing_shape_menu_enabled
           .toggle-container.home-toolbar-toggle-container
             .toggle.with-borders#home_toolbar-select-share-type{data: {toggle: '.home-toolbar-share-type-menu'}}
@@ -111,6 +114,9 @@
   .row
     - if @category_menu_enabled
       .col-3.visible-tablet
+        .row
+          = link_to t("homepage.filters.goto_wishlist"), {view: "wishlist"}
+
         - if @show_categories
           .row
             .col-12
