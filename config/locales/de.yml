@@ -1348,7 +1348,7 @@ de:
       map_button: Karte
       grid_button: Raster
       list_button: Liste
-      all_listing_types: "Alle Einträge"
+      all_listing_types: "Verkaufen + Vermieten"
       all_categories: "Alle Kategorien"
     errors:
       search_engine_not_responding: "Die Suchfunktion ist derzeit nicht verfügbar. Bitte versuche es später noch einmal."
