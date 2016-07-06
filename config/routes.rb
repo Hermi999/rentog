@@ -735,6 +735,7 @@ Kassi::Application.routes.draw do
           delete :delete_marketplace
         end
         resources :transactions, controller: :community_transactions, only: :index
+        resources :listing_requests, controller: "/listing_requests", only: :index
         resources :emails
         resources :user_plans, only: [:index, :update]
         resources :community_memberships do

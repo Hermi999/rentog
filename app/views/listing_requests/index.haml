@@ -1,0 +1,35 @@
+- content_for :title_header do
+  %h1
+    = t("layouts.admin.admin")
+    = "-"
+    = t("admin.communities.listing_requests.listing_requests")
+
+= render :partial => "admin/left_hand_navigation", :locals => { :links => admin_links_for(@current_community) }
+
+.left-navi-section
+  %h2= t("admin.communities.listing_requests.listing_requests", community_name: @current_community.name(I18n.locale))
+
+  %table{style: "font-size: 0.8em;"}
+    %thead
+      %tr
+        - ListingRequest.new.attributes.keys.each do |attribute|
+          - style = "min-width: 250px" if attribute == "message"
+          %th{style: style}= attribute
+    %tbody
+      - @listing_requests.paginate(:page => @current_page, :per_page => @per_page).order('created_at DESC').each_with_index do |lr, index|
+        - style = "background-color: grey" if index%2 == 0
+        %tr{:stlye => style}
+          - lr.attributes.each do |attr_values|
+            - if attr_values[0] == "listing_id"
+              %td= link_to Listing.find(attr_values[1]).title, listing_path(attr_values[1])
+            - elsif attr_values[0] == "person_id" && attr_values[1]
+              %td= link_to Person.find(attr_values[1]).full_name, person_path(attr_values[1])
+            - else
+              %td= attr_values[1]
+
+  .row
+    - pages = (@listing_requests.count.to_f / @per_page).ceil
+    - (1..pages).each do |page|
+      - style = ""
+      - style = "background-color: #CCC; " if page == @current_page.to_i
+      = link_to page, {page: page}, style: style + "padding: 3px 10px;"

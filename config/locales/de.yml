@@ -340,6 +340,8 @@ de:
           initiated: "Warten auf die Paypal Zahlung"
           pending_ext: "Warten auf die Paypal Zahlung"
         not_available: "nicht verfügbar"
+      listing_requests:
+        listing_requests: "Listing Requests"
       braintree_payment_gateway:
         braintree_payment_gateway: "Braintree Payment API keys"
         environment: Umgebung

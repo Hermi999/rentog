@@ -1,6 +1,13 @@
 class ListingRequestsController < ApplicationController
 
+  # not needed at the moment
   def show
+  end
+
+  def index
+    @current_page = params[:page] || 1
+    @listing_requests = ListingRequest.all
+    @per_page = 15
   end
 
   def create
@@ -45,6 +52,7 @@ class ListingRequestsController < ApplicationController
     end
   end
 
+  # not needed at the moment
   def update
   end
 

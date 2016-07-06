@@ -640,6 +640,13 @@ module ApplicationHelper
         :name => "transactions"
       },
       {
+        :topic => :manage,
+        :text => t("admin.communities.listing_requests.listing_requests"),
+        :icon_class => icon_class("coins"),
+        :path => admin_community_listing_requests_path(@current_community),
+        :name => "listing_requests"
+      },
+      {
         :topic => :configure,
         :text => t("admin.communities.edit_details.community_details"),
         :icon_class => "ss-page",
