@@ -1331,8 +1331,8 @@ en:
       reviews: reviews
       from: from
       shipment_to: "Shipment to"
-      wishlist: "Add to list"
-      remove_from_wishlist: "Remove from list"
+      wishlist: "+ wishlist"
+      remove_from_wishlist: "- wishlist"
       listing_request: "Quotation/Question"
     news_item:
       show_less: "Show less"

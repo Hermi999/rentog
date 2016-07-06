@@ -4,9 +4,11 @@ $(function() {
     $('.listing_wrapper').hover(
       function(ev){
         $(ev.currentTarget).find('.listings-request-slider').show();
+        $(ev.currentTarget).find('.listings-request-slider2').show();
       },
       function(ev){
         $(ev.currentTarget).find('.listings-request-slider').hide();
+        $(ev.currentTarget).find('.listings-request-slider2').hide();
       }
     );
   }

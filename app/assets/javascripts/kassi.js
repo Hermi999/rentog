@@ -340,7 +340,7 @@ function initialize_defaults(locale) {
     for(var i in existing_listing_ids_arr){
       if (Number(existing_listing_ids_arr[i]) === listing_id){
         existing_listing_ids_arr.splice(Number(i), 1);
-        ST.js_notifications.triggerNotification("success", "Done!");
+        ST.js_notifications.triggerNotification("info", "Removed!");
         el.hide();
         $(el.parent()[0]).find('.add-to-wishlist').show();
         createCookie("wishlist", existing_listing_ids_arr.join("&"), 9999);

@@ -166,7 +166,7 @@
             - if params[:q] || params[:category] || params[:share_type] || params[:restrictedMarketplace] # Some filter in use
               = t(".no_listings_with_your_search_criteria")
             - else
-              - if !(@current_user && @current_user.is_employee? && !@current_community.employees_can_create_listings)
+              - if !(@current_user && @current_user.is_employee? && !@current_community.employees_can_create_listings) && @view_type != "wishlist"
                 = t(".no_listings_notification", :add_listing_link => link_to(t(".add_listing_link_text"), new_listing_path)).html_safe
               - else
                 =t(".no_listings_notification_employee")

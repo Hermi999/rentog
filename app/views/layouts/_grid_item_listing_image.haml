@@ -51,4 +51,12 @@
       .listings-request-slider{data: {listingid: listing.id}}
         =t("listings.show.request")
 
+      .listings-request-slider2
+        - if @wishlist_listings && @wishlist_listings.include?(listing.id.to_s)
+          .remove-from-wishlist{data:{"listing-id" => listing.id}}= t("homepage.list_item.remove_from_wishlist").html_safe
+          .add-to-wishlist.hidden{data:{"listing-id" => listing.id}}= t("homepage.list_item.wishlist").html_safe
+        - else
+          .remove-from-wishlist.hidden{data:{"listing-id" => listing.id}}= t("homepage.list_item.remove_from_wishlist").html_safe
+          .add-to-wishlist{data:{"listing-id" => listing.id}}= t("homepage.list_item.wishlist").html_safe
+
 
