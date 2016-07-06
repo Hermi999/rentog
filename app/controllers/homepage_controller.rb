@@ -16,7 +16,7 @@ class HomepageController < ApplicationController
     @shipment_field_id = Maybe(CustomFieldName.where(:value => "Shipment to").first).custom_field_id.to_i.or_else(nil)
     @price_options_field_id = Maybe(CustomFieldName.where(:value => "Price options").first).custom_field_id.to_i.or_else(nil)
 
-    @wishlist_listings = cookies[:wishlist].split("&")
+    @wishlist_listings = Maybe(cookies[:wishlist]).split("&").or_else(nil)
 
     @homepage = true
     @restrictedMarketplace = params[:restrictedMarketplace]
@@ -72,7 +72,7 @@ class HomepageController < ApplicationController
       end
 
     if @view_type == "wishlist"
-      wishlist_listing_ids = cookies[:wishlist].split("&")
+      wishlist_listing_ids = Maybe(cookies[:wishlist]).split("&").or_else([])
       search_result = find_listings_with_ids(includes, wishlist_listing_ids)
     else
       search_result = find_listings(params, per_page, compact_filter_params, includes.to_set)

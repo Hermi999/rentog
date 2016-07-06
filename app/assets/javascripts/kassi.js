@@ -295,7 +295,8 @@ function initialize_defaults(locale) {
   // Initialize add to wishlist
   $('.add-to-wishlist').click(function(ev){
     ev.preventDefault();
-    var listing_id = $(ev.currentTarget).data("listing-id");
+    var el = $(ev.currentTarget);
+    var listing_id = el.data("listing-id");
     var listings = "";
     var existing_listing_ids = readCookie("wishlist");
 
@@ -318,6 +319,8 @@ function initialize_defaults(locale) {
       if (already_there == false){
         listings = existing_listing_ids + "&" + listing_id;
         createCookie("wishlist", listings, 9999);
+        el.hide();
+        $(el.parent()[0]).find('.remove-from-wishlist').show();
         ST.js_notifications.triggerNotification("success", "Done!");
       }else{
         ST.js_notifications.triggerNotification("warning", "Already there!");
@@ -327,8 +330,8 @@ function initialize_defaults(locale) {
 
   $('.remove-from-wishlist').click(function(ev){
     ev.preventDefault();
-
-    var listing_id = $(ev.currentTarget).data("listing-id");
+    var el = $(ev.currentTarget);
+    var listing_id = el.data("listing-id");
     var listings = "";
     var existing_listing_ids = readCookie("wishlist");
 
@@ -338,7 +341,13 @@ function initialize_defaults(locale) {
       if (Number(existing_listing_ids_arr[i]) === listing_id){
         existing_listing_ids_arr.splice(Number(i), 1);
         ST.js_notifications.triggerNotification("success", "Done!");
+        el.hide();
+        $(el.parent()[0]).find('.add-to-wishlist').show();
         createCookie("wishlist", existing_listing_ids_arr.join("&"), 9999);
+
+        if (getUrlParameter('view') === "wishlist"){
+          el.parent().parent().parent().parent().hide();
+        }
         return;
       }
     }
