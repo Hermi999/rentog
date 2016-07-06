@@ -29,7 +29,8 @@
 
   .row
     - pages = (@listing_requests.count.to_f / @per_page).ceil
-    - (1..pages).each do |page|
-      - style = ""
-      - style = "background-color: #CCC; " if page == @current_page.to_i
-      = link_to page, {page: page}, style: style + "padding: 3px 10px;"
+    - if pages > 0
+      - (1..pages).each do |page|
+        - style = ""
+        - style = "background-color: #CCC; " if page == @current_page.to_i
+        = link_to page, {page: page}, style: style + "padding: 3px 10px;"
