@@ -1801,7 +1801,7 @@ de:
       keyboard_nav_b: "Zurück zum Filter"
       keyboard_nav_right: "Nächstes Bild"
       keyboard_nav_left: "Vorheriges Bild"
-      listing_request_success: "Ihre Anfrage wurde versendet. <br><br>Der Verkäufer wird Sie in Kürze kontaktieren."
+      listing_request_success: "Ihre Anfrage wurde erfolgreich verarbeitet und an den Anbieter weitergeleitet."
       limit_listing_requests: "Sie haben die maximale Anzahl an 25 Anfragen pro Tag erreicht."
       back_to_filter: "Zurück zu Ihrem Filter"
       show_my_devices: "Zeige meine Geräte"
@@ -1835,6 +1835,8 @@ de:
       time: Zeit
       times: Zeiten
       times_viewed: Gesehen
+      all: "Alle"
+      category: "(Kategorie)"
       processing_uploaded_image: "(Bild wird bearbeitet ...)"
       price_excludes_vat: "(ohne Mehrwertsteuer)"
       listing_created_at: "Eintrag erfolgreich erstellt"

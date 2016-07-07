@@ -14,7 +14,7 @@
     $('#manufacturer_temp').blur(function(){
       var val = $('#manufacturer_temp').val();
 
-      $('#custom_fields_29 option')
+      $('#custom_fields_#{custom_field.id} option')
       .removeAttr("selected")
       .filter(function() { return $.trim( $(this).text() ) == val; })
       .attr('selected','selected');

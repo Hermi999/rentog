@@ -1804,7 +1804,7 @@ en:
       keyboard_nav_b: "Back to your filter"
       keyboard_nav_right: "Next image"
       keyboard_nav_left: "Previous image"
-      listing_request_success: "Your request has been received. <br><br>The seller will get in contact with you shortly."
+      listing_request_success: "Your request has been received and forwarded to the vendor."
       limit_listing_requests: "You reached the maximum amount of 25 listing requests per day"
       back_to_filter: "Back to your filter"
       show_my_devices: "Show my devices"
@@ -1838,6 +1838,8 @@ en:
       time: time
       times: times
       times_viewed: Viewed
+      all: All
+      category: "(Category)"
       processing_uploaded_image: "(Processing uploaded image...)"
       price_excludes_vat: "(excludes VAT)"
       listing_created_at: "Listing created"

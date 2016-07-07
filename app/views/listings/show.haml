@@ -80,7 +80,7 @@
   .col-10{style: "text-align: center;"}
     - shape = ListingShape.where(id: @listing.listing_shape).first
 
-    .row{style: "margin-bottom: 0px"}
+    .row{style: "margin-bottom: 0px; font-size: 0.9em"}
       - cols = 3
 
       / Back to your filter
@@ -108,17 +108,23 @@
       - if shape
         %div{class: "col-#{cols}", style: "border-right: 1px solid white; padding-left: 0px; padding-right: 0px;"}
           - if listing_type != "intern" && listing_type != "trusted" && cookies[:listings_mode] != "pooltool" && cookies[:listings_mode] != "profile"
-            = link_to t(shape.name_tr_key), marketplace_path(transaction_type: shape.name)
+            = link_to t("listings.show.all") + " " + t(shape.name_tr_key), marketplace_path(transaction_type: shape.name)
           - else
-            = t(shape.name_tr_key)
+            = t("listings.show.all") + " " + t(shape.name_tr_key)
 
       / Category name
       - if @listing.category
         %div{class: "col-#{cols}", style: "padding-left: 0px; padding-right: 0px;"}
-          - if listing_type != "intern" && listing_type != "trusted" && cookies[:listings_mode] != "pooltool" && cookies[:listings_mode] != "profile"
-            = link_to @listing.category.display_name(I18n.locale), marketplace_path(category: @listing.category)
-          - else
-            = @listing.category.display_name(I18n.locale)
+          %div
+            - if listing_type != "intern" && listing_type != "trusted" && cookies[:listings_mode] != "pooltool" && cookies[:listings_mode] != "profile"
+              = link_to marketplace_path(category: @listing.category) do
+                = t("listings.show.all") + " " + @listing.category.display_name(I18n.locale)
+                /%span{style: "font-size:0.6em;"}= t("listings.show.category")
+            - else
+              = t("listings.show.all") + " " + @listing.category.display_name(I18n.locale)
+              /%span{style: "font-size:0.6em;"}= t("listings.show.category")
+
+
 
   .col-1{style: "text-align: center; font-weight: bold;"}
     - if listing_right
