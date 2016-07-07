@@ -100,6 +100,31 @@ body {
   overflow-y: scroll;
 }
 
+#new_listing_request{
+  input, textarea, button, select{
+    min-height:30px;
+
+    @include media(tablet){
+      min-height: 42px;
+      font-size: 100%;
+      line-height: normal;
+      vertical-align: baseline;
+      font-family: inherit;
+    }
+  }
+
+  .listing-request-checkbox{
+    min-height: inherit;
+  }
+
+  textarea{
+    height: 50px;
+    @include media(tablet){
+      height:112px;
+    }
+  }
+}
+
 #listing-side-bar-close{
   position: absolute;
   top: 15px;
