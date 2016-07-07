@@ -96,6 +96,8 @@ body {
   background-color: rgba(44, 43, 43, 0.90);
   border: 3px solid #ABABAB;
   box-shadow: 0px 0px 15px #000;
+  height: 103%;
+  overflow-y: scroll;
 }
 
 #listing-side-bar-close{
@@ -110,7 +112,10 @@ body {
 }
 
 #listing-request-form-wrapper {
-  padding: 10%;
+  padding: 3% 10%;
+  @include media(tablet){
+    padding: 10%;
+  }
 }
 
 .listing-request-checkbox-wrapper{
