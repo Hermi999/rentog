@@ -16,7 +16,7 @@
 
       $('#custom_fields_#{custom_field.id} option')
       .removeAttr("selected")
-      .filter(function() { return $.trim( $(this).text() ) == val; })
+      .filter(function() { return $.trim( $(this).text() ) == $.trim(val); })
       .attr('selected','selected');
     });
   });
