@@ -15,25 +15,26 @@ window.ST = window.ST || {};
     // Initialize short keys
     $("body").keypress(function(ev){
       if(document.activeElement.localName === "body"){
-        console.log(ev.keyCode);
+        var key = ev.keyCode || ev.key;
+        console.log(key);
 
         // a ... show all devices
-        if(ev.keyCode === 97){
+        if(key === 97 || key === "a"){
           window.location = $('#show-all-devices')[0].href;
         }
 
         // b ... back to filter
-        if(ev.keyCode === 98){
+        if(key === 98 || key === "b"){
           window.location = $('#listing_back_button')[0].href;
         }
 
         // p ... previous
-        if(ev.keyCode === 112){
+        if(key === 112 || key === "p"){
           window.location = $('#listing-nav-left')[0].href;
         }
 
         // n ... next
-        if(ev.keyCode === 110){
+        if(key === 110 || key === "n"){
           window.location = $('#listing-nav-right')[0].href;
         }
       }
