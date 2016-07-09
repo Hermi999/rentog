@@ -29,6 +29,116 @@ class ListingsController < ApplicationController
   # If admin authorization is required to post. Also employees aren't allowed to post a new listing.
   before_filter :is_authorized_to_post, :only => [ :new, :create ]
 
+  after_filter :allow_iframe, :only => [:iframe_listing, :iframe_listings]
+
+
+  # returns a requested listing or a random listing
+  def iframe_listing
+    loc_params_hash = get_iframe_params
+
+    # calculate width and height
+    @width = (loc_params_hash[:width] || 240).to_i
+    @height = @width / 3 * 2
+
+    # adjust font size
+    if @width < 100
+      @font_size = "10px"
+    elsif @width < 200
+      @font_size = "14px"
+    else
+      @font_size = "16px"
+    end
+
+
+    listing_id = loc_params_hash[:listing_id]
+
+    # if no id given
+    if listing_id == nil
+      listing_ids = Listing.where("deleted = false AND open = true AND (availability = 'all' OR availability is null)").map(&:id)
+      listing = Listing.find(listing_ids[[*0..listing_ids.length-1].sample])
+    else
+      listing = Listing.where("id = ? AND (availability = 'all' OR availability is null) AND deleted = false AND open = true", listing_id).first
+    end
+
+    if listing
+      listing_image_url = Maybe(listing.listing_images.first).image.url(:small_3x2).or_else(nil)
+
+      manufacturer_field_id = CustomFieldName.where(value: "Hersteller").first.custom_field_id
+      manufacturer_field_val = CustomFieldValue.where(custom_field_id: manufacturer_field_id.to_i, listing_id: listing.id).first
+      manufacturer = manufacturer_field_val.selected_options.map { |selected_option| selected_option.title(I18n.locale) } if manufacturer_field_val
+
+      listing_detail = {listing: listing, manufacturer: manufacturer, listing_image_url: listing_image_url}
+    else
+      listing_detail = nil
+    end
+
+    render :partial => "listings/iframe_listing", locals: {listing_detail: listing_detail}
+  end
+
+  # returns a requested set of listings or random listings
+  def iframe_listings
+    loc_params_hash = get_iframe_params
+
+    # calculate width and height
+    @width = (loc_params_hash[:width] || 240).to_i
+    @height = @width / 3 * 2
+
+    # adjust font size
+    if @width < 100
+      @font_size = "10px"
+    elsif @width < 200
+      @font_size = "13px"
+    else
+      @font_size = "16px"
+    end
+
+    # if listing ids are specified, then use them: Example-URL: https://.../...&listing_ids=123-78-13-345-1-3445
+    if loc_params_hash[:listing_ids]
+      listing_ids = loc_params_hash[:listing_ids].split("-")
+    elsif loc_params_hash[:listings_count]
+      # otherwise the caller has to specify how many listings he wants
+      all_listing_ids = Listing.where("deleted = false AND open = true AND (availability = 'all' OR availability is null)").map(&:id)
+      loc_params_hash[:listings_count] = all_listing_ids.length if all_listing_ids.length < loc_params_hash[:listings_count].to_i
+
+      listing_ids = []
+      (0..loc_params_hash[:listings_count].to_i-1).each do |index|
+        random_id = [*0..all_listing_ids.length-1].sample
+        listing_ids << all_listing_ids[random_id]
+        all_listing_ids.delete_at(random_id)
+      end
+
+    elsif loc_params_hash[:author_id]
+      # otherwise he can give his id and will get all his open listings
+      author_id = Person.where(username: loc_params_hash[:author_id]).first.id
+
+      if author_id
+        listing_ids = Listing.where("author_id = ? AND deleted = false AND open = true AND (availability = 'all' OR availability is null)", author_id).map(&:id)
+
+        # limit to the last 6 listings
+        if loc_params_hash[:listings_count]
+          start_ = listing_ids.length.to_i - loc_params_hash[:listings_count]
+          end_ = listing_ids.length.to_i - 1
+          listing_ids = listing_ids.values_at(start_..end_)
+        end
+      end
+    end
+
+    manufacturer_field_id = CustomFieldName.where(value: "Hersteller").first.custom_field_id
+
+    listing_details = []
+    if listing_ids
+      listing_ids.each do |listing_id|
+        listing = Listing.where("id = ? AND (availability = 'all' OR availability is null) AND deleted = false AND open = true", listing_id).first
+        manufacturer_field_val = CustomFieldValue.where(custom_field_id: manufacturer_field_id.to_i, listing_id: listing.id).first
+        manufacturer = manufacturer_field_val.selected_options.map { |selected_option| selected_option.title(I18n.locale) } if manufacturer_field_val
+        listing_image_url = Maybe(listing.listing_images.first).image.url(:small_3x2).or_else(nil)
+        listing_details << {listing: listing, manufacturer: manufacturer, listing_image_url: listing_image_url}
+      end
+      render :partial => "listings/iframe_listing", :collection => listing_details, as: :listing_detail
+    else
+      render :partial => "listings/iframe_listing", locals: {listing_detail: nil}
+    end
+  end
 
   # wah: called when clicked on "show all listings" on profile page --> not working at the moment because I
   # separated the different listing types
@@ -145,7 +255,7 @@ class ListingsController < ApplicationController
     if params[:id]
       # get the custom field ids of some listing attributes
       @condition_field_id = Maybe(CustomFieldName.where(:value => "Zustand").first).custom_field_id.to_i.or_else(nil)
-      @restrictedMarketplace = request.referer.include?("restrictedMarketplace")
+      @restrictedMarketplace = request.referer.include?("restrictedMarketplace") if request.referer
       @price_options_field_id = Maybe(CustomFieldName.where(:value => "Price options").first).custom_field_id.to_i.or_else(nil)
 
 
@@ -1294,5 +1404,14 @@ class ListingsController < ApplicationController
       end
     end
     params.delete("manufacturer_temp")
+  end
+
+  def get_iframe_params
+    loc_params = params[:options].split("+").map {|el| el.split("=")}
+    loc_params_hash = {}
+    loc_params.each do |param|
+      loc_params_hash[param[0].to_sym] = param[1]
+    end
+    loc_params_hash
   end
 end

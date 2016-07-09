@@ -686,4 +686,8 @@ class ApplicationController < ActionController::Base
       end
   end
 
+  # allow to embed a controller action into an iframe by calling "after_filter :allow_iframe, only: :show"_
+  def allow_iframe
+    response.headers.delete "X-Frame-Options"
+  end
 end

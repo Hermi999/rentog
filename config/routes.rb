@@ -683,6 +683,8 @@ Kassi::Application.routes.draw do
     get "/login" => "sessions#new", :as => :login
     get "/listing_bubble/:id" => "listings#listing_bubble", :as => :listing_bubble
     get "/listing_bubble_multiple/:ids" => "listings#listing_bubble_multiple", :as => :listing_bubble_multiple
+    get "/iframe_listing/:options" => "listings#iframe_listing", :as => :iframe_listing
+    get "/iframe_listings/:options" => "listings#iframe_listings", :as => :iframe_listings
     get '/:person_id/settings/payments/braintree/new' => 'braintree_accounts#new', :as => :new_braintree_settings_payment
     get '/:person_id/settings/payments/braintree/show' => 'braintree_accounts#show', :as => :show_braintree_settings_payment
     post '/:person_id/settings/payments/braintree/create' => 'braintree_accounts#create', :as => :create_braintree_settings_payment
