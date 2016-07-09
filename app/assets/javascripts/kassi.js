@@ -304,6 +304,8 @@ function initialize_defaults(locale) {
       listings = listing_id;
       createCookie("wishlist", listings, 9999);
       ST.js_notifications.triggerNotification("success", "Done!");
+      el.hide();
+      $(el.parent()[0]).find('.remove-from-wishlist').show();
 
     }else{
       existing_listing_ids_arr = existing_listing_ids.split("&");

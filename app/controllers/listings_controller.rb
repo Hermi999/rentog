@@ -49,6 +49,10 @@ class ListingsController < ApplicationController
       @font_size = "16px"
     end
 
+    # set font color
+    @font_color = loc_params_hash[:font_color] || "white"
+    @text_shadow = "0px 0px 5px black" if @font_color = "white"
+
 
     listing_id = loc_params_hash[:listing_id]
 
@@ -92,23 +96,17 @@ class ListingsController < ApplicationController
       @font_size = "16px"
     end
 
+    # set font color
+    @font_color = loc_params_hash[:font_color] || "white"
+
+
     # if listing ids are specified, then use them: Example-URL: https://.../...&listing_ids=123-78-13-345-1-3445
     if loc_params_hash[:listing_ids]
       listing_ids = loc_params_hash[:listing_ids].split("-")
-    elsif loc_params_hash[:listings_count]
-      # otherwise the caller has to specify how many listings he wants
-      all_listing_ids = Listing.where("deleted = false AND open = true AND (availability = 'all' OR availability is null)").map(&:id)
-      loc_params_hash[:listings_count] = all_listing_ids.length if all_listing_ids.length < loc_params_hash[:listings_count].to_i
 
-      listing_ids = []
-      (0..loc_params_hash[:listings_count].to_i-1).each do |index|
-        random_id = [*0..all_listing_ids.length-1].sample
-        listing_ids << all_listing_ids[random_id]
-        all_listing_ids.delete_at(random_id)
-      end
 
+    # if the author username is specified then get the listings of this author (he can also limit them)
     elsif loc_params_hash[:author_id]
-      # otherwise he can give his id and will get all his open listings
       author_id = Person.where(username: loc_params_hash[:author_id]).first.id
 
       if author_id
@@ -116,11 +114,40 @@ class ListingsController < ApplicationController
 
         # limit to the last 6 listings
         if loc_params_hash[:listings_count]
-          start_ = listing_ids.length.to_i - loc_params_hash[:listings_count]
+          start_ = listing_ids.length.to_i - loc_params_hash[:listings_count].to_i
           end_ = listing_ids.length.to_i - 1
           listing_ids = listing_ids.values_at(start_..end_)
         end
       end
+
+
+    # if only the number of listings is given, get random listings or the top listings with image
+    elsif loc_params_hash[:listings_count]
+      # if the caller wants the newest listings with image
+      if loc_params_hash[:top_listings]
+        listings_ = Listing.where("deleted = false AND open = true AND (availability = 'all' OR availability is null)").order(sort_date: :desc)
+
+        listing_ids = []
+        listings_.each do |listing|
+          if listing.listing_images.first
+            listing_ids << listing.id
+          end
+          break if listing_ids.length == loc_params_hash[:listings_count].to_i
+        end
+
+      # if the caller wants random listings
+      else
+        all_listing_ids = Listing.where("deleted = false AND open = true AND (availability = 'all' OR availability is null)").map(&:id)
+        loc_params_hash[:listings_count] = all_listing_ids.length if all_listing_ids.length < loc_params_hash[:listings_count].to_i
+
+        listing_ids = []
+        (0..loc_params_hash[:listings_count].to_i-1).each do |index|
+          random_id = [*0..all_listing_ids.length-1].sample
+          listing_ids << all_listing_ids[random_id]
+          all_listing_ids.delete_at(random_id)
+        end
+      end
+
     end
 
     manufacturer_field_id = CustomFieldName.where(value: "Hersteller").first.custom_field_id
