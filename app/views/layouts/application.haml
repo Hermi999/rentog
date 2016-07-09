@@ -51,6 +51,7 @@
           %figure.marketplace-cover.fluidratio
             .lander-content.marketplace-lander-content
               = yield :title_header
+              = yield :title_desc
       - with_small_cover_photo do
         .coverimage
           %figure.marketplace-cover-small.fluidratio
@@ -60,6 +61,7 @@
           .title-header-wrapper
             .marketplace-title-header
               = yield :title_header
+              = yield :title_desc
 
     %article.page-content
       .wrapper

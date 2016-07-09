@@ -234,6 +234,10 @@ class Person < ActiveRecord::Base
     set_default_preferences unless self.preferences
   end
 
+  after_save :enableMarketplaceCustomFieldsForCompany
+
+
+
   # Creates a new email
   def email_attributes=(attributes)
     emails.build(attributes)
@@ -816,6 +820,48 @@ class Person < ActiveRecord::Base
       end
     end
     companies_in_same_domain
+  end
+
+
+  def enableMarketplaceCustomFieldsForCompany
+    return if main_product != "marketplace"
+
+    id1 = Maybe(CustomFieldName.where('value like ?', "%Shipment to%").first).custom_field_id.or_else(nil)
+    self.custom_fields << CustomField.where(:id => id1).first if id1
+
+    id2 = Maybe(CustomFieldName.where('value like ?', "%Unique Selling Proposition 1%").first).custom_field_id.or_else(nil)
+    self.custom_fields << CustomField.where(:id => id2).first if id2
+
+    id3 = Maybe(CustomFieldName.where('value like ?', "%Unique Selling Proposition 2%").first).custom_field_id.or_else(nil)
+    self.custom_fields << CustomField.where(:id => id3).first if id3
+
+    id4 = Maybe(CustomFieldName.where('value like ?', "%Unique Selling Proposition 3%").first).custom_field_id.or_else(nil)
+    self.custom_fields << CustomField.where(:id => id4).first if id4
+
+    id5 = Maybe(CustomFieldName.where('value like ?', "%Model%").first).custom_field_id.or_else(nil)
+    self.custom_fields << CustomField.where(:id => id5).first if id5
+
+    id6 = Maybe(CustomFieldName.where('value like ?', "%Warranty%").first).custom_field_id.or_else(nil)
+    self.custom_fields << CustomField.where(:id => id6).first if id6
+
+    id7 = Maybe(CustomFieldName.where('value like ?', "%Additional features and services%").first).custom_field_id.or_else(nil)
+    self.custom_fields << CustomField.where(:id => id7).first if id7
+
+    id8 = Maybe(CustomFieldName.where('value like ?', "%Weight%").first).custom_field_id.or_else(nil)
+    self.custom_fields << CustomField.where(:id => id8).first if id8
+
+    id9 = Maybe(CustomFieldName.where('value like ?', "%Height%").first).custom_field_id.or_else(nil)
+    self.custom_fields << CustomField.where(:id => id9).first if id9
+
+    id10 = Maybe(CustomFieldName.where('value like ?', "%Width%").first).custom_field_id.or_else(nil)
+    self.custom_fields << CustomField.where(:id => id10).first if id10
+
+    id11 = Maybe(CustomFieldName.where('value like ?', "%Depth%").first).custom_field_id.or_else(nil)
+    self.custom_fields << CustomField.where(:id => id11).first if id11
+
+
+    # Remove duplicates
+    self.custom_fields = self.custom_fields.uniq
   end
 
 end

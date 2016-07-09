@@ -2506,6 +2506,7 @@ de:
     date: "Datum:"
     headline: "Pool Management Tool"
     subheadline: "Für Interne und Vermietgeräte"
+    headline_desc: "Das Pool-Tool hilft Ihnen dabei Ihre eigenen Geräte, die sie selbst intern verwenden, als Geräte-Pool zu verwalten. Sie und Ihre Kollegen können sich die Geräte somit ganz einfach teilen und somit effizienter nutzen. <a href='https://rentog.com/de/pooltool'>Mehr erfahren...</a>"
     cancel_booking: "Abbrechen"
     event_hint: "Du kannst hier Reservierungen für Messgeräte hinzufügen."
     device_name: "Wähle eines deiner Messgeräte"

@@ -8,6 +8,11 @@
 
     = link_to "*** Disable tracking ***", "https://tools.rentog.com/notracking.html"
 
+  - if !@current_community.only_pool_tool && !@current_user.is_supervisor?
+    = link_to marketplace_path do
+      = icon_tag("notifications", ["icon-with-text"])
+      = t("header.marketplace")
+
   - if @current_user.is_organization
     = link_to person_poolTool_path(user) do
       = icon_tag("calendar", ["icon-with-text"])
@@ -16,15 +21,6 @@
     = link_to person_poolTool_path(@current_user.company) do
       = icon_tag("calendar", ["icon-with-text"])
       = t("layouts.logged_in.poolTool")
-
-  - if !@current_community.only_pool_tool && !@current_user.is_supervisor?
-    = link_to marketplace_path do
-      = icon_tag("notifications", ["icon-with-text"])
-      = t("header.marketplace")
-
-  /= link_to marketplace_path(:restrictedMarketplace => "1") do
-  /  = icon_tag("lock", ["icon-with-text"])
-  /  = t("header.restrictedMarketplace")
 
   - unless @current_user.is_supervisor?
     - with_invite_link do

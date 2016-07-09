@@ -2510,6 +2510,7 @@ en:
     date: "Date:"
     headline: "Pool Management Tool"
     subheadline: "For Internal and Renting devices"
+    headline_desc: "Rentog Pool-Tool allows you to manage your companies internal devices by creating a device pool. You and your colleagues can access the devices in the pool and use them more efficiently. <a href='https://rentog.com/pooltool'>Read more...</a>"
     add_booking: "Book internal device"
     cancel_booking: "Cancel"
     event_hint: "You can add reservations for your measurment devices here."
