@@ -99,6 +99,9 @@ class ListingsController < ApplicationController
     # set font color
     @font_color = loc_params_hash[:font_color] || "white"
 
+    # get listings count
+    listings_count = Maybe(loc_params_hash[:listings_count]).to_i.or_else(nil)
+    listings_count = 150 if listings_count && listings_count > 100
 
     # if listing ids are specified, then use them: Example-URL: https://.../...&listing_ids=123-78-13-345-1-3445
     if loc_params_hash[:listing_ids]
@@ -113,8 +116,8 @@ class ListingsController < ApplicationController
         listing_ids = Listing.where("author_id = ? AND deleted = false AND open = true AND (availability = 'all' OR availability is null)", author_id).map(&:id)
 
         # limit to the last 6 listings
-        if loc_params_hash[:listings_count]
-          start_ = listing_ids.length.to_i - loc_params_hash[:listings_count].to_i
+        if listings_count
+          start_ = listing_ids.length.to_i - listings_count
           end_ = listing_ids.length.to_i - 1
           listing_ids = listing_ids.values_at(start_..end_)
         end
@@ -122,7 +125,7 @@ class ListingsController < ApplicationController
 
 
     # if only the number of listings is given, get random listings or the top listings with image
-    elsif loc_params_hash[:listings_count]
+    elsif listings_count
       # if the caller wants the newest listings with image
       if loc_params_hash[:top_listings]
         listings_ = Listing.where("deleted = false AND open = true AND (availability = 'all' OR availability is null)").order(sort_date: :desc)
@@ -132,16 +135,16 @@ class ListingsController < ApplicationController
           if listing.listing_images.first
             listing_ids << listing.id
           end
-          break if listing_ids.length == loc_params_hash[:listings_count].to_i
+          break if listing_ids.length == listings_count
         end
 
       # if the caller wants random listings
       else
         all_listing_ids = Listing.where("deleted = false AND open = true AND (availability = 'all' OR availability is null)").map(&:id)
-        loc_params_hash[:listings_count] = all_listing_ids.length if all_listing_ids.length < loc_params_hash[:listings_count].to_i
+        listings_count = all_listing_ids.length if all_listing_ids.length < listings_count
 
         listing_ids = []
-        (0..loc_params_hash[:listings_count].to_i-1).each do |index|
+        (0..listings_count-1).each do |index|
           random_id = [*0..all_listing_ids.length-1].sample
           listing_ids << all_listing_ids[random_id]
           all_listing_ids.delete_at(random_id)
