@@ -28,3 +28,11 @@
       %span.custom-filter-min-max-title= t("homepage.custom_filters.max")
       %span{id: "price-filter-max-value"}
       %input{type: "hidden", id: "price_max", name: "price_max", value: params["price_max"]}
+
+.row
+  - if params["price_min"] != nil && params["price_min"] != min.to_s   ||   params["price_max"] && params["price_max"] != max.to_s
+    .left.remove-this-filter
+      = link_to t("homepage.custom_filters.remove_this_filter"), "#", {onclick: "window.ST.resetRangeFilter('#price-filter-max-value', '#price_max', '#price-filter-min-value', '#price_min', #{min}, #{max}, '#range-slider-price');"}
+
+  .right.update-filter
+    = link_to t("homepage.custom_filters.update_filter"), "#", {onclick: "$('#homepage-filters').submit(); return false;"}

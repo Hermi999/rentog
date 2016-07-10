@@ -1273,8 +1273,13 @@ en:
     custom_filters:
       update_view: "Update view"
       remove_all_filters: "Remove all filters"
+      update_filter: "Update filter"
+      remove_this_filter: "Remove this filter"
       min: "Min:"
       max: "Max:"
+      search_placeholder: "Search option..."
+      more: "More..."
+      show_only_checked: "Show only checked"
     event_feed:
       latest_events: "What's going on"
     grid_item:

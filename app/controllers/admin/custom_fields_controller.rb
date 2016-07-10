@@ -252,6 +252,8 @@ class Admin::CustomFieldsController < ApplicationController
     render nothing: true, status: 200
   end
 
+
+
   private
 
   # Return `true` if all the category id's belong to `community`

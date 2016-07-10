@@ -6,17 +6,47 @@
         .col-12
           .custom-filter-title
             = field.name(I18n.locale)
-          - make_scrollable = field.options.size > 10
+          - make_scrollable = false #field.options.size > 10
           .custom-filter-options{:class => make_scrollable ? "scrollable" : ""}
-            - field.options.sort.each do |option|
+            - field.options.limit(6).sort.each do |option|
               .custom-filter-checkbox-container
                 %label.custom-filter-checkbox-label
                   - param_name = type == :dropdown ? "filter_option_#{option.id}" : "checkbox_filter_option_#{option.id}"
-                  = check_box_tag param_name, "#{option.id}", params[param_name]
+                  = check_box_tag param_name, "#{option.id}", params[param_name], {class: "field_id_" + field.id.to_s}
+
                   %span.custom-filter-checkbox-label-text
                     = option.title(I18n.locale)
+
             - if field.options.length > 5
-              =link_to "more...", "#", {:style => "padding-left: 22px;"}
+              = link_to t(".more"), "#", {:class => "show_more_options" ,:style => "padding-left: 22px;", data: {field_id: field.id, title: field.name(I18n.locale)}}
+
+              .all_custom_field_options{id: "cf_options_#{field.id}"}
+                .all_custom_field_options_header
+                  %span.all_custom_field_options_close= "x"
+                  .all_custom_field_options_title{id: "cf_options_title_#{field.id}"}
+                  .row
+                    %input{type: "text", class: "all_custom_field_options_filter", id: "cf_options_filter_#{field.id}", placeholder: t(".search_placeholder")}
+                    .all_custom_field_options_checked
+                      %label
+                        %input{type: "checkbox", id: "cf_options_checked_#{field.id}"}
+                        = t(".show_only_checked")
+                .all_custom_field_options_content{id: "cf_options_content_#{field.id}"}
+
+      .row
+        - selected = false
+        - params.each do |param|
+          - if param[0].include?("filter_option")
+            - if CustomFieldOption.find(param[1].to_i).custom_field_id == field.id
+              - selected = true
+              - break
+
+        - if selected
+          .left.remove-this-filter
+            = link_to t(".remove_this_filter"), "#", {onclick: "$('.field_id_" + field.id.to_s + "').prop('checked', false); $('#homepage-filters').submit(); return false;"}
+
+        .right.update-filter
+          = link_to t(".update_filter"), "#", {onclick: "$('#homepage-filters').submit(); return false;"}
+
 
   - field.with(:numeric) do
     .row
@@ -47,3 +77,13 @@
           %span.custom-filter-min-max-title= t(".max")
           %span{id: "custom-filter-max-value-#{id}"}
           %input{type: "hidden", id: "nf_max_#{id}", name: "nf_max_#{field.id}", value: params["nf_max_#{field.id}"]}
+
+    .row
+      -
+      - if params["nf_min_" + field.id.to_s] != nil && params["nf_min_" + field.id.to_s] != field.min.to_i.to_s   ||   params["nf_max_" + field.id.to_s] != nil && params["nf_max_" + field.id.to_s] != field.max.to_i.to_s
+        .left.remove-this-filter
+          = link_to t(".remove_this_filter"), "#", {onclick: "window.ST.resetRangeFilter('#custom-filter-max-value-#{id}', '#nf_max_#{id}' , '#custom-filter-min-value-#{id}', '#nf_min_#{id}', #{field.min}, #{field.max}, '##{id}');"}
+
+      .right.update-filter
+        = link_to t(".update_filter"), "#", {onclick: "$('#homepage-filters').submit(); return false;"}
+

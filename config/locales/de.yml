@@ -1271,8 +1271,13 @@ de:
     custom_filters:
       update_view: "Filter aktualisieren"
       remove_all_filters: "Alle Filter entfernen"
+      update_filter: "Filter aktualisieren"
+      remove_this_filter: "Filter entfernen"
       min: "Min:"
       max: "Max:"
+      search_placeholder: "Suche Option..."
+      more: "Weitere..."
+      show_only_checked: "Zeige nur aktive"
     event_feed:
       latest_events: "Was ist los"
     grid_item:

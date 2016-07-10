@@ -53,3 +53,15 @@ window.ST.rangeFilter = function(selector, range, start, labels, fields, decimal
     }
   });
 };
+
+window.ST.resetRangeFilter = function(max_id1, max_id2, min_id1, min_id2, min_val, max_val, slider_id){
+  $(min_id1).html(min_val);
+  $(max_id1).html(max_val);
+  $(min_id2).val(min_val);
+  $(max_id2).val(max_val);
+
+  $(slider_id + ' .noUi-handle-upper').parent().css('left', "100%");
+  $(slider_id + ' .noUi-handle-lower').parent().css('left', "0%");
+
+  $('#homepage-filters').submit();
+}

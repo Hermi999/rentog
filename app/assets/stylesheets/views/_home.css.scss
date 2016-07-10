@@ -533,3 +533,139 @@ $home-list-avatar-padding: lines(0.25);
   padding-top: 2px;
 }
 
+.update-filter{
+  font-size:0.8em;
+  margin-top: -5px;
+
+  a{
+    color: rgba(35, 163, 185, 0.68);
+
+    &:hover{
+      color: rgba(35, 163, 185, 1);
+    }
+  }
+}
+
+.remove-this-filter{
+  font-size:0.8em;
+  margin-top: -5px;
+
+  a{
+    color: rgba(35, 163, 185, 0.68);
+
+    &:hover{
+      color: rgba(35, 163, 185, 1);
+    }
+  }
+}
+
+.remove-all-filters{
+  width: 100%;
+  display: block;
+  background-color: #F44336;
+  color: white!important;
+  text-align: center;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.update-filter-button{
+  width: 100%;
+}
+
+.all_custom_field_options{
+  position: fixed;
+  display: none;
+  width: 90%;
+  height:60%;
+  top: 10%;
+  left: 4%;
+  background-color: white;
+  color: black;
+  box-shadow: 0 0 15px black;
+  z-index: 999;
+  border-radius: 10px;
+  padding: 10px 15px;
+  overflow: hidden;
+
+  @include media(tablet){
+    width: 60%;
+    height:60%;
+    top: 20%;
+    left: 20%;
+  }
+}
+.custom-filter-checkbox-container2{
+  width: 100.0%;
+  float: left;
+  padding-right: 0.75em;
+  margin-bottom: 0;
+
+  @include media(tablet){
+    width: 49.0%;
+  }
+
+  @include media(desktop){
+    width: 33.0%;
+  }
+}
+.all_custom_field_options_title{
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+.all_custom_field_options_close{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+  color: black;
+}
+.all_custom_field_options_content{
+  overflow-y: scroll;
+  max-height: 70%;
+  @include media(tablet){
+    max-height: 80%;
+  }
+}
+
+.all_custom_field_options_close{
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-weight: bold;
+  color: black;
+  font-size: 1.7em;
+  cursor: pointer;
+}
+
+input.all_custom_field_options_filter{
+  min-height: 10px;
+  padding: 5px 10px;
+  width: 100%;
+  float:left;
+
+  @include media(tablet){
+    width: 45%;
+  }
+}
+
+.all_custom_field_options_checked{
+  width: 100%;
+  display: block;
+  float: left;
+
+  label{
+    margin-top: 0.25em;
+  }
+
+  @include media(tablet){
+    width: 45%;
+    margin-left: 9%;
+  }
+}
+
+.all_custom_field_options_header{
+  min-height: 17%;
+  overflow: hidden;
+}

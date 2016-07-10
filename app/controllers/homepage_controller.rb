@@ -152,6 +152,24 @@ class HomepageController < ApplicationController
   end
 
 
+  # wah
+  def load_custom_field_options
+    custom_field_id = params[:custom_field_id]
+    custom_field_options = []
+
+    CustomFieldOption.where(custom_field_id: custom_field_id).each do |option|
+      custom_field_options << {
+        title: option.title(I18n.locale),
+        id: option.id
+      }
+    end
+
+    respond_to do |format|
+      format.json { render :json => {options: custom_field_options, field_id: custom_field_id, type: CustomField.where(id: custom_field_id).first.type} }
+    end
+  end
+
+
   def self.selected_view_type(view_param, community_default, app_default, all_types)
     if view_param.present? and all_types.include?(view_param)
       view_param
