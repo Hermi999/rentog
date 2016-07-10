@@ -51,7 +51,7 @@ class ListingsController < ApplicationController
 
     # set font color
     @font_color = loc_params_hash[:font_color] || "white"
-    @text_shadow = "0px 0px 5px black" if @font_color = "white"
+    @text_shadow = "0px 0px 5px black" if @font_color == "white"
 
 
     listing_id = loc_params_hash[:listing_id]

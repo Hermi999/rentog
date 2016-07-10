@@ -64,4 +64,4 @@ window.ST.resetRangeFilter = function(max_id1, max_id2, min_id1, min_id2, min_va
   $(slider_id + ' .noUi-handle-lower').parent().css('left', "0%");
 
   $('#homepage-filters').submit();
-}
+};

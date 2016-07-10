@@ -47,6 +47,71 @@ module TestHelpers
       "housing"
     ]
 
+    DEFAULT_CUSTOM_FIELDS_FOR_TESTS = [
+      {
+        title: "Manufacturer",
+        type: "DropdownField",
+        required: false,
+        display_on_homepage: true,
+        listing_categories: :all,
+        listing_shapes: :all,
+        options: ["Hersteller1", "Hersteller2", "Hersteller3", "Hersteller4", "Hersteller5", "Hersteller6", "Hersteller7", "Hersteller8", "Hersteller9", "Hersteller10", "Hersteller11", "Hersteller12"]
+      },
+      {
+        title: "Model",
+        type: "TextField",
+        required: false,
+        display_on_homepage: false,
+        listing_categories: :all,
+        listing_shapes: :all
+      }
+    ]
+
+    def self.load_test_custom_fields_to_db(community)
+      TestHelpers::CategoriesHelper.load_custom_fields_to_db(community, DEFAULT_CUSTOM_FIELDS_FOR_TESTS)
+    end
+
+    def self.load_custom_fields_to_db(community, custom_field_templates)
+      custom_field_templates.each do |custom_field|
+
+        custom_field_name = CustomFieldName.create(value: custom_field[:title], locale: "en")
+
+        new_custom_field = CustomField.new
+        new_custom_field.names << custom_field_name
+        new_custom_field.community = community
+        new_custom_field.type = custom_field[:type]
+        new_custom_field.required = custom_field[:required]
+        new_custom_field.search_filter = custom_field[:display_on_homepage]
+
+        if custom_field[:listing_categories] == :all
+          new_custom_field.categories << Category.all
+        else
+          # todo
+        end
+
+        if custom_field[:listing_shapes] == :all
+          new_custom_field.listing_shapes << ListingShape.all
+        else
+          #todo
+        end
+
+        if new_custom_field.save
+          custom_field_name.update_attribute(:custom_field_id, new_custom_field.id)
+
+          if custom_field[:type] == "DropdownField"
+            custom_field[:options].each do |title|
+              custom_field_option = CustomFieldOption.create(custom_field_id: new_custom_field.id)
+              option_title = CustomFieldOptionTitle.create(value: title, locale: "en", custom_field_option_id: custom_field_option.id)
+              custom_field_option.titles << option_title
+              new_custom_field.options << custom_field_option
+            end
+          end
+        end
+
+
+      end
+    end
+
     def self.load_test_categories_and_listing_shapes_to_db(community)
       TestHelpers::CategoriesHelper.load_categories_and_listing_shapes_to_db(community, DEFAULT_LISTING_SHAPE_TEMPLATES_FOR_TESTS, DEFAULT_CATEGORIES_FOR_TESTS)
     end
@@ -227,6 +292,8 @@ module TestHelpers
     community3 = FactoryGirl.create(:community, :ident => "test3", :consent => "KASSI_FI1.0", :settings => {"locales" => ["en"]}, :real_name_required => true)
 
     [community1, community2, community3].each { |c| TestHelpers::CategoriesHelper.load_test_categories_and_listing_shapes_to_db(c) }
+    [community1, community2, community3].each { |c| TestHelpers::CategoriesHelper.load_test_custom_fields_to_db(c)}
+
   end
   module_function :load_default_test_data_to_db_before_suite
 
