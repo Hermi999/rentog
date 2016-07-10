@@ -6,3 +6,62 @@
           - selected = custom_field_value ? custom_field_value.selected_options.include?(opt) : false
           = check_box_tag "custom_fields[#{custom_field.id}][]", opt.id, selected, {id: "custom_fields_#{custom_field.id}_#{opt.id}", :class => "custom_field_checkbox #{custom_field.required? ? 'required' : ''}"}
           = label_tag "custom_fields_#{custom_field.id}_#{opt.id}", "#{opt.title(I18n.locale)}", {class: "light"}
+
+- if custom_field.name.downcase.include?("shipment")
+  .row.shipment-fast-select{style: "text-align: center; font-size: 0.9em;"}
+    .col-4#fast-select-eu
+      = link_to t(".select_eu"), "#"
+    .col-4#fast-select-worldwide
+      = link_to t(".toggle_all"), "#"
+    .col-4#fast-select-clearall
+      = link_to t(".clear_all"), "#"
+
+  - eu_countries = []
+  - ISO3166::Country.find_all_by("eu_member", true).each do |country_|
+    - eu_countries << country_[1]["translations"][I18n.locale.to_s]
+
+  :javascript
+    // Initialize fast select
+    $("#fast-select-eu").click(function(ev){
+      ev.preventDefault();
+      var eu_countries = #{eu_countries};
+
+      if ($("#fast-select-eu").find("a").text().indexOf("#{t(".select_eu")}") > -1){
+        $("#fast-select-eu").find("a").text("#{t(".deselect_eu")}");
+      }else{
+        $("#fast-select-eu").find("a").text("#{t(".select_eu")}");
+      }
+
+      $(ev.currentTarget).parent().prev().find("label").each(function(index, value){
+        for(var i in eu_countries){
+          if(value.textContent === eu_countries[i]) {
+            if ($("#fast-select-eu").find("a").text().indexOf("#{t(".select_eu")}") > -1){
+              value.previousElementSibling.checked = false;
+            }else{
+              value.previousElementSibling.checked = true;
+            }
+          }
+        }
+      });
+
+    });
+
+    $("#fast-select-worldwide").click(function(ev){
+      ev.preventDefault();
+      var countries = $(ev.currentTarget).parent().prev().find(".custom_field_checkbox ");
+      countries.each(function(){
+        if (this.checked == true){
+          this.checked = false;
+        }else{
+          this.checked = true;
+        }
+      });
+    });
+
+    $("#fast-select-clearall").click(function(ev){
+      ev.preventDefault();
+      var countries = $(ev.currentTarget).parent().prev().find(".custom_field_checkbox ");
+      countries.each(function(){
+        this.checked = false;
+      });
+    });

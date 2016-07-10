@@ -582,7 +582,7 @@ $home-list-avatar-padding: lines(0.25);
   left: 4%;
   background-color: white;
   color: black;
-  box-shadow: 0 0 15px black;
+  box-shadow: 0 0 45px black;
   z-index: 999;
   border-radius: 10px;
   padding: 10px 15px;
@@ -646,7 +646,7 @@ input.all_custom_field_options_filter{
   float:left;
 
   @include media(tablet){
-    width: 45%;
+    width: 30%;
   }
 }
 
@@ -654,14 +654,30 @@ input.all_custom_field_options_filter{
   width: 100%;
   display: block;
   float: left;
+  text-align: center;
 
   label{
     margin-top: 0.25em;
   }
 
   @include media(tablet){
-    width: 45%;
-    margin-left: 9%;
+    width: 30%;
+  }
+}
+
+.all_custom_field_options_update{
+  width: 100%;
+  display: block;
+  float: left;
+  text-align: center;
+
+  @include media(tablet){
+    width: 30%;
+  }
+
+  button{
+    line-height: 1.0em;
+    margin: 0px;
   }
 }
 

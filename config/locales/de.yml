@@ -1614,6 +1614,11 @@ de:
       custom_field_partials:
         dropdown:
           select_one___: auswählen...
+        checkbox:
+          select_eu: "Wähle EU Länder"
+          deselect_eu: "Entferne EU Länder"
+          toggle_all: "Toggle alle"
+          clear_all: "Entferne alle"
       departure_time:
         at: bei
         departure_time: Abfahrtszeit

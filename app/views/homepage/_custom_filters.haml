@@ -30,6 +30,9 @@
                       %label
                         %input{type: "checkbox", id: "cf_options_checked_#{field.id}"}
                         = t(".show_only_checked")
+                    .all_custom_field_options_update
+                      %button{type: 'submit', class: "update-filter-button"}
+                        = t(".update_filter")
                 .all_custom_field_options_content{id: "cf_options_content_#{field.id}"}
 
       .row

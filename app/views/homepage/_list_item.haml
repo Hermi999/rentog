@@ -110,7 +110,7 @@
                 .home-list-price-quantity.hide-on-large-mobile-inline{:title => price_text}
                   = price_text || "&nbsp".html_safe
                   = ", " if price_text && price_option[:title]
-                  = price_option[:title] if price_option[:title]
+                  = price_option[:title].split("(")[0].strip if price_option[:title]
 
                 .home-list-price-value
                   %span{style: "font-size: 0.6em;"}= currency_symbol
@@ -120,7 +120,7 @@
                   = price_text
                   - if price_text && price_option[:title]
                     = ", "
-                  = price_option[:title] if price_option[:title]
+                  = price_option[:title].split("(")[0].strip if price_option[:title]
 
             - else
               .home-list-listing-shape-value

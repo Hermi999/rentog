@@ -86,7 +86,6 @@ $(function() {
     if (data.type === "CheckboxField"){
       id_prefix = 'checkbox_filter_option_';
     }
-
     $.each(data.options, function(index, value){
       if ($("#" + id_prefix + value.id)[0]){
 
@@ -102,6 +101,12 @@ $(function() {
                   .append('<span class="custom-filter-checkbox-label-text">'+ value.title +'</span>')));
       }
     });
+
+    function compare_options(a,b) {
+      if (a.title.toLowerCase < b.title.toLowerCase) return -1;
+      if (a.title.toLowerCase > b.title.toLowerCase) return 1;
+      return 0;
+    }
   }
 
   $('.all_custom_field_options_close').click(function(ev){

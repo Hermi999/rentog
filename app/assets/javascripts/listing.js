@@ -4,6 +4,7 @@ window.ST = window.ST || {};
 
 (function(module) {
   module.listing = function() {
+
     // Initialize listing-request button
     if ($('#listing-request-button-show-form').length > 0){
       $('#listing-request-button-show-form').click(function(ev){
