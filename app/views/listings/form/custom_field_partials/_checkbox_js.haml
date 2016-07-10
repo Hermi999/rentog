@@ -1,0 +1,45 @@
+:javascript
+  // Initialize fast select
+  $("#fast-select-eu").click(function(ev){
+    ev.preventDefault();
+    var eu_countries = #{eu_countries};
+
+    if ($("#fast-select-eu").find("a").text().indexOf("#{t(".select_eu")}") > -1){
+      $("#fast-select-eu").find("a").text("#{t(".deselect_eu")}");
+    }else{
+      $("#fast-select-eu").find("a").text("#{t(".select_eu")}");
+    }
+
+    $(ev.currentTarget).parent().prev().find("label").each(function(index, value){
+      for(var i in eu_countries){
+        if(value.textContent === eu_countries[i]) {
+          if ($("#fast-select-eu").find("a").text().indexOf("#{t(".select_eu")}") > -1){
+            value.previousElementSibling.checked = false;
+          }else{
+            value.previousElementSibling.checked = true;
+          }
+        }
+      }
+    });
+
+  });
+
+  $("#fast-select-worldwide").click(function(ev){
+    ev.preventDefault();
+    var countries = $(ev.currentTarget).parent().prev().find(".custom_field_checkbox ");
+    countries.each(function(){
+      if (this.checked == true){
+        this.checked = false;
+      }else{
+        this.checked = true;
+      }
+    });
+  });
+
+  $("#fast-select-clearall").click(function(ev){
+    ev.preventDefault();
+    var countries = $(ev.currentTarget).parent().prev().find(".custom_field_checkbox ");
+    countries.each(function(){
+      this.checked = false;
+    });
+  });

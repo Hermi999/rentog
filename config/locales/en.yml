@@ -1617,7 +1617,7 @@ en:
       custom_field_partials:
         dropdown:
           select_one___: "Select one..."
-        checkbox:
+        checkbox_js:
           select_eu: "Select EU countries"
           deselect_eu: "Deselect EU countries"
           toggle_all: "Toggle all"
