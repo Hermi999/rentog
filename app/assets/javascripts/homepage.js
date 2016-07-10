@@ -111,6 +111,7 @@ $(function() {
 
   $('.all_custom_field_options_close').click(function(ev){
     ev.preventDefault();
+    $('body').css('overflow-y', 'visible');
     $('.all_custom_field_options').hide();
   });
 
@@ -152,6 +153,9 @@ $(function() {
 
       $('.all_custom_field_options').hide();
       $('#cf_options_' + field_id).show();
+      if ($(window).outerHeight() < 700){
+        $('body').css('overflow-y', 'hidden');
+      }
       $('#cf_options_title_' + field_id).html(field_title);
 
       $.get('/load_custom_field_options', {custom_field_id: field_id}, function(data){
@@ -167,6 +171,9 @@ $(function() {
     else{
       $('.all_custom_field_options').hide();
       $('#cf_options_' + field_id).show();
+      if ($(window).outerHeight() < 700){
+        $('body').css('overflow-y', 'hidden');
+      }
       $('#cf_options_title_' + field_id).html(field_title);
       insertCustomFieldOptionData(field_id);
     }

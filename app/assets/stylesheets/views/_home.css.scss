@@ -576,10 +576,11 @@ $home-list-avatar-padding: lines(0.25);
 .all_custom_field_options{
   position: fixed;
   display: none;
-  width: 90%;
-  height:60%;
-  top: 10%;
-  left: 4%;
+  width: 95%;
+  height:90%;
+  min-height: 350px;
+  top: 5%;
+  left: 2%;
   background-color: white;
   color: black;
   box-shadow: 0 0 45px black;
