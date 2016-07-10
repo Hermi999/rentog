@@ -143,10 +143,12 @@ $(function() {
     var field_title = ev.currentTarget.dataset.title;
     var custom_field_container = $(ev.currentTarget).parent().find('input');
 
+    // This options have not been loaded (and also not started)
     if (!window.ST.load_custom_field_options || !window.ST.load_custom_field_options[field_id]){
-      // No options has been loaded yet
+      // No options have been loaded yet
       if (!window.ST.load_custom_field_options){
         window.ST.load_custom_field_options = {};
+      // other options have already been loaded
       }else{
         window.ST.load_custom_field_options[field_id] = true;
       }
@@ -163,8 +165,15 @@ $(function() {
         insertCustomFieldOptionData(field_id);
       });
     }
+
     // content is loading but not finished
     else if (window.ST.load_custom_field_options[field_id] === true){
+      $('.all_custom_field_options').hide();
+      $('#cf_options_' + field_id).show();
+      if ($(window).outerHeight() < 700){
+        $('body').css('overflow-y', 'hidden');
+      }
+      $('#cf_options_title_' + field_id).html(field_title);
 
     // content for this option has not been loaded yet
     }
