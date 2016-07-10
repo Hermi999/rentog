@@ -543,9 +543,9 @@ class ListingsController < ApplicationController
 
   def create
     # wah: Check if Manufacturer field is empty, if yes -> create a new Manufacturer in db
-    handle_manufacturer
+    manufac = handle_manufacturer
 
-    # set listing author to site owner if admin or supervisor create listing
+    # wah: set listing author to site owner if admin or supervisor create listing
     get_relation
     if @relation == :rentog_admin || @relation == :domain_supervisor
       if !params[:listing][:person_id].empty?
@@ -568,8 +568,14 @@ class ListingsController < ApplicationController
       params[:listing].delete("subscribers")
     end
 
-
     shape = get_shape(Maybe(params)[:listing][:listing_shape_id].to_i.or_else(nil))
+
+    # wah: create title out of manufacturer and model if this is not a private listing
+    if  ListingShape.get_shape_from_name(shape[:name]).get_standardized_listingshape_name == "sell" ||
+        ListingShape.get_shape_from_name(shape[:name]).get_standardized_listingshape_name == "rent"
+      set_title(manufac)
+    end
+
 
     listing_params = ListingFormViewUtils.filter(params[:listing], shape)
     listing_unit = Maybe(params)[:listing][:unit].map { |u| ListingViewUtils::Unit.deserialize(u) }.or_else(nil)
@@ -689,7 +695,7 @@ class ListingsController < ApplicationController
 
   def update
     # wah: Check if Manufacturer field is empty, if yes -> create a new Manufacturer in db
-    handle_manufacturer
+    manufac = handle_manufacturer
 
     params[:listing].delete("person_id")  # this is only needed for creating a new device as an admin or supervisor
 
@@ -712,6 +718,12 @@ class ListingsController < ApplicationController
     end
 
     shape = get_shape(params[:listing][:listing_shape_id])
+
+    # wah: create title out of manufacturer and model if this is not a private listing
+    if  ListingShape.get_shape_from_name(shape[:name]).get_standardized_listingshape_name == "sell" ||
+        ListingShape.get_shape_from_name(shape[:name]).get_standardized_listingshape_name == "rent"
+      set_title(manufac)
+    end
 
     listing_params = ListingFormViewUtils.filter(params[:listing], shape)
     listing_unit = Maybe(params)[:listing][:unit].map { |u| ListingViewUtils::Unit.deserialize(u) }.or_else(nil)
@@ -1419,6 +1431,8 @@ class ListingsController < ApplicationController
   end
 
   # wah
+  # Create a new manufacturer if manufacturer does not exist in DB. Also set the corresponding custom_field parameter
+  # returns the manufacturer value
   def handle_manufacturer
     @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").first).custom_field_id.to_i.or_else(nil)
     if Maybe(params[:custom_fields])[@hersteller_field_id.to_s].or_else("-") == ""
@@ -1433,7 +1447,10 @@ class ListingsController < ApplicationController
         params[:custom_fields][@hersteller_field_id.to_s] = new_custom_field_option.id
       end
     end
+    val = params[:manufacturer_temp]
     params.delete("manufacturer_temp")
+
+    val
   end
 
   def get_iframe_params
@@ -1443,5 +1460,15 @@ class ListingsController < ApplicationController
       loc_params_hash[param[0].to_sym] = param[1]
     end
     loc_params_hash
+  end
+
+  def set_title(manufacturer)
+    model_field_id = Maybe(CustomFieldName.where(:value => "Model").first).custom_field_id.to_i.or_else(nil)
+    title = params[:custom_fields][model_field_id.to_s] + " (" + manufacturer + ")"
+    if title.length > 60
+      title = title.truncate(59) + ")"
+    end
+
+    params[:listing][:title] = title
   end
 end

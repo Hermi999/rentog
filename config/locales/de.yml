@@ -1715,6 +1715,7 @@ de:
         tags: Tags
       title:
         listing_title: "Titel des Eintrags"
+        auto_filled: "#autofill - Setzt sich aus Modellnamen & Hersteller zusammen"
       valid_until:
         valid_until: Ablaufdatum
       valid_until_radio_buttons:

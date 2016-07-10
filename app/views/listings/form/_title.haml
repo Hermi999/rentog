@@ -1,2 +1,8 @@
 = form.label :title, t(".listing_title") + "*", :class => "input"
 = form.text_field(:title, :class => "title_text_field", :maxlength => "60")
+
+- shape_name = ListingShape.find(@listing.listing_shape_id).get_standardized_listingshape_name
+- if shape_name == "sell" || shape_name == "rent"
+  :javascript
+    document.getElementById('listing_title').disabled = true;
+    document.getElementById('listing_title').value = "#{t(".auto_filled")}";

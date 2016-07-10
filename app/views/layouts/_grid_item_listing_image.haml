@@ -20,7 +20,9 @@
 
     .fluid-thumbnail-grid-image-overlay{:class => "#{modifier_class} #{closed_marker}"}
     .fluid-thumbnail-grid-image-title{:class => "#{modifier_class}"}
-      = listing.title
+      - title = listing.title.split("(")
+      = title[0]
+      %span{style: "font-size: 0.8em;"}= "(" + title[1] if title[1]
 
     .fluid-thumbnail-grid-image-price-container{:class => "#{modifier_price}"}
       - if listing.price

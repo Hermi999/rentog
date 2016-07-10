@@ -1718,6 +1718,7 @@ en:
         tags: Tags
       title:
         listing_title: "Listing title"
+        auto_filled: "#autofill - Model name (Manufacturer)"
       valid_until:
         valid_until: "Expiration date"
       valid_until_radio_buttons:

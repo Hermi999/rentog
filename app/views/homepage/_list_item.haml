@@ -33,7 +33,10 @@
         /Title
         .colFix-12.home-list-title-col{style: "padding-left: 0.5em; overflow: hidden;"}
           %h2.home-list-title
-            = link_to listing.title, listing_path(listing.url), {class: "home-share-type-link"}
+            - title = listing.title.split("(")
+            = link_to listing_path(listing.url), {class: "home-share-type-link"} do
+              = title[0]
+              %span{style: "font-size: 0.7em;"}= "(" + title[1] if title[1]
 
 
       / Author and/or Authors location + Merkzettel
