@@ -69,6 +69,7 @@
         .colFix-8{style: "max-height: 32px; min-height: 32px; overflow: hidden;"}
           %b= t(".shipment_to")
           - if(countries = get_listing_shipment_to(listing))
+            - countries = countries.limit(90) + "..." if countries.length > 90
             = countries
 
         .colFix-1{style: "min-height: 32px;"}

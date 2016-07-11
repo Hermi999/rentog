@@ -859,6 +859,9 @@ class Person < ActiveRecord::Base
     id11 = Maybe(CustomFieldName.where('value like ?', "%Depth%").first).custom_field_id.or_else(nil)
     self.custom_fields << CustomField.where(:id => id11).first if id11
 
+    id12 = Maybe(CustomFieldName.where('value like ?', "%alternative%").first).custom_field_id.or_else(nil)
+    self.custom_fields << CustomField.where(:id => id12).first if id12
+
 
     # Remove duplicates
     self.custom_fields = self.custom_fields.uniq

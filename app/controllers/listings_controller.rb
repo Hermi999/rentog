@@ -1464,7 +1464,7 @@ class ListingsController < ApplicationController
 
   def set_title(manufacturer)
     model_field_id = Maybe(CustomFieldName.where(:value => "Model").first).custom_field_id.to_i.or_else(nil)
-    title = params[:custom_fields][model_field_id.to_s] + " (" + manufacturer + ")"
+    title = params[:custom_fields][model_field_id.to_s] + " (" + manufacturer.strip + ")"
     if title.length > 60
       title = title.truncate(59) + ")"
     end

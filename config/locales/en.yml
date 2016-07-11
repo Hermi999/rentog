@@ -1622,6 +1622,8 @@ en:
           deselect_eu: "Deselect EU countries"
           toggle_all: "Toggle all"
           clear_all: "Clear all"
+        text:
+          alternative_placeholder: "Scheme: Model_A (Manufacturer_XY), ..."
       departure_time:
         at: At
         departure_time: "Departure time"

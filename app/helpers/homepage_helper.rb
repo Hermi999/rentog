@@ -44,7 +44,7 @@ module HomepageHelper
 
   def get_listing_shipment_to(listing)
     custom_field_value = CustomFieldValue.select("id").where(listing_id: listing.id, custom_field_id: @shipment_field_id).first
-    val = custom_field_value.selected_options.map { |selected_option| selected_option.title(I18n.locale) }.join(", ") if custom_field_value
+    val = custom_field_value.selected_options.map { |selected_option| selected_option.title(I18n.locale) }.sort.join(", ") if custom_field_value
 
     unless val
       val = "n/a"

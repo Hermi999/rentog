@@ -1619,6 +1619,8 @@ de:
           deselect_eu: "Entferne EU Länder"
           toggle_all: "Toggle alle"
           clear_all: "Entferne alle"
+        text:
+          alternative_placeholder: "Schema: Modell_A (Hersteller_XY), ..."
       departure_time:
         at: bei
         departure_time: Abfahrtszeit
