@@ -45,7 +45,12 @@
     %br
 
 
-  %h3= t(".attributes_header")
+  %h3{style: "padding-top:15px;"}= t(".attributes_header")
+  %ul
+    %li= t(".only_pooltool_color").html_safe
+    %li= t(".only_marketplace_color").html_safe
+    %li= t(".marketplace_pooltool_color").html_safe
+
   .row.import-listings-desc-table
     .col-6
       %table

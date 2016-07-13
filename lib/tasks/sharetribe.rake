@@ -40,6 +40,45 @@ namespace :sharetribe do
     end
   end
 
+  # job to sort the manufacturer custom fields
+  namespace :sort_custom_fields do
+    desc "Sorts the manufacturer custom fields"
+    task :sort_customer_values => :environment do |t, args|
+      @manufacturer_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").first).custom_field_id.to_i.or_else(nil)
+      custom_field_options = CustomField.find(@manufacturer_field_id).options
+
+      # go through each custom field and count the listings
+      custom_field_options.each do |option|
+        option.update_attribute(:count_listings, option.custom_field_values.count)
+      end
+
+      # sort the options by the listings count
+      arr_by_count = custom_field_options.sort_by{|option| option.count_listings}.reverse
+
+      index = 0
+
+      # if there are listings with this manufacturer, then sort them by the amount of listings
+      arr_by_count.each_with_index do |opt, ind|
+        index = ind
+        if opt.count_listings > 0
+          opt.update_attribute(:sort_priority, ind)
+        else
+          break
+        end
+      end
+
+      # sort the options by the listings count
+      arr_by_title = arr_by_count[(index..arr_by_count.length-1)].sort_by{|option| option.title('en').downcase}
+
+      arr_by_title.each do |opt|
+        opt.update_attribute(:sort_priority, index)
+        index += 1
+      end
+
+    end
+  end
+
+
   def random_location_around(coordinate_string, location_type)
     lat = coordinate_string.split(",")[0].to_f + rand*2*MAX_LOC_DIFF - MAX_LOC_DIFF
     lon =  coordinate_string.split(",")[1].to_f + rand*2*MAX_LOC_DIFF - MAX_LOC_DIFF

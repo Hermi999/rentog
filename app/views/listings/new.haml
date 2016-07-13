@@ -101,9 +101,10 @@
 
     .js-form-fields.hidden
 
-    #import_listings_from_file
-      = t(".import_from_file_or")
-      = link_to t(".import_from_file"), import_listings_new_import_path, class: "import_listings_from_file_link"
+    - if @relation == :rentog_admin || @relation == :rentog_admin_own_site
+      #import_listings_from_file
+        = t(".import_from_file_or")
+        = link_to t(".import_from_file"), import_listings_new_import_path, class: "import_listings_from_file_link"
 
 
 #hidden_person_id.hidden= @site_owner.id

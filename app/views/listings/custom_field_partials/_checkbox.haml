@@ -6,16 +6,22 @@
 - answer_title = custom_field_value.selected_options.map { |selected_option| selected_option.title(I18n.locale) }.join(", ")
 %b= "#{question_name}:"
 
-.row
-  - ArrayUtils.each_slice_columns(question.options.sort, 3) do |column|
+.row{:style => "max-height: 160px; overflow-y: scroll;"}
+  - arr = []
+  - question.options.each do |option|
+    - selected = custom_field_value.selected_options.include?(option)
+
+    - if display_unchecked || selected
+      - arr << {title: option.title(I18n.locale), selected: selected}
+
+
+  - ArrayUtils.each_slice_columns(arr.sort_by{|hsh| hsh[:title]}, 3) do |column|
     .col-4
       - column.each do |option|
-        - selected = custom_field_value.selected_options.include?(option)
+        .checkbox-option{class: option[:selected] ? 'selected' : 'not-selected'}
+          %span.checkbox-option-checkmark
+            - if option[:selected]
+              = icon_tag("check", ["icon-fix"])
+          %span
+            = option[:title]
 
-        - if display_unchecked || selected
-          .checkbox-option{class: selected ? 'selected' : 'not-selected'}
-            %span.checkbox-option-checkmark
-              - if selected
-                = icon_tag("check", ["icon-fix"])
-            %span
-              = option.title(I18n.locale)

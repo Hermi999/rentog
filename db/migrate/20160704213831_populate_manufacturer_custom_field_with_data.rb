@@ -1,7 +1,7 @@
 class PopulateManufacturerCustomFieldWithData < ActiveRecord::Migration
   def up
     hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").first).custom_field_id.to_i.or_else(nil)
-    last_sort_prio = CustomFieldOption.where(custom_field_id: hersteller_field_id).order(:sort_priority).last.sort_priority
+    last_sort_prio = Maybe(CustomFieldOption.where(custom_field_id: hersteller_field_id)).order(:sort_priority).last.sort_priority.or_else(0)
     manufacturers = ["AFL Telecommunications",
       "AFRISO-EURO-INDEX GmbH",
       "Agilent",

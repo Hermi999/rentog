@@ -7,6 +7,7 @@
 #  sort_priority   :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  count_listings  :integer
 #
 # Indexes
 #

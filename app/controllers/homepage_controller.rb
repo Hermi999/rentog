@@ -157,7 +157,7 @@ class HomepageController < ApplicationController
     custom_field_id = params[:custom_field_id]
     custom_field_options = []
 
-    CustomFieldOption.where(custom_field_id: custom_field_id).each do |option|
+    CustomFieldOption.where(custom_field_id: custom_field_id).order(:sort_priority).each do |option|
       custom_field_options << {
         title: option.title(I18n.locale),
         id: option.id
