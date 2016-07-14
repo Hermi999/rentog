@@ -598,10 +598,12 @@ class PersonMailer < ActionMailer::Base
     @invitation_code_required = invitation.community.join_with_invite_only
     set_up_urls(nil, invitation.community)
     @url_params[:locale] = mail_locale
+    from = Mail::Address.new community_specific_sender(invitation.community)
+    from.display_name = "Rentog Team"
     with_locale(mail_locale, invitation.community.locales.map(&:to_sym), invitation.community.id) do
       subject = t("emails.invitation_to_kassi.you_have_been_invited_to_kassi", :inviter => invitation.inviter.name(invitation.community), :community => invitation.community.full_name_with_separator(invitation.inviter.locale))
       premailer_mail(:to => invitation.email,
-                     :from => community_specific_sender(invitation.community),
+                     :from => from.format,
                      :subject => subject,
                      :reply_to => invitation.inviter.confirmed_notification_email_to)
     end
@@ -727,11 +729,12 @@ class PersonMailer < ActionMailer::Base
     @resource = email.person
     @confirmation_token = email.confirmation_token
     @host = community.full_domain
+    from = Mail::Address.new community_specific_sender(community)
+    from.display_name = "Rentog Team"
     with_locale(email.person.locale, community.locales.map(&:to_sym) ,community.id) do
       email.update_attribute(:confirmation_sent_at, Time.now)
       premailer_mail(:to => email.address,
-                     :from => community_specific_sender(community),
-                     :subject => t("devise.mailer.confirmation_instructions.subject"),
+                     :from => from.format,
                      :template_path => 'devise/mailer',
                      :template_name => 'confirmation_instructions')
     end
