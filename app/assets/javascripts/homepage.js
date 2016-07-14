@@ -1,4 +1,4 @@
-$(function() {
+window.ST.initializeListingRequestButtons = function(){
   // Initialize listing reqest
   if($('.listing_wrapper')){
     $('.listing_wrapper').hover(
@@ -31,6 +31,82 @@ $(function() {
       $('#listing-side-bar-wrapper').animate({ "right": "0px" });
     });
   }
+
+  $('.add-to-wishlist').unbind('click');
+  $('.remove-from-wishlist').unbind('click');
+
+  // Initialize add to wishlist
+  $('.add-to-wishlist').click(function(ev){
+    ev.preventDefault();
+    var el = $(ev.currentTarget);
+    var listing_id = el.data("listing-id");
+    var listings = "";
+    var existing_listing_ids = readCookie("wishlist");
+
+    if (existing_listing_ids === null){
+      listings = listing_id;
+      createCookie("wishlist", listings, 9999);
+      ST.js_notifications.triggerNotification("success", "Done!");
+      el.hide();
+      $(el.parent()[0]).find('.remove-from-wishlist').show();
+
+    }else{
+      existing_listing_ids_arr = existing_listing_ids.split("&");
+
+      var already_there = false;
+      for(var i in existing_listing_ids_arr){
+        if (Number(existing_listing_ids_arr[i]) === listing_id){
+          already_there = true;
+          break;
+        }
+      }
+
+      if (already_there == false){
+        listings = existing_listing_ids + "&" + listing_id;
+        createCookie("wishlist", listings, 9999);
+        el.hide();
+        $(el.parent()[0]).find('.remove-from-wishlist').show();
+        ST.js_notifications.triggerNotification("success", "Done!");
+      }else{
+        ST.js_notifications.triggerNotification("warning", "Already there!");
+      }
+    }
+  });
+
+  $('.remove-from-wishlist').click(function(ev){
+    ev.preventDefault();
+    var el = $(ev.currentTarget);
+    var listing_id = el.data("listing-id");
+    var listings = "";
+    var existing_listing_ids = readCookie("wishlist");
+
+    existing_listing_ids_arr = existing_listing_ids.split("&");
+
+    for(var i in existing_listing_ids_arr){
+      if (Number(existing_listing_ids_arr[i]) === listing_id){
+        existing_listing_ids_arr.splice(Number(i), 1);
+        ST.js_notifications.triggerNotification("info", "Removed!");
+        el.hide();
+        $(el.parent()[0]).find('.add-to-wishlist').show();
+        createCookie("wishlist", existing_listing_ids_arr.join("&"), 9999);
+
+        if (getUrlParameter('view') === "wishlist"){
+          el.parent().parent().parent().parent().hide();
+        }
+        return;
+      }
+    }
+
+    ST.js_notifications.triggerNotification("alert", "Already removed!");
+
+  });
+}
+
+
+
+$(function() {
+
+  window.ST.initializeListingRequestButtons();
 
   // Selectors
   var showFiltersButtonSelector = "#home-toolbar-show-filters";

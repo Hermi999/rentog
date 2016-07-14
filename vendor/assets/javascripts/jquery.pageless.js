@@ -67,6 +67,7 @@
                  , url: location.href
                  , loaderImage: "https://s3.eu-central-1.amazonaws.com/rentog/assets/ajax-loader-grey.gif"
                  , method: 'get'
+                 , complete: function(){window.ST.initializeListingRequestButtons()}
                  }
     , container
     , $container;
