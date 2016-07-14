@@ -117,7 +117,9 @@ $(function() {
 
   // Load huge custom fields if user hovers with the mouse
   $('.show_more_options').parent().parent().parent().hover(function(ev){
-    var field_id  = $(ev.currentTarget).find('.show_more_options').data('fieldId');
+    var _link = $(ev.currentTarget).find('.show_more_options');
+    var field_id  = _link.data('fieldId');
+    var locale  = _link.data('locale');
 
     if (!window.ST.load_custom_field_options || !window.ST.load_custom_field_options[field_id]){
       if (!window.ST.load_custom_field_options){
@@ -128,7 +130,7 @@ $(function() {
         window.ST.load_custom_field_options[field_id] = true;
       }
 
-      $.get('/load_custom_field_options', {custom_field_id: field_id}, function(data){
+      $.get('/load_custom_field_options', {custom_field_id: field_id, locale: locale}, function(data){
         window.ST.load_custom_field_options[data.field_id] = data;
 
         insertCustomFieldOptionData(field_id);
@@ -140,6 +142,7 @@ $(function() {
   $('.show_more_options').click(function(ev){
     ev.preventDefault();
     var field_id = ev.currentTarget.dataset.fieldId;
+    var locale  = ev.currentTarget.dataset.locale;
     var field_title = ev.currentTarget.dataset.title;
     var custom_field_container = $(ev.currentTarget).parent().find('input');
 
@@ -160,7 +163,7 @@ $(function() {
       }
       $('#cf_options_title_' + field_id).html(field_title);
 
-      $.get('/load_custom_field_options', {custom_field_id: field_id}, function(data){
+      $.get('/load_custom_field_options', {custom_field_id: field_id, locale: locale}, function(data){
         window.ST.load_custom_field_options[data.field_id] = data;
         insertCustomFieldOptionData(field_id);
       });
@@ -231,9 +234,10 @@ $(window).load(function() {
       window.ST.load_custom_field_options = {};
       $.each($('.show_more_options'), function(index, value){
         var field_id = value.dataset.fieldId;
+        var locale  = value.dataset.locale;
         window.ST.load_custom_field_options[field_id] = true;
 
-        $.get('/load_custom_field_options', {custom_field_id: field_id}, function(data){
+        $.get('/load_custom_field_options', {custom_field_id: field_id, locale: locale}, function(data){
           window.ST.load_custom_field_options[data.field_id] = data;
         });
 
@@ -241,10 +245,11 @@ $(window).load(function() {
     }else{
       $.each($('.show_more_options'), function(index, value){
         var field_id = value.dataset.fieldId;
+        var locale  = value.dataset.locale;
         if (!window.ST.load_custom_field_options[field_id]){
           window.ST.load_custom_field_options[field_id] = true;
 
-          $.get('/load_custom_field_options', {custom_field_id: field_id}, function(data){
+          $.get('/load_custom_field_options', {custom_field_id: field_id, locale: locale}, function(data){
             window.ST.load_custom_field_options[data.field_id] = data;
           });
         }

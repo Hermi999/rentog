@@ -18,7 +18,7 @@
                     = option.title(I18n.locale)
 
             - if field.options.length > 5
-              = link_to t(".more"), "#", {:class => "show_more_options" ,:style => "padding-left: 22px;", data: {field_id: field.id, title: field.name(I18n.locale)}}
+              = link_to t(".more"), "#", {:class => "show_more_options" ,:style => "padding-left: 22px;", data: {field_id: field.id, title: field.name(I18n.locale), locale: I18n.locale}}
 
               .all_custom_field_options{id: "cf_options_#{field.id}"}
                 .all_custom_field_options_header
