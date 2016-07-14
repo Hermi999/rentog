@@ -40,7 +40,7 @@
 
   .google_recapture_check
     - if APP_CONFIG.use_recaptcha
-      = recaptcha_tags
+      = recaptcha_tags(hl: I18n.locale)
 
 
   = f.submit t(".request"), class: "button", id: "listing-request-button"
