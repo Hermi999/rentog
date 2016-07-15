@@ -255,7 +255,7 @@ module ApplicationHelper
       "renter" => "icon-users",
       "copy" => "icon-copy",
       "keyboard" => "icon-keyboard",
-      "check" => "icon-check"
+      "check" => "icon-check",
     }
   }
 
