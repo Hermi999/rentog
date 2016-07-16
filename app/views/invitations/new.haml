@@ -14,22 +14,39 @@
   %p= t("homepage.invitation_form.add_email_addresses_description").html_safe
   - if has_admin_rights
     %p= t("homepage.invitation_form.add_lots_of_email_addresses", this_article_link: support_link).html_safe
+
+
   = form_for Invitation.new, :url => invitations_path do |f|
+
+    / Email addresses
     = f.label :email, t("homepage.invitation_form.email")
     = f.text_area :email, :class => "text_field", :placeholder => t("homepage.invitation_form.invitation_emails_field_placeholder")
+
+    / Personal message
     = f.label :message, t("homepage.invitation_form.message")
     = f.text_area :message, :class => "invitation_message_text", :value => t("homepage.invitation_form.invitation_message_field_placeholder1")
+
+    / Hint
     %span{:style=> "font-size:0.8em; display:block"}= t("homepage.invitation_form.auto_filled")
     %br
 
-    - if @company_employees_left
-      = f.radio_button :target, 'employee', :checked => true
+    / Marketplace invitation
+    = f.radio_button :target, 'any'
+    = f.label :target_anyone, t("homepage.invitation_form.label_invite_any"), :id => "target_any_label"
+    %br
+
+    / Employee invitation
+    - if @company_employees_below_limit
+      = f.radio_button :target, 'employee'
       = f.label :target_employee, t("homepage.invitation_form.label_invite_employee"), :id => "target_employee_label"
       %br
-      = f.radio_button :target, 'any'
+
     - else
       = link_to t('people.show.employee_limit_reached_invite').html_safe, get_wp_url('pricing'), :class => "upgrade_profile_person"
-      = f.radio_button :target, 'any', :checked => true
 
-    = f.label :target_anyone, t("homepage.invitation_form.label_invite_shared_pool"), :id => "target_any_label"
+    / Shared pool request
+    = f.radio_button :target, 'shared_pool'
+    = f.label :target_shared_pool, t("homepage.invitation_form.label_invite_shared_pool"), :id => "target_shared_pool_label"
+
+    / Submit
     = f.button t("homepage.invitation_form.send_invitation")

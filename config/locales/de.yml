@@ -1327,6 +1327,7 @@ de:
       invitation_emails_field_placeholder: "freund1@beispiel.com, freund2@beispiel.com, ..."
       invitation_message_field_placeholder1: "Hi. \nWir verwenden ab jetzt firmenintern Rentog um unsere Testgeräte zu verwalten. Bitte registriere dich!"
       invitation_message_field_placeholder2: "Hi. \nBitte füge meinen Gerätepool zu deinem Shared Pool hinzu. Dazu klicke einfach auf einen der beiden Links oberhalb um zur Profilseite meines Pools zu kommen und anschließend auf den Button 'Vertrauen'.\nDadurch können alle Pool-Benutzer meines Gerätepools deine Geräte sehen und buchen. \n\nSolltest dein Unternehmen / deine Abteilung noch kein Profil auf Rentog erstellt haben, dann klicke auf den Button unterhalb."
+      invitation_message_field_placeholder3: "Hi. \nRentog ist ein online Marktplatz für Test- und Messgeräte. Wirf mal einen Blick drauf!"
       errors_in_emails: "Überprüfe, ob die eingegebenen E-Mail-Adressen korrekt sind. Wenn du mehrere E-Mail-Adressen eingegeben hast, trenne sie mit einem Komma."
     list_item:
       review: Bewertung

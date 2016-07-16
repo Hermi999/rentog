@@ -13,7 +13,7 @@ class InvitationsController < ApplicationController
     userplanservice = UserPlanService::Api.new
     @max_company_employees = userplanservice.get_plan_feature_level(@company, :company_employees)[:value]
     companyEmployeesCount = Employment.where(:company_id => @company.id, :active => true).count
-    @company_employees_left = companyEmployeesCount < @max_company_employees
+    @company_employees_below_limit = companyEmployeesCount < @max_company_employees
 
 
     @invitation = Invitation.new
@@ -21,7 +21,8 @@ class InvitationsController < ApplicationController
 
     gon.push({
         invitation_message_field_placeholder1: t("homepage.invitation_form.invitation_message_field_placeholder1"),
-        invitation_message_field_placeholder2: t("homepage.invitation_form.invitation_message_field_placeholder2")
+        invitation_message_field_placeholder2: t("homepage.invitation_form.invitation_message_field_placeholder2"),
+        invitation_message_field_placeholder3: t("homepage.invitation_form.invitation_message_field_placeholder3")
     })
 
     render locals: { invitation_limit: invitation_limit, has_admin_rights: @current_user.has_admin_rights_in?(@current_community) }

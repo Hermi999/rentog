@@ -1448,10 +1448,15 @@ function initialize_invitation_form(locale, email_error_message, invitation_limi
       disable_and_submit("#new_invitation", form, "false", locale);
 
       if (track()){
+
+        var type = "any";
+        if (form.elements.invitation_target_employee.checked)   { type = "employee"; }
+        if (form.elements.invitation_target_shared_pool.checked)   { type = "shared_pool"; }
+
         mixpanel.track("New Invitation",{
           invitation_emails: form.elements.invitation_email.value,
           invitation_message: form.elements.invitation_message.value,
-          invitation_type: (form.elements.invitation_target_employee.checked)?'employee':'any'
+          invitation_type: type
         });
       }
     }

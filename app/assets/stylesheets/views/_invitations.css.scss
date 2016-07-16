@@ -14,10 +14,21 @@
 
 
 #invitation_target_any{
-  margin: 10px 0 20px 0;
+  margin: 10px 0;
   cursor: pointer;
 }
 #target_any_label{
+  display:inline;
+  margin-left:5px;
+  cursor: pointer;
+}
+
+
+#invitation_target_shared_pool{
+  margin: 10px 0 20px 0;
+  cursor: pointer;
+}
+#target_shared_pool_label{
   display:inline;
   margin-left:5px;
   cursor: pointer;
