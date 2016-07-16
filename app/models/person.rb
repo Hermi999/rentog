@@ -847,17 +847,17 @@ class Person < ActiveRecord::Base
     id7 = Maybe(CustomFieldName.where('value like ?', "%Additional features and services%").first).custom_field_id.or_else(nil)
     self.custom_fields << CustomField.where(:id => id7).first if id7
 
-    id8 = Maybe(CustomFieldName.where('value like ?', "%Weight%").first).custom_field_id.or_else(nil)
-    self.custom_fields << CustomField.where(:id => id8).first if id8
+    #id8 = Maybe(CustomFieldName.where('value like ?', "%Weight%").first).custom_field_id.or_else(nil)
+    #self.custom_fields << CustomField.where(:id => id8).first if id8
 
-    id9 = Maybe(CustomFieldName.where('value like ?', "%Height%").first).custom_field_id.or_else(nil)
-    self.custom_fields << CustomField.where(:id => id9).first if id9
+    #id9 = Maybe(CustomFieldName.where('value like ?', "%Height%").first).custom_field_id.or_else(nil)
+    #self.custom_fields << CustomField.where(:id => id9).first if id9
 
-    id10 = Maybe(CustomFieldName.where('value like ?', "%Width%").first).custom_field_id.or_else(nil)
-    self.custom_fields << CustomField.where(:id => id10).first if id10
+    #id10 = Maybe(CustomFieldName.where('value like ?', "%Width%").first).custom_field_id.or_else(nil)
+    #self.custom_fields << CustomField.where(:id => id10).first if id10
 
-    id11 = Maybe(CustomFieldName.where('value like ?', "%Depth%").first).custom_field_id.or_else(nil)
-    self.custom_fields << CustomField.where(:id => id11).first if id11
+    #id11 = Maybe(CustomFieldName.where('value like ?', "%Depth%").first).custom_field_id.or_else(nil)
+    #self.custom_fields << CustomField.where(:id => id11).first if id11
 
     id12 = Maybe(CustomFieldName.where('value like ?', "%alternative%").first).custom_field_id.or_else(nil)
     self.custom_fields << CustomField.where(:id => id12).first if id12

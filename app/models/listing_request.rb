@@ -36,4 +36,22 @@ class ListingRequest < ActiveRecord::Base
   validates :get_further_docs, presence: true, allow_blank: true
   validates :get_price_list, presence: true, allow_blank: true
   validates :get_quotation, presence: true, allow_blank: true
+
+
+  def self.count_requests_of_listing(listing_id)
+    ListingRequest.where(listing_id: listing_id).count
+  end
+
+
+  def self.requests_of_company(company_id)
+    person = Person.where(id: company_id).first
+    requests = []
+
+    person.listings.where.each do |listing|
+      requests << ListingRequest.where(listing_id: listing_id)
+    end
+
+    requests
+  end
+
 end

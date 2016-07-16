@@ -1411,7 +1411,7 @@ en:
       settings: Settings
       sign_up: "Create account"
       poolTool: "Pool Tool"
-      import_export: "Import & Export"
+      import_export: "Export"
     logged_in_messages_icon:
       messages: Messages
     logged_in_notifications_icon:
@@ -1850,7 +1850,8 @@ en:
       tags: Tags
       time: time
       times: times
-      times_viewed: Viewed
+      times_viewed: "unique visitors"
+      listing_requests: "listing requests"
       all: All
       category: "(Category)"
       processing_uploaded_image: "(Processing uploaded image...)"
@@ -2833,12 +2834,12 @@ en:
       pooltool_calendar_view: "Pool Tool Calendar View"
   export:
     index:
-      headline: "Import & Export"
+      headline: "Export"
       import_from_file: "<b>Import data</b>"
       export_to_file: "Export data"
       desc: "The import and export services allow you to export data from your Rentog profile and to import data from other tools."
       export: "Export"
-      export_desc: "You can export devices, bookings and users to an excel file (one sheet per type)."
+      export_desc: "You can export devices, bookings and users to an excel file (one sheet per type). <br><br><i><b>Anmerkung</b>: If you only use the marketplace and not the pool tool, then the sheets 'Bookings' and 'Users' will stay empty.</i><br><br>"
       date_desc: "You can limit and increase the exported data by giving a start and end date for the device bookings. Per default all bookings from this and last year will be exported. Each export contains all users and devices."
       import: "Import"
       import_desc: "If you follow the below link you will get to the import formular where you can import devices from an excel file. The import either creates new devices or it updates existing devices (if name and serial number match). At the momemt it is not possible to import booking information."

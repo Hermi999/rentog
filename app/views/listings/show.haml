@@ -251,6 +251,21 @@
                   %span.listing-price-quantity
                     = price_option[:title]
 
+    - if @relation == :rentog_admin_own_site || @relation == :rentog_admin || @relation == :company_admin_own_site
+      / Times viewed
+      .row.views_and_requests
+        .col-12
+          .listing-times-viewed
+            = @listing.times_viewed
+            %span
+              = " " + t(".times_viewed")
+
+        / Listing Requests
+        .col-12{style: "padding-left: 0px; margin-top: 5px;"}
+          .listing-request-count
+            = ListingRequest.count_requests_of_listing(@listing.id)
+            %span
+              = " " + t(".listing_requests")
 
     / Listing actions
     .row-with-divider

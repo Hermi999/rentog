@@ -1408,7 +1408,7 @@ de:
       settings: Einstellungen
       sign_up: "Konto erstellen"
       poolTool: "Pool Tool"
-      import_export: "Import & Export"
+      import_export: "Export"
     logged_in_messages_icon:
       messages: Nachrichten
     logged_in_notifications_icon:
@@ -1847,7 +1847,8 @@ de:
       tags: Tags
       time: Zeit
       times: Zeiten
-      times_viewed: Gesehen
+      times_viewed: "eindeutige Besucher"
+      listing_requests: "Anfragen"
       all: "Alle"
       category: "(Kategorie)"
       processing_uploaded_image: "(Bild wird bearbeitet ...)"
@@ -2815,12 +2816,12 @@ de:
       pooltool_calendar_view: "Pool Tool Kalendaransicht"
   export:
     index:
-      headline: "Import & Export"
+      headline: "Export"
       import_from_file: "<b>Daten importieren</b>"
       export_to_file: "Daten exportieren"
       desc: "Die Import- und Export- Funktionen ermöglichen Ihnen Daten von Ihrem Rentog-Profil zu exportieren bzw. bereits in anderen Programmen vorhandene Daten zu importieren."
       export: "Export"
-      export_desc: "Der Datenexport ermöglicht Ihnen den Export von Geräten, Buchungen und Benutzern in eine Exceldatei (je ein Tabellenblatt)."
+      export_desc: "Der Datenexport ermöglicht Ihnen den Export von Geräten, Buchungen und Benutzern in eine Exceldatei (je ein Tabellenblatt). <br><br><i><b>Anmerkung</b>: Wenn Sie nur den Marktplatz in Verwendung haben, dann werden die Tabellenblätter 'Buchungen' und 'Benutzer' leer bleiben.</i><br><br>"
       date_desc: "Sie können den Export der Gerätebuchungen mit Hilfe einer Datumsangabe eingrenzen bzw. erweitern. Standardmäßig werden alle Buchungen dieses und des vorherigen Jahres exportiert. Es werden immer alle Geräte und alle Benutzer exportiert."
       import: "Import"
       import_desc: "Unter nachfolgendem Link können Sie Geräte von einer Exceldatei importieren. Dadurch werden entweder neue Geräte auf Rentog erstellt oder auch bereits vorhandene Geräte upgedatet. Der Import von Buchungsdaten ist aktuell noch nicht möglich."

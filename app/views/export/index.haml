@@ -6,14 +6,14 @@
   %h1#import-export-header= t(".headline")
 
 #import-export-wrapper
-  = t(".desc").html_safe
+  /= t(".desc").html_safe
 
   #export-wrapper
-    %h3= t(".export").html_safe
+    /%h3= t(".export").html_safe
     = t(".export_desc").html_safe
     = t(".date_desc").html_safe
 
-    #datepicker_wrapper.row
+    #datepicker_wrapper.row{style: "margin-top: 20px;"}
       .input-daterange.input-group.clearfix#datepicker{:data => {:locale => I18n.locale, :format => t("datepicker.format")}}
         .datepicker-start-wrapper.col-3
           = label_tag t(".from")
@@ -28,8 +28,9 @@
         .datepicker-button.col-3
           #export-button.button Export
 
-  #import-wrapper
-    %h3= t(".import").html_safe
-    = t(".import_desc").html_safe
-    %br
-    = link_to t(".import_from_file").html_safe, import_listings_new_import_path, class: "import-from-file-link"
+
+  /#import-wrapper
+  /  %h3= t(".import").html_safe
+  /  = t(".import_desc").html_safe
+  /  %br
+  /  = link_to t(".import_from_file").html_safe, import_listings_new_import_path, class: "import-from-file-link"
