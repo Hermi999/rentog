@@ -100,7 +100,8 @@ body {
   overflow-y: scroll;
 }
 
-#new_listing_request{
+#new_listing_request,
+#new_listing_request_dummy{
   input, textarea, button, select{
     min-height:30px;
 
@@ -2596,3 +2597,7 @@ figure.fluidratio {
   }
 }
 
+.disabledbutton {
+  pointer-events: none;
+  opacity: 0.4;
+}

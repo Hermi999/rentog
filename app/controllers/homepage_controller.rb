@@ -165,8 +165,8 @@ class HomepageController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to marketplace_path and return }
       format.json { render :json => {options: custom_field_options, field_id: custom_field_id, type: CustomField.where(id: custom_field_id).first.type} }
+      format.html { redirect_to marketplace_path }
     end
   end
 

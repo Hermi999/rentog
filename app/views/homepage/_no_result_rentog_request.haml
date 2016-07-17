@@ -1,0 +1,41 @@
+- listing_req = ListingRequest.new
+
+= label_tag :dummy_form_name, t("listings.listing_side_bar_form.name")
+= text_field_tag :dummy_form_name, cookies[:listing_request_name]
+
+= label_tag :dummy_form_email, t("listings.listing_side_bar_form.email")
+= text_field_tag :dummy_form_email, cookies[:listing_request_email]
+
+= label_tag :dummy_form_phone, t("listings.listing_side_bar_form.phone")
+= text_field_tag :dummy_form_phone, cookies[:listing_request_phone]
+
+= label_tag :dummy_form_country, t("listings.listing_side_bar_form.country")
+- c_by_cookie = Maybe(ISO3166::Country.find_country_by_name(cookies[:listing_request_country])).translation(I18n.locale).or_else(nil)
+- c_by_ip = Maybe(ISO3166::Country.find_country_by_name(request.location.country)).translation(I18n.locale).or_else(nil) if c_by_cookie.nil?
+= select_tag :dummy_form_country, options_for_select(ISO3166::Country.all_translated(I18n.locale).sort.map{|val| [val] + [val]}, c_by_cookie || c_by_ip)
+
+= label_tag :dummy_form_message, t("listings.listing_side_bar_form.message")
+= text_area_tag :dummy_form_message, cookies[:listing_request_message], {rows: 5}
+
+.listing-request-checkbox-wrapper
+  = check_box_tag :dummy_form_contact_per_phone, nil, cookies[:listing_request_contact_per_phone] == "true", {class: "listing-request-checkbox"}
+  = label_tag :dummy_form_contact_per_phone, t("listings.listing_side_bar_form.get_contacted"), class: "listing-request-checkbox-label"
+
+.listing-request-checkbox-wrapper
+  = check_box_tag :dummy_form_get_further_docs, nil, cookies[:listing_request_get_further_docs]=="true", {class: "listing-request-checkbox"}
+  = label_tag :dummy_form_get_further_docs, t("listings.listing_side_bar_form.get_further"), class: "listing-request-checkbox-label"
+
+.listing-request-checkbox-wrapper
+  = check_box_tag :dummy_form_get_price_list, nil, cookies[:listing_request_get_price_list]=="true", {class: "listing-request-checkbox"}
+  = label_tag :dummy_form_get_price_list, t("listings.listing_side_bar_form.get_prices"), class: "listing-request-checkbox-label"
+
+.listing-request-checkbox-wrapper
+  = check_box_tag :dummy_form_get_quotation, nil, cookies[:listing_request_get_quotation]=="true", {class: "listing-request-checkbox"}
+  = label_tag :dummy_form_get_quotation, t("listings.listing_side_bar_form.get_quotation"), class: "listing-request-checkbox-label"
+
+/.google_recapture_check#dummy-form-recapture
+/  - if APP_CONFIG.use_recaptcha
+/    = recaptcha_tags(hl: I18n.locale)
+
+
+.button#dummy-listing-request-button= t("listings.listing_side_bar_form.request")

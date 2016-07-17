@@ -68,7 +68,7 @@ class ListingRequestsController < ApplicationController
       cookies.permanent[:listing_request_email] = params[:listing_request][:email]
       cookies.permanent[:listing_request_country] = params[:listing_request][:country]
       cookies.permanent[:listing_request_phone] = params[:listing_request][:phone]
-      cookies.permanent[:listing_request_message] = params[:listing_request][:message]
+      cookies.permanent[:listing_request_message] = params[:listing_request][:message] unless params[:listing_request][:listing_id] == "abcd"
       cookies.permanent[:listing_request_get_further_docs] = params[:listing_request][:get_further_docs]
       cookies.permanent[:listing_request_contact_per_phone] = params[:listing_request][:contact_per_phone]
       cookies.permanent[:listing_request_get_price_list] = params[:listing_request][:get_price_list]
@@ -77,7 +77,13 @@ class ListingRequestsController < ApplicationController
 
     def verify_captcha(listing_request)
       res = false
+
+      # Already verified that this user is a human
       if cookies[:captcha_id] == Digest::SHA256.digest(request.remote_ip + "adsf23zafds16").gsub(/\W+/, '')
+        res = true
+
+      elsif params[:gRecaptchaResponse] == "abcd" && params[:listing_request][:listing_id] == "abcd"
+        # request to rentog. no re-captcha.
         res = true
       else
         res = verify_recaptcha(model: listing_request, response: params[:gRecaptchaResponse])

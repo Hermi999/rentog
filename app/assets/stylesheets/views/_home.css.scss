@@ -686,3 +686,32 @@ input.all_custom_field_options_filter{
   min-height: 17%;
   overflow: hidden;
 }
+
+.home-no-listings-tell-us-wrapper{
+  background-color: #EA806F;
+  margin-top: 30px;
+  color: white;
+  padding: 20px;
+  border-radius: 7px;
+  font-weight: bold;
+  box-shadow: 0 0 15px #9E9E9E;
+}
+.home-no-listings-headline{
+  font-size: 1.4em;
+}
+.home-no-listings-desc{
+  font-size: 1.2em;
+  margin-top: 15px;
+}
+.home-no-listings-form{
+  padding: 2% 2%;
+  font-size: 0.9em;
+  max-width: 500px;
+}
+
+#dummy-listing-request-button{
+  width: 100%;
+  height: 50px;
+  font-size: 1.3em;
+  box-shadow: 1px 1px 5px white;
+}

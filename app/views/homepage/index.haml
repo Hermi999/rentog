@@ -163,14 +163,27 @@
               = pageless(@listings.total_pages, item_container, request.fullpath, t('.loading_more_content'))
 
         - else
-          .home-no-listings
-            - if params[:q] || params[:category] || params[:share_type] || params[:restrictedMarketplace] # Some filter in use
+          - if params[:q] || params[:category] || params[:share_type] || params[:restrictedMarketplace] # Some filter in use
+            .home-no-listings
               = t(".no_listings_with_your_search_criteria")
-            - else
-              - if !(@current_user && @current_user.is_employee? && !@current_community.employees_can_create_listings) && @view_type != "wishlist"
+
+            .home-no-listings-tell-us-wrapper
+              .home-no-listings-headline
+                = t(".no_listings_tell_us")
+
+              .home-no-listings-desc
+                = t(".no_listings_desc")
+
+              .home-no-listings-form#new_listing_request_dummy
+                = render partial: "no_result_rentog_request", locals: {listing: @listing}
+
+          - else
+            .home-no-listings
+              - if (@current_user && @current_user.is_organization || @current_community.employees_can_create_listings) && @view_type != "wishlist"
                 = t(".no_listings_notification", :add_listing_link => link_to(t(".add_listing_link_text"), new_listing_path)).html_safe
               - else
                 =t(".no_listings_notification_employee")
+
     - puts "********** " + timing.to_s  + "**********"
 
 

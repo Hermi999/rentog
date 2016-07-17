@@ -1285,6 +1285,8 @@ de:
     index:
       price_on_request: "Auf Anfrage"
       no_listings_with_your_search_criteria: "Wir konnten keine passenden Suchergebnisse finden."
+      no_listings_tell_us: "Sagen Sie uns was Sie suchen!"
+      no_listings_desc: "Wir senden Ihnen Angebote und weitere benötigte Informationen zu."
       no_listings_notification: "Keine Einträge. %{add_listing_link}."
       no_listings_notification_employee: "Es gibt noch keine Einträge."
       add_listing_link_text: "Neuen Eintrag hinzufügen"

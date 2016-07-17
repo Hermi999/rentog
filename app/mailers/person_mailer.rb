@@ -611,12 +611,20 @@ class PersonMailer < ActionMailer::Base
 
   def listing_request_to_seller(lr, community)
     @listing_request = lr
-    mail_locale = @listing_request.author.locale
+
+    if @listing_request.listing_id != 0
+      receiver = @listing_request.author.confirmed_notification_emails_to
+      mail_locale = @listing_request.author.locale
+    else
+      receiver = community.admin_emails
+      mail_locale = "de"
+    end
+
     set_up_urls(nil, community)
     @url_params[:locale] = mail_locale
     with_locale(mail_locale, community.locales.map(&:to_sym), community.id) do
       subject = t("emails.listing_request.new_listing_request")
-      premailer_mail(:to => @listing_request.author.confirmed_notification_emails_to,
+      premailer_mail(:to => receiver,
                      :from => community_specific_sender(community),
                      :subject => subject,
                      :reply_to => @listing_request.email)

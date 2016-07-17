@@ -1286,7 +1286,9 @@ en:
       processing_uploaded_image: "(Processing uploaded image...)"
     index:
       price_on_request: "On Request"
-      no_listings_with_your_search_criteria: "Sorry, no listings could be found for your search criteria. Maybe try other search terms?"
+      no_listings_with_your_search_criteria: "Sorry, no listings could be found for your search criteria."
+      no_listings_tell_us: "Tell us what you are searching for!"
+      no_listings_desc: "We will get you one or more quotations and all other necessary information."
       no_listings_notification: "No listings. %{add_listing_link}."
       no_listings_notification_employee: "There are no listings yet."
       add_listing_link_text: "Add new listing"

@@ -32,6 +32,70 @@ window.ST.initializeListingRequestButtons = function(){
     });
   }
 
+  // Initialize "no listing - request form"
+  $('#dummy_form_message')[0].value = $('#q')[0].value;
+
+  // Copy values from dummy form to listing request form. This is necessary because
+  // we cant have the listing request form within the search formular - That wouldnt
+  // be valid html
+  $("#dummy-listing-request-button").click(function(e){
+    e.preventDefault();
+
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var _return = false;
+
+    // Check values of dummy form
+    if ($("#dummy_form_email")[0].value === ""){
+      $("#dummy_form_email").css("background-color", "#E91E63");
+      _return = true;
+    }
+    // Validate email
+    else if (re.test($("#dummy_form_email")[0].value) === false){
+      $("#dummy_form_email").css("background-color", "#E91E63");
+      _return = true;
+    }
+    else{
+      $("#dummy_form_email").css("background-color", "white");
+    }
+
+    if ($("#dummy_form_name")[0].value === ""){
+      $("#dummy_form_name").css("background-color", "#E91E63");
+      _return = true;
+    }else{
+      $("#dummy_form_name").css("background-color", "white");
+    }
+
+    if ($("#dummy_form_country")[0].value === ""){
+      $("#dummy_form_country").css("background-color", "#E91E63");
+      _return = true;
+    }else{
+      $("#dummy_form_country").css("background-color", "white");
+    }
+
+    if (_return) { return false; }
+
+
+    // Copy values to real listing request form
+    $("#listing_request_name")[0].value = $('#dummy_form_name')[0].value;
+    $("#listing_request_listing_id")[0].value = "abcd";
+    $("#listing_request_email")[0].value = $('#dummy_form_email')[0].value;
+    $("#listing_request_phone")[0].value = $('#dummy_form_phone')[0].value;
+    $("#listing_request_country")[0].value = $('#dummy_form_country')[0].value;
+    $("#listing_request_message")[0].value = $('#dummy_form_message')[0].value;
+    $("#listing_request_contact_per_phone")[0].checked = $("#dummy_form_contact_per_phone")[0].checked;
+    $("#listing_request_get_further_docs")[0].checked = $("#dummy_form_get_further_docs")[0].checked;
+    $("#listing_request_get_price_list")[0].checked = $("#dummy_form_get_price_list")[0].checked;
+    $("#listing_request_get_quotation")[0].checked = $("#dummy_form_get_quotation")[0].checked;
+    $("#g-recaptcha-response")[0].value = "abcd";
+
+    // Disable button
+    $("#dummy-listing-request-button").addClass("disabledbutton");
+
+    // Submit listing request form
+    $("#listing-request-button").click();
+  });
+
+
   $('.add-to-wishlist').unbind('click');
   $('.remove-from-wishlist').unbind('click');
 
