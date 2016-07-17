@@ -153,6 +153,7 @@ class Person < ActiveRecord::Base
   has_many :followed_people, :through => :inverse_follower_relationships, :source => "person"
   has_many :credit_histories, :foreign_key => "person_id", :dependent => :destroy
   has_many :listing_events, :foreign_key => "person_id"
+  has_many :listing_requests
 
   has_and_belongs_to_many :subscribed_listings, :class_name => "Listing", :join_table => "listing_subscribers"  # wah
   has_and_belongs_to_many :custom_fields, class_name: "CustomField"   # wah

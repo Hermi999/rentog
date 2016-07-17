@@ -12,6 +12,40 @@ class ListingRequestsController < ApplicationController
     @per_page = 15
   end
 
+  def export
+    @listing_requests = ListingRequest.all.order('created_at DESC').limit(10000)
+
+    # create new export file
+    @p = Axlsx::Package.new
+    @wb = @p.workbook
+
+    # worksheet devices
+    @wb.add_worksheet(:name => "ListingRequests") do |sheet|
+      sheet.add_row ListingRequest.new.attributes.keys
+
+      @listing_requests.each do |row|
+        new_row = []
+        row.attributes.each do |field|
+          new_row <<
+          if field[0] == "listing_id" && field[1] != 0
+            listing_ = Listing.find(field[1])
+            "Title: " + listing_.title + "\r\nID: " + listing_.id.to_s + "\r\Owner: " + listing_.author.full_name
+          else
+            field[1].to_s
+          end
+        end
+
+        sheet.add_row new_row
+      end
+    end
+
+    file_name = 'listing_requests.xlsx'
+    path_to_file = "#{Rails.root}/public/system/exportfiles/" + file_name
+
+    @p.serialize(path_to_file)
+    send_file(path_to_file, filename: file_name, type: "application/vnd.ms-excel")
+  end
+
   def create
     # limit requests per ip address
     params[:listing_request][:ip_address] = request.remote_ip

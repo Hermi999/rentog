@@ -34,7 +34,12 @@
         - row.each do |field|
           - if field.class.to_s == "Hash"
             %td
-              %a{href: field[:href]}= field[:name]
+              %a{href: field[:href]}= Maybe(field[:name]).or_else("")
+              %br
+              = Maybe(field[:email]).or_else("").html_safe
+              %br
+              = Maybe(field[:phone]).or_else("").html_safe
+
           - else
             %td= field.to_s.html_safe
 

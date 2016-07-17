@@ -32,7 +32,14 @@ class RentogEventsController < ApplicationController
       sheet.add_row RentogEvent.new.attributes.keys
 
       @table.each do |row|
-        new_row = row.map {|field| field.to_s.gsub("<br>", "\r\n").gsub(/<(.*?)>/, "")}
+        new_row = row.map do |field|
+          if field.class.to_s == "Hash"
+            field[:name].to_s + ", " + field[:email].to_s+ ", " + field[:phone].to_s
+          else
+            field.to_s.gsub("<br>", "\r\n").gsub(/<(.*?)>/, "")
+          end
+        end
+
         sheet.add_row new_row
       end
     end
@@ -67,11 +74,12 @@ class RentogEventsController < ApplicationController
 
       lr.attributes.each do |attr_values|
         if attr_values[0] == "visitor_id" && attr_values[1] && attr_values[1] != ""
-          row << Visitor.find(attr_values[1]).name
+          visitor_ = Visitor.find(attr_values[1])
+          row << {name: visitor_.name, href: "#", email: visitor_.email, phone: visitor_.phone}
 
         elsif attr_values[0] == "person_id" && attr_values[1] && attr_values[1] != ""
           person_ = Person.find(attr_values[1])
-          row << {name: person_.full_name, href: person_path(person_)}
+          row << {name: person_.full_name, href: person_path(person_), email: person_.emails.last.address, phone: person_.phone_number}
 
         elsif attr_values[0] == "event_name"
           if attr_values[1] == "marketplace_search_or_filter"

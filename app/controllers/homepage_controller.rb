@@ -294,9 +294,9 @@ class HomepageController < ApplicationController
     }
 
     # log search as rentog event (but only if there is really a search or filter)
-    if  filter_params[:custom_dropdown_field_options] != [] &&
-        filter_params[:custom_checkbox_field_options] != [] &&
-        price_cents != nil
+    if  filter_params[:custom_dropdown_field_options] != [] ||
+        filter_params[:custom_checkbox_field_options] != [] ||
+        filter_params[:price_cents] != nil
 
       person_id_ = @current_user.id if @current_user
       visitor_id_ = @visitor.id if @visitor
