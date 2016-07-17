@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160717112540) do
+ActiveRecord::Schema.define(version: 20160717222603) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -227,6 +227,9 @@ ActiveRecord::Schema.define(version: 20160717112540) do
     t.boolean  "disable_facebook_twitter",                                 default: false
     t.boolean  "employee_has_own_profile",                                 default: true
     t.boolean  "pooltool_employee_has_to_give_back_device",                default: false
+    t.integer  "visitor_counter",                            limit: 4
+    t.integer  "unique_visitor_counter",                     limit: 4
+    t.integer  "scroll_visitor_counter",                     limit: 4
   end
 
   add_index "communities", ["domain"], name: "index_communities_on_domain", using: :btree

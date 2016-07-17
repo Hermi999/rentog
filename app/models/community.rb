@@ -100,6 +100,9 @@
 #  disable_facebook_twitter                   :boolean          default(FALSE)
 #  employee_has_own_profile                   :boolean          default(TRUE)
 #  pooltool_employee_has_to_give_back_device  :boolean          default(FALSE)
+#  visitor_counter                            :integer
+#  unique_visitor_counter                     :integer
+#  scroll_visitor_counter                     :integer
 #
 # Indexes
 #

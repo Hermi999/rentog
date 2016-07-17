@@ -2,45 +2,80 @@
 
 %body
 
-  - if ENV["RAILS_ENV"] == "development"
+  - if @relation == :rentog_admin || :rentog_admin_own_site
     #development-infos
       #development-infos-close x
-      %b= "DEVELOPMENT-INFORMATIONS"
-      %table
-        %tr
-          %td= "Person ID:"
-          %td= Maybe(@current_user).id.or_else("-")
-        %tr
-          %td= "Username:"
-          %td= Maybe(@current_user).username.or_else("-")
-        %tr
-          %td= "Full name:"
-          %td= Maybe(@current_user).full_name.or_else("-")
-        %tr
-          %td= "Emails:"
-          %td
-            - if @current_user
-              = @current_user.confirmed_notification_emails.map(&:address)
-            - else
-              -
-        %tr
-          %td= "Site Owner:"
-          %td= Maybe(Maybe(@site_owner).organization_name.or_else(nil)).or_else("-")
-        %tr
-          %td= "Relation:"
-          %td= Maybe(@relation).or_else("-")
-        %tr
-          %td= "User plan:"
-          %td= Maybe(@current_user).user_plan.or_else("-")
-        %tr
-          %td= "Visitor session id:"
-          %td= Maybe(@visitor).session_id.or_else("-")
-        %tr
-          %td= "Visitor name:"
-          %td= Maybe(@visitor).name.or_else("-")
-        %tr
-          %td= "Vis. sessions + locale:"
-          %td= Maybe(@visitor).count_sessions.or_else("-").to_s + " | " + Maybe(@visitor).locale.or_else("-")
+      - if ENV["RAILS_ENV"] == "development"
+        %b= "DEVELOPMENT-INFORMATIONS"
+        %table
+          %tr
+            %td= "Person ID:"
+            %td= Maybe(@current_user).id.or_else("-")
+          %tr
+            %td= "Username:"
+            %td= Maybe(@current_user).username.or_else("-")
+          %tr
+            %td= "Full name:"
+            %td= Maybe(@current_user).full_name.or_else("-")
+          %tr
+            %td= "Emails:"
+            %td
+              - if @current_user
+                = @current_user.confirmed_notification_emails.map(&:address)
+              - else
+                -
+          %tr
+            %td= "Site Owner:"
+            %td= Maybe(Maybe(@site_owner).organization_name.or_else(nil)).or_else("-")
+          %tr
+            %td= "Relation:"
+            %td= Maybe(@relation).or_else("-")
+          %tr
+            %td= "User plan:"
+            %td= Maybe(@current_user).user_plan.or_else("-")
+          %tr
+            %td= "Visitor session id:"
+            %td= Maybe(@visitor).session_id.or_else("-")
+          %tr
+            %td= "Visitor name:"
+            %td= Maybe(@visitor).name.or_else("-")
+          %tr
+            %td= "Vis. sessions + locale:"
+            %td= Maybe(@visitor).count_sessions.or_else("-").to_s + " | " + Maybe(@visitor).locale.or_else("-")
+
+
+      - elsif ENV["RAILS_ENV"] == "production"
+        %b= "ADMIN-INFORMATIONS"
+        %table
+          %tr
+            %td= "Visitor counter:"
+            %td= "-"
+          %tr
+            %td= "Unique visitor counter:"
+            %td= "-"
+          %tr
+            %td= "Scroll visitor counter:"
+            %td= "-"
+          %tr
+            %td= "Listing requests counter:"
+            %td= ListingRequest.all.count
+          %tr
+            %td= "Registered marketplace users:"
+            %td= Person.where(main_product: "marketplace").count
+          %tr
+            %td= "All marketplace devices:"
+            %td= Listing.where("availability <> 'intern' AND availability <> 'trusted' AND deleted = 0 AND open = 1").count
+          %tr
+            %td= "New market devs (30 days):"
+            %td= Listing.where("availability <> 'intern' AND availability <> 'trusted' AND deleted = 0 AND open = 1 AND created_at > ?", Date.today - 30).count
+          %tr
+            %td= "Site owner:"
+            %td= Maybe(Maybe(@site_owner).organization_name.or_else(nil)).or_else("-")
+          %tr
+            %td= "Site owner user plan:"
+            %td= Maybe(@site_owner).user_plan.or_else("-")
+
+
 
 
   %noscript
