@@ -17,11 +17,11 @@
             - booking_url = person_poolTool_url(@listing.author, @url_params) + "&booking_id=" + booking_id.to_s
 
           - if event.event_name == "booking_created_for_employee"
-            - employee = Person.find(event.processor_id)
+            - employee = Person.find(event.person_id)
             - employee_url = link_to(employee.given_name_or_username, person_url(employee, @url_params))
             - processor = employee.get_company
           - else
-            - processor = Person.find(event.processor_id)
+            - processor = Person.find(event.person_id)
 
           - processor_url = link_to(processor.given_name_or_username, person_url(processor, @url_params))
 

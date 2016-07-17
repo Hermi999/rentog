@@ -648,6 +648,13 @@ module ApplicationHelper
         :name => "listing_requests"
       },
       {
+        :topic => :manage,
+        :text => t("admin.communities.rentog_events.rentog_events"),
+        :icon_class => icon_class("coins"),
+        :path => admin_community_rentog_events_path(@current_community),
+        :name => "rentog_events"
+      },
+      {
         :topic => :configure,
         :text => t("admin.communities.edit_details.community_details"),
         :icon_class => "ss-page",

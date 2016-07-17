@@ -343,6 +343,8 @@ en:
         not_available: "Not available"
       listing_requests:
         listing_requests: "Listing Requests"
+      rentog_events:
+        rentog_events: "Rentog Events"
       braintree_payment_gateway:
         braintree_payment_gateway: "Braintree Payment API keys"
         environment: Environment

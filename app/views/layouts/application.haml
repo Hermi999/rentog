@@ -32,6 +32,15 @@
         %tr
           %td= "User plan:"
           %td= Maybe(@current_user).user_plan.or_else("-")
+        %tr
+          %td= "Visitor session id:"
+          %td= Maybe(@visitor).session_id.or_else("-")
+        %tr
+          %td= "Visitor name:"
+          %td= Maybe(@visitor).name.or_else("-")
+        %tr
+          %td= "Vis. sessions + locale:"
+          %td= Maybe(@visitor).count_sessions.or_else("-").to_s + " | " + Maybe(@visitor).locale.or_else("-")
 
 
   %noscript

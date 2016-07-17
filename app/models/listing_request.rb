@@ -19,11 +19,13 @@
 #  updated_at        :datetime         not null
 #  ip_address        :string(255)
 #  locale            :string(255)
+#  visitor_id        :integer
 #
 
 class ListingRequest < ActiveRecord::Base
   belongs_to :listing, :class_name => "Listing", :foreign_key => "listing_id"
-  belongs_to :registered_user, :class_name => "Person", :foreign_key => "person_id"
+  belongs_to :person, :class_name => "Person", :foreign_key => "person_id"
+  belongs_to :visitor, :class_name => "Visitor", :foreign_key => "visitor_id"
 
   delegate :author, to: :listing
 

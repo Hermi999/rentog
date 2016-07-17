@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160717084323) do
+ActiveRecord::Schema.define(version: 20160717112540) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -598,7 +598,7 @@ ActiveRecord::Schema.define(version: 20160717084323) do
   end
 
   create_table "listing_events", force: :cascade do |t|
-    t.string   "processor_id",        limit: 255,                 null: false
+    t.string   "person_id",           limit: 255
     t.integer  "booking_id",          limit: 4
     t.integer  "listing_id",          limit: 4
     t.string   "event_name",          limit: 255
@@ -606,6 +606,7 @@ ActiveRecord::Schema.define(version: 20160717084323) do
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
     t.integer  "transaction_id",      limit: 4
+    t.integer  "visitor_id",          limit: 4
   end
 
   create_table "listing_followers", id: false, force: :cascade do |t|
@@ -651,6 +652,7 @@ ActiveRecord::Schema.define(version: 20160717084323) do
     t.datetime "updated_at",                    null: false
     t.string   "ip_address",        limit: 255
     t.string   "locale",            limit: 255
+    t.integer  "visitor_id",        limit: 4
   end
 
   create_table "listing_shapes", force: :cascade do |t|
@@ -1148,7 +1150,7 @@ ActiveRecord::Schema.define(version: 20160717084323) do
   end
 
   create_table "rentog_events", force: :cascade do |t|
-    t.string   "starter_id",     limit: 255
+    t.string   "person_id",      limit: 255
     t.string   "other_party_id", limit: 255
     t.string   "event_name",     limit: 255
     t.string   "event_details",  limit: 255
@@ -1157,6 +1159,8 @@ ActiveRecord::Schema.define(version: 20160717084323) do
     t.string   "split_test_id",  limit: 255
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "visitor_id",     limit: 4
+    t.string   "event_result",   limit: 255
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -1278,8 +1282,9 @@ ActiveRecord::Schema.define(version: 20160717084323) do
     t.string   "country",        limit: 255
     t.string   "ip_address",     limit: 255
     t.integer  "count_sessions", limit: 4,   default: 0
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.string   "locale",         limit: 255, default: "en"
   end
 
 end

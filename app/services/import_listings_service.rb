@@ -228,7 +228,7 @@ class ImportListingsService
         #listing.location.update_attributes(params[:location]) if @listing.location
 
         # wah - add this event to the events table
-        ListingEvent.create({processor_id: current_user.id, listing_id: listing.id, event_name: "listing_updated"})
+        ListingEvent.create({person_id: current_user.id, listing_id: listing.id, event_name: "listing_updated"})
 
         Delayed::Job.enqueue(ListingUpdatedJob.new(listing.id, current_community.id))
         return listing.title
@@ -330,7 +330,7 @@ class ImportListingsService
           #save_listing_attachments(params)
 
           # wah - add this event to the events table
-          ListingEvent.create({processor_id: current_user.id, listing_id: listing.id, event_name: "listing_created"})
+          ListingEvent.create({person_id: current_user.id, listing_id: listing.id, event_name: "listing_created"})
 
           upsert_field_values!(listing, listing_attributes_custom_fields)
 

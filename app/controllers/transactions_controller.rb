@@ -256,9 +256,9 @@ class TransactionsController < ApplicationController
     ).on_success { |(_, (_, _, _, process), _, tx)|
       # wah - add this event to the events table
       if @current_user.id == starter_id
-        ListingEvent.create({processor_id: @current_user.id, listing_id: params[:listing_id], booking_id: Booking.last.id, event_name: "booking_created"})
+        ListingEvent.create({person_id: @current_user.id, listing_id: params[:listing_id], booking_id: Booking.last.id, event_name: "booking_created"})
       else
-        ListingEvent.create({processor_id: starter_id, listing_id: params[:listing_id], booking_id: Booking.last.id, event_name: "booking_created_for_employee"})
+        ListingEvent.create({person_id: starter_id, listing_id: params[:listing_id], booking_id: Booking.last.id, event_name: "booking_created_for_employee"})
       end
 
       # Renter json-response with the new data stored in the db
@@ -301,7 +301,7 @@ class TransactionsController < ApplicationController
       } and return
     end
 
-    ListingEvent.create({processor_id: @current_user.id, listing_id: @booking.tx.listing_id , booking_id: @booking.id, event_name: "booking_updated"})
+    ListingEvent.create({person_id: @current_user.id, listing_id: @booking.tx.listing_id , booking_id: @booking.id, event_name: "booking_updated"})
 
     # Update booking with the corresponding transaction id
     @booking[:start_on] = start_day
@@ -327,7 +327,7 @@ class TransactionsController < ApplicationController
 
     # wah - add this event to the events table
     if @current_user
-      ListingEvent.create({processor_id: @current_user.id, listing_id: @booking.tx.listing_id, booking_id: @booking.id, event_name: "booking_deleted"})
+      ListingEvent.create({person_id: @current_user.id, listing_id: @booking.tx.listing_id, booking_id: @booking.id, event_name: "booking_deleted"})
     end
 
     # Delete booking with the corresponding transaction id

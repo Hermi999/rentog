@@ -456,7 +456,7 @@ class ListingsController < ApplicationController
         form_path = new_transaction_path(listing_id: @listing.id)
 
         # wah - add this event to the events table
-        ListingEvent.listing_viewed(@listing, @current_user, cookies)
+        ListingEvent.listing_viewed(@listing, nil, @visitor, cookies)
 
       else
 
@@ -618,7 +618,7 @@ class ListingsController < ApplicationController
         save_listing_attachments(params)
 
         # wah - add this event to the events table
-        ListingEvent.create({processor_id: @current_user.id, listing_id: @listing.id, event_name: "listing_created"})
+        ListingEvent.create({person_id: @current_user.id, listing_id: @listing.id, event_name: "listing_created"})
 
         upsert_field_values!(@listing, params[:custom_fields])
 
@@ -770,7 +770,7 @@ class ListingsController < ApplicationController
       @listing.location.update_attributes(params[:location]) if @listing.location
 
       # wah - add this event to the events table
-      ListingEvent.create({processor_id: @current_user.id, listing_id: @listing.id, event_name: "listing_updated"})
+      ListingEvent.create({person_id: @current_user.id, listing_id: @listing.id, event_name: "listing_updated"})
 
       flash[:notice] = t("layouts.notifications.listing_updated_successfully")
       Delayed::Job.enqueue(ListingUpdatedJob.new(@listing.id, @current_community.id))
@@ -813,7 +813,7 @@ class ListingsController < ApplicationController
     @listing.update_attribute(:open, false)
 
     # wah - add this event to the events table
-    ListingEvent.create({processor_id: @current_user.id, listing_id: @listing.id, event_name: "listing_closed"})
+    ListingEvent.create({person_id: @current_user.id, listing_id: @listing.id, event_name: "listing_closed"})
 
     respond_to do |format|
       format.html {

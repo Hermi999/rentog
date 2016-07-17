@@ -110,6 +110,8 @@ class HomepageController < ApplicationController
       main_search = (feature_enabled?(:location_search) && search_engine == :zappy) ? MarketplaceService::API::Api.configurations.get(community_id: @current_community.id).data[:main_search] : :keyword
       search_result.on_success { |listings|
 
+        # store search result in as an event (but only if user used a search or filter)
+
         # wah: Store listings in cookie
         cookies.permanent[:count_listing_pages] = listings.total_pages
         cookies.permanent[:current_page] = 1
@@ -281,7 +283,7 @@ class HomepageController < ApplicationController
 
     pushBackListingsWithoutImage(res)
 
-    res.and_then { |res|
+    return_ = res.and_then { |res|
       Result::Success.new(
         ListingIndexViewUtils.to_struct(
         result: res,
@@ -290,6 +292,19 @@ class HomepageController < ApplicationController
         per_page: search[:per_page]
       ))
     }
+
+    # log search as rentog event (but only if there is really a search or filter)
+    if  filter_params[:custom_dropdown_field_options] != [] &&
+        filter_params[:custom_checkbox_field_options] != [] &&
+        price_cents != nil
+
+      person_id_ = @current_user.id if @current_user
+      visitor_id_ = @visitor.id if @visitor
+      ev = RentogEvent.new(person_id: person_id_, visitor_id: visitor_id_, event_name: "marketplace_search_or_filter", event_details: filter_params.to_s, event_result: res.data[:count], send_to_admins: false)
+      ev.save
+    end
+
+    return_
 
   end
 

@@ -33,7 +33,9 @@ window.ST.initializeListingRequestButtons = function(){
   }
 
   // Initialize "no listing - request form"
-  $('#dummy_form_message')[0].value = $('#q')[0].value;
+  if ($('#dummy_form_message').length > 0){
+    $('#dummy_form_message')[0].value = $('#q')[0].value;
+  }
 
   // Copy values from dummy form to listing request form. This is necessary because
   // we cant have the listing request form within the search formular - That wouldnt

@@ -1,12 +1,14 @@
 class ListingRequestsController < ApplicationController
 
+  before_filter :ensure_is_authorized_to_view, only: :index
+
   # not needed at the moment
   def show
   end
 
   def index
     @current_page = params[:page] || 1
-    @listing_requests = ListingRequest.all
+    @listing_requests = ListingRequest.all.paginate(:page => @current_page, :per_page => @per_page).order('created_at DESC')
     @per_page = 15
   end
 
@@ -30,6 +32,17 @@ class ListingRequestsController < ApplicationController
 
       # check Google Recapture response
       if verify_captcha(lr) && lr.save
+
+        # add listing_request to visitor/person and vice versia
+        if @visitor
+          @visitor.listing_requests << lr
+          @visitor.update_attributes(name: lr.name, email: lr.email, phone: lr.phone, country: lr.country)
+          lr.visitor = @visitor
+
+        elsif @current_user
+          @current_user.listing_requests << lr
+          lr.person = @current_user
+        end
 
         # send emails to customer & seller
         Delayed::Job.enqueue(ListingRequestJob.new(lr.id, @current_community.id))
@@ -60,7 +73,7 @@ class ListingRequestsController < ApplicationController
   private
 
     def listing_request_params
-      params.require(:listing_request).permit(:listing_id, :name, :email, :country, :person_id, :phone, :message, :get_further_docs, :contact_per_phone, :get_price_list, :get_quotation, :ip_address, :locale)
+      params.require(:listing_request).permit(:listing_id, :name, :email, :country, :person_id, :phone, :message, :get_further_docs, :contact_per_phone, :get_price_list, :get_quotation, :ip_address, :locale, :last1name)
     end
 
     def save_request_in_cookies
@@ -91,5 +104,16 @@ class ListingRequestsController < ApplicationController
       end
 
       res
+    end
+
+    def ensure_is_authorized_to_view
+      # ALLOWED
+        return if @relation == :rentog_admin
+
+      # NOT ALLOWED
+        # with error message
+        flash[:error] = "not allowed"
+        redirect_to root
+        return false
     end
 end

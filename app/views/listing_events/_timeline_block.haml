@@ -20,15 +20,15 @@
     - booking_url = person_poolTool_url(event.listing.author) + "?booking_id=" + booking_id.to_s
 
   - if event.event_name == "booking_created_for_employee"
-    - employee = Person.find(event.processor_id)
+    - employee = Person.find(event.person_id)
     - employee_url = link_to(employee.given_name_or_username, person_url(employee))
     - processor = employee.get_company
   - else
-    - processor = Person.find(event.processor_id)
+    - processor = Person.find(event.person_id)
 
   - processor_url = link_to(processor.given_name_or_username, person_url(processor))
 
-  .cd-timeline-block{:data => {:listing_id => event.listing.id, :processor_id => processor.id, :employee_id => Maybe(employee).id.or_else("")}}
+  .cd-timeline-block{:data => {:listing_id => event.listing.id, :person_id => processor.id, :employee_id => Maybe(employee).id.or_else("")}}
     .cd-timeline-img{:class => "cd-#{event.event_name}"}
       /%img{:src => "img/cd-icon-picture.svg", :alt =>"Picture"}
       = icon_tag(t("listing_events.event_icon_#{event.event_name}"), ["cd-listing-events-icon"])

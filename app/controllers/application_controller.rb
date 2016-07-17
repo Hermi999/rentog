@@ -189,11 +189,22 @@ class ApplicationController < ActionController::Base
       @current_user = current_person
       setup_logger!(user_id: @current_user.id, username: @current_user.username)
     else
-      # wah: Visitor
+      # wah: get or create Visitor
 
       # get session key & value
       session_key = Rails.application.config.session_options[:key]
       session_val = cookies[session_key]
+
+      if session_val
+        # search visitor in db
+        @visitor = Visitor.where(session_id: session_val).first
+        unless @visitor
+          # add visitor to db
+          @visitor = Visitor.create(session_id: session_val, ip_address: request.remote_ip, count_sessions: 1, locale: I18n.locale)
+        end
+      else
+        @visitor = nil
+      end
     end
   end
 
