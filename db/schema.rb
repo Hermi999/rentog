@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160713202757) do
+ActiveRecord::Schema.define(version: 20160717084323) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -1147,6 +1147,18 @@ ActiveRecord::Schema.define(version: 20160713202757) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "rentog_events", force: :cascade do |t|
+    t.string   "starter_id",     limit: 255
+    t.string   "other_party_id", limit: 255
+    t.string   "event_name",     limit: 255
+    t.string   "event_details",  limit: 255
+    t.boolean  "send_to_admins"
+    t.integer  "rentog_version", limit: 4
+    t.string   "split_test_id",  limit: 255
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.string   "session_id", limit: 255,   null: false
     t.text     "data",       limit: 65535
@@ -1256,5 +1268,18 @@ ActiveRecord::Schema.define(version: 20160713202757) do
   add_index "transactions", ["deleted"], name: "index_transactions_on_deleted", using: :btree
   add_index "transactions", ["last_transition_at"], name: "index_transactions_on_last_transition_at", using: :btree
   add_index "transactions", ["listing_id"], name: "index_transactions_on_listing_id", using: :btree
+
+  create_table "visitors", force: :cascade do |t|
+    t.string   "session_id",     limit: 255
+    t.string   "name",           limit: 255
+    t.string   "email",          limit: 255
+    t.string   "phone",          limit: 255
+    t.string   "company",        limit: 255
+    t.string   "country",        limit: 255
+    t.string   "ip_address",     limit: 255
+    t.integer  "count_sessions", limit: 4,   default: 0
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+  end
 
 end
