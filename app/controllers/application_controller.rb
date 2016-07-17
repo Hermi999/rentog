@@ -191,6 +191,9 @@ class ApplicationController < ActionController::Base
     else
       # wah: Visitor
 
+      # get session key & value
+      session_key = Rails.application.config.session_options[:key]
+      session_val = cookies[session_key]
     end
   end
 
