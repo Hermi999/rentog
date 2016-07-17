@@ -398,12 +398,17 @@ class ListingsController < ApplicationController
         rent_button = "pooltool"
         form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
 
+        # wah - add this event to the events table
+        ListingEvent.listing_viewed(@listing, nil, @visitor, cookies)
+
       when :full_trusted_company_employee
         show_price = @trusted_relation.payment_necessary
         show_date = false
         rent_button = "pooltool"
         form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
-        @listing.update_attribute(:times_viewed, @listing.times_viewed + 1)
+
+        # wah - add this event to the events table
+        ListingEvent.listing_viewed(@listing, nil, @visitor, cookies)
 
       when :trusted_company_employee
         form_path = new_transaction_path(listing_id: @listing.id)
@@ -414,7 +419,9 @@ class ListingsController < ApplicationController
           rent_button = "request"
         end
         form_path = new_transaction_path(listing_id: @listing.id)
-        @listing.update_attribute(:times_viewed, @listing.times_viewed + 1)
+
+        # wah - add this event to the events table
+        ListingEvent.listing_viewed(@listing, nil, @visitor, cookies)
 
       when :untrusted_company_employee
         if @current_community.employees_can_buy_listings
@@ -424,14 +431,18 @@ class ListingsController < ApplicationController
           special_action_button_label = t("listings.show.request_by_company")
         end
         rent_button = "request"
-        @listing.update_attribute(:times_viewed, @listing.times_viewed + 1)
+
+        # wah - add this event to the events table
+        ListingEvent.listing_viewed(@listing, nil, @visitor, cookies)
 
       when :full_trusted_company_admin
         show_price = @trusted_relation.payment_necessary
         show_date = false
         rent_button = "pooltool"
         form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
-        @listing.update_attribute(:times_viewed, @listing.times_viewed + 1)
+
+        # wah - add this event to the events table
+        ListingEvent.listing_viewed(@listing, nil, @visitor, cookies)
 
       when :trusted_company_admin
         show_price = @trusted_relation.payment_necessary
@@ -441,12 +452,16 @@ class ListingsController < ApplicationController
           rent_button = "request"
         end
         form_path = new_transaction_path(listing_id: @listing.id)
-        @listing.update_attribute(:times_viewed, @listing.times_viewed + 1)
+
+        # wah - add this event to the events table
+        ListingEvent.listing_viewed(@listing, nil, @visitor, cookies)
 
       when :untrusted_company_admin
         rent_button = "request"
         form_path = new_transaction_path(listing_id: @listing.id)
-        @listing.update_attribute(:times_viewed, @listing.times_viewed + 1)
+
+        # wah - add this event to the events table
+        ListingEvent.listing_viewed(@listing, nil, @visitor, cookies)
 
       when :unverified_company
         flash.now[:error] = t("transactions.company_not_verified")
