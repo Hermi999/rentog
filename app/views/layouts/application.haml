@@ -2,7 +2,7 @@
 
 %body
 
-  - if @relation == :rentog_admin || :rentog_admin_own_site
+  - if @relation == :rentog_admin || @relation == :rentog_admin_own_site
     #development-infos
       #development-infos-close x
       - if ENV["RAILS_ENV"] == "development"
@@ -44,15 +44,15 @@
             %td= Maybe(@visitor).count_sessions.or_else("-").to_s + " | " + Maybe(@visitor).locale.or_else("-")
 
 
-      - elsif ENV["RAILS_ENV"] == "production"
+      - else
         %b= "ADMIN-INFORMATIONS"
         %table
           %tr
             %td= "Visitor counter:"
-            %td= "-"
+            %td= Maybe(@current_community.visitor_counter).or_else(0)
           %tr
             %td= "Unique visitor counter:"
-            %td= "-"
+            %td= Maybe(@current_community.unique_visitor_counter).or_else(0)
           %tr
             %td= "Scroll visitor counter:"
             %td= "-"
@@ -64,10 +64,10 @@
             %td= Person.where(main_product: "marketplace").count
           %tr
             %td= "All marketplace devices:"
-            %td= Listing.where("availability <> 'intern' AND availability <> 'trusted' AND deleted = 0 AND open = 1").count
+            %td= Listing.where("(availability <> 'intern' AND availability <> 'trusted' OR availability IS NULL) AND deleted = 0 AND open = 1").count
           %tr
             %td= "New market devs (30 days):"
-            %td= Listing.where("availability <> 'intern' AND availability <> 'trusted' AND deleted = 0 AND open = 1 AND created_at > ?", Date.today - 30).count
+            %td= Listing.where("(availability <> 'intern' AND availability <> 'trusted' OR availability IS NULL) AND deleted = 0 AND open = 1 AND created_at > ?", Date.today - 30).count
           %tr
             %td= "Site owner:"
             %td= Maybe(Maybe(@site_owner).organization_name.or_else(nil)).or_else("-")

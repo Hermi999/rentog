@@ -73,6 +73,9 @@ class SessionsController < ApplicationController
     # Set cookie, so that we know in wordpress if the user is logged in
     cookies[:session_active] = { value: true, domain: ".rentog.com" }
 
+    # Store login as rentog event
+    RentogEvent.create(person_id: current_person.id, visitor_id: Maybe(@visitor).id.or_else(nil), event_name: "login", event_details: "previous_page: " + (session[:return_to] || session[:return_to_content] || "-"), event_result: nil, send_to_admins: false)
+
   # **** LOGIN SUCCESSFUL ****
     # no community exists yet
     if not @current_community
@@ -102,6 +105,9 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    # Store logout as rentog event
+    RentogEvent.create(person_id: current_person.id, visitor_id: nil, event_name: "logout", event_details: nil, event_result: nil, send_to_admins: false)
+
     sign_out
     cookies.delete :session_active, :domain => '.rentog.com'
     session[:person_id] = nil

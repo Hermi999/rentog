@@ -201,10 +201,10 @@ class ApplicationController < ActionController::Base
         unless @visitor
           # add visitor to db
           @visitor = Visitor.create(session_id: session_val, ip_address: request.remote_ip, count_sessions: 1, locale: I18n.locale)
-          @current_community.update_attribute(unique_visitor_counter: @current_community.unique_visitor_counter + 1)
+          @current_community.update_attribute(:unique_visitor_counter, Maybe(@current_community.unique_visitor_counter).or_else(0) + 1)
         end
       else
-        @current_community.update_attribute(visitor_counter: @current_community.visitor_counter + 1)
+        @current_community.update_attribute(:visitor_counter, Maybe(@current_community.visitor_counter).or_else(0) + 1)
         @visitor = nil
       end
     end

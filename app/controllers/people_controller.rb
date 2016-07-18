@@ -176,6 +176,7 @@ class PeopleController < Devise::RegistrationsController
 
 
   def new
+
     # Check if signup link is an invitation from a company admin
     company_inviter = false
     if params[:code].present? && params[:ref].present? && params[:ref] == "email"
@@ -202,6 +203,9 @@ class PeopleController < Devise::RegistrationsController
         end
       end
     end
+
+    # Store signup page visit as rentog event
+    RentogEvent.create(other_party_id: Maybe(inviter).id.or_else(nil), visitor_id: Maybe(@visitor).id.or_else(nil), event_name: "signup page visited", event_details: Maybe(invitation).id.or_else(nil), event_result: nil, send_to_admins: false)
 
     # define javascript variables with values from backend
     gon.push({
@@ -350,6 +354,9 @@ class PeopleController < Devise::RegistrationsController
     end
 
     session[:person_id] = @person.id
+
+    # Store signup as rentog event
+    RentogEvent.create(person_id: @person.id, visitor_id: Maybe(@visitor).id.or_else(nil), event_name: "signup", event_details: nil, event_result: nil, send_to_admins: false)
 
     # If invite was used, reduce usages left
     invitation.use_once! if invitation.present?
