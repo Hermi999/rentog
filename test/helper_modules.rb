@@ -51,7 +51,7 @@ module TestHelpers
       {
         title: "Manufacturer",
         type: "DropdownField",
-        required: false,
+        required: true,
         display_on_homepage: true,
         listing_categories: :all,
         listing_shapes: :all,
@@ -60,7 +60,7 @@ module TestHelpers
       {
         title: "Model",
         type: "TextField",
-        required: false,
+        required: true,
         display_on_homepage: false,
         listing_categories: :all,
         listing_shapes: :all
@@ -72,6 +72,7 @@ module TestHelpers
     end
 
     def self.load_custom_fields_to_db(community, custom_field_templates)
+      CustomField.delete_all
       custom_field_templates.each do |custom_field|
 
         custom_field_name = CustomFieldName.create(value: custom_field[:title], locale: "en")

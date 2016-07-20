@@ -22,6 +22,7 @@
 
             / If manufacturer custom field
             - if custom_field.id == @hersteller_field_id
+
               = render :partial => "listings/form/custom_field_partials/dropdown_with_autocomplete", :locals => { :custom_field => custom_field, :custom_field_value => listing.answer_for(custom_field) }
 
             - else

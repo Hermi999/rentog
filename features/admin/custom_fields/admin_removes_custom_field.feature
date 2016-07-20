@@ -16,4 +16,5 @@ Feature: Admin removes custom field from category
   Scenario: Admin removes custom fields from category
     When I remove custom field "House type"
     And I remove custom field "Additional details"
-    Then I should see that I do not have any custom fields
+    Then I should not see "House type"
+    And I should not see "Additional details"

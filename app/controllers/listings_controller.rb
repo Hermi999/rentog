@@ -495,7 +495,7 @@ class ListingsController < ApplicationController
     get_relation
     @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site)
 
-    @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").first).custom_field_id.to_i.or_else(nil)
+    @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").last).custom_field_id.to_i.or_else(nil)
 
     category_tree = CategoryViewUtils.category_tree(
       categories: ListingService::API::Api.categories.get_all(community_id: @current_community.id)[:data],
@@ -653,7 +653,7 @@ class ListingsController < ApplicationController
   end
 
   def edit
-    @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").first).custom_field_id.to_i.or_else(nil)
+    @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").last).custom_field_id.to_i.or_else(nil)
     @js_content_for = true
 
     get_relation
@@ -915,7 +915,7 @@ class ListingsController < ApplicationController
   end
 
   def form_content
-    @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").first).custom_field_id.to_i.or_else(nil)
+    @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").last).custom_field_id.to_i.or_else(nil)
 
     shape = get_shape(Maybe(params)[:listing_shape].to_i.or_else(nil))
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: shape[:transaction_process_id])
@@ -1442,7 +1442,7 @@ class ListingsController < ApplicationController
   # Create a new manufacturer if manufacturer does not exist in DB. Also set the corresponding custom_field parameter
   # returns the manufacturer value
   def handle_manufacturer
-    @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").first).custom_field_id.to_i.or_else(nil)
+    @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").last).custom_field_id.to_i.or_else(nil)
     if Maybe(params[:custom_fields])[@hersteller_field_id.to_s].or_else("-") == ""
       unless params[:manufacturer_temp].empty?
         last_sort_prio = CustomFieldOption.where(custom_field_id: @hersteller_field_id).order(:sort_priority).last.sort_priority
@@ -1471,8 +1471,8 @@ class ListingsController < ApplicationController
   end
 
   def set_title(manufacturer)
-    model_field_id = Maybe(CustomFieldName.where(:value => "Model").first).custom_field_id.to_i.or_else(nil)
-    title = params[:custom_fields][model_field_id.to_s] + " (" + manufacturer.strip + ")"
+    model_field_id = Maybe(CustomFieldName.where(:value => "Model").last).custom_field_id.to_i.or_else(nil)
+    title = (params[:custom_fields][model_field_id.to_s] || "") + " (" + (manufacturer || "").strip + ")"
     if title.length > 60
       title = title.truncate(59) + ")"
     end

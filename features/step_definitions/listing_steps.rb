@@ -114,7 +114,8 @@ When /^I create a new listing "(.*?)" with price(?: "([^"]*)")?$/ do |title, pri
     And I select "Items" from listing type menu
     And I select "Tools" from listing type menu
     And I select "Selling" from listing type menu
-    And I fill in "listing_title" with "#{title}"
+    And I fill in "Model" with "#{title}"
+    And I fill in "manufacturer_temp" with "Manufacturer"
     And I fill in "listing_price" with "dsfsdf"
     And I press "Save listing"
     Then I should see "You need to insert a valid monetary value."
