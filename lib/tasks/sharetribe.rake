@@ -78,6 +78,18 @@ namespace :sharetribe do
     end
   end
 
+  namespace :send_kpis do
+    desc "Sorts the manufacturer custom fields"
+    task :send_kpis_to_admins => :environment do |t, args|
+      kpi = KpiService.new
+      kpis = kpi.get_kpis_values_with_growth(7, 4)
+      kpis2 = kpi.get_kpis_values_with_growth(30, 4)
+      @community = Community.first
+
+      MailCarrier.deliver_now(AdminMailer.send_kpis_to_admins(kpis, kpis2, @community))
+    end
+  end
+
 
   def random_location_around(coordinate_string, location_type)
     lat = coordinate_string.split(",")[0].to_f + rand*2*MAX_LOC_DIFF - MAX_LOC_DIFF
