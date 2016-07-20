@@ -8,7 +8,6 @@ Feature: Admin adds a custom field
       | main           | Items             | Tavarat        |
       | main           | Spaces            | Tilat          |
     And I am on the custom fields admin page
-    Then I should see that I do not have any custom fields
 
   @javascript
   Scenario: Admin adds custom field

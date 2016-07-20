@@ -2,7 +2,7 @@
 
 %body
 
-  - if @relation == :rentog_admin || @relation == :rentog_admin_own_site
+  - if (@relation == :rentog_admin || @relation == :rentog_admin_own_site) && ENV["RAILS_ENV"] != "test"
     #development-infos
       #development-infos-close x
       - if ENV["RAILS_ENV"] == "development"
