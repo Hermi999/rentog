@@ -379,7 +379,7 @@ class ListingsController < ApplicationController
         rent_button = "pooltool"
         form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
 
-      when :company_admin_own_site || :domain_supervisor
+      when :company_admin_own_site, :domain_supervisor
         rent_button = "pooltool"
         form_path = person_poolTool_path(@listing.author) + "?listing_id=" + @listing.id.to_s
 
@@ -450,7 +450,7 @@ class ListingsController < ApplicationController
       when :unverified_company
         flash.now[:error] = t("transactions.company_not_verified")
 
-      when :logged_out_user || :untrusted_company_admin
+      when :logged_out_user, :untrusted_company_admin
         rent_button = "request"
         form_path = new_transaction_path(listing_id: @listing.id)
 
