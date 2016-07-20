@@ -56,15 +56,6 @@
 //= require homepage
 //= require order_manager
 //= require ajax_status
-//= require admin/expiration_notice
-//= require admin/custom_fields
-//= require admin/categories
-//= require admin/manage_members
-//= require admin/menu_links
-//= require admin/community_customizations
-//= require admin/listing_shapes
-//= require admin/settings.js
-//= require admin/emails.js
 //= require payment_math
 //= require dropdown
 //= require jquery.nouislider

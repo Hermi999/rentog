@@ -1,0 +1,20 @@
+- content_for :large_page_specific_javascript do
+  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
+
+- content_for :javascript do
+  window.ST.initializeKpis(#{@kpis_weeks.to_s.html_safe}, #{@kpis_months.to_s.html_safe});
+
+
+- content_for :title_header do
+  %h1
+    = t("layouts.admin.admin")
+    = "-"
+    = t("admin.communities.kpis.kpis")
+
+= render :partial => "admin/left_hand_navigation", :locals => { :links => admin_links_for(@current_community) }
+
+.left-navi-section
+  #linechart_material_weeks{:style => "width: 900px; height: 500px; margin-bottom: 50px;"}
+
+  #linechart_material_months{:style => "width: 900px; height: 500px;"}
+

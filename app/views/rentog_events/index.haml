@@ -16,6 +16,14 @@
       %li= link_to "Show only 'Marketplace search/filter' events", "?only_marketplace_search=1"
     - unless params[:zero_entries]
       %li= link_to "Marketplace Search/Filter with 0 listings as result", "?zero_entries=1"
+    - unless params[:only_campaign]
+      %li= link_to "Show only campaign events", "?only_campaign=1"
+    - unless params[:only_signup]
+      %li= link_to "Show only signup & signup page visited events", "?only_signup=1"
+    - unless params[:only_login_logout]
+      %li= link_to "Show only login/logout events", "?only_login_logout=1"
+
+
 
   %table{style: "font-size: 0.8em; margin-top: 20px; margin-right: 20px;"}
     %thead

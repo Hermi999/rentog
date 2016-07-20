@@ -341,7 +341,14 @@ de:
           pending_ext: "Warten auf die Paypal Zahlung"
         not_available: "nicht verfügbar"
       listing_requests:
+        header: "Listing Requests & Events"
         listing_requests: "Listing Requests"
+      listing_events:
+        listing_events: "Listing Events"
+      rentog_events:
+        rentog_events: "Rentog Events"
+      kpis:
+        kpis: "KPIs"
       braintree_payment_gateway:
         braintree_payment_gateway: "Braintree Payment API keys"
         environment: Umgebung

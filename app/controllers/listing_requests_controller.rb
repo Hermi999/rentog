@@ -1,6 +1,6 @@
 class ListingRequestsController < ApplicationController
 
-  before_filter :ensure_is_authorized_to_view, only: :index
+  before_filter :ensure_is_admin, only: [:index, :export]
 
   # not needed at the moment
   def show
@@ -140,14 +140,4 @@ class ListingRequestsController < ApplicationController
       res
     end
 
-    def ensure_is_authorized_to_view
-      # ALLOWED
-        return if @relation == :rentog_admin
-
-      # NOT ALLOWED
-        # with error message
-        flash[:error] = "not allowed"
-        redirect_to root
-        return false
-    end
 end

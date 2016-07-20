@@ -205,7 +205,7 @@ class PeopleController < Devise::RegistrationsController
     end
 
     # Store signup page visit as rentog event
-    RentogEvent.create(other_party_id: Maybe(inviter).id.or_else(nil), visitor_id: Maybe(@visitor).id.or_else(nil), event_name: "signup page visited", event_details: Maybe(invitation).id.or_else(nil), event_result: nil, send_to_admins: false)
+    RentogEvent.create(other_party_id: Maybe(inviter).id.or_else(nil), visitor_id: Maybe(@visitor).id.or_else(nil), event_name: "signup_page_visited", event_details: Maybe(invitation).id.or_else(nil), event_result: nil, send_to_admins: false)
 
     # define javascript variables with values from backend
     gon.push({

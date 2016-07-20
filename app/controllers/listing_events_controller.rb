@@ -1,8 +1,9 @@
 class ListingEventsController < ApplicationController
 
-  before_filter :ensure_is_authorized_to_view
+  before_filter :ensure_is_authorized_to_view, only: [:show, :getMoreListingEvents]
+  before_filter :ensure_is_admin, only: [:export]
 
-
+  # shown in 'device event history'
   def show
     @company_listing_ids_with_titles = [""]
     @listing_images = {}
@@ -38,6 +39,34 @@ class ListingEventsController < ApplicationController
     respond_to do |format|
       format.js { render :partial => "timeline_block", :locals => { :offset => params[:offset], :listing_id => params[:listing_id] } and return }
     end
+  end
+
+  # export for admin page
+  def export
+    @listing_events = ListingEvent.all.order('created_at DESC').limit(100000)
+
+    # create new export file
+    @p = Axlsx::Package.new
+    @wb = @p.workbook
+
+    # worksheet devices
+    @wb.add_worksheet(:name => "Listing Events") do |sheet|
+      sheet.add_row ListingEvent.new.attributes.keys
+
+      @listing_events.each do |row|
+        new_row = row.as_json.map do |field|
+          field[1].to_s
+        end
+
+        sheet.add_row new_row
+      end
+    end
+
+    file_name = 'rentog_events.xlsx'
+    path_to_file = "#{Rails.root}/public/system/exportfiles/" + file_name
+
+    @p.serialize(path_to_file)
+    send_file(path_to_file, filename: file_name, type: "application/vnd.ms-excel")
   end
 
 

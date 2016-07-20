@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
     :perform_redirect,
     :fetch_logged_in_user,
     :fetch_site_owner,
+    :fetch_campaign,
     :fetch_visitor_site_owner_relation,
     :save_current_host_with_port,
     :fetch_community_membership,
@@ -214,6 +215,25 @@ class ApplicationController < ActionController::Base
     if params['person_id'] || params['id']
       @site_owner = Person.where(:username => (params['person_id'] || params['id'])).first || @current_user
     end
+  end
+
+  def fetch_campaign
+    utm = {
+      utm_source:   params['utm_source'],
+      utm_medium:   params['utm_medium'],
+      utm_campaign: params['utm_campaign'],
+      utm_content:  params['utm_content'],
+      utm_term:     params['utm_term'],
+      utm_email:    params['email']
+    } if params
+
+    utm = HashUtils.compact(utm)
+
+    if utm.length > 0
+      # Store capaign event as rentog event
+      RentogEvent.create(person_id: Maybe(@current_user).id.or_else(nil), visitor_id: Maybe(@visitor).id.or_else(nil), event_name: "campaign", event_details: utm.to_s, event_result: nil, send_to_admins: false)
+    end
+
   end
 
   def fetch_visitor_site_owner_relation

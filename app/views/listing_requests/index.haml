@@ -2,14 +2,19 @@
   %h1
     = t("layouts.admin.admin")
     = "-"
-    = t("admin.communities.listing_requests.listing_requests")
+    = t("admin.communities.listing_requests.header")
 
 = render :partial => "admin/left_hand_navigation", :locals => { :links => admin_links_for(@current_community) }
 
 .left-navi-section
-  %h2= t("admin.communities.listing_requests.listing_requests", community_name: @current_community.name(I18n.locale))
+  %h2= t("admin.communities.listing_events.listing_events", community_name: @current_community.name(I18n.locale))
+  = link_to "Export 'Listing Events' to Excel", admin_community_listing_events_export_path, {style: "font-weight: bold; margin-bottom: 20px;"}
 
-  = link_to "Export to Excel", admin_community_listing_requests_export_path, {style: "font-weight: bold; margin-bottom: 20px;"}
+  %br
+  %br
+
+  %h2= t("admin.communities.listing_requests.listing_requests", community_name: @current_community.name(I18n.locale))
+  = link_to "Export 'Listing Requests' to Excel", admin_community_listing_requests_export_path, {style: "font-weight: bold; margin-bottom: 20px;"}
 
   %table{style: "font-size: 0.8em;"}
     %thead

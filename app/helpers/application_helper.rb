@@ -655,6 +655,13 @@ module ApplicationHelper
         :name => "rentog_events"
       },
       {
+        :topic => :manage,
+        :text => t("admin.communities.kpis.kpis"),
+        :icon_class => icon_class("coins"),
+        :path => admin_community_kpis_path(@current_community),
+        :name => "kpis"
+      },
+      {
         :topic => :configure,
         :text => t("admin.communities.edit_details.community_details"),
         :icon_class => "ss-page",
