@@ -579,8 +579,8 @@ class ListingsController < ApplicationController
     shape = get_shape(Maybe(params)[:listing][:listing_shape_id].to_i.or_else(nil))
 
     # wah: create title out of manufacturer and model if this is not a private listing
-    if  ListingShape.get_shape_from_name(shape[:name]).get_standardized_listingshape_name == "sell" ||
-        ListingShape.get_shape_from_name(shape[:name]).get_standardized_listingshape_name == "rent"
+    if  Maybe(ListingShape.get_shape_from_name(shape[:name])).get_standardized_listingshape_name.or_else("") == "sell" ||
+        Maybe(ListingShape.get_shape_from_name(shape[:name])).get_standardized_listingshape_name.or_else("") == "rent"
       set_title(manufac)
     end
 
@@ -728,8 +728,8 @@ class ListingsController < ApplicationController
     shape = get_shape(params[:listing][:listing_shape_id])
 
     # wah: create title out of manufacturer and model if this is not a private listing
-    if  ListingShape.get_shape_from_name(shape[:name]).get_standardized_listingshape_name == "sell" ||
-        ListingShape.get_shape_from_name(shape[:name]).get_standardized_listingshape_name == "rent"
+    if  Maybe(ListingShape.get_shape_from_name(shape[:name])).get_standardized_listingshape_name.or_else("") == "sell" ||
+        Maybe(ListingShape.get_shape_from_name(shape[:name])).get_standardized_listingshape_name.or_else("") == "rent"
       set_title(manufac)
     end
 

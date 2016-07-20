@@ -12,6 +12,8 @@ Feature: User creates a new listing
     And I select "Tools" from listing type menu
     And I select "Requesting" from listing type menu
     And I fill in "listing_title" with "Sledgehammer"
+    And I fill in "Model" with "model x"
+    And I fill in "manufacturer_temp" with "manufacturer y"
     And I fill in "listing_description" with "My description"
     And I press "Save listing"
     Then I should see "Sledgehammer" within "#listing-title"
@@ -25,6 +27,8 @@ Feature: User creates a new listing
     And I select "Tools" from listing type menu
     And I select "Lending" from listing type menu
     And I fill in "listing_title" with "My offer"
+    And I fill in "Model" with "model x"
+    And I fill in "manufacturer_temp" with "manufacturer y"
     And I fill in "listing_description" with "My description"
     And I press "Save listing"
     Then I should see "My offer" within "#listing-title"
@@ -37,6 +41,8 @@ Feature: User creates a new listing
     And I select "Services" from listing type menu
     And I select "Requesting" from listing type menu
     And I fill in "listing_title" with "Massage"
+    And I fill in "Model" with "model x"
+    And I fill in "manufacturer_temp" with "manufacturer y"
     And I fill in "listing_description" with "My description"
     And I press "Save listing"
     Then I should see "Massage" within "#listing-title"
@@ -151,6 +157,8 @@ Feature: User creates a new listing
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
     And I fill in "listing_title" with "My house"
+    And I fill in "Model" with "model x"
+    And I fill in "manufacturer_temp" with "manufacturer y"
     And I press "Save listing"
     Then I should see 1 validation errors
     When I select "Big house" from dropdown "House type"
@@ -166,6 +174,8 @@ Feature: User creates a new listing
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
     And I fill in "listing_title" with "My house"
+    And I fill in "Model" with "model x"
+    And I fill in "manufacturer_temp" with "manufacturer y"
     And I fill in text field "Details" with "Test details"
     And I press "Save listing"
     And the Listing indexes are processed
@@ -183,6 +193,8 @@ Feature: User creates a new listing
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
     And I fill in "listing_title" with "My house"
+    And I fill in "Model" with "model x"
+    And I fill in "manufacturer_temp" with "manufacturer y"
     And I fill in custom numeric field "Area" with "9999"
     And I press "Save listing"
     Then I should see validation error
@@ -199,6 +211,8 @@ Scenario: Company creates a new listing with date field
   And I select "Spaces" from listing type menu
   And I select "Selling" from listing type menu
   And I fill in "listing_title" with "My house"
+  And I fill in "Model" with "model x"
+  And I fill in "manufacturer_temp" with "manufacturer y"
   And I fill select custom date "building_date_test" with day="19", month="April" and year="2014"
   And I press "Save listing"
   Then I should see "building_date_test: Apr 19, 2014"
@@ -219,6 +233,8 @@ Scenario: Company creates a new listing with date field
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
     And I fill in "listing_title" with "My house"
+    And I fill in "Model" with "model x"
+    And I fill in "manufacturer_temp" with "manufacturer y"
     When I check "Wireless Internet"
     And I check "Pool"
     And I check "Sauna"
@@ -242,6 +258,8 @@ Scenario: Company creates a new listing with date field
     And I select "Requesting" from listing type menu
     Then I should not see "Privacy*"
     And I fill in "listing_title" with "Sledgehammer"
+    And I fill in "Model" with "model x"
+    And I fill in "manufacturer_temp" with "manufacturer y"
     And I fill in "listing_description" with "My description"
     And I press "Save listing"
     Then I should see "Sledgehammer" within "#listing-title"
