@@ -1,0 +1,4 @@
+0 1 * * * /bin/bash --login /var/app/current/cronjobs_daily_at_night.sh >> ~/cron_log.txt 2>&1
+* * * * * /bin/bash --login /var/app/current/cronjobs_every_minute.sh >> ~/cron_log.txt 2>&1
+0,30 * * * * /bin/bash --login /var/app/current/cronjobs_every_30min.sh >> ~/cron_log.txt 2>&1
+0 1 * * 1 /bin/bash --login /var/app/current/cronjobs_every_monday_morning.sh >> ~/cron_log.txt 2>&1
