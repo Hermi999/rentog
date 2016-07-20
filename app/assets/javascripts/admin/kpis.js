@@ -1,17 +1,15 @@
+/* globals google */
+
 window.ST = window.ST || {};
 
 window.ST.initializeKpis = function(kpis_weeks, kpis_months) {
   google.charts.load('current', {'packages':['line']});
-  draw(kpis_weeks, "linechart_material_weeks", "Rentog Key Performance Indicators - 7 day steps");
-  draw(kpis_months, "linechart_material_months", "Rentog Key Performance Indicators - 30 day steps");
-
 
   function draw(kpis, id, title){
-    google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
       var data = new google.visualization.DataTable();
-      for (i in kpis[0]) {
+      for (var i in kpis[0]) {
         if (i === "0"){
           data.addColumn('string', kpis[0][i]);
         }else{
@@ -35,5 +33,10 @@ window.ST.initializeKpis = function(kpis_weeks, kpis_months) {
 
       chart.draw(data, options);
     }
+
+    google.charts.setOnLoadCallback(drawChart);
   }
-}
+
+  draw(kpis_weeks, "linechart_material_weeks", "Rentog Key Performance Indicators - 7 day steps");
+  draw(kpis_months, "linechart_material_months", "Rentog Key Performance Indicators - 30 day steps");
+};

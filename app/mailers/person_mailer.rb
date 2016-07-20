@@ -743,6 +743,7 @@ class PersonMailer < ActionMailer::Base
       email.update_attribute(:confirmation_sent_at, Time.now)
       premailer_mail(:to => email.address,
                      :from => from.format,
+                     :subject => t("devise.mailer.confirmation_instructions.subject"),
                      :template_path => 'devise/mailer',
                      :template_name => 'confirmation_instructions')
     end

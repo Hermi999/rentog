@@ -343,22 +343,14 @@ class ListingsController < ApplicationController
       cookies[:recent_listings] = @listing.id.to_s
     end
 
-
     # redirect if intern listing
-    if @listing.availability == "intern"      &&
-       !@relation == :company_admin_own_site  &&
-       !@relation == :rentog_admin            &&
-       !@relation == :company_employee        &&
-       !@relation == :domain_supervisor
-
+    if @listing.availability == "intern" && !@relation == :company_admin_own_site  && !@relation == :rentog_admin && !@relation == :company_employee && !@relation == :domain_supervisor
         flash[:error] = t("transactions.listing_is_intern")
         redirect_to root and return
     end
 
-    # wah: Get valid transactions in future, so that other user can not book the device
-    #      if its already booked at a certain date
+    # wah: Get valid transactions in future, so that other user can not book the device if its already booked at a certain date
     @booked_dates = Listing.already_booked_dates_in_future(@listing.id, @current_community)
-
 
     @current_image = if params[:image]
       @listing.image_by_id(params[:image])
@@ -374,7 +366,6 @@ class ListingsController < ApplicationController
 
     payment_gateway = MarketplaceService::Community::Query.payment_type(@current_community.id)
     process = get_transaction_process(community_id: @current_community.id, transaction_process_id: @listing.transaction_process_id)
-
 
     rent_button = ""
     special_action_button_label = t(@listing.action_button_tr_key)
@@ -456,17 +447,10 @@ class ListingsController < ApplicationController
         # wah - add this event to the events table
         ListingEvent.listing_viewed(@listing, nil, @visitor, cookies)
 
-      when :untrusted_company_admin
-        rent_button = "request"
-        form_path = new_transaction_path(listing_id: @listing.id)
-
-        # wah - add this event to the events table
-        ListingEvent.listing_viewed(@listing, nil, @visitor, cookies)
-
       when :unverified_company
         flash.now[:error] = t("transactions.company_not_verified")
 
-      when :logged_out_user
+      when :logged_out_user || :untrusted_company_admin
         rent_button = "request"
         form_path = new_transaction_path(listing_id: @listing.id)
 

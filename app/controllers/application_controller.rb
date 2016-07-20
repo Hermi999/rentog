@@ -189,7 +189,8 @@ class ApplicationController < ActionController::Base
     if person_signed_in?
       @current_user = current_person
       setup_logger!(user_id: @current_user.id, username: @current_user.username)
-    else
+
+    elsif @current_community
       # wah: get or create Visitor
 
       # get session key & value
