@@ -225,7 +225,8 @@ module MarketplaceService::API
       end
 
       def how_to_use_page_default_content(locale, marketplace_name)
-        "<h1>#{I18n.t("infos.how_to_use.default_title", locale: locale)}</h1><div>#{I18n.t("infos.how_to_use.default_content", locale: locale, :marketplace_name => marketplace_name)}</div>"
+        #"<h1>#{I18n.t("infos.how_to_use.default_title", locale: locale)}</h1><div>#{I18n.t("infos.how_to_use.default_content", locale: locale, :marketplace_name => marketplace_name)}</div>"
+        "<h1>Default title</h1><div>Default content</div>"
       end
 
       def available_ident_based_on(initial_ident)
