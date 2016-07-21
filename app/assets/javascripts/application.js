@@ -85,5 +85,8 @@
 //= require trusted_relationship
 //= require select2
 //= require not1f1cat1ons-0.1
+
+// Admin JS
+//= require admin/admin_javascript
 //
 //= require_self
