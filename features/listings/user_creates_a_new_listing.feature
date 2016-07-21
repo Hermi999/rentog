@@ -70,24 +70,24 @@ Feature: User creates a new listing
     And I should see "This date must be between current time and 6 months from now."
     And I should see "The image format must be either GIF, JPG or PNG"
 
-  @move_to_subdomain2
-  @javascript
-  Scenario: Company creates a listing and it is not visible in communities user joins
-    Given there are following users:
-      | person |
-      | kassi_testperson3 |
-    And there is a listing with title "Hammer" from "kassi_testperson3" with category "Items" and with listing shape "Requesting"
-    And I am on the marketplace
-    Then I should see "Hammer"
-    When I move to community "test2"
-    And I am on the marketplace
-    Then I should not see "Hammer"
-    And I log in as "kassi_testperson3"
-    And I check "community_membership_consent"
-    And I press "Join Rentog"
-    And the system processes jobs
-    And I am on the marketplace
-    Then I should not see "Hammer"
+  # @move_to_subdomain2
+  # @javascript
+  # Scenario: Company creates a listing and it is not visible in communities user joins
+  #   Given there are following users:
+  #     | person |
+  #     | kassi_testperson3 |
+  #   And there is a listing with title "Hammer" from "kassi_testperson3" with category "Items" and with listing shape "Requesting"
+  #   And I am on the marketplace
+  #   Then I should see "Hammer"
+  #   When I move to community "test2"
+  #   And I am on the marketplace
+  #   Then I should not see "Hammer"
+  #   And I log in as "kassi_testperson3"
+  #   And I check "community_membership_consent"
+  #   And I press "Join Rentog"
+  #   And the system processes jobs
+  #   And I am on the marketplace
+  #   Then I should not see "Hammer"
 
   @javascript
   Scenario: Create a new listing successfully after going back and forth in the listing form
@@ -112,7 +112,9 @@ Feature: User creates a new listing
     And I select "Selling" from listing type menu
     Then I should see "Category: Spaces"
     And I should see "Listing type: Selling"
-    When I fill in "listing_title" with "My offer"
+    #When I fill in "listing_title" with "My offer"
+    And I fill in "Model" with "My offer"
+    And I fill in "manufacturer_temp" with "manufacturer y"
     And I fill in "listing_price" with "20"
     And I fill in "listing_description" with "My description"
     And I press "Save listing"
@@ -148,7 +150,8 @@ Feature: User creates a new listing
     Then I should see "House type"
     And I should see "Balcony type"
     And I should not see "Service type"
-    When I fill in "listing_title" with "My house"
+    When I fill in "Model" with "My offer"
+    And I fill in "manufacturer_temp" with "manufacturer y"
     And I press "Save listing"
     Then I should see 2 validation errors
     When custom field "Balcony type" is not required
@@ -156,7 +159,6 @@ Feature: User creates a new listing
     And I follow "new-listing-link"
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
-    And I fill in "listing_title" with "My house"
     And I fill in "Model" with "model x"
     And I fill in "manufacturer_temp" with "manufacturer y"
     And I press "Save listing"
@@ -173,8 +175,7 @@ Feature: User creates a new listing
     When I follow "new-listing-link"
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
-    And I fill in "listing_title" with "My house"
-    And I fill in "Model" with "model x"
+    And I fill in "Model" with "My house"
     And I fill in "manufacturer_temp" with "manufacturer y"
     And I fill in text field "Details" with "Test details"
     And I press "Save listing"
@@ -192,7 +193,6 @@ Feature: User creates a new listing
     When I follow "new-listing-link"
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
-    And I fill in "listing_title" with "My house"
     And I fill in "Model" with "model x"
     And I fill in "manufacturer_temp" with "manufacturer y"
     And I fill in custom numeric field "Area" with "9999"
@@ -210,7 +210,6 @@ Scenario: Company creates a new listing with date field
   When I follow "new-listing-link"
   And I select "Spaces" from listing type menu
   And I select "Selling" from listing type menu
-  And I fill in "listing_title" with "My house"
   And I fill in "Model" with "model x"
   And I fill in "manufacturer_temp" with "manufacturer y"
   And I fill select custom date "building_date_test" with day="19", month="April" and year="2014"
@@ -232,7 +231,6 @@ Scenario: Company creates a new listing with date field
     When I follow "new-listing-link"
     And I select "Spaces" from listing type menu
     And I select "Selling" from listing type menu
-    And I fill in "listing_title" with "My house"
     And I fill in "Model" with "model x"
     And I fill in "manufacturer_temp" with "manufacturer y"
     When I check "Wireless Internet"
@@ -258,7 +256,7 @@ Scenario: Company creates a new listing with date field
     And I select "Requesting" from listing type menu
     Then I should not see "Privacy*"
     And I fill in "listing_title" with "Sledgehammer"
-    And I fill in "Model" with "model x"
+    And I fill in "Model" with "Sledgehammer"
     And I fill in "manufacturer_temp" with "manufacturer y"
     And I fill in "listing_description" with "My description"
     And I press "Save listing"
