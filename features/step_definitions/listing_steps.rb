@@ -14,6 +14,17 @@ Given /^there is a listing with title "([^"]*)"(?: from "([^"]*)")?(?: with cate
 
   create_listing(shape: shape, opts: opts)
 
+  model_custom_field_id = CustomFieldName.where(value: 'Model').last.custom_field_id
+  model = TextFieldValue.create(text_value: 'model x', type: 'TextFieldValue')
+  model.update_attribute(:custom_field_id, model_custom_field_id)
+  model.update_attribute(:listing_id, Listing.last.id)
+
+  manufac_custom_field_id = CustomFieldName.where(value: 'Manufacturer').last.custom_field_id
+  manufac = DropdownFieldValue.create(type: 'DropdownFieldValue')
+  manufac.update_attribute(:custom_field_id, manufac_custom_field_id)
+  manufac.update_attribute(:listing_id, Listing.last.id)
+  manufac.selected_options << CustomFieldOption.where(custom_field_id: manufac_custom_field_id).first
+
   @created_listing_ids = [] if @created_listing_ids.nil?
   @created_listing_ids << Listing.last.id
 end
