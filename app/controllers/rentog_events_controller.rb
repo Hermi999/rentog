@@ -100,31 +100,7 @@ class RentogEventsController < ApplicationController
             end
             
             if filter_params
-              filter_params.each do |filter_|
-                if filter_[1] != nil && filter_[1] != []
-
-                  if filter_[0].to_s == "price_cents"
-                    res += ("<br><b>Price:</b> " + (filter_[1].to_a[0]/100).to_s + " - " + (filter_[1].to_a[-1]/100).to_s).html_safe
-
-                  elsif filter_[0].to_s == "custom_dropdown_field_options" || filter_[0].to_s == "custom_checkbox_field_options"
-                    filter_[1].each do |val|
-                      res += "<br><b>" + CustomFieldName.where(custom_field_id: val[:id], locale: "de").first.value + ": </b>"
-                      val[:value].each do |val_|
-                        res += CustomFieldOption.find(val_).title + ", "
-                      end
-                    end
-
-                  elsif filter_[0].to_s == "categories"
-                    res += "<br><b>" + filter_[0].to_s + ":</b> "
-                    filter_[1].each do |category_id|
-                      res += Category.find(category_id).translations.where(locale: "en").first.name
-                    end
-
-                  else
-                    res = Maybe(res).or_else("") + "<br><b>" + Maybe(filter_[0]).or_else("").to_s + "</b>: " + filter_[1].to_s
-                  end
-                end
-              end
+              res = evaluate_filter_params(filter_params, res)
             end
 
             row << Maybe(res).or_else("---------")
@@ -151,4 +127,35 @@ class RentogEventsController < ApplicationController
       @table << row
     end
   end
+
+
+  def evaluate_filter_params(filter_params, res)
+    filter_params.each do |filter_|
+      if filter_[1] != nil && filter_[1] != []
+
+        if filter_[0].to_s == "price_cents"
+          res += ("<br><b>Price:</b> " + (filter_[1].to_a[0]/100).to_s + " - " + (filter_[1].to_a[-1]/100).to_s).html_safe
+
+        elsif filter_[0].to_s == "custom_dropdown_field_options" || filter_[0].to_s == "custom_checkbox_field_options"
+          filter_[1].each do |val|
+            res += "<br><b>" + CustomFieldName.where(custom_field_id: val[:id], locale: "de").first.value + ": </b>"
+            val[:value].each do |val_|
+              res += CustomFieldOption.find(val_).title + ", "
+            end
+          end
+
+        elsif filter_[0].to_s == "categories"
+          res += "<br><b>" + filter_[0].to_s + ":</b> "
+          filter_[1].each do |category_id|
+            res += Category.find(category_id).translations.where(locale: "en").first.name
+          end
+
+        else
+          res = Maybe(res).or_else("") + "<br><b>" + Maybe(filter_[0]).or_else("").to_s + "</b>: " + filter_[1].to_s
+        end
+      end
+    end
+    res
+  end
+
 end

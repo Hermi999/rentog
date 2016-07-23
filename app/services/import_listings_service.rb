@@ -180,7 +180,7 @@ class ImportListingsService
             @listing_data[i][:unique_selling_proposition3] = "unique_selling_proposition3"
             
           else
-            usps = row[:unique_selling_propositions].split("-")
+            usps = row[:unique_selling_propositions].split("**")
             @listing_data[i][:unique_selling_proposition_1] = usps[1].strip
             @listing_data[i][:unique_selling_proposition_2] = usps[2].strip
             @listing_data[i][:unique_selling_proposition_3] = usps[3].strip
@@ -346,11 +346,9 @@ class ImportListingsService
 
                 x_attr[1] == x_attr[1].split(",").map(&:strip).each do |val|
                   optionTitle = CustomFieldOptionTitle.where(value: val).last
-                  if optionTitle
-                    option = optionTitle.custom_field_option
-                    if option.custom_field_id == valid_attr[:custom_field_id]
-                      listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] << option.id
-                    end
+                  option = optionTitle.custom_field_option if optionTitle
+                  if option && option.custom_field_id == valid_attr[:custom_field_id]
+                    listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] << option.id
                   end
                 end
               
@@ -484,12 +482,12 @@ class ImportListingsService
 
                 x_attr[1] == x_attr[1].split(",").map(&:strip).each do |val|
                   optionTitle = CustomFieldOptionTitle.where(value: val).last
-                  if optionTitle
-                    option = optionTitle.custom_field_option
-                    if option.custom_field_id == valid_attr[:custom_field_id]
-                      listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] << option.id
-                    end
+                  
+                  option = optionTitle.custom_field_option if optionTitle
+                  if option && option.custom_field_id == valid_attr[:custom_field_id]
+                    listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] << option.id
                   end
+
                 end
               else
                 listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] = x_attr[1]
