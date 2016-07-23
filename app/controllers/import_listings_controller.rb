@@ -11,13 +11,13 @@ class ImportListingsController < ApplicationController
       redirect_to import_listings_new_import_path and return
     end
 
-    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user, @relation
+    @import_listings = ImportListingsService.new file_url, @current_user, @relation
   end
 
   # Just create listings, do not update existings listings
   def create_listings_from_file
     # create listings based on last imported file
-    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user, @relation
+    @import_listings = ImportListingsService.new file_url, @current_user, @relation
     @result = @import_listings.createListings(@current_user, @current_community, @relation)
     render locals: {type: "create"}
   end
@@ -25,7 +25,7 @@ class ImportListingsController < ApplicationController
   # Only update listings. Do not create new listings.
   def update_listings_from_file
     # create listings based on last imported file
-    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user, @relation
+    @import_listings = ImportListingsService.new file_url, @current_user, @relation
     @result = @import_listings.updateListings(@current_user, @current_community, @relation)
     render :create_listings_from_file, locals: {type: "update"}
   end
@@ -33,13 +33,22 @@ class ImportListingsController < ApplicationController
   # Update and create listings.
   def update_and_create_listings_from_file
     # create listings based on last imported file
-    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user, @relation
+    @import_listings = ImportListingsService.new file_url, @current_user, @relation
     @result = @import_listings.updateAndCreateListings(@current_user, @current_community, @relation)
     render :create_listings_from_file, locals: {type: "create"}
   end
 
 
   private
+
+    def file_url 
+      file_url = 
+        if Rails.env == "development"
+          @current_user.import_listings_file.last.importfile.path
+        else
+          @current_user.import_listings_file.last.importfile.url
+        end
+    end
 
     def save_import_file(params)
       return false if params[:import_file].nil?

@@ -181,9 +181,9 @@ class ImportListingsService
             
           else
             usps = row[:unique_selling_propositions].split("**")
-            @listing_data[i][:unique_selling_proposition_1] = usps[1].strip
-            @listing_data[i][:unique_selling_proposition_2] = usps[2].strip
-            @listing_data[i][:unique_selling_proposition_3] = usps[3].strip
+            @listing_data[i][:unique_selling_proposition_1] = Maybe(usps[1]).strip.or_else(nil)
+            @listing_data[i][:unique_selling_proposition_2] = Maybe(usps[2]).strip.or_else(nil)
+            @listing_data[i][:unique_selling_proposition_3] = Maybe(usps[3]).strip.or_else(nil)
             @listing_data[i].delete(:unique_selling_propositions)
 
             usp1 = CustomFieldName.where(value: "Unique Selling Proposition 1", locale: "en").last.custom_field_id
@@ -498,7 +498,7 @@ class ImportListingsService
       end
 
       # get the correct sub category
-      if listing_attributes[:main_category] || listing_attributes[:sub_category]
+      if listing_attributes[:main_category] && listing_attributes[:sub_category]
         listing_attributes[:sub_category].each do |sub_cat|
           if sub_cat.category.parent == listing_attributes[:main_category].category
             listing_attributes[:category_id] = sub_cat.category_id.to_s

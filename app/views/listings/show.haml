@@ -169,9 +169,9 @@
 
     - if @listing.description && !@listing.description.blank?
       .row.listing_attribute
-        .col-12
+        .col-12.detailed_description_wrapper
           - text_with_line_breaks do
-            = @listing.description
+            = sanitize @listing.description, tags: %w(strong em h3 h4 h5 h6 hr ul ol li b), attributes: %w()
 
     - if @listing.listing_attachments && @listing.listing_attachments != []
       .row.listing_attribute

@@ -462,3 +462,11 @@ $listing-author-avatar-height: 108;
   border-bottom: 1px dotted #C7C7C7;
   background-color: whitesmoke;
 }
+
+.detailed_description_wrapper{
+  hr{
+    color: darkgrey;
+    background: darkgrey;
+    height: 1px;
+  }
+}
