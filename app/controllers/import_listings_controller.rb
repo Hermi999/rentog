@@ -1,33 +1,39 @@
 class ImportListingsController < ApplicationController
+  
+  # render listings import page
   def new_import
   end
 
+  # upload an import file and display the result. Highlight new listings, those who are adapted and also the errors.
   def upload_import_file
     # redirect if save file is not possible
     unless save_import_file(params)
       redirect_to import_listings_new_import_path and return
     end
 
-    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user
+    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user, @relation
   end
 
+  # Just create listings, do not update existings listings
   def create_listings_from_file
     # create listings based on last imported file
-    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user
+    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user, @relation
     @result = @import_listings.createListings(@current_user, @current_community, @relation)
     render locals: {type: "create"}
   end
 
+  # Only update listings. Do not create new listings.
   def update_listings_from_file
     # create listings based on last imported file
-    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user
+    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user, @relation
     @result = @import_listings.updateListings(@current_user, @current_community, @relation)
     render :create_listings_from_file, locals: {type: "update"}
   end
 
+  # Update and create listings.
   def update_and_create_listings_from_file
     # create listings based on last imported file
-    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user
+    @import_listings = ImportListingsService.new @current_user.import_listings_file.last.importfile.path, @current_user, @relation
     @result = @import_listings.updateAndCreateListings(@current_user, @current_community, @relation)
     render :create_listings_from_file, locals: {type: "create"}
   end

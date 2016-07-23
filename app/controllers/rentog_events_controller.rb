@@ -91,30 +91,38 @@ class RentogEventsController < ApplicationController
 
         elsif attr_values[0] == "event_details"
           if event_type == "marketplace_search_or_filter"
-            filter_params = eval(attr_values[1])
-            res = ""
-            filter_params.each do |filter_|
-              if filter_[1] != nil && filter_[1] != []
+            begin 
+              filter_params = eval(attr_values[1]) if attr_values[1]
+              res = ""
+            rescue SyntaxError => se
+              filter_params = nil
+              res = attr_values || ""
+            end
+            
+            if filter_params
+              filter_params.each do |filter_|
+                if filter_[1] != nil && filter_[1] != []
 
-                if filter_[0].to_s == "price_cents"
-                  res += ("<br><b>Price:</b> " + (filter_[1].to_a[0]/100).to_s + " - " + (filter_[1].to_a[-1]/100).to_s).html_safe
+                  if filter_[0].to_s == "price_cents"
+                    res += ("<br><b>Price:</b> " + (filter_[1].to_a[0]/100).to_s + " - " + (filter_[1].to_a[-1]/100).to_s).html_safe
 
-                elsif filter_[0].to_s == "custom_dropdown_field_options" || filter_[0].to_s == "custom_checkbox_field_options"
-                  filter_[1].each do |val|
-                    res += "<br><b>" + CustomFieldName.where(custom_field_id: val[:id], locale: "de").first.value + ": </b>"
-                    val[:value].each do |val_|
-                      res += CustomFieldOption.find(val_).title + ", "
+                  elsif filter_[0].to_s == "custom_dropdown_field_options" || filter_[0].to_s == "custom_checkbox_field_options"
+                    filter_[1].each do |val|
+                      res += "<br><b>" + CustomFieldName.where(custom_field_id: val[:id], locale: "de").first.value + ": </b>"
+                      val[:value].each do |val_|
+                        res += CustomFieldOption.find(val_).title + ", "
+                      end
                     end
-                  end
 
-                elsif filter_[0].to_s == "categories"
-                  res += "<br><b>" + filter_[0].to_s + ":</b> "
-                  filter_[1].each do |category_id|
-                    res += Category.find(category_id).translations.where(locale: "en").first.name
-                  end
+                  elsif filter_[0].to_s == "categories"
+                    res += "<br><b>" + filter_[0].to_s + ":</b> "
+                    filter_[1].each do |category_id|
+                      res += Category.find(category_id).translations.where(locale: "en").first.name
+                    end
 
-                else
-                  res += "<br><b>" + filter_[0].to_s + "</b>: " + filter_[1].to_s
+                  else
+                    res = Maybe(res).or_else("") + "<br><b>" + Maybe(filter_[0]).or_else("").to_s + "</b>: " + filter_[1].to_s
+                  end
                 end
               end
             end

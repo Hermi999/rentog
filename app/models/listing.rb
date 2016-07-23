@@ -264,9 +264,9 @@ class Listing < ActiveRecord::Base
   # returns one of the following values:
   # "intern", "trusted", "sell", "rent", "ad"
   def get_listing_type
-    listing_shape_name = ListingShape.find(listing_shape_id).name if listing_shape_id
+    listing_shape_name = Maybe(ListingShape.where(id: listing_shape_id).last).name.or_else(nil) if listing_shape_id
 
-    self.class.get_listing_type_helper(availability, listing_shape_name)
+    self.class.get_listing_type_helper(availability, listing_shape_name) if listing_shape_name
 
   end
 

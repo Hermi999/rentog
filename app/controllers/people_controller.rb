@@ -22,6 +22,7 @@ class PeopleController < Devise::RegistrationsController
 
   helper_method :show_closed?
 
+
   def show
     cookies.permanent[:listings] = @site_owner.listings.map(&:id)
     cookies.permanent[:listings_mode] = "profile"
@@ -41,23 +42,21 @@ class PeopleController < Devise::RegistrationsController
 
     # Restrict (depending on viewer):
     #   - which listings are viewed on profile page
-    if @relation == :logged_out
-      availability = ["all", nil, ""]
 
-    elsif @relation == :company_admin_own_site ||
-          @relation == :company_employee ||
-          @relation == :rentog_admin
-      availability = ["all", "trusted", "intern", nil, ""]
+    case @relation 
+      when :logged_out
+        availability = ["all", nil, ""]
+      
+      when :company_admin_own_site, :company_employee, :rentog_admin, :rentog_admin_own_site
+        availability = ["all", "trusted", "intern", nil, ""]
+      
+      when :full_trusted_company_admin, :trusted_company_admin, :full_trusted_company_employee, :trusted_company_employee
+        availability = ["all", "trusted", nil, ""]
+      
+      else  
+        availability = ["all", nil, ""]
 
-    elsif @relation == :full_trusted_company_admin ||
-          @relation == :trusted_company_admin ||
-          @relation == :full_trusted_company_employee ||
-          @relation == :trusted_company_employee
-      availability = ["all", "trusted", nil, ""]
-
-    else
-      availability = ["all", nil, ""]
-    end
+      end
 
 
     include_closed = @current_user == @site_owner && params[:show_closed]

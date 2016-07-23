@@ -2792,7 +2792,7 @@ en:
       t2_row1_attr: "manufacturer"
       t2_row1_desc: "Manufacturer of the device."
       t2_row1_mand: "Yes."
-      t2_row2_attr: "visibility <br> <span style='font-size:0.9em'>(= availability + listing type)</span>"
+      t2_row2_attr: "type <br> <span style='font-size:0.9em'>(= availability + listing type)</span>"
       t2_row2_desc: "This attributes defines for which users the device should be available & visible. Possible values: <br><b>private</b> - Only pool users who belong to this pool can see & book the devices. <br><b>trusted</b> - Visible for own pool users and users you trust.<br><b>sell</b> - Device is sold and visible for all Rentog users.<br><b>rent</b> - Device is rented and visible for all Rentog users."
       t2_row2_mand: "Yes."
       t2_row3_attr: "description"
