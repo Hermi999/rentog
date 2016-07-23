@@ -470,3 +470,12 @@ $listing-author-avatar-height: 108;
     height: 1px;
   }
 }
+
+.listing_description_textarea{
+  @include media(small-desktop){
+    width: 650px;
+  }
+  @include media(desktop){
+    width: 700px;
+  }
+}
