@@ -341,10 +341,10 @@ class ImportListingsService
             if x_attr[0].to_s == valid_attr[:name]
               type = Maybe(CustomField.where(id: valid_attr[:custom_field_id]).last).type.or_else(nil)
               
-              if type == "CheckboxField"
+              if type == "CheckboxField" && x_attr[1]
                 listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] = []
 
-                x_attr[1] == x_attr[1].split(",").map(&:strip).each do |val|
+                x_attr[1] = x_attr[1].split(",").map(&:strip).each do |val|
                   optionTitle = CustomFieldOptionTitle.where(value: val).last
                   option = optionTitle.custom_field_option if optionTitle
                   if option && option.custom_field_id == valid_attr[:custom_field_id]
@@ -477,10 +477,10 @@ class ImportListingsService
           @valid_attributes_from_db.each do |valid_attr|
             if x_attr[0].to_s == valid_attr[:name]
               type = Maybe(CustomField.where(id: valid_attr[:custom_field_id]).last).type.or_else(nil)
-              if type == "CheckboxField"
+              if type == "CheckboxField" && x_attr[1]
                 listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] = []
 
-                x_attr[1] == x_attr[1].split(",").map(&:strip).each do |val|
+                x_attr[1] = x_attr[1].split(",").map(&:strip).each do |val|
                   optionTitle = CustomFieldOptionTitle.where(value: val).last
                   
                   option = optionTitle.custom_field_option if optionTitle

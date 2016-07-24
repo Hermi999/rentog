@@ -188,10 +188,14 @@
 
     / Listing attributes
     - @listing.custom_field_values.each do |custom_field_value|
-      .row.listing_attribute
-        .col-12
-          - custom_field_value.with_type do |question_type|
-            = render :partial => "listings/custom_field_partials/#{question_type}", :locals => { :custom_field_value => custom_field_value }
+      
+      - # do not display certain attributes
+      - cf_name = custom_field_value.question.names.where(locale: "en").first.value
+      - if @relation == :rentog_admin || @relation == :rentog_admin_own_site || @relation == :company_admin_own_site || @relation == :company_employee || @relation == :domain_supervisor || cf_name.include?("Serial") == false
+        .row.listing_attribute
+          .col-12
+            - custom_field_value.with_type do |question_type|
+              = render :partial => "listings/custom_field_partials/#{question_type}", :locals => { :custom_field_value => custom_field_value }
 
     / Description of Sales conditions
     - unless @listing.author.description_of_sales_conditions.nil?
