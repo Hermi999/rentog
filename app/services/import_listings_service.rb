@@ -125,7 +125,12 @@ class ImportListingsService
           if j == 0
           data[j][field[0].to_s.downcase.gsub(" ", "_").to_sym] = field[1].downcase.gsub(" ", "_")
           else
-            data[j][field[0].to_s.downcase.gsub(" ", "_").to_sym] = field[1]
+            if field[1].class.to_s == "String"
+              da = field[1].gsub("<html>", "").gsub("</html>", "")
+            else
+              da = field[1]
+            end
+            data[j][field[0].to_s.downcase.gsub(" ", "_").to_sym] = da
           end
         end
       end
@@ -172,30 +177,36 @@ class ImportListingsService
 
     def handleUSPs
       @listing_data.each_with_index do |row, i|
-        if row[:unique_selling_propositions] && row[:unique_selling_propositions] != ""
-          if i == 0
+        if row[:unique_selling_propositions] 
+          if row[:unique_selling_propositions] != ""
+            if i == 0
+              @listing_data[i].delete(:unique_selling_propositions)
+              @listing_data[i][:unique_selling_proposition1] = "unique_selling_proposition1"
+              @listing_data[i][:unique_selling_proposition2] = "unique_selling_proposition2"
+              @listing_data[i][:unique_selling_proposition3] = "unique_selling_proposition3"
+              
+            else
+              usps = row[:unique_selling_propositions].split("**")
+              @listing_data[i][:unique_selling_proposition_1] = Maybe(usps[1]).strip.or_else(nil)
+              @listing_data[i][:unique_selling_proposition_2] = Maybe(usps[2]).strip.or_else(nil)
+              @listing_data[i][:unique_selling_proposition_3] = Maybe(usps[3]).strip.or_else(nil)
+              @listing_data[i].delete(:unique_selling_propositions)
+
+              usp1 = CustomFieldName.where(value: "Unique Selling Proposition 1", locale: "en").last.custom_field_id
+              usp2 = CustomFieldName.where(value: "Unique Selling Proposition 2", locale: "en").last.custom_field_id
+              usp3 = CustomFieldName.where(value: "Unique Selling Proposition 3", locale: "en").last.custom_field_id
+
+              @valid_attributes << {name: :unique_selling_proposition_1, custom_field_id: usp1}
+              @valid_attributes << {name: :unique_selling_proposition_2, custom_field_id: usp2}
+              @valid_attributes << {name: :unique_selling_proposition_3, custom_field_id: usp3}
+              @valid_attributes.each_with_index { |attr, index| @valid_attributes.delete_at(index) if attr[:name] == :unique_selling_proposition }
+
+            end
+          elsif
             @listing_data[i].delete(:unique_selling_propositions)
-            @listing_data[i][:unique_selling_proposition1] = "unique_selling_proposition1"
-            @listing_data[i][:unique_selling_proposition2] = "unique_selling_proposition2"
-            @listing_data[i][:unique_selling_proposition3] = "unique_selling_proposition3"
-            
-          else
-            usps = row[:unique_selling_propositions].split("**")
-            @listing_data[i][:unique_selling_proposition_1] = Maybe(usps[1]).strip.or_else(nil)
-            @listing_data[i][:unique_selling_proposition_2] = Maybe(usps[2]).strip.or_else(nil)
-            @listing_data[i][:unique_selling_proposition_3] = Maybe(usps[3]).strip.or_else(nil)
-            @listing_data[i].delete(:unique_selling_propositions)
-
-            usp1 = CustomFieldName.where(value: "Unique Selling Proposition 1", locale: "en").last.custom_field_id
-            usp2 = CustomFieldName.where(value: "Unique Selling Proposition 2", locale: "en").last.custom_field_id
-            usp3 = CustomFieldName.where(value: "Unique Selling Proposition 3", locale: "en").last.custom_field_id
-
-            @valid_attributes << {name: :unique_selling_proposition_1, custom_field_id: usp1}
-            @valid_attributes << {name: :unique_selling_proposition_2, custom_field_id: usp2}
-            @valid_attributes << {name: :unique_selling_proposition_3, custom_field_id: usp3}
-            @valid_attributes.each_with_index { |attr, index| @valid_attributes.delete_at(index) if attr[:name] == :unique_selling_proposition }
-
           end
+        else
+          @listing_data[i].delete(:unique_selling_propositions)
         end
       end
     end
