@@ -181,10 +181,12 @@
     - content_for :title_header do
       - if @is_member_of_company
         %h1#pooltool-header= t("pool_tool.headline")
+      
       - elsif @domain_supervisor_on_overview_site
-        %h1#pooltool-header.domain_view= t("pool_tool.show.domain_view")
+        %h1#pooltool-header= t("pool_tool.show.domain_view")
+        
       - else
-        %h1#pooltool-header.other_company_is_site_owner= t("pool_tool.headline") + " - #{@site_owner.organization_name}"
+        %h1#pooltool-header= t("pool_tool.headline") + " - #{@site_owner.organization_name}"
 
       #pooltool-subheader= t("pool_tool.subheadline")
 
@@ -192,7 +194,6 @@
       .title_desc
         .title_desc_text
           = t("pool_tool.headline_desc").html_safe
-
 
     #poolTool_Wrapper
       / Pool Tool 'Add new booking form'

@@ -5,8 +5,10 @@ class CompanyStatisticsController < ApplicationController
   before_filter :ensure_is_authorized_to_view
 
   def show
+    @pooltool_specific_page = true
+    
     company_ids = []
-    if @relation == :domain_supervisor && params[:domain_view] == "1"
+    if @relation == (@domain_supervisor_on_overview_site = :domain_supervisor && params[:domain_view] == "1")
       company_ids += @current_user.get_companies_with_same_domain.map(&:id)
     else
       company_ids = @site_owner.id

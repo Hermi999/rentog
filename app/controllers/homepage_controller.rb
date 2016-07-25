@@ -217,10 +217,12 @@ class HomepageController < ApplicationController
     if @restrictedMarketplace
       availability = ["trusted", "all"]
       availability_for_sphinx[:availability_restricted_marketplace] = true
+      @pooltool_specific_page = true
 
     elsif @marketplace_with_trusted_devs
       availability = ["intern", "trusted"]
       availability_for_sphinx[:availability_not_intern] = true
+      @pooltool_specific_page = true
     else
       availability = ["all", nil]
       availability_for_sphinx[:availability_marketplace] = true

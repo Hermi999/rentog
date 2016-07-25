@@ -31,6 +31,7 @@ window.ST.companyStatistics = (function() {
 
         var options = {
           height: 400,
+          backgroundColor: "#f9e7d5",
           histogram: {bucketSize: 3},
           hAxis: {
             title: gon.averageDeviceBookingPeriod_hAxis_title,
@@ -53,6 +54,7 @@ window.ST.companyStatistics = (function() {
 
       var options = {
         height: height,
+        backgroundColor: "#f9e7d5",
         chartArea: {width: '65%'},
         isStacked: true,
         hAxis: {
@@ -70,6 +72,7 @@ window.ST.companyStatistics = (function() {
       var height = 100 + 20*peopleWithMostBookedDays_arr.length;
 
       var options = {
+        backgroundColor: "#f9e7d5",
         height: height,
         chartArea: {width: '65%'},
         isStacked: true,
@@ -88,6 +91,7 @@ window.ST.companyStatistics = (function() {
       var height = 100 + 20*devicesWithMostBookings_arr.length;
 
       var options = {
+        backgroundColor: "#f9e7d5",
         height: height,
         chartArea: {width: '65%'},
         isStacked: true,
@@ -106,6 +110,7 @@ window.ST.companyStatistics = (function() {
       var height = 100 + 20*devicesWithMostBookedDays_arr.length;
 
       var options = {
+        backgroundColor: "#f9e7d5",
         height: height,
         chartArea: {width: '65%'},
         isStacked: true,
@@ -123,6 +128,7 @@ window.ST.companyStatistics = (function() {
       var data = google.visualization.arrayToDataTable(bookingCompanyUnits_arr);
 
       var options = {
+        backgroundColor: "#f9e7d5",
         chartArea: {width: '65%'},
         height: 400,
         vAxis: {title: gon.bookingCompanyUnits_hAxis_title},
@@ -154,6 +160,7 @@ window.ST.companyStatistics = (function() {
 
       var height = 100 + 35*deviceLivetime_arr.length;
       var options = {
+        backgroundColor: "#f9e7d5",
         height: height
       };
 
@@ -170,6 +177,7 @@ window.ST.companyStatistics = (function() {
 
       var height = 100 + 40*userDeviceRelationship_arr.length;
       var options = {
+        backgroundColor: "#f9e7d5",
         height: height
       };
 
@@ -204,6 +212,7 @@ window.ST.companyStatistics = (function() {
 
       var height = 150 + (highest_year - lowest_year)*120;
       var options = {
+        backgroundColor: "#f9e7d5",
         height: height,
         calendar: { cellSize: 13 },
       };

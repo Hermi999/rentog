@@ -2284,7 +2284,7 @@ figure.fluidratio {
       position: absolute;
       left: 350px;
       top: 0px;
-      color: darkgrey;
+      color: #dba268;
       max-width: 500px;
       font-size: 0.9em;
       line-height: 1.5em;
@@ -2297,9 +2297,9 @@ figure.fluidratio {
       }
 
       a{
-        color: #8D8DA5;
+        color: #bd7a36;
         &:hover{
-          color: #23a3b9;
+          color: #6F6F6F;
         }
       }
 
@@ -2600,4 +2600,69 @@ figure.fluidratio {
 .disabledbutton {
   pointer-events: none;
   opacity: 0.4;
+}
+
+
+// Other company is site owner
+body.other_company_is_site_owner{
+  background-color: rgb(241, 246, 255);
+}
+.page-content.other_company_is_site_owner{
+  background-color: rgb(241, 246, 255);
+}
+.other_company_is_site_owner{
+  .wrapper{
+    background-color: rgb(241, 246, 255);
+  }
+  .title-container{
+    background-color: rgb(128, 153, 191);
+  }
+  .title_desc{
+    display: none!important;
+  }
+  .marketplace-title-header{
+    h1{
+      color: white;
+    }
+  }
+}
+
+// own Pool Tool pages
+body.own-pooltool-page{
+  background-color: #f9e7d5;
+}
+.own-pooltool-page{
+  .title-container{
+    background-color: rgb(249, 203, 157);
+  }
+  .wrapper{
+    background-color: #f9e7d5;
+  }
+}
+.own-pooltool-page.page-content{
+  background-color: #f9e7d5;
+}
+
+// domain Supervisor view
+body.domain_view{
+  background-color: rgb(205, 233, 230);
+}
+.page-content.domain_view{
+  background-color: rgb(205, 233, 230);
+}
+.domain_view{
+  .wrapper{
+    background-color: rgb(205, 233, 230);
+  }
+  .title-container{
+    background-color: #2CB4A6;
+  }
+  .title_desc{
+    display: none!important;
+  }
+  .marketplace-title-header{
+    h1{
+      color: white;
+    }
+  }
 }

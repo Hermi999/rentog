@@ -103,8 +103,8 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
 
 .grid-item-type-fabriksneu{
   border: none;
-  border-right: 3px solid #1BB11B !important;
-  background-color: #DFFDDF!important;
+  background-color: #009688 !important;
+  color: white;
 }
 .grid-item-type-neuwertig{
   border-right: 1px dashed rgba(0, 0, 0, 0.28);
@@ -120,16 +120,14 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
 }
 .grid-item-type-defekt{
   border: none;
-  border-right: 3px solid #ec5555 !important;
-  background-color: #FFDFDD!important;
+  background-color: #e91e63 !important;
+  color: white;
 }
 
 .list-item-type-fabriksneu{
-  border: none!important;
-  border-left: 3px solid #1BB11B !important;
-  border-bottom: 3px solid #1BB11B !important;
-  background-color: #DFFDDF!important;
-  border-radius: 0 10px 0 10px!important;
+  border: none !important;
+  background-color: #009688 !important;
+  color: white !important;
 }
 .list-item-type-neuwertig{
   border-right: 1px dashed rgba(0, 0, 0, 0.28);
@@ -144,11 +142,9 @@ $home-thumbnail-grid-author: $home-thumbnail-grid-avatar + ($home-thumbnail-grid
   #background-color: #C4E2F0!important;
 }
 .list-item-type-defekt{
-  border: none!important;
-  border-left: 3px solid #ec5555 !important;
-  border-bottom: 3px solid #ec5555 !important;
-  background-color: #FFDFDD!important;
-  border-radius: 0 10px 0 10px!important;
+  border: none !important;
+  background-color: #e91e63 !important;
+  color: white !important;
 }
 
 

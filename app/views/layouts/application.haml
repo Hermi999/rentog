@@ -1,6 +1,19 @@
 = render :partial => 'layouts/head'
 
-%body
+- if @is_member_of_company == false
+  - other_companies_site = "other_company_is_site_owner"
+
+- elsif @pooltool_specific_page
+  - if @domain_supervisor_on_overview_site
+    - other_companies_site = "domain_view"
+  - else
+    - other_companies_site = "own-pooltool-page"
+
+- elsif @is_member_of_company == true
+  - other_companies_site = ""
+
+
+%body{class: "#{other_companies_site}"}
 
   - if (@relation == :rentog_admin || @relation == :rentog_admin_own_site) && ENV["RAILS_ENV"] != "test"
     #development-infos
@@ -89,7 +102,8 @@
         :locals => {external_plan_service_login_url: admin_plan_path}
 
   - content_for(:page_content) do
-    %section.marketplace-lander
+
+    %section.marketplace-lander{class: "#{other_companies_site}"}
       - with_big_cover_photo do
         .coverimage
           %figure.marketplace-cover.fluidratio
@@ -107,7 +121,7 @@
               = yield :title_header
               = yield :title_desc
 
-    %article.page-content
+    %article.page-content{class: "#{other_companies_site}"}
       .wrapper
         = render :partial => "layouts/notifications"
         = render :partial => "layouts/js_notifications"

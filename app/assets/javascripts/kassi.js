@@ -316,26 +316,6 @@ function initialize_defaults(locale) {
   }
 
 
-  // change background color of site based on relation
-  if ($(".other_company_is_site_owner").length){
-    //var color_background = "rgb(230, 239, 253)";
-    var color_background = "rgb(241, 246, 255)";
-    var color_title_container = "rgb(128, 153, 191)";
-  }
-  if ($(".domain_view").length){
-    var color_background = "rgb(205, 233, 230)";
-    var color_title_container = "#2CB4A6";
-  }
-
-  if (typeof(color_background) !== "undefined"){
-    $('body').css('background-color', color_background);
-    $('.page-content').css('background-color', color_background);
-    $('.wrapper').css('background-color', color_background);
-    $('.title-container').css('background-color', color_title_container);
-    $('.marketplace-title-header>h1').css("color", "white");
-  }
-
-
   // Get environment, production or development
   var getEnvironment = function(){
     if (window.location.hostname === "tools.rentog.com"){

@@ -8,10 +8,10 @@
 - content_for :title_header do
   - if @is_member_of_company
     %h1#companyStatistics-header= t("company_statistics.headline")
-  - elsif @relation == :domain_supervisor && params[:domain_view] == "1"
-    %h1#companyStatistics.domain_view= t("company_statistics.headline_domain_view")
+  - elsif @domain_supervisor_on_overview_site
+    %h1#companyStatistics= t("company_statistics.headline_domain_view")
   - else
-    %h1#companyStatistics-header.other_company_is_site_owner= t("company_statistics.headline") + " (#{@site_owner.organization_name})"
+    %h1#companyStatistics-header= t("company_statistics.headline") + " (#{@site_owner.organization_name})"
 
 
 

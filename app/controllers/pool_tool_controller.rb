@@ -6,6 +6,8 @@ class PoolToolController < ApplicationController
   def show
     cookies.permanent[:listings_mode] = "pooltool"
 
+    @pooltool_specific_page = true
+
     # Is admin or employee of company or domain supervisor (or rentog admin)?
     @belongs_to_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin || @relation == :domain_supervisor || @relation == :rentog_admin_own_site)
     @is_member_of_company = (@relation == :company_admin_own_site || @relation == :company_employee || @relation == :rentog_admin_own_site)
