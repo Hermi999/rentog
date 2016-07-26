@@ -240,7 +240,7 @@
       .row
         .col-12
           .listing-price
-            - if price_option[:val] && price_option[:val].include?("request")
+            - if price_option[:val] && price_option[:val].include?("Price on request")
               %span.listing-price-amount
                 = t("homepage.index.price_on_request")
             -else

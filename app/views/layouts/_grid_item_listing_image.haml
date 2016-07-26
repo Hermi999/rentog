@@ -26,7 +26,7 @@
 
     .fluid-thumbnail-grid-image-price-container{:class => "#{modifier_price}"}
       - if listing.price
-        - if price_option[:val] && price_option[:val].include?("request")
+        - if price_option[:val] && price_option[:val].include?("Price on request")
           = t("homepage.index.price_on_request")
         - else
           .price_wrapper{style: "line-height: 1.6em;"}
