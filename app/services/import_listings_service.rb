@@ -246,13 +246,13 @@ class ImportListingsService
       end
     end
 
-    # get listings, which have the same serial number and are already created on Rentog - Those will be updated, not newly created
+    # get listings, which have the same hidden upload id and are already created on Rentog - Those will be updated, not newly created
     def listingsToUpdate(current_user)
-      # if there exists an attribut name "serial_number"
-      if @valid_attributes.any? {|x| x[:name] == "serial_number"}
+      # if there exists an attribut name "hidden_upload_id"
+      if @valid_attributes.any? {|x| x[:name] == "hidden_upload_id"}
         # go through each line (listing)
         @listing_data.each_with_index do |listing, index|
-          if listing[:serial_number] != nil && index > 0
+          if listing[:hidden_upload_id] != nil && index > 0
             # get new listing owner
             person = 
               if listing[:username] && @relation == :rentog_admin
@@ -261,14 +261,14 @@ class ImportListingsService
                 current_user
               end
 
-            serial_custom_field_id = CustomFieldName.where("value like '%serial number%'")[0].custom_field_id
+            hidden_upload_custom_field_id = CustomFieldName.where("value like '%hidden upload id%'")[0].custom_field_id
 
-            # all listings with this serial number
+            # all listings with this hidden upload id
             old_listings = []
             name_of_first_dev = ""
 
-            all_entries_with_this_serial_num = CustomFieldValue.where(:custom_field_id => serial_custom_field_id, :text_value => listing[:serial_number])
-            all_entries_with_this_serial_num.each do |entry|
+            all_entries_with_this_upload_id_num = CustomFieldValue.where(:custom_field_id => hidden_upload_custom_field_id, :text_value => listing[:hidden_upload_id])
+            all_entries_with_this_upload_id_num.each do |entry|
               # check if listing is not deleted, the title is the same and if the listing belongs to users company or the supervisors domain
               old_listing = entry.listing
               if old_listing && !old_listing.deleted && 
@@ -276,11 +276,11 @@ class ImportListingsService
                   (old_listing.author == person.get_company || 
                   current_user.is_supervisor_of?(old_listing.author) && old_listing.author.username == listing[:pool_id])
 
-                # listing is already marked as "update"...means that there are multiple entries in the excel file with the same title and serial
+                # listing is already marked as "update"...means that there are multiple entries in the excel file with the same title and hidden upload id
                 if listing[:update] && listing[:invalid]
                     listing[:invalid][:msg] += ", " + listing[:device_name]
                 elsif listing[:update]
-                  listing[:invalid] = {type: "multiple_same_devices", msg: "There are more than 1 device with the same serial number registered for your company: "}
+                  listing[:invalid] = {type: "multiple_same_devices", msg: "There are more than 1 device with the same hidden upload id registered for your company: "}
                   listing[:invalid][:msg] += name_of_first_dev + ", " + listing[:device_name]
                 else
                   listing[:update] = true
@@ -295,7 +295,7 @@ class ImportListingsService
     end
 
 
-    # if listing with serial number is already in db, then update the existing listing
+    # if listing with hidden upload id is already in db, then update the existing listing
     def updateListing(listing_data, current_user, current_community, relation)
       listing_attributes = {}
       listing_attributes_custom_fields = {}

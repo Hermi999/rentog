@@ -1,5 +1,4 @@
 - if custom_fields && custom_fields.count > 0
-
   .new_listing_form_field_container
     - custom_fields.each do |custom_field|
       - custom_field.with_type do |field_type|
@@ -15,6 +14,7 @@
           = render :partial => "listings/form/custom_field_partials/#{field_type}", :locals => { :custom_field => custom_field, :custom_field_value => listing.answer_for(custom_field) }
 
         - else
+          - # only those custom field which are in the site owners "custom_fields" list
           - if custom_field.required || custom_field.companies.where(:id => @site_owner.id).first
 
             / Show custom field. But only if its required or the company has activated it

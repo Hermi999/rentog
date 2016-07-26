@@ -150,4 +150,26 @@ module ListingsHelper
     end
   end
 
+  def show_attribute?(custom_field_value)
+    cf_name = custom_field_value.question.names.where(locale: "en").first.value.downcase
+    show_attribute = true
+
+    if cf_name.include?("serial") == true
+      case @relation
+        when :rentog_admin, :rentog_admin_own_site, :company_admin_own_site, :company_employee, :domain_supervisor
+          show_attribute = true
+        else
+          show_attribute = false
+      end
+    end
+
+    if cf_name.include?("hidden")
+      if @relation == :rentog_admin
+        show_attribute = false
+      end
+    end
+
+    show_attribute
+  end
+
 end

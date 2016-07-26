@@ -536,7 +536,7 @@ class ListingsController < ApplicationController
 
     return redirect_to action: :edit unless request.xhr?
 
-    @site_owner = Person.where(id: params[:person_id]).first || @current_user
+    @site_owner = Person.where(id: params[:person_id]).first || @listing.author || @current_user
 
     initialize_user_plan_restrictions
     return unless initialize_user_plan_restrictions2

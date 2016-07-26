@@ -38,6 +38,10 @@ window.ST = window.ST || {};
     }
     $('h2.listing-form-title').html(title);
 
+    if (getUrlParameter("edit_custom_fields") === "1"){
+      shouldLoadForm = true;
+    }
+
     return shouldLoadForm;
   }
 
@@ -581,7 +585,7 @@ window.ST = window.ST || {};
         });
       }
 
-      attributes.push({person_id: $('#hidden_person_id').text()});
+      attributes.push({person_id: $('#listing_person_id')[0].value});
 
       $.ajax({
           type: "POST",
