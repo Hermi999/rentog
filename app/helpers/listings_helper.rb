@@ -164,7 +164,9 @@ module ListingsHelper
     end
 
     if cf_name.include?("hidden")
-      if @relation == :rentog_admin
+      if @relation == :rentog_admin || @relation == :rentog_admin_own_site
+        show_attribute = true
+      else
         show_attribute = false
       end
     end

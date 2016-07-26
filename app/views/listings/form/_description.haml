@@ -1,2 +1,7 @@
+- if params[:edit_custom_fields]
+  - text_area_class = ""
+- else
+  - text_area_class = "listing_description_textarea"
+
 = form.label :description, t('.detailed_description'), :class => "input"
-= form.text_area(:description, :maxlength => "5000", :class => "listing_description_textarea")
+= form.text_area(:description, :maxlength => "5000", :class => "#{text_area_class}")
