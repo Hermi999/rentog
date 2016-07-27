@@ -22,3 +22,7 @@
     = link_to "Pool Tool", person_poolTool_path(@site_owner)
   - else
     = link_to "Companies Pool Tool", person_poolTool_path(@site_owner.company)
+
+- if @relation == :rentog_admin
+  %br
+  = link_to "Einstellungen", person_settings_path(@site_owner)
