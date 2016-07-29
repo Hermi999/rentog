@@ -14,10 +14,10 @@ class DownloadListingImageJob < Struct.new(:listing_image_id, :url)
     #
 
     @result = listing_image.and_then { |listing_image|
-
       begin
         # Download the original image
         listing_image.image = URI.parse(url)
+
         # Save the image, create delayed jobs for processing, update the download status
         listing_image.update_attribute(:image_downloaded, true)
         Result::Success.new(listing_image)

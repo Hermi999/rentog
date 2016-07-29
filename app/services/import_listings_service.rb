@@ -40,6 +40,7 @@ class ImportListingsService
     end
   end
 
+
   def updateAndCreateListings(current_user, current_community, relation)
     result1 = updateListings(current_user, current_community, relation)
     result2 = createListings(current_user, current_community, relation)
@@ -72,7 +73,7 @@ class ImportListingsService
   private
 
     def getAllValidAttributes
-      x_validAttr = [{name: "username"}, {name: "device_name"}, {name: "main_category"}, {name: "sub_category"}, {name: "pool_id"}, {name: "description"}, {name: "price"}, {name: "type"}, {name: "device_closed"}, {name: "subscriber_emails"}, {name: "unique_selling_propositions"}]
+      x_validAttr = [{name: "username"}, {name: "device_name"}, {name: "main_category"}, {name: "sub_category"}, {name: "pool_id"}, {name: "description"}, {name: "price"}, {name: "type"}, {name: "device_closed"}, {name: "subscriber_emails"}, {name: "unique_selling_propositions"}, {name: "images"}]
       custom_field_names = CustomFieldName.select('id, value, custom_field_id').where(locale: 'en').as_json
 
       custom_field_names.each do |x_attr|
@@ -243,6 +244,15 @@ class ImportListingsService
           if listing[:type] == "renting"
           end
         end
+      end
+    end
+
+
+    def save_listing_image_from_url(url, listing_id, author_id)
+      listing_image = ListingImage.new({listing_id: listing_id, author_id: author_id})
+
+      if listing_image.save
+        Delayed::Job.enqueue(DownloadListingImageJob.new(listing_image.id, url), priority: 1)
       end
     end
 
@@ -433,6 +443,7 @@ class ImportListingsService
       listing_attributes_custom_fields = {}
       subscribers = []
       author_username = nil
+      listing_images = nil
 
       # check if pool id (author username) is given, if this is the supervisor
       if relation == :domain_supervisor
@@ -472,6 +483,9 @@ class ImportListingsService
 
         when :sub_category
           listing_attributes[:sub_category] = CategoryTranslation.where(name: x_attr[1])
+
+        when :images
+          listing_images = x_attr[1].gsub(" ", "").split(",")
 
         when :device_closed
           listing_attributes[:open] = (x_attr[1] == 0)
@@ -562,6 +576,13 @@ class ImportListingsService
         if listing.save
           # wah - listing is saved even if attachment fails
           #save_listing_attachments(params)
+
+          # wah - save listing images
+          if listing_images
+            listing_images.each do |url|
+              save_listing_image_from_url(url, listing.id, listing_author.id)
+            end
+          end
 
           # wah - add this event to the events table
           ListingEvent.create({person_id: current_user.id, listing_id: listing.id, event_name: "listing_created"})
