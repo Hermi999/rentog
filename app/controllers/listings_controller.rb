@@ -1443,7 +1443,9 @@ class ListingsController < ApplicationController
   # returns the manufacturer value
   def handle_manufacturer
     @hersteller_field_id = Maybe(CustomFieldName.where(:value => "Manufacturer").last).custom_field_id.to_i.or_else(nil)
-    if Maybe(params[:custom_fields])[@hersteller_field_id.to_s].or_else("-") == ""
+
+    # new manufacturer
+    if params[:custom_fields] && params[:custom_fields][@hersteller_field_id.to_s] == ""
       unless params[:manufacturer_temp].empty?
         last_sort_prio = CustomFieldOption.where(custom_field_id: @hersteller_field_id).order(:sort_priority).last.sort_priority
         new_custom_field_option = CustomFieldOption.new(custom_field_id: @hersteller_field_id, sort_priority: last_sort_prio + 1)

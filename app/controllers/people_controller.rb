@@ -480,7 +480,7 @@ class PeopleController < Devise::RegistrationsController
         :password,
         :password2,
         { send_notifications: [] },
-        { email_attributes: [:address] },
+        { email_attributes: [:address, :send_notifications] },
         :min_days_between_community_updates,
         { preferences: [
           :email_from_admins,
