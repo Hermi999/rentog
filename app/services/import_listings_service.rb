@@ -73,7 +73,7 @@ class ImportListingsService
   private
 
     def getAllValidAttributes
-      x_validAttr = [{name: "username"}, {name: "device_name"}, {name: "main_category"}, {name: "sub_category"}, {name: "pool_id"}, {name: "description"}, {name: "price"}, {name: "type"}, {name: "device_closed"}, {name: "subscriber_emails"}, {name: "unique_selling_propositions"}, {name: "images"}]
+      x_validAttr = [{name: "username"}, {name: "device_name"}, {name: "main_category"}, {name: "sub_category"}, {name: "pool_id"}, {name: "description"}, {name: "price"}, {name: "type"}, {name: "device_closed"}, {name: "subscriber_emails"}, {name: "unique_selling_propositions"}, {name: "images"}, {name: "attachments"}]
       custom_field_names = CustomFieldName.select('id, value, custom_field_id').where(locale: 'en').as_json
 
       custom_field_names.each do |x_attr|
@@ -256,6 +256,10 @@ class ImportListingsService
       end
     end
 
+    def save_listing_attachment_from_url(url, listing)
+      Delayed::Job.enqueue(DownloadListingAttachmentJob.new(url, listing), priority: 1)
+    end
+
     # get listings, which have the same hidden upload id and are already created on Rentog - Those will be updated, not newly created
     def listingsToUpdate(current_user)
       # if there exists an attribut name "hidden_upload_id"
@@ -310,6 +314,8 @@ class ImportListingsService
       listing_attributes = {}
       listing_attributes_custom_fields = {}
       subscribers = []
+      listing_images = nil
+      listing_attachments = nil
       listing = Listing.find(listing_data[:listing_id])
 
       # remove username of author. Only needed for creating listings. The Admin can update listings of 
@@ -337,6 +343,12 @@ class ImportListingsService
  
         when :sub_category
           listing_attributes[:sub_category] = CategoryTranslation.where(name: x_attr[1])
+
+        when :images
+          listing_images = x_attr[1].gsub(" ", "").split(",")
+
+        when :attachments
+          listing_attachments = x_attr[1].gsub(" ", "").split(",")
 
         when :subscriber_emails
           x_attr[1].split(",").each do |subscr|
@@ -425,7 +437,9 @@ class ImportListingsService
 
       if update_successful
         listing.subscribers = listing.subscribers | subscribers.compact
-        #listing.location.update_attributes(params[:location]) if @listing.location
+        
+        # wah - update attachments and images
+        update_attachments_and_images(listing, listing_attachments, listing_images)
 
         # wah - add this event to the events table
         ListingEvent.create({person_id: current_user.id, listing_id: listing.id, event_name: "listing_updated"})
@@ -444,6 +458,7 @@ class ImportListingsService
       subscribers = []
       author_username = nil
       listing_images = nil
+      listing_attachments = nil
 
       # check if pool id (author username) is given, if this is the supervisor
       if relation == :domain_supervisor
@@ -486,6 +501,9 @@ class ImportListingsService
 
         when :images
           listing_images = x_attr[1].gsub(" ", "").split(",")
+
+        when :attachments
+          listing_attachments = x_attr[1].gsub(" ", "").split(",")
 
         when :device_closed
           listing_attributes[:open] = (x_attr[1] == 0)
@@ -574,13 +592,27 @@ class ImportListingsService
 
       ActiveRecord::Base.transaction do
         if listing.save
-          # wah - listing is saved even if attachment fails
-          #save_listing_attachments(params)
+          # save_listing_attachments(params)
+          if listing_attachments
+            listing_attachments.each_with_index do |url, index|
+              # only 10 attachments at once
+              if index > 10
+                break
+              else
+                save_listing_attachment_from_url(url, listing)
+              end
+            end
+          end
 
           # wah - save listing images
           if listing_images
-            listing_images.each do |url|
-              save_listing_image_from_url(url, listing.id, listing_author.id)
+            listing_images.each_with_index do |url, index|
+              # only 15 images at once
+              if index > 15
+                break
+              else
+                save_listing_image_from_url(url, listing.id, listing_author.id)
+              end
             end
           end
 
@@ -588,16 +620,6 @@ class ImportListingsService
           ListingEvent.create({person_id: current_user.id, listing_id: listing.id, event_name: "listing_created"})
 
           upsert_field_values!(listing, listing_attributes_custom_fields)
-
-          #listing_image_ids =
-          #  if params[:listing_images]
-          #    params[:listing_images].collect { |h| h[:id] }.select { |id| id.present? }
-          #  else
-          #    logger.error("Listing images array is missing", nil, {params: params})
-          #    []
-          #  end
-
-          #ListingImage.where(id: listing_image_ids, author_id: current_user.id).update_all(listing_id: listing.id)
 
           Delayed::Job.enqueue(ListingCreatedJob.new(listing.id, current_community.id))
           if current_community.follow_in_use?
@@ -746,4 +768,74 @@ class ImportListingsService
     answer.listing_id = listing_id
     return answer
   end
+
+  def update_attachments_and_images(listing, listing_attachments, listing_images)
+    # wah - updatte listing attachments
+    if listing_attachments
+      existing_attachments = listing.listing_attachments.map(&:attachment_file_name)
+
+      listing_attachments.each_with_index do |url, index|
+        # only 10 attachments at once
+        if index > 10
+          break
+        else
+          if existing_attachments.include?(url.split("/").last)
+            # if file name already exists for this listing, do nothing
+          else
+            save_listing_attachment_from_url(url, listing)
+          end
+        end
+      end
+
+      # delete old listings which are not in the new import
+      listing.listing_attachments.each do |ext_attach|
+        delete_me = true
+        
+        listing_attachments.each do |url|
+          if ext_attach.attachment_file_name == url.split("/").last
+            delete_me = false
+            break
+          end
+        end
+
+        if delete_me
+          ext_attach.destroy
+        end
+      end
+    end
+
+    # wah - update listing images
+    if listing_images
+      existing_images = listing.listing_images.map(&:image_file_name)
+
+      listing_images.each_with_index do |url, index|
+        if index > 15
+          break
+        else
+          if existing_images.include?(url.split("/").last)
+            # if file name already exists for this listing, do nothing
+          else
+            save_listing_image_from_url(url, listing.id, listing.author.id)
+          end
+        end
+      end
+
+      # delete old listings which are not in the new import
+      listing.listing_images.each do |ext_img|
+        delete_me = true
+        
+        listing_images.each do |url|
+          if ext_img.image_file_name == url.split("/").last
+            delete_me = false
+            break
+          end
+        end
+
+        if delete_me
+          ext_img.destroy
+        end
+      end
+    end
+  end
+
 end
