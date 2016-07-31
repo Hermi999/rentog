@@ -641,11 +641,13 @@ Kassi::Application.routes.draw do
   # Inside this constraits are the routes that are used when request has subdomain other than www
   get '/:locale/marketplace/' => 'homepage#index', :constraints => { :locale => locale_matcher }
   get '/marketplace/' => 'homepage#index'
-  #root :to => 'homepage#index'
+  get '/:locale/' => 'homepage#index', :constraints => { :locale => locale_matcher }, as: :homepage_with_locale
+  get '/' => 'homepage#index', as: :homepage_without_locale
+  root :to => 'homepage#index'
 
-  get '/:locale/' => 'sessions#new', :constraints => { :locale => locale_matcher }, as: :homepage_with_locale
-  get '/' => 'sessions#new', as: :homepage_without_locale
-  root :to => 'pool_tool#show'
+  #get '/:locale/' => 'sessions#new', :constraints => { :locale => locale_matcher }, as: :homepage_with_locale
+  #get '/' => 'sessions#new', as: :homepage_without_locale
+  #root :to => 'pool_tool#show'
 
   # error handling: 3$: http://blog.plataformatec.com.br/2012/01/my-five-favorite-hidden-features-in-rails-3-2/
   get '/500' => 'errors#server_error'
