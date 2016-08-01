@@ -12,7 +12,6 @@
 - closed_marker = "fluid-thumbnail-grid-image-closed-marker" if !listing.open
 - price_option = get_price_options(listing)
 
-
 = link_to(listing_path(listing.url), :class => "#{modifier_class} fluid-thumbnail-grid-image-item-link") do
   .fluid-thumbnail-grid-image-image-container{:class => "#{modifier_class}"}
     - with_first_listing_image(listing) do |first_image_url|
@@ -31,7 +30,7 @@
           = t("homepage.index.price_on_request")
         - else
           .price_wrapper{style: "line-height: 1.6em;"}
-            %span.fluid-thumbnail-grid-image-price{:class => "#{modifier_price}", itemprop: "price"}
+            %span.fluid-thumbnail-grid-image-price{:class => "#{modifier_price}", itemprop:   "price"}
               = humanized_money_with_symbol(listing.price).upcase
               - price_unit = price_quantity_slash_unit(listing)
             - if !price_unit.blank?
