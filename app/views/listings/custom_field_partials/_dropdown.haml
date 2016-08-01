@@ -1,4 +1,4 @@
 - question_name = custom_field_value.question.name(I18n.locale)
 - Maybe(custom_field_value.selected_options.first).title(I18n.locale).each do |answer_title|
-  %span.listing_attribute_question{itemprop: @itempropbrandname}= "#{question_name}:"
-  = answer_title
+  %span.listing_attribute_question= "#{question_name}:"
+  %span{itemprop: @itempropbrandname}= answer_title

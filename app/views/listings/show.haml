@@ -172,7 +172,7 @@
 
     - if @listing.description && !@listing.description.blank?
       .row.listing_attribute
-        .col-12.detailed_description_wrapper
+        .col-12.detailed_description_wrapper{itemprop: "description"}
           - text_with_line_breaks do
             = sanitize @listing.description, tags: %w(strong em h3 h4 h5 h6 hr ul ol li b), attributes: %w()
 
@@ -249,7 +249,11 @@
               
             -else
               %span.listing-price-amount{itemprop: "price"}
-                = humanized_money_with_symbol(@listing.price).upcase
+
+                %meta{itemprop: "priceCurrency", content: @listing.price.currency.iso_code}
+                %span=@listing.price.currency.symbol
+                %span{itemprop: "price"}=humanized_money(@listing.price).upcase
+
               - with_quantity_and_vat_text(@current_community, @listing) do |text|
                 %span.listing-price-quantity
                   = text
