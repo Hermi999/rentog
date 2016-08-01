@@ -83,7 +83,7 @@
   .col-10{style: "text-align: center;"}
     - shape = ListingShape.where(id: @listing.listing_shape).first
 
-    .row{style: "margin-bottom: 0px; font-size: 0.9em"}
+    .row{style: "margin-bottom: 0px; font-size: 0.9em", itemscope: true, itemtype: "http://schema.org/BreadcrumbList"}
       - cols = 3
 
       / Back to your filter
@@ -109,20 +109,24 @@
 
       / Shape name
       - if shape
-        %div{class: "col-#{cols}", style: "border-right: 1px solid white; padding-left: 0px; padding-right: 0px;"}
+        %div{class: "col-#{cols}", style: "border-right: 1px solid white; padding-left: 0px; padding-right: 0px;", itemprop: "itemListElement", itemscope: true, itemtype: "http://schema.org/ListItem"}
           - if listing_type != "intern" && listing_type != "trusted" && cookies[:listings_mode] != "pooltool" && cookies[:listings_mode] != "profile"
-            = link_to t("listings.show.all") + " " + t(shape.name_tr_key), marketplace_path(transaction_type: shape.name)
+            = link_to marketplace_path(transaction_type: shape.name), {itemscope: true, itemtype: "http://schema.org/Thing", itemprop: "item"} do 
+              %span{itemprop: "name"}= t("listings.show.all") + " " + t(shape.name_tr_key)
+
+            %meta{itemprop: "position", content: "1"}
           - else
             = t("listings.show.all") + " " + t(shape.name_tr_key)
 
       / Category name
       - if @listing.category
-        %div{class: "col-#{cols}", style: "padding-left: 0px; padding-right: 0px;"}
+        %div{class: "col-#{cols}", style: "padding-left: 0px; padding-right: 0px;", itemprop: "itemListElement", itemscope: true, itemtype: "http://schema.org/ListItem"}
           %div
             - if listing_type != "intern" && listing_type != "trusted" && cookies[:listings_mode] != "pooltool" && cookies[:listings_mode] != "profile"
-              = link_to marketplace_path(category: @listing.category) do
-                = t("listings.show.all") + " " + @listing.category.display_name(I18n.locale)
-                /%span{style: "font-size:0.6em;"}= t("listings.show.category")
+              = link_to marketplace_path(category: @listing.category), {itemscope: true, itemtype: "http://schema.org/Thing", itemprop: "item"} do
+                %span{itemprop: "name"}= t("listings.show.all") + " " + @listing.category.display_name(I18n.locale)
+              
+              %meta{itemprop: "position", content: "2"}
             - else
               = t("listings.show.all") + " " + @listing.category.display_name(I18n.locale)
               /%span{style: "font-size:0.6em;"}= t("listings.show.category")
