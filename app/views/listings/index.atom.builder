@@ -1,7 +1,7 @@
 atom_feed :language => 'en-US', 'xmlns:georss' => 'http://www.georss.org/georss', 'xmlns:st'  => 'http://www.sharetribe.com/SharetribeFeed' do |feed|
   feed.title title
   feed.updated updated
-  feed.icon "https://s3.eu-central-1.amazonaws.com/rentog/assets/sharetribe_icon.png"
+  feed.icon "https://s3.eu-central-1.amazonaws.com/rentog/assets/rentog_icon.png"
   feed.logo "https://s3.eu-central-1.amazonaws.com/rentog/assets/dashboard/sharetribe_logo.png"
 
   listings.each do |listing|
