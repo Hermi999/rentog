@@ -247,16 +247,16 @@
       .row
         .col-12
           .listing-price{itemprop: "offers", itemscope: true, itemtype: "http://schema.org/Offer"}
-            - if price_option[:val] && price_option[:val].include?("Price on request")
+            - if price_option[:val] && price_option[:val].downcase.include?("price on request")
               %span.listing-price-amount{itemprop: "price"}
                 = t("homepage.index.price_on_request")
               
             -else
-              %span.listing-price-amount{itemprop: "price"}
+              %span.listing-price-amount
 
                 %meta{itemprop: "priceCurrency", content: @listing.price.currency.iso_code}
                 %span=@listing.price.currency.symbol
-                %span{itemprop: "price"}=humanized_money(@listing.price).upcase
+                %span{itemprop: "price"}=humanized_money(@listing.price).upcase.gsub(",", "")
 
               - with_quantity_and_vat_text(@current_community, @listing) do |text|
                 %span.listing-price-quantity

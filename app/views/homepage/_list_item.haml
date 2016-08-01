@@ -106,7 +106,7 @@
           .home-list-price
             - if listing.price
 
-              - if price_option[:val] && price_option[:val].include?("Price on request")
+              - if price_option[:val] && price_option[:val].downcase.include?("price on request")
                 .home-list-listing-on-request
                   = t("homepage.index.price_on_request")
 

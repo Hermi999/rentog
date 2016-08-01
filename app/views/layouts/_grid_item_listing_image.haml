@@ -26,15 +26,16 @@
 
     .fluid-thumbnail-grid-image-price-container{:class => "#{modifier_price}", itemprop: "offers", itemscope: true, itemtype: "http://schema.org/Offer"}
       - if listing.price
-        - if price_option[:val] && price_option[:val].include?("Price on request")
+        - if price_option[:val] && price_option[:val].downcase.include?("price on request")
           = t("homepage.index.price_on_request")
+
         - else
           .price_wrapper{style: "line-height: 1.6em;"}
             %span.fluid-thumbnail-grid-image-price{:class => "#{modifier_price}"}
             
               %meta{itemprop: "priceCurrency", content: listing.price.currency.iso_code}
               %span=listing.price.currency.symbol
-              %span{itemprop: "price"}=humanized_money(listing.price).upcase
+              %span{itemprop: "price"}=humanized_money(listing.price).upcase.gsub(",", ".")
 
               - price_unit = price_quantity_slash_unit(listing)
             - if !price_unit.blank?
