@@ -15,16 +15,19 @@
 - content_for :meta_image_width, dimensions[:width].to_s if !@listing.listing_images.empty?
 - content_for :meta_image_height, dimensions[:height].to_s if !@listing.listing_images.empty?
 - content_for :keywords, StringUtils.keywords(@listing.title)
+- content_for :itemtype, "http://schema.org/Product"
 
 - content_for :title_header do
   %h1
-    %span#listing-title.listing-title= @listing.title
+    %span#listing-title.listing-title{itemprop: "name"}= @listing.title
+
+
 
 %script{type: "text/template", class: "template", id: "image-frame-template"}
   .listing-image-frame
     #listing-image-link.listing-image-frame-content
       .listing-image-vertical-centering{:class => "${aspectRatioClass}" }
-        %img{:src => "${url}", :alt => @listing.title, :class => "listing-image ${aspectRatioClass}"}
+        %img{:src => "${url}", :alt => @listing.title, :class => "listing-image ${aspectRatioClass}",   }
 
 %script{type: "text/template", class: "template", id: "image-thumbnail-template"}
   .listing-image-thumbnail-container
@@ -192,9 +195,9 @@
       - # do not display certain attributes
       - if show_attribute?(custom_field_value)
         .row.listing_attribute
-          .col-12
+          .col-12{itemprop: @itempropbrand, itemscope: @itemscopebrand, itemtype: @itemtypebrand}
             - custom_field_value.with_type do |question_type|
-              = render :partial => "listings/custom_field_partials/#{question_type}", :locals => { :custom_field_value => custom_field_value }
+              = render :partial => "listings/custom_field_partials/#{question_type}", :locals => { :custom_field_value => custom_field_value}
 
     / Description of Sales conditions
     - unless @listing.author.description_of_sales_conditions.nil?
@@ -239,12 +242,13 @@
     - if @listing.price && show_price
       .row
         .col-12
-          .listing-price
+          .listing-price{itemprop: "offers", itemscope: true, itemtype: "http://schema.org/Offer"}
             - if price_option[:val] && price_option[:val].include?("Price on request")
-              %span.listing-price-amount
+              %span.listing-price-amount{itemprop: "price"}
                 = t("homepage.index.price_on_request")
+              
             -else
-              %span.listing-price-amount
+              %span.listing-price-amount{itemprop: "price"}
                 = humanized_money_with_symbol(@listing.price).upcase
               - with_quantity_and_vat_text(@current_community, @listing) do |text|
                 %span.listing-price-quantity

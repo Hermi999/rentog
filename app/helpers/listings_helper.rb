@@ -171,6 +171,18 @@ module ListingsHelper
       end
     end
 
+    if cf_name == "manufacturer"
+      @itemscopebrand = true
+      @itempropbrand = "brand"
+      @itemtypebrand = "http://schema.org/Brand"
+      @itempropbrandname = "name"
+    else
+      @itemscopebrand = nil
+      @itempropbrand = nil
+      @itemtypebrand = nil
+      @itempropbrandname = nil
+    end
+
     show_attribute
   end
 

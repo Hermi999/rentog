@@ -16,21 +16,22 @@
 = link_to(listing_path(listing.url), :class => "#{modifier_class} fluid-thumbnail-grid-image-item-link") do
   .fluid-thumbnail-grid-image-image-container{:class => "#{modifier_class}"}
     - with_first_listing_image(listing) do |first_image_url|
-      = image_tag first_image_url, {:alt => listed_listing_title(listing), :class => "#{modifier_class} fluid-thumbnail-grid-image-image"}
+      = image_tag first_image_url, {:alt => listed_listing_title(listing), :class => "#{modifier_class} fluid-thumbnail-grid-image-image", itemprop: "image"}
 
     .fluid-thumbnail-grid-image-overlay{:class => "#{modifier_class} #{closed_marker}"}
     .fluid-thumbnail-grid-image-title{:class => "#{modifier_class}"}
       - title = listing.title.split("(")
-      = title[0]
-      %span{style: "font-size: 0.8em;"}= "(" + title[1] if title[1]
+      %span{itemprop: "name"}= title[0]
+      %span{itemprop: "brand", itemscope: true, itemtype: "http://schema.org/Brand"}
+        %span{style: "font-size: 0.8em;", itemprop: "name"}= "(" + title[1] if title[1]
 
-    .fluid-thumbnail-grid-image-price-container{:class => "#{modifier_price}"}
+    .fluid-thumbnail-grid-image-price-container{:class => "#{modifier_price}", itemprop: "offers", itemscope: true, itemtype: "http://schema.org/Offer"}
       - if listing.price
         - if price_option[:val] && price_option[:val].include?("Price on request")
           = t("homepage.index.price_on_request")
         - else
           .price_wrapper{style: "line-height: 1.6em;"}
-            %span.fluid-thumbnail-grid-image-price{:class => "#{modifier_price}"}
+            %span.fluid-thumbnail-grid-image-price{:class => "#{modifier_price}", itemprop: "price"}
               = humanized_money_with_symbol(listing.price).upcase
               - price_unit = price_quantity_slash_unit(listing)
             - if !price_unit.blank?

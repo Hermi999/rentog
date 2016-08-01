@@ -4,7 +4,7 @@
 
 
 - frontpage_fragment_cache("grid_item", listing) do
-  .home-fluid-thumbnail-grid-item
+  .home-fluid-thumbnail-grid-item{itemscope: true, itemtype: "http://schema.org/Product"}
     %div.listing_wrapper{:class => "#{own_listing_class}"}
       / Listing image
       = render :partial => "layouts/grid_item_listing_image", :locals => {:listing => listing, :modifier_class => "", :modifier_price => ""}
@@ -31,4 +31,5 @@
             .colFix-2{:style => "padding: 0px"}
               .grid-item-share.grid-item-details= icon_tag("share", ["share-listing"])
               = render :partial => "share_dialog", :locals => {listing: listing, view: "grid"}
+
 
