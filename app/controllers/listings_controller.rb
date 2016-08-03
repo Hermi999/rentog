@@ -55,7 +55,7 @@ class ListingsController < ApplicationController
     if @width < 101
       # width is given in %
       @width = @width.to_s + "%"
-      @height = @height.to_s + "%"
+      @height = "auto"
     else
       @width = @width.to_s + "px"
       @height = @height.to_s + "px"
@@ -68,6 +68,8 @@ class ListingsController < ApplicationController
     @bg_color2 = (loc_params_hash[:bg_color2] || "rgba(0, 0, 0, 0.6)").gsub("-",".")  # only use rgba
     @price_color = loc_params_hash[:price_color] || "white"                 # only use rgb
     @price_bg_color = loc_params_hash[:price_bg_color] || "#4CAF50"         # only use rgb
+    @blank = "_blank" 
+    @blank = "" if loc_params_hash[:blank] == "0"
 
 
     listing_id = loc_params_hash[:listing_id]
@@ -118,7 +120,7 @@ class ListingsController < ApplicationController
     if @width < 101
       # width is given in %
       @width = @width.to_s + "%"
-      @height = @height.to_s + "%"
+      @height = "auto"
     else
       @width = @width.to_s + "px"
       @height = @height.to_s + "px"
@@ -130,6 +132,8 @@ class ListingsController < ApplicationController
     @bg_color2 = (loc_params_hash[:bg_color2] || "rgba(0, 0, 0, 0.6)").gsub("-",".")  # only use rgba
     @price_color = loc_params_hash[:price_color] || "white"                 # only use rgb
     @price_bg_color = loc_params_hash[:price_bg_color] || "#4CAF50"         # only use rgb
+    @blank = "_blank" 
+    @blank = "" if loc_params_hash[:blank] == "0"
 
     # get listings count
     listings_count = Maybe(loc_params_hash[:listings_count]).to_i.or_else(nil)
