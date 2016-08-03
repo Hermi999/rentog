@@ -31,8 +31,6 @@
 
       .iframe_listing_details{style: "position: absolute; bottom: 10px; color: #{@font_color}; font-weight: bold; text-shadow: #{@text_shadow}; left: 5px; padding-right: 10px;"}
         = listing_detail[:listing].title
-        %br
-        = "(" + listing_detail[:manufacturer].first + ")" if listing_detail[:manufacturer] && listing_detail[:manufacturer] != []
 
 - else
   No listing found
