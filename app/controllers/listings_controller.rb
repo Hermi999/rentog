@@ -44,11 +44,21 @@ class ListingsController < ApplicationController
 
     # adjust font size
     if @width < 100
-      @font_size = "10px"
+      # width is given in percentage
+      @font_size = "16px"
     elsif @width < 200
       @font_size = "14px"
     else
       @font_size = "16px"
+    end
+
+    if @width < 101
+      # width is given in %
+      @width = @width.to_s + "%"
+      @height = @height.to_s + "%"
+    else
+      @width = @width.to_s + "px"
+      @height = @height.to_s + "px"
     end
 
     # set font color    
@@ -96,12 +106,22 @@ class ListingsController < ApplicationController
     @height = @width / 3 * 2
 
     # adjust font size
-    if @width < 100
-      @font_size = "10px"
+    if @width < 101
+      # width is given in percentage
+      @font_size = "16px"
     elsif @width < 200
       @font_size = "13px"
     else
       @font_size = "16px"
+    end
+
+    if @width < 101
+      # width is given in %
+      @width = @width.to_s + "%"
+      @height = @height.to_s + "%"
+    else
+      @width = @width.to_s + "px"
+      @height = @height.to_s + "px"
     end
 
     # set font color

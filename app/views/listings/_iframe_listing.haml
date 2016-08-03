@@ -1,9 +1,9 @@
 - if listing_detail
   - price_option = get_price_options(listing_detail[:listing])
 
-  %div{style: "width: #{@width}px; height: #{@height}px; position: relative; overflow: hidden; box-shadow: 0 0 2px black; float: left; margin: 10px 10px 10px 10px;"}
+  %div{style: "width: #{@width}; height: #{@height}; position: relative; overflow: hidden; box-shadow: 0 0 2px black; float: left; margin: 10px 10px 10px 10px;"}
     - if listing_detail[:listing_image_url]
-      %img{src: listing_detail[:listing_image_url], style: "width: #{@width}px; height: #{@height}px;"}
+      %img{src: listing_detail[:listing_image_url], style: "width: #{@width}; height: #{@height};"}
 
     = link_to listing_path(listing_detail[:listing]), {class: ".iframe_listing_wrapper", style: "display: block; font-size: #{@font_size}; background-image: linear-gradient(#{@bg_color1}, #{@bg_color2}); position: absolute; top: 0; left: 0; bottom: 0; right: 0;", target: "_blank"} do
       
