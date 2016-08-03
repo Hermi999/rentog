@@ -36,6 +36,8 @@ class ListingsController < ApplicationController
   def iframe_listing
     loc_params_hash = get_iframe_params
 
+    @price_options_field_id = Maybe(CustomFieldName.where(:value => "Price options").first).custom_field_id.to_i.or_else(nil)
+
     # calculate width and height
     @width = (loc_params_hash[:width] || 240).to_i
     @height = @width / 3 * 2
@@ -49,9 +51,13 @@ class ListingsController < ApplicationController
       @font_size = "16px"
     end
 
-    # set font color
-    @font_color = loc_params_hash[:font_color] || "white"
+    # set font color    
+    @font_color = loc_params_hash[:font_color] || "white"         # only use rgb
     @text_shadow = "0px 0px 5px black" if @font_color == "white"
+    @bg_color1 = (loc_params_hash[:bg_color1] || "rgba(0, 0, 0, 0)").gsub("-",".")  # only use rgba
+    @bg_color2 = (loc_params_hash[:bg_color2] || "rgba(0, 0, 0, 0.6)").gsub("-",".")  # only use rgba
+    @price_color = loc_params_hash[:price_color] || "white"                 # only use rgb
+    @price_bg_color = loc_params_hash[:price_bg_color] || "#4CAF50"         # only use rgb
 
 
     listing_id = loc_params_hash[:listing_id]
@@ -83,6 +89,8 @@ class ListingsController < ApplicationController
   def iframe_listings
     loc_params_hash = get_iframe_params
 
+    @price_options_field_id = Maybe(CustomFieldName.where(:value => "Price options").first).custom_field_id.to_i.or_else(nil)
+
     # calculate width and height
     @width = (loc_params_hash[:width] || 240).to_i
     @height = @width / 3 * 2
@@ -97,7 +105,11 @@ class ListingsController < ApplicationController
     end
 
     # set font color
-    @font_color = loc_params_hash[:font_color] || "white"
+    @font_color = loc_params_hash[:font_color] || "white"             # only use rgb
+    @bg_color1 = (loc_params_hash[:bg_color1] || "rgba(0, 0, 0, 0)").gsub("-",".")    # only use rgba
+    @bg_color2 = (loc_params_hash[:bg_color2] || "rgba(0, 0, 0, 0.6)").gsub("-",".")  # only use rgba
+    @price_color = loc_params_hash[:price_color] || "white"                 # only use rgb
+    @price_bg_color = loc_params_hash[:price_bg_color] || "#4CAF50"         # only use rgb
 
     # get listings count
     listings_count = Maybe(loc_params_hash[:listings_count]).to_i.or_else(nil)

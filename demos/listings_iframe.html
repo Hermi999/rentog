@@ -1,3 +1,26 @@
+<!-- 
+  Available urls
+  ===============
+  - /iframe_listing/null   ... display one listing without options
+  - /iframe_listing/x=y    ... display one listing with option x and value y
+  - /iframe_listings/null  ... invalid
+  - /iframe_listings/y=y   ... display many listings with option x and value y
+
+  Available options
+  ==================
+  - listing_id      ... display one listings with a given id
+  - listings_count  ... display x listings from the marketplace
+  - width           ... edit the size of the devices
+  - top_listings    ... get the newest listings
+  - author_id       ... get the listings of a certain author. Give the username.
+  - font_color      ... change the color of the listing title (only rgb)
+  - bg_color1       ... change the background color of the upper half of the listing (only rgba)
+  - bg_color2       ... change the background color of the lower half of the listing (only rgba)
+  - listing_ids     ... get listings with certain ids. Separate the ids with a "-"
+  - price_color     ... change the color of the price text
+  - price_bg_color  ... change the background color of the price label
+
+-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,8 +47,8 @@
   <p>/iframe_listings/author_id=hermannw</p>
   <iframe src="http://localhost:3000/en/iframe_listings/author_id=hermannw" width="1000" height="300"></iframe>
 
-  <p>/iframe_listings/author_id=hermannw/listings_count=7+width=150+font_color=black</p>
-  <iframe src="http://localhost:3000/en/iframe_listings/author_id=hermannw+listings_count=7+width=150+font_color=black" width="1000" height="300"></iframe>
+  <p>/iframe_listings/author_id=hermannw/listings_count=7+width=150+font_color=rgb(132,056,077)+bg_color2=rgba(23,54,101,0-74)</p>
+  <iframe src="http://localhost:3000/en/iframe_listings/author_id=hermannw+listings_count=7+width=150+font_color=rgb(132,056,077)+bg_color2=rgba(23,54,101,0-74)" width="1000" height="300"></iframe>
 
   <p>/iframe_listings/listing_ids=19-279-57-300-290-273</p>
   <iframe src="http://localhost:3000/en/iframe_listings/listing_ids=19-279-57-300-290-273" width="1000" height="300"></iframe>
