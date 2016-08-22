@@ -45,7 +45,7 @@ class KpiService
       device_requests:         kpi_numbers_for_model_and_interval(ListingRequest, "", l, c),
       invitations:             kpi_numbers_for_model_and_interval(Invitation, "", l, c),
       listings_created:        kpi_numbers_for_model_and_interval(ListingEvent, "event_name = 'listing_created'", l, c),
-      listing_visits:          kpi_numbers_for_model_and_interval(ListingEvent, "event_name = 'listing_viewed_unique'", l, c),
+      #listing_visits:          kpi_numbers_for_model_and_interval(ListingEvent, "event_name = 'listing_viewed_unique'", l, c),
       search_filter_used:      kpi_numbers_for_model_and_interval(RentogEvent, "event_name = 'marketplace_search_or_filter'", l, c),
       search_filter_result_0:  kpi_numbers_for_model_and_interval(RentogEvent, "event_name = 'marketplace_search_or_filter' AND event_result = 0", l, c),
     }
