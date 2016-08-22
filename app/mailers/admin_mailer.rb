@@ -30,7 +30,7 @@ class AdminMailer < ActionMailer::Base
     }
 
     premailer_mail(
-        :to => @community.admin_emails,
+        :to => @community.admin_emails + ["janel.leonor@gmail.com"],
         :from => community_specific_sender(@community),
         :subject => "Weekly Rentog KPIs")
   end
