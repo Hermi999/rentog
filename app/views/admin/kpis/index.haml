@@ -14,6 +14,9 @@
 = render :partial => "admin/left_hand_navigation", :locals => { :links => admin_links_for(@current_community) }
 
 .left-navi-section
+
+  %a.button{:href => admin_community_kpis_to_admin_path}= "Manually send KPIs to admins"
+
   #linechart_material_weeks{:style => "width: 900px; height: 500px; margin-bottom: 50px;"}
 
   #linechart_material_months{:style => "width: 900px; height: 500px;"}

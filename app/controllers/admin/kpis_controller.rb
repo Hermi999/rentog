@@ -13,4 +13,14 @@ class Admin::KpisController < ApplicationController
 
   end
 
+  def manually_send_kpi_to_admins
+  	kpi = KpiService.new
+	kpis = kpi.get_kpis_values_with_growth(7, 4)
+	kpis2 = kpi.get_kpis_values_with_growth(30, 4)
+
+	MailCarrier.deliver_now(AdminMailer.send_kpis_to_admins(kpis, kpis2, @current_community))
+
+	redirect_to :back
+  end
+
 end
