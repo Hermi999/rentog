@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+# How to use
+# ---------------
+# ./ekomess.rb ARTIKEL2.XML ekomess.xlsx
+
 require 'pry'
 require 'nokogiri'
 require 'axlsx'
@@ -7,7 +11,7 @@ require 'possibly'
 
 SKIP_FILTER = true
 
-VALID_MANUFACTURERS = [{id: "70049", name: "Fluke"}, {id: "70050", name: "Tektronix"}]
+VALID_MANUFACTURERS = [{id: "70049", name: "Fluke"}, {id: "70460", name: "Fluke Networks"}, {id: "70050", name: "Tektronix"}, {id: "70445", name: "GMC Instruments"}, {id: "70490", name: "Metrel"}]
 VALID_CATEGORIES1 = [ "EL.PRÜF", "INDOOR", "LABOR", "MECH.MESS", "MULTIMETER", "NETZ", 
 										  "NETZGERÄTE", "OSZI", "OSZILLOSKO", "THERMO"]
 VALID_CATEGORIES2 = [ "Analysator", "Batterie", "DC Quellen", 

@@ -10,10 +10,10 @@ Anbei der wöchentliche Report zu den Rentog KPIs.
     %tr
       %th{style: "width: 100px; text-align:center"}= "KPI"
       %th{style: "width: 100px; text-align:center"}= "Absolut"
-      %th{style: "width: 100px; text-align:center"}= (Date.today-7).strftime("%d.%m") +  " - " + (Date.today-1).strftime("%d.%m")
-      %th{style: "width: 100px; text-align:center"}= (Date.today-14).strftime("%d.%m")  + " - " + (Date.today-8).strftime("%d.%m")
+      %th{style: "width: 100px; text-align:center"}= (Date.today-28).strftime("%d.%m")  + " - " + (Date.today-22).strftime("%d.%m") 
       %th{style: "width: 100px; text-align:center"}= (Date.today-21).strftime("%d.%m")  + " - " + (Date.today-15).strftime("%d.%m")
-      %th{style: "width: 100px; text-align:center"}= (Date.today-28).strftime("%d.%m")  + " - " + (Date.today-22).strftime("%d.%m")
+      %th{style: "width: 100px; text-align:center"}= (Date.today-14).strftime("%d.%m")  + " - " + (Date.today-8).strftime("%d.%m")
+      %th{style: "width: 100px; text-align:center"}= (Date.today-7).strftime("%d.%m")   + " - " + (Date.today-1).strftime("%d.%m")
   %tbody
     - @kpis.each do |kpi_array|
       %tr
@@ -29,10 +29,10 @@ Anbei der wöchentliche Report zu den Rentog KPIs.
     %tr
       %th{style: "width: 100px; text-align:center"}= "KPI"
       %th{style: "width: 100px; text-align:center"}= "Absolut"
-      %th{style: "width: 100px; text-align:center"}= (Date.today-30).strftime("%d.%m") +  " - " + (Date.today-1).strftime("%d.%m")
-      %th{style: "width: 100px; text-align:center"}= (Date.today-60).strftime("%d.%m")  + " - " + (Date.today-31).strftime("%d.%m")
+      %th{style: "width: 100px; text-align:center"}= (Date.today-120).strftime("%d.%m") + " - " + (Date.today-91).strftime("%d.%m")
       %th{style: "width: 100px; text-align:center"}= (Date.today-90).strftime("%d.%m")  + " - " + (Date.today-61).strftime("%d.%m")
-      %th{style: "width: 100px; text-align:center"}= (Date.today-120).strftime("%d.%m")  + " - " + (Date.today-91).strftime("%d.%m")
+      %th{style: "width: 100px; text-align:center"}= (Date.today-60).strftime("%d.%m")  + " - " + (Date.today-31).strftime("%d.%m")
+      %th{style: "width: 100px; text-align:center"}= (Date.today-30).strftime("%d.%m")  + " - " + (Date.today-1).strftime("%d.%m")
   %tbody
     - @kpis2.each do |kpi_array2|
       %tr

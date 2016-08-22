@@ -558,7 +558,7 @@ en:
         book: Book
   common:
     edit_page: "Edit page"
-    default_community_slogan: "Rentog. The Marketplace for Test- and Measurement devices"
+    default_community_slogan: "Marketplace for Test- and Measurement devices"
     default_community_description: "Buy, sell and rent test and measurement equipment"
     sharedPool_slogan: "Rentog Shared Pool"
     sharedPool_description: "Browse and book all devices of your trusted device pools."

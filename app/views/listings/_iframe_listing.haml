@@ -6,11 +6,11 @@
   - if listing_detail
     - price_option = get_price_options(listing_detail[:listing])
 
-    .iframe-listing{style: "width: #{@width}; height: #{@height}; min-height: 100px; position: relative; overflow: hidden; box-shadow: 0 0 2px black; float: left; margin: 10px 10px 10px 10px;"}
+    .iframe-listing{style: "width: #{@width}; height: #{@height}; min-height: 100px; position: relative; overflow: hidden; box-shadow: 0 0 2px black; float: left; margin: 10px 10px 10px 10px; font-family: sans-serif;"}
       - if listing_detail[:listing_image_url]
         %img{src: listing_detail[:listing_image_url], style: "width: 100%; height: auto;"}
 
-      = link_to listing_path(listing_detail[:listing]), {class: ".iframe_listing_wrapper", style: "display: block; font-size: #{@font_size}; background-image: linear-gradient(#{@bg_color1}, #{@bg_color2}); position: absolute; top: 0; left: 0; bottom: 0; right: 0;", target: @blank} do
+      = link_to listing_path(listing_detail[:listing]), {class: "iframe_listing_wrapper", style: "display: block; font-size: #{@font_size}; background-image: linear-gradient(#{@bg_color1}, #{@bg_color2}); position: absolute; top: 0; left: 0; bottom: 0; right: 0;", target: @blank} do
         
         .iframe_listing_price{style: "    font-size: 1.2em; float: right; padding: 4px 8px; background-color: #{@price_bg_color}; border-radius: 0 0 0 5px; box-shadow: 0 0 5px grey; color: #{@price_color}; font-weight: bold; min-width: 25%; text-align: center;"}
           - if price_option[:val] && price_option[:val].downcase.include?("price on request")
