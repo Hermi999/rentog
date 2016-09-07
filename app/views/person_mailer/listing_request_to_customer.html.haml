@@ -17,6 +17,15 @@
   %td
     %table
       %tbody
+        - if @listing_request.listing
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top"}
+              %font{body_font}
+                = t("emails.listing_request.title")
+            %td{:align => "left", :valign => "top"}
+              %font{body_font}
+                %a{href: listing_url(@listing_request.listing, @url_params)}= @listing_request.listing.title
+                
         %tr
           %td{:width => "45%", :align => "left", :valign => "top"}
             %font{body_font}

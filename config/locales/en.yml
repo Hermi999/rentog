@@ -968,6 +968,7 @@ en:
       hi: "Hi!"
       desc: "You have a new request on <b>Rentog</b>!"
       here_is_the_request: "Please find the details below:"
+      title: "Device"
       name: Name
       email: Email
       phone: Phone

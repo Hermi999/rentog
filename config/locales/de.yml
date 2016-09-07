@@ -961,6 +961,7 @@ de:
       desc: "Sie haben eine neue Geräte-Anfrage auf <b>Rentog</b>!"
       new_listing_request_confirmation: "Sie haben erfolgreich eine Geräte-Anfrage versendet."
       here_is_the_request: "Nachfolgend finden Sie die Details der Anfrage:"
+      title: "Gerät"
       name: Name
       email: Email
       phone: Telefonnummer
@@ -2736,7 +2737,7 @@ de:
       t1_row1_desc: "<span style='color: #E91E63'>Name, Modellbezeichnung des Geräts. Der hier eingetragene Text wird immer beim Gerät angezeigt.</span><br><span style='color: #2196F3'>Dieses Feld wird für Marktplatz Geräte automatisch generiert.</span>"
       t1_row1_mand: "<span style='color: #E91E63'>Ja.</span>"
       t1_row2_attr: "condition"
-      t1_row2_desc: "Zustand des Geräts. Mögliche Werte: <br><b>brand_new</b> - Fabriksneues Gerät <br><b>like_new</b> - Neuwertiges Gerät<br> <b>good</b> - Gerät im guten Zustand<br><b>used</b> - Gerät im gebrauchten Zustand<br><b>damaged</b> - Gerät ist kaputt/beschädigt"
+      t1_row2_desc: "Zustand des Geräts. Mögliche Werte: <br><b>brand_new</b> - Fabrikneues Gerät <br><b>like_new</b> - Neuwertiges Gerät<br> <b>good</b> - Gerät im guten Zustand<br><b>used</b> - Gerät im gebrauchten Zustand<br><b>damaged</b> - Gerät ist kaputt/beschädigt"
       t1_row2_mand: "Ja."
       t1_row3_attr: "serial_number"
       t1_row3_desc: "Eindeutige Identifikationsnummer. Muss für jedes Gerät verschieden sein. Default: ''."
