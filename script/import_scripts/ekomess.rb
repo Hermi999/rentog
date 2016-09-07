@@ -2,7 +2,7 @@
 
 # How to use
 # ---------------
-# ./ekomess.rb ARTIKEL2.XML ekomess.xlsx
+# ./ekomess.rb SHOPDATEN13.xml ekomess.xlsx
 
 require 'pry'
 require 'nokogiri'
@@ -61,18 +61,23 @@ doc.xpath("//ARTICLE").each do |article|
 			price_type = "Price on request"
 		end
 
-		image = ""
-		datasheet = ""
+############ NEW xml format
+		image = Maybe(article.css("BILD").first).content.or_else("")
+		datasheet = Maybe(article.css("Datenblatt").first).content.or_else("")
 
-		article.css("FILES").first.css("FILE").each do |file|
-			if file.attr("type") && file.attr("type") == "Bild"
-				image = file.css("PATH").first.content
-			end
+############ OLD xml format
+#		image = ""
+#		datasheet = ""
 
-			if file.attr("type") && file.attr("type") == "Datenblatt"
-				datasheet = file.css("PATH").first.content
-			end
-		end
+#		article.css("FILES").first.css("FILE").each do |file|
+#			if file.attr("type") && file.attr("type") == "Bild"
+#				image = file.css("PATH").first.content
+#			end
+#
+#			if file.attr("type") && file.attr("type") == "Datenblatt"
+#				datasheet = file.css("PATH").first.content
+#			end
+#		end
 
 		features = "<ul>"
 		article.css("DAT").each do |feature|

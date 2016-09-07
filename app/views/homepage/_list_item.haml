@@ -117,7 +117,7 @@
                   = price_option[:title].split("(")[0].strip if price_option[:title]
 
                 .home-list-price-value
-                  %span{style: "font-size: 0.6em;"}= currency_symbol
+                  %span{style: "font-size: 0.6em;"}= listing.price.currency.symbol
                   = " " + humanized_money(listing.price).upcase
 
                 .home-list-price-quantity-mobile{:title => price_text}

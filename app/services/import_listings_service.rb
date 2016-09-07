@@ -152,7 +152,7 @@ class ImportListingsService
       @listing_data.each_with_index do |row, i|
         if i > 0
           if row[:device_name] == "" || row[:type].downcase == "sell" || row[:type].downcase == "rent"
-            @listing_data[i][:device_name] = row[:model] + " (" + row[:manufacturer] + ")"
+            @listing_data[i][:device_name] = row[:model].to_s + " (" + row[:manufacturer].to_s + ")"
           end
         end
       end
@@ -345,10 +345,10 @@ class ImportListingsService
           listing_attributes[:sub_category] = CategoryTranslation.where(name: x_attr[1])
 
         when :images
-          listing_images = x_attr[1].gsub(" ", "").split(",")
+          listing_images = x_attr[1].gsub(" ", "").split(",") if x_attr[1]
 
         when :attachments
-          listing_attachments = x_attr[1].gsub(" ", "").split(",")
+          listing_attachments = x_attr[1].gsub(" ", "").split(",") if x_attr[1]
 
         when :subscriber_emails
           x_attr[1].split(",").each do |subscr|
@@ -500,10 +500,10 @@ class ImportListingsService
           listing_attributes[:sub_category] = CategoryTranslation.where(name: x_attr[1])
 
         when :images
-          listing_images = x_attr[1].gsub(" ", "").split(",")
+          listing_images = x_attr[1].gsub(" ", "").split(",") if x_attr[1]
 
         when :attachments
-          listing_attachments = x_attr[1].gsub(" ", "").split(",")
+          listing_attachments = x_attr[1].gsub(" ", "").split(",") if x_attr[1]
 
         when :device_closed
           listing_attributes[:open] = (x_attr[1] == 0)
