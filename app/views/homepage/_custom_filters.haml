@@ -16,6 +16,10 @@
 
                   %span.custom-filter-checkbox-label-text
                     = option.title(I18n.locale)
+                  
+                  - if @relation == :rentog_admin
+                    %span.custom-filter-checkbox-label-count
+                      = " (" + CustomFieldOptionSelection.where(custom_field_option_id: option.id).count.to_s + ")"
 
             - if field.options.length > 5
               = link_to t(".more"), "#", {:class => "show_more_options" ,:style => "padding-left: 22px;", data: {field_id: field.id, title: field.name(I18n.locale), locale: I18n.locale}}

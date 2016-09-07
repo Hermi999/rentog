@@ -159,10 +159,15 @@ class HomepageController < ApplicationController
     custom_field_id = params[:custom_field_id]
     custom_field_options = []
 
+
     CustomFieldOption.where(custom_field_id: custom_field_id).order(:sort_priority).each do |option|
+      
+      count_listings = CustomFieldOptionSelection.where(custom_field_option_id: option.id).count if @relation == :rentog_admin
+
       custom_field_options << {
         title: option.title(I18n.locale),
-        id: option.id
+        id: option.id,
+        count: count_listings || 0
       }
     end
 

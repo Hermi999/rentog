@@ -240,7 +240,7 @@ $(function() {
         content.append($('<div class="custom-filter-checkbox-container2">')
                 .append($('<label class="custom-filter-checkbox-label">')
                   .append('<input type="checkbox" name="' + id_prefix + value.id + '" id="' + id_prefix + value.id + '" value="' + value.id + '" class="field_id_' + field_id + '" ' + checked + '>')
-                  .append('<span class="custom-filter-checkbox-label-text">'+ value.title +'</span>')));
+                  .append('<span class="custom-filter-checkbox-label-text">'+ value.title +'</span><span class="manufacturer_count"> (' + value.count + ')</span>')));
       }
     });
 
