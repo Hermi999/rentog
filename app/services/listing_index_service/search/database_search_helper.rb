@@ -20,7 +20,7 @@ module ListingIndexService::Search::DatabaseSearchHelper
     query = Listing
             .where(where_opts)
             .includes(included_models.push :custom_field_values)
-            .order("listings.sort_date DESC")
+            .order("listings.sort_date DESC")    #.order("RAND()")     # order by price:  listings.price_cents DESC
             .paginate(per_page: search[:per_page], page: search[:page])
 
     listings =

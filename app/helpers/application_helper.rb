@@ -1009,7 +1009,11 @@ module ApplicationHelper
         root
       end
     else
-      get_wp_url("")
+      if request.path.include?("/login") || request.path.include?("/signup")
+        get_wp_url("")
+      else
+        root
+      end
     end
   end
 

@@ -7,9 +7,13 @@
 - if params[:restrictedMarketplace]
   - header += " header-restriced-marketplace"
   - logo_class = "header-wide-logo-restricted"
+
 - elsif request.path.include?("poolTool")
   - logo_class = "header-wide-logo-pooltool"
-- elsif request.path.include?("marketplace")
+
+- elsif request.path.include?("/login") || request.path.include?("/signup")
+  
+- else
   - logo_class = "header-wide-logo-marketplace"
   - header += " header-marketplace"
 

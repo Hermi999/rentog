@@ -91,7 +91,7 @@ module ListingIndexService::Search
           star: true,
           with: with,
           with_all: with_all,
-          order: 'sort_date DESC',
+          order: 'sort_date DESC',   # wah: order by price: price_cents DESC
           max_query_time: 1000 # Timeout and fail after 1s
         )
 
