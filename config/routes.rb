@@ -659,6 +659,9 @@ Kassi::Application.routes.draw do
 
   resources :communities, only: [:new, :create]
 
+  resources :price_comparison_events, only: [:index, :create]
+  resources :price_comparison_devices, only: [:new, :create, :update, :index]
+
 
   devise_for :people, only: :omniauth_callbacks, controllers: { omniauth_callbacks: "sessions" }
 

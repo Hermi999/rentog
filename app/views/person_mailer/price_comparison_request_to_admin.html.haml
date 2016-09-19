@@ -1,0 +1,42 @@
+%tr
+  %td{:align => "left", :style => "padding-top: 20px;"}
+    %font{body_font}
+      = t("emails.price_comparison_request.hi")
+
+%tr
+  %td{:align => "left", :style => "padding-top: 15px;"}
+    %font{body_font}
+      = t("emails.price_comparison_request.desc").html_safe
+      %br
+      %br
+      = t("emails.price_comparison_request.details").html_safe
+      %br
+      %br
+
+%tr
+  %td
+    %table
+      %tbody
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.price_comparison_request.device_name")
+          %td{:align => "left", :valign => "top"}
+            %font{body_font}
+              = @price_comparison_event.device_name
+
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.price_comparison_request.email")
+          %td{:align => "left", :valign => "top"}
+            %font{body_font}
+              = @price_comparison_event.email
+
+        %tr
+          %td{:width => "45%", :align => "left", :valign => "top"}
+            %font{body_font}
+              = t("emails.price_comparison_request.id")
+          %td{:align => "left", :valign => "top"}
+            %font{body_font}
+              = @price_comparison_event.id

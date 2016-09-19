@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160717222603) do
+ActiveRecord::Schema.define(version: 20160918202647) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -1144,6 +1144,17 @@ ActiveRecord::Schema.define(version: 20160717222603) do
     t.integer  "listing_id", limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+  end
+
+  create_table "price_comparison_events", force: :cascade do |t|
+    t.string   "action_type", limit: 255, default: "device_chosen", null: false
+    t.string   "email",       limit: 255
+    t.string   "sessionId",   limit: 255,                           null: false
+    t.string   "ipAddress",   limit: 255,                           null: false
+    t.string   "device_name", limit: 255
+    t.integer  "device_id",   limit: 4
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
 
   create_table "prospect_emails", force: :cascade do |t|

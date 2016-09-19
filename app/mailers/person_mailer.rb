@@ -645,6 +645,42 @@ class PersonMailer < ActionMailer::Base
     end
   end
 
+
+  def price_comparison_request_to_admin(pce, community)
+    @price_comparison_event = pce
+    receiver = community.admin_emails
+    mail_locale = "de"
+
+    set_up_urls(nil, community)
+    @url_params[:locale] = mail_locale
+
+    with_locale(mail_locale, community.locales.map(&:to_sym), community.id) do
+      subject = t("emails.price_comparison_request.new_request")
+      premailer_mail(:to => receiver,
+                     :from => community_specific_sender(community),
+                     :subject => subject,
+                     :reply_to => @price_comparison_event.email)
+    end
+  end
+
+  def price_comparison_request_to_user(pce, community)
+    @price_comparison_event = pce
+    receiver = @price_comparison_event.email
+    mail_locale = "en"
+
+    set_up_urls(nil, community)
+    @url_params[:locale] = mail_locale
+
+    with_locale(mail_locale, community.locales.map(&:to_sym), community.id) do
+      subject = t("emails.price_comparison_request.new_request")
+      premailer_mail(:to => receiver,
+                     :from => community_specific_sender(community),
+                     :subject => subject,
+                     :reply_to => @price_comparison_event.email)
+    end
+  end
+
+
   # A message from the community admin to a single community member
   def community_member_email(sender, recipient, email_subject, email_content, community)
     @email_type = "email_from_admins"

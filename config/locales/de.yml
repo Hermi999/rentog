@@ -976,6 +976,15 @@ de:
       answer_no: "Nein"
       contact_the_customer: "Bitte kontaktieren Sie den potentiellen Kunden sobald wie möglich."
       contacted_by_the_seller: "Der Verkäufer wird sich so bald als möglich mit Ihnen in Verbindung setzen."
+    price_comparison_request:
+      new_request: "Neue Preisvergleichsanfrage!"
+      hi: "Hallo!"
+      desc: "Eine neue Preisvergleichsanfrage wurde soeben erstellt."
+      details: "Nachfolgend die Anfragedetails:"
+      user_details: "Ihre Anfrage wurde erfolgreich verarbeitet - Sie werden eine Antwort mit den Preisen innerhalb von 24h erhalten. Die Anfragedetails sind unterhalb aufgelistet. (Diese Email wurde automatisch generiert.)"
+      device_name: "Gerätename"
+      email: "Email"
+      id: "PriceComparisonEvent-ID"
     new_comment:
       has_commented_your_listing_in_kassi: "%{author} hat deinen Eintrag %{listing} kommentiert"
       view_comment: "Kommentar ansehen"

@@ -983,6 +983,15 @@ en:
       answer_no: "No"
       contact_the_customer: "Please get in contact with the potential buyer as soon as possible."
       contacted_by_the_seller: "The seller will get in contact with you shortly."
+    price_comparison_request:
+      new_request: "New price comparison request"
+      hi: "Hi!"
+      desc: "A new price comparison request has been created."
+      details: "Request details can be found below:"
+      user_details: "Your request has been successfully submitted - You will receive an email with the answer within the next 24 hours. You can find the request details below. (This is an automatically generated email.)"
+      device_name: "Device name"
+      email: "Email"
+      id: "PriceComparisonEvent-ID"
     new_message:
       view_message: "View message"
       has_sent_you_a_message_in_kassi: "%{sender} has sent you a message in %{service_name}."
