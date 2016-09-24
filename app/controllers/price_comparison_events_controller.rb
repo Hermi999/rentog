@@ -59,7 +59,7 @@ class PriceComparisonEventsController < ApplicationController
 
 
 		def set_access_control_headers
-    # TODO change this to more strict setting when done testing
-    headers['Access-Control-Allow-Origin'] = '*'
-  end
+	    # TODO change this to more strict setting when done testing
+	    headers['Access-Control-Allow-Origin'] = '*'
+	  end
 end

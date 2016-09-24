@@ -662,6 +662,13 @@ module ApplicationHelper
         :name => "kpis"
       },
       {
+        :topic => :manage,
+        :text => t("admin.communities.upload_per_json.upload_per_json"),
+        :icon_class => icon_class("coins"),
+        :path => new_admin_community_upload_per_json_path(@current_community),
+        :name => "upload_per_json"
+      },
+      {
         :topic => :configure,
         :text => t("admin.communities.edit_details.community_details"),
         :icon_class => "ss-page",
