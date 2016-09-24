@@ -1,0 +1,169 @@
+:css
+  .cb{
+    width: 24%;
+    display: inline-block;
+  }
+  .tf{
+    width: 45%;
+    float: left;
+  }
+  #delimiter{
+    width: 85%;
+  }
+  button[disabled]{
+    opacity: .5;
+  }
+  .button-wrapper{
+    float:left;
+  }
+  .loading-wrapper{
+    background-color: #a73e86;
+    border-radius: 20px;
+    width: 100px;
+    height: 45px;
+    float: left;
+    margin: 10px;
+    display: block;
+  }
+  .pages-wrapper{
+    padding-top: 20px;
+    height: 65px;
+    font-weight: bold;
+  }
+  .clear{
+    clear:both;
+  }
+  .loading{
+    display: none;
+    padding: 10px 15px;
+    color: white;
+  }
+
+- content_for :extra_javascript do
+  = javascript_include_tag "papaparse.min.js"
+  = javascript_include_tag "player.js"
+
+- content_for :title_header do
+  %h1
+    = t("layouts.admin.admin")
+    = "-"
+    = t("admin.communities.upload_per_json.upload_per_json")
+
+= render :partial => "admin/left_hand_navigation", :locals => { :links => admin_links_for(@current_community) }
+
+.left-navi-section
+  %h1
+    %a{:href => "http://papaparse.com"} Papa Parse
+    Player
+    
+  .grid-container
+    .grid-25
+      %label.cb
+        %input#download{:type => "checkbox"}/
+        Download
+      %label.cb
+        %input#stream{:type => "checkbox"}/
+        Stream
+      %label.cb
+        %input#chunk{:type => "checkbox"}/
+        Chunk
+      %label.cb
+        %input#worker{:type => "checkbox"}/
+        Worker thread
+      %label.cb
+        %input#header_row{:checked => "checked", :type => "checkbox"}/
+        Header row
+      %label.cb
+        %input#dynamicTyping{:type => "checkbox"}/
+        Dynamic typing
+      %label.cb
+        %input#fastmode{:type => "checkbox"}/
+        Fast mode
+      %label.cb
+        %input#skipEmptyLines{:type => "checkbox"}/
+        Skip empty lines
+      %label.cb
+        %input#step-pause{:type => "checkbox"}/
+        Pause on step
+      %label.cb
+        %input#print-steps{:type => "checkbox"}/
+        Log each step/chunk
+      
+      Line Endings:
+      %label{:style => "display: inline;"}
+        %input#newline-auto{:checked => "checked", :name => "newline", :type => "radio"}>/
+        Auto
+      %label{:style => "display: inline;"}
+        %input#newline-n{:name => "newline", :type => "radio"}>/
+        \\n
+      %label{:style => "display: inline;"}
+        %input#newline-r{:name => "newline", :type => "radio"}>/
+        \\r
+      %label{:style => "display: inline;"}
+        %input#newline-rn{:name => "newline", :type => "radio"}>/
+        \\r\n
+      
+
+      %label.tf
+        Delimiter:
+        %input#delimiter{:placeholder => "auto", :size => "5", :type => "text"}/
+        %a#insert-tab{:href => "javascript:"} tab
+
+      %label.tf
+        Preview:
+        %input#preview{:max => "1000", :min => "0", :placeholder => "default", :type => "number"}/
+      %label.tf
+        Encoding:
+        %input#encoding{:placeholder => "default", :size => "10", :type => "text"}/
+      %label.tf
+        Comment char:
+        %input#comments{:maxlength => "1", :placeholder => "default", :size => "5", :type => "text"}/
+      %label.tf
+        Papa.LocalChunkSize:
+        %input#localChunkSize{:min => "0", :placeholder => "default", :type => "number"}/
+      %label.tf
+        Papa.RemoteChunkSize:
+        %input#remoteChunkSize{:min => "0", :placeholder => "default", :type => "number"}/
+    .grid-75.text-center
+      %textarea#input{:placeholder => "Input your csv data here..."}
+      %br/
+      %b or
+      %br/
+      %input#files{:multiple => "multiple", :type => "file"}/
+      %br/
+      %button#submit-parse{style:"float: left; margin-right: 30px;"} Parse
+      %button#submit-unparse Unparse
+      %i Open the Console in your browser's inspector tools to see results.
+      %br
+      %i The json data is stored in the variable  
+      %b json_data
+      %br
+
+      %div{:style => "padding: 10px 15px 15px 15px; background-color: #efc0c0;"}
+        %h3 Upload json data to ...
+        %label{style: "width: 50%;"}
+          Import data from element position (in array):
+          %input{type:"text", id: "starting_pos"}
+      
+        %div{style: "background-color: #fff5da; padding: 5px 15px; border-radius: 15px;"}
+          .button-wrapper
+            %button#upload_to_price_comparison_device{disabled: true} PriceComparisonDevice model
+          
+          .loading-wrapper
+            %p.loading= "LOADING..."
+
+          .pages-wrapper
+            Pages:
+            %span.pages_current= ""
+            = "/"
+            %span.pages_all= ""
+            = "\t"
+            = " | Entries:"
+            %span.entries_current= ""
+            = "/"
+            %span.entries_all
+          .clear
+
+          .attributes-wrapper
+            %p= "Possible attributes:"
+            = PriceComparisonDevice.attribute_names
