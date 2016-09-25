@@ -15,16 +15,21 @@ class PriceComparisonEventsController < ApplicationController
 		message = ""
 		status = ""
 
+		# save event
 		if ev.save
 			status = "success"
 
+			# action based on event type
 			if params["price_comparison_params"]["action_type"] == "device_request"
-				message = "Your request has been successful. You will get an email soon!"
+				message = "Your request has been successful. You will get an email with the access code soon!"
+				
+				result = extract_result_from_db
 
 				# send emails
 				Delayed::Job.enqueue(PriceComparisonJob.new(ev.id, @current_community.id))
 
 			elsif params["price_comparison_params"]["action_type"] == "device_chosen"
+				result = extract_result_from_db
 			end
 
 		else
@@ -32,7 +37,7 @@ class PriceComparisonEventsController < ApplicationController
 			message = "failed to save"
 		end
 		
-		render :json => {status: status, message: message} and return
+		render :json => {status: status, message: message, result: result} and return
 	end
 
 
@@ -55,6 +60,37 @@ class PriceComparisonEventsController < ApplicationController
 			else
 				false
 			end
+		end
+
+		def extract_result_from_db
+			# extract result
+			title = params[:price_comparison_params][:device_name].split("|")
+			model = 
+				if title.length > 1
+					title[1].strip
+				else
+					title[0].strip
+				end
+			
+			result = PriceComparisonDevice.where("model LIKE ?", model).map do |x| 
+				price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
+				link = x.provider ? x.seller_contact : x.device_url
+
+				{
+					model: x.model.to_s,
+					manufacturer: x.manufacturer.to_s,
+					price: price,
+					currency: x.currency.to_s,
+					country: x.seller_country.to_s,
+					currency: x.currency,
+					seller: x.seller.to_s,
+					dev_type: x.dev_type.to_s,
+					condition: x.condition.to_s,
+					link: link
+				}
+			end
+
+			return result
 		end
 
 

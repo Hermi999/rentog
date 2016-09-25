@@ -18,6 +18,7 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  seller_country :string(255)
+#  seller_contact :string(255)
 #
 
 class PriceComparisonDevice < ActiveRecord::Base
@@ -25,6 +26,9 @@ class PriceComparisonDevice < ActiveRecord::Base
   before_create do
     existing = PriceComparisonDevice.where(device_url: self.device_url).first
     existing.delete if existing
+
+    self.manufacturer.sub!("|", ";")
+    self.model.sub!("|", ";")
   end
 
 end

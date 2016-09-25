@@ -15,7 +15,7 @@ class PriceComparisonDevicesController < ApplicationController
 		if params[:devices]
 			params[:devices].each do |dev|		
 				begin
-					PriceComparisonDevice.create(dev[1].permit(:device_url, :model, :manufacturer, :title, :category_a, :category_b, :currency, :price_cents, :condition, :dev_type, :seller, :seller_country, :provider))
+					PriceComparisonDevice.create(dev[1].permit(:device_url, :model, :manufacturer, :title, :category_a, :category_b, :currency, :price_cents, :condition, :dev_type, :seller, :seller_country, :seller_contact, :provider))
 				rescue ActiveRecord::ActiveRecordError
 					# simply skip this entry and return error message to browser
 					status = "error"
@@ -40,16 +40,37 @@ class PriceComparisonDevicesController < ApplicationController
 			search_param = "%" + params[:search_term] + "%"
 
 			if params[:search_term].length < 3
-				devices = PriceComparisonDevice.select(:model, :manufacturer).limit(50).where("model LIKE ? OR manufacturer LIKE ?", search_param,search_param).map{|x| x.manufacturer + " - " + x.model}
+				devices = PriceComparisonDevice.select(:model, :manufacturer).limit(50).where("model LIKE ? OR manufacturer LIKE ?", search_param,search_param).map do |x|
+					if x.model.present? and x.manufacturer.present?
+						x.manufacturer + " | " + x.model
+					elsif x.model.present?
+						x.model
+					else
+						#x.manufacturer
+					end
+				end
 			else
-				devices = PriceComparisonDevice.select(:model, :manufacturer).where("model LIKE ?  OR manufacturer LIKE ?", search_param, search_param).map{|x| x.manufacturer + " - " + x.model}
+				devices = PriceComparisonDevice.select(:model, :manufacturer).where("model LIKE ? OR manufacturer LIKE ?", search_param, search_param).map do |x|
+					if x.model.present? and x.manufacturer.present?
+						x.manufacturer + " | " + x.model
+					elsif x.model.present?
+						x.model
+					else
+						#x.manufacturer
+					end
+				end
 			end
 		else
 			devices = ""
 		end
 
+		# remove duplicates
+		devices = devices.uniq
+
+		# return answer as json
 		render :json => {devices: devices} and return
 	end
+
 
 
 	private
