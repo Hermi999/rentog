@@ -979,12 +979,14 @@ de:
     price_comparison_request:
       new_request: "Neue Preisvergleichsanfrage!"
       hi: "Hallo!"
-      desc: "Eine neue Preisvergleichsanfrage wurde soeben erstellt."
+      admin_desc: "Ein neuer Benutzer hat soeben seine Email addresse hinterlassen!"
+      desc: "Vielen Dank das Sie Rentog zum Vergleichen von Test- und Messgeräten verwenden (BETA Version)!"
       details: "Nachfolgend die Anfragedetails:"
-      user_details: "Ihre Anfrage wurde erfolgreich verarbeitet - Sie werden eine Antwort mit den Preisen innerhalb von 24h erhalten. Die Anfragedetails sind unterhalb aufgelistet. (Diese Email wurde automatisch generiert.)"
+      user_details: "Anbei Ihr persönlicher Zugriffscode:"
       device_name: "Gerätename"
       email: "Email"
       id: "PriceComparisonEvent-ID"
+      other_products: "Kennen Sie schon den <a href='https://tools.rentog.com'>RENTOG MARKTPLATZ für Test- und Messgeräte?</a>"
     new_comment:
       has_commented_your_listing_in_kassi: "%{author} hat deinen Eintrag %{listing} kommentiert"
       view_comment: "Kommentar ansehen"

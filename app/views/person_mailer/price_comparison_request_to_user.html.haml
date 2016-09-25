@@ -10,33 +10,8 @@
       %br
       %br
       = t("emails.price_comparison_request.user_details").html_safe
-      %br
-      %br
+      %p{style: "font-size: 1.5em; font-weight: bold;"}= "134679"
+      %p{style: "font-weight: bold"}= t("emails.price_comparison_request.other_products").html_safe
 
-%tr
-  %td
-    %table
-      %tbody
-        %tr
-          %td{:width => "45%", :align => "left", :valign => "top"}
-            %font{body_font}
-              = t("emails.price_comparison_request.device_name")
-          %td{:align => "left", :valign => "top"}
-            %font{body_font}
-              = @price_comparison_event.device_name
-
-        %tr
-          %td{:width => "45%", :align => "left", :valign => "top"}
-            %font{body_font}
-              = t("emails.price_comparison_request.email")
-          %td{:align => "left", :valign => "top"}
-            %font{body_font}
-              = @price_comparison_event.email
-
-        %tr
-          %td{:width => "45%", :align => "left", :valign => "top"}
-            %font{body_font}
-              = t("emails.price_comparison_request.id")
-          %td{:align => "left", :valign => "top"}
-            %font{body_font}
-              = @price_comparison_event.id
+    %a{href: "https://rentog.com"}
+      %img{src: "https://rentog.com/wp-content/uploads/2016/01/Logo_transparent_white.png", style: "background-color:black; width: 160px; padding: 5px;"}
