@@ -15,7 +15,7 @@ class PriceComparisonDevicesController < ApplicationController
 		if params[:devices]
 			params[:devices].each do |dev|		
 				begin
-					PriceComparisonDevice.create(dev[1].permit(:device_url, :model, :manufacturer, :title, :category_a, :category_b, :currency, :price_cents, :condition, :dev_type, :seller, :seller_country, :seller_contact, :provider))
+					PriceComparisonDevice.create(dev[1].permit(:device_url, :model, :manufacturer, :title, :category_a, :category_b, :currency, :price_cents, :condition, :dev_type, :seller, :seller_country, :seller_contact, :provider, :renting_price_period))
 				rescue ActiveRecord::ActiveRecordError
 					# simply skip this entry and return error message to browser
 					status = "error"

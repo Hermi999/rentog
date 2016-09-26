@@ -65,14 +65,15 @@ class PriceComparisonEventsController < ApplicationController
 		def extract_result_from_db
 			# extract result
 			title = params[:price_comparison_params][:device_name].split("|")
-			model = 
-				if title.length > 1
-					title[1].strip
-				else
-					title[0].strip
-				end
+			query = ""
+
+			if title.length > 1
+				query = "model LIKE '%" + title[1].strip + "%' AND manufacturer LIKE '%" + title[0].strip + "%'"
+			else
+				query = "model LIKE '%" + title[0].strip + "%'"
+			end
 			
-			result = PriceComparisonDevice.where("model LIKE ?", model).map do |x| 
+			result = PriceComparisonDevice.where(query).map do |x| 
 				price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
 				link = x.provider ? x.seller_contact : x.device_url
 				currency = (price == "On request") ? "" : x.currency
@@ -84,6 +85,7 @@ class PriceComparisonEventsController < ApplicationController
 					currency: x.currency.to_s,
 					country: x.seller_country.to_s,
 					currency: currency,
+					renting_price_period: x.renting_price_period.to_s,
 					seller: x.seller.to_s,
 					dev_type: x.dev_type.to_s,
 					condition: x.condition.to_s,

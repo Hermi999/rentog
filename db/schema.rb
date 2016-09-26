@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160925171840) do
+ActiveRecord::Schema.define(version: 20160926185008) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -1147,22 +1147,23 @@ ActiveRecord::Schema.define(version: 20160925171840) do
   end
 
   create_table "price_comparison_devices", force: :cascade do |t|
-    t.string   "device_url",     limit: 255, null: false
-    t.string   "manufacturer",   limit: 255
-    t.string   "model",          limit: 255
-    t.string   "title",          limit: 255
-    t.string   "category_a",     limit: 255
-    t.string   "category_b",     limit: 255
-    t.integer  "price_cents",    limit: 4
-    t.string   "currency",       limit: 255
-    t.string   "seller",         limit: 255
-    t.string   "provider",       limit: 255
-    t.string   "dev_type",       limit: 255
-    t.string   "condition",      limit: 255
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.string   "seller_country", limit: 255
-    t.string   "seller_contact", limit: 255
+    t.string   "device_url",           limit: 255, null: false
+    t.string   "manufacturer",         limit: 255
+    t.string   "model",                limit: 255
+    t.string   "title",                limit: 255
+    t.string   "category_a",           limit: 255
+    t.string   "category_b",           limit: 255
+    t.integer  "price_cents",          limit: 4
+    t.string   "currency",             limit: 255
+    t.string   "seller",               limit: 255
+    t.string   "provider",             limit: 255
+    t.string   "dev_type",             limit: 255
+    t.string   "condition",            limit: 255
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.string   "seller_country",       limit: 255
+    t.string   "seller_contact",       limit: 255
+    t.string   "renting_price_period", limit: 255
   end
 
   create_table "price_comparison_events", force: :cascade do |t|
