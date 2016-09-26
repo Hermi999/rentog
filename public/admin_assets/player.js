@@ -196,7 +196,7 @@ function uploadTo(location){
 
 	switch(location){
 		case "upload_to_price_comparison_device":
-			url = "http://lvh.me:3000/price_comparison_devices";
+			url = "/price_comparison_devices";
 			break;
 		default:
 			alert("error");

@@ -75,6 +75,7 @@ class PriceComparisonEventsController < ApplicationController
 			result = PriceComparisonDevice.where("model LIKE ?", model).map do |x| 
 				price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
 				link = x.provider ? x.seller_contact : x.device_url
+				currency = (price == "On request") ? "" : x.currency
 
 				{
 					model: x.model.to_s,
@@ -82,7 +83,7 @@ class PriceComparisonEventsController < ApplicationController
 					price: price,
 					currency: x.currency.to_s,
 					country: x.seller_country.to_s,
-					currency: x.currency,
+					currency: currency,
 					seller: x.seller.to_s,
 					dev_type: x.dev_type.to_s,
 					condition: x.condition.to_s,

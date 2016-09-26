@@ -40,8 +40,8 @@
   }
 
 - content_for :extra_javascript do
-  = javascript_include_tag "/admin_assets/papaparse.min.js"
-  = javascript_include_tag "/admin_assets/player.js"
+  = javascript_include_tag request.base_url + "/admin_assets/papaparse.min.js"
+  = javascript_include_tag request.base_url + "/admin_assets/player.js"
 
 - content_for :title_header do
   %h1

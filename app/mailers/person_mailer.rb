@@ -657,7 +657,7 @@ class PersonMailer < ActionMailer::Base
     with_locale(mail_locale, community.locales.map(&:to_sym), community.id) do
       subject = t("emails.price_comparison_request.new_request")
       premailer_mail(:to => receiver,
-                     :from => community_specific_sender(community),
+                     :from => "Rentog Services <" + community_specific_sender(community) + ">",
                      :subject => subject,
                      :reply_to => @price_comparison_event.email)
     end
