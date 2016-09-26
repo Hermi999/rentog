@@ -76,6 +76,7 @@ class PriceComparisonEventsController < ApplicationController
 			result = PriceComparisonDevice.where(query).map do |x| 
 				price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
 				link = x.provider ? x.seller_contact : x.device_url
+				link = link + "?referrer=rentog_price_comparison_tool"
 				currency = (price == "On request") ? "" : x.currency
 
 				{
