@@ -30,6 +30,9 @@ class PriceComparisonEventsController < ApplicationController
 
 			elsif params["price_comparison_params"]["action_type"] == "device_chosen"
 				result = extract_result_from_db
+
+			elsif params["price_comparison_params"]["action_type"] == "lead_generated"
+
 			end
 
 		else
@@ -48,7 +51,7 @@ class PriceComparisonEventsController < ApplicationController
 
 	private
 		def price_comparison_params
-			params.require(:price_comparison_params).permit(:action_type, :device_name, :device_id, :email, :sessionId)
+			params.require(:price_comparison_params).permit(:action_type, :device_name, :device_id, :email, :sessionId, :seller, :seller_link)
 		end
 
 

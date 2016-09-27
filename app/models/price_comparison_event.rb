@@ -11,6 +11,8 @@
 #  device_id   :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  seller      :string(255)
+#  seller_link :string(255)
 #
 
 class PriceComparisonEvent < ActiveRecord::Base
