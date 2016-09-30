@@ -80,4 +80,8 @@ module MailUtils
     cid = Maybe(community).id.or_else(nil)
     EmailService::API::Api.addresses.get_sender(community_id: cid).data[:smtp_format]
   end
+
+  def community_specific_sender_with_alias(community_, alias_)
+    alias_ + " <" + community_specific_sender(community_) + ">"
+  end
 end

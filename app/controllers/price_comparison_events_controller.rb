@@ -51,7 +51,7 @@ class PriceComparisonEventsController < ApplicationController
 
 	private
 		def price_comparison_params
-			params.require(:price_comparison_params).permit(:action_type, :device_name, :device_id, :email, :sessionId, :seller, :seller_link)
+			params.require(:price_comparison_params).permit(:action_type, :device_name, :device_id, :email, :sessionId, :seller, :seller_link, :seller_country)
 		end
 
 
@@ -78,7 +78,7 @@ class PriceComparisonEventsController < ApplicationController
 			
 			result = PriceComparisonDevice.where(query).map do |x| 
 				price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
-				link = x.provider ? x.seller_contact : x.device_url
+				link = x.seller_contact ? x.seller_contact : x.device_url
 				link = link + "?referrer=rentog_price_comparison_tool"
 				currency = (price == "On request") ? "" : x.currency
 

@@ -333,7 +333,7 @@ class PersonMailer < ActionMailer::Base
       end
 
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.conversation_status_changed.your_request_was_#{transaction.status}"))
     end
   end
@@ -346,7 +346,7 @@ class PersonMailer < ActionMailer::Base
       @message = message
       sending_params = {:to => recipient.confirmed_notification_emails_to,
                         :subject => t("emails.new_message.you_have_a_new_message", :sender_name => message.sender.name(community)),
-                        :from => community_specific_sender(community)}
+                        :from => community_specific_sender_with_alias(community, "Rentog Services")}
 
       premailer_mail(sending_params)
     end
@@ -359,7 +359,7 @@ class PersonMailer < ActionMailer::Base
     set_up_urls(recipient, community, @email_type)
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.new_payment.new_payment"))
     end
   end
@@ -371,7 +371,7 @@ class PersonMailer < ActionMailer::Base
     set_up_urls(recipient, community, @email_type)
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.receipt_to_payer.receipt_of_payment"))
     end
   end
@@ -383,7 +383,7 @@ class PersonMailer < ActionMailer::Base
     set_up_urls(conversation.seller, community, @email_type)
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.transaction_confirmed.request_marked_as_#{@conversation.status}"))
     end
   end
@@ -395,7 +395,7 @@ class PersonMailer < ActionMailer::Base
     set_up_urls(recipient, community, @email_type)
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :template_path => 'person_mailer/automatic_confirmation',
                      :subject => t("emails.transaction_automatically_confirmed.subject"))
     end
@@ -408,7 +408,7 @@ class PersonMailer < ActionMailer::Base
     set_up_urls(recipient, community, @email_type)
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       mail(:to => @recipient.confirmed_notification_emails_to,
-           :from => community_specific_sender(community),
+           :from => community_specific_sender_with_alias(community, "Rentog Services"),
            :template_path => 'person_mailer/automatic_confirmation',
            :subject => t("emails.booking_transaction_automatically_confirmed.subject"))
     end
@@ -421,7 +421,7 @@ class PersonMailer < ActionMailer::Base
     set_up_urls(recipient, community, @email_type)
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       premailer_mail(:to => to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.escrow_canceled.subject")) do |format|
         format.html { render "escrow_canceled" }
       end
@@ -443,7 +443,7 @@ class PersonMailer < ActionMailer::Base
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       @testimonial = testimonial
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.new_testimonial.has_given_you_feedback_in_kassi", :name => testimonial.author.name(community)))
     end
   end
@@ -459,7 +459,7 @@ class PersonMailer < ActionMailer::Base
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       @conversation = conversation
       premailer_mail(:to => @recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.accept_reminder.remember_to_accept_request", :sender_name => conversation.other_party(recipient).name(community)))
     end
   end
@@ -475,7 +475,7 @@ class PersonMailer < ActionMailer::Base
       @pay_url = payment_url(conversation, recipient, @url_params)
 
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.payment_reminder.remember_to_pay", :listing_title => conversation.listing.title))
     end
   end
@@ -492,7 +492,7 @@ class PersonMailer < ActionMailer::Base
       end
 
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.payment_settings_reminder.remember_to_add_payment_details")) do |format|
         format.html {render :locals => {:skip_unsubscribe_footer => true} }
       end
@@ -506,7 +506,7 @@ class PersonMailer < ActionMailer::Base
       @recipient = recipient
 
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.braintree_account_approved.account_ready")) do |format|
         format.html {render :locals => {:skip_unsubscribe_footer => true} }
       end
@@ -524,7 +524,7 @@ class PersonMailer < ActionMailer::Base
       escrow = community.payment_gateway && community.payment_gateway.hold_in_escrow
       template = escrow ? "confirm_reminder_escrow" : "confirm_reminder"
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.confirm_reminder.remember_to_confirm_request")) do |format|
         format.html { render template }
       end
@@ -539,7 +539,7 @@ class PersonMailer < ActionMailer::Base
       @conversation = conversation
       @other_party = @conversation.other_party(recipient)
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.testimonial_reminder.remember_to_give_feedback_to", :name => @other_party.name(community)))
     end
   end
@@ -551,7 +551,7 @@ class PersonMailer < ActionMailer::Base
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       @comment = comment
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.new_comment.you_have_a_new_comment", :author => comment.author.name(community)))
     end
   end
@@ -561,7 +561,7 @@ class PersonMailer < ActionMailer::Base
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       @comment = comment
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.new_comment.listing_you_follow_has_a_new_comment", :author => comment.author.name(community)))
     end
   end
@@ -571,7 +571,7 @@ class PersonMailer < ActionMailer::Base
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       @listing = listing
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.new_update_to_listing.listing_you_follow_has_been_updated"))
     end
   end
@@ -585,7 +585,7 @@ class PersonMailer < ActionMailer::Base
       @listing_url = listing_url(@url_params.merge({:id => listing.id}))
       @translate_scope = [ :emails, :new_listing_by_followed_person ]
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => t("emails.new_listing_by_followed_person.subject",
                                    :author_name => @author_name,
                                    :community => community.full_name_with_separator(recipient.locale)))
@@ -625,7 +625,7 @@ class PersonMailer < ActionMailer::Base
     with_locale(mail_locale, community.locales.map(&:to_sym), community.id) do
       subject = t("emails.listing_request.new_listing_request")
       premailer_mail(:to => receiver,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => subject,
                      :reply_to => @listing_request.email)
     end
@@ -639,7 +639,7 @@ class PersonMailer < ActionMailer::Base
     with_locale(mail_locale, community.locales.map(&:to_sym), community.id) do
       subject = t("emails.listing_request.new_listing_request_confirmation")
       premailer_mail(:to => @listing_request.email,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => subject,
                      :reply_to => @listing_request.email)
     end
@@ -657,7 +657,7 @@ class PersonMailer < ActionMailer::Base
     with_locale(mail_locale, community.locales.map(&:to_sym), community.id) do
       subject = t("emails.price_comparison_request.new_request")
       premailer_mail(:to => receiver,
-                     :from => "Rentog Services <" + community_specific_sender(community) + ">",
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => subject,
                      :reply_to => @price_comparison_event.email)
     end
@@ -674,7 +674,7 @@ class PersonMailer < ActionMailer::Base
     with_locale(mail_locale, community.locales.map(&:to_sym), community.id) do
       subject = t("emails.price_comparison_request.new_request")
       premailer_mail(:to => receiver,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => subject,
                      :reply_to => @price_comparison_event.email)
     end
@@ -689,7 +689,7 @@ class PersonMailer < ActionMailer::Base
       @email_content = email_content
       @no_recipient_name = true
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => email_subject,
                      :reply_to => "\"#{sender.name(community)}\"<#{sender.confirmed_notification_email_to}>")
     end
@@ -702,7 +702,7 @@ class PersonMailer < ActionMailer::Base
 
     premailer_mail(
       :to => mail_feedback_to(community, APP_CONFIG.feedback_mailer_recipients),
-      :from => community_specific_sender(community),
+      :from => community_specific_sender_with_alias(community, "Rentog Services"),
       :subject => subject,
       :reply_to => feedback.email) do |format|
         format.html {
@@ -721,9 +721,9 @@ class PersonMailer < ActionMailer::Base
 
     premailer_mail(
       :to => "hermann.wagner01@gmx.at",
-      :from => community_specific_sender(community),
+      :from => community_specific_sender_with_alias(community, "Rentog Services"),
       :subject => subject,
-      :reply_to => community_specific_sender(community))
+      :reply_to => community_specific_sender_with_alias(community, "Rentog Services"))
   end
 
 
@@ -773,7 +773,7 @@ class PersonMailer < ActionMailer::Base
     @resource = email.person
     @confirmation_token = email.confirmation_token
     @host = community.full_domain
-    from = Mail::Address.new community_specific_sender(community)
+    from = Mail::Address.new community_specific_sender_with_alias(community, "Rentog Services")
     from.display_name = "Rentog Team"
     with_locale(email.person.locale, community.locales.map(&:to_sym) ,community.id) do
       email.update_attribute(:confirmation_sent_at, Time.now)
@@ -812,7 +812,7 @@ class PersonMailer < ActionMailer::Base
         subject = t("emails.welcome_email.welcome_email_subject", :community => community.full_name(recipient.locale), :person => person.given_name_or_username)
       end
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
-                     :from => community_specific_sender(community),
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
                      :subject => subject) do |format|
         format.html { render :layout => 'email_blank_layout' }
       end
