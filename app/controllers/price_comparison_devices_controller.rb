@@ -52,24 +52,28 @@ class PriceComparisonDevicesController < ApplicationController
 		if params[:search_term]
 			search_param = "%" + params[:search_term] + "%"
 
+			# Rentog Listing
+			# ....
+			
+
 			if params[:search_term].length < 3
-				devices = PriceComparisonDevice.select(:model, :manufacturer).limit(50).where("model LIKE ? OR manufacturer LIKE ?", search_param,search_param).map do |x|
+				devices = PriceComparisonDevice.select(:model, :manufacturer, :title).limit(50).where("model LIKE ? OR manufacturer LIKE ? OR title LIKE ?", search_param,search_param,search_param).map do |x|
 					if x.model.present? and x.manufacturer.present?
 						x.manufacturer + " | " + x.model
 					elsif x.model.present?
 						x.model
 					else
-						#x.manufacturer
+						x.title
 					end
 				end
 			else
-				devices = PriceComparisonDevice.select(:model, :manufacturer).where("model LIKE ? OR manufacturer LIKE ?", search_param, search_param).map do |x|
+				devices = PriceComparisonDevice.select(:model, :manufacturer, :title).where("model LIKE ? OR manufacturer LIKE ? OR title LIKE ?", search_param, search_param, search_param).map do |x|
 					if x.model.present? and x.manufacturer.present?
 						x.manufacturer + " | " + x.model
 					elsif x.model.present?
 						x.model
 					else
-						#x.manufacturer
+						x.title
 					end
 				end
 			end

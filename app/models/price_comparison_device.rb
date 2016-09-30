@@ -28,8 +28,8 @@ class PriceComparisonDevice < ActiveRecord::Base
     existing = PriceComparisonDevice.where(device_url: self.device_url).first
     existing.delete if existing
 
-    self.manufacturer.sub!("|", ";")
-    self.model.sub!("|", ";")
+    self.manufacturer.sub!("|", ";") if self.manufacturer
+    self.model.sub!("|", ";") if self.model
   end
 
 end

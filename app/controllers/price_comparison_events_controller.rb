@@ -71,9 +71,9 @@ class PriceComparisonEventsController < ApplicationController
 			query = ""
 
 			if title.length > 1
-				query = "model LIKE '%" + title[1].strip + "%' AND manufacturer LIKE '%" + title[0].strip + "%'"
+				query = "(model LIKE '%" + title[1].strip + "%' AND manufacturer LIKE '%" + title[0].strip + "%') OR title LIKE '%" + title[1].strip + "%'"
 			else
-				query = "model LIKE '%" + title[0].strip + "%'"
+				query = "model LIKE '%" + title[0].strip + "%' OR title LIKE '%" + title[0].strip + "%'"
 			end
 			
 			result = PriceComparisonDevice.where(query).map do |x| 
@@ -81,9 +81,10 @@ class PriceComparisonEventsController < ApplicationController
 				link = x.seller_contact ? x.seller_contact : x.device_url
 				link = link + "?referrer=rentog_price_comparison_tool"
 				currency = (price == "On request") ? "" : x.currency
+				model = x.model.to_s.empty? ? x.title.to_s : x.model.to_s
 
 				{
-					model: x.model.to_s,
+					model: model,
 					manufacturer: x.manufacturer.to_s,
 					price: price,
 					currency: x.currency.to_s,
