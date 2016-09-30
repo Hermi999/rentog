@@ -13,8 +13,21 @@ class PriceComparisonDevicesController < ApplicationController
 		details = []
 
 		if params[:devices]
+			# delete all devs from provider
+			if params[:devices].first[1]["delete_all_from_provider"] 
+				if params[:devices].first[1]["provider"] != ""
+					prov = params[:devices].first[1]["provider"]
+				  PriceComparisonDevice.where(provider: prov).delete_all
+				else
+					PriceComparisonDevice.where(provider: nil).delete_all
+					PriceComparisonDevice.where(provider: "").delete_all
+				end
+			end
+
+			# create new devs
 			params[:devices].each do |dev|		
 				begin
+					dev[1].except!("delete_all_from_provider")
 					PriceComparisonDevice.create(dev[1].permit(:device_url, :model, :manufacturer, :title, :category_a, :category_b, :currency, :price_cents, :condition, :dev_type, :seller, :seller_country, :seller_contact, :provider, :renting_price_period))
 				rescue ActiveRecord::ActiveRecordError
 					# simply skip this entry and return error message to browser
