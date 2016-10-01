@@ -53,10 +53,14 @@ class PriceComparisonDevicesController < ApplicationController
 			search_param = "%" + params[:search_term] + "%"
 
 			# Rentog Listing
-			rentog_devs = Listing.where("title LIKE ?", search_param).map do |x|
+			rentog_devs = Listing.where("title LIKE ? AND open = true AND deleted = false", search_param).map do |x|
 				manufacturer = Maybe(x.title.split(" (")[1]).sub!(")", "").or_else("")
 				model = x.title.split(" (")[0]
-				manufacturer + " | " + model
+				if manufacturer 
+					manufacturer + " | " + model
+				else
+					model
+				end
 			end
 
 
