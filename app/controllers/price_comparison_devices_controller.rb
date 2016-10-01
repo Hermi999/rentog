@@ -53,8 +53,12 @@ class PriceComparisonDevicesController < ApplicationController
 			search_param = "%" + params[:search_term] + "%"
 
 			# Rentog Listing
-			# ....
-			
+			rentog_devs = Listing.where("title LIKE ?", search_param).map do |x|
+				manufacturer = Maybe(x.title.split(" (")[1]).sub!(")", "").or_else("")
+				model = x.title.split(" (")[0]
+				manufacturer + " | " + model
+			end
+
 
 			if params[:search_term].length < 3
 				devices = PriceComparisonDevice.select(:model, :manufacturer, :title).limit(50).where("model LIKE ? OR manufacturer LIKE ? OR title LIKE ?", search_param,search_param,search_param).map do |x|
@@ -82,7 +86,7 @@ class PriceComparisonDevicesController < ApplicationController
 		end
 
 		# remove duplicates
-		devices = devices.uniq
+		devices = (rentog_devs + devices).uniq
 
 		# return answer as json
 		render :json => {devices: devices} and return

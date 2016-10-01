@@ -69,17 +69,50 @@ class PriceComparisonEventsController < ApplicationController
 			# extract result
 			title = params[:price_comparison_params][:device_name].split("|")
 			query = ""
+			query_rentog = ""
 
 			if title.length > 1
 				query = "(model LIKE '%" + title[1].strip + "%' AND manufacturer LIKE '%" + title[0].strip + "%') OR title LIKE '%" + title[1].strip + "%'"
+				query_rentog = "title LIKE '%" + title[1].strip + "%' AND title LIKE '%" + title[0].strip + "%'"
 			else
 				query = "model LIKE '%" + title[0].strip + "%' OR title LIKE '%" + title[0].strip + "%'"
+				query_rentog = "title LIKE '%" + title[0].strip + "%'"
 			end
+
+			# rentog database
+			rentog_result = Listing.where(query_rentog).map do |x|
+				cf_condition_id = CustomFieldName.where(value: "condition").first.custom_field_id
+
+				cfv_condition_id = CustomFieldValue.where(custom_field_id: cf_condition_id, listing_id: x.id).first.id
+				condition = CustomFieldOptionSelection.where(custom_field_value_id: cfv_condition_id).first.custom_field_option.title
+
+				price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
+				currency = (price == "On request") ? "" : x.currency
+				country = Maybe(ISO3166::Country.find_country_by_name(Maybe(x.author.location.address).split(",").last.gsub(/[^a-zÖÜÄüöä\s]/i, '').strip.or_else(nil))).translation(I18n.locale).or_else("")
+
+				{
+					model: x.title.split(" (")[0],
+					manufacturer: x.title.split(" (")[1].sub!(")", ""),
+					price: price,
+					currency: x.currency.to_s,
+					country: country,
+					currency: currency,
+					renting_price_period: x.unit_type.to_s,
+					seller: "RENTOG",
+					condition: condition,
+					link: listing_url(x)	
+				}
+			end
+
+			# price comparison database
+			
 			
 			result = PriceComparisonDevice.where(query).map do |x| 
 				price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
 				link = x.seller_contact ? x.seller_contact : x.device_url
-				link = link + "?referrer=rentog_price_comparison_tool"
+				link.sub!(" ", "")
+				link = "http://" + link if link.starts_with? "www."
+				link = link.split("?").first + "?referrer=rentog_price_comparison_tool"
 				currency = (price == "On request") ? "" : x.currency
 				model = x.model.to_s.empty? ? x.title.to_s : x.model.to_s
 
@@ -98,7 +131,7 @@ class PriceComparisonEventsController < ApplicationController
 				}
 			end
 
-			return result
+			return rentog_result + result
 		end
 
 
