@@ -115,9 +115,13 @@ class PriceComparisonEventsController < ApplicationController
 			result = PriceComparisonDevice.where("price_cents <> '' AND " + query).map do |x| 
 				price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
 				link = x.seller_contact ? x.seller_contact : x.device_url
-				link.sub!(" ", "")
-				link = "http://" + link if link.starts_with? "www."
-				link = link.split("?").first + "?referrer=rentog_price_comparison_tool"
+				if !link.empty?
+					link.sub!(" ", "")
+					link = "http://" + link if link.starts_with? "www."
+					link = link.split("?").first + "?referrer=rentog_price_comparison_tool"
+				else
+					link = "#"
+				end
 				currency = (price == "On request") ? "" : x.currency
 				model = x.model.to_s.empty? ? x.title.to_s : x.model.to_s
 
