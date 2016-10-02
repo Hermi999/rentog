@@ -3,7 +3,6 @@ class PriceComparisonEventsController < ApplicationController
 
 	# create new price comparison event
 	def create
-
 		# check if daily limit is reached
 		if (params[:action_type] == "device_request") and limit_request_per_day_and_ip_reached?
 			render :json => {status: "error", message: "limit reached"} and return
@@ -68,19 +67,21 @@ class PriceComparisonEventsController < ApplicationController
 		def extract_result_from_db
 			# extract result
 			title = params[:price_comparison_params][:device_name].split("|")
-			query = ""
-			query_rentog = ""
+			query_price_comp = nil
+			query_rentog = nil
+			q_1 = "price_cents <> '' AND "
+			q_2 = "deleted = false AND open = true AND price_cents <> '' AND "
 
-			if title.length > 1
-				query = "((model LIKE '%" + title[1].strip + "%' AND manufacturer LIKE '%" + title[0].strip + "%') OR (title LIKE '%" + title[1].strip + "%' AND title LIKE '%" + title[0].strip + "%'))"
-				query_rentog = "(title LIKE '%" + title[1].strip + "%' AND title LIKE '%" + title[0].strip + "%')"
+			if title.length > 1 
+				query_price_comp = PriceComparisonDevice.where(q_1 + "((model LIKE ? AND manufacturer LIKE ?) OR (title LIKE ? AND title LIKE ?))", "%" + title[1].strip + "%", "%" + title[0].strip + "%", "%" + title[1].strip + "%", "%" + title[0].strip + "%")
+				query_rentog = Listing.where(q_2 + "(title LIKE ? AND title LIKE ?)", "%" + title[1].strip + "%", "%" + title[0].strip + "%")
 			else
-				query = "(model LIKE '%" + title[0].strip + "%' OR title LIKE '%" + title[0].strip + "%')"
-				query_rentog = "(title LIKE '%" + title[0].strip + "%')"
+				query_price_comp = PriceComparisonDevice.where(q_1 + "(model LIKE ? OR title LIKE ?)", "%" + title[0].strip + "%", "%" + title[0].strip + "%")
+				query_rentog = Listing.where(q_2 + "(title LIKE ?)", "%" + title[0].strip + "%")
 			end
 
 			# rentog database
-			rentog_result = Listing.where("deleted = false AND open = true AND price_cents <> '' AND " + query_rentog).map do |x|
+			rentog_result = query_rentog.map do |x|
 				price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
 
 				type = x.get_listing_type
@@ -92,7 +93,7 @@ class PriceComparisonEventsController < ApplicationController
 					condition = Maybe(CustomFieldOptionSelection.where(custom_field_value_id: cfv_condition_id).first).custom_field_option.title.or_else(nil)
 
 					currency = (price == "On request") ? "" : x.currency
-					country = Maybe(ISO3166::Country.find_country_by_name(Maybe(x.author.location.address).split(",").last.gsub(/[^a-zÖÜÄüöä\s]/i, '').strip.or_else(nil))).translation(I18n.locale).or_else("")
+					country = Maybe(ISO3166::Country.find_country_by_name(Maybe(x.author.location.address).split(",").last.gsub(/[^a-zÖÜÄüöä\s]/i, '').strip.or_else(nil))).translation(I18n.locale).or_else("") if x.author.location
 
 					{
 						model: x.title.split(" (")[0],
@@ -110,9 +111,7 @@ class PriceComparisonEventsController < ApplicationController
 			end
 
 			# price comparison database
-			
-			
-			result = PriceComparisonDevice.where("price_cents <> '' AND " + query).map do |x| 
+			result = query_price_comp.map do |x| 
 				price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
 				link = x.seller_contact ? x.seller_contact : x.device_url
 				if !link.empty?
