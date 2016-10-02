@@ -53,7 +53,7 @@ class PriceComparisonDevicesController < ApplicationController
 			search_param = "%" + params[:search_term] + "%"
 
 			# Rentog Listing
-			rentog_devs = Listing.where("title LIKE ? AND open = true AND deleted = false", search_param).map do |x|
+			rentog_devs = Listing.where("price_cents <> '' AND title LIKE ? AND open = true AND deleted = false", search_param).map do |x|
 				manufacturer = Maybe(x.title.split(" (")[1]).sub!(")", "").or_else("")
 				model = x.title.split(" (")[0]
 				if manufacturer 
@@ -65,7 +65,7 @@ class PriceComparisonDevicesController < ApplicationController
 
 
 			if params[:search_term].length < 3
-				devices = PriceComparisonDevice.select(:model, :manufacturer, :title).limit(50).where("model LIKE ? OR manufacturer LIKE ? OR title LIKE ?", search_param,search_param,search_param).map do |x|
+				devices = PriceComparisonDevice.select(:model, :manufacturer, :title).limit(50).where("price_cents <> '' AND (model LIKE ? OR manufacturer LIKE ? OR title LIKE ?)", search_param,search_param,search_param).map do |x|
 					if x.model.present? and x.manufacturer.present?
 						x.manufacturer + " | " + x.model
 					elsif x.model.present?
@@ -75,7 +75,7 @@ class PriceComparisonDevicesController < ApplicationController
 					end
 				end
 			else
-				devices = PriceComparisonDevice.select(:model, :manufacturer, :title).where("model LIKE ? OR manufacturer LIKE ? OR title LIKE ?", search_param, search_param, search_param).map do |x|
+				devices = PriceComparisonDevice.select(:model, :manufacturer, :title).where("price_cents <> '' AND (model LIKE ? OR manufacturer LIKE ? OR title LIKE ?)", search_param, search_param, search_param).map do |x|
 					if x.model.present? and x.manufacturer.present?
 						x.manufacturer + " | " + x.model
 					elsif x.model.present?

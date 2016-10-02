@@ -72,15 +72,17 @@ class PriceComparisonEventsController < ApplicationController
 			query_rentog = ""
 
 			if title.length > 1
-				query = "(model LIKE '%" + title[1].strip + "%' AND manufacturer LIKE '%" + title[0].strip + "%') OR (title LIKE '%" + title[1].strip + "%' AND title LIKE '%" + title[0].strip + "%')"
-				query_rentog = "title LIKE '%" + title[1].strip + "%' AND title LIKE '%" + title[0].strip + "%'"
+				query = "((model LIKE '%" + title[1].strip + "%' AND manufacturer LIKE '%" + title[0].strip + "%') OR (title LIKE '%" + title[1].strip + "%' AND title LIKE '%" + title[0].strip + "%'))"
+				query_rentog = "(title LIKE '%" + title[1].strip + "%' AND title LIKE '%" + title[0].strip + "%')"
 			else
-				query = "model LIKE '%" + title[0].strip + "%' OR title LIKE '%" + title[0].strip + "%'"
-				query_rentog = "title LIKE '%" + title[0].strip + "%'"
+				query = "(model LIKE '%" + title[0].strip + "%' OR title LIKE '%" + title[0].strip + "%')"
+				query_rentog = "(title LIKE '%" + title[0].strip + "%')"
 			end
 
 			# rentog database
-			rentog_result = Listing.where(query_rentog + " AND deleted = false AND open = true").map do |x|
+			rentog_result = Listing.where("deleted = false AND open = true AND price_cents <> '' AND " + query_rentog).map do |x|
+				price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
+
 				type = x.get_listing_type
 				if type == "sell" || type == "rent" || type == "ad"
 					
@@ -89,13 +91,12 @@ class PriceComparisonEventsController < ApplicationController
 					cfv_condition_id = Maybe(CustomFieldValue.where(custom_field_id: cf_condition_id, listing_id: x.id).first).id.or_else(nil)
 					condition = Maybe(CustomFieldOptionSelection.where(custom_field_value_id: cfv_condition_id).first).custom_field_option.title.or_else(nil)
 
-					price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
 					currency = (price == "On request") ? "" : x.currency
 					country = Maybe(ISO3166::Country.find_country_by_name(Maybe(x.author.location.address).split(",").last.gsub(/[^a-zÖÜÄüöä\s]/i, '').strip.or_else(nil))).translation(I18n.locale).or_else("")
 
 					{
 						model: x.title.split(" (")[0],
-						manufacturer: x.title.split(" (")[1].sub!(")", ""),
+						manufacturer: Maybe(x.title.split(" (")[1]).sub!(")", "").or_else(nil),
 						price: price,
 						currency: x.currency.to_s,
 						country: country,
@@ -111,7 +112,7 @@ class PriceComparisonEventsController < ApplicationController
 			# price comparison database
 			
 			
-			result = PriceComparisonDevice.where(query).map do |x| 
+			result = PriceComparisonDevice.where("price_cents <> '' AND " + query).map do |x| 
 				price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
 				link = x.seller_contact ? x.seller_contact : x.device_url
 				link.sub!(" ", "")
