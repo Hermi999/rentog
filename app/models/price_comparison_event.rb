@@ -13,6 +13,11 @@
 #  updated_at  :datetime         not null
 #  seller      :string(255)
 #  seller_link :string(255)
+#  detail_1    :string(255)
+#  detail_2    :string(255)
+#  detail_3    :string(255)
+#  detail_4    :string(255)
+#  detail_5    :string(255)
 #
 
 class PriceComparisonEvent < ActiveRecord::Base

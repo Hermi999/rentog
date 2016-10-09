@@ -8,12 +8,7 @@ class PriceComparisonEventsController < ApplicationController
 			render :json => {status: "error", message: "limit reached"} and return
 		end
 
-		# extract result
-		titles = params[:price_comparison_params][:device_name].map do |x|
-			x.split("|")
-		end
-		titles.delete([])
-
+		device_name_params = params[:price_comparison_params][:device_name]
 		params[:price_comparison_params][:device_name] = params[:price_comparison_params][:device_name].to_s
 
 		ev = PriceComparisonEvent.new(price_comparison_params)
@@ -30,12 +25,23 @@ class PriceComparisonEventsController < ApplicationController
 			if params["price_comparison_params"]["action_type"] == "device_request"
 				message = "Your request has been successful. You will get an email with the access code soon!"
 				
-				result = extract_result_from_db
+				titles = device_name_params.map do |x|
+					x.split("|")
+				end
+				titles.delete([])
+
+				result = extract_result_from_db(titles)
 
 				# send emails
 				Delayed::Job.enqueue(PriceComparisonJob.new(ev.id, @current_community.id))
 
 			elsif params["price_comparison_params"]["action_type"] == "device_chosen"
+				# extract result
+				titles = device_name_params.map do |x|
+					x.split("|")
+				end
+				titles.delete([])
+
 				result = extract_result_from_db(titles)
 
 			elsif params["price_comparison_params"]["action_type"] == "lead_generated"
@@ -58,7 +64,7 @@ class PriceComparisonEventsController < ApplicationController
 
 	private
 		def price_comparison_params
-			params.require(:price_comparison_params).permit(:action_type, :device_name, :device_id, :email, :sessionId, :seller, :seller_link, :seller_country)
+			params.require(:price_comparison_params).permit(:action_type, :device_name, :device_id, :email, :sessionId, :seller, :seller_link, :seller_country, :detail_1, :detail_2, :detail_3, :detail_4, :detail_5)
 		end
 
 
