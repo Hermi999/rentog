@@ -8,6 +8,13 @@ window.ST.initializeCategoriesSelectionClickHandlers = function() {
   $(".deselect-all").click(function() {
     $(".category-listing-shape-checkbox").prop("checked", false);
   });
+
+  $(".select-all-cf").click(function() {
+    $(".custom-field-category-checkbox").prop("checked", true);
+  });
+  $(".deselect-all-cf").click(function() {
+    $(".custom-field-category-checkbox").prop("checked", false);
+  });
 };
 
 /**

@@ -1,0 +1,20 @@
+- if CustomField.count > 1
+  .row
+    .col-8
+      %label= t("admin.categories.form.category_custom_field_types.custom_field_types")
+    .col-4
+      .selection-options
+        %a.select-all-cf{href: "#"}
+          = t("admin.categories.form.category_transaction_types.select_all")
+        |
+        %a.deselect-all-cf{href: "#"}
+          = t("admin.categories.form.category_transaction_types.clear_all")
+
+  .row
+    .col-12
+      #category-listing-customfield-container.clearfix
+        - CustomField.all.each do |custom_field|
+          - checkbox_id = "custom_field_checkbox_#{custom_field.id.to_s}"
+          .custom-field-categories-checkbox-container
+            = check_box_tag "category[custom_fields][][custom_field_id]", "#{custom_field.id}", selected_custom_field_ids.include?(custom_field.id), :id => checkbox_id, :class => "custom-field-category-checkbox"
+            = label_tag checkbox_id, custom_field.name, :class => "custom-field-category-checkbox-label"

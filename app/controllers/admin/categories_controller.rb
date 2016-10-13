@@ -11,25 +11,28 @@ class Admin::CategoriesController < ApplicationController
     @selected_left_navi_link = "listing_categories"
     @category = Category.new
     shapes = get_shapes
-    selected_shape_ids = shapes.map { |s| s[:id] } # all selected by defaults
-    render locals: { shapes: shapes, selected_shape_ids: selected_shape_ids }
+    selected_shape_ids = shapes.map { |s| s[:id] }                # all selected by defaults
+    selected_custom_field_ids = CustomField.all.map { |c| c.id }  # all selected by defaults
+    render locals: { shapes: shapes, selected_shape_ids: selected_shape_ids, selected_custom_field_ids: selected_custom_field_ids }
   end
 
   def create
     @selected_left_navi_link = "listing_categories"
-    @category = Category.new(params[:category].except(:listing_shapes))
+    @category = Category.new(params[:category].except(:listing_shapes, :custom_fields))
     @category.community = @current_community
     @category.parent_id = nil if params[:category][:parent_id].blank?
     @category.sort_priority = Admin::SortingService.next_sort_priority(@current_community.categories)
     shapes = get_shapes
     selected_shape_ids = shape_ids_from_params(params)
+    selected_custom_field_ids = custom_field_ids_from_params(params)
 
     if @category.save
       update_category_listing_shapes(selected_shape_ids, @category)
+      update_category_custom_fields(selected_custom_field_ids, @category)
       redirect_to admin_categories_path
     else
       flash[:error] = "Category saving failed"
-      render :action => :new, locals: { shapes: shapes, selected_shape_ids: selected_shape_ids }
+      render :action => :new, locals: { shapes: shapes, selected_shape_ids: selected_shape_ids, selected_custom_field_ids: selected_custom_field_ids }
     end
   end
 
@@ -38,7 +41,8 @@ class Admin::CategoriesController < ApplicationController
     @category = @current_community.categories.find_by_url_or_id(params[:id])
     shapes = get_shapes
     selected_shape_ids = CategoryListingShape.where(category_id: @category.id).map(&:listing_shape_id)
-    render locals: { shapes: shapes, selected_shape_ids: selected_shape_ids }
+    selected_custom_field_ids = CategoryCustomField.where(category_id: @category.id).map(&:custom_field_id)
+    render locals: { shapes: shapes, selected_shape_ids: selected_shape_ids, selected_custom_field_ids: selected_custom_field_ids }
   end
 
   def update
@@ -46,13 +50,15 @@ class Admin::CategoriesController < ApplicationController
     @category = @current_community.categories.find_by_url_or_id(params[:id])
     shapes = get_shapes
     selected_shape_ids = shape_ids_from_params(params)
+    selected_custom_field_ids = custom_field_ids_from_params(params)
 
-    if @category.update_attributes(params[:category].except(:listing_shapes))
+    if @category.update_attributes(params[:category].except(:listing_shapes, :custom_fields))
       update_category_listing_shapes(selected_shape_ids, @category)
+      update_category_custom_fields(selected_custom_field_ids, @category)
       redirect_to admin_categories_path
     else
       flash[:error] = "Category saving failed"
-      render :action => :edit, locals: { shapes: shapes, selected_shape_ids: selected_shape_ids }
+      render :action => :edit, locals: { shapes: shapes, selected_shape_ids: selected_shape_ids, selected_custom_field_ids: selected_custom_field_ids }
     end
   end
 
@@ -146,8 +152,19 @@ class Admin::CategoriesController < ApplicationController
     }
   end
 
+  def update_category_custom_fields(custom_field_ids, category)
+    category.custom_fields = []
+    CustomField.where("id IN (?)", custom_field_ids).each do |custom_field|
+      custom_field.categories << category
+    end
+  end
+
   def shape_ids_from_params(params)
     params[:category][:listing_shapes].map { |s_param| s_param[:listing_shape_id].to_i }
+  end
+
+  def custom_field_ids_from_params(params)
+    params[:category][:custom_fields].map { |s_param| s_param[:custom_field_id].to_i}
   end
 
   def get_shapes

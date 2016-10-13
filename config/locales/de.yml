@@ -23,6 +23,8 @@ de:
           transaction_types_description: "Transaktionsarten bestimmen, welche Art von Transaktionen mit Einträgen in dieser Kategorie erlaubt sind. Zum Beispiel ob nur der Verkauf erlaubt ist oder Miete und verschenken ebenfalls."
           select_all: "Alle auswählen"
           clear_all: "Alle löschen"
+        category_custom_field_types:
+          custom_field_types: "Listing fields"
         buttons:
           save: Speichern
           cancel: Abbrechen

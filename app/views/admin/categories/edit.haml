@@ -15,4 +15,5 @@
     = render :partial => "admin/categories/form/category_name", :locals => { :form => form }
     = render :partial => "admin/categories/form/category_parent", :locals => { :form => form }
     = render :partial => "admin/categories/form/category_listing_shapes", :locals => { :form => form, shapes: shapes, selected_shape_ids: selected_shape_ids }
+    = render :partial => "admin/categories/form/category_custom_fields", :locals => { :form => form, selected_custom_field_ids: selected_custom_field_ids}
     = render :partial => "admin/categories/form/buttons", :locals => { :form => form }
