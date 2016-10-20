@@ -11,7 +11,7 @@
 
 = label_tag :dummy_form_country, t("listings.listing_side_bar_form.country")
 - c_by_cookie = Maybe(ISO3166::Country.find_country_by_name(cookies[:listing_request_country])).translation(I18n.locale).or_else(nil)
-- c_by_ip = Maybe(ISO3166::Country.find_country_by_name(request.location.country)).translation(I18n.locale).or_else(nil) if c_by_cookie.nil?
+- c_by_ip = Maybe(ISO3166::Country.find_country_by_name("Germany")).translation(I18n.locale).or_else(nil) if c_by_cookie.nil?
 = select_tag :dummy_form_country, options_for_select(ISO3166::Country.all_translated(I18n.locale).sort.map{|val| [val] + [val]}, c_by_cookie || c_by_ip)
 
 = label_tag :dummy_form_message, t("listings.listing_side_bar_form.message")

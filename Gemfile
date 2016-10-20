@@ -111,7 +111,7 @@ gem 'roo', '~> 2.4.0'               # excel import
 #gem 'axlsx', '~> 2.0', '>= 2.0.1'   # excel export
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 
-gem 'geocoder'
+#gem 'geocoder'
 gem "recaptcha", require: "recaptcha/rails"
 
 group :staging, :production do
