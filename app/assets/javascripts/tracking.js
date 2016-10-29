@@ -80,8 +80,8 @@ var trackingParams = getTrackingURLParameters();
     }
 
     // On login
-    if(document.referrer.match(/\.*(\/login)$/i) ||
-       document.referrer.match(/\.*(\/sessions)$/i)){
+    if(window.location.pathname.match(/\.*(\/login)$/i) ||
+       window.location.pathname.match(/\.*(\/sessions)$/i)){
       mixpanel.identify(gon.current_user_email);
       mixpanel.track("Signin");
 
