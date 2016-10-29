@@ -288,7 +288,7 @@ class HomepageController < ApplicationController
     else
     end
 
-    pushBackListingsWithoutImage(res)
+    pushBackListingsWithoutImage(res) if res.data
 
     return_ = res.and_then { |res|
       Result::Success.new(

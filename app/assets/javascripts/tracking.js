@@ -79,21 +79,22 @@ var trackingParams = getTrackingURLParameters();
       mixpanel.track("Signup page visited");
     }
 
+    // On login
+    if(document.referrer.match(/\.*(\/login)$/i) ||
+       document.referrer.match(/\.*(\/sessions)$/i)){
+      mixpanel.identify(gon.current_user_email);
+      mixpanel.track("Signin");
+
+      // Now remove referrer (because of site reload --> same referrer)
+      var meta = document.createElement('meta');
+      meta.name = "referrer";
+      meta.content = "no-referrer";
+      document.getElementsByTagName('head')[0].appendChild(meta);
+    }
 
     // PoolTool page
     if (window.location.pathname.match(/\.*(\/poolTool)$/i)){
-      // On login
-      if(document.referrer.match(/\.*(\/login)$/i) ||
-         document.referrer.match(/\.*(\/sessions)$/i)){
-        mixpanel.identify(gon.current_user_email);
-        mixpanel.track("Signin");
-
-        // Now remove referrer (because of site reload --> same referrer)
-        var meta = document.createElement('meta');
-        meta.name = "referrer";
-        meta.content = "no-referrer";
-        document.getElementsByTagName('head')[0].appendChild(meta);
-      }
+      // ....
     }
 
 
