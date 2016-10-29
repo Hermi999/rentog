@@ -8,8 +8,16 @@
 
 .left-navi-section
 
-  = link_to "Export to Excel", admin_community_rentog_events_export_path, {style: "font-weight: bold; margin-bottom: 20px;"}
+  %h2= "Price Comparison Events"
+  = link_to "Export Price Comparison Events to Excel", price_comparison_events_export_path, {style: "font-weight: bold; margin-bottom: 20px;"}
+  %br
+  %br
 
+  %h2= "Rentog Events"
+  = link_to "Export Rentog-Events to Excel", admin_community_rentog_events_export_path, {style: "font-weight: bold; margin-bottom: 20px;"}
+
+  %br
+  %h3= "Filter list"
   %ul
     %li= link_to "Show all events", "?"
     - unless params[:only_marketplace_search]

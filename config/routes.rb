@@ -670,6 +670,7 @@ Kassi::Application.routes.draw do
 
   resources :price_comparison_events, only: [:index, :create]
   resources :price_comparison_devices, only: [:new, :create, :update, :index]
+  get :price_comparison_events_export, to: "price_comparison_events#export"
 
 
   devise_for :people, only: :omniauth_callbacks, controllers: { omniauth_callbacks: "sessions" }

@@ -62,6 +62,30 @@ class PriceComparisonEventsController < ApplicationController
 	end
 
 
+	def export
+    @table = PriceComparisonEvent.all.order('created_at DESC').limit(10000)
+
+    # create new export file
+    @p = Axlsx::Package.new
+    @wb = @p.workbook
+
+    # worksheet devices
+    @wb.add_worksheet(:name => "Price Comparison Events") do |sheet|
+      sheet.add_row PriceComparisonEvent.new.attributes.keys
+
+      @table.each do |row|
+        sheet.add_row [row.id, row.action_type, row.email, row.sessionId, row.ipAddress, row.device_name, row.device_id, row.created_at.to_date.strftime("%d.%m.%Y"), row.updated_at.to_date.strftime("%d.%m.%Y"), row.seller, row.seller_link, row.detail_1, row.detail_2, row.detail_3, row.detail_4, row.detail_5]
+      end
+    end
+
+    file_name = 'price_comparison_events.xlsx'
+    path_to_file = "#{Rails.root}/public/system/exportfiles/" + file_name
+
+    @p.serialize(path_to_file)
+    send_file(path_to_file, filename: file_name, type: "application/vnd.ms-excel")
+  end
+
+
 	private
 		def price_comparison_params
 			params.require(:price_comparison_params).permit(:action_type, :device_name, :device_id, :email, :sessionId, :seller, :seller_link, :seller_country, :detail_1, :detail_2, :detail_3, :detail_4, :detail_5)
