@@ -53,27 +53,42 @@ class PriceComparisonDevicesController < ApplicationController
 		if params[:search_term]
 
 			search_term = ThinkingSphinx::Query.escape(params[:search_term])
+			search_term.strip!
 			search_term = ThinkingSphinx::Query.wildcard(search_term)
+			#search_term = search_term.gsub(" ", " & ")
 
 			### Rentog Database
-			rentog_devs = Listing.search(search_term, per_page: 1000, with: {open: true, deleted: false, price_cents: 0..99999999}).map do |x|
-				manufacturer = Maybe(x.title.split(" (")[1]).sub!(")", "").or_else("")
-				model = x.title.split(" (")[0]
-				if manufacturer.present?
-					manufacturer + " | " + model
-				else
-					model
-				end
-			end
+			# rentog_devs = Listing.search(search_term, ranker: :wordcount, per_page: 100, with: {price_cents: 0..99999999}).map do |x|
+			# 	manufacturer = Maybe(x.title.split(" (")[1]).sub!(")", "").or_else("")
+			# 	model = x.title.split(" (")[0]
+			# 	if manufacturer.present?
+			# 		manufacturer + " | " + model
+			# 	else
+			# 		model
+			# 	end
+			# end
 
 			### Price Comparison Database
-			devices = PriceComparisonDevice.search(search_term, per_page: 1000, with: {price_cents: 0..99999999}).map do |x|
-				if x.model.present? and x.manufacturer.present? and !x.model.downcase.include?(x.manufacturer.downcase)
-					x.manufacturer + " | " + x.model
-				elsif x.model.present?
-					x.model
+			#devices = PriceComparisonDevice.search(search_term, per_page: 100, with: {price_cents: 0..99999999}).map do |x|
+			devices = ThinkingSphinx.search(search_term, classes: [PriceComparisonDevice, Listing], per_page: 100, with: {price_cents: 0..99999999}).map do |x|
+				# price comparison device
+				if x.has_attribute? "model"
+					if x.model.present? and x.manufacturer.present? and !x.model.downcase.include?(x.manufacturer.downcase)
+						x.manufacturer + " | " + x.model
+					elsif x.model.present?
+						x.model
+					else
+						x.title
+					end
+				# Rentog Listing
 				else
-					x.title
+					manufacturer = Maybe(x.title.split(" (")[1]).sub!(")", "").or_else("")
+					model = x.title.split(" (")[0]
+					if manufacturer.present?
+						manufacturer + " | " + model
+					else
+						model
+					end
 				end
 			end
 
@@ -82,7 +97,8 @@ class PriceComparisonDevicesController < ApplicationController
 		end
 
 		# remove duplicates
-		devices = (rentog_devs + devices).uniq
+		#devices = (rentog_devs + devices).uniq
+		devices = devices.uniq
 
 		# return answer as json
 		render :json => {devices: devices} and return
