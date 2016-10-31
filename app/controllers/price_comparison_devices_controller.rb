@@ -47,44 +47,36 @@ class PriceComparisonDevicesController < ApplicationController
 
 	end
 
-	# show/return devices
+	# show/return devices 
+	# This is used for autocomplete feature. (currently not active)
 	def index
 		if params[:search_term]
-			search_param = "%" + params[:search_term] + "%"
 
-			# Rentog Listing
-			rentog_devs = Listing.where("price_cents <> '' AND title LIKE ? AND open = true AND deleted = false", search_param).map do |x|
+			search_term = ThinkingSphinx::Query.escape(params[:search_term])
+			search_term = ThinkingSphinx::Query.wildcard(search_term)
+
+			### Rentog Database
+			rentog_devs = Listing.search(search_term, per_page: 1000, with: {open: true, deleted: false, price_cents: 0..99999999}).map do |x|
 				manufacturer = Maybe(x.title.split(" (")[1]).sub!(")", "").or_else("")
 				model = x.title.split(" (")[0]
-				if manufacturer 
+				if manufacturer.present?
 					manufacturer + " | " + model
 				else
 					model
 				end
 			end
 
-
-			if params[:search_term].length < 3
-				devices = PriceComparisonDevice.select(:model, :manufacturer, :title).limit(50).where("price_cents <> '' AND (model LIKE ? OR manufacturer LIKE ? OR title LIKE ?)", search_param,search_param,search_param).map do |x|
-					if x.model.present? and x.manufacturer.present?
-						x.manufacturer + " | " + x.model
-					elsif x.model.present?
-						x.model
-					else
-						x.title
-					end
-				end
-			else
-				devices = PriceComparisonDevice.select(:model, :manufacturer, :title).where("price_cents <> '' AND (model LIKE ? OR manufacturer LIKE ? OR title LIKE ?)", search_param, search_param, search_param).map do |x|
-					if x.model.present? and x.manufacturer.present?
-						x.manufacturer + " | " + x.model
-					elsif x.model.present?
-						x.model
-					else
-						x.title
-					end
+			### Price Comparison Database
+			devices = PriceComparisonDevice.search(search_term, per_page: 1000, with: {price_cents: 0..99999999}).map do |x|
+				if x.model.present? and x.manufacturer.present? and !x.model.downcase.include?(x.manufacturer.downcase)
+					x.manufacturer + " | " + x.model
+				elsif x.model.present?
+					x.model
+				else
+					x.title
 				end
 			end
+
 		else
 			devices = ""
 		end

@@ -1,7 +1,12 @@
 class PriceComparisonEventsController < ApplicationController
 	before_filter :set_access_control_headers, only: [:create]
+	before_filter :ensure_is_admin, only: [:export]
 
 	# create new price comparison event
+	# event types:
+	# 	device_request	.... 	email submitted; access code will be send (not active at the moment)
+	# 	device_choosen 	....	show prices button clicked	
+	#   lead_generated	....	Device link clicked
 	def create
 		# check if daily limit is reached
 		if (params[:action_type] == "device_request") and limit_request_per_day_and_ip_reached?
@@ -21,7 +26,8 @@ class PriceComparisonEventsController < ApplicationController
 		if ev.save
 			status = "success"
 
-			# action based on event type
+		# action based on event type
+			# DEVICE_REQUEST (inactive)
 			if params["price_comparison_params"]["action_type"] == "device_request"
 				message = "Your request has been successful. You will get an email with the access code soon!"
 				
@@ -35,14 +41,17 @@ class PriceComparisonEventsController < ApplicationController
 				# send emails
 				Delayed::Job.enqueue(PriceComparisonJob.new(ev.id, @current_community.id))
 
+			# DEVICE_CHOOSEN
 			elsif params["price_comparison_params"]["action_type"] == "device_chosen"
 				# extract result
-				titles = device_name_params.map do |x|
-					x.split("|")
-				end
-				titles.delete([])
+					#titles = device_name_params.map do |x|
+					#	x.split("|")
+					#end
+					#titles.delete([])
+					#result = extract_result_from_db(titles)
 
-				result = extract_result_from_db(titles)
+					device_name_params.delete("")
+					result = extract_result_from_db(device_name_params)
 
 			elsif params["price_comparison_params"]["action_type"] == "lead_generated"
 
@@ -104,21 +113,24 @@ class PriceComparisonEventsController < ApplicationController
 
 		def extract_result_from_db(titles)
 			ret = titles.map do |title|
-				query_price_comp = nil
-				query_rentog = nil
-				q_1 = "price_cents <> '' AND "
-				q_2 = "deleted = false AND open = true AND price_cents <> '' AND "
+				#query_price_comp = nil
+				#query_rentog = nil
+				#q_1 = "price_cents <> '' AND "
+				#q_2 = "deleted = false AND open = true AND price_cents <> '' AND "
 
-				if title.length > 1 
-					query_price_comp = PriceComparisonDevice.where(q_1 + "((model LIKE ? AND manufacturer LIKE ?) OR (title LIKE ? AND title LIKE ?))", "%" + title[1].strip + "%", "%" + title[0].strip + "%", "%" + title[1].strip + "%", "%" + title[0].strip + "%")
-					query_rentog = Listing.where(q_2 + "(title LIKE ? AND title LIKE ?)", "%" + title[1].strip + "%", "%" + title[0].strip + "%")
-				else
-					query_price_comp = PriceComparisonDevice.where(q_1 + "(model LIKE ? OR title LIKE ?)", "%" + title[0].strip + "%", "%" + title[0].strip + "%")
-					query_rentog = Listing.where(q_2 + "(title LIKE ?)", "%" + title[0].strip + "%")
-				end
+				#if title.length > 1 
+				#	query_price_comp = PriceComparisonDevice.where(q_1 + "((model LIKE ? AND manufacturer LIKE ?) OR (title LIKE ? AND title LIKE ?))", "%" + title[1].strip + "%", "%" + title[0].strip + "%", "%" + title[1].strip + "%", "%" + title[0].strip + "%")
+				#	query_rentog = Listing.where(q_2 + "(title LIKE ? AND title LIKE ?)", "%" + title[1].strip + "%", "%" + title[0].strip + "%")
+				#else
+				#	query_price_comp = PriceComparisonDevice.where(q_1 + "(model LIKE ? OR title LIKE ?)", "%" + title[0].strip + "%", "%" + title[0].strip + "%")
+				#	query_rentog = Listing.where(q_2 + "(title LIKE ?)", "%" + title[0].strip + "%")
+				#end
 
-				# rentog database
-				rentog_result = query_rentog.map do |x|
+				search_term = ThinkingSphinx::Query.escape(title)
+				search_term = ThinkingSphinx::Query.wildcard(search_term)
+
+				# prepare results from rentog database
+				rentog_result = Listing.search(search_term).map do |x|
 					price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
 
 					type = x.get_listing_type
@@ -147,8 +159,8 @@ class PriceComparisonEventsController < ApplicationController
 					end
 				end
 
-				# price comparison database
-				result = query_price_comp.map do |x| 
+				# prepare results from price comparison database
+				result = PriceComparisonDevice.search(search_term).map do |x| 
 					price = x.price_cents ? (x.price_cents / 100).to_s : "On request"
 					link = x.seller_contact ? x.seller_contact : x.device_url
 					if !link.empty?
@@ -175,6 +187,7 @@ class PriceComparisonEventsController < ApplicationController
 						link: link
 					}
 				end
+
 				Maybe(rentog_result).or_else([]) + Maybe(result).or_else([])
 			end
 

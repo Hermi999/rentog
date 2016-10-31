@@ -81,17 +81,18 @@ module ListingIndexService::Search
           custom_checkbox_field_options: (grouped_by_operator[:and] || []).flat_map { |v| v[:value] },
         }
 
+        # see here for more details: http://freelancing-gods.com/thinking-sphinx/searching.html
         models = Listing.search(
           Riddle::Query.escape(search[:keywords] || ""),
           sql: {
             include: included_models
           },
           page: search[:page],
-          per_page: search[:per_page],
+          per_page: search[:per_page],  # values per page (sphinx pagination can't be turned off)
           star: true,
-          with: with,
-          with_all: with_all,
-          order: 'sort_date DESC',   # wah: order by price: price_cents DESC
+          with: with,                   # attributes defined in listing_index.rb
+          with_all: with_all,           # multi-value attributes defined in linsting_index.rb
+          order: 'sort_date DESC',      # wah: order by price: price_cents DESC
           max_query_time: 1000 # Timeout and fail after 1s
         )
 

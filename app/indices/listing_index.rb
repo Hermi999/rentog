@@ -27,6 +27,7 @@ ThinkingSphinx::Index.define :listing, :with => :active_record, :delta => Thinki
   has "availability = 'trusted' OR availability = 'all'", :as => :availability_restricted_marketplace, :type => :boolean  # wah_new
   has community_id
 
+  # muliti value attributes
   has custom_dropdown_field_values.selected_options.id, :as => :custom_dropdown_field_options, :type => :integer, :multi => true
   has custom_checkbox_field_values.selected_options.id, :as => :custom_checkbox_field_options, :type => :integer, :multi => true
 
