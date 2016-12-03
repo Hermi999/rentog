@@ -52,8 +52,8 @@ ThinkingSphinx::Index.define :price_comparison_device, :with => :active_record d
   set_property :min_infix_len => 3
 
   set_property :field_weights => {
-    :manufacturer => 10,
-    :model        => 8,
+    :model        => 10,
+    :manufacturer => 8,
     :title        => 3
   }
 

@@ -1,5 +1,7 @@
 class ImportListingsController < ApplicationController
   
+  before_filter :ensure_is_admin
+
   # render listings import page
   def new_import
   end
@@ -12,6 +14,15 @@ class ImportListingsController < ApplicationController
     end
 
     @import_listings = ImportListingsService.new file_url, @current_user, @relation
+  end
+
+  def upload_delete_file
+    # redirect if save file is not possible
+    unless save_import_file(params)
+      redirect_to import_listings_new_import_path and return
+    end
+
+    @delete_listings = DeleteListingsService.new file_url, @current_user, @relation
   end
 
   # Just create listings, do not update existings listings
@@ -36,6 +47,14 @@ class ImportListingsController < ApplicationController
     @import_listings = ImportListingsService.new file_url, @current_user, @relation
     @result = @import_listings.updateAndCreateListings(@current_user, @current_community, @relation)
     render :create_listings_from_file, locals: {type: "create"}
+  end
+
+  # Delete certain listings
+  def delete_listings_from_file
+    @delete_listings = DeleteListingsService.new file_url, @current_user, @relation
+    @result = @delete_listings.deleteListings
+    flash[:success] = "Successfully deleted listings!"
+    render :new_import
   end
 
 

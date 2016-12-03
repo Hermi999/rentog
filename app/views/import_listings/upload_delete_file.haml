@@ -1,0 +1,20 @@
+- content_for :title_header do
+  %h1= "Do you really want to delete the following listings?"
+
+%table
+  %thead
+    %tr
+      %th= "Title"
+      %th= "Author full name"
+      %th= "Price"
+
+  %tbody
+    - @delete_listings.listings.each do |listing|
+      %tr
+        %td= listing.title
+        %td= listing.author.full_name
+        %td= "€" + (listing.price_cents / 100).to_s
+
+= link_to "Delete listings", import_listings_delete_listings_from_file_path, {:method => :post, :id => "import-file-create-btn", :class => "button"}
+        
+

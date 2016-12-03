@@ -15,6 +15,12 @@
           = form.file_field :import_file, name: "import_file[file][]"
           = form.button t(".submit_button"), id: "importListings-upload-btn"
 
+    .col-6
+      .deleteListings-form
+        = form_for :import_file, :url => import_listings_upload_delete_file_path do |form|
+          = form.file_field :import_file, name: "import_file[file][]"
+          = form.button t(".submit_delete_button"), id: "deleteListings-upload-btn"
+
   %br
 
   %h3.importListings-header= t(".help_header")

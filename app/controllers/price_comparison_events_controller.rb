@@ -123,6 +123,7 @@ class PriceComparisonEventsController < ApplicationController
 
 
 			ret = titles.map do |title|
+				#search_term = "*omicron* | *156*"
 				search_term = ThinkingSphinx::Query.escape(title)
 				search_term = search_term.strip.gsub("  ", " ")
 				search_term = ThinkingSphinx::Query.wildcard(search_term)
@@ -172,7 +173,7 @@ class PriceComparisonEventsController < ApplicationController
 							condition = Maybe(CustomFieldOptionSelection.where(custom_field_value_id: cfv_condition_id).first).custom_field_option.title.or_else(nil)
 
 							currency = (price == "On request") ? "" : x.currency
-							country = Maybe(ISO3166::Country.find_country_by_name(Maybe(x.author.location.address).split(",").last.gsub(/[^a-zÖÜÄüöä\s]/i, '').strip.or_else(nil))).translation(I18n.locale).or_else("") if x.author.location
+							country = Maybe(ISO3166::Country.find_country_by_name(Maybe(x.author.location.address).split(",").last.gsub(/[^a-zÖÜÄüöä\s]/i, '').strip.or_else(nil))).translation("en").or_else("") if x.author.location
 
 							{
 								model: x.title.split(" (")[0],
