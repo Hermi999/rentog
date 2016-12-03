@@ -50,10 +50,19 @@ class ImportListingsService
 
   def updateListings(current_user, current_community, relation)
     result = []
+
+    # get all custom_fields for later use
+    all_custom_fields = CustomField.all 
+      
+    # get all custom field option titles for later use
+    all_custom_field_option_titles = CustomFieldOptionTitle.all
+
+
+    # go through each listing from excel and update the listing in the db
     @listing_data.each_with_index do |x_data, index|
       # only update if this listing is marked as "updateable"
       if index != 0 && x_data[:invalid] == nil && x_data[:update] == true
-        result << updateListing(x_data, current_user, current_community, relation)
+        result << updateListing(x_data, current_user, current_community, relation, all_custom_fields, all_custom_field_option_titles)
       end
     end
     result
@@ -61,9 +70,17 @@ class ImportListingsService
 
   def createListings(current_user, current_community, relation)
     result = []
+
+    # get all custom_fields for later use
+    all_custom_fields = CustomField.all 
+
+    # get all custom field option titles for later use
+    all_custom_field_option_titles = CustomFieldOptionTitle.all
+
+    # go through each listing from excel and create the listing in the db
     @listing_data.each_with_index do |x_data, index|
       if index != 0 && x_data[:invalid] == nil && x_data[:update] == nil
-        result << createListing(x_data, current_user, current_community, relation)
+        result << createListing(x_data, current_user, current_community, relation, all_custom_fields, all_custom_field_option_titles)
       end
     end
     result
@@ -87,8 +104,8 @@ class ImportListingsService
       x_mandAttr = [{name: "type"}, {name: "device_name"}]
       x_mandAttr << {name: "pool_id"} if current_user.is_supervisor?
 
-      x_validAttr = CustomFieldName.where(locale: 'en').each do |x_attr|
-        if Maybe(x_attr.custom_field).required.or_else(false)
+      x_validAttr = CustomFieldName.joins(:custom_field).select("custom_field_names.value, custom_field_names.custom_field_id, custom_fields.required").where(locale: 'en').each do |x_attr|
+        if x_attr.required == 1
           x_mandAttr << {name: x_attr.value.split("(")[0].downcase.gsub(" ", "_").chomp('_'), custom_field_id: x_attr.custom_field_id.to_i }
         end
       end
@@ -152,7 +169,7 @@ class ImportListingsService
       @listing_data.each_with_index do |row, i|
         if i > 0
           if row[:device_name] == "" || row[:type].downcase == "sell" || row[:type].downcase == "rent"
-            @listing_data[i][:device_name] = row[:model].to_s + " (" + row[:manufacturer].to_s + ")"
+            @listing_data[i][:device_name] = (row[:model].to_s + " (" + row[:manufacturer].to_s + ")").truncate(59)
           end
         end
       end
@@ -310,7 +327,7 @@ class ImportListingsService
 
 
     # if listing with hidden upload id is already in db, then update the existing listing
-    def updateListing(listing_data, current_user, current_community, relation)
+    def updateListing(listing_data, current_user, current_community, relation, all_custom_fields, all_custom_field_option_titles)
       listing_attributes = {}
       listing_attributes_custom_fields = {}
       subscribers = []
@@ -372,14 +389,15 @@ class ImportListingsService
         else
           @valid_attributes_from_db.each do |valid_attr|
             if x_attr[0].to_s == valid_attr[:name]
-              type = Maybe(CustomField.where(id: valid_attr[:custom_field_id]).last).type.or_else(nil)
+              type = all_custom_fields.select{|a| a.id == valid_attr[:custom_field_id]}.last.type
               
               if type == "CheckboxField" && x_attr[1]
                 listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] = []
 
                 x_attr[1] = x_attr[1].split(",").map(&:strip).each do |val|
-                  optionTitle = CustomFieldOptionTitle.where(value: val).last
+                  optionTitle = all_custom_field_option_titles.select{|a| a.value == val}.last
                   option = optionTitle.custom_field_option if optionTitle
+
                   if option && option.custom_field_id == valid_attr[:custom_field_id]
                     listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] << option.id
                   end
@@ -452,7 +470,7 @@ class ImportListingsService
     end
 
     # create a new listing based on the excel data
-    def createListing(listing_data, current_user, current_community, relation)
+    def createListing(listing_data, current_user, current_community, relation, all_custom_fields, all_custom_field_option_titles)
       listing_attributes = {}
       listing_attributes_custom_fields = {}
       subscribers = []
@@ -519,12 +537,13 @@ class ImportListingsService
         else
           @valid_attributes_from_db.each do |valid_attr|
             if x_attr[0].to_s == valid_attr[:name]
-              type = Maybe(CustomField.where(id: valid_attr[:custom_field_id]).last).type.or_else(nil)
+              type = all_custom_fields.select{|a| a.id == valid_attr[:custom_field_id]}.last.type
+
               if type == "CheckboxField" && x_attr[1]
                 listing_attributes_custom_fields[valid_attr[:custom_field_id].to_s] = []
 
                 x_attr[1] = x_attr[1].split(",").map(&:strip).each do |val|
-                  optionTitle = CustomFieldOptionTitle.where(value: val).last
+                  optionTitle = all_custom_field_option_titles.select{|a| a.value == val}.last
                   
                   option = optionTitle.custom_field_option if optionTitle
                   if option && option.custom_field_id == valid_attr[:custom_field_id]
@@ -696,9 +715,10 @@ class ImportListingsService
     custom_field_value_ids = listing.custom_field_values.map(&:id)
     CustomFieldOptionSelection.where(custom_field_value_id: custom_field_value_ids).delete_all
     CustomFieldValue.where(id: custom_field_value_ids).delete_all
+    custom_fields = CustomField.all
 
     field_values = custom_field_params.map do |custom_field_id, answer_value|
-      custom_field_value_factory(listing.id, custom_field_id, answer_value) unless is_answer_value_blank(answer_value)
+      custom_field_value_factory(listing.id, custom_field_id, answer_value, custom_fields) unless is_answer_value_blank(answer_value)
     end.compact
 
     # Insert new custom fields in a single transaction
@@ -715,8 +735,9 @@ class ImportListingsService
     end
   end
 
-  def custom_field_value_factory(listing_id, custom_field_id, answer_value)
-    question = CustomField.find(custom_field_id)
+  def custom_field_value_factory(listing_id, custom_field_id, answer_value, custom_fields)
+    #question = CustomField.find(custom_field_id)
+    question = custom_fields.select{|a| a.id == custom_field_id.to_i}.last
 
     answer = question.with_type do |question_type|
       case question_type

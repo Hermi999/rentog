@@ -10,7 +10,6 @@ class DeleteListingsService
     @relation = relation
     @file = Roo::Spreadsheet.open(filepath, extension: :xlsx)
     @excel_attributes_raw = @file.sheet(0).row(1)
-#    @excel_attributes = @excel_attributes_raw.map{ |el| el.downcase.gsub(" ", "_") }
 
     # validate attributes row
     @invalid_rows = false
