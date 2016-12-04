@@ -29,7 +29,9 @@ module HomepageHelper
 
 
   def get_listing_condition(listing)
-    cust_field_val = Maybe(CustomFieldValue.where(listing_id: listing.id, custom_field_id: @condition_field_id).first).or_else(nil)
+    #cust_field_val = Maybe(CustomFieldValue.where(listing_id: listing.id, custom_field_id: @condition_field_id).first).or_else(nil)
+    cust_field_val = Maybe(@relevant_cf_values_for_listings.select{|a| a.custom_field_id == @condition_field_id}.first).or_else(nil)
+
     sel_opt = cust_field_val.selected_options.first if cust_field_val
     if sel_opt
       title = sel_opt.title(I18n.locale)
@@ -43,7 +45,9 @@ module HomepageHelper
   end
 
   def get_listing_shipment_to(listing)
-    custom_field_value = CustomFieldValue.select("id").where(listing_id: listing.id, custom_field_id: @shipment_field_id).first
+    #custom_field_value = CustomFieldValue.select("id").where(listing_id: listing.id, custom_field_id: @shipment_field_id).first
+    custom_field_value = @relevant_cf_values_for_listings.select{|a| a.custom_field_id == @shipment_field_id}.first
+
     val = custom_field_value.selected_options.map { |selected_option| selected_option.title(I18n.locale) }.sort.join(", ") if custom_field_value
 
     unless val
@@ -54,7 +58,9 @@ module HomepageHelper
   end
 
   def get_price_options(listing)
-    cust_field_val = Maybe(CustomFieldValue.where(listing_id: listing.id, custom_field_id: @price_options_field_id).first).or_else(nil)
+    #cust_field_val = Maybe(CustomFieldValue.where(listing_id: listing.id, custom_field_id: @price_options_field_id).first).or_else(nil)
+    cust_field_val = Maybe(@relevant_cf_values_for_listings.select{|a| a.custom_field_id == @price_options_field_id}.first).or_else(nil)
+
     sel_opt = cust_field_val.selected_options.first if cust_field_val
 
     if sel_opt

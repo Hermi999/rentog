@@ -41,6 +41,7 @@
 
       .row
         - selected = false
+        
         - params.each do |param|
           - if param[0].include?("filter_option")
             - if CustomFieldOption.find(param[1].to_i).custom_field_id == field.id

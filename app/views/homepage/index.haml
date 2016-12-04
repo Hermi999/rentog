@@ -145,7 +145,6 @@
         .col-3.visible-tablet
           = link_to t("homepage.filters.return_to_marketplace"), :back
 
-
     - timing = Benchmark.measure do
       - main_container_class = if @category_menu_enabled then "col-9" else "col-12" end
       %div{:class => main_container_class}
@@ -155,6 +154,7 @@
               = render :partial => "map"
           - else
             - if @view_type.eql?("grid")
+              
               %div{class: @category_menu_enabled ? "home-fluid-thumbnail-grid-narrow" : "home-fluid-thumbnail-grid-wide"}
                 .home-fluid-thumbnail-grid
                   = render :partial => "grid_item", :collection => @listings, :as => :listing

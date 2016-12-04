@@ -84,6 +84,8 @@ class HomepageController < ApplicationController
       search_result.on_success { |listings|
         @listings = listings # TODO Remove
 
+        @relevant_cf_values_for_listings = CustomFieldValue.where("listing_id IN (?)", @listings.map(&:id))
+
         # needed for reloading the next listings in the listing navigation
         if params[:getListingIds]
           cookies.permanent[:listings] = cookies[:listings].split("&") + listings.map(&:id)
@@ -128,6 +130,8 @@ class HomepageController < ApplicationController
         end
 
         @listings = listings
+        @relevant_cf_values_for_listings = CustomFieldValue.where("listing_id IN (?)", @listings.map(&:id))
+
         render locals: {
                  shapes: all_shapes,
                  filters: filters,
@@ -154,15 +158,20 @@ class HomepageController < ApplicationController
   end
 
 
-  # wah
+  # wah [db optimized]
   def load_custom_field_options
     custom_field_id = params[:custom_field_id]
     custom_field_options = []
+    custom_field_option_ids = CustomFieldOption.where(custom_field_id: custom_field_id).order(:sort_priority).map(&:id)
+    relevant_cf_option_selections = CustomFieldOptionSelection.where("custom_field_option_id IN (?)", custom_field_option_ids)
 
+    CustomFieldOption.includes(:titles).where(custom_field_id: custom_field_id).order(:sort_priority).each do |option|
+      count_listings = nil
 
-    CustomFieldOption.where(custom_field_id: custom_field_id).order(:sort_priority).each do |option|
-      
-      count_listings = CustomFieldOptionSelection.where(custom_field_option_id: option.id).count if @relation == :rentog_admin
+      # count listings if admin
+      if @relation == :rentog_admin
+        count_listings = relevant_cf_option_selections.select{|z| z.custom_field_option_id == option.id}.count
+      end
 
       custom_field_options << {
         title: option.title(I18n.locale),

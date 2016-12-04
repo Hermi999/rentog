@@ -13,7 +13,7 @@ module ListingIndexService::Search
     }
 
     def search(community_id:, search:, includes:)
-
+      
       included_models = includes.map { |m| INCLUDE_MAP[m] }
 
       # rename listing_shape_ids to singular so that Sphinx understands it
