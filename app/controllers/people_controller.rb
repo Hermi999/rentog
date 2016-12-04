@@ -82,6 +82,8 @@ class PeopleController < Devise::RegistrationsController
         includes: includes
       )
 
+    @relevant_cf_values_for_listings = CustomFieldValue.where("listing_id IN (?)", search_res.data[:listings].map{|a| a[:id]})
+
     # wah: split listings into Renting, Selling and Ad
     renting_listings_arr = []
     selling_listings_arr = []

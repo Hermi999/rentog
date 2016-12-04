@@ -91,6 +91,8 @@ class PoolToolController < ApplicationController
         end
       end
 
+      @relevant_cf_values_for_listings = CustomFieldValue.where("listing_id IN (?)", listing_ids_of_other_companies + company_listings.map(&:id))
+
     ### TRANSACTIONS ###
       # IF USER IS SUPERVISOR OF POOL OWNER
       if @domain_supervisor_on_overview_site
