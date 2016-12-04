@@ -78,6 +78,20 @@ namespace :sharetribe do
     end
   end
 
+  # job for sorting the listings (listings without images are pushed back - other are sorted randomly)
+  namespace :sort_listings do
+    desc "Sorts the listings"
+    task :sort_listings => :environment do |t, args|
+      # Get the first 500 listings with listing images and shuffle them randomly
+      listings = Listing.joins(:listing_images).order(created_at: :DESC).limit(500).shuffle
+
+      # Write the sort date of the first 100 
+      listings.each_with_index do |listing, index|
+        listing.update_attribute(:sort_date, Time.now-(index*100))
+      end
+    end
+  end
+
   namespace :send_kpis do
     desc "Sorts the manufacturer custom fields"
     task :send_kpis_to_admins => :environment do |t, args|

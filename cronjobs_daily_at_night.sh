@@ -5,3 +5,4 @@
 cd /var/app/current
 bundle exec rake sharetribe:device_return_notifications:deliver
 bundle exec rake sharetribe:sort_custom_fields:sort_customer_values
+bundle exec rake sharetribe:sort_listings:sort_listings
