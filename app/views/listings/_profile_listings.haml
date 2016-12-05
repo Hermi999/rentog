@@ -1,6 +1,9 @@
 .people-fluid-thumbnail-grid-container
   .people-fluid-thumbnail-grid#profile-listings-list
-    = render :partial => "people/grid_item", :collection => listings, :as => :listing
+
+    - listing_shape_ids = listings.map{|x| x[:listing_shape_id]}
+    - listing_shapes = ListingShape.where("id IN (?)",listing_shape_ids)
+    = render :partial => "people/grid_item", :collection => listings, :as => :listing, :locals => {listing_shape_ids: listing_shape_ids, listing_shapes: listing_shapes}
 
 - if listings.total_entries > limit
   .people-load-more-listings-container

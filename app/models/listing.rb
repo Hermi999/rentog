@@ -273,8 +273,9 @@ class Listing < ActiveRecord::Base
   # wah
   # only for devices which can be rented
   # returns either of the following: "intern", "trusted", "all", nil
-  def get_listing_marker
-    type = get_listing_type
+  def get_listing_marker(type)
+    type = get_listing_type unless type
+
     if type == "sell"
       nil
     elsif type == "rent"
@@ -285,6 +286,22 @@ class Listing < ActiveRecord::Base
       nil
     end
   end
+
+  # wah
+  # only for devices which can be rented
+  # returns either of the following: "intern", "trusted", "all", nil
+  def self.get_listing_marker(type)
+    if type == "sell"
+      nil
+    elsif type == "rent"
+      "all"
+    elsif type == "intern" || type == "trusted"
+      type
+    else
+      nil
+    end
+  end
+
 
   # wah
   # returns either of the following: intern, trusted, rent, sell, ad

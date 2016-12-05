@@ -1,4 +1,7 @@
 .people-fluid-thumbnail-grid-item
   %div
     -# Listing image
-    = render :partial => "layouts/grid_item_listing_image", :locals => {:listing => listing, :modifier_class => "people-listings", modifier_price: "", :modifier_image_marker => Listing.find(listing.id).get_listing_marker}
+    - type_name = listing_shapes.select{|a| a.id == listing[:listing_shape_id]}.last.name
+    - type = Listing.get_listing_type_helper(listing[:availability], type_name)
+
+    = render :partial => "layouts/grid_item_listing_image", :locals => {:listing => listing, :modifier_class => "people-listings", modifier_price: "", :modifier_image_marker => Listing.get_listing_marker(type)}

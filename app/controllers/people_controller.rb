@@ -90,10 +90,17 @@ class PeopleController < Devise::RegistrationsController
     selling_listings_arr = []
     ad_listings_arr = []
     other_listings_arr = []
+
+    listing_shape_ids = search_res.data[:listings].map{|x| x[:listing_shape_id]}
+    listing_shapes = ListingShape.where("id IN (?)",listing_shape_ids)
+
+
     search_res.data[:listings].each do |listing|
       # Selling or ad listing or other type
       if listing[:availability].nil?
-        type = Listing.get_listing_type(listing)
+        type_name = listing_shapes.select{|a| a.id == listing[:listing_shape_id]}.last.name
+        type = Listing.get_listing_type_helper(listing[:availability], type_name)
+
         if type == "sell"
           selling_listings_arr << listing
         elsif type == "ad"
