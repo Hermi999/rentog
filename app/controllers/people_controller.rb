@@ -83,6 +83,7 @@ class PeopleController < Devise::RegistrationsController
       )
 
     @relevant_cf_values_for_listings = CustomFieldValue.where("listing_id IN (?)", search_res.data[:listings].map{|a| a[:id]})
+    @relevant_cf_values_for_dropdown = DropdownFieldValue.includes(selected_options: [:titles]).where("listing_id IN (?)", search_res.data[:listings].map{|a| a[:id]})
 
     # wah: split listings into Renting, Selling and Ad
     renting_listings_arr = []

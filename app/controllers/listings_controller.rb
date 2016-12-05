@@ -84,6 +84,7 @@ class ListingsController < ApplicationController
 
     if listing
       @relevant_cf_values_for_listings = CustomFieldValue.where(listing_id: listing.id)
+      @relevant_cf_values_for_dropdown = DropdownFieldValue.includes(selected_options: [:titles]).where(listing_id: listing.id)
 
       listing_image_url = Maybe(listing.listing_images.first).image.url(:small_3x2).or_else(nil)
 
@@ -196,6 +197,7 @@ class ListingsController < ApplicationController
     listing_details = []
     if listing_ids
       @relevant_cf_values_for_listings = CustomFieldValue.where("listing_id IN (?)", listing_ids)
+      @relevant_cf_values_for_dropdown = DropdownFieldValue.includes(selected_options: [:titles]).where("listing_id IN (?)", listing_ids)
 
       listing_ids.each do |listing_id|
         listing = Listing.where("id = ? AND (availability = 'all' OR availability is null) AND deleted = false AND open = true", listing_id).first
@@ -264,6 +266,7 @@ class ListingsController < ApplicationController
           }.data
 
           @relevant_cf_values_for_listings = CustomFieldValue.where("listing_id IN (?)", listings.map(&:id))
+          @relevant_cf_values_for_dropdown = DropdownFieldValue.includes(selected_options: [:titles]).where("listing_id IN (?)", listings.map(&:id))
 
           render :partial => "listings/profile_listings", :locals => {person: @person, limit: per_page, listings: listings}
         else
@@ -372,6 +375,7 @@ class ListingsController < ApplicationController
     @selected_tribe_navi_tab = "home"
     @price_options_field_id = Maybe(CustomFieldName.where(:value => "Price options").first).custom_field_id.to_i.or_else(nil)
     @relevant_cf_values_for_listings = CustomFieldValue.where(listing_id: @listing.id)
+    @relevant_cf_values_for_dropdown = DropdownFieldValue.includes(selected_options: [:titles]).where(listing_id: @listing.id)
 
 
     # wah

@@ -92,6 +92,7 @@ class PoolToolController < ApplicationController
       end
 
       @relevant_cf_values_for_listings = CustomFieldValue.where("listing_id IN (?)", listing_ids_of_other_companies + company_listings.map(&:id))
+      @relevant_cf_values_for_dropdown = DropdownFieldValue.includes(selected_options: [:titles]).where("listing_id IN (?)", listing_ids_of_other_companies + company_listings.map(&:id))
 
     ### TRANSACTIONS ###
       # IF USER IS SUPERVISOR OF POOL OWNER

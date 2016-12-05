@@ -85,6 +85,7 @@ class HomepageController < ApplicationController
         @listings = listings # TODO Remove
 
         @relevant_cf_values_for_listings = CustomFieldValue.where("listing_id IN (?)", @listings.map(&:id))
+        @relevant_cf_values_for_dropdown = DropdownFieldValue.includes(selected_options: [:titles]).where("listing_id IN (?)", @listings.map(&:id))
 
         # needed for reloading the next listings in the listing navigation
         if params[:getListingIds]
@@ -131,6 +132,7 @@ class HomepageController < ApplicationController
 
         @listings = listings
         @relevant_cf_values_for_listings = CustomFieldValue.where("listing_id IN (?)", @listings.map(&:id))
+        @relevant_cf_values_for_dropdown = DropdownFieldValue.includes(selected_options: [:titles]).where("listing_id IN (?)", @listings.map(&:id))
 
         render locals: {
                  shapes: all_shapes,
