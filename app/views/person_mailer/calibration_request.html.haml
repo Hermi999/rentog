@@ -1,0 +1,153 @@
+%tr
+  %td{:align => "left", :style => "padding-top: 20px;"}
+    %font{body_font}
+      = t("emails.calibration_request.hi")
+
+%tr
+  %td{:align => "left", :style => "padding-top: 15px;"}
+    %font{body_font}
+      = t("emails.calibration_request.admin_desc").html_safe
+      %br
+      %br
+      = t("emails.calibration_request.details").html_safe
+      %br
+      %br
+
+%tr
+  %td
+    %table
+      %tbody
+        - if @calibration_request.job_type
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.job_type")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.job_type
+
+        - if @calibration_request.manufac_model
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.manufac_model")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.manufac_model
+
+        - if @calibration_request.device_type
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.device_type")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.device_type
+
+        - if @calibration_request.device_quantity
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.device_quantity")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.device_quantity
+
+        - if @calibration_request.device_additional_info
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.device_additional_info")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.device_additional_info
+
+        - if @calibration_request.device_measuring_chain_desc
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.device_measuring_chain_desc")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.device_measuring_chain_desc
+
+        - if @calibration_request.device_project_desc
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.device_project_desc")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.device_project_desc
+
+        - if @calibration_request.type_of_calibration
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.type_of_calibration")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.type_of_calibration
+
+        - if @calibration_request.special_calibration_requirements
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.special_calibration_requirements")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.special_calibration_requirements
+        
+        - if @calibration_request.specific_calibration_details
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.specific_calibration_details")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.specific_calibration_details
+
+        - if @calibration_request.calibration_logistics
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.calibration_logistics")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.calibration_logistics
+
+        - if @calibration_request.company_name
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.company_name")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.company_name
+
+        - if @calibration_request.company_country
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.company_country")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.company_country
+
+        - if @calibration_request.company_address
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.company_address")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.company_address
+
+        - if @calibration_request.email_address
+          %tr
+            %td{:width => "45%", :align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = t("emails.calibration_request.email_address")
+            %td{:align => "left", :valign => "top", :style => "border-bottom: 1px solid grey;"}
+              %font{body_font}
+                = @calibration_request.email_address

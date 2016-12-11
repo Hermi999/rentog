@@ -275,6 +275,22 @@ class PersonMailer < ActionMailer::Base
     users_to_notify_of_overdue
   end
 
+  def calibration_request(calibration_request, community)
+    @calibration_request = calibration_request
+    receiver = community.admin_emails
+    mail_locale = "de"
+
+    set_up_urls(nil, community)
+    @url_params[:locale] = mail_locale
+
+    with_locale(mail_locale, community.locales.map(&:to_sym), community.id) do
+      subject = t("emails.calibration_request.new_request")
+      premailer_mail(:to => receiver,
+                     :from => community_specific_sender_with_alias(community, "Rentog Services"),
+                     :subject => subject,
+                     :reply_to => @calibration_request.email_address)
+    end
+  end
 
   def device_return_notifications(user_to_notify)
     @recipient = user_to_notify[:user]

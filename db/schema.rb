@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161009170335) do
+ActiveRecord::Schema.define(version: 20161210213045) do
 
   create_table "auth_tokens", force: :cascade do |t|
     t.string   "token",            limit: 255
@@ -66,6 +66,26 @@ ActiveRecord::Schema.define(version: 20161009170335) do
     t.string   "hidden_account_number",  limit: 255
     t.string   "status",                 limit: 255
     t.integer  "community_id",           limit: 4
+  end
+
+  create_table "calibration_requests", force: :cascade do |t|
+    t.string   "job_type",                         limit: 255, null: false
+    t.string   "manufac_model",                    limit: 255
+    t.string   "device_type",                      limit: 255
+    t.integer  "device_quantity",                  limit: 4
+    t.string   "device_additional_info",           limit: 255
+    t.string   "device_measuring_chain_desc",      limit: 255
+    t.string   "device_project_desc",              limit: 255
+    t.string   "special_calibration_requirements", limit: 255, null: false
+    t.string   "type_of_calibration",              limit: 255, null: false
+    t.string   "calibration_logistics",            limit: 255, null: false
+    t.string   "specific_calibration_details",     limit: 255
+    t.string   "company_name",                     limit: 255, null: false
+    t.string   "company_country",                  limit: 255, null: false
+    t.string   "company_address",                  limit: 255
+    t.string   "email_address",                    limit: 255, null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
   end
 
   create_table "categories", force: :cascade do |t|
