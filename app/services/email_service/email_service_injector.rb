@@ -16,11 +16,11 @@ module EmailService::EmailServiceInjector
 
   def build_ses_client
     if APP_CONFIG.aws_ses_region &&
-       APP_CONFIG.aws_access_key_id &&
+       APP_CONFIG.AWS_ACCESS_KEY_ID &&
        APP_CONFIG.aws_secret_access_key
       EmailService::SES::Client.new(
         config: { region: APP_CONFIG.aws_ses_region,
-                  access_key_id: APP_CONFIG.aws_access_key_id,
+                  access_key_id: APP_CONFIG.AWS_ACCESS_KEY_ID,
                   secret_access_key: APP_CONFIG.aws_secret_access_key,
                   sns_topic: APP_CONFIG.aws_ses_sns_topic})
     else

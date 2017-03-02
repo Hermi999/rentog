@@ -119,7 +119,7 @@ module Kassi
           :url => "/system/:attachment/:id/:style/:filename"
     }
 
-    if (APP_CONFIG.s3_bucket_name && APP_CONFIG.aws_access_key_id && APP_CONFIG.aws_secret_access_key)
+    if (APP_CONFIG.s3_bucket_name && APP_CONFIG.AWS_ACCESS_KEY_ID && APP_CONFIG.aws_secret_access_key)
       paperclip_options.merge!({
         :path => "images/:class/:attachment/:id/:style/:filename",
         :url => ":s3_domain_url",
@@ -128,7 +128,7 @@ module Kassi
         #:s3_signature_version => :v4,
         :s3_credentials => {
               :bucket            => APP_CONFIG.s3_bucket_name,
-              :access_key_id     => APP_CONFIG.aws_access_key_id,
+              :access_key_id     => APP_CONFIG.AWS_ACCESS_KEY_ID,
               :secret_access_key => APP_CONFIG.aws_secret_access_key
         }
       })

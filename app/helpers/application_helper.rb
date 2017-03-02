@@ -896,7 +896,7 @@ module ApplicationHelper
   end
 
   def self.has_aws_keys?
-    APP_CONFIG.aws_access_key_id && APP_CONFIG.aws_secret_access_key
+    APP_CONFIG.AWS_ACCESS_KEY_ID && APP_CONFIG.aws_secret_access_key
   end
 
   def facebook_connect_in_use?

@@ -2,7 +2,7 @@ require File.expand_path('../../migrate_helpers/logging_helpers', __FILE__)
 
 module PathHelper
   def self.s3?
-    (APP_CONFIG.s3_bucket_name && APP_CONFIG.aws_access_key_id && APP_CONFIG.aws_secret_access_key)
+    (APP_CONFIG.s3_bucket_name && APP_CONFIG.AWS_ACCESS_KEY_ID && APP_CONFIG.aws_secret_access_key)
   end
     
   def self.path

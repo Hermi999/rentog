@@ -81,7 +81,7 @@ module CommunityStylesheetCompiler
 
     # If using S3 as storage (e.g. in Heroku) need to move the generated files to S3
     def sync(file_path, file_basename)
-      AWS.config :access_key_id =>  APP_CONFIG.aws_access_key_id,  :secret_access_key => APP_CONFIG.aws_secret_access_key
+      AWS.config :access_key_id =>  APP_CONFIG.AWS_ACCESS_KEY_ID,  :secret_access_key => APP_CONFIG.aws_secret_access_key
       basename = File.basename("#{file_path}")
       s3 = AWS::S3.new
       o = get_or_create_bucket(s3, APP_CONFIG.s3_bucket_name).objects[s3_file_path(file_basename)]

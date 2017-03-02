@@ -3,7 +3,7 @@
 class S3Uploader
 
   def initialize()
-    @aws_access_key_id      = APP_CONFIG.aws_access_key_id
+    @aws_access_key_id      = APP_CONFIG.AWS_ACCESS_KEY_ID
     @aws_secret_access_key  = APP_CONFIG.aws_secret_access_key
     @bucket                 = APP_CONFIG.s3_upload_bucket_name
     @region                 = APP_CONFIG.FOG_REGION

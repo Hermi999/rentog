@@ -2,7 +2,7 @@ if defined?(AssetSync)
   AssetSync.configure do |config|
 
     app_config = Maybe(APP_CONFIG)
-    aws_access_key_id     = app_config.aws_access_key_id
+    aws_access_key_id     = app_config.AWS_ACCESS_KEY_ID
     aws_secret_access_key = app_config.aws_secret_access_key
     fog_directory         = app_config.FOG_DIRECTORY
     fog_provider          = app_config.FOG_PROVIDER
