@@ -1,12 +1,12 @@
 GIT
   remote: https://github.com/randym/axlsx.git
-  revision: d136835f3a3a54831ad2c7c793a51d3a57273892
+  revision: 5a8a685c5acf91fb40c4e42b18de61dbbbd18f57
   specs:
     axlsx (2.1.0.pre)
       htmlentities (~> 4.3.4)
       mimemagic (~> 0.3)
       nokogiri (>= 1.6.6)
-      rubyzip (~> 1.1.7)
+      rubyzip (>= 1.2.1)
 
 GEM
   remote: http://rubygems.org/
@@ -386,8 +386,8 @@ GEM
     method_source (0.8.2)
     middleware (0.1.0)
     mime-types (2.99.1)
-    mimemagic (0.3.1)
-    mini_portile2 (2.0.0)
+    mimemagic (0.3.2)
+    mini_portile2 (2.1.0)
     minitest (5.8.4)
     monetize (1.1.0)
       money (~> 6.5.0)
@@ -406,8 +406,8 @@ GEM
     nenv (0.3.0)
     netrc (0.11.0)
     newrelic_rpm (3.9.1.236)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
+    nokogiri (1.6.8.1)
+      mini_portile2 (~> 2.1.0)
     notiffany (0.0.8)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -565,7 +565,7 @@ GEM
       ruby-progressbar (~> 1.4)
     ruby-graphviz (1.2.2)
     ruby-progressbar (1.7.5)
-    rubyzip (1.1.7)
+    rubyzip (1.2.1)
     sass (3.2.19)
     sass-rails (4.0.5)
       railties (>= 4.0.0, < 5.0)
@@ -713,6 +713,7 @@ DEPENDENCIES
   roo (~> 2.4.0)
   rspec-rails (~> 3.0)
   rubocop (~> 0.21.0)
+  rubyzip (~> 1.2.1)
   sass (~> 3.2.9)
   sass-rails (~> 4.0.0)
   select2-rails (~> 4.0.1)
